@@ -154,7 +154,7 @@ function _columnTitle({ column = {} }) {
   return head;
 }
 
-// toggle: the button to the decoder; tools: PDF / Clear / Share; controls: { ext, type, mnemonic, operands } selectors;
+// toggle: the Encoder / Decoder pill; tools: PDF / Clear / Share; controls: { ext, type, mnemonic, operands } selectors;
 // labels: what sits in the section headers next to their titles ({ meaning, assembly, assemblyCopy, binary, hex });
 // onLayout: called when the description / explanation columns are folded or unfolded.
 // Header rows: section titles, the controls (hex digits over the switches; the selectors span both rows), then the
@@ -165,7 +165,7 @@ export function encoderTable({ toggle = null, tools = [], controls = {}, labels 
   const widths = _widths();
   const controlCells = COLUMNS.map((c) => _td({ class: `selector-cell ${c.key}`, rowspan: '2' }, controls[c.key] ? [controls[c.key]] : ''));
   _sheet = _table({ class: 'sliderule', id: 'encoder', style: tableWidth({ widths }) }, [
-    titleCaption({ name: 'Encoder', button: toggle, side: 'right', tools }),
+    titleCaption({ switcher: toggle, side: 'right', tools }),
     _colgroup({}, widths.map((width) => _col({ style: `width: ${width}px` }, ''))),
     _thead({}, [
       _tr({ class: 'label-row' }, [

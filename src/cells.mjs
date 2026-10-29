@@ -119,18 +119,19 @@ function _contributors() {
   return _div({ class: 'title-credits title-contributors' }, ['Contributors: ', ...links]);
 }
 
-// Title of the sheet. The button to the other sheet sits in the corner on the side its table appears, the sheet's
-// tools (PDF, Clear, Share) and the contribution link in the opposite corner. Corner contents are left out of the
+// Title of the sheet: RV32GC, the Encoder / Decoder pill switching sheets, the credits. The sheet's tools (PDF, Clear,
+// Share) and the contribution link sit in the corner opposite its bits. Corner contents are left out of the
 // PDF (no-print). A caption, so it spans the whole table.
-export function titleCaption({ name = 'Decoder', button = null, side = 'left', tools = [] }) {
-  const corner = _div({ class: `title-corner ${side} no-print` }, [button]);
+// switcher: the Encoder / Decoder pill; side: where the sheet's bits are.
+export function titleCaption({ switcher = null, side = 'left', tools = [] }) {
+  const corner = _div({ class: `title-corner ${side}` }, '');
   const toolbox = _div({ class: `title-corner ${side === 'left' ? 'right' : 'left'} no-print` }, [_div({ class: 'title-tools' }, [
     _div({ class: 'title-buttons' }, tools),
     _a({ class: 'contribute-link', href: `${REPO}#contributing`, target: '_blank', rel: 'noopener' }, 'Contribute or report an issue ↗'),
   ])]);
   const title = _div({ class: 'title-main' }, [
     _div({ class: 'title-isa' }, 'RV32GC'),
-    _div({ class: 'title-name' }, name),
+    switcher,
     _credits(),
     _contributors(),
   ]);

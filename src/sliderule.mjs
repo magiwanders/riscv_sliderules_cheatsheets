@@ -374,7 +374,7 @@ async function _switchTo({ mode = 'encoder' }) {
     await _animate({ element: from, keyframes: [{ opacity: 1 }, { opacity: 0 }] });
     const delta = _spineOffset({ table: to }) - _spineOffset({ table: from });
     const titleDelta = _centre({ element: to.querySelector('.title-main') }) - _centre({ element: from.querySelector('.title-main') });
-    title.querySelector('.title-name').textContent = to.querySelector('.title-name').textContent;
+    title.querySelector('.mode-pill').replaceWith(to.querySelector('.title-main .mode-pill').cloneNode(true));
     ghost.querySelector('.section-name').textContent = to.querySelector('.label-row > .spine .section-name').textContent;
     window.scrollTo({ left: _scrollForSpine({ table: to }), behavior: 'smooth' });
     const slide = { duration: SLIDE_MS, easing: 'cubic-bezier(0.65, 0, 0.35, 1)' };
@@ -397,8 +397,17 @@ async function _switchTo({ mode = 'encoder' }) {
   state.switching = false;
 }
 
-function _modeButton({ mode = 'encoder', label = '' }) {
-  return _button({ classes: 'mode-button', title: `Switch to the ${label}`, label: mode === 'encoder' ? `◀ ${label}` : `${label} ▶`, onClick: () => _switchTo({ mode }) });
+// Encoder / Decoder pill under the big title; the segment of the sheet it sits on is the selected one.
+function _modePill({ current = 'encoder' }) {
+  const segments = ['encoder', 'decoder'].map((mode) => {
+    const label = mode === 'encoder' ? 'Encoder' : 'Decoder';
+    const selected = mode === current;
+    const segment = _button({ classes: 'mode-segment' + (selected ? ' selected' : ''), label, title: selected ? `This is the ${label}` : `Switch to the ${label}`,
+      onClick: () => _switchTo({ mode }) });
+    segment.setAttribute('aria-pressed', String(selected));
+    return segment;
+  });
+  return _div({ class: 'mode-pill', role: 'group', 'aria-label': 'Sheet' }, segments);
 }
 
 // The whole header (section titles, hex digits, switches, bit numbers) stays on screen while scrolling: each row
@@ -442,7 +451,7 @@ export function Sliderule() {
     _copyButton({ label: 'Copy bin', title: 'Copy the bits as binary (once every bit of the instruction is set)', classes: 'tool-button on-section', text: decodedWord('bin') }),
     _copyButton({ label: 'Copy hex', title: 'Copy the bits as hex (once every bit of the instruction is set)', classes: 'tool-button on-section', text: decodedWord('hex') }),
   ];
-  const decoder = decoderTable({ onBits: refresh, toggle: _modeButton({ mode: 'encoder', label: 'Encoder' }),
+  const decoder = decoderTable({ onBits: refresh, toggle: _modePill({ current: 'decoder' }),
     copies: { binary: decoderWordCopies[0], hex: decoderWordCopies[1] },
     tools: [_pdfButton({ table: () => decoder, name: () => _fileName({ mode: 'decoder' }) }), decoderClear, _shareButton()],
     io: _div({ class: 'io' }, [decoderResult, _div({ class: 'io-tools' }, [decoderCopy])]) });
@@ -460,7 +469,7 @@ export function Sliderule() {
   ];
   const encoderClear = _clearButton({ onClick: () => { state.ext = '*'; state.type = '*'; _selectEntry({ entry: null }); } });
   const encoder = encoderTable({
-    toggle: _modeButton({ mode: 'decoder', label: 'Decoder' }),
+    toggle: _modePill({ current: 'encoder' }),
     tools: [_pdfButton({ table: () => encoder, name: () => _fileName({ mode: 'encoder' }) }), encoderClear, _shareButton()],
     controls: selectors,
     labels: {

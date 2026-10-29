@@ -162,7 +162,7 @@ export function selectedWord({ constraints = [] }) {
   return word;
 }
 
-// io: what goes next to the bit switches (the decoded result); toggle: the button to the encoder.
+// io: what goes next to the bit switches (the decoded result); toggle: the Encoder / Decoder pill.
 // tools: PDF / Clear / Share in the title corner; copies: { binary, hex } copy buttons by the bits' section title.
 // Header rows: section titles, the controls (hex digits over the switches, the decoded instruction beside both),
 // then the bit numbers and column titles right above the sheet's rows.
@@ -170,7 +170,7 @@ export function decoderTable({ onBits = () => {}, toggle = null, tools = [], cop
   _bits = Tristates({ editable: true, onChange: onBits });
   const widths = [...new Array(32).fill(24), ...TEXT_WIDTHS];
   return _table({ class: 'sliderule', id: 'decoder', style: tableWidth({ widths }) }, [
-    titleCaption({ name: 'Decoder', button: toggle, side: 'left', tools }),
+    titleCaption({ switcher: toggle, side: 'left', tools }),
     columns({ widths }),
     _thead({}, [
       _tr({ class: 'label-row' }, [

@@ -80,7 +80,6 @@ table.sliderule {
 
 .title-main { text-align: center; }
 .title-isa { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
-.title-name { font-size: 15px; font-weight: bold; margin-top: 2px; }
 .title-credits { display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 10px; font-weight: normal; color: #555; margin-top: 4px; }
 .title-credits a { color: inherit; }
 .title-contributors { margin-top: 1px; }
@@ -96,28 +95,30 @@ table.sliderule {
 .title-corner { display: flex; }
 .title-corner.right { justify-content: flex-end; text-align: right; }
 
-.mode-button {
-  position: sticky;
-  left: 8px;
-  right: 8px;
-  padding: 8px 16px;
+/* Encoder / Decoder pill under the big title. */
+.mode-pill {
+  display: inline-flex;
+  margin-top: 4px;
+  padding: 2px;
   border: 2px solid var(--section);
-  border-radius: 6px;
+  border-radius: 999px;
   background: var(--page);
+}
+
+.mode-segment {
+  padding: 4px 16px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
   color: var(--text);
-  font: bold 13px Arial, Helvetica, sans-serif;
-  text-decoration: none;
+  font: bold 14px Arial, Helvetica, sans-serif;
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
 }
 
-.mode-button:hover,
-.mode-button:focus-visible {
-  background: var(--section);
-  color: #fff;
-  outline: none;
-}
-
+.mode-segment.selected { background: var(--section); color: #fff; cursor: default; }
+.mode-segment:not(.selected):hover,
+.mode-segment:not(.selected):focus-visible { background: #e3eef0; outline: none; }
 
 .sliderule .label-row th {
   background: var(--section);
@@ -392,7 +393,7 @@ table.sliderule {
 .instruction-row.chosen .bit.field-reg { font-weight: bold; }
 
 @media (prefers-reduced-motion: reduce) {
-  .tri-half, .mode-button { transition: none; }
+  .tri-half, .mode-segment { transition: none; }
 }
 
 /* Format hues: same palette as the A3 sheet. R4 does not appear on paper: it gets its own tan. */

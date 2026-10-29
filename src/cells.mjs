@@ -27,96 +27,90 @@ function _fieldText({ key = 'rm', value = 0 }) {
   return String(value);
 }
 
-// One cell per encoding segment; literal bits get one cell each. With decoded fields, registers show their names.
-export function segmentCells({ segments = [], width = 32, fields = null, inst = {} }) {
+// Faint bits behind a placeholder cell covering inst[hi..lo] (or immediate bits hi..lo): one per column, under the
+// cell's label, empty where bitAt(bit) is null (not known yet). data-bit lets flashChangedBits mark changes.
+function _withBits({ td = null, hi = 0, lo = 0, bitAt = null }) {
+  if (!bitAt) return td;
+  const bits = [];
+  for (let bit = hi; bit >= lo; bit--) {
+    const value = bitAt(bit);
+    const span = _span({}, value ?? '');
+    if (value !== null && value !== undefined) span.dataset.bit = String(bit);
+    bits.push(span);
+  }
+  td.classList.add('has-bits');
+  const label = _span({ class: 'cell-label' }, [...td.childNodes]);
+  td.replaceChildren(_div({ class: 'cell-bits', 'aria-hidden': 'true', style: `grid-template-columns: repeat(${hi - lo + 1}, 1fr)` }, bits), label);
+  return td;
+}
+
+// One cell per encoding segment; literal bits get one cell each. With decoded fields, registers show their names;
+// with bitAt (bit → '0' / '1' / null), the known bits show faintly behind the placeholders (best effort: as many as
+// are known), so the instruction's structure always stays visible.
+export function segmentCells({ segments = [], width = 32, fields = null, inst = {}, bitAt = null }) {
   const cells = unusedUpperHalf({ width });
   for (const s of segments) {
     if (s.kind === 'lit') {
       for (const bit of s.bits) cells.push(cell({ classes: `bit lit-${s.role}`, text: bit }));
-    } else if (s.kind === 'any') {
-      cells.push(cell({ width: s.width, classes: 'bit any', text: s.width > 1 ? '– any –' : '–', title: `${_range({ segment: s })} = don't care` }));
+      continue;
+    }
+    let td;
+    if (s.kind === 'any') {
+      td = cell({ width: s.width, classes: 'bit any', text: s.width > 1 ? '– any –' : '–', title: `${_range({ segment: s })} = don't care` });
     } else if (s.kind === 'imm') {
-      cells.push(cell({ width: s.width, classes: `bit imm imm-${s.part % 4}`, text: s.width > 1 ? `${s.name}[${s.label}]` : s.label,
-        title: `${_range({ segment: s })} = ${s.name}[${s.immBits.join('|')}]` }));
+      td = cell({ width: s.width, classes: `bit imm imm-${s.part % 4}`, text: s.width > 1 ? `${s.name}[${s.label}]` : s.label,
+        title: `${_range({ segment: s })} = ${s.name}[${s.immBits.join('|')}]` });
     } else if (fields && s.kind === 'reg') {
       const value = registerName({ number: fields[s.key], fp: (inst.fregs || []).includes(s.key) });
-      cells.push(cell({ width: s.width, classes: 'bit field-reg', text: s.width > 3 ? `${s.key} = ${value}` : value }));
+      td = cell({ width: s.width, classes: 'bit field-reg', text: s.width > 3 ? `${s.key} = ${value}` : value });
     } else if (fields && s.kind === 'field') {
-      cells.push(cell({ width: s.width, classes: 'bit field-field', text: _fieldText({ key: s.key, value: fields[s.key] }) }));
+      td = cell({ width: s.width, classes: 'bit field-field', text: _fieldText({ key: s.key, value: fields[s.key] }) });
     } else {
-      cells.push(cell({ width: s.width, classes: `bit field-${s.kind}`, text: s.label }));
+      td = cell({ width: s.width, classes: `bit field-${s.kind}`, text: s.label });
     }
+    cells.push(_withBits({ td, hi: s.hi, lo: s.lo, bitAt }));
   }
   return cells;
 }
 
-// What a bit of an operand stands for, e.g. "rd = a0 (x10)" or "imm[11]".
-function _bitTitle({ s = {}, fields = {}, inst = {}, j = 0 }) {
-  if (s.kind === 'reg') {
-    const fp = (inst.fregs || []).includes(s.key);
-    return `${s.key} = ${registerName({ number: fields[s.key], fp })} (${fp ? 'f' : 'x'}${fields[s.key]})`;
-  }
-  if (s.kind === 'imm') return `${s.name}[${s.immBits[j]}]`;
-  if (s.kind === 'field') return _fieldText({ key: s.key, value: fields[s.key] });
-  return '';
+// The immediate's bits (31..0) from the instruction's bits: wordBitAt(inst bit) → '0' / '1' / null. Sign extension
+// repeats the top bit, unused low bits and zero extension are 0.
+export function immediateBits({ inst = {}, wordBitAt = () => null }) {
+  const source = {};
+  inst.segments.filter((s) => s.kind === 'imm').forEach((s) => s.immBits.forEach((immBit, j) => { source[immBit] = s.hi - j; }));
+  return (bit) => {
+    if (bit > inst.immMsb) return inst.immSigned ? wordBitAt(source[inst.immMsb]) : '0';
+    return source[bit] === undefined ? '0' : wordBitAt(source[bit]);
+  };
 }
 
-// The actual bits of an encoded word in their own places, coloured like the segments they belong to. data-bit
-// lets the sheets mark the bits that change (see flashChangedBits).
-export function valueCells({ segments = [], width = 32, word = 0, fields = {}, inst = {} }) {
-  const cells = unusedUpperHalf({ width });
-  for (const s of segments) {
-    const classes = s.kind === 'lit' ? `lit-${s.role}` : s.kind === 'imm' ? `imm imm-${s.part % 4}` : `field-${s.kind}`;
-    for (let bit = s.hi; bit >= s.lo; bit--) {
-      const value = cell({ classes: `bit value ${classes}`, text: String((word >>> bit) & 1), title: _bitTitle({ s, fields, inst, j: s.hi - bit }) });
-      value.dataset.bit = String(bit);
-      cells.push(value);
-    }
-  }
-  return cells;
-}
-
-// Briefly outlines the bits (td[data-bit]) of a table that changed since its previous rows of the same instruction
+// Briefly outlines the faint bits ([data-bit]) of a table that changed since its previous rows of the same instruction
 // (id); rows of another instruction, or none (id null), only become the new reference.
 const _shownBits = new WeakMap();
 export function flashChangedBits({ table = null, id = null }) {
   const bits = new Map();
-  table.tBodies[0].querySelectorAll('tr').forEach((row, r) => row.querySelectorAll('td[data-bit]').forEach((td) => bits.set(`${r}:${td.dataset.bit}`, td)));
+  table.tBodies[0].querySelectorAll('tr').forEach((row, r) => row.querySelectorAll('[data-bit]').forEach((el) => bits.set(`${r}:${el.dataset.bit}`, el)));
   const shown = _shownBits.get(table);
   if (id !== null && shown && shown.id === id && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     for (const [key, td] of bits) {
       if (shown.bits.has(key) && shown.bits.get(key) !== td.textContent) {
-        td.animate([{ boxShadow: 'inset 0 0 0 2px #e69138', filter: 'brightness(1.25)' }, { boxShadow: 'inset 0 0 0 2px transparent', filter: 'none' }],
-          { duration: 600, easing: 'ease-out' });
+        td.animate([{ color: '#e69138', fontWeight: 'bold', transform: 'scale(1.35)' }, { transform: 'scale(1)' }], { duration: 700, easing: 'ease-out' });
       }
     }
   }
   _shownBits.set(table, { id, bits: new Map([...bits].map(([key, td]) => [key, td.textContent])) });
 }
 
-// The immediate's value bit by bit (31..0), coloured like the instruction bits each one comes from; sign extension
-// and zero bits as in the immediate view.
-export function immediateValueCells({ inst = {}, value = 0 }) {
-  const cells = [];
-  for (const c of immediateView({ inst })) {
-    for (let bit = c.hi; bit > c.hi - c.width; bit--) {
-      const classes = c.kind === 'zero' ? 'bit value imm-zero' : `bit value imm imm-${c.segment.part % 4}${c.kind === 'sext' ? ' sext' : ''}`;
-      const title = c.kind === 'zero' ? `${inst.immName}[${bit}] = 0` : c.kind === 'sext' ? `${inst.immName}[${bit}]: sign extension` : `${inst.immName}[${bit}], from ${_range({ segment: c.segment })}`;
-      const valueCell = cell({ classes, text: String((value >>> bit) & 1), title });
-      valueCell.dataset.bit = String(bit);
-      cells.push(valueCell);
-    }
-  }
-  return cells;
-}
-
-// Immediate view: how the scattered immediate bits are reassembled, same colours as their source.
-export function immediateCells({ inst = {} }) {
+// Immediate view: how the scattered immediate bits are reassembled, same colours as their source; with bitAt
+// (immediate bit → '0' / '1' / null, see immediateBits) its known bits show faintly behind.
+export function immediateCells({ inst = {}, bitAt = null }) {
   return immediateView({ inst }).map((c) => {
-    if (c.kind === 'zero') return cell({ width: c.width, classes: 'bit imm-zero', text: c.width > 1 ? '– 0 –' : '0' });
-    const label = c.kind === 'sext' ? `– ${c.segment.immBits[0]} –` : c.segment.label;
-    return cell({ width: c.width, classes: `bit imm imm-${c.segment.part % 4}${c.kind === 'sext' ? ' sext' : ''}`, text: label,
-      title: c.kind === 'sext' ? `sign extension of inst[${c.segment.hi}]` : `from ${_range({ segment: c.segment })}` });
+    const td = c.kind === 'zero'
+      ? cell({ width: c.width, classes: 'bit imm-zero', text: c.width > 1 ? '– 0 –' : '0' })
+      : cell({ width: c.width, classes: `bit imm imm-${c.segment.part % 4}${c.kind === 'sext' ? ' sext' : ''}`,
+        text: c.kind === 'sext' ? `– ${c.segment.immBits[0]} –` : c.segment.label,
+        title: c.kind === 'sext' ? `sign extension of inst[${c.segment.hi}]` : `from ${_range({ segment: c.segment })}` });
+    return c.kind === 'zero' && c.width === 1 ? td : _withBits({ td, hi: c.hi, lo: c.hi - c.width + 1, bitAt });
   });
 }
 

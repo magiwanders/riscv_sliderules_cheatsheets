@@ -1,6 +1,6 @@
 import { formats, groups, sections } from './isa/rv32gc.mjs';
 import { compiled, matchesConstraints, assemblyParts, unusedOpcodeRows } from './isa/codec.mjs';
-import { cell, segmentCells, valueCells, immediateCells, immediateValueCells, typeCell, bitNumbers, columns, tableWidth, sectionHeader } from './cells.mjs';
+import { cell, segmentCells, immediateCells, immediateBits, typeCell, bitNumbers, columns, tableWidth, sectionHeader } from './cells.mjs';
 import { Tristates } from './tristate.mjs';
 
 // b2a "Decoder" sliderule: the bit selector is the table header (bits on the left), rows are ordered lsb first.
@@ -41,9 +41,9 @@ function _groupRow({ group = {}, members = [], rowspan = 1 }) {
   return _tr({ class: `group-row fmt-${group.format}` }, cells);
 }
 
-function _instructionRow({ inst = {}, decoded = null, onPattern = () => {} }) {
+function _instructionRow({ inst = {}, decoded = null, bitAt = null, onPattern = () => {} }) {
   const fields = decoded && decoded.inst === inst ? decoded.fields : null;
-  const cells = segmentCells({ segments: inst.segments, width: inst.width, fields, inst });
+  const cells = segmentCells({ segments: inst.segments, width: inst.width, fields, inst, bitAt });
   if (inst.reserved || inst.hint) {
     const kind = inst.reserved ? 'reserved' : 'hint';
     cells.push(cell({ width: 5, classes: `text ${kind}`, text: inst.hint ? `${inst.description} : PC += ${inst.width / 8}, no other effect` : inst.description }));
@@ -61,40 +61,13 @@ function _instructionRow({ inst = {}, decoded = null, onPattern = () => {} }) {
   return _tr({ class: `instruction-row fmt-${inst.format}` + (fields ? ' decoded' : '') }, cells);
 }
 
-function _immediateRow({ inst = {}, decoded = null }) {
-  const cells = immediateCells({ inst });
+function _immediateRow({ inst = {}, decoded = null, bitAt = null }) {
+  const cells = immediateCells({ inst, bitAt: bitAt ? immediateBits({ inst, wordBitAt: bitAt }) : null });
   cells.push(
     cell({ width: 4, classes: 'text imm-name', text: decoded && decoded.inst === inst ? `${inst.immName} = ${decoded.fields.imm}` : inst.immName }),
     cell({ classes: 'text imm-desc', text: `${inst.format} ${inst.immSigned ? 'sign-extended' : 'zero-extended'} immediate` }),
   );
   return _tr({ class: `immediate-row fmt-${inst.format}` }, cells);
-}
-
-// The decoded instruction once nothing else matches: no group header, its bits in their own places in its row
-// (Type / Ext move there) and the immediate's bits in the immediate row.
-function _decodedRows({ decoded = {}, onPattern = () => {} }) {
-  const { inst, fields, word } = decoded;
-  const rowspan = inst.immName ? 2 : 1;
-  const mnemonic = _td({ class: 'text mnemonic', title: 'Show this encoding in the bit selector' }, inst.name);
-  mnemonic.addEventListener('click', () => onPattern({ inst }));
-  const rows = [_tr({ class: `instruction-row fmt-${inst.format}` }, [
-    ...valueCells({ segments: inst.segments, width: inst.width, word, fields, inst }),
-    cell({ classes: 'text description', text: inst.description }),
-    mnemonic,
-    cell({ classes: 'text operands', text: assemblyParts({ inst, fields }).slice(1).map((p) => p.text).join('').trim() || '—' }),
-    cell({ classes: 'text expansion', text: inst.expands || '' }),
-    cell({ classes: 'text pseudocode', text: inst.pseudocode }),
-    typeCell({ format: inst.format, rowspan }),
-    cell({ rowspan, classes: 'text ext', text: `'${inst.extension}'` }),
-  ])];
-  if (inst.immName) {
-    rows.push(_tr({ class: `immediate-row fmt-${inst.format}` }, [
-      ...immediateValueCells({ inst, value: fields.imm }),
-      cell({ width: 4, classes: 'text imm-name', text: `${inst.immName} = ${fields.imm}` }),
-      cell({ classes: 'text imm-desc', text: `${inst.format} ${inst.immSigned ? 'sign-extended' : 'zero-extended'} immediate` }),
-    ]));
-  }
-  return rows;
 }
 
 function _immediateSignature({ inst = {} }) {
@@ -127,6 +100,8 @@ function _orderedItems({ section = 'q3' }) {
 }
 
 export function decoderRows({ constraints = [], decoded = null, onPattern = () => {} }) {
+  // The bits set so far, shown faintly behind every matching instruction's placeholders (best effort).
+  const bitAt = constraints.some((c) => c !== '-') ? (bit) => (constraints[31 - bit] === '-' ? null : constraints[31 - bit]) : null;
   const rows = [];
   for (const section of Object.keys(sections)) {
     const sectionRows = [];
@@ -138,18 +113,14 @@ export function decoderRows({ constraints = [], decoded = null, onPattern = () =
       const members = compiled.filter((i) => i.groupKey === groupKey && matchesConstraints({ inst: i, constraints }))
         .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
       if (!members.length) continue;
-      if (members.length === 1 && decoded && members[0] === decoded.inst && !decoded.inst.reserved && !decoded.inst.hint) {
-        sectionRows.push(..._decodedRows({ decoded, onPattern }));
-        continue;
-      }
       // Shared immediate layout: one immediate view under the group header, otherwise one per instruction.
       const withImm = members.filter((m) => m.immName);
       const shared = withImm.length > 0 && withImm.every((m) => _immediateSignature({ inst: m }) === _immediateSignature({ inst: withImm[0] }));
       const body = [];
-      if (shared) body.push(_immediateRow({ inst: decoded && withImm.includes(decoded.inst) ? decoded.inst : withImm[0], decoded }));
+      if (shared) body.push(_immediateRow({ inst: decoded && withImm.includes(decoded.inst) ? decoded.inst : withImm[0], decoded, bitAt }));
       for (const inst of members) {
-        body.push(_instructionRow({ inst, decoded, onPattern }));
-        if (inst.immName && !shared) body.push(_immediateRow({ inst, decoded }));
+        body.push(_instructionRow({ inst, decoded, bitAt, onPattern }));
+        if (inst.immName && !shared) body.push(_immediateRow({ inst, decoded, bitAt }));
       }
       sectionRows.push(_groupRow({ group: groups[groupKey], members, rowspan: body.length + 1 }), ...body);
     }

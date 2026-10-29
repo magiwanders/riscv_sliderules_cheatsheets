@@ -1,5 +1,5 @@
 import { encodable } from './isa/codec.mjs';
-import { cell, segmentCells, valueCells, immediateCells, immediateValueCells, typeCell, bitNumbers, tableWidth, sectionHeader } from './cells.mjs';
+import { cell, segmentCells, immediateCells, immediateBits, typeCell, bitNumbers, tableWidth, sectionHeader } from './cells.mjs';
 import { Tristates } from './tristate.mjs';
 
 // a2b "Encoder" sliderule: every instruction and pseudo-instruction in alphabetical order, encoding on the right.
@@ -46,8 +46,8 @@ function _textCells({ entry = {}, rowspan = 1, explanation = '', operands = null
   ];
 }
 
-// Rows of one entry. With an encoding, the expansions actually used (li may need one or two instructions) show their
-// bits in place of the field names, and the immediate row the immediate's bits.
+// Rows of one entry. With an encoding, the expansions actually used (li may need one or two instructions) fill the
+// register names in and show their bits faintly behind the placeholders, the immediate row the immediate's bits.
 function _entryRows({ entry = {}, encoded = null, operands = null, onPick = () => {} }) {
   const parts = encoded
     ? encoded.words.map((w) => (w.expansion ? { ...w.expansion, word: w } : { base: entry, segments: entry.segments, text: _explanation({ entry }), word: w }))
@@ -60,16 +60,15 @@ function _entryRows({ entry = {}, encoded = null, operands = null, onPick = () =
     const textCells = i === 0
       ? _textCells({ entry, rowspan, explanation: text, operands, onPick })
       : [_td({ class: 'text explanation', title: _explanationText({ explanation: text }) }, text)];
-    const bits = word
-      ? valueCells({ segments, width: base.width, word: word.word, fields: word.fields, inst: base })
-      : segmentCells({ segments, width: base.width, inst: base });
-    return _tr({ class: `instruction-row fmt-${base.format}` + (encoded ? ' chosen' : '') }, [...textCells, ...bits]);
+    const bitAt = word ? (bit) => String((word.word >>> bit) & 1) : null;
+    return _tr({ class: `instruction-row fmt-${base.format}` + (encoded ? ' chosen' : '') },
+      [...textCells, ...segmentCells({ segments, width: base.width, fields: word ? word.fields : null, inst: base, bitAt })]);
   });
   if (showImm) {
     const { base, word } = parts[0];
     rows.push(_tr({ class: `immediate-row fmt-${base.format}` + (word ? ' chosen' : '') }, [
       _td({ class: 'text imm-name explanation' }, word ? `${base.immName} = ${word.fields.imm}` : base.immName),
-      ...(word ? immediateValueCells({ inst: base, value: word.fields.imm }) : immediateCells({ inst: base })),
+      ...immediateCells({ inst: base, bitAt: word ? immediateBits({ inst: base, wordBitAt: (bit) => String((word.word >>> bit) & 1) }) : null }),
     ]));
   }
   return rows;

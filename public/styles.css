@@ -435,10 +435,12 @@ table.sliderule {
 .bit.any { background: var(--muted); color: #777; }
 .text.explanation { background: var(--light); }
 
-/* The chosen instruction's bits in their own places, coloured like their fields (registers and other fields
-   grey so the values stand out from the white opcode bits). */
-.bit.value { font-weight: bold; }
-.bit.value.field-reg, .bit.value.field-field { background: var(--muted); }
+/* Known bits behind a placeholder cell, faint, one per bit column, under the placeholder's label. */
+.sliderule td.has-bits { position: relative; }
+.cell-bits { position: absolute; inset: 0; display: grid; align-items: center; color: rgba(0, 0, 0, 0.22); font: 11px ui-monospace, Menlo, Consolas, monospace; pointer-events: none; }
+.cell-bits > span { text-align: center; }
+.bit.imm-2 .cell-bits { color: rgba(255, 255, 255, 0.4); }
+.cell-label { position: relative; }
 
 /* HINTs (legal encodings with no architectural effect) and opcodes RV32GC leaves unused. */
 .text.hint { background: var(--muted); color: #555; font-style: italic; text-align: center; }

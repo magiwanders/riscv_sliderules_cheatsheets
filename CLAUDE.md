@@ -100,7 +100,8 @@ Work through these in order; most extensions only need steps 1, 2, 5 and 6.
 7. **Pseudo-instructions** (`pseudoInstructions`): `expands` lists `[base instruction, mapping]` pairs; in a mapping a
    number fixes the base field, a string passes a pseudo operand, `'hi'` / `'lo'` split a 32 bit value as `lui` /
    `auipc` + `addi` do.
-8. **Title**: the sheets say `RV32GC` (`titleCaption` in `src/cells.mjs`); update it if the extension changes the name.
+8. **Title**: the header says "Sliderule RV32GC Cheatsheet" (`sheetHeader` in `src/cells.mjs`); update it if the
+   extension changes the name.
 
 ## Checking your change
 

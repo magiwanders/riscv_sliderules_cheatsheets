@@ -41,7 +41,8 @@ function _groupRow({ group = {}, members = [], rowspan = 1 }) {
   return _tr({ class: `group-row fmt-${group.format}` }, cells);
 }
 
-function _instructionRow({ inst = {}, decoded = null, bitAt = null, onPattern = () => {} }) {
+// extra: cells appended at the end (Type / Ext when the instruction stands without its group header).
+function _instructionRow({ inst = {}, decoded = null, bitAt = null, onPattern = () => {}, extra = [] }) {
   const fields = decoded && decoded.inst === inst ? decoded.fields : null;
   const cells = segmentCells({ segments: inst.segments, width: inst.width, fields, inst, bitAt });
   if (inst.reserved || inst.hint) {
@@ -57,6 +58,7 @@ function _instructionRow({ inst = {}, decoded = null, bitAt = null, onPattern = 
     cell({ classes: 'text operands', text: fields ? assemblyParts({ inst, fields }).slice(1).map((p) => p.text).join('').trim() || '—' : inst.asm || '—' }),
     cell({ classes: 'text expansion', text: inst.expands || '' }),
     cell({ classes: 'text pseudocode', text: inst.pseudocode }),
+    ...extra,
   );
   return _tr({ class: `instruction-row fmt-${inst.format}` + (fields ? ' decoded' : '') }, cells);
 }
@@ -113,6 +115,16 @@ export function decoderRows({ constraints = [], decoded = null, onPattern = () =
       const members = compiled.filter((i) => i.groupKey === groupKey && matchesConstraints({ inst: i, constraints }))
         .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
       if (!members.length) continue;
+      // Only one instruction left: its own row (placeholders, with the bits set so far behind them) takes the place
+      // of the group header, which would only repeat it; the immediate row follows.
+      if (members.length === 1 && !members[0].reserved && !members[0].hint) {
+        const inst = members[0];
+        const rowspan = inst.immName ? 2 : 1;
+        sectionRows.push(_instructionRow({ inst, decoded, bitAt, onPattern,
+          extra: [typeCell({ format: inst.format, rowspan }), cell({ rowspan, classes: 'text ext', text: `'${inst.extension}'` })] }));
+        if (inst.immName) sectionRows.push(_immediateRow({ inst, decoded, bitAt }));
+        continue;
+      }
       // Shared immediate layout: one immediate view under the group header, otherwise one per instruction.
       const withImm = members.filter((m) => m.immName);
       const shared = withImm.length > 0 && withImm.every((m) => _immediateSignature({ inst: m }) === _immediateSignature({ inst: withImm[0] }));

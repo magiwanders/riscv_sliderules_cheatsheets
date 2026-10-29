@@ -9,10 +9,13 @@ pick an instruction and read its bits, or set bits and read the instruction.
 
 ## Using it
 
-**Encoder** (the default view). Every column header has its selector: scroll over a selector to cycle through its
-options, or click it for a list (the mnemonic list has a search box).
+Switch between the two sheets with the **Encoder | Decoder** pill next to the title.
 
-- **Ext** and **Type** narrow the table down; picking a **Mnemonic** moves them to that instruction.
+**Encoder** (the default). Above each column title sits its selector: scroll over it (or use the arrow keys) to cycle
+through its options, or click it for a list (the mnemonic list has a search box).
+
+- **Ext** and **Type** narrow the table down; picking a **Mnemonic** (or clicking one in the table) moves them to
+  that instruction.
 - **Operands**: one selector per operand. Immediates have a slider and a field that takes decimal, `0x…` or `0b…` and
   only accepts valid values.
 - The bits, with their hex digits above, show the encoding. Copy the assembly next to *Assembly*, the binary
@@ -31,8 +34,9 @@ its bits.
 - Copy bin / Copy hex (by *Bitwise Breakdown*) and Copy (by the instruction) work once the instruction is complete.
 - Click a mnemonic in the table to load its encoding.
 
-**Both views**: **⤓ PDF** downloads the sheet as you see it (A3). Press **Clear** first for the whole sheet. **Share**
-copies a link that reopens exactly this view: the selectors, operands and bits are all in the link.
+**Both views**, top right: **Clear** goes back to the whole sheet, **⤓ PDF** downloads the sheet as you see it (A3;
+Clear first for the whole sheet), **Share** copies a link that reopens exactly this session: the sheet, selectors,
+operands and bits are all in the link.
 
 ## Embedding
 

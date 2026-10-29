@@ -14,9 +14,11 @@ extension, has its own checklist below.
 | `src/sliderule.mjs` | The app: state, encoder selectors, decoder output, header tools, URL state (share links), view switching animation. |
 | `src/encoder.mjs`, `src/selector.mjs` | Encoder table (a2b) and decoder table (b2a). |
 | `src/cells.mjs` | Table cells shared by both tables, the header above them (title, pill, tools, credits). |
-| `src/carousel.mjs`, `src/builders.mjs`, `src/tristate.mjs` | Carousel selector, encoder operand selectors, the 32 bit 0/1/x switches. |
+| `src/carousel.mjs`, `src/builders.mjs`, `src/tristate.mjs` | Carousel selector, encoder operand selectors, the 32 bit 0/1/x switches with their hex digits. |
 | `src/pdf.mjs` | PDF download of the visible sheet (loads html-to-image and jsPDF from CDNs on demand). |
-| `public/` | Copied as is into the build: `styles.css`, `embed.js` (one-line embedding), `index.html`. |
+| `public/` | Copied as is into the build: `styles.css`, `embed.js` (one-line embedding), `index.html` (the site, uses `embed.js`). |
+| `index.html`, `src/dev.mjs` | Development entry (`npm run dev`): mounts the sheets straight from `src/`. |
+| `docs/` | README screenshots: retake them when the UI changes visibly. |
 | `test/` | `node --test` suites, shared test cases, the GNU as vector generator and its output. |
 | `dist/` | Build output, **served live** as sliderules.magiwanders.com. Only `npm run build` writes it. |
 

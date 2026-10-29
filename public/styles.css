@@ -43,9 +43,6 @@
 .stage.switching { overflow-x: clip; }
 .stage.switching > .view { visibility: visible; height: auto; overflow: visible; }
 .stage.switching > .view.incoming { position: relative; z-index: 1; }
-/* The incoming sheet's bit columns fade in over the outgoing sheet's: one animated property for all their cells. */
-@property --spine-opacity { syntax: '<number>'; inherits: true; initial-value: 1; }
-.stage.switching > .view.incoming :is(thead .spine, tbody td.bit) { opacity: var(--spine-opacity); }
 
 /* ---------- sliderule table ---------- */
 
@@ -66,9 +63,9 @@ table.sliderule {
 }
 
 /* Header above both sheets: one line of title, pill and tools, one small line of credits and the contribution
-   link. It spans the visible width (set by script) and stays in view when the sheets scroll sideways. */
+   link. It ends where the window or the shown sheet does (set by script) and stays in view when scrolling sideways. */
 .sliderules-app { width: max-content; min-width: 100%; }
-.sheet-header { position: sticky; left: 16px; box-sizing: border-box; margin-bottom: 8px; }
+.sheet-header { position: sticky; left: 16px; box-sizing: border-box; margin-bottom: 8px; transition: width 0.65s cubic-bezier(0.65, 0, 0.35, 1); }
 .header-main { display: flex; align-items: center; gap: 14px; }
 .header-title { font-size: 22px; font-weight: bold; letter-spacing: 1px; white-space: nowrap; }
 .header-tools { display: flex; gap: 4px; margin-left: auto; }

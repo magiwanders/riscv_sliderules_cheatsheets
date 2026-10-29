@@ -169,6 +169,14 @@ function _nothingToClear() {
 
 // ---------------------------------------------------------------- decoder
 
+// A sheet's rows are only rebuilt when what they show changed (key): the whole encoder is thousands of cells, and
+// switching re-renders the incoming sheet.
+function _replaceRows({ table = null, key = '', rows = () => [] }) {
+  if (table.dataset.rowsKey === key) return;
+  table.dataset.rowsKey = key;
+  table.tBodies[0].replaceChildren(...rows());
+}
+
 function _renderDecoder() {
   const constraints = readConstraints();
   const word = selectedWord({ constraints });
@@ -221,7 +229,7 @@ function _renderDecoder() {
     writeBits({ value: inst.match, mask: inst.mask, width: inst.width });
     refresh();
   };
-  _elements.decoder.querySelector('tbody').replaceChildren(...decoderRows({ constraints, decoded, onPattern }));
+  _replaceRows({ table: _elements.decoder, key: constraints.join(''), rows: () => decoderRows({ constraints, decoded, onPattern }) });
 }
 
 // ---------------------------------------------------------------- encoder selectors
@@ -307,9 +315,10 @@ function _renderEncoder() {
   else _show({ target: labels.assembly, content: encoded ? encoded.words.map(({ inst, fields }) => _div({}, [_assemblyLine({ inst, fields })])) : '' });
   _elements.encoderCopies.forEach((button) => { button.disabled = !encoded; });
   showEncodedBits({ entry: state.entry, encoded });
-  _elements.encoder.querySelector('tbody').replaceChildren(...encoderRows({
+  const key = JSON.stringify([state.ext, state.type, state.entry && state.entry.id, state.operands, encoded && encoded.words.map((w) => w.word)]);
+  _replaceRows({ table: _elements.encoder, key, rows: () => encoderRows({
     entries: _filtered(), entry: state.entry, encoded, operands: encoded ? state.operands : null, onPick: _selectEntry,
-  }));
+  }) });
 }
 
 export function refresh() {
@@ -351,6 +360,17 @@ function _scrollAlong({ to = 0 }) {
   requestAnimationFrame(step);
 }
 
+// The new sheet's bit cells that are on screen (header and rows): only these cross-fade, however long the sheet.
+function _visibleSpineCells({ table = null }) {
+  const cells = [...table.tHead.querySelectorAll('.spine')];
+  for (const row of table.tBodies[0].rows) {
+    const box = row.getBoundingClientRect();
+    if (box.top > window.innerHeight) break;
+    if (box.bottom >= 0) cells.push(...row.querySelectorAll('td.bit'));
+  }
+  return cells;
+}
+
 function _activate({ mode = 'encoder' }) {
   _elements.decoder.parentElement.classList.toggle('active', mode === 'decoder');
   _elements.encoder.parentElement.classList.toggle('active', mode === 'encoder');
@@ -374,13 +394,13 @@ async function _switchTo({ mode = 'encoder' }) {
       const shift = _spineOffset({ table: to }) - _spineOffset({ table: from });
       stage.classList.add('switching');
       to.parentElement.classList.add('incoming');
+      _elements.fitHeader();
       _scrollAlong({ to: _rightmostScroll() });
       const move = (x0, x1) => [{ transform: `translateX(${x0}px)` }, { transform: `translateX(${x1}px)` }];
       const animations = [
         _animate({ element: from, keyframes: move(0, shift) }),
         _animate({ element: to, keyframes: move(-shift, 0) }),
-        // One animated property for all the new sheet's bit cells (see --spine-opacity in styles.css).
-        _animate({ element: to, keyframes: [{ '--spine-opacity': 0 }, { '--spine-opacity': 1 }] }),
+        ..._visibleSpineCells({ table: to }).map((element) => _animate({ element, keyframes: [{ opacity: 0 }, { opacity: 1 }] })),
       ];
       await Promise.allSettled(animations.map((a) => a.finished));
     }
@@ -388,6 +408,7 @@ async function _switchTo({ mode = 'encoder' }) {
     to.parentElement.classList.remove('incoming');
     stage.classList.remove('switching');
     _activate({ mode });
+    _elements.fitHeader();
     window.scrollTo({ left: _rightmostScroll() });
     state.switching = false;
   }
@@ -414,14 +435,16 @@ function _selectPill({ mode = 'encoder' }) {
   }
 }
 
-// The header spans the visible width of the page and stays in view when the sheets scroll sideways.
+// The header ends where the window or the shown sheet ends, whichever comes first (its tools align there), and stays
+// in view when the sheets scroll sideways. Its width glides along when switching (see .sheet-header).
 function _fitHeader({ app = null, header = null }) {
   const fit = () => {
     const left = app.getBoundingClientRect().left + window.scrollX;
-    header.style.width = `${document.documentElement.clientWidth - 2 * left}px`;
+    header.style.width = `${Math.min(document.documentElement.clientWidth - 2 * left, _currentTable().offsetWidth)}px`;
   };
   window.addEventListener('resize', fit);
   fit();
+  return fit;
 }
 
 // The whole header (section titles, hex digits, switches, bit numbers) stays on screen while scrolling: each row
@@ -493,10 +516,10 @@ export function Sliderule() {
 
   const pill = _modePill();
   const clear = _button({ label: 'Clear', classes: 'tool-button header-tool', title: 'Back to the whole sheet', onClick: _clear });
-  const header = sheetHeader({ switcher: pill, tools: [_pdfButton(), clear, _shareButton()] });
+  const header = sheetHeader({ switcher: pill, tools: [clear, _pdfButton(), _shareButton()] });
   const stage = _div({ id: 'sliderule', class: 'stage' }, [_div({ class: 'view' }, [decoder]), _div({ class: 'view' }, [encoder])]);
   const app = _div({ class: 'sliderules-app' }, [header, stage]);
-  _elements = { header, pill, clear, decoder, encoder, decoderResult, decoderCopy, decoderWordCopies, encoderLabels, encoderCopies, selectors, operands: selectors.operands, stage };
+  _elements = { fitHeader: () => {}, header, pill, clear, decoder, encoder, decoderResult, decoderCopy, decoderWordCopies, encoderLabels, encoderCopies, selectors, operands: selectors.operands, stage };
   const { mode, params } = _readUrl();
   state.mode = mode;
   _selectPill({ mode });
@@ -508,7 +531,7 @@ export function Sliderule() {
   refresh();
   requestAnimationFrame(() => {
     [decoder, encoder].forEach((table) => _stickHeaderRows({ table }));
-    _fitHeader({ app, header });
+    _elements.fitHeader = _fitHeader({ app, header });
   });
   return app;
 }

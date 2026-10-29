@@ -369,11 +369,11 @@ table.sliderule {
 .section-side.after { justify-content: flex-end; }
 .section-group { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .section-value { font: bold 11px ui-monospace, Menlo, Consolas, monospace; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-/* Assembly section: the instruction(s) on the left, one per line, spaced like normal text. */
-.section-assembly .section-title { grid-template-columns: minmax(0, 1fr) auto auto; }
-.section-asm { display: flex; flex-direction: column; gap: 3px; padding: 2px 0; }
-.section-asm .asm-line { font-size: 12px; color: var(--text); white-space: nowrap; }
-.section-asm .asm-token { padding: 1px 5px; }
+/* Assembly section: the title stays centred, the instruction(s) on its left, one per line, spaced like normal
+   text; an instruction too long for its half wraps between operands (the row grows only then). */
+.section-asm { display: flex; flex-direction: column; gap: 3px; padding: 2px 0; white-space: normal; overflow: visible; }
+.section-asm .asm-line { font-size: 12px; color: var(--text); white-space: normal; line-height: 1.6; }
+.section-asm .asm-token { display: inline-block; padding: 0 5px; line-height: 1.4; white-space: nowrap; }
 .section-asm .asm-punct { color: #fff; padding-right: 3px; }
 .section-asm.error { color: #ffe0e0; white-space: normal; }
 .section-count { font-weight: normal; font-size: 11px; opacity: 0.9; }

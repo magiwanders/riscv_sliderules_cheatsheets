@@ -341,11 +341,6 @@ function _spineOffset({ table = null }) {
   return table.querySelector('.bit-number').offsetLeft;
 }
 
-// The page scroll at the end of a switch: right aligned (the right end of the sheets in view).
-function _rightmostScroll() {
-  return Math.max(0, document.documentElement.scrollWidth - document.documentElement.clientWidth);
-}
-
 // Scrolls the page horizontally in step with the slide (same duration and easing as the sheets), so it arrives
 // exactly when they do and nothing jumps at the end.
 function _scrollAlong({ to = 0 }) {
@@ -379,7 +374,7 @@ function _activate({ mode = 'encoder' }) {
 // Both sheets slide sideways together by the distance between their bit columns: the columns only the old sheet
 // has leave the view on one side, the new sheet's come in from the other, and the bits stay where the eye is,
 // the new sheet's bits fading in over the old ones. Nothing fades to white. The header does not move; the page
-// scrolls along to end right aligned.
+// scrolls along to end fully left (the start of the sheet in view: the encoder's selectors, the decoder's bits).
 async function _switchTo({ mode = 'encoder' }) {
   if (mode === state.mode || state.switching) return;
   state.switching = true;
@@ -395,7 +390,7 @@ async function _switchTo({ mode = 'encoder' }) {
       stage.classList.add('switching');
       to.parentElement.classList.add('incoming');
       _elements.fitHeader();
-      _scrollAlong({ to: _rightmostScroll() });
+      _scrollAlong({ to: 0 });
       const move = (x0, x1) => [{ transform: `translateX(${x0}px)` }, { transform: `translateX(${x1}px)` }];
       const animations = [
         _animate({ element: from, keyframes: move(0, shift) }),
@@ -409,7 +404,7 @@ async function _switchTo({ mode = 'encoder' }) {
     stage.classList.remove('switching');
     _activate({ mode });
     _elements.fitHeader();
-    window.scrollTo({ left: _rightmostScroll() });
+    window.scrollTo({ left: 0 });
     state.switching = false;
   }
 }

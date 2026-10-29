@@ -75,21 +75,7 @@ function _entryRows({ entry = {}, encoded = null, operands = null, onPick = () =
   return rows;
 }
 
-// Briefly marks the bits that changed since the previous rows of the same instruction (an operand was changed).
-let _shownBits = { id: null, bits: new Map() };
-export function flashChangedBits({ entry = null }) {
-  const bits = new Map();
-  _sheet.tBodies[0].querySelectorAll('tr').forEach((row, r) => row.querySelectorAll('td[data-bit]').forEach((td) => bits.set(`${r}:${td.dataset.bit}`, td)));
-  if (entry && _shownBits.id === entry.id && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    for (const [key, td] of bits) {
-      if (_shownBits.bits.has(key) && _shownBits.bits.get(key) !== td.textContent) {
-        td.animate([{ boxShadow: 'inset 0 0 0 2px #e69138', filter: 'brightness(1.25)' }, { boxShadow: 'inset 0 0 0 2px transparent', filter: 'none' }],
-          { duration: 600, easing: 'ease-out' });
-      }
-    }
-  }
-  _shownBits = { id: entry ? entry.id : null, bits: new Map([...bits].map(([key, td]) => [key, td.textContent])) };
-}
+
 
 // entries: what the Ext / Type filters let through; with a chosen entry only that one is listed.
 export function encoderRows({ entries = encodable, entry = null, encoded = null, operands = null, onPick = () => {} }) {

@@ -1,11 +1,11 @@
 import { formats } from './isa/rv32gc.mjs';
 import { decodeWord, encodeEntry, unusedOpcode, encodable, assemblyParts, fieldMask, partialDecode } from './isa/codec.mjs';
 import { decoderTable, decoderRows, readConstraints, writeBits, selectedWord, dimUpperHalf, pasteBits, highlightBits } from './selector.mjs';
-import { encoderTable, encoderRows, showEncodedBits, expandedColumns, setExpandedColumns, flashChangedBits } from './encoder.mjs';
+import { encoderTable, encoderRows, showEncodedBits, expandedColumns, setExpandedColumns } from './encoder.mjs';
 import { OperandPanel } from './builders.mjs';
 import { Carousel } from './carousel.mjs';
 import { downloadPdf } from './pdf.mjs';
-import { hex, sheetHeader } from './cells.mjs';
+import { hex, sheetHeader, flashChangedBits } from './cells.mjs';
 
 // The sliderule app: the Encoder (bits on the right, the default) or the Decoder (bits on the left), one at a time;
 // switching slides one sheet out and the other in around the 32 bit "spine" (see _switchTo). The URL hash always
@@ -230,7 +230,9 @@ function _renderDecoder() {
     writeBits({ value: inst.match, mask: inst.mask, width: inst.width });
     refresh();
   };
-  _replaceRows({ table: _elements.decoder, key: constraints.join(''), rows: () => decoderRows({ constraints, decoded, onPattern }) });
+  if (_replaceRows({ table: _elements.decoder, key: constraints.join(''), rows: () => decoderRows({ constraints, decoded, onPattern }) })) {
+    flashChangedBits({ table: _elements.decoder, id: state.decoded ? state.decoded.inst.id : null });
+  }
 }
 
 // ---------------------------------------------------------------- encoder selectors
@@ -320,7 +322,7 @@ function _renderEncoder() {
   const replaced = _replaceRows({ table: _elements.encoder, key, rows: () => encoderRows({
     entries: _filtered(), entry: state.entry, encoded, operands: encoded ? state.operands : null, onPick: _selectEntry,
   }) });
-  if (replaced) flashChangedBits({ entry: encoded ? state.entry : null });
+  if (replaced) flashChangedBits({ table: _elements.encoder, id: encoded ? state.entry.id : null });
 }
 
 export function refresh() {

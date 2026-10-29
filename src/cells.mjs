@@ -62,7 +62,7 @@ function _bitTitle({ s = {}, fields = {}, inst = {}, j = 0 }) {
 }
 
 // The actual bits of an encoded word in their own places, coloured like the segments they belong to. data-bit
-// lets the encoder mark the bits that change (see flashChangedBits in encoder.mjs).
+// lets the sheets mark the bits that change (see flashChangedBits).
 export function valueCells({ segments = [], width = 32, word = 0, fields = {}, inst = {} }) {
   const cells = unusedUpperHalf({ width });
   for (const s of segments) {
@@ -74,6 +74,24 @@ export function valueCells({ segments = [], width = 32, word = 0, fields = {}, i
     }
   }
   return cells;
+}
+
+// Briefly outlines the bits (td[data-bit]) of a table that changed since its previous rows of the same instruction
+// (id); rows of another instruction, or none (id null), only become the new reference.
+const _shownBits = new WeakMap();
+export function flashChangedBits({ table = null, id = null }) {
+  const bits = new Map();
+  table.tBodies[0].querySelectorAll('tr').forEach((row, r) => row.querySelectorAll('td[data-bit]').forEach((td) => bits.set(`${r}:${td.dataset.bit}`, td)));
+  const shown = _shownBits.get(table);
+  if (id !== null && shown && shown.id === id && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (const [key, td] of bits) {
+      if (shown.bits.has(key) && shown.bits.get(key) !== td.textContent) {
+        td.animate([{ boxShadow: 'inset 0 0 0 2px #e69138', filter: 'brightness(1.25)' }, { boxShadow: 'inset 0 0 0 2px transparent', filter: 'none' }],
+          { duration: 600, easing: 'ease-out' });
+      }
+    }
+  }
+  _shownBits.set(table, { id, bits: new Map([...bits].map(([key, td]) => [key, td.textContent])) });
 }
 
 // The immediate's value bit by bit (31..0), coloured like the instruction bits each one comes from; sign extension

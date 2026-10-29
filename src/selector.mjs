@@ -1,6 +1,6 @@
 import { formats, groups, sections } from './isa/rv32gc.mjs';
 import { compiled, matchesConstraints, assemblyParts, unusedOpcodeRows } from './isa/codec.mjs';
-import { cell, segmentCells, immediateCells, typeCell, bitNumbers, columns, tableWidth, sectionHeader } from './cells.mjs';
+import { cell, segmentCells, valueCells, immediateCells, immediateValueCells, typeCell, bitNumbers, columns, tableWidth, sectionHeader } from './cells.mjs';
 import { Tristates } from './tristate.mjs';
 
 // b2a "Decoder" sliderule: the bit selector is the table header (bits on the left), rows are ordered lsb first.
@@ -70,6 +70,33 @@ function _immediateRow({ inst = {}, decoded = null }) {
   return _tr({ class: `immediate-row fmt-${inst.format}` }, cells);
 }
 
+// The decoded instruction once nothing else matches: no group header, its bits in their own places in its row
+// (Type / Ext move there) and the immediate's bits in the immediate row.
+function _decodedRows({ decoded = {}, onPattern = () => {} }) {
+  const { inst, fields, word } = decoded;
+  const rowspan = inst.immName ? 2 : 1;
+  const mnemonic = _td({ class: 'text mnemonic', title: 'Show this encoding in the bit selector' }, inst.name);
+  mnemonic.addEventListener('click', () => onPattern({ inst }));
+  const rows = [_tr({ class: `instruction-row fmt-${inst.format}` }, [
+    ...valueCells({ segments: inst.segments, width: inst.width, word, fields, inst }),
+    cell({ classes: 'text description', text: inst.description }),
+    mnemonic,
+    cell({ classes: 'text operands', text: assemblyParts({ inst, fields }).slice(1).map((p) => p.text).join('').trim() || '—' }),
+    cell({ classes: 'text expansion', text: inst.expands || '' }),
+    cell({ classes: 'text pseudocode', text: inst.pseudocode }),
+    typeCell({ format: inst.format, rowspan }),
+    cell({ rowspan, classes: 'text ext', text: `'${inst.extension}'` }),
+  ])];
+  if (inst.immName) {
+    rows.push(_tr({ class: `immediate-row fmt-${inst.format}` }, [
+      ...immediateValueCells({ inst, value: fields.imm }),
+      cell({ width: 4, classes: 'text imm-name', text: `${inst.immName} = ${fields.imm}` }),
+      cell({ classes: 'text imm-desc', text: `${inst.format} ${inst.immSigned ? 'sign-extended' : 'zero-extended'} immediate` }),
+    ]));
+  }
+  return rows;
+}
+
 function _immediateSignature({ inst = {} }) {
   return inst.segments.filter((s) => s.kind === 'imm').map((s) => `${s.hi}:${s.immBits}`).join(' ');
 }
@@ -111,6 +138,10 @@ export function decoderRows({ constraints = [], decoded = null, onPattern = () =
       const members = compiled.filter((i) => i.groupKey === groupKey && matchesConstraints({ inst: i, constraints }))
         .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
       if (!members.length) continue;
+      if (members.length === 1 && decoded && members[0] === decoded.inst && !decoded.inst.reserved && !decoded.inst.hint) {
+        sectionRows.push(..._decodedRows({ decoded, onPattern }));
+        continue;
+      }
       // Shared immediate layout: one immediate view under the group header, otherwise one per instruction.
       const withImm = members.filter((m) => m.immName);
       const shared = withImm.length > 0 && withImm.every((m) => _immediateSignature({ inst: m }) === _immediateSignature({ inst: withImm[0] }));

@@ -38,16 +38,11 @@
   overflow: hidden;
 }
 
-/* Copy of the bit numbers and switches that slides across while switching tables. */
-.stage > table.ghost {
-  position: absolute;
-  pointer-events: none;
-  z-index: 3;
-}
-
-.stage > table.ghost :is(td, th) {
-  position: static;
-}
+/* While switching, both sheets are shown and slide sideways (see _switchTo): what leaves the stage is clipped
+   there, the incoming sheet is drawn over the outgoing one. */
+.stage.switching { overflow-x: clip; }
+.stage.switching > .view { visibility: visible; height: auto; overflow: visible; }
+.stage.switching > .view.incoming { position: relative; z-index: 1; }
 
 /* ---------- sliderule table ---------- */
 
@@ -87,11 +82,9 @@ table.sliderule {
 .credit-icon { display: inline-flex; color: #333; }
 .credit-icon:hover { color: var(--focus); }
 .title-tools { position: sticky; left: 8px; right: 8px; display: flex; flex-direction: column; gap: 4px; }
-.title-corner.right .title-tools { align-items: flex-end; }
 .title-buttons { display: flex; gap: 4px; }
 .tool-button.title-tool { padding: 6px 12px; font-size: 12px; font-weight: bold; }
 .contribute-link { font-size: 10px; color: var(--focus); }
-.title-ghost { position: absolute; z-index: 3; pointer-events: none; }
 .title-corner { display: flex; }
 .title-corner.right { justify-content: flex-end; text-align: right; }
 

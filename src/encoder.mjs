@@ -165,7 +165,7 @@ export function encoderTable({ toggle = null, tools = [], controls = {}, labels 
   const widths = _widths();
   const controlCells = COLUMNS.map((c) => _td({ class: `selector-cell ${c.key}`, rowspan: '2' }, controls[c.key] ? [controls[c.key]] : ''));
   _sheet = _table({ class: 'sliderule', id: 'encoder', style: tableWidth({ widths }) }, [
-    titleCaption({ switcher: toggle, side: 'right', tools }),
+    titleCaption({ switcher: toggle, tools }),
     _colgroup({}, widths.map((width) => _col({ style: `width: ${width}px` }, ''))),
     _thead({}, [
       _tr({ class: 'label-row' }, [

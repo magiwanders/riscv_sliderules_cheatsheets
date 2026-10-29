@@ -7,13 +7,15 @@ import { Carousel } from './carousel.mjs';
 import { downloadPdf } from './pdf.mjs';
 import { hex, columns, tableWidth } from './cells.mjs';
 
-// The sliderule app: the Encoder (bits on the right, the default) or the Decoder (bits on the left), one at a time.
-// Switching fades out everything but the 32 bit "spine" and the title, slides them to the other side, then fades
-// the new table in. The URL hash always holds the whole state (view, selectors, operands, bits), so a copied link
-// reproduces exactly what was on screen.
+// The sliderule app: the Encoder (bits on the right, the default) or the Decoder (bits on the left), one at a time;
+// switching slides one sheet out and the other in around the 32 bit "spine" (see _switchTo). The URL hash always
+// holds the whole state (view, selectors, operands, bits), so a copied link reproduces exactly what was on screen.
 
-const FADE_MS = 220;
-const SLIDE_MS = 560;
+const SLIDE_MS = 650;
+const SLIDE_EASING = 'cubic-bezier(0.65, 0, 0.35, 1)';
+const RESIZE_MS = 220;
+// Cells of the bit columns (header and rows): what cross-fades between the sheets while switching.
+const SPINE_CELLS = ':is(thead .spine, tbody td.bit)';
 const COPIED_MS = 1200;
 const EXTENSION_ORDER = ['I', 'M', 'A', 'F', 'D', 'Zicsr', 'Zifencei', 'C', 'C + F', 'C + D', 'PSEUDO'];
 const URL_KEYS = ['ext', 'type', 'm', 'open', 'bits'];
@@ -47,9 +49,18 @@ function _assemblyLine({ inst = {}, fields = {}, onHover = null }) {
   }));
 }
 
+// Replaces what a target shows. Targets marked .smooth-height grow or shrink to their new height smoothly, so the
+// table row around them does too.
 function _show({ target = null, content = '', error = false }) {
+  const smooth = target.classList.contains('smooth-height') && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const before = smooth ? target.getBoundingClientRect().height : 0;
+  if (smooth) target.getAnimations().forEach((a) => a.cancel());
   target.classList.toggle('error', error);
   target.replaceChildren(...(Array.isArray(content) ? content : [content]));
+  if (!smooth) return;
+  const after = target.getBoundingClientRect().height;
+  if (Math.abs(after - before) < 1) return;
+  target.animate([{ height: `${before}px`, overflow: 'hidden' }, { height: `${after}px`, overflow: 'hidden' }], { duration: RESIZE_MS, easing: 'ease-out' });
 }
 
 function _button({ label = '', title = '', classes = 'tool-button', onClick = () => {} }) {
@@ -299,43 +310,8 @@ export function refresh() {
 
 // ---------------------------------------------------------------- switching
 
-// A copy of the spine (the bits' section title, hex digits, switches, bit numbers) laid over the table, aligned
-// with the original, each row as high as its original.
-function _ghostSpine({ table = null }) {
-  const rows = ['label-row', 'hex-row', 'input-row', 'number-row'].map((row) => {
-    const original = table.querySelector(`thead > .${row}`);
-    return _tr({ class: row, style: `height: ${original.getBoundingClientRect().height}px` }, [...original.querySelectorAll(':scope > .spine')].map((c) => c.cloneNode(true)));
-  });
-  const widths = new Array(32).fill(24);
-  const ghost = _table({ class: 'sliderule ghost', 'aria-hidden': 'true', style: tableWidth({ widths }) }, [columns({ widths }), _thead({}, rows)]);
-  _elements.stage.append(ghost);
-  const target = table.querySelector('.bit-number').getBoundingClientRect();
-  const own = ghost.querySelector('.bit-number').getBoundingClientRect();
-  ghost.style.left = `${target.left - own.left}px`;
-  ghost.style.top = `${target.top - own.top}px`;
-  return ghost;
-}
-
-// A copy of the title laid over the table's own; it slides to where the other table's title is, renamed.
-function _ghostTitle({ table = null }) {
-  const title = table.querySelector('.title-main');
-  const ghost = title.cloneNode(true);
-  ghost.classList.add('title-ghost');
-  ghost.setAttribute('aria-hidden', 'true');
-  const box = title.getBoundingClientRect();
-  const stage = _elements.stage.getBoundingClientRect();
-  Object.assign(ghost.style, { left: `${box.left - stage.left}px`, top: `${box.top - stage.top}px`, width: `${box.width}px` });
-  _elements.stage.append(ghost);
-  return ghost;
-}
-
-function _centre({ element = null }) {
-  const box = element.getBoundingClientRect();
-  return box.left + box.width / 2;
-}
-
-function _animate({ element = null, keyframes = [], duration = FADE_MS, easing = 'ease-in-out' }) {
-  return element.animate(keyframes, { duration, easing, fill: 'forwards' }).finished;
+function _animate({ element = null, keyframes = [], duration = SLIDE_MS, easing = SLIDE_EASING }) {
+  return element.animate(keyframes, { duration, easing });
 }
 
 // Horizontal offset of bit 31 inside its table (the inactive table stays laid out, see .stage in styles.css).
@@ -343,11 +319,16 @@ function _spineOffset({ table = null }) {
   return table.querySelector('.bit-number').offsetLeft;
 }
 
+function _centre({ element = null }) {
+  const box = element.getBoundingClientRect();
+  return box.left + box.width / 2;
+}
+
 // Page scroll that brings the whole spine of a table into view (it is wider than most screens).
-function _scrollForSpine({ table = null }) {
+function _scrollForSpine({ table = null, shift = 0 }) {
   const numbers = table.querySelectorAll('.bit-number');
-  const left = numbers[0].getBoundingClientRect().left + window.scrollX - 16;
-  const right = numbers[numbers.length - 1].getBoundingClientRect().right + window.scrollX + 16;
+  const left = numbers[0].getBoundingClientRect().left + shift + window.scrollX - 16;
+  const right = numbers[numbers.length - 1].getBoundingClientRect().right + shift + window.scrollX + 16;
   if (right > window.scrollX + window.innerWidth) return Math.min(left, right - window.innerWidth);
   if (left < window.scrollX) return left;
   return window.scrollX;
@@ -358,7 +339,10 @@ function _activate({ mode = 'encoder' }) {
   _elements.encoder.parentElement.classList.toggle('active', mode === 'encoder');
 }
 
-// Fade the table out but keep its spine and title (as ghost copies), slide them across, fade the other table in.
+// Both sheets slide sideways together by the distance between their bit columns: the columns only the old sheet
+// has leave the view on one side, the new sheet's come in from the other, and the bits stay where the eye is,
+// the new sheet's bits fading in over the old ones. The captions are held in place (tools do not move); the title
+// glides to where the new sheet centres it while the two titles cross-fade. Nothing fades to white.
 async function _switchTo({ mode = 'encoder' }) {
   if (mode === state.mode || state.switching) return;
   state.switching = true;
@@ -366,33 +350,28 @@ async function _switchTo({ mode = 'encoder' }) {
   const to = mode === 'encoder' ? _elements.encoder : _elements.decoder;
   state.mode = mode;
   refresh();
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    _activate({ mode });
-  } else {
-    const ghost = _ghostSpine({ table: from });
-    const title = _ghostTitle({ table: from });
-    await _animate({ element: from, keyframes: [{ opacity: 1 }, { opacity: 0 }] });
-    const delta = _spineOffset({ table: to }) - _spineOffset({ table: from });
-    const titleDelta = _centre({ element: to.querySelector('.title-main') }) - _centre({ element: from.querySelector('.title-main') });
-    title.querySelector('.mode-pill').replaceWith(to.querySelector('.title-main .mode-pill').cloneNode(true));
-    ghost.querySelector('.section-name').textContent = to.querySelector('.label-row > .spine .section-name').textContent;
-    window.scrollTo({ left: _scrollForSpine({ table: to }), behavior: 'smooth' });
-    const slide = { duration: SLIDE_MS, easing: 'cubic-bezier(0.65, 0, 0.35, 1)' };
-    await Promise.all([
-      _animate({ element: ghost, keyframes: [{ transform: 'translateX(0)' }, { transform: `translateX(${delta}px)` }], ...slide }),
-      _animate({ element: title, keyframes: [{ transform: 'translateX(0)' }, { transform: `translateX(${titleDelta}px)` }], ...slide }),
-    ]);
-    _activate({ mode });
-    from.getAnimations().forEach((a) => a.cancel());
-    await Promise.all([
-      _animate({ element: to, keyframes: [{ opacity: 0 }, { opacity: 1 }] }),
-      _animate({ element: ghost, keyframes: [{ opacity: 1 }, { opacity: 0 }] }),
-      _animate({ element: title, keyframes: [{ opacity: 1 }, { opacity: 0 }] }),
-    ]);
-    to.getAnimations().forEach((a) => a.cancel());
-    ghost.remove();
-    title.remove();
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const stage = _elements.stage;
+    const shift = _spineOffset({ table: to }) - _spineOffset({ table: from });
+    const titleShift = _centre({ element: to.querySelector('.title-main') }) - _centre({ element: from.querySelector('.title-main') });
+    stage.classList.add('switching');
+    to.parentElement.classList.add('incoming');
+    window.scrollTo({ left: _scrollForSpine({ table: from, shift }), behavior: 'smooth' });
+    const move = (x0, x1) => [{ transform: `translateX(${x0}px)` }, { transform: `translateX(${x1}px)` }];
+    const animations = [
+      _animate({ element: from, keyframes: move(0, shift) }),
+      _animate({ element: to, keyframes: move(-shift, 0) }),
+      _animate({ element: from.caption, keyframes: move(0, -shift) }),
+      _animate({ element: to.caption, keyframes: move(shift, 0) }),
+      _animate({ element: from.querySelector('.title-main'), keyframes: [{ transform: 'translateX(0)', opacity: 1 }, { transform: `translateX(${titleShift}px)`, opacity: 0 }] }),
+      _animate({ element: to.querySelector('.title-main'), keyframes: [{ transform: `translateX(${-titleShift}px)`, opacity: 0 }, { transform: 'translateX(0)', opacity: 1 }] }),
+      ...[...to.querySelectorAll(SPINE_CELLS)].map((element) => _animate({ element, keyframes: [{ opacity: 0 }, { opacity: 1 }] })),
+    ];
+    await Promise.all(animations.map((a) => a.finished));
+    to.parentElement.classList.remove('incoming');
+    stage.classList.remove('switching');
   }
+  _activate({ mode });
   window.scrollTo({ left: _scrollForSpine({ table: to }) });
   state.switching = false;
 }
@@ -443,7 +422,7 @@ function _fileName({ mode = 'encoder' }) {
 }
 
 export function Sliderule() {
-  const decoderResult = _div({ class: 'io-result' }, '');
+  const decoderResult = _div({ class: 'io-result smooth-height' }, '');
   const decoderCopy = _copyButton({ label: 'Copy', title: 'Copy the assembly (once the instruction is complete)', text: () => state.decoded.assembly });
   const decoderClear = _clearButton({ onClick: () => { writeBits({ value: 0, mask: 0 }); refresh(); } });
   const decodedWord = (format) => () => (format === 'hex' ? hex(state.word) : (state.word.word >>> 0).toString(2).padStart(state.word.width, '0'));
@@ -459,7 +438,7 @@ export function Sliderule() {
   const selectors = _encoderControls();
   const encoderLabels = {
     count: _span({ class: 'section-count' }, ''),
-    assembly: _div({ class: 'section-value section-asm' }, ''),
+    assembly: _div({ class: 'section-value section-asm smooth-height' }, ''),
   };
   const words = (format) => () => _words({ encoded: state.encoded && !state.encoded.error ? state.encoded : null, format }).join('\n');
   const encoderCopies = [

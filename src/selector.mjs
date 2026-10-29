@@ -170,7 +170,7 @@ export function decoderTable({ onBits = () => {}, toggle = null, tools = [], cop
   _bits = Tristates({ editable: true, onChange: onBits });
   const widths = [...new Array(32).fill(24), ...TEXT_WIDTHS];
   return _table({ class: 'sliderule', id: 'decoder', style: tableWidth({ widths }) }, [
-    titleCaption({ switcher: toggle, side: 'left', tools }),
+    titleCaption({ switcher: toggle, tools }),
     columns({ widths }),
     _thead({}, [
       _tr({ class: 'label-row' }, [

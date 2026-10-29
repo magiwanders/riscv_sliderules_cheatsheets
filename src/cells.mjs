@@ -120,12 +120,11 @@ function _contributors() {
 }
 
 // Title of the sheet: RV32GC, the Encoder / Decoder pill switching sheets, the credits. The sheet's tools (PDF, Clear,
-// Share) and the contribution link sit in the corner opposite its bits. Corner contents are left out of the
-// PDF (no-print). A caption, so it spans the whole table.
-// switcher: the Encoder / Decoder pill; side: where the sheet's bits are.
-export function titleCaption({ switcher = null, side = 'left', tools = [] }) {
-  const corner = _div({ class: `title-corner ${side}` }, '');
-  const toolbox = _div({ class: `title-corner ${side === 'left' ? 'right' : 'left'} no-print` }, [_div({ class: 'title-tools' }, [
+// Share) and the contribution link sit in the top left corner of both sheets, so they stay put when switching.
+// Corner contents are left out of the PDF (no-print). A caption, so it spans the whole table.
+// switcher: the Encoder / Decoder pill.
+export function titleCaption({ switcher = null, tools = [] }) {
+  const toolbox = _div({ class: 'title-corner left no-print' }, [_div({ class: 'title-tools' }, [
     _div({ class: 'title-buttons' }, tools),
     _a({ class: 'contribute-link', href: `${REPO}#contributing`, target: '_blank', rel: 'noopener' }, 'Contribute or report an issue ↗'),
   ])]);
@@ -135,7 +134,7 @@ export function titleCaption({ switcher = null, side = 'left', tools = [] }) {
     _credits(),
     _contributors(),
   ]);
-  return _caption({ class: 'title-cell' }, [_div({ class: 'title-bar' }, side === 'left' ? [corner, title, toolbox] : [toolbox, title, corner])]);
+  return _caption({ class: 'title-cell' }, [_div({ class: 'title-bar' }, [toolbox, title, _div({ class: 'title-corner right' }, '')])]);
 }
 
 // A section title in the top header row, with optional content before / after it (values, copy buttons).

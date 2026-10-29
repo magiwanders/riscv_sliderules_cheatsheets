@@ -20,7 +20,7 @@ extension, has its own checklist below.
 | `index.html`, `src/dev.mjs` | Development entry (`npm run dev`): mounts the sheets straight from `src/`. |
 | `docs/` | README screenshots: retake them when the UI changes visibly. |
 | `test/` | `node --test` suites, shared test cases, the GNU as vector generator and its output. |
-| `dist/` | Build output, **served live** as sliderules.magiwanders.com. Only `npm run build` writes it. |
+| `dist/` | Build output (git-ignored), **served live** as sliderules.magiwanders.com. Only `npm run build` writes it. |
 
 ## Conventions
 
@@ -119,4 +119,4 @@ npm run dev        # look at both sheets: http://localhost:5173
   relocations in `RELOCATED`. Commit the regenerated `test/vectors/gnu-as.json` with the change.
 - In the browser: pick the new instructions in the encoder (each operand selector, extreme immediates), paste their
   words into the decoder, and check the colours and the decoder's grouping.
-- Do not commit a rebuilt `dist/` unless asked: building deploys.
+- `dist/` is git-ignored; building it deploys the live site, so only run `npm run build` when asked.

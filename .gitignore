@@ -26,3 +26,6 @@ dist-ssr
 *.sw?
 .vscode
 *.code-workspace
+dist/*
+# Build output (npm run build): served from disk, not tracked
+dist

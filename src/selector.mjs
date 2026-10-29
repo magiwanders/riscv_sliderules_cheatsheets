@@ -163,11 +163,12 @@ export function selectedWord({ constraints = [] }) {
 }
 
 // io: what goes next to the bit switches (the decoded result); toggle: the button to the encoder.
-export function decoderTable({ onBits = () => {}, toggle = null, io = null }) {
+// tools: PDF / Clear / Share in the title corner.
+export function decoderTable({ onBits = () => {}, toggle = null, tools = [], io = null }) {
   _bits = Tristates({ editable: true, onChange: onBits });
   const widths = [...new Array(32).fill(24), ...TEXT_WIDTHS];
   return _table({ class: 'sliderule', id: 'decoder', style: tableWidth({ widths }) }, [
-    titleCaption({ name: 'Decoder', button: toggle, side: 'left' }),
+    titleCaption({ name: 'Decoder', button: toggle, side: 'left', tools }),
     columns({ widths }),
     _thead({}, [
       _tr({ class: 'label-row' }, [

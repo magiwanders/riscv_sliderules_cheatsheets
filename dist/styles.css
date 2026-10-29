@@ -73,11 +73,9 @@ table.sliderule {
   text-overflow: ellipsis;
 }
 
-/* Title, as on the paper sheets. */
-.sliderule .title-cell {
-  border: none;
+/* Title, as on the paper sheets (a caption: spans the table, not repeated on printed pages). */
+.sliderule > caption.title-cell {
   padding: 0 0 10px;
-  overflow: visible;
 }
 
 .title-bar {
@@ -92,9 +90,9 @@ table.sliderule {
 .title-credits { font-size: 10px; font-weight: normal; color: #555; margin-top: 4px; }
 .title-corner { display: flex; }
 .title-corner.right { justify-content: flex-end; text-align: right; }
-.title-info { font-size: 10px; font-weight: normal; color: #555; line-height: 1.5; }
 
-.mode-button {
+.mode-button,
+.pdf-button {
   position: sticky;
   left: 8px;
   right: 8px;
@@ -104,16 +102,21 @@ table.sliderule {
   background: var(--page);
   color: var(--text);
   font: bold 13px Arial, Helvetica, sans-serif;
+  text-decoration: none;
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
 }
 
 .mode-button:hover,
-.mode-button:focus-visible {
+.mode-button:focus-visible,
+.pdf-button:hover,
+.pdf-button:focus-visible {
   background: var(--section);
   color: #fff;
   outline: none;
 }
+
+.pdf-icon { font-size: 14px; }
 
 .sliderule .label-row th {
   background: var(--section);
@@ -122,16 +125,20 @@ table.sliderule {
   padding: 4px;
 }
 
-/* Bit numbers and switches stay in view while scrolling the table. */
+/* Bit numbers, switches and the encoder output stay in view while scrolling the table (tops set by script). */
 .sliderule .number-row > *,
-.sliderule .input-row > * {
+.sliderule .input-row > *,
+.sliderule .output-row > * {
   position: sticky;
+  top: 0;
   background: var(--page);
   z-index: 2;
 }
 
-.sliderule .number-row > * { top: 0; height: 16px; }
-.sliderule .input-row > * { top: 21px; height: 40px; box-shadow: 0 1px 0 var(--grid); }
+.sliderule .number-row > * { height: 16px; }
+#decoder .input-row > * { height: 40px; box-shadow: 0 1px 0 var(--grid); }
+#encoder .input-row > * { vertical-align: top; }
+#encoder .output-row > * { box-shadow: 0 1px 0 var(--grid); }
 
 .sliderule .bit-number {
   font-weight: normal;
@@ -178,11 +185,14 @@ table.sliderule {
 .tri-half:disabled { cursor: default; }
 .tri.tri-off { opacity: 0.25; }
 
-/* ---------- next to the switches: decoded result / instruction builder ---------- */
+/* Marked bits: the operand under the mouse in the decoded instruction. */
+.tri.tri-mark { box-shadow: 0 0 0 2px #e69138; border-color: #e69138; }
+
+/* ---------- next to the switches: decoded instruction / encoder status and output ---------- */
 
 .sliderule .io-cell {
   text-align: left;
-  padding: 2px 6px;
+  padding: 3px 6px;
   white-space: normal;
   overflow: visible;
 }
@@ -199,20 +209,9 @@ table.sliderule {
   max-width: 100%;
 }
 
-.io-build {
-  flex: 1;
-  min-width: 0;
-}
+#encoder .output-row .io-cell:first-child .io { width: auto; }
 
-/* The encoder inputs sit left of the spine: keep them within what the screen shows next to it. */
-#encoder .io {
-  max-width: min(100%, calc(100vw - 840px));
-  min-width: 360px;
-}
-
-.builder .mnemonic-select {
-  max-width: 15em;
-}
+.io-tools { display: flex; gap: 4px; flex: none; }
 
 .io-result {
   flex: 1;
@@ -222,58 +221,179 @@ table.sliderule {
   overflow: hidden;
 }
 
-.io-build .io-result { margin-top: 2px; }
 .io-result.error { color: var(--error); font-weight: bold; }
-.io-line { display: flex; gap: 12px; align-items: baseline; white-space: nowrap; color: var(--text); }
-.io-line + .io-line { margin-top: 1px; }
+.io-line { display: flex; gap: 12px; align-items: center; white-space: nowrap; color: var(--text); }
+.io-line + .io-line { margin-top: 2px; }
 .io-asm { font: bold 13px ui-monospace, Menlo, Consolas, monospace; }
 .io-hex, .io-bin { font-family: ui-monospace, Menlo, Consolas, monospace; color: #555; }
-.io-note { color: #555; font-style: italic; }
+.io-note { color: #555; font-style: italic; margin-top: 2px; }
+.io-words { display: flex; flex-direction: column; gap: 1px; }
+.io-word { display: flex; gap: 12px; align-items: baseline; white-space: nowrap; }
+.io-hex-big { font: bold 14px ui-monospace, Menlo, Consolas, monospace; }
+.io-bin { letter-spacing: 0.5px; }
+.io-placeholder { color: #777; font-size: 11px; }
 
-.builder {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px;
-  font-family: ui-monospace, Menlo, Consolas, monospace;
-}
-
-.builder select,
-.builder input {
-  font-family: inherit;
-  font-size: 12px;
-  padding: 1px 2px;
-}
-
-.builder .operands {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 2px;
-}
-
-.builder .operand-text {
-  white-space: pre;
-}
-
-.builder .imm-input {
-  width: 9em;
-}
-
-.clear-button {
+.tool-button {
   flex: none;
   padding: 3px 10px;
   border: 1px solid var(--grid);
   border-radius: 4px;
   background: var(--page);
+  color: var(--text);
   font-size: 11px;
+  white-space: nowrap;
   cursor: pointer;
 }
 
-.clear-button:hover { border-color: var(--section); }
+.tool-button:hover:not(:disabled),
+.tool-button:focus-visible { border-color: var(--section); background: #eef4f5; outline: none; }
+.tool-button:disabled { color: #aaa; cursor: default; }
+
+/* Assembly with coloured operands: mnemonic in the format hue, registers as white chips, immediates in the
+   immediate shade, fields (csr, rm, fence sets) outlined. Unknown operands (bits not set yet) are dashed. */
+.asm-line { font: bold 14px ui-monospace, Menlo, Consolas, monospace; white-space: pre; }
+.asm-token { padding: 1px 4px; border-radius: 3px; border: 1px solid transparent; }
+.asm-mnemonic { background: var(--strong); }
+.asm-reg { background: #ececec; }
+.asm-imm { background: color-mix(in srgb, var(--strong) 45%, white); }
+.asm-field { background: var(--muted); border-color: var(--grid); }
+.asm-token.unknown { background: transparent; border: 1px dashed var(--grid); color: #999; font-weight: normal; font-style: italic; }
+.asm-punct { color: #555; }
+.io-line .tool-button { padding: 1px 8px; }
+
+/* ---------- encoder selectors ---------- */
+
+.selector-cell { padding: 4px 3px !important; text-align: left !important; overflow: visible !important; white-space: normal !important; }
+
+.carousel {
+  display: flex;
+  align-items: stretch;
+  height: 24px;
+  border: 1px solid var(--grid);
+  border-radius: 4px;
+  background: var(--page);
+  font: 12px ui-monospace, Menlo, Consolas, monospace;
+  min-width: 0;
+}
+
+.carousel:hover, .carousel.open { border-color: var(--section); }
+.carousel:focus-within { outline: 2px solid var(--focus); outline-offset: 1px; }
+
+.carousel-step {
+  flex: none;
+  width: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #888;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.carousel-step:hover:not(:disabled) { background: #eef4f5; color: var(--text); }
+.carousel-step:disabled { color: #ddd; cursor: default; }
+
+.carousel-value {
+  flex: 1;
+  min-width: 0;
+  padding: 0 2px;
+  border: none;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.carousel-value:focus { outline: none; }
+.carousel-value[class*="fmt-"] { background: var(--light); }
+.carousel-value.pseudo { background: var(--pseudo); color: #fff; }
+.mnemonic-carousel { height: 28px; font-size: 13px; }
+
+.carousel-popup {
+  position: absolute;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  max-width: 360px;
+  border: 1px solid var(--section);
+  border-radius: 6px;
+  background: var(--page);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  font: 12px ui-monospace, Menlo, Consolas, monospace;
+  overflow: hidden;
+}
+
+.carousel-popup:focus { outline: none; }
+.carousel-filter { margin: 6px; padding: 4px 6px; border: 1px solid var(--grid); border-radius: 4px; font: inherit; }
+.carousel-list { overflow-y: auto; padding: 2px 0; }
+.carousel-group { padding: 6px 8px 2px; color: #777; font: bold 10px Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+.carousel-option { display: flex; justify-content: space-between; gap: 16px; padding: 3px 8px; cursor: pointer; white-space: nowrap; }
+.carousel-option.active { background: #e3eef0; }
+.carousel-option.selected .carousel-option-label { font-weight: bold; }
+.carousel-option.selected::before { content: '✓'; margin-left: -4px; color: var(--focus); }
+.carousel-option-hint { color: #888; }
+.carousel-option.pseudo .carousel-option-label { color: #b000b0; }
+.carousel-empty { padding: 6px 8px; color: #888; }
+
+/* Operands: one row per operand, the name on the left. */
+.operand-panel { display: flex; flex-direction: column; gap: 3px; }
+.operand-row { display: grid; grid-template-columns: 40px 1fr; align-items: center; gap: 4px; }
+.operand-name { font: bold 11px ui-monospace, Menlo, Consolas, monospace; color: #555; text-align: right; }
+.operand-none { color: #888; font-size: 11px; padding: 4px 0; }
+.imm-control { display: grid; grid-template-columns: 1fr 86px; grid-template-rows: auto auto; gap: 1px 4px; align-items: center; }
+.imm-slider { grid-column: 1; width: 100%; margin: 0; accent-color: var(--focus); }
+.imm-field { grid-column: 2; width: 100%; box-sizing: border-box; padding: 2px 4px; border: 1px solid var(--grid); border-radius: 4px; font: 12px ui-monospace, Menlo, Consolas, monospace; }
+.imm-field:focus { outline: 2px solid var(--focus); outline-offset: 0; }
+.imm-field.invalid { border-color: var(--error); background: #fff0f0; }
+.imm-readout { grid-column: 1 / 3; font: 10px ui-monospace, Menlo, Consolas, monospace; color: #777; white-space: normal; }
+.imm-readout.error { color: var(--error); }
+
+/* Collapsible columns: a narrow strip with the title written vertically, click to expand. */
+.text-head.collapsible { cursor: pointer; user-select: none; vertical-align: top; }
+.text-head.collapsible:hover { background: #eef4f5; }
+.text-head.collapsible:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.collapse-icon::before { content: '«'; color: var(--focus); margin-right: 4px; }
+.sliderule.collapsed-description .text-head.description,
+.sliderule.collapsed-explanation .text-head.explanation { padding: 4px 0; }
+.sliderule.collapsed-description .text-head.description .collapse-icon::before,
+.sliderule.collapsed-explanation .text-head.explanation .collapse-icon::before { content: '»'; margin: 0 0 4px; }
+.sliderule.collapsed-description .text-head.description > span,
+.sliderule.collapsed-explanation .text-head.explanation > span { display: block; writing-mode: vertical-rl; margin: 0 auto; }
+.sliderule.collapsed-description td.description,
+.sliderule.collapsed-explanation td.explanation { font-size: 0; padding: 0; }
+
+/* The chosen instruction: placeholders show the selected values. */
+.text.operands.chosen { font-weight: bold; }
+.instruction-row.chosen .bit.field-reg { font-weight: bold; }
 
 @media (prefers-reduced-motion: reduce) {
-  .tri-half, .mode-button { transition: none; }
+  .tri-half, .mode-button, .pdf-button { transition: none; }
+}
+
+/* ---------- paper (?print renders the PDF): both sheets, no controls ---------- */
+
+.stage.print > .view { grid-area: auto; }
+.stage.print > .view:not(.active) { visibility: visible; height: auto; overflow: visible; }
+.stage.print { gap: 0; }
+.stage.print > .view + .view { break-before: page; }
+.stage.print .input-row,
+.stage.print .output-row,
+.stage.print .title-corner > *,
+.stage.print .collapse-icon { display: none; }
+.stage.print :is(.number-row, .input-row, .output-row) > * { position: static; }
+
+@page { size: A3 landscape; margin: 8mm; }
+
+@media print {
+  body { margin: 0; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
 
 /* Format hues: same palette as the A3 sheet. R4 does not appear on paper: it gets its own tan. */

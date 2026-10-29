@@ -1,20 +1,23 @@
 import { formats } from './isa/rv32gc.mjs';
 import { decodeWord, encodeEntry, unusedOpcode, encodable, assemblyParts, fieldMask, partialDecode } from './isa/codec.mjs';
 import { decoderTable, decoderRows, readConstraints, writeBits, selectedWord, dimUpperHalf, pasteBits, highlightBits } from './selector.mjs';
-import { encoderTable, encoderRows, showEncodedBits, expandAllColumns } from './encoder.mjs';
+import { encoderTable, encoderRows, showEncodedBits, expandedColumns, setExpandedColumns } from './encoder.mjs';
 import { OperandPanel } from './builders.mjs';
 import { Carousel } from './carousel.mjs';
+import { downloadPdf } from './pdf.mjs';
 import { hex, columns, tableWidth } from './cells.mjs';
 
-// The sliderule app: the b2a Decoder (bits on the left) or the a2b Encoder (bits on the right), one table at a time.
-// Switching fades out everything but the 32 bit "spine", slides the spine to the other side, then fades the new table in.
-// With ?print in the URL both sheets are laid out for paper (used to render the PDF).
+// The sliderule app: the Encoder (bits on the right, the default) or the Decoder (bits on the left), one at a time.
+// Switching fades out everything but the 32 bit "spine" and the title, slides them to the other side, then fades
+// the new table in. The URL hash always holds the whole state (view, selectors, operands, bits), so a copied link
+// reproduces exactly what was on screen.
 
 const FADE_MS = 220;
 const SLIDE_MS = 560;
 const COPIED_MS = 1200;
 const EXTENSION_ORDER = ['I', 'M', 'A', 'F', 'D', 'Zicsr', 'Zifencei', 'C', 'C + F', 'C + D', 'PSEUDO'];
-const state = { mode: 'decoder', ext: '*', type: '*', entry: null, encoded: null, operands: null, switching: false };
+const URL_KEYS = ['ext', 'type', 'm', 'open', 'bits'];
+const state = { mode: 'encoder', ext: '*', type: '*', entry: null, encoded: null, operands: null, decoded: null, switching: false };
 let _elements = null;
 
 // ---------------------------------------------------------------- assembly with coloured operands
@@ -55,19 +58,88 @@ function _button({ label = '', title = '', classes = 'tool-button', onClick = ()
   return button;
 }
 
-// Copies text and briefly confirms on the button.
-function _copyButton({ label = 'Copy', title = '', text = () => '' }) {
-  const button = _button({ label, title });
+// A button that briefly confirms what it did (Copied ✓) before showing its label again.
+function _confirmingButton({ label = '', title = '', classes = 'tool-button', done = 'Copied ✓', action = async () => {} }) {
+  const button = _button({ label, title, classes });
   button.addEventListener('click', async () => {
     try {
-      await navigator.clipboard.writeText(text());
-      button.textContent = 'Copied ✓';
+      await action();
+      button.textContent = done;
     } catch (e) {
-      button.textContent = 'Copy failed';
+      button.textContent = 'Failed';
+      button.title = `${title}\n${e.message}`;
     }
     setTimeout(() => { button.textContent = label; }, COPIED_MS);
   });
   return button;
+}
+
+function _copyButton({ label = 'Copy', title = '', classes = 'tool-button', text = () => '' }) {
+  return _confirmingButton({ label, title, classes, action: () => navigator.clipboard.writeText(text()) });
+}
+
+// ---------------------------------------------------------------- state in the URL
+
+function _stateParams() {
+  const params = new URLSearchParams();
+  if (state.ext !== '*') params.set('ext', state.ext);
+  if (state.type !== '*') params.set('type', state.type);
+  if (state.entry) {
+    params.set('m', state.entry.id);
+    for (const [key, value] of Object.entries(_elements.operands.state())) params.set(key, value);
+  }
+  if (expandedColumns().length) params.set('open', expandedColumns().join(','));
+  const bits = readConstraints().join('').replace(/-/g, 'x');
+  if (/[01]/.test(bits)) params.set('bits', bits);
+  return params;
+}
+
+function _writeUrl() {
+  if (!_elements) return;
+  const query = _stateParams().toString();
+  try {
+    history.replaceState(null, '', `#${state.mode}${query ? '?' + query : ''}`);
+  } catch (e) { /* sandboxed pages may refuse: the link then only holds the view */ }
+}
+
+function _readUrl() {
+  const [mode, query = ''] = location.hash.slice(1).split('?');
+  return { mode: mode === 'decoder' ? 'decoder' : 'encoder', params: new URLSearchParams(query) };
+}
+
+function _restore({ params = new URLSearchParams() }) {
+  if (params.get('open')) setExpandedColumns({ keys: params.get('open').split(',') });
+  if (params.get('bits')) pasteBits({ text: params.get('bits') });
+  const entry = encodable.find((e) => e.id === params.get('m')) || null;
+  if (entry) {
+    _elements.operands.restore({ values: Object.fromEntries([...params].filter(([key]) => !URL_KEYS.includes(key))) });
+    _selectEntry({ entry });
+    return;
+  }
+  if (_extOptions().some((o) => o.value === params.get('ext'))) state.ext = params.get('ext');
+  if (_typeOptions().some((o) => o.value === params.get('type'))) state.type = params.get('type');
+  _syncSelectors();
+  _elements.operands.show({ entry: null });
+}
+
+// ---------------------------------------------------------------- tools in the title corner
+
+function _pdfButton({ table = null, name = () => '' }) {
+  return _confirmingButton({ label: '⤓ PDF', classes: 'tool-button title-tool', done: 'Saved ✓',
+    title: 'Download this sheet as you see it (A3 PDF). Clear first for the whole sheet.',
+    action: async () => downloadPdf({ element: table(), fileName: name() }) });
+}
+
+function _shareButton() {
+  return _confirmingButton({ label: 'Share', classes: 'tool-button title-tool', title: 'Share this exact view (copies the link)',
+    action: async () => {
+      _writeUrl();
+      await navigator.clipboard.writeText(location.href);
+    } });
+}
+
+function _clearButton({ onClick = () => {} }) {
+  return _button({ label: 'Clear', classes: 'tool-button title-tool', title: 'Back to the whole sheet', onClick });
 }
 
 // ---------------------------------------------------------------- decoder
@@ -77,12 +149,13 @@ function _renderDecoder() {
   const word = selectedWord({ constraints });
   const decoded = word === null ? null : decodeWord({ word });
   const target = _elements.decoderResult;
+  state.decoded = null;
   dimUpperHalf({ dim: constraints[31] !== '-' && constraints[30] !== '-' && !(constraints[31] === '1' && constraints[30] === '1') });
   highlightBits({ mask: 0 });
   if (word === null) {
     const partial = partialDecode({ constraints });
     if (constraints.every((c) => c === '-')) {
-      _show({ target, content: 'Click 1 / 0 on the bits, type 0s and 1s (each one moves to the next bit), or paste a word: the instruction builds up here.' });
+      _show({ target, content: 'Click 1 / 0 on the bits, type 0s and 1s (each one moves to the next bit), or click a bit and paste a word (0x… or 0101…): the instruction builds up here.' });
     } else if (partial.inst) {
       // index 0 is bit 31: the instruction's own bits are the last `width` entries
       const missing = constraints.slice(32 - partial.inst.width).filter((c) => c === '-').length;
@@ -104,10 +177,10 @@ function _renderDecoder() {
     _show({ target, content: [_div({ class: 'io-line' }, [_b({ class: 'io-asm' }, decoded.assembly), _span({ class: 'io-hex' }, hex({ word, width: decoded.inst.width }))])] });
   } else {
     const { inst, fields } = decoded;
+    state.decoded = decoded;
     const lines = [_div({ class: 'io-line' }, [
       _assemblyLine({ inst, fields, onHover: highlightBits }),
       _span({ class: 'io-hex' }, hex({ word: decoded.word, width: inst.width })),
-      _copyButton({ label: 'Copy', title: 'Copy the assembly', text: () => decoded.assembly }),
     ])];
     if (inst.immName) {
       const v = fields.imm;
@@ -116,22 +189,12 @@ function _renderDecoder() {
     if (decoded.note) lines.push(_div({ class: 'io-note' }, decoded.note));
     _show({ target, content: lines });
   }
+  _elements.decoderCopy.disabled = !state.decoded;
   const onPattern = ({ inst }) => {
     writeBits({ value: inst.match, mask: inst.mask, width: inst.width });
     refresh();
   };
   _elements.decoder.querySelector('tbody').replaceChildren(...decoderRows({ constraints, decoded, onPattern }));
-}
-
-async function _pasteFromClipboard() {
-  let text = '';
-  try {
-    text = await navigator.clipboard.readText();
-  } catch (e) {
-    _show({ target: _elements.decoderResult, error: true, content: 'The browser did not allow reading the clipboard: click a bit and press Ctrl+V instead.' });
-    return;
-  }
-  if (!pasteBits({ text })) _show({ target: _elements.decoderResult, error: true, content: `"${text.trim().slice(0, 40)}" is not a hex word (0x…) or a bit pattern.` });
 }
 
 // ---------------------------------------------------------------- encoder selectors
@@ -187,7 +250,7 @@ function _onFilter() {
     return;
   }
   _syncSelectors();
-  _renderEncoder();
+  refresh();
 }
 
 function _onOperands({ entry = null, operands = null, ordering = '' }) {
@@ -204,26 +267,20 @@ function _onOperands({ entry = null, operands = null, ordering = '' }) {
   refresh();
 }
 
-function _encodedText({ format = 'hex' }) {
-  const encoded = state.encoded && !state.encoded.error ? state.encoded : null;
-  if (!encoded) return '';
-  return encoded.words.map(({ word, inst }) => (format === 'hex' ? hex({ word, width: inst.width }) : (word >>> 0).toString(2).padStart(inst.width, '0'))).join('\n');
+function _words({ encoded = null, format = 'hex' }) {
+  return encoded ? encoded.words.map(({ word, inst }) => (format === 'hex' ? hex({ word, width: inst.width }) : (word >>> 0).toString(2).padStart(inst.width, '0'))) : [];
 }
 
 function _renderEncoder() {
   const encoded = state.encoded && !state.encoded.error ? state.encoded : null;
-  const { encoderStatus, encoderWords, copyButtons } = _elements;
-  if (state.encoded && state.encoded.error) _show({ target: encoderStatus, content: state.encoded.error, error: true });
-  else if (encoded) {
-    _show({ target: encoderStatus, content: encoded.words.map(({ inst, fields }) => _div({ class: 'io-line' }, [_assemblyLine({ inst, fields })])) });
-  } else {
-    const count = _filtered().length;
-    _show({ target: encoderStatus, content: `${count} instruction${count === 1 ? '' : 's'}: scroll the selectors (or click to pick from a list), or click a mnemonic below.` });
-  }
-  encoderWords.replaceChildren(...(encoded
-    ? encoded.words.map(({ word, inst }) => _span({ class: 'io-word' }, [_b({ class: 'io-hex-big' }, hex({ word, width: inst.width })), _span({ class: 'io-bin' }, (word >>> 0).toString(2).padStart(inst.width, '0'))]))
-    : [_span({ class: 'io-placeholder' }, 'The encoding appears here once an instruction is chosen.')]));
-  copyButtons.forEach((button) => { button.disabled = !encoded; });
+  const { encoderLabels: labels } = _elements;
+  const count = _filtered().length;
+  labels.count.textContent = state.entry ? '' : `${count} instruction${count === 1 ? '' : 's'}`;
+  if (state.encoded && state.encoded.error) _show({ target: labels.assembly, content: state.encoded.error, error: true });
+  else _show({ target: labels.assembly, content: encoded ? encoded.words.map(({ inst, fields }) => _div({}, [_assemblyLine({ inst, fields })])) : '' });
+  labels.binary.replaceChildren(..._words({ encoded, format: 'bin' }).map((w) => _div({}, w)));
+  labels.hex.replaceChildren(..._words({ encoded, format: 'hex' }).map((w) => _div({}, w)));
+  _elements.encoderCopies.forEach((button) => { button.disabled = !encoded; });
   showEncodedBits({ entry: state.entry, encoded });
   _elements.encoder.querySelector('tbody').replaceChildren(...encoderRows({
     entries: _filtered(), entry: state.entry, encoded, operands: encoded ? state.operands : null, onPick: _selectEntry,
@@ -231,8 +288,13 @@ function _renderEncoder() {
 }
 
 export function refresh() {
-  if (state.mode === 'encoder' || state.print) _renderEncoder();
-  if (state.mode === 'decoder' || state.print) _renderDecoder();
+  if (!_elements) return;
+  if (state.mode === 'encoder') _renderEncoder();
+  else _renderDecoder();
+  // Clear is only enabled when there is something to clear.
+  _elements.encoderClear.disabled = state.ext === '*' && state.type === '*' && !state.entry;
+  _elements.decoderClear.disabled = readConstraints().every((c) => c === '-');
+  _writeUrl();
 }
 
 // ---------------------------------------------------------------- switching
@@ -248,6 +310,24 @@ function _ghostSpine({ table = null }) {
   ghost.style.left = `${target.left - own.left}px`;
   ghost.style.top = `${target.top - own.top}px`;
   return ghost;
+}
+
+// A copy of the title laid over the table's own; it slides to where the other table's title is, renamed.
+function _ghostTitle({ table = null }) {
+  const title = table.querySelector('.title-main');
+  const ghost = title.cloneNode(true);
+  ghost.classList.add('title-ghost');
+  ghost.setAttribute('aria-hidden', 'true');
+  const box = title.getBoundingClientRect();
+  const stage = _elements.stage.getBoundingClientRect();
+  Object.assign(ghost.style, { left: `${box.left - stage.left}px`, top: `${box.top - stage.top}px`, width: `${box.width}px` });
+  _elements.stage.append(ghost);
+  return ghost;
+}
+
+function _centre({ element = null }) {
+  const box = element.getBoundingClientRect();
+  return box.left + box.width / 2;
 }
 
 function _animate({ element = null, keyframes = [], duration = FADE_MS, easing = 'ease-in-out' }) {
@@ -269,13 +349,13 @@ function _scrollForSpine({ table = null }) {
   return window.scrollX;
 }
 
-function _activate({ mode = 'decoder' }) {
+function _activate({ mode = 'encoder' }) {
   _elements.decoder.parentElement.classList.toggle('active', mode === 'decoder');
   _elements.encoder.parentElement.classList.toggle('active', mode === 'encoder');
 }
 
-// Fade the table out but keep its spine (as a ghost copy), slide the spine across, fade the other table in.
-async function _switchTo({ mode = 'decoder' }) {
+// Fade the table out but keep its spine and title (as ghost copies), slide them across, fade the other table in.
+async function _switchTo({ mode = 'encoder' }) {
   if (mode === state.mode || state.switching) return;
   state.switching = true;
   const from = state.mode === 'encoder' ? _elements.encoder : _elements.decoder;
@@ -286,21 +366,28 @@ async function _switchTo({ mode = 'decoder' }) {
     _activate({ mode });
   } else {
     const ghost = _ghostSpine({ table: from });
+    const title = _ghostTitle({ table: from });
     await _animate({ element: from, keyframes: [{ opacity: 1 }, { opacity: 0 }] });
     const delta = _spineOffset({ table: to }) - _spineOffset({ table: from });
+    const titleDelta = _centre({ element: to.querySelector('.title-main') }) - _centre({ element: from.querySelector('.title-main') });
+    title.querySelector('.title-name').textContent = to.querySelector('.title-name').textContent;
     window.scrollTo({ left: _scrollForSpine({ table: to }), behavior: 'smooth' });
-    await _animate({ element: ghost, keyframes: [{ transform: 'translateX(0)' }, { transform: `translateX(${delta}px)` }],
-      duration: SLIDE_MS, easing: 'cubic-bezier(0.65, 0, 0.35, 1)' });
+    const slide = { duration: SLIDE_MS, easing: 'cubic-bezier(0.65, 0, 0.35, 1)' };
+    await Promise.all([
+      _animate({ element: ghost, keyframes: [{ transform: 'translateX(0)' }, { transform: `translateX(${delta}px)` }], ...slide }),
+      _animate({ element: title, keyframes: [{ transform: 'translateX(0)' }, { transform: `translateX(${titleDelta}px)` }], ...slide }),
+    ]);
     _activate({ mode });
     from.getAnimations().forEach((a) => a.cancel());
     await Promise.all([
       _animate({ element: to, keyframes: [{ opacity: 0 }, { opacity: 1 }] }),
       _animate({ element: ghost, keyframes: [{ opacity: 1 }, { opacity: 0 }] }),
+      _animate({ element: title, keyframes: [{ opacity: 1 }, { opacity: 0 }] }),
     ]);
     to.getAnimations().forEach((a) => a.cancel());
     ghost.remove();
+    title.remove();
   }
-  try { history.replaceState(null, '', `#${mode}`); } catch (e) { /* the hash only remembers the view */ }
   window.scrollTo({ left: _scrollForSpine({ table: to }) });
   state.switching = false;
 }
@@ -309,9 +396,9 @@ function _modeButton({ mode = 'encoder', label = '' }) {
   return _button({ classes: 'mode-button', title: `Switch to the ${label}`, label: mode === 'encoder' ? `◀ ${label}` : `${label} ▶`, onClick: () => _switchTo({ mode }) });
 }
 
-// The bit numbers, switches and (encoder) output rows stay on screen while scrolling: each sticks below the previous.
+// The section titles, bit numbers and switches stay on screen while scrolling: each row sticks below the previous.
 function _stickHeaderRows({ table = null }) {
-  const rows = ['.number-row', '.input-row', '.output-row'].map((r) => table.querySelector(`thead > ${r}`)).filter(Boolean);
+  const rows = ['.label-row', '.number-row', '.input-row'].map((r) => table.querySelector(`thead > ${r}`)).filter(Boolean);
   const place = () => {
     let top = 0;
     for (const row of rows) {
@@ -335,41 +422,56 @@ function _encoderControls() {
   return { ext, type, mnemonic, operands };
 }
 
+function _fileName({ mode = 'encoder' }) {
+  if (mode === 'encoder') return `RV32GC-Encoder${state.entry ? '-' + state.entry.name : ''}.pdf`;
+  return `RV32GC-Decoder${state.decoded ? '-' + state.decoded.inst.name : ''}.pdf`;
+}
+
 export function Sliderule() {
-  const print = new URLSearchParams(location.search).has('print');
   const decoderResult = _div({ class: 'io-result' }, '');
-  const decoder = decoderTable({ onBits: refresh, toggle: _modeButton({ mode: 'encoder', label: 'a2b · Encoder' }),
-    io: _div({ class: 'io' }, [
-      decoderResult,
-      _div({ class: 'io-tools' }, [
-        _button({ label: 'Paste', title: 'Fill the bits from the clipboard (a hex word or a bit pattern)', onClick: _pasteFromClipboard }),
-        _button({ label: 'Clear', title: 'Set every bit back to x', onClick: () => { writeBits({ value: 0, mask: 0 }); refresh(); } }),
-      ]),
-    ]) });
+  const decoderCopy = _copyButton({ label: 'Copy', title: 'Copy the assembly (once the instruction is complete)', text: () => state.decoded.assembly });
+  const decoderClear = _clearButton({ onClick: () => { writeBits({ value: 0, mask: 0 }); refresh(); } });
+  const decoder = decoderTable({ onBits: refresh, toggle: _modeButton({ mode: 'encoder', label: 'Encoder' }),
+    tools: [_pdfButton({ table: () => decoder, name: () => _fileName({ mode: 'decoder' }) }), decoderClear, _shareButton()],
+    io: _div({ class: 'io' }, [decoderResult, _div({ class: 'io-tools' }, [decoderCopy])]) });
+
   const selectors = _encoderControls();
-  const encoderStatus = _div({ class: 'io-result' }, '');
-  const encoderWords = _div({ class: 'io-words' }, '');
-  const copyButtons = [
-    _copyButton({ label: 'Copy hex', title: 'Copy the encoding as hex (one word per line)', text: () => _encodedText({ format: 'hex' }) }),
-    _copyButton({ label: 'Copy bin', title: 'Copy the encoding as binary (one word per line)', text: () => _encodedText({ format: 'bin' }) }),
+  const encoderLabels = {
+    count: _span({ class: 'section-count' }, ''),
+    assembly: _div({ class: 'section-value section-asm' }, ''),
+    binary: _div({ class: 'section-value section-bin' }, ''),
+    hex: _div({ class: 'section-value section-hex' }, ''),
+  };
+  const words = (format) => () => _words({ encoded: state.encoded && !state.encoded.error ? state.encoded : null, format }).join('\n');
+  const encoderCopies = [
+    _copyButton({ label: 'Copy', title: 'Copy the assembly', classes: 'tool-button on-section', text: () => state.encoded.words.map((w) => w.assembly).join('\n') }),
+    _copyButton({ label: 'Copy bin', title: 'Copy the encoding as binary (one word per line)', classes: 'tool-button on-section', text: words('bin') }),
+    _copyButton({ label: 'Copy hex', title: 'Copy the encoding as hex (one word per line)', classes: 'tool-button on-section', text: words('hex') }),
   ];
+  const encoderClear = _clearButton({ onClick: () => { state.ext = '*'; state.type = '*'; _selectEntry({ entry: null }); } });
   const encoder = encoderTable({
-    toggle: _modeButton({ mode: 'decoder', label: 'b2a · Decoder' }),
-    controls: { ext: selectors.ext, type: selectors.type, mnemonic: selectors.mnemonic, operands: selectors.operands },
-    status: _div({ class: 'io' }, [encoderStatus, _div({ class: 'io-tools' }, [
-      _button({ label: 'Clear', title: 'Back to every instruction', onClick: () => { state.ext = '*'; state.type = '*'; _selectEntry({ entry: null }); } }),
-    ])]),
-    output: _div({ class: 'io io-output' }, [encoderWords, _div({ class: 'io-tools' }, copyButtons)]),
+    toggle: _modeButton({ mode: 'decoder', label: 'Decoder' }),
+    tools: [_pdfButton({ table: () => encoder, name: () => _fileName({ mode: 'encoder' }) }), encoderClear, _shareButton()],
+    controls: selectors,
+    labels: {
+      meaning: encoderLabels.count,
+      assembly: _div({ class: 'section-group' }, [encoderLabels.assembly, encoderCopies[0]]),
+      binary: _div({ class: 'section-group' }, [encoderCopies[1], encoderLabels.binary]),
+      hex: _div({ class: 'section-group' }, [encoderLabels.hex, encoderCopies[2]]),
+    },
+    onLayout: _writeUrl,
   });
-  const stage = _div({ id: 'sliderule', class: 'stage' + (print ? ' print' : '') }, [_div({ class: 'view' }, [decoder]), _div({ class: 'view' }, [encoder])]);
-  _elements = { decoder, encoder, decoderResult, encoderStatus, encoderWords, copyButtons, selectors, operands: selectors.operands, stage };
-  state.print = print;
-  state.mode = location.hash === '#encoder' ? 'encoder' : 'decoder';
-  _activate({ mode: state.mode });
-  if (print) expandAllColumns({ expand: true });
-  // Both tables are filled once; each only changes while it is shown, so the hidden one is always up to date.
-  _renderDecoder();
-  selectors.operands.show({ entry: null });
+
+  const stage = _div({ id: 'sliderule', class: 'stage' }, [_div({ class: 'view' }, [decoder]), _div({ class: 'view' }, [encoder])]);
+  _elements = { decoder, encoder, decoderResult, decoderCopy, decoderClear, encoderLabels, encoderCopies, encoderClear, selectors, operands: selectors.operands, stage };
+  const { mode, params } = _readUrl();
+  state.mode = mode;
+  _activate({ mode });
+  _restore({ params });
+  // Each table only re-renders while shown: fill the hidden one once so it is ready for the switch.
+  if (mode === 'encoder') _renderDecoder();
+  else _renderEncoder();
+  refresh();
   requestAnimationFrame(() => [decoder, encoder].forEach((table) => _stickHeaderRows({ table })));
   return stage;
 }

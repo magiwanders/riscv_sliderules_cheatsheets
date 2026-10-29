@@ -12,12 +12,6 @@
   --error: #c00000;
 }
 
-body {
-  background: var(--page);
-  color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 16px;
-}
 
 :root {
   --spine-on: #1f1f1f;
@@ -73,7 +67,7 @@ table.sliderule {
   text-overflow: ellipsis;
 }
 
-/* Title, as on the paper sheets (a caption: spans the table, not repeated on printed pages). */
+/* Title, as on the paper sheets (a caption: it spans the whole table). */
 .sliderule > caption.title-cell {
   padding: 0 0 10px;
 }
@@ -87,12 +81,21 @@ table.sliderule {
 .title-main { text-align: center; }
 .title-isa { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
 .title-name { font-size: 15px; font-weight: bold; margin-top: 2px; }
-.title-credits { font-size: 10px; font-weight: normal; color: #555; margin-top: 4px; }
+.title-credits { display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 10px; font-weight: normal; color: #555; margin-top: 4px; }
+.title-credits a { color: inherit; }
+.title-credits a:hover { color: var(--focus); }
+.credit-icon { display: inline-flex; color: #333; }
+.credit-icon:hover { color: var(--focus); }
+.title-tools { position: sticky; left: 8px; right: 8px; display: flex; flex-direction: column; gap: 4px; }
+.title-corner.right .title-tools { align-items: flex-end; }
+.title-buttons { display: flex; gap: 4px; }
+.tool-button.title-tool { padding: 6px 12px; font-size: 12px; font-weight: bold; }
+.contribute-link { font-size: 10px; color: var(--focus); }
+.title-ghost { position: absolute; z-index: 3; pointer-events: none; }
 .title-corner { display: flex; }
 .title-corner.right { justify-content: flex-end; text-align: right; }
 
-.mode-button,
-.pdf-button {
+.mode-button {
   position: sticky;
   left: 8px;
   right: 8px;
@@ -108,15 +111,12 @@ table.sliderule {
 }
 
 .mode-button:hover,
-.mode-button:focus-visible,
-.pdf-button:hover,
-.pdf-button:focus-visible {
+.mode-button:focus-visible {
   background: var(--section);
   color: #fff;
   outline: none;
 }
 
-.pdf-icon { font-size: 14px; }
 
 .sliderule .label-row th {
   background: var(--section);
@@ -126,9 +126,9 @@ table.sliderule {
 }
 
 /* Bit numbers, switches and the encoder output stay in view while scrolling the table (tops set by script). */
+.sliderule .label-row > *,
 .sliderule .number-row > *,
-.sliderule .input-row > *,
-.sliderule .output-row > * {
+.sliderule .input-row > * {
   position: sticky;
   top: 0;
   background: var(--page);
@@ -136,9 +136,9 @@ table.sliderule {
 }
 
 .sliderule .number-row > * { height: 16px; }
-#decoder .input-row > * { height: 40px; box-shadow: 0 1px 0 var(--grid); }
-#encoder .input-row > * { vertical-align: top; }
-#encoder .output-row > * { box-shadow: 0 1px 0 var(--grid); }
+.sliderule .label-row > * { background: var(--section); }
+/* The switch row is exactly as high as the switches: every selector next to them fits that height. */
+.sliderule .input-row > * { height: 40px; box-shadow: 0 1px 0 var(--grid); }
 
 .sliderule .bit-number {
   font-weight: normal;
@@ -209,7 +209,6 @@ table.sliderule {
   max-width: 100%;
 }
 
-#encoder .output-row .io-cell:first-child .io { width: auto; }
 
 .io-tools { display: flex; gap: 4px; flex: none; }
 
@@ -227,11 +226,7 @@ table.sliderule {
 .io-asm { font: bold 13px ui-monospace, Menlo, Consolas, monospace; }
 .io-hex, .io-bin { font-family: ui-monospace, Menlo, Consolas, monospace; color: #555; }
 .io-note { color: #555; font-style: italic; margin-top: 2px; }
-.io-words { display: flex; flex-direction: column; gap: 1px; }
-.io-word { display: flex; gap: 12px; align-items: baseline; white-space: nowrap; }
-.io-hex-big { font: bold 14px ui-monospace, Menlo, Consolas, monospace; }
 .io-bin { letter-spacing: 0.5px; }
-.io-placeholder { color: #777; font-size: 11px; }
 
 .tool-button {
   flex: none;
@@ -247,7 +242,7 @@ table.sliderule {
 
 .tool-button:hover:not(:disabled),
 .tool-button:focus-visible { border-color: var(--section); background: #eef4f5; outline: none; }
-.tool-button:disabled { color: #aaa; cursor: default; }
+.tool-button:disabled { color: #bbb; background: #f5f5f5; border-color: #e3e3e3; cursor: default; }
 
 /* Assembly with coloured operands: mnemonic in the format hue, registers as white chips, immediates in the
    immediate shade, fields (csr, rm, fence sets) outlined. Unknown operands (bits not set yet) are dashed. */
@@ -263,12 +258,13 @@ table.sliderule {
 
 /* ---------- encoder selectors ---------- */
 
-.selector-cell { padding: 4px 3px !important; text-align: left !important; overflow: visible !important; white-space: normal !important; }
+.sliderule .selector-cell { padding: 1px 3px; text-align: left; overflow: visible; white-space: normal; }
 
 .carousel {
   display: flex;
   align-items: stretch;
-  height: 24px;
+  height: 38px;
+  box-sizing: border-box;
   border: 1px solid var(--grid);
   border-radius: 4px;
   background: var(--page);
@@ -314,7 +310,9 @@ table.sliderule {
 .carousel-value:focus { outline: none; }
 .carousel-value[class*="fmt-"] { background: var(--light); }
 .carousel-value.pseudo { background: var(--pseudo); color: #fff; }
-.mnemonic-carousel { height: 28px; font-size: 13px; }
+.mnemonic-carousel { font-size: 13px; }
+.operand-bottom .carousel { height: 19px; font-size: 11px; }
+.operand-bottom .carousel-step { width: 12px; font-size: 12px; }
 
 .carousel-popup {
   position: absolute;
@@ -343,17 +341,30 @@ table.sliderule {
 .carousel-empty { padding: 6px 8px; color: #888; }
 
 /* Operands: one row per operand, the name on the left. */
-.operand-panel { display: flex; flex-direction: column; gap: 3px; }
-.operand-row { display: grid; grid-template-columns: 40px 1fr; align-items: center; gap: 4px; }
-.operand-name { font: bold 11px ui-monospace, Menlo, Consolas, monospace; color: #555; text-align: right; }
-.operand-none { color: #888; font-size: 11px; padding: 4px 0; }
-.imm-control { display: grid; grid-template-columns: 1fr 86px; grid-template-rows: auto auto; gap: 1px 4px; align-items: center; }
-.imm-slider { grid-column: 1; width: 100%; margin: 0; accent-color: var(--focus); }
-.imm-field { grid-column: 2; width: 100%; box-sizing: border-box; padding: 2px 4px; border: 1px solid var(--grid); border-radius: 4px; font: 12px ui-monospace, Menlo, Consolas, monospace; }
+.operand-panel { display: grid; gap: 3px; height: 38px; }
+.operand-col { display: grid; grid-template-rows: 1fr 19px; min-width: 0; }
+.operand-top { display: flex; align-items: center; gap: 3px; min-width: 0; }
+.operand-name { font: bold 10px ui-monospace, Menlo, Consolas, monospace; color: #555; }
+.operand-none { color: #888; font-size: 11px; align-self: center; }
+.imm-slider { flex: 1; min-width: 0; height: 12px; margin: 0; accent-color: var(--focus); }
+.imm-field { width: 100%; height: 19px; box-sizing: border-box; padding: 0 4px; border: 1px solid var(--grid); border-radius: 4px; font: 11px ui-monospace, Menlo, Consolas, monospace; }
 .imm-field:focus { outline: 2px solid var(--focus); outline-offset: 0; }
 .imm-field.invalid { border-color: var(--error); background: #fff0f0; }
-.imm-readout { grid-column: 1 / 3; font: 10px ui-monospace, Menlo, Consolas, monospace; color: #777; white-space: normal; }
-.imm-readout.error { color: var(--error); }
+
+/* Values next to the section titles: assembly by "Assembly", binary and hex either side of "Bitwise Encoding". */
+.section-title { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; }
+.section-side { display: flex; min-width: 0; }
+.section-side.before { justify-content: flex-start; }
+.section-side.after { justify-content: flex-end; }
+.section-group { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.section-value { font: bold 11px ui-monospace, Menlo, Consolas, monospace; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.section-bin { font-size: 10px; letter-spacing: 0.3px; }
+.section-asm .asm-line { font-size: 11px; color: var(--text); }
+.section-asm.error { color: #ffe0e0; white-space: normal; }
+.section-count { font-weight: normal; font-size: 11px; opacity: 0.9; }
+.tool-button.on-section { padding: 1px 6px; border-color: rgba(255, 255, 255, 0.7); background: transparent; color: #fff; font-size: 10px; }
+.tool-button.on-section:hover:not(:disabled) { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.tool-button.on-section:disabled { color: rgba(255, 255, 255, 0.45); border-color: rgba(255, 255, 255, 0.35); }
 
 /* Collapsible columns: a narrow strip with the title written vertically, click to expand. */
 .text-head.collapsible { cursor: pointer; user-select: none; vertical-align: top; }
@@ -361,11 +372,16 @@ table.sliderule {
 .text-head.collapsible:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
 .collapse-icon::before { content: '«'; color: var(--focus); margin-right: 4px; }
 .sliderule.collapsed-description .text-head.description,
-.sliderule.collapsed-explanation .text-head.explanation { padding: 4px 0; }
+.sliderule.collapsed-explanation .text-head.explanation { padding: 2px 0; }
 .sliderule.collapsed-description .text-head.description .collapse-icon::before,
-.sliderule.collapsed-explanation .text-head.explanation .collapse-icon::before { content: '»'; margin: 0 0 4px; }
+.sliderule.collapsed-explanation .text-head.explanation .collapse-icon::before { content: '»'; margin: 0; }
+.sliderule.collapsed-description .text-head.description .collapse-icon,
+.sliderule.collapsed-explanation .text-head.explanation .collapse-icon { position: absolute; top: 2px; left: 2px; writing-mode: horizontal-tb; font-size: 10px; }
 .sliderule.collapsed-description .text-head.description > span,
-.sliderule.collapsed-explanation .text-head.explanation > span { display: block; writing-mode: vertical-rl; margin: 0 auto; }
+.sliderule.collapsed-explanation .text-head.explanation > span { display: block; writing-mode: vertical-rl; margin: 0 auto; font-size: 9px; line-height: 1; letter-spacing: -0.45px; }
+/* The vertical title must not make the bit-number / switch rows taller than the switches. */
+.sliderule.collapsed-description .text-head.description .collapse-title,
+.sliderule.collapsed-explanation .text-head.explanation .collapse-title { max-height: 55px; overflow: hidden; margin-left: 11px !important; }
 .sliderule.collapsed-description td.description,
 .sliderule.collapsed-explanation td.explanation { font-size: 0; padding: 0; }
 
@@ -374,26 +390,7 @@ table.sliderule {
 .instruction-row.chosen .bit.field-reg { font-weight: bold; }
 
 @media (prefers-reduced-motion: reduce) {
-  .tri-half, .mode-button, .pdf-button { transition: none; }
-}
-
-/* ---------- paper (?print renders the PDF): both sheets, no controls ---------- */
-
-.stage.print > .view { grid-area: auto; }
-.stage.print > .view:not(.active) { visibility: visible; height: auto; overflow: visible; }
-.stage.print { gap: 0; }
-.stage.print > .view + .view { break-before: page; }
-.stage.print .input-row,
-.stage.print .output-row,
-.stage.print .title-corner > *,
-.stage.print .collapse-icon { display: none; }
-.stage.print :is(.number-row, .input-row, .output-row) > * { position: static; }
-
-@page { size: A3 landscape; margin: 8mm; }
-
-@media print {
-  body { margin: 0; }
-  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .tri-half, .mode-button { transition: none; }
 }
 
 /* Format hues: same palette as the A3 sheet. R4 does not appear on paper: it gets its own tan. */

@@ -1179,6 +1179,7 @@
     {
       "group": "c.cb-alu",
       "name": "c.srli",
+      "nonZeroImm": true,
       "enc": "100 0 00 rd'/rs1' shamt[4:0] 01",
       "asm": "rd', imm",
       "expands": "srli rd', rd', shamt",
@@ -1193,6 +1194,7 @@
     {
       "group": "c.cb-alu",
       "name": "c.srai",
+      "nonZeroImm": true,
       "enc": "100 0 01 rd'/rs1' shamt[4:0] 01",
       "asm": "rd', imm",
       "expands": "srai rd', rd', shamt",
@@ -1367,6 +1369,7 @@
     {
       "group": "c.slli",
       "name": "c.slli",
+      "nonZeroImm": true,
       "enc": "000 0 rd/rs1!=0 shamt[4:0] 10",
       "asm": "rd, imm",
       "expands": "slli rd, rd, shamt",

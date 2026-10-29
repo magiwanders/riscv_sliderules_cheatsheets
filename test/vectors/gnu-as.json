@@ -1,0 +1,8795 @@
+{
+ "assembler": "GNU assembler (xPack GNU RISC-V Embedded GCC x86_64) 2.45",
+ "march": "rv32gc_zicsr_zifencei_zihintpause",
+ "vectors": [
+  {
+   "id": "add",
+   "operands": "a4, s1, s5",
+   "ordering": "",
+   "gnu": "add a4, s1, s5",
+   "words": [
+    "0x01548733"
+   ]
+  },
+  {
+   "id": "add",
+   "operands": "s3, tp, t2",
+   "ordering": "",
+   "gnu": "add s3, tp, t2",
+   "words": [
+    "0x007209b3"
+   ]
+  },
+  {
+   "id": "add",
+   "operands": "s5, s9, s1",
+   "ordering": "",
+   "gnu": "add s5, s9, s1",
+   "words": [
+    "0x009c8ab3"
+   ]
+  },
+  {
+   "id": "add",
+   "operands": "ra, sp, s3",
+   "ordering": "",
+   "gnu": "add ra, sp, s3",
+   "words": [
+    "0x013100b3"
+   ]
+  },
+  {
+   "id": "addi",
+   "operands": "a2, gp, -1313",
+   "ordering": "",
+   "gnu": "addi a2, gp, -1313",
+   "words": [
+    "0xadf18613"
+   ]
+  },
+  {
+   "id": "addi",
+   "operands": "a0, a3, 1723",
+   "ordering": "",
+   "gnu": "addi a0, a3, 1723",
+   "words": [
+    "0x6bb68513"
+   ]
+  },
+  {
+   "id": "addi",
+   "operands": "s2, zero, -1214",
+   "ordering": "",
+   "gnu": "addi s2, zero, -1214",
+   "words": [
+    "0xb4200913"
+   ]
+  },
+  {
+   "id": "addi",
+   "operands": "s0, s8, 1857",
+   "ordering": "",
+   "gnu": "addi s0, s8, 1857",
+   "words": [
+    "0x741c0413"
+   ]
+  },
+  {
+   "id": "addi",
+   "operands": "t5, s8, -2048",
+   "ordering": "",
+   "gnu": "addi t5, s8, -2048",
+   "words": [
+    "0x800c0f13"
+   ]
+  },
+  {
+   "id": "addi",
+   "operands": "s0, s0, 2047",
+   "ordering": "",
+   "gnu": "addi s0, s0, 2047",
+   "words": [
+    "0x7ff40413"
+   ]
+  },
+  {
+   "id": "amoadd.w",
+   "operands": "a3, s1, (s5)",
+   "ordering": "aqrl",
+   "gnu": "amoadd.w.aqrl a3, s1, (s5)",
+   "words": [
+    "0x069aa6af"
+   ]
+  },
+  {
+   "id": "amoadd.w",
+   "operands": "s1, t4, (sp)",
+   "ordering": "",
+   "gnu": "amoadd.w s1, t4, (sp)",
+   "words": [
+    "0x01d124af"
+   ]
+  },
+  {
+   "id": "amoadd.w",
+   "operands": "a0, s8, (s7)",
+   "ordering": "aq",
+   "gnu": "amoadd.w.aq a0, s8, (s7)",
+   "words": [
+    "0x058ba52f"
+   ]
+  },
+  {
+   "id": "amoadd.w",
+   "operands": "t5, s5, (s4)",
+   "ordering": "aq",
+   "gnu": "amoadd.w.aq t5, s5, (s4)",
+   "words": [
+    "0x055a2f2f"
+   ]
+  },
+  {
+   "id": "amoand.w",
+   "operands": "zero, t6, (t0)",
+   "ordering": "aqrl",
+   "gnu": "amoand.w.aqrl zero, t6, (t0)",
+   "words": [
+    "0x67f2a02f"
+   ]
+  },
+  {
+   "id": "amoand.w",
+   "operands": "s10, s0, (a5)",
+   "ordering": "",
+   "gnu": "amoand.w s10, s0, (a5)",
+   "words": [
+    "0x6087ad2f"
+   ]
+  },
+  {
+   "id": "amoand.w",
+   "operands": "t6, s3, (s11)",
+   "ordering": "aqrl",
+   "gnu": "amoand.w.aqrl t6, s3, (s11)",
+   "words": [
+    "0x673dafaf"
+   ]
+  },
+  {
+   "id": "amoand.w",
+   "operands": "s3, a4, (a6)",
+   "ordering": "aqrl",
+   "gnu": "amoand.w.aqrl s3, a4, (a6)",
+   "words": [
+    "0x66e829af"
+   ]
+  },
+  {
+   "id": "amomax.w",
+   "operands": "s8, s2, (s5)",
+   "ordering": "aqrl",
+   "gnu": "amomax.w.aqrl s8, s2, (s5)",
+   "words": [
+    "0xa72aac2f"
+   ]
+  },
+  {
+   "id": "amomax.w",
+   "operands": "a1, zero, (t0)",
+   "ordering": "",
+   "gnu": "amomax.w a1, zero, (t0)",
+   "words": [
+    "0xa002a5af"
+   ]
+  },
+  {
+   "id": "amomax.w",
+   "operands": "t5, t4, (t0)",
+   "ordering": "",
+   "gnu": "amomax.w t5, t4, (t0)",
+   "words": [
+    "0xa1d2af2f"
+   ]
+  },
+  {
+   "id": "amomax.w",
+   "operands": "a5, s2, (s1)",
+   "ordering": "aqrl",
+   "gnu": "amomax.w.aqrl a5, s2, (s1)",
+   "words": [
+    "0xa724a7af"
+   ]
+  },
+  {
+   "id": "amomaxu.w",
+   "operands": "t3, zero, (t5)",
+   "ordering": "rl",
+   "gnu": "amomaxu.w.rl t3, zero, (t5)",
+   "words": [
+    "0xe20f2e2f"
+   ]
+  },
+  {
+   "id": "amomaxu.w",
+   "operands": "t3, t2, (s3)",
+   "ordering": "rl",
+   "gnu": "amomaxu.w.rl t3, t2, (s3)",
+   "words": [
+    "0xe279ae2f"
+   ]
+  },
+  {
+   "id": "amomaxu.w",
+   "operands": "zero, t4, (s11)",
+   "ordering": "aqrl",
+   "gnu": "amomaxu.w.aqrl zero, t4, (s11)",
+   "words": [
+    "0xe7dda02f"
+   ]
+  },
+  {
+   "id": "amomaxu.w",
+   "operands": "s9, zero, (t5)",
+   "ordering": "aqrl",
+   "gnu": "amomaxu.w.aqrl s9, zero, (t5)",
+   "words": [
+    "0xe60f2caf"
+   ]
+  },
+  {
+   "id": "amomin.w",
+   "operands": "a5, a4, (zero)",
+   "ordering": "",
+   "gnu": "amomin.w a5, a4, (zero)",
+   "words": [
+    "0x80e027af"
+   ]
+  },
+  {
+   "id": "amomin.w",
+   "operands": "s10, t4, (a7)",
+   "ordering": "",
+   "gnu": "amomin.w s10, t4, (a7)",
+   "words": [
+    "0x81d8ad2f"
+   ]
+  },
+  {
+   "id": "amomin.w",
+   "operands": "gp, a5, (t6)",
+   "ordering": "aqrl",
+   "gnu": "amomin.w.aqrl gp, a5, (t6)",
+   "words": [
+    "0x86ffa1af"
+   ]
+  },
+  {
+   "id": "amomin.w",
+   "operands": "t2, a0, (s6)",
+   "ordering": "aqrl",
+   "gnu": "amomin.w.aqrl t2, a0, (s6)",
+   "words": [
+    "0x86ab23af"
+   ]
+  },
+  {
+   "id": "amominu.w",
+   "operands": "t1, s3, (t4)",
+   "ordering": "",
+   "gnu": "amominu.w t1, s3, (t4)",
+   "words": [
+    "0xc13ea32f"
+   ]
+  },
+  {
+   "id": "amominu.w",
+   "operands": "a7, tp, (s4)",
+   "ordering": "rl",
+   "gnu": "amominu.w.rl a7, tp, (s4)",
+   "words": [
+    "0xc24a28af"
+   ]
+  },
+  {
+   "id": "amominu.w",
+   "operands": "t1, t2, (a0)",
+   "ordering": "",
+   "gnu": "amominu.w t1, t2, (a0)",
+   "words": [
+    "0xc075232f"
+   ]
+  },
+  {
+   "id": "amominu.w",
+   "operands": "t3, a1, (ra)",
+   "ordering": "aq",
+   "gnu": "amominu.w.aq t3, a1, (ra)",
+   "words": [
+    "0xc4b0ae2f"
+   ]
+  },
+  {
+   "id": "amoor.w",
+   "operands": "a1, t4, (s10)",
+   "ordering": "rl",
+   "gnu": "amoor.w.rl a1, t4, (s10)",
+   "words": [
+    "0x43dd25af"
+   ]
+  },
+  {
+   "id": "amoor.w",
+   "operands": "s7, a1, (t2)",
+   "ordering": "aq",
+   "gnu": "amoor.w.aq s7, a1, (t2)",
+   "words": [
+    "0x44b3abaf"
+   ]
+  },
+  {
+   "id": "amoor.w",
+   "operands": "t2, ra, (gp)",
+   "ordering": "aqrl",
+   "gnu": "amoor.w.aqrl t2, ra, (gp)",
+   "words": [
+    "0x4611a3af"
+   ]
+  },
+  {
+   "id": "amoor.w",
+   "operands": "tp, s10, (t6)",
+   "ordering": "",
+   "gnu": "amoor.w tp, s10, (t6)",
+   "words": [
+    "0x41afa22f"
+   ]
+  },
+  {
+   "id": "amoswap.w",
+   "operands": "t0, t0, (a0)",
+   "ordering": "aqrl",
+   "gnu": "amoswap.w.aqrl t0, t0, (a0)",
+   "words": [
+    "0x0e5522af"
+   ]
+  },
+  {
+   "id": "amoswap.w",
+   "operands": "sp, s0, (ra)",
+   "ordering": "rl",
+   "gnu": "amoswap.w.rl sp, s0, (ra)",
+   "words": [
+    "0x0a80a12f"
+   ]
+  },
+  {
+   "id": "amoswap.w",
+   "operands": "s2, t6, (a1)",
+   "ordering": "rl",
+   "gnu": "amoswap.w.rl s2, t6, (a1)",
+   "words": [
+    "0x0bf5a92f"
+   ]
+  },
+  {
+   "id": "amoswap.w",
+   "operands": "s2, s5, (t3)",
+   "ordering": "rl",
+   "gnu": "amoswap.w.rl s2, s5, (t3)",
+   "words": [
+    "0x0b5e292f"
+   ]
+  },
+  {
+   "id": "amoxor.w",
+   "operands": "a2, s4, (s7)",
+   "ordering": "",
+   "gnu": "amoxor.w a2, s4, (s7)",
+   "words": [
+    "0x214ba62f"
+   ]
+  },
+  {
+   "id": "amoxor.w",
+   "operands": "a0, a3, (a3)",
+   "ordering": "",
+   "gnu": "amoxor.w a0, a3, (a3)",
+   "words": [
+    "0x20d6a52f"
+   ]
+  },
+  {
+   "id": "amoxor.w",
+   "operands": "t0, a1, (sp)",
+   "ordering": "aq",
+   "gnu": "amoxor.w.aq t0, a1, (sp)",
+   "words": [
+    "0x24b122af"
+   ]
+  },
+  {
+   "id": "amoxor.w",
+   "operands": "a4, t0, (t1)",
+   "ordering": "aq",
+   "gnu": "amoxor.w.aq a4, t0, (t1)",
+   "words": [
+    "0x2453272f"
+   ]
+  },
+  {
+   "id": "and",
+   "operands": "s5, s6, a0",
+   "ordering": "",
+   "gnu": "and s5, s6, a0",
+   "words": [
+    "0x00ab7ab3"
+   ]
+  },
+  {
+   "id": "and",
+   "operands": "gp, t1, s11",
+   "ordering": "",
+   "gnu": "and gp, t1, s11",
+   "words": [
+    "0x01b371b3"
+   ]
+  },
+  {
+   "id": "and",
+   "operands": "t4, t3, s6",
+   "ordering": "",
+   "gnu": "and t4, t3, s6",
+   "words": [
+    "0x016e7eb3"
+   ]
+  },
+  {
+   "id": "and",
+   "operands": "t0, s1, a2",
+   "ordering": "",
+   "gnu": "and t0, s1, a2",
+   "words": [
+    "0x00c4f2b3"
+   ]
+  },
+  {
+   "id": "andi",
+   "operands": "t6, a7, -780",
+   "ordering": "",
+   "gnu": "andi t6, a7, -780",
+   "words": [
+    "0xcf48ff93"
+   ]
+  },
+  {
+   "id": "andi",
+   "operands": "t5, a5, -283",
+   "ordering": "",
+   "gnu": "andi t5, a5, -283",
+   "words": [
+    "0xee57ff13"
+   ]
+  },
+  {
+   "id": "andi",
+   "operands": "a6, s9, 1057",
+   "ordering": "",
+   "gnu": "andi a6, s9, 1057",
+   "words": [
+    "0x421cf813"
+   ]
+  },
+  {
+   "id": "andi",
+   "operands": "t1, t6, -1438",
+   "ordering": "",
+   "gnu": "andi t1, t6, -1438",
+   "words": [
+    "0xa62ff313"
+   ]
+  },
+  {
+   "id": "andi",
+   "operands": "gp, a0, -2048",
+   "ordering": "",
+   "gnu": "andi gp, a0, -2048",
+   "words": [
+    "0x80057193"
+   ]
+  },
+  {
+   "id": "andi",
+   "operands": "gp, tp, 2047",
+   "ordering": "",
+   "gnu": "andi gp, tp, 2047",
+   "words": [
+    "0x7ff27193"
+   ]
+  },
+  {
+   "id": "auipc",
+   "operands": "zero, 323215",
+   "ordering": "",
+   "gnu": "auipc zero, 323215",
+   "words": [
+    "0x4ee8f017"
+   ]
+  },
+  {
+   "id": "auipc",
+   "operands": "zero, 709590",
+   "ordering": "",
+   "gnu": "auipc zero, 709590",
+   "words": [
+    "0xad3d6017"
+   ]
+  },
+  {
+   "id": "auipc",
+   "operands": "a3, 61832",
+   "ordering": "",
+   "gnu": "auipc a3, 61832",
+   "words": [
+    "0x0f188697"
+   ]
+  },
+  {
+   "id": "auipc",
+   "operands": "s2, 63362",
+   "ordering": "",
+   "gnu": "auipc s2, 63362",
+   "words": [
+    "0x0f782917"
+   ]
+  },
+  {
+   "id": "auipc",
+   "operands": "a2, 0",
+   "ordering": "",
+   "gnu": "auipc a2, 0",
+   "words": [
+    "0x00000617"
+   ]
+  },
+  {
+   "id": "auipc",
+   "operands": "sp, 1048575",
+   "ordering": "",
+   "gnu": "auipc sp, 1048575",
+   "words": [
+    "0xfffff117"
+   ]
+  },
+  {
+   "id": "beq",
+   "operands": "a3, a0, -68",
+   "ordering": "",
+   "gnu": "beq a3, a0, .-68",
+   "words": [
+    "0xfaa68ee3"
+   ]
+  },
+  {
+   "id": "beq",
+   "operands": "a7, a7, 2900",
+   "ordering": "",
+   "gnu": "beq a7, a7, .+2900",
+   "words": [
+    "0x35188ae3"
+   ]
+  },
+  {
+   "id": "beq",
+   "operands": "a2, a4, -2990",
+   "ordering": "",
+   "gnu": "beq a2, a4, .-2990",
+   "words": [
+    "0xc4e60963"
+   ]
+  },
+  {
+   "id": "beq",
+   "operands": "s7, s9, 2534",
+   "ordering": "",
+   "gnu": "beq s7, s9, .+2534",
+   "words": [
+    "0x1f9b83e3"
+   ]
+  },
+  {
+   "id": "beq",
+   "operands": "s4, a0, -4096",
+   "ordering": "",
+   "gnu": "beq s4, a0, .-4096",
+   "words": [
+    "0x80aa0063"
+   ]
+  },
+  {
+   "id": "beq",
+   "operands": "s7, s7, 4094",
+   "ordering": "",
+   "gnu": "beq s7, s7, .+4094",
+   "words": [
+    "0x7f7b8fe3"
+   ]
+  },
+  {
+   "id": "beqz#pseudo9",
+   "operands": "tp, 1706",
+   "ordering": "",
+   "gnu": "beqz tp, .+1706",
+   "words": [
+    "0x6a020563"
+   ]
+  },
+  {
+   "id": "beqz#pseudo9",
+   "operands": "s6, 30",
+   "ordering": "",
+   "gnu": "beqz s6, .+30",
+   "words": [
+    "0x000b0f63"
+   ]
+  },
+  {
+   "id": "beqz#pseudo9",
+   "operands": "gp, 3974",
+   "ordering": "",
+   "gnu": "beqz gp, .+3974",
+   "words": [
+    "0x780183e3"
+   ]
+  },
+  {
+   "id": "beqz#pseudo9",
+   "operands": "a6, 64",
+   "ordering": "",
+   "gnu": "beqz a6, .+64",
+   "words": [
+    "0x04080063"
+   ]
+  },
+  {
+   "id": "beqz#pseudo9",
+   "operands": "a6, -4096",
+   "ordering": "",
+   "gnu": "beqz a6, .-4096",
+   "words": [
+    "0x80080063"
+   ]
+  },
+  {
+   "id": "beqz#pseudo9",
+   "operands": "s2, 4094",
+   "ordering": "",
+   "gnu": "beqz s2, .+4094",
+   "words": [
+    "0x7e090fe3"
+   ]
+  },
+  {
+   "id": "bge",
+   "operands": "s6, t5, -884",
+   "ordering": "",
+   "gnu": "bge s6, t5, .-884",
+   "words": [
+    "0xc9eb56e3"
+   ]
+  },
+  {
+   "id": "bge",
+   "operands": "a2, s7, 3138",
+   "ordering": "",
+   "gnu": "bge a2, s7, .+3138",
+   "words": [
+    "0x457651e3"
+   ]
+  },
+  {
+   "id": "bge",
+   "operands": "zero, t6, 392",
+   "ordering": "",
+   "gnu": "bge zero, t6, .+392",
+   "words": [
+    "0x19f05463"
+   ]
+  },
+  {
+   "id": "bge",
+   "operands": "t0, a0, 3544",
+   "ordering": "",
+   "gnu": "bge t0, a0, .+3544",
+   "words": [
+    "0x5ca2dce3"
+   ]
+  },
+  {
+   "id": "bge",
+   "operands": "s2, s10, -4096",
+   "ordering": "",
+   "gnu": "bge s2, s10, .-4096",
+   "words": [
+    "0x81a95063"
+   ]
+  },
+  {
+   "id": "bge",
+   "operands": "t3, t5, 4094",
+   "ordering": "",
+   "gnu": "bge t3, t5, .+4094",
+   "words": [
+    "0x7fee5fe3"
+   ]
+  },
+  {
+   "id": "bgeu",
+   "operands": "t4, s0, -1226",
+   "ordering": "",
+   "gnu": "bgeu t4, s0, .-1226",
+   "words": [
+    "0xb28efbe3"
+   ]
+  },
+  {
+   "id": "bgeu",
+   "operands": "s6, tp, -1234",
+   "ordering": "",
+   "gnu": "bgeu s6, tp, .-1234",
+   "words": [
+    "0xb24b77e3"
+   ]
+  },
+  {
+   "id": "bgeu",
+   "operands": "s5, a3, 2802",
+   "ordering": "",
+   "gnu": "bgeu s5, a3, .+2802",
+   "words": [
+    "0x2edaf9e3"
+   ]
+  },
+  {
+   "id": "bgeu",
+   "operands": "a0, t0, 1482",
+   "ordering": "",
+   "gnu": "bgeu a0, t0, .+1482",
+   "words": [
+    "0x5c557563"
+   ]
+  },
+  {
+   "id": "bgeu",
+   "operands": "s11, s8, -4096",
+   "ordering": "",
+   "gnu": "bgeu s11, s8, .-4096",
+   "words": [
+    "0x818df063"
+   ]
+  },
+  {
+   "id": "bgeu",
+   "operands": "t2, a6, 4094",
+   "ordering": "",
+   "gnu": "bgeu t2, a6, .+4094",
+   "words": [
+    "0x7f03ffe3"
+   ]
+  },
+  {
+   "id": "bgez#pseudo12",
+   "operands": "ra, 4",
+   "ordering": "",
+   "gnu": "bgez ra, .+4",
+   "words": [
+    "0x0000d263"
+   ]
+  },
+  {
+   "id": "bgez#pseudo12",
+   "operands": "tp, 2552",
+   "ordering": "",
+   "gnu": "bgez tp, .+2552",
+   "words": [
+    "0x1e025ce3"
+   ]
+  },
+  {
+   "id": "bgez#pseudo12",
+   "operands": "a7, 1076",
+   "ordering": "",
+   "gnu": "bgez a7, .+1076",
+   "words": [
+    "0x4208da63"
+   ]
+  },
+  {
+   "id": "bgez#pseudo12",
+   "operands": "a6, 3700",
+   "ordering": "",
+   "gnu": "bgez a6, .+3700",
+   "words": [
+    "0x66085ae3"
+   ]
+  },
+  {
+   "id": "bgez#pseudo12",
+   "operands": "a1, -4096",
+   "ordering": "",
+   "gnu": "bgez a1, .-4096",
+   "words": [
+    "0x8005d063"
+   ]
+  },
+  {
+   "id": "bgez#pseudo12",
+   "operands": "a3, 4094",
+   "ordering": "",
+   "gnu": "bgez a3, .+4094",
+   "words": [
+    "0x7e06dfe3"
+   ]
+  },
+  {
+   "id": "bgt#pseudo15",
+   "operands": "t5, t4, 3224",
+   "ordering": "",
+   "gnu": "bgt t5, t4, .+3224",
+   "words": [
+    "0x49eecce3"
+   ]
+  },
+  {
+   "id": "bgt#pseudo15",
+   "operands": "a6, s11, 3910",
+   "ordering": "",
+   "gnu": "bgt a6, s11, .+3910",
+   "words": [
+    "0x750dc3e3"
+   ]
+  },
+  {
+   "id": "bgt#pseudo15",
+   "operands": "t5, ra, -2836",
+   "ordering": "",
+   "gnu": "bgt t5, ra, .-2836",
+   "words": [
+    "0xcfe0c663"
+   ]
+  },
+  {
+   "id": "bgt#pseudo15",
+   "operands": "a7, t2, -3192",
+   "ordering": "",
+   "gnu": "bgt a7, t2, .-3192",
+   "words": [
+    "0xb913c463"
+   ]
+  },
+  {
+   "id": "bgt#pseudo15",
+   "operands": "a3, gp, -4096",
+   "ordering": "",
+   "gnu": "bgt a3, gp, .-4096",
+   "words": [
+    "0x80d1c063"
+   ]
+  },
+  {
+   "id": "bgt#pseudo15",
+   "operands": "a7, gp, 4094",
+   "ordering": "",
+   "gnu": "bgt a7, gp, .+4094",
+   "words": [
+    "0x7f11cfe3"
+   ]
+  },
+  {
+   "id": "bgtu#pseudo17",
+   "operands": "s10, s2, -956",
+   "ordering": "",
+   "gnu": "bgtu s10, s2, .-956",
+   "words": [
+    "0xc5a962e3"
+   ]
+  },
+  {
+   "id": "bgtu#pseudo17",
+   "operands": "s2, t0, -2824",
+   "ordering": "",
+   "gnu": "bgtu s2, t0, .-2824",
+   "words": [
+    "0xcf22ec63"
+   ]
+  },
+  {
+   "id": "bgtu#pseudo17",
+   "operands": "s2, a6, 3168",
+   "ordering": "",
+   "gnu": "bgtu s2, a6, .+3168",
+   "words": [
+    "0x472860e3"
+   ]
+  },
+  {
+   "id": "bgtu#pseudo17",
+   "operands": "s10, a2, -798",
+   "ordering": "",
+   "gnu": "bgtu s10, a2, .-798",
+   "words": [
+    "0xcfa661e3"
+   ]
+  },
+  {
+   "id": "bgtu#pseudo17",
+   "operands": "t4, s0, -4096",
+   "ordering": "",
+   "gnu": "bgtu t4, s0, .-4096",
+   "words": [
+    "0x81d46063"
+   ]
+  },
+  {
+   "id": "bgtu#pseudo17",
+   "operands": "a1, a2, 4094",
+   "ordering": "",
+   "gnu": "bgtu a1, a2, .+4094",
+   "words": [
+    "0x7eb66fe3"
+   ]
+  },
+  {
+   "id": "bgtz#pseudo14",
+   "operands": "a5, -2530",
+   "ordering": "",
+   "gnu": "bgtz a5, .-2530",
+   "words": [
+    "0xe0f04f63"
+   ]
+  },
+  {
+   "id": "bgtz#pseudo14",
+   "operands": "s4, -1162",
+   "ordering": "",
+   "gnu": "bgtz s4, .-1162",
+   "words": [
+    "0xb7404be3"
+   ]
+  },
+  {
+   "id": "bgtz#pseudo14",
+   "operands": "sp, -3378",
+   "ordering": "",
+   "gnu": "bgtz sp, .-3378",
+   "words": [
+    "0xac204763"
+   ]
+  },
+  {
+   "id": "bgtz#pseudo14",
+   "operands": "a7, 84",
+   "ordering": "",
+   "gnu": "bgtz a7, .+84",
+   "words": [
+    "0x05104a63"
+   ]
+  },
+  {
+   "id": "bgtz#pseudo14",
+   "operands": "s1, -4096",
+   "ordering": "",
+   "gnu": "bgtz s1, .-4096",
+   "words": [
+    "0x80904063"
+   ]
+  },
+  {
+   "id": "bgtz#pseudo14",
+   "operands": "s0, 4094",
+   "ordering": "",
+   "gnu": "bgtz s0, .+4094",
+   "words": [
+    "0x7e804fe3"
+   ]
+  },
+  {
+   "id": "ble#pseudo16",
+   "operands": "t5, s4, 2298",
+   "ordering": "",
+   "gnu": "ble t5, s4, .+2298",
+   "words": [
+    "0x0fea5de3"
+   ]
+  },
+  {
+   "id": "ble#pseudo16",
+   "operands": "ra, s3, 1234",
+   "ordering": "",
+   "gnu": "ble ra, s3, .+1234",
+   "words": [
+    "0x4c19d963"
+   ]
+  },
+  {
+   "id": "ble#pseudo16",
+   "operands": "t0, gp, -422",
+   "ordering": "",
+   "gnu": "ble t0, gp, .-422",
+   "words": [
+    "0xe451dde3"
+   ]
+  },
+  {
+   "id": "ble#pseudo16",
+   "operands": "t3, s6, -102",
+   "ordering": "",
+   "gnu": "ble t3, s6, .-102",
+   "words": [
+    "0xf9cb5de3"
+   ]
+  },
+  {
+   "id": "ble#pseudo16",
+   "operands": "sp, s9, -4096",
+   "ordering": "",
+   "gnu": "ble sp, s9, .-4096",
+   "words": [
+    "0x802cd063"
+   ]
+  },
+  {
+   "id": "ble#pseudo16",
+   "operands": "s7, t3, 4094",
+   "ordering": "",
+   "gnu": "ble s7, t3, .+4094",
+   "words": [
+    "0x7f7e5fe3"
+   ]
+  },
+  {
+   "id": "bleu#pseudo18",
+   "operands": "s7, s10, 2024",
+   "ordering": "",
+   "gnu": "bleu s7, s10, .+2024",
+   "words": [
+    "0x7f7d7463"
+   ]
+  },
+  {
+   "id": "bleu#pseudo18",
+   "operands": "t0, t1, -2268",
+   "ordering": "",
+   "gnu": "bleu t0, t1, .-2268",
+   "words": [
+    "0xf2537263"
+   ]
+  },
+  {
+   "id": "bleu#pseudo18",
+   "operands": "tp, s5, 3438",
+   "ordering": "",
+   "gnu": "bleu tp, s5, .+3438",
+   "words": [
+    "0x564af7e3"
+   ]
+  },
+  {
+   "id": "bleu#pseudo18",
+   "operands": "s0, s3, 24",
+   "ordering": "",
+   "gnu": "bleu s0, s3, .+24",
+   "words": [
+    "0x0089fc63"
+   ]
+  },
+  {
+   "id": "bleu#pseudo18",
+   "operands": "a3, ra, -4096",
+   "ordering": "",
+   "gnu": "bleu a3, ra, .-4096",
+   "words": [
+    "0x80d0f063"
+   ]
+  },
+  {
+   "id": "bleu#pseudo18",
+   "operands": "t3, a2, 4094",
+   "ordering": "",
+   "gnu": "bleu t3, a2, .+4094",
+   "words": [
+    "0x7fc67fe3"
+   ]
+  },
+  {
+   "id": "blez#pseudo11",
+   "operands": "a2, -584",
+   "ordering": "",
+   "gnu": "blez a2, .-584",
+   "words": [
+    "0xdac05ce3"
+   ]
+  },
+  {
+   "id": "blez#pseudo11",
+   "operands": "a2, -2120",
+   "ordering": "",
+   "gnu": "blez a2, .-2120",
+   "words": [
+    "0xfac05c63"
+   ]
+  },
+  {
+   "id": "blez#pseudo11",
+   "operands": "a7, -688",
+   "ordering": "",
+   "gnu": "blez a7, .-688",
+   "words": [
+    "0xd51058e3"
+   ]
+  },
+  {
+   "id": "blez#pseudo11",
+   "operands": "s4, -2828",
+   "ordering": "",
+   "gnu": "blez s4, .-2828",
+   "words": [
+    "0xcf405a63"
+   ]
+  },
+  {
+   "id": "blez#pseudo11",
+   "operands": "a3, -4096",
+   "ordering": "",
+   "gnu": "blez a3, .-4096",
+   "words": [
+    "0x80d05063"
+   ]
+  },
+  {
+   "id": "blez#pseudo11",
+   "operands": "s10, 4094",
+   "ordering": "",
+   "gnu": "blez s10, .+4094",
+   "words": [
+    "0x7fa05fe3"
+   ]
+  },
+  {
+   "id": "blt",
+   "operands": "t5, a3, -2602",
+   "ordering": "",
+   "gnu": "blt t5, a3, .-2602",
+   "words": [
+    "0xdcdf4b63"
+   ]
+  },
+  {
+   "id": "blt",
+   "operands": "t5, t3, -1314",
+   "ordering": "",
+   "gnu": "blt t5, t3, .-1314",
+   "words": [
+    "0xadcf4fe3"
+   ]
+  },
+  {
+   "id": "blt",
+   "operands": "s4, a5, -3952",
+   "ordering": "",
+   "gnu": "blt s4, a5, .-3952",
+   "words": [
+    "0x88fa4863"
+   ]
+  },
+  {
+   "id": "blt",
+   "operands": "a3, s6, 2090",
+   "ordering": "",
+   "gnu": "blt a3, s6, .+2090",
+   "words": [
+    "0x0366c5e3"
+   ]
+  },
+  {
+   "id": "blt",
+   "operands": "s7, a0, -4096",
+   "ordering": "",
+   "gnu": "blt s7, a0, .-4096",
+   "words": [
+    "0x80abc063"
+   ]
+  },
+  {
+   "id": "blt",
+   "operands": "t6, a1, 4094",
+   "ordering": "",
+   "gnu": "blt t6, a1, .+4094",
+   "words": [
+    "0x7ebfcfe3"
+   ]
+  },
+  {
+   "id": "bltu",
+   "operands": "a1, a0, -2884",
+   "ordering": "",
+   "gnu": "bltu a1, a0, .-2884",
+   "words": [
+    "0xcaa5ee63"
+   ]
+  },
+  {
+   "id": "bltu",
+   "operands": "s2, a5, 2864",
+   "ordering": "",
+   "gnu": "bltu s2, a5, .+2864",
+   "words": [
+    "0x32f968e3"
+   ]
+  },
+  {
+   "id": "bltu",
+   "operands": "s8, s6, -1568",
+   "ordering": "",
+   "gnu": "bltu s8, s6, .-1568",
+   "words": [
+    "0x9f6c60e3"
+   ]
+  },
+  {
+   "id": "bltu",
+   "operands": "ra, a2, -686",
+   "ordering": "",
+   "gnu": "bltu ra, a2, .-686",
+   "words": [
+    "0xd4c0e9e3"
+   ]
+  },
+  {
+   "id": "bltu",
+   "operands": "a0, a6, -4096",
+   "ordering": "",
+   "gnu": "bltu a0, a6, .-4096",
+   "words": [
+    "0x81056063"
+   ]
+  },
+  {
+   "id": "bltu",
+   "operands": "s8, gp, 4094",
+   "ordering": "",
+   "gnu": "bltu s8, gp, .+4094",
+   "words": [
+    "0x7e3c6fe3"
+   ]
+  },
+  {
+   "id": "bltz#pseudo13",
+   "operands": "a5, -2020",
+   "ordering": "",
+   "gnu": "bltz a5, .-2020",
+   "words": [
+    "0x8007cee3"
+   ]
+  },
+  {
+   "id": "bltz#pseudo13",
+   "operands": "s11, -1776",
+   "ordering": "",
+   "gnu": "bltz s11, .-1776",
+   "words": [
+    "0x900dc8e3"
+   ]
+  },
+  {
+   "id": "bltz#pseudo13",
+   "operands": "a1, -3742",
+   "ordering": "",
+   "gnu": "bltz a1, .-3742",
+   "words": [
+    "0x9605c163"
+   ]
+  },
+  {
+   "id": "bltz#pseudo13",
+   "operands": "sp, -2304",
+   "ordering": "",
+   "gnu": "bltz sp, .-2304",
+   "words": [
+    "0xf0014063"
+   ]
+  },
+  {
+   "id": "bltz#pseudo13",
+   "operands": "sp, -4096",
+   "ordering": "",
+   "gnu": "bltz sp, .-4096",
+   "words": [
+    "0x80014063"
+   ]
+  },
+  {
+   "id": "bltz#pseudo13",
+   "operands": "s7, 4094",
+   "ordering": "",
+   "gnu": "bltz s7, .+4094",
+   "words": [
+    "0x7e0bcfe3"
+   ]
+  },
+  {
+   "id": "bne",
+   "operands": "s11, gp, 3638",
+   "ordering": "",
+   "gnu": "bne s11, gp, .+3638",
+   "words": [
+    "0x623d9be3"
+   ]
+  },
+  {
+   "id": "bne",
+   "operands": "t5, sp, -906",
+   "ordering": "",
+   "gnu": "bne t5, sp, .-906",
+   "words": [
+    "0xc62f1be3"
+   ]
+  },
+  {
+   "id": "bne",
+   "operands": "ra, t0, 1918",
+   "ordering": "",
+   "gnu": "bne ra, t0, .+1918",
+   "words": [
+    "0x76509f63"
+   ]
+  },
+  {
+   "id": "bne",
+   "operands": "s6, s7, -3382",
+   "ordering": "",
+   "gnu": "bne s6, s7, .-3382",
+   "words": [
+    "0xad7b1563"
+   ]
+  },
+  {
+   "id": "bne",
+   "operands": "t6, s1, -4096",
+   "ordering": "",
+   "gnu": "bne t6, s1, .-4096",
+   "words": [
+    "0x809f9063"
+   ]
+  },
+  {
+   "id": "bne",
+   "operands": "zero, a4, 4094",
+   "ordering": "",
+   "gnu": "bne zero, a4, .+4094",
+   "words": [
+    "0x7ee01fe3"
+   ]
+  },
+  {
+   "id": "bnez#pseudo10",
+   "operands": "s8, 3768",
+   "ordering": "",
+   "gnu": "bnez s8, .+3768",
+   "words": [
+    "0x6a0c1ce3"
+   ]
+  },
+  {
+   "id": "bnez#pseudo10",
+   "operands": "s2, -314",
+   "ordering": "",
+   "gnu": "bnez s2, .-314",
+   "words": [
+    "0xec0913e3"
+   ]
+  },
+  {
+   "id": "bnez#pseudo10",
+   "operands": "s11, -678",
+   "ordering": "",
+   "gnu": "bnez s11, .-678",
+   "words": [
+    "0xd40d9de3"
+   ]
+  },
+  {
+   "id": "bnez#pseudo10",
+   "operands": "s8, -656",
+   "ordering": "",
+   "gnu": "bnez s8, .-656",
+   "words": [
+    "0xd60c18e3"
+   ]
+  },
+  {
+   "id": "bnez#pseudo10",
+   "operands": "t3, -4096",
+   "ordering": "",
+   "gnu": "bnez t3, .-4096",
+   "words": [
+    "0x800e1063"
+   ]
+  },
+  {
+   "id": "bnez#pseudo10",
+   "operands": "s2, 4094",
+   "ordering": "",
+   "gnu": "bnez s2, .+4094",
+   "words": [
+    "0x7e091fe3"
+   ]
+  },
+  {
+   "id": "csrc#pseudo43",
+   "operands": "misa, zero",
+   "ordering": "",
+   "gnu": "csrc misa, zero",
+   "words": [
+    "0x30103073"
+   ]
+  },
+  {
+   "id": "csrc#pseudo43",
+   "operands": "mie, t4",
+   "ordering": "",
+   "gnu": "csrc mie, t4",
+   "words": [
+    "0x304eb073"
+   ]
+  },
+  {
+   "id": "csrc#pseudo43",
+   "operands": "scause, tp",
+   "ordering": "",
+   "gnu": "csrc scause, tp",
+   "words": [
+    "0x14223073"
+   ]
+  },
+  {
+   "id": "csrc#pseudo43",
+   "operands": "mscratch, t4",
+   "ordering": "",
+   "gnu": "csrc mscratch, t4",
+   "words": [
+    "0x340eb073"
+   ]
+  },
+  {
+   "id": "csrci#pseudo46",
+   "operands": "mie, 23",
+   "ordering": "",
+   "gnu": "csrci mie, 23",
+   "words": [
+    "0x304bf073"
+   ]
+  },
+  {
+   "id": "csrci#pseudo46",
+   "operands": "mcounteren, 16",
+   "ordering": "",
+   "gnu": "csrci mcounteren, 16",
+   "words": [
+    "0x30687073"
+   ]
+  },
+  {
+   "id": "csrci#pseudo46",
+   "operands": "mcause, 22",
+   "ordering": "",
+   "gnu": "csrci mcause, 22",
+   "words": [
+    "0x342b7073"
+   ]
+  },
+  {
+   "id": "csrci#pseudo46",
+   "operands": "misa, 23",
+   "ordering": "",
+   "gnu": "csrci misa, 23",
+   "words": [
+    "0x301bf073"
+   ]
+  },
+  {
+   "id": "csrci#pseudo46",
+   "operands": "time, 0",
+   "ordering": "",
+   "gnu": "csrci time, 0",
+   "words": [
+    "0xc0107073"
+   ]
+  },
+  {
+   "id": "csrci#pseudo46",
+   "operands": "sstatus, 31",
+   "ordering": "",
+   "gnu": "csrci sstatus, 31",
+   "words": [
+    "0x100ff073"
+   ]
+  },
+  {
+   "id": "csrr#pseudo40",
+   "operands": "s7, minstreth",
+   "ordering": "",
+   "gnu": "csrr s7, minstreth",
+   "words": [
+    "0xb8202bf3"
+   ]
+  },
+  {
+   "id": "csrr#pseudo40",
+   "operands": "s2, sstatus",
+   "ordering": "",
+   "gnu": "csrr s2, sstatus",
+   "words": [
+    "0x10002973"
+   ]
+  },
+  {
+   "id": "csrr#pseudo40",
+   "operands": "s10, minstret",
+   "ordering": "",
+   "gnu": "csrr s10, minstret",
+   "words": [
+    "0xb0202d73"
+   ]
+  },
+  {
+   "id": "csrr#pseudo40",
+   "operands": "t2, sip",
+   "ordering": "",
+   "gnu": "csrr t2, sip",
+   "words": [
+    "0x144023f3"
+   ]
+  },
+  {
+   "id": "csrrc",
+   "operands": "s0, instreth, a2",
+   "ordering": "",
+   "gnu": "csrrc s0, instreth, a2",
+   "words": [
+    "0xc8263473"
+   ]
+  },
+  {
+   "id": "csrrc",
+   "operands": "t4, mvendorid, a0",
+   "ordering": "",
+   "gnu": "csrrc t4, mvendorid, a0",
+   "words": [
+    "0xf1153ef3"
+   ]
+  },
+  {
+   "id": "csrrc",
+   "operands": "a2, instreth, t5",
+   "ordering": "",
+   "gnu": "csrrc a2, instreth, t5",
+   "words": [
+    "0xc82f3673"
+   ]
+  },
+  {
+   "id": "csrrc",
+   "operands": "a2, misa, a2",
+   "ordering": "",
+   "gnu": "csrrc a2, misa, a2",
+   "words": [
+    "0x30163673"
+   ]
+  },
+  {
+   "id": "csrrci",
+   "operands": "a6, fflags, 12",
+   "ordering": "",
+   "gnu": "csrrci a6, fflags, 12",
+   "words": [
+    "0x00167873"
+   ]
+  },
+  {
+   "id": "csrrci",
+   "operands": "sp, mscratch, 2",
+   "ordering": "",
+   "gnu": "csrrci sp, mscratch, 2",
+   "words": [
+    "0x34017173"
+   ]
+  },
+  {
+   "id": "csrrci",
+   "operands": "t1, satp, 25",
+   "ordering": "",
+   "gnu": "csrrci t1, satp, 25",
+   "words": [
+    "0x180cf373"
+   ]
+  },
+  {
+   "id": "csrrci",
+   "operands": "s4, mstatus, 2",
+   "ordering": "",
+   "gnu": "csrrci s4, mstatus, 2",
+   "words": [
+    "0x30017a73"
+   ]
+  },
+  {
+   "id": "csrrci",
+   "operands": "s5, marchid, 0",
+   "ordering": "",
+   "gnu": "csrrci s5, marchid, 0",
+   "words": [
+    "0xf1207af3"
+   ]
+  },
+  {
+   "id": "csrrci",
+   "operands": "t3, frm, 31",
+   "ordering": "",
+   "gnu": "csrrci t3, frm, 31",
+   "words": [
+    "0x002ffe73"
+   ]
+  },
+  {
+   "id": "csrrs",
+   "operands": "t1, mcause, a2",
+   "ordering": "",
+   "gnu": "csrrs t1, mcause, a2",
+   "words": [
+    "0x34262373"
+   ]
+  },
+  {
+   "id": "csrrs",
+   "operands": "zero, misa, a2",
+   "ordering": "",
+   "gnu": "csrrs zero, misa, a2",
+   "words": [
+    "0x30162073"
+   ]
+  },
+  {
+   "id": "csrrs",
+   "operands": "s2, fflags, s2",
+   "ordering": "",
+   "gnu": "csrrs s2, fflags, s2",
+   "words": [
+    "0x00192973"
+   ]
+  },
+  {
+   "id": "csrrs",
+   "operands": "t1, marchid, zero",
+   "ordering": "",
+   "gnu": "csrrs t1, marchid, zero",
+   "words": [
+    "0xf1202373"
+   ]
+  },
+  {
+   "id": "csrrsi",
+   "operands": "a4, misa, 17",
+   "ordering": "",
+   "gnu": "csrrsi a4, misa, 17",
+   "words": [
+    "0x3018e773"
+   ]
+  },
+  {
+   "id": "csrrsi",
+   "operands": "a3, mimpid, 13",
+   "ordering": "",
+   "gnu": "csrrsi a3, mimpid, 13",
+   "words": [
+    "0xf136e6f3"
+   ]
+  },
+  {
+   "id": "csrrsi",
+   "operands": "a1, mip, 25",
+   "ordering": "",
+   "gnu": "csrrsi a1, mip, 25",
+   "words": [
+    "0x344ce5f3"
+   ]
+  },
+  {
+   "id": "csrrsi",
+   "operands": "s11, satp, 29",
+   "ordering": "",
+   "gnu": "csrrsi s11, satp, 29",
+   "words": [
+    "0x180eedf3"
+   ]
+  },
+  {
+   "id": "csrrsi",
+   "operands": "t2, fflags, 0",
+   "ordering": "",
+   "gnu": "csrrsi t2, fflags, 0",
+   "words": [
+    "0x001063f3"
+   ]
+  },
+  {
+   "id": "csrrsi",
+   "operands": "s10, mcycleh, 31",
+   "ordering": "",
+   "gnu": "csrrsi s10, mcycleh, 31",
+   "words": [
+    "0xb80fed73"
+   ]
+  },
+  {
+   "id": "csrrw",
+   "operands": "s5, sstatus, t2",
+   "ordering": "",
+   "gnu": "csrrw s5, sstatus, t2",
+   "words": [
+    "0x10039af3"
+   ]
+  },
+  {
+   "id": "csrrw",
+   "operands": "s1, mcycleh, s4",
+   "ordering": "",
+   "gnu": "csrrw s1, mcycleh, s4",
+   "words": [
+    "0xb80a14f3"
+   ]
+  },
+  {
+   "id": "csrrw",
+   "operands": "s8, stval, a7",
+   "ordering": "",
+   "gnu": "csrrw s8, stval, a7",
+   "words": [
+    "0x14389c73"
+   ]
+  },
+  {
+   "id": "csrrw",
+   "operands": "t6, mie, t4",
+   "ordering": "",
+   "gnu": "csrrw t6, mie, t4",
+   "words": [
+    "0x304e9ff3"
+   ]
+  },
+  {
+   "id": "csrrwi",
+   "operands": "a6, mcounteren, 17",
+   "ordering": "",
+   "gnu": "csrrwi a6, mcounteren, 17",
+   "words": [
+    "0x3068d873"
+   ]
+  },
+  {
+   "id": "csrrwi",
+   "operands": "a2, mvendorid, 4",
+   "ordering": "",
+   "gnu": "csrrwi a2, mvendorid, 4",
+   "words": [
+    "0xf1125673"
+   ]
+  },
+  {
+   "id": "csrrwi",
+   "operands": "s4, time, 1",
+   "ordering": "",
+   "gnu": "csrrwi s4, time, 1",
+   "words": [
+    "0xc010da73"
+   ]
+  },
+  {
+   "id": "csrrwi",
+   "operands": "s3, medeleg, 18",
+   "ordering": "",
+   "gnu": "csrrwi s3, medeleg, 18",
+   "words": [
+    "0x302959f3"
+   ]
+  },
+  {
+   "id": "csrrwi",
+   "operands": "s8, mvendorid, 0",
+   "ordering": "",
+   "gnu": "csrrwi s8, mvendorid, 0",
+   "words": [
+    "0xf1105c73"
+   ]
+  },
+  {
+   "id": "csrrwi",
+   "operands": "s3, sepc, 31",
+   "ordering": "",
+   "gnu": "csrrwi s3, sepc, 31",
+   "words": [
+    "0x141fd9f3"
+   ]
+  },
+  {
+   "id": "csrs#pseudo42",
+   "operands": "mcycle, t0",
+   "ordering": "",
+   "gnu": "csrs mcycle, t0",
+   "words": [
+    "0xb002a073"
+   ]
+  },
+  {
+   "id": "csrs#pseudo42",
+   "operands": "instreth, s5",
+   "ordering": "",
+   "gnu": "csrs instreth, s5",
+   "words": [
+    "0xc82aa073"
+   ]
+  },
+  {
+   "id": "csrs#pseudo42",
+   "operands": "marchid, t0",
+   "ordering": "",
+   "gnu": "csrs marchid, t0",
+   "words": [
+    "0xf122a073"
+   ]
+  },
+  {
+   "id": "csrs#pseudo42",
+   "operands": "marchid, a4",
+   "ordering": "",
+   "gnu": "csrs marchid, a4",
+   "words": [
+    "0xf1272073"
+   ]
+  },
+  {
+   "id": "csrsi#pseudo45",
+   "operands": "sip, 28",
+   "ordering": "",
+   "gnu": "csrsi sip, 28",
+   "words": [
+    "0x144e6073"
+   ]
+  },
+  {
+   "id": "csrsi#pseudo45",
+   "operands": "frm, 24",
+   "ordering": "",
+   "gnu": "csrsi frm, 24",
+   "words": [
+    "0x002c6073"
+   ]
+  },
+  {
+   "id": "csrsi#pseudo45",
+   "operands": "stvec, 23",
+   "ordering": "",
+   "gnu": "csrsi stvec, 23",
+   "words": [
+    "0x105be073"
+   ]
+  },
+  {
+   "id": "csrsi#pseudo45",
+   "operands": "mhartid, 26",
+   "ordering": "",
+   "gnu": "csrsi mhartid, 26",
+   "words": [
+    "0xf14d6073"
+   ]
+  },
+  {
+   "id": "csrsi#pseudo45",
+   "operands": "mimpid, 0",
+   "ordering": "",
+   "gnu": "csrsi mimpid, 0",
+   "words": [
+    "0xf1306073"
+   ]
+  },
+  {
+   "id": "csrsi#pseudo45",
+   "operands": "sscratch, 31",
+   "ordering": "",
+   "gnu": "csrsi sscratch, 31",
+   "words": [
+    "0x140fe073"
+   ]
+  },
+  {
+   "id": "csrw#pseudo41",
+   "operands": "sepc, s8",
+   "ordering": "",
+   "gnu": "csrw sepc, s8",
+   "words": [
+    "0x141c1073"
+   ]
+  },
+  {
+   "id": "csrw#pseudo41",
+   "operands": "mtval, t2",
+   "ordering": "",
+   "gnu": "csrw mtval, t2",
+   "words": [
+    "0x34339073"
+   ]
+  },
+  {
+   "id": "csrw#pseudo41",
+   "operands": "mip, a6",
+   "ordering": "",
+   "gnu": "csrw mip, a6",
+   "words": [
+    "0x34481073"
+   ]
+  },
+  {
+   "id": "csrw#pseudo41",
+   "operands": "mcounteren, t6",
+   "ordering": "",
+   "gnu": "csrw mcounteren, t6",
+   "words": [
+    "0x306f9073"
+   ]
+  },
+  {
+   "id": "csrwi#pseudo44",
+   "operands": "mcycleh, 16",
+   "ordering": "",
+   "gnu": "csrwi mcycleh, 16",
+   "words": [
+    "0xb8085073"
+   ]
+  },
+  {
+   "id": "csrwi#pseudo44",
+   "operands": "mcycle, 3",
+   "ordering": "",
+   "gnu": "csrwi mcycle, 3",
+   "words": [
+    "0xb001d073"
+   ]
+  },
+  {
+   "id": "csrwi#pseudo44",
+   "operands": "scounteren, 16",
+   "ordering": "",
+   "gnu": "csrwi scounteren, 16",
+   "words": [
+    "0x10685073"
+   ]
+  },
+  {
+   "id": "csrwi#pseudo44",
+   "operands": "instret, 3",
+   "ordering": "",
+   "gnu": "csrwi instret, 3",
+   "words": [
+    "0xc021d073"
+   ]
+  },
+  {
+   "id": "csrwi#pseudo44",
+   "operands": "mcause, 0",
+   "ordering": "",
+   "gnu": "csrwi mcause, 0",
+   "words": [
+    "0x34205073"
+   ]
+  },
+  {
+   "id": "csrwi#pseudo44",
+   "operands": "time, 31",
+   "ordering": "",
+   "gnu": "csrwi time, 31",
+   "words": [
+    "0xc01fd073"
+   ]
+  },
+  {
+   "id": "div",
+   "operands": "s2, t1, t5",
+   "ordering": "",
+   "gnu": "div s2, t1, t5",
+   "words": [
+    "0x03e34933"
+   ]
+  },
+  {
+   "id": "div",
+   "operands": "s6, t1, tp",
+   "ordering": "",
+   "gnu": "div s6, t1, tp",
+   "words": [
+    "0x02434b33"
+   ]
+  },
+  {
+   "id": "div",
+   "operands": "a3, s7, t0",
+   "ordering": "",
+   "gnu": "div a3, s7, t0",
+   "words": [
+    "0x025bc6b3"
+   ]
+  },
+  {
+   "id": "div",
+   "operands": "t4, s10, s9",
+   "ordering": "",
+   "gnu": "div t4, s10, s9",
+   "words": [
+    "0x039d4eb3"
+   ]
+  },
+  {
+   "id": "divu",
+   "operands": "t4, t3, a2",
+   "ordering": "",
+   "gnu": "divu t4, t3, a2",
+   "words": [
+    "0x02ce5eb3"
+   ]
+  },
+  {
+   "id": "divu",
+   "operands": "s1, a2, ra",
+   "ordering": "",
+   "gnu": "divu s1, a2, ra",
+   "words": [
+    "0x021654b3"
+   ]
+  },
+  {
+   "id": "divu",
+   "operands": "a6, a3, s0",
+   "ordering": "",
+   "gnu": "divu a6, a3, s0",
+   "words": [
+    "0x0286d833"
+   ]
+  },
+  {
+   "id": "divu",
+   "operands": "s0, ra, s3",
+   "ordering": "",
+   "gnu": "divu s0, ra, s3",
+   "words": [
+    "0x0330d433"
+   ]
+  },
+  {
+   "id": "ebreak",
+   "operands": "",
+   "ordering": "",
+   "gnu": "ebreak",
+   "words": [
+    "0x00100073"
+   ]
+  },
+  {
+   "id": "ecall",
+   "operands": "",
+   "ordering": "",
+   "gnu": "ecall",
+   "words": [
+    "0x00000073"
+   ]
+  },
+  {
+   "id": "fabs.d#pseudo70",
+   "operands": "fs9, fa1",
+   "ordering": "",
+   "gnu": "fabs.d fs9, fa1",
+   "words": [
+    "0x22b5acd3"
+   ]
+  },
+  {
+   "id": "fabs.d#pseudo70",
+   "operands": "fs7, fs5",
+   "ordering": "",
+   "gnu": "fabs.d fs7, fs5",
+   "words": [
+    "0x235aabd3"
+   ]
+  },
+  {
+   "id": "fabs.d#pseudo70",
+   "operands": "fs6, fs11",
+   "ordering": "",
+   "gnu": "fabs.d fs6, fs11",
+   "words": [
+    "0x23bdab53"
+   ]
+  },
+  {
+   "id": "fabs.d#pseudo70",
+   "operands": "fs4, ft0",
+   "ordering": "",
+   "gnu": "fabs.d fs4, ft0",
+   "words": [
+    "0x22002a53"
+   ]
+  },
+  {
+   "id": "fabs.s#pseudo67",
+   "operands": "fs2, fa3",
+   "ordering": "",
+   "gnu": "fabs.s fs2, fa3",
+   "words": [
+    "0x20d6a953"
+   ]
+  },
+  {
+   "id": "fabs.s#pseudo67",
+   "operands": "ft11, fa7",
+   "ordering": "",
+   "gnu": "fabs.s ft11, fa7",
+   "words": [
+    "0x2118afd3"
+   ]
+  },
+  {
+   "id": "fabs.s#pseudo67",
+   "operands": "ft8, ft7",
+   "ordering": "",
+   "gnu": "fabs.s ft8, ft7",
+   "words": [
+    "0x2073ae53"
+   ]
+  },
+  {
+   "id": "fabs.s#pseudo67",
+   "operands": "ft0, ft2",
+   "ordering": "",
+   "gnu": "fabs.s ft0, ft2",
+   "words": [
+    "0x20212053"
+   ]
+  },
+  {
+   "id": "fadd.d",
+   "operands": "fa6, fa6, ft2, rne",
+   "ordering": "",
+   "gnu": "fadd.d fa6, fa6, ft2, rne",
+   "words": [
+    "0x02280853"
+   ]
+  },
+  {
+   "id": "fadd.d",
+   "operands": "ft3, ft10, fa5, rtz",
+   "ordering": "",
+   "gnu": "fadd.d ft3, ft10, fa5, rtz",
+   "words": [
+    "0x02ff11d3"
+   ]
+  },
+  {
+   "id": "fadd.d",
+   "operands": "ft9, fs6, fs0, dyn",
+   "ordering": "",
+   "gnu": "fadd.d ft9, fs6, fs0, dyn",
+   "words": [
+    "0x028b7ed3"
+   ]
+  },
+  {
+   "id": "fadd.d",
+   "operands": "fs4, ft7, fa3, rtz",
+   "ordering": "",
+   "gnu": "fadd.d fs4, ft7, fa3, rtz",
+   "words": [
+    "0x02d39a53"
+   ]
+  },
+  {
+   "id": "fadd.s",
+   "operands": "fs1, fs9, ft10, rtz",
+   "ordering": "",
+   "gnu": "fadd.s fs1, fs9, ft10, rtz",
+   "words": [
+    "0x01ec94d3"
+   ]
+  },
+  {
+   "id": "fadd.s",
+   "operands": "ft8, ft11, fa2, rup",
+   "ordering": "",
+   "gnu": "fadd.s ft8, ft11, fa2, rup",
+   "words": [
+    "0x00cfbe53"
+   ]
+  },
+  {
+   "id": "fadd.s",
+   "operands": "fs4, fa5, fs3, rtz",
+   "ordering": "",
+   "gnu": "fadd.s fs4, fa5, fs3, rtz",
+   "words": [
+    "0x01379a53"
+   ]
+  },
+  {
+   "id": "fadd.s",
+   "operands": "ft10, fs10, fa4, rtz",
+   "ordering": "",
+   "gnu": "fadd.s ft10, fs10, fa4, rtz",
+   "words": [
+    "0x00ed1f53"
+   ]
+  },
+  {
+   "id": "fclass.d",
+   "operands": "a5, fa6",
+   "ordering": "",
+   "gnu": "fclass.d a5, fa6",
+   "words": [
+    "0xe20817d3"
+   ]
+  },
+  {
+   "id": "fclass.d",
+   "operands": "s10, ft9",
+   "ordering": "",
+   "gnu": "fclass.d s10, ft9",
+   "words": [
+    "0xe20e9d53"
+   ]
+  },
+  {
+   "id": "fclass.d",
+   "operands": "t0, ft2",
+   "ordering": "",
+   "gnu": "fclass.d t0, ft2",
+   "words": [
+    "0xe20112d3"
+   ]
+  },
+  {
+   "id": "fclass.d",
+   "operands": "zero, ft2",
+   "ordering": "",
+   "gnu": "fclass.d zero, ft2",
+   "words": [
+    "0xe2011053"
+   ]
+  },
+  {
+   "id": "fclass.s",
+   "operands": "t5, fs10",
+   "ordering": "",
+   "gnu": "fclass.s t5, fs10",
+   "words": [
+    "0xe00d1f53"
+   ]
+  },
+  {
+   "id": "fclass.s",
+   "operands": "s7, fa5",
+   "ordering": "",
+   "gnu": "fclass.s s7, fa5",
+   "words": [
+    "0xe0079bd3"
+   ]
+  },
+  {
+   "id": "fclass.s",
+   "operands": "a1, fs4",
+   "ordering": "",
+   "gnu": "fclass.s a1, fs4",
+   "words": [
+    "0xe00a15d3"
+   ]
+  },
+  {
+   "id": "fclass.s",
+   "operands": "s2, fs1",
+   "ordering": "",
+   "gnu": "fclass.s s2, fs1",
+   "words": [
+    "0xe0049953"
+   ]
+  },
+  {
+   "id": "fcvt.d.s",
+   "operands": "fs5, fs3",
+   "ordering": "",
+   "gnu": "fcvt.d.s fs5, fs3",
+   "words": [
+    "0x42098ad3"
+   ]
+  },
+  {
+   "id": "fcvt.d.s",
+   "operands": "ft9, fs6",
+   "ordering": "",
+   "gnu": "fcvt.d.s ft9, fs6",
+   "words": [
+    "0x420b0ed3"
+   ]
+  },
+  {
+   "id": "fcvt.d.s",
+   "operands": "fs0, fa2",
+   "ordering": "",
+   "gnu": "fcvt.d.s fs0, fa2",
+   "words": [
+    "0x42060453"
+   ]
+  },
+  {
+   "id": "fcvt.d.s",
+   "operands": "ft7, ft0",
+   "ordering": "",
+   "gnu": "fcvt.d.s ft7, ft0",
+   "words": [
+    "0x420003d3"
+   ]
+  },
+  {
+   "id": "fcvt.d.w",
+   "operands": "fa6, s6",
+   "ordering": "",
+   "gnu": "fcvt.d.w fa6, s6",
+   "words": [
+    "0xd20b0853"
+   ]
+  },
+  {
+   "id": "fcvt.d.w",
+   "operands": "ft6, t3",
+   "ordering": "",
+   "gnu": "fcvt.d.w ft6, t3",
+   "words": [
+    "0xd20e0353"
+   ]
+  },
+  {
+   "id": "fcvt.d.w",
+   "operands": "ft8, t0",
+   "ordering": "",
+   "gnu": "fcvt.d.w ft8, t0",
+   "words": [
+    "0xd2028e53"
+   ]
+  },
+  {
+   "id": "fcvt.d.w",
+   "operands": "ft5, a5",
+   "ordering": "",
+   "gnu": "fcvt.d.w ft5, a5",
+   "words": [
+    "0xd20782d3"
+   ]
+  },
+  {
+   "id": "fcvt.d.wu",
+   "operands": "fa2, s6",
+   "ordering": "",
+   "gnu": "fcvt.d.wu fa2, s6",
+   "words": [
+    "0xd21b0653"
+   ]
+  },
+  {
+   "id": "fcvt.d.wu",
+   "operands": "ft10, ra",
+   "ordering": "",
+   "gnu": "fcvt.d.wu ft10, ra",
+   "words": [
+    "0xd2108f53"
+   ]
+  },
+  {
+   "id": "fcvt.d.wu",
+   "operands": "fs5, t4",
+   "ordering": "",
+   "gnu": "fcvt.d.wu fs5, t4",
+   "words": [
+    "0xd21e8ad3"
+   ]
+  },
+  {
+   "id": "fcvt.d.wu",
+   "operands": "fs1, t2",
+   "ordering": "",
+   "gnu": "fcvt.d.wu fs1, t2",
+   "words": [
+    "0xd21384d3"
+   ]
+  },
+  {
+   "id": "fcvt.s.d",
+   "operands": "ft5, fs8, rdn",
+   "ordering": "",
+   "gnu": "fcvt.s.d ft5, fs8, rdn",
+   "words": [
+    "0x401c22d3"
+   ]
+  },
+  {
+   "id": "fcvt.s.d",
+   "operands": "fs0, fs8, rmm",
+   "ordering": "",
+   "gnu": "fcvt.s.d fs0, fs8, rmm",
+   "words": [
+    "0x401c4453"
+   ]
+  },
+  {
+   "id": "fcvt.s.d",
+   "operands": "fa0, fa7, rup",
+   "ordering": "",
+   "gnu": "fcvt.s.d fa0, fa7, rup",
+   "words": [
+    "0x4018b553"
+   ]
+  },
+  {
+   "id": "fcvt.s.d",
+   "operands": "ft6, fa7, dyn",
+   "ordering": "",
+   "gnu": "fcvt.s.d ft6, fa7, dyn",
+   "words": [
+    "0x4018f353"
+   ]
+  },
+  {
+   "id": "fcvt.s.w",
+   "operands": "fs9, s3, rtz",
+   "ordering": "",
+   "gnu": "fcvt.s.w fs9, s3, rtz",
+   "words": [
+    "0xd0099cd3"
+   ]
+  },
+  {
+   "id": "fcvt.s.w",
+   "operands": "ft3, t1, rne",
+   "ordering": "",
+   "gnu": "fcvt.s.w ft3, t1, rne",
+   "words": [
+    "0xd00301d3"
+   ]
+  },
+  {
+   "id": "fcvt.s.w",
+   "operands": "ft2, s5, rmm",
+   "ordering": "",
+   "gnu": "fcvt.s.w ft2, s5, rmm",
+   "words": [
+    "0xd00ac153"
+   ]
+  },
+  {
+   "id": "fcvt.s.w",
+   "operands": "fa0, s9, dyn",
+   "ordering": "",
+   "gnu": "fcvt.s.w fa0, s9, dyn",
+   "words": [
+    "0xd00cf553"
+   ]
+  },
+  {
+   "id": "fcvt.s.wu",
+   "operands": "ft3, s1, rtz",
+   "ordering": "",
+   "gnu": "fcvt.s.wu ft3, s1, rtz",
+   "words": [
+    "0xd01491d3"
+   ]
+  },
+  {
+   "id": "fcvt.s.wu",
+   "operands": "fs9, t1, dyn",
+   "ordering": "",
+   "gnu": "fcvt.s.wu fs9, t1, dyn",
+   "words": [
+    "0xd0137cd3"
+   ]
+  },
+  {
+   "id": "fcvt.s.wu",
+   "operands": "ft8, s4, rne",
+   "ordering": "",
+   "gnu": "fcvt.s.wu ft8, s4, rne",
+   "words": [
+    "0xd01a0e53"
+   ]
+  },
+  {
+   "id": "fcvt.s.wu",
+   "operands": "ft7, t1, rne",
+   "ordering": "",
+   "gnu": "fcvt.s.wu ft7, t1, rne",
+   "words": [
+    "0xd01303d3"
+   ]
+  },
+  {
+   "id": "fcvt.w.d",
+   "operands": "s1, fa5, rdn",
+   "ordering": "",
+   "gnu": "fcvt.w.d s1, fa5, rdn",
+   "words": [
+    "0xc207a4d3"
+   ]
+  },
+  {
+   "id": "fcvt.w.d",
+   "operands": "a4, ft1, rne",
+   "ordering": "",
+   "gnu": "fcvt.w.d a4, ft1, rne",
+   "words": [
+    "0xc2008753"
+   ]
+  },
+  {
+   "id": "fcvt.w.d",
+   "operands": "s3, fs10, rdn",
+   "ordering": "",
+   "gnu": "fcvt.w.d s3, fs10, rdn",
+   "words": [
+    "0xc20d29d3"
+   ]
+  },
+  {
+   "id": "fcvt.w.d",
+   "operands": "tp, ft8, rmm",
+   "ordering": "",
+   "gnu": "fcvt.w.d tp, ft8, rmm",
+   "words": [
+    "0xc20e4253"
+   ]
+  },
+  {
+   "id": "fcvt.w.s",
+   "operands": "s7, fa1, rtz",
+   "ordering": "",
+   "gnu": "fcvt.w.s s7, fa1, rtz",
+   "words": [
+    "0xc0059bd3"
+   ]
+  },
+  {
+   "id": "fcvt.w.s",
+   "operands": "a4, ft4, rdn",
+   "ordering": "",
+   "gnu": "fcvt.w.s a4, ft4, rdn",
+   "words": [
+    "0xc0022753"
+   ]
+  },
+  {
+   "id": "fcvt.w.s",
+   "operands": "s0, fs3, rdn",
+   "ordering": "",
+   "gnu": "fcvt.w.s s0, fs3, rdn",
+   "words": [
+    "0xc009a453"
+   ]
+  },
+  {
+   "id": "fcvt.w.s",
+   "operands": "ra, fs5, rtz",
+   "ordering": "",
+   "gnu": "fcvt.w.s ra, fs5, rtz",
+   "words": [
+    "0xc00a90d3"
+   ]
+  },
+  {
+   "id": "fcvt.wu.d",
+   "operands": "s2, fa1, rne",
+   "ordering": "",
+   "gnu": "fcvt.wu.d s2, fa1, rne",
+   "words": [
+    "0xc2158953"
+   ]
+  },
+  {
+   "id": "fcvt.wu.d",
+   "operands": "t0, fs11, rmm",
+   "ordering": "",
+   "gnu": "fcvt.wu.d t0, fs11, rmm",
+   "words": [
+    "0xc21dc2d3"
+   ]
+  },
+  {
+   "id": "fcvt.wu.d",
+   "operands": "t3, fa4, dyn",
+   "ordering": "",
+   "gnu": "fcvt.wu.d t3, fa4, dyn",
+   "words": [
+    "0xc2177e53"
+   ]
+  },
+  {
+   "id": "fcvt.wu.d",
+   "operands": "s1, ft3, rmm",
+   "ordering": "",
+   "gnu": "fcvt.wu.d s1, ft3, rmm",
+   "words": [
+    "0xc211c4d3"
+   ]
+  },
+  {
+   "id": "fcvt.wu.s",
+   "operands": "s8, ft4, dyn",
+   "ordering": "",
+   "gnu": "fcvt.wu.s s8, ft4, dyn",
+   "words": [
+    "0xc0127c53"
+   ]
+  },
+  {
+   "id": "fcvt.wu.s",
+   "operands": "t1, ft5, rmm",
+   "ordering": "",
+   "gnu": "fcvt.wu.s t1, ft5, rmm",
+   "words": [
+    "0xc012c353"
+   ]
+  },
+  {
+   "id": "fcvt.wu.s",
+   "operands": "sp, fa7, rtz",
+   "ordering": "",
+   "gnu": "fcvt.wu.s sp, fa7, rtz",
+   "words": [
+    "0xc0189153"
+   ]
+  },
+  {
+   "id": "fcvt.wu.s",
+   "operands": "s9, fs5, rup",
+   "ordering": "",
+   "gnu": "fcvt.wu.s s9, fs5, rup",
+   "words": [
+    "0xc01abcd3"
+   ]
+  },
+  {
+   "id": "fdiv.d",
+   "operands": "ft2, fs4, fa5, rup",
+   "ordering": "",
+   "gnu": "fdiv.d ft2, fs4, fa5, rup",
+   "words": [
+    "0x1afa3153"
+   ]
+  },
+  {
+   "id": "fdiv.d",
+   "operands": "ft3, ft1, ft9, rne",
+   "ordering": "",
+   "gnu": "fdiv.d ft3, ft1, ft9, rne",
+   "words": [
+    "0x1bd081d3"
+   ]
+  },
+  {
+   "id": "fdiv.d",
+   "operands": "ft5, fs7, fs11, rdn",
+   "ordering": "",
+   "gnu": "fdiv.d ft5, fs7, fs11, rdn",
+   "words": [
+    "0x1bbba2d3"
+   ]
+  },
+  {
+   "id": "fdiv.d",
+   "operands": "ft10, ft3, ft3, rup",
+   "ordering": "",
+   "gnu": "fdiv.d ft10, ft3, ft3, rup",
+   "words": [
+    "0x1a31bf53"
+   ]
+  },
+  {
+   "id": "fdiv.s",
+   "operands": "fa3, fs2, fa4, dyn",
+   "ordering": "",
+   "gnu": "fdiv.s fa3, fs2, fa4, dyn",
+   "words": [
+    "0x18e976d3"
+   ]
+  },
+  {
+   "id": "fdiv.s",
+   "operands": "ft9, ft11, ft2, rdn",
+   "ordering": "",
+   "gnu": "fdiv.s ft9, ft11, ft2, rdn",
+   "words": [
+    "0x182faed3"
+   ]
+  },
+  {
+   "id": "fdiv.s",
+   "operands": "ft9, fs7, fa3, dyn",
+   "ordering": "",
+   "gnu": "fdiv.s ft9, fs7, fa3, dyn",
+   "words": [
+    "0x18dbfed3"
+   ]
+  },
+  {
+   "id": "fdiv.s",
+   "operands": "fs11, ft7, ft5, dyn",
+   "ordering": "",
+   "gnu": "fdiv.s fs11, ft7, ft5, dyn",
+   "words": [
+    "0x1853fdd3"
+   ]
+  },
+  {
+   "id": "fence",
+   "operands": "o, ior",
+   "ordering": "",
+   "gnu": "fence o, ior",
+   "words": [
+    "0x04e0000f"
+   ]
+  },
+  {
+   "id": "fence",
+   "operands": "o, ow",
+   "ordering": "",
+   "gnu": "fence o, ow",
+   "words": [
+    "0x0450000f"
+   ]
+  },
+  {
+   "id": "fence",
+   "operands": "w, o",
+   "ordering": "",
+   "gnu": "fence w, o",
+   "words": [
+    "0x0140000f"
+   ]
+  },
+  {
+   "id": "fence",
+   "operands": "ir, iow",
+   "ordering": "",
+   "gnu": "fence ir, iow",
+   "words": [
+    "0x0ad0000f"
+   ]
+  },
+  {
+   "id": "fence#pseudo38",
+   "operands": "",
+   "ordering": "",
+   "gnu": "fence",
+   "words": [
+    "0x0ff0000f"
+   ]
+  },
+  {
+   "id": "fence.i",
+   "operands": "",
+   "ordering": "",
+   "gnu": "fence.i",
+   "words": [
+    "0x0000100f"
+   ]
+  },
+  {
+   "id": "fence.tso",
+   "operands": "",
+   "ordering": "",
+   "gnu": "fence.tso",
+   "words": [
+    "0x8330000f"
+   ]
+  },
+  {
+   "id": "feq.d",
+   "operands": "a7, ft0, fs8",
+   "ordering": "",
+   "gnu": "feq.d a7, ft0, fs8",
+   "words": [
+    "0xa38028d3"
+   ]
+  },
+  {
+   "id": "feq.d",
+   "operands": "t2, ft5, ft11",
+   "ordering": "",
+   "gnu": "feq.d t2, ft5, ft11",
+   "words": [
+    "0xa3f2a3d3"
+   ]
+  },
+  {
+   "id": "feq.d",
+   "operands": "t0, ft7, ft9",
+   "ordering": "",
+   "gnu": "feq.d t0, ft7, ft9",
+   "words": [
+    "0xa3d3a2d3"
+   ]
+  },
+  {
+   "id": "feq.d",
+   "operands": "s2, fs5, ft1",
+   "ordering": "",
+   "gnu": "feq.d s2, fs5, ft1",
+   "words": [
+    "0xa21aa953"
+   ]
+  },
+  {
+   "id": "feq.s",
+   "operands": "s1, fs6, fs5",
+   "ordering": "",
+   "gnu": "feq.s s1, fs6, fs5",
+   "words": [
+    "0xa15b24d3"
+   ]
+  },
+  {
+   "id": "feq.s",
+   "operands": "s2, ft7, fa4",
+   "ordering": "",
+   "gnu": "feq.s s2, ft7, fa4",
+   "words": [
+    "0xa0e3a953"
+   ]
+  },
+  {
+   "id": "feq.s",
+   "operands": "s10, ft4, fa4",
+   "ordering": "",
+   "gnu": "feq.s s10, ft4, fa4",
+   "words": [
+    "0xa0e22d53"
+   ]
+  },
+  {
+   "id": "feq.s",
+   "operands": "s8, fa4, ft8",
+   "ordering": "",
+   "gnu": "feq.s s8, fa4, ft8",
+   "words": [
+    "0xa1c72c53"
+   ]
+  },
+  {
+   "id": "fld",
+   "operands": "ft2, 994(s5)",
+   "ordering": "",
+   "gnu": "fld ft2, 994(s5)",
+   "words": [
+    "0x3e2ab107"
+   ]
+  },
+  {
+   "id": "fld",
+   "operands": "fs7, -1571(s6)",
+   "ordering": "",
+   "gnu": "fld fs7, -1571(s6)",
+   "words": [
+    "0x9ddb3b87"
+   ]
+  },
+  {
+   "id": "fld",
+   "operands": "ft4, -1625(s1)",
+   "ordering": "",
+   "gnu": "fld ft4, -1625(s1)",
+   "words": [
+    "0x9a74b207"
+   ]
+  },
+  {
+   "id": "fld",
+   "operands": "ft1, 1889(s5)",
+   "ordering": "",
+   "gnu": "fld ft1, 1889(s5)",
+   "words": [
+    "0x761ab087"
+   ]
+  },
+  {
+   "id": "fld",
+   "operands": "fs0, -2048(s6)",
+   "ordering": "",
+   "gnu": "fld fs0, -2048(s6)",
+   "words": [
+    "0x800b3407"
+   ]
+  },
+  {
+   "id": "fld",
+   "operands": "ft10, 2047(s0)",
+   "ordering": "",
+   "gnu": "fld ft10, 2047(s0)",
+   "words": [
+    "0x7ff43f07"
+   ]
+  },
+  {
+   "id": "fle.d",
+   "operands": "s1, ft11, fa0",
+   "ordering": "",
+   "gnu": "fle.d s1, ft11, fa0",
+   "words": [
+    "0xa2af84d3"
+   ]
+  },
+  {
+   "id": "fle.d",
+   "operands": "t3, ft10, fs8",
+   "ordering": "",
+   "gnu": "fle.d t3, ft10, fs8",
+   "words": [
+    "0xa38f0e53"
+   ]
+  },
+  {
+   "id": "fle.d",
+   "operands": "s5, ft6, fs4",
+   "ordering": "",
+   "gnu": "fle.d s5, ft6, fs4",
+   "words": [
+    "0xa3430ad3"
+   ]
+  },
+  {
+   "id": "fle.d",
+   "operands": "s2, ft1, fs0",
+   "ordering": "",
+   "gnu": "fle.d s2, ft1, fs0",
+   "words": [
+    "0xa2808953"
+   ]
+  },
+  {
+   "id": "fle.s",
+   "operands": "a3, fa6, fs7",
+   "ordering": "",
+   "gnu": "fle.s a3, fa6, fs7",
+   "words": [
+    "0xa17806d3"
+   ]
+  },
+  {
+   "id": "fle.s",
+   "operands": "a7, ft8, ft2",
+   "ordering": "",
+   "gnu": "fle.s a7, ft8, ft2",
+   "words": [
+    "0xa02e08d3"
+   ]
+  },
+  {
+   "id": "fle.s",
+   "operands": "s8, fa0, fs4",
+   "ordering": "",
+   "gnu": "fle.s s8, fa0, fs4",
+   "words": [
+    "0xa1450c53"
+   ]
+  },
+  {
+   "id": "fle.s",
+   "operands": "s10, fa4, ft10",
+   "ordering": "",
+   "gnu": "fle.s s10, fa4, ft10",
+   "words": [
+    "0xa1e70d53"
+   ]
+  },
+  {
+   "id": "flt.d",
+   "operands": "t4, fa4, fs5",
+   "ordering": "",
+   "gnu": "flt.d t4, fa4, fs5",
+   "words": [
+    "0xa3571ed3"
+   ]
+  },
+  {
+   "id": "flt.d",
+   "operands": "s0, fs11, ft4",
+   "ordering": "",
+   "gnu": "flt.d s0, fs11, ft4",
+   "words": [
+    "0xa24d9453"
+   ]
+  },
+  {
+   "id": "flt.d",
+   "operands": "s1, fs1, fs7",
+   "ordering": "",
+   "gnu": "flt.d s1, fs1, fs7",
+   "words": [
+    "0xa37494d3"
+   ]
+  },
+  {
+   "id": "flt.d",
+   "operands": "t1, fa3, fs2",
+   "ordering": "",
+   "gnu": "flt.d t1, fa3, fs2",
+   "words": [
+    "0xa3269353"
+   ]
+  },
+  {
+   "id": "flt.s",
+   "operands": "s2, ft4, fa1",
+   "ordering": "",
+   "gnu": "flt.s s2, ft4, fa1",
+   "words": [
+    "0xa0b21953"
+   ]
+  },
+  {
+   "id": "flt.s",
+   "operands": "t3, ft7, fs5",
+   "ordering": "",
+   "gnu": "flt.s t3, ft7, fs5",
+   "words": [
+    "0xa1539e53"
+   ]
+  },
+  {
+   "id": "flt.s",
+   "operands": "a4, ft2, fs9",
+   "ordering": "",
+   "gnu": "flt.s a4, ft2, fs9",
+   "words": [
+    "0xa1911753"
+   ]
+  },
+  {
+   "id": "flt.s",
+   "operands": "t4, fs3, fs1",
+   "ordering": "",
+   "gnu": "flt.s t4, fs3, fs1",
+   "words": [
+    "0xa0999ed3"
+   ]
+  },
+  {
+   "id": "flw",
+   "operands": "fs3, 1209(s8)",
+   "ordering": "",
+   "gnu": "flw fs3, 1209(s8)",
+   "words": [
+    "0x4b9c2987"
+   ]
+  },
+  {
+   "id": "flw",
+   "operands": "fs2, 2035(a6)",
+   "ordering": "",
+   "gnu": "flw fs2, 2035(a6)",
+   "words": [
+    "0x7f382907"
+   ]
+  },
+  {
+   "id": "flw",
+   "operands": "fa5, 690(s0)",
+   "ordering": "",
+   "gnu": "flw fa5, 690(s0)",
+   "words": [
+    "0x2b242787"
+   ]
+  },
+  {
+   "id": "flw",
+   "operands": "fa6, 1654(s10)",
+   "ordering": "",
+   "gnu": "flw fa6, 1654(s10)",
+   "words": [
+    "0x676d2807"
+   ]
+  },
+  {
+   "id": "flw",
+   "operands": "fa0, -2048(s7)",
+   "ordering": "",
+   "gnu": "flw fa0, -2048(s7)",
+   "words": [
+    "0x800ba507"
+   ]
+  },
+  {
+   "id": "flw",
+   "operands": "ft7, 2047(a7)",
+   "ordering": "",
+   "gnu": "flw ft7, 2047(a7)",
+   "words": [
+    "0x7ff8a387"
+   ]
+  },
+  {
+   "id": "fmadd.d",
+   "operands": "ft5, fs1, fs9, fs5, rdn",
+   "ordering": "",
+   "gnu": "fmadd.d ft5, fs1, fs9, fs5, rdn",
+   "words": [
+    "0xab94a2c3"
+   ]
+  },
+  {
+   "id": "fmadd.d",
+   "operands": "ft2, fa1, ft9, fa7, dyn",
+   "ordering": "",
+   "gnu": "fmadd.d ft2, fa1, ft9, fa7, dyn",
+   "words": [
+    "0x8bd5f143"
+   ]
+  },
+  {
+   "id": "fmadd.d",
+   "operands": "fa0, ft6, fa2, ft11, rmm",
+   "ordering": "",
+   "gnu": "fmadd.d fa0, ft6, fa2, ft11, rmm",
+   "words": [
+    "0xfac34543"
+   ]
+  },
+  {
+   "id": "fmadd.d",
+   "operands": "ft8, fa5, fa2, fs8, rmm",
+   "ordering": "",
+   "gnu": "fmadd.d ft8, fa5, fa2, fs8, rmm",
+   "words": [
+    "0xc2c7ce43"
+   ]
+  },
+  {
+   "id": "fmadd.s",
+   "operands": "fs10, ft4, fs0, fa4, rtz",
+   "ordering": "",
+   "gnu": "fmadd.s fs10, ft4, fs0, fa4, rtz",
+   "words": [
+    "0x70821d43"
+   ]
+  },
+  {
+   "id": "fmadd.s",
+   "operands": "ft6, fa0, fa5, fa4, rdn",
+   "ordering": "",
+   "gnu": "fmadd.s ft6, fa0, fa5, fa4, rdn",
+   "words": [
+    "0x70f52343"
+   ]
+  },
+  {
+   "id": "fmadd.s",
+   "operands": "ft5, fs10, fa4, ft0, rne",
+   "ordering": "",
+   "gnu": "fmadd.s ft5, fs10, fa4, ft0, rne",
+   "words": [
+    "0x00ed02c3"
+   ]
+  },
+  {
+   "id": "fmadd.s",
+   "operands": "ft6, ft5, fa7, fa7, dyn",
+   "ordering": "",
+   "gnu": "fmadd.s ft6, ft5, fa7, fa7, dyn",
+   "words": [
+    "0x8912f343"
+   ]
+  },
+  {
+   "id": "fmax.d",
+   "operands": "fa7, fs2, fs7",
+   "ordering": "",
+   "gnu": "fmax.d fa7, fs2, fs7",
+   "words": [
+    "0x2b7918d3"
+   ]
+  },
+  {
+   "id": "fmax.d",
+   "operands": "fs11, fs0, fa2",
+   "ordering": "",
+   "gnu": "fmax.d fs11, fs0, fa2",
+   "words": [
+    "0x2ac41dd3"
+   ]
+  },
+  {
+   "id": "fmax.d",
+   "operands": "fs5, fs6, fa7",
+   "ordering": "",
+   "gnu": "fmax.d fs5, fs6, fa7",
+   "words": [
+    "0x2b1b1ad3"
+   ]
+  },
+  {
+   "id": "fmax.d",
+   "operands": "fa3, fa2, ft10",
+   "ordering": "",
+   "gnu": "fmax.d fa3, fa2, ft10",
+   "words": [
+    "0x2be616d3"
+   ]
+  },
+  {
+   "id": "fmax.s",
+   "operands": "ft1, fa6, fa1",
+   "ordering": "",
+   "gnu": "fmax.s ft1, fa6, fa1",
+   "words": [
+    "0x28b810d3"
+   ]
+  },
+  {
+   "id": "fmax.s",
+   "operands": "fa6, fs8, ft11",
+   "ordering": "",
+   "gnu": "fmax.s fa6, fs8, ft11",
+   "words": [
+    "0x29fc1853"
+   ]
+  },
+  {
+   "id": "fmax.s",
+   "operands": "fs2, fs3, ft1",
+   "ordering": "",
+   "gnu": "fmax.s fs2, fs3, ft1",
+   "words": [
+    "0x28199953"
+   ]
+  },
+  {
+   "id": "fmax.s",
+   "operands": "ft6, ft10, ft7",
+   "ordering": "",
+   "gnu": "fmax.s ft6, ft10, ft7",
+   "words": [
+    "0x287f1353"
+   ]
+  },
+  {
+   "id": "fmin.d",
+   "operands": "fa1, fa1, fs1",
+   "ordering": "",
+   "gnu": "fmin.d fa1, fa1, fs1",
+   "words": [
+    "0x2a9585d3"
+   ]
+  },
+  {
+   "id": "fmin.d",
+   "operands": "ft0, ft11, ft4",
+   "ordering": "",
+   "gnu": "fmin.d ft0, ft11, ft4",
+   "words": [
+    "0x2a4f8053"
+   ]
+  },
+  {
+   "id": "fmin.d",
+   "operands": "ft8, ft4, fs2",
+   "ordering": "",
+   "gnu": "fmin.d ft8, ft4, fs2",
+   "words": [
+    "0x2b220e53"
+   ]
+  },
+  {
+   "id": "fmin.d",
+   "operands": "ft2, fa4, ft8",
+   "ordering": "",
+   "gnu": "fmin.d ft2, fa4, ft8",
+   "words": [
+    "0x2bc70153"
+   ]
+  },
+  {
+   "id": "fmin.s",
+   "operands": "fs0, fa3, fa3",
+   "ordering": "",
+   "gnu": "fmin.s fs0, fa3, fa3",
+   "words": [
+    "0x28d68453"
+   ]
+  },
+  {
+   "id": "fmin.s",
+   "operands": "fa1, ft5, ft4",
+   "ordering": "",
+   "gnu": "fmin.s fa1, ft5, ft4",
+   "words": [
+    "0x284285d3"
+   ]
+  },
+  {
+   "id": "fmin.s",
+   "operands": "fa2, fs0, ft9",
+   "ordering": "",
+   "gnu": "fmin.s fa2, fs0, ft9",
+   "words": [
+    "0x29d40653"
+   ]
+  },
+  {
+   "id": "fmin.s",
+   "operands": "ft4, fs6, fs3",
+   "ordering": "",
+   "gnu": "fmin.s ft4, fs6, fs3",
+   "words": [
+    "0x293b0253"
+   ]
+  },
+  {
+   "id": "fmsub.d",
+   "operands": "fa6, fs6, fa5, fa3, rtz",
+   "ordering": "",
+   "gnu": "fmsub.d fa6, fs6, fa5, fa3, rtz",
+   "words": [
+    "0x6afb1847"
+   ]
+  },
+  {
+   "id": "fmsub.d",
+   "operands": "ft1, ft8, ft5, ft4, rtz",
+   "ordering": "",
+   "gnu": "fmsub.d ft1, ft8, ft5, ft4, rtz",
+   "words": [
+    "0x225e10c7"
+   ]
+  },
+  {
+   "id": "fmsub.d",
+   "operands": "ft3, fs2, ft8, fa0, rup",
+   "ordering": "",
+   "gnu": "fmsub.d ft3, fs2, ft8, fa0, rup",
+   "words": [
+    "0x53c931c7"
+   ]
+  },
+  {
+   "id": "fmsub.d",
+   "operands": "fs5, fa3, fs9, fs10, dyn",
+   "ordering": "",
+   "gnu": "fmsub.d fs5, fa3, fs9, fs10, dyn",
+   "words": [
+    "0xd396fac7"
+   ]
+  },
+  {
+   "id": "fmsub.s",
+   "operands": "fs3, fs4, ft1, fa7, rup",
+   "ordering": "",
+   "gnu": "fmsub.s fs3, fs4, ft1, fa7, rup",
+   "words": [
+    "0x881a39c7"
+   ]
+  },
+  {
+   "id": "fmsub.s",
+   "operands": "fa7, fs7, fs1, fs10, rup",
+   "ordering": "",
+   "gnu": "fmsub.s fa7, fs7, fs1, fs10, rup",
+   "words": [
+    "0xd09bb8c7"
+   ]
+  },
+  {
+   "id": "fmsub.s",
+   "operands": "fa3, fa3, ft9, fs0, rup",
+   "ordering": "",
+   "gnu": "fmsub.s fa3, fa3, ft9, fs0, rup",
+   "words": [
+    "0x41d6b6c7"
+   ]
+  },
+  {
+   "id": "fmsub.s",
+   "operands": "fa4, ft7, ft5, fa4, rne",
+   "ordering": "",
+   "gnu": "fmsub.s fa4, ft7, ft5, fa4, rne",
+   "words": [
+    "0x70538747"
+   ]
+  },
+  {
+   "id": "fmul.d",
+   "operands": "ft0, fs1, fa7, rup",
+   "ordering": "",
+   "gnu": "fmul.d ft0, fs1, fa7, rup",
+   "words": [
+    "0x1314b053"
+   ]
+  },
+  {
+   "id": "fmul.d",
+   "operands": "fs0, fa6, fs6, rne",
+   "ordering": "",
+   "gnu": "fmul.d fs0, fa6, fs6, rne",
+   "words": [
+    "0x13680453"
+   ]
+  },
+  {
+   "id": "fmul.d",
+   "operands": "fa5, ft8, fs6, rmm",
+   "ordering": "",
+   "gnu": "fmul.d fa5, ft8, fs6, rmm",
+   "words": [
+    "0x136e47d3"
+   ]
+  },
+  {
+   "id": "fmul.d",
+   "operands": "ft5, fs11, fs11, rne",
+   "ordering": "",
+   "gnu": "fmul.d ft5, fs11, fs11, rne",
+   "words": [
+    "0x13bd82d3"
+   ]
+  },
+  {
+   "id": "fmul.s",
+   "operands": "fa7, ft4, ft0, rup",
+   "ordering": "",
+   "gnu": "fmul.s fa7, ft4, ft0, rup",
+   "words": [
+    "0x100238d3"
+   ]
+  },
+  {
+   "id": "fmul.s",
+   "operands": "ft11, ft2, ft4, rmm",
+   "ordering": "",
+   "gnu": "fmul.s ft11, ft2, ft4, rmm",
+   "words": [
+    "0x10414fd3"
+   ]
+  },
+  {
+   "id": "fmul.s",
+   "operands": "fa5, fs4, fs10, rne",
+   "ordering": "",
+   "gnu": "fmul.s fa5, fs4, fs10, rne",
+   "words": [
+    "0x11aa07d3"
+   ]
+  },
+  {
+   "id": "fmul.s",
+   "operands": "fa2, ft3, fa2, rmm",
+   "ordering": "",
+   "gnu": "fmul.s fa2, ft3, fa2, rmm",
+   "words": [
+    "0x10c1c653"
+   ]
+  },
+  {
+   "id": "fmv.d#pseudo69",
+   "operands": "fa2, fa2",
+   "ordering": "",
+   "gnu": "fmv.d fa2, fa2",
+   "words": [
+    "0x22c60653"
+   ]
+  },
+  {
+   "id": "fmv.d#pseudo69",
+   "operands": "fs8, fs8",
+   "ordering": "",
+   "gnu": "fmv.d fs8, fs8",
+   "words": [
+    "0x238c0c53"
+   ]
+  },
+  {
+   "id": "fmv.d#pseudo69",
+   "operands": "fs8, ft8",
+   "ordering": "",
+   "gnu": "fmv.d fs8, ft8",
+   "words": [
+    "0x23ce0c53"
+   ]
+  },
+  {
+   "id": "fmv.d#pseudo69",
+   "operands": "ft2, ft7",
+   "ordering": "",
+   "gnu": "fmv.d ft2, ft7",
+   "words": [
+    "0x22738153"
+   ]
+  },
+  {
+   "id": "fmv.s#pseudo66",
+   "operands": "fs7, fa6",
+   "ordering": "",
+   "gnu": "fmv.s fs7, fa6",
+   "words": [
+    "0x21080bd3"
+   ]
+  },
+  {
+   "id": "fmv.s#pseudo66",
+   "operands": "fs8, fs1",
+   "ordering": "",
+   "gnu": "fmv.s fs8, fs1",
+   "words": [
+    "0x20948c53"
+   ]
+  },
+  {
+   "id": "fmv.s#pseudo66",
+   "operands": "ft4, fs7",
+   "ordering": "",
+   "gnu": "fmv.s ft4, fs7",
+   "words": [
+    "0x217b8253"
+   ]
+  },
+  {
+   "id": "fmv.s#pseudo66",
+   "operands": "fa3, ft4",
+   "ordering": "",
+   "gnu": "fmv.s fa3, ft4",
+   "words": [
+    "0x204206d3"
+   ]
+  },
+  {
+   "id": "fmv.w.x",
+   "operands": "fs1, tp",
+   "ordering": "",
+   "gnu": "fmv.w.x fs1, tp",
+   "words": [
+    "0xf00204d3"
+   ]
+  },
+  {
+   "id": "fmv.w.x",
+   "operands": "fa6, s11",
+   "ordering": "",
+   "gnu": "fmv.w.x fa6, s11",
+   "words": [
+    "0xf00d8853"
+   ]
+  },
+  {
+   "id": "fmv.w.x",
+   "operands": "fa1, t2",
+   "ordering": "",
+   "gnu": "fmv.w.x fa1, t2",
+   "words": [
+    "0xf00385d3"
+   ]
+  },
+  {
+   "id": "fmv.w.x",
+   "operands": "fa1, a4",
+   "ordering": "",
+   "gnu": "fmv.w.x fa1, a4",
+   "words": [
+    "0xf00705d3"
+   ]
+  },
+  {
+   "id": "fmv.x.w",
+   "operands": "a4, ft9",
+   "ordering": "",
+   "gnu": "fmv.x.w a4, ft9",
+   "words": [
+    "0xe00e8753"
+   ]
+  },
+  {
+   "id": "fmv.x.w",
+   "operands": "a5, fs6",
+   "ordering": "",
+   "gnu": "fmv.x.w a5, fs6",
+   "words": [
+    "0xe00b07d3"
+   ]
+  },
+  {
+   "id": "fmv.x.w",
+   "operands": "t3, fs5",
+   "ordering": "",
+   "gnu": "fmv.x.w t3, fs5",
+   "words": [
+    "0xe00a8e53"
+   ]
+  },
+  {
+   "id": "fmv.x.w",
+   "operands": "t5, ft8",
+   "ordering": "",
+   "gnu": "fmv.x.w t5, ft8",
+   "words": [
+    "0xe00e0f53"
+   ]
+  },
+  {
+   "id": "fneg.d#pseudo71",
+   "operands": "fa4, fa6",
+   "ordering": "",
+   "gnu": "fneg.d fa4, fa6",
+   "words": [
+    "0x23081753"
+   ]
+  },
+  {
+   "id": "fneg.d#pseudo71",
+   "operands": "fs1, fa0",
+   "ordering": "",
+   "gnu": "fneg.d fs1, fa0",
+   "words": [
+    "0x22a514d3"
+   ]
+  },
+  {
+   "id": "fneg.d#pseudo71",
+   "operands": "fs2, fs8",
+   "ordering": "",
+   "gnu": "fneg.d fs2, fs8",
+   "words": [
+    "0x238c1953"
+   ]
+  },
+  {
+   "id": "fneg.d#pseudo71",
+   "operands": "fs8, fs7",
+   "ordering": "",
+   "gnu": "fneg.d fs8, fs7",
+   "words": [
+    "0x237b9c53"
+   ]
+  },
+  {
+   "id": "fneg.s#pseudo68",
+   "operands": "fa3, ft3",
+   "ordering": "",
+   "gnu": "fneg.s fa3, ft3",
+   "words": [
+    "0x203196d3"
+   ]
+  },
+  {
+   "id": "fneg.s#pseudo68",
+   "operands": "fs3, fs9",
+   "ordering": "",
+   "gnu": "fneg.s fs3, fs9",
+   "words": [
+    "0x219c99d3"
+   ]
+  },
+  {
+   "id": "fneg.s#pseudo68",
+   "operands": "ft4, ft2",
+   "ordering": "",
+   "gnu": "fneg.s ft4, ft2",
+   "words": [
+    "0x20211253"
+   ]
+  },
+  {
+   "id": "fneg.s#pseudo68",
+   "operands": "ft0, ft0",
+   "ordering": "",
+   "gnu": "fneg.s ft0, ft0",
+   "words": [
+    "0x20001053"
+   ]
+  },
+  {
+   "id": "fnmadd.d",
+   "operands": "fa6, ft5, ft5, fs4, rtz",
+   "ordering": "",
+   "gnu": "fnmadd.d fa6, ft5, ft5, fs4, rtz",
+   "words": [
+    "0xa252984f"
+   ]
+  },
+  {
+   "id": "fnmadd.d",
+   "operands": "ft7, ft9, ft8, ft5, rmm",
+   "ordering": "",
+   "gnu": "fnmadd.d ft7, ft9, ft8, ft5, rmm",
+   "words": [
+    "0x2bcec3cf"
+   ]
+  },
+  {
+   "id": "fnmadd.d",
+   "operands": "ft1, fs5, ft4, ft0, rmm",
+   "ordering": "",
+   "gnu": "fnmadd.d ft1, fs5, ft4, ft0, rmm",
+   "words": [
+    "0x024ac0cf"
+   ]
+  },
+  {
+   "id": "fnmadd.d",
+   "operands": "fs9, fs11, fs9, ft0, dyn",
+   "ordering": "",
+   "gnu": "fnmadd.d fs9, fs11, fs9, ft0, dyn",
+   "words": [
+    "0x039dfccf"
+   ]
+  },
+  {
+   "id": "fnmadd.s",
+   "operands": "ft4, fa2, ft9, fs1, rne",
+   "ordering": "",
+   "gnu": "fnmadd.s ft4, fa2, ft9, fs1, rne",
+   "words": [
+    "0x49d6024f"
+   ]
+  },
+  {
+   "id": "fnmadd.s",
+   "operands": "fa2, ft10, fs5, fa7, rtz",
+   "ordering": "",
+   "gnu": "fnmadd.s fa2, ft10, fs5, fa7, rtz",
+   "words": [
+    "0x895f164f"
+   ]
+  },
+  {
+   "id": "fnmadd.s",
+   "operands": "fa6, fs4, fa3, ft4, rtz",
+   "ordering": "",
+   "gnu": "fnmadd.s fa6, fs4, fa3, ft4, rtz",
+   "words": [
+    "0x20da184f"
+   ]
+  },
+  {
+   "id": "fnmadd.s",
+   "operands": "fa1, ft7, ft4, ft2, rne",
+   "ordering": "",
+   "gnu": "fnmadd.s fa1, ft7, ft4, ft2, rne",
+   "words": [
+    "0x104385cf"
+   ]
+  },
+  {
+   "id": "fnmsub.d",
+   "operands": "ft6, fa5, fs8, ft4, rdn",
+   "ordering": "",
+   "gnu": "fnmsub.d ft6, fa5, fs8, ft4, rdn",
+   "words": [
+    "0x2387a34b"
+   ]
+  },
+  {
+   "id": "fnmsub.d",
+   "operands": "fs8, ft5, ft6, ft10, rmm",
+   "ordering": "",
+   "gnu": "fnmsub.d fs8, ft5, ft6, ft10, rmm",
+   "words": [
+    "0xf262cc4b"
+   ]
+  },
+  {
+   "id": "fnmsub.d",
+   "operands": "fs4, ft8, fa3, ft8, rne",
+   "ordering": "",
+   "gnu": "fnmsub.d fs4, ft8, fa3, ft8, rne",
+   "words": [
+    "0xe2de0a4b"
+   ]
+  },
+  {
+   "id": "fnmsub.d",
+   "operands": "fa3, ft9, fs10, fa2, rmm",
+   "ordering": "",
+   "gnu": "fnmsub.d fa3, ft9, fs10, fa2, rmm",
+   "words": [
+    "0x63aec6cb"
+   ]
+  },
+  {
+   "id": "fnmsub.s",
+   "operands": "fa6, fs5, ft9, ft5, rmm",
+   "ordering": "",
+   "gnu": "fnmsub.s fa6, fs5, ft9, ft5, rmm",
+   "words": [
+    "0x29dac84b"
+   ]
+  },
+  {
+   "id": "fnmsub.s",
+   "operands": "ft10, fs1, ft11, fs2, rmm",
+   "ordering": "",
+   "gnu": "fnmsub.s ft10, fs1, ft11, fs2, rmm",
+   "words": [
+    "0x91f4cf4b"
+   ]
+  },
+  {
+   "id": "fnmsub.s",
+   "operands": "fs1, fa7, ft3, ft2, rdn",
+   "ordering": "",
+   "gnu": "fnmsub.s fs1, fa7, ft3, ft2, rdn",
+   "words": [
+    "0x1038a4cb"
+   ]
+  },
+  {
+   "id": "fnmsub.s",
+   "operands": "fs7, fs7, fs7, fa1, rne",
+   "ordering": "",
+   "gnu": "fnmsub.s fs7, fs7, fs7, fa1, rne",
+   "words": [
+    "0x597b8bcb"
+   ]
+  },
+  {
+   "id": "frcsr#pseudo53",
+   "operands": "tp",
+   "ordering": "",
+   "gnu": "frcsr tp",
+   "words": [
+    "0x00302273"
+   ]
+  },
+  {
+   "id": "frcsr#pseudo53",
+   "operands": "a7",
+   "ordering": "",
+   "gnu": "frcsr a7",
+   "words": [
+    "0x003028f3"
+   ]
+  },
+  {
+   "id": "frcsr#pseudo53",
+   "operands": "s1",
+   "ordering": "",
+   "gnu": "frcsr s1",
+   "words": [
+    "0x003024f3"
+   ]
+  },
+  {
+   "id": "frcsr#pseudo53",
+   "operands": "t1",
+   "ordering": "",
+   "gnu": "frcsr t1",
+   "words": [
+    "0x00302373"
+   ]
+  },
+  {
+   "id": "frflags#pseudo61",
+   "operands": "t0",
+   "ordering": "",
+   "gnu": "frflags t0",
+   "words": [
+    "0x001022f3"
+   ]
+  },
+  {
+   "id": "frflags#pseudo61",
+   "operands": "a2",
+   "ordering": "",
+   "gnu": "frflags a2",
+   "words": [
+    "0x00102673"
+   ]
+  },
+  {
+   "id": "frflags#pseudo61",
+   "operands": "a0",
+   "ordering": "",
+   "gnu": "frflags a0",
+   "words": [
+    "0x00102573"
+   ]
+  },
+  {
+   "id": "frflags#pseudo61",
+   "operands": "t5",
+   "ordering": "",
+   "gnu": "frflags t5",
+   "words": [
+    "0x00102f73"
+   ]
+  },
+  {
+   "id": "frrm#pseudo56",
+   "operands": "a5",
+   "ordering": "",
+   "gnu": "frrm a5",
+   "words": [
+    "0x002027f3"
+   ]
+  },
+  {
+   "id": "frrm#pseudo56",
+   "operands": "zero",
+   "ordering": "",
+   "gnu": "frrm zero",
+   "words": [
+    "0x00202073"
+   ]
+  },
+  {
+   "id": "frrm#pseudo56",
+   "operands": "a4",
+   "ordering": "",
+   "gnu": "frrm a4",
+   "words": [
+    "0x00202773"
+   ]
+  },
+  {
+   "id": "frrm#pseudo56",
+   "operands": "s4",
+   "ordering": "",
+   "gnu": "frrm s4",
+   "words": [
+    "0x00202a73"
+   ]
+  },
+  {
+   "id": "fscsr#pseudo54",
+   "operands": "s1, a6",
+   "ordering": "",
+   "gnu": "fscsr s1, a6",
+   "words": [
+    "0x003814f3"
+   ]
+  },
+  {
+   "id": "fscsr#pseudo54",
+   "operands": "a4, s7",
+   "ordering": "",
+   "gnu": "fscsr a4, s7",
+   "words": [
+    "0x003b9773"
+   ]
+  },
+  {
+   "id": "fscsr#pseudo54",
+   "operands": "s6, s6",
+   "ordering": "",
+   "gnu": "fscsr s6, s6",
+   "words": [
+    "0x003b1b73"
+   ]
+  },
+  {
+   "id": "fscsr#pseudo54",
+   "operands": "a6, s5",
+   "ordering": "",
+   "gnu": "fscsr a6, s5",
+   "words": [
+    "0x003a9873"
+   ]
+  },
+  {
+   "id": "fscsr#pseudo55",
+   "operands": "a1",
+   "ordering": "",
+   "gnu": "fscsr a1",
+   "words": [
+    "0x00359073"
+   ]
+  },
+  {
+   "id": "fscsr#pseudo55",
+   "operands": "s0",
+   "ordering": "",
+   "gnu": "fscsr s0",
+   "words": [
+    "0x00341073"
+   ]
+  },
+  {
+   "id": "fscsr#pseudo55",
+   "operands": "t1",
+   "ordering": "",
+   "gnu": "fscsr t1",
+   "words": [
+    "0x00331073"
+   ]
+  },
+  {
+   "id": "fscsr#pseudo55",
+   "operands": "s0",
+   "ordering": "",
+   "gnu": "fscsr s0",
+   "words": [
+    "0x00341073"
+   ]
+  },
+  {
+   "id": "fsd",
+   "operands": "fa4, 1836(s5)",
+   "ordering": "",
+   "gnu": "fsd fa4, 1836(s5)",
+   "words": [
+    "0x72eab627"
+   ]
+  },
+  {
+   "id": "fsd",
+   "operands": "fs8, -1855(s3)",
+   "ordering": "",
+   "gnu": "fsd fs8, -1855(s3)",
+   "words": [
+    "0x8d89b0a7"
+   ]
+  },
+  {
+   "id": "fsd",
+   "operands": "fs8, 1111(gp)",
+   "ordering": "",
+   "gnu": "fsd fs8, 1111(gp)",
+   "words": [
+    "0x4581bba7"
+   ]
+  },
+  {
+   "id": "fsd",
+   "operands": "fa7, -295(zero)",
+   "ordering": "",
+   "gnu": "fsd fa7, -295(zero)",
+   "words": [
+    "0xed103ca7"
+   ]
+  },
+  {
+   "id": "fsd",
+   "operands": "fs8, -2048(sp)",
+   "ordering": "",
+   "gnu": "fsd fs8, -2048(sp)",
+   "words": [
+    "0x81813027"
+   ]
+  },
+  {
+   "id": "fsd",
+   "operands": "fs10, 2047(t6)",
+   "ordering": "",
+   "gnu": "fsd fs10, 2047(t6)",
+   "words": [
+    "0x7fafbfa7"
+   ]
+  },
+  {
+   "id": "fsflags#pseudo62",
+   "operands": "tp, t2",
+   "ordering": "",
+   "gnu": "fsflags tp, t2",
+   "words": [
+    "0x00139273"
+   ]
+  },
+  {
+   "id": "fsflags#pseudo62",
+   "operands": "s8, s8",
+   "ordering": "",
+   "gnu": "fsflags s8, s8",
+   "words": [
+    "0x001c1c73"
+   ]
+  },
+  {
+   "id": "fsflags#pseudo62",
+   "operands": "t6, t6",
+   "ordering": "",
+   "gnu": "fsflags t6, t6",
+   "words": [
+    "0x001f9ff3"
+   ]
+  },
+  {
+   "id": "fsflags#pseudo62",
+   "operands": "s9, a6",
+   "ordering": "",
+   "gnu": "fsflags s9, a6",
+   "words": [
+    "0x00181cf3"
+   ]
+  },
+  {
+   "id": "fsflags#pseudo63",
+   "operands": "s10",
+   "ordering": "",
+   "gnu": "fsflags s10",
+   "words": [
+    "0x001d1073"
+   ]
+  },
+  {
+   "id": "fsflags#pseudo63",
+   "operands": "a2",
+   "ordering": "",
+   "gnu": "fsflags a2",
+   "words": [
+    "0x00161073"
+   ]
+  },
+  {
+   "id": "fsflags#pseudo63",
+   "operands": "a6",
+   "ordering": "",
+   "gnu": "fsflags a6",
+   "words": [
+    "0x00181073"
+   ]
+  },
+  {
+   "id": "fsflags#pseudo63",
+   "operands": "s5",
+   "ordering": "",
+   "gnu": "fsflags s5",
+   "words": [
+    "0x001a9073"
+   ]
+  },
+  {
+   "id": "fsflagsi#pseudo64",
+   "operands": "ra, 9",
+   "ordering": "",
+   "gnu": "fsflagsi ra, 9",
+   "words": [
+    "0x0014d0f3"
+   ]
+  },
+  {
+   "id": "fsflagsi#pseudo64",
+   "operands": "s0, 28",
+   "ordering": "",
+   "gnu": "fsflagsi s0, 28",
+   "words": [
+    "0x001e5473"
+   ]
+  },
+  {
+   "id": "fsflagsi#pseudo64",
+   "operands": "s8, 15",
+   "ordering": "",
+   "gnu": "fsflagsi s8, 15",
+   "words": [
+    "0x0017dc73"
+   ]
+  },
+  {
+   "id": "fsflagsi#pseudo64",
+   "operands": "s8, 30",
+   "ordering": "",
+   "gnu": "fsflagsi s8, 30",
+   "words": [
+    "0x001f5c73"
+   ]
+  },
+  {
+   "id": "fsflagsi#pseudo64",
+   "operands": "t1, 0",
+   "ordering": "",
+   "gnu": "fsflagsi t1, 0",
+   "words": [
+    "0x00105373"
+   ]
+  },
+  {
+   "id": "fsflagsi#pseudo64",
+   "operands": "s11, 31",
+   "ordering": "",
+   "gnu": "fsflagsi s11, 31",
+   "words": [
+    "0x001fddf3"
+   ]
+  },
+  {
+   "id": "fsflagsi#pseudo65",
+   "operands": "28",
+   "ordering": "",
+   "gnu": "fsflagsi 28",
+   "words": [
+    "0x001e5073"
+   ]
+  },
+  {
+   "id": "fsflagsi#pseudo65",
+   "operands": "29",
+   "ordering": "",
+   "gnu": "fsflagsi 29",
+   "words": [
+    "0x001ed073"
+   ]
+  },
+  {
+   "id": "fsflagsi#pseudo65",
+   "operands": "5",
+   "ordering": "",
+   "gnu": "fsflagsi 5",
+   "words": [
+    "0x0012d073"
+   ]
+  },
+  {
+   "id": "fsflagsi#pseudo65",
+   "operands": "3",
+   "ordering": "",
+   "gnu": "fsflagsi 3",
+   "words": [
+    "0x0011d073"
+   ]
+  },
+  {
+   "id": "fsflagsi#pseudo65",
+   "operands": "0",
+   "ordering": "",
+   "gnu": "fsflagsi 0",
+   "words": [
+    "0x00105073"
+   ]
+  },
+  {
+   "id": "fsflagsi#pseudo65",
+   "operands": "31",
+   "ordering": "",
+   "gnu": "fsflagsi 31",
+   "words": [
+    "0x001fd073"
+   ]
+  },
+  {
+   "id": "fsgnj.d",
+   "operands": "fs6, ft6, ft10",
+   "ordering": "",
+   "gnu": "fsgnj.d fs6, ft6, ft10",
+   "words": [
+    "0x23e30b53"
+   ]
+  },
+  {
+   "id": "fsgnj.d",
+   "operands": "ft7, fs5, fs1",
+   "ordering": "",
+   "gnu": "fsgnj.d ft7, fs5, fs1",
+   "words": [
+    "0x229a83d3"
+   ]
+  },
+  {
+   "id": "fsgnj.d",
+   "operands": "fs8, fs6, ft2",
+   "ordering": "",
+   "gnu": "fsgnj.d fs8, fs6, ft2",
+   "words": [
+    "0x222b0c53"
+   ]
+  },
+  {
+   "id": "fsgnj.d",
+   "operands": "fs6, fa3, fs8",
+   "ordering": "",
+   "gnu": "fsgnj.d fs6, fa3, fs8",
+   "words": [
+    "0x23868b53"
+   ]
+  },
+  {
+   "id": "fsgnj.s",
+   "operands": "ft6, ft9, ft1",
+   "ordering": "",
+   "gnu": "fsgnj.s ft6, ft9, ft1",
+   "words": [
+    "0x201e8353"
+   ]
+  },
+  {
+   "id": "fsgnj.s",
+   "operands": "fa3, ft11, fs0",
+   "ordering": "",
+   "gnu": "fsgnj.s fa3, ft11, fs0",
+   "words": [
+    "0x208f86d3"
+   ]
+  },
+  {
+   "id": "fsgnj.s",
+   "operands": "fs10, fs7, ft1",
+   "ordering": "",
+   "gnu": "fsgnj.s fs10, fs7, ft1",
+   "words": [
+    "0x201b8d53"
+   ]
+  },
+  {
+   "id": "fsgnj.s",
+   "operands": "fa5, ft7, fs10",
+   "ordering": "",
+   "gnu": "fsgnj.s fa5, ft7, fs10",
+   "words": [
+    "0x21a387d3"
+   ]
+  },
+  {
+   "id": "fsgnjn.d",
+   "operands": "fa0, fs4, fs4",
+   "ordering": "",
+   "gnu": "fsgnjn.d fa0, fs4, fs4",
+   "words": [
+    "0x234a1553"
+   ]
+  },
+  {
+   "id": "fsgnjn.d",
+   "operands": "ft6, ft0, fs7",
+   "ordering": "",
+   "gnu": "fsgnjn.d ft6, ft0, fs7",
+   "words": [
+    "0x23701353"
+   ]
+  },
+  {
+   "id": "fsgnjn.d",
+   "operands": "fa0, ft6, fa4",
+   "ordering": "",
+   "gnu": "fsgnjn.d fa0, ft6, fa4",
+   "words": [
+    "0x22e31553"
+   ]
+  },
+  {
+   "id": "fsgnjn.d",
+   "operands": "fs4, ft6, ft8",
+   "ordering": "",
+   "gnu": "fsgnjn.d fs4, ft6, ft8",
+   "words": [
+    "0x23c31a53"
+   ]
+  },
+  {
+   "id": "fsgnjn.s",
+   "operands": "fs0, fa3, fs11",
+   "ordering": "",
+   "gnu": "fsgnjn.s fs0, fa3, fs11",
+   "words": [
+    "0x21b69453"
+   ]
+  },
+  {
+   "id": "fsgnjn.s",
+   "operands": "ft7, fs3, ft10",
+   "ordering": "",
+   "gnu": "fsgnjn.s ft7, fs3, ft10",
+   "words": [
+    "0x21e993d3"
+   ]
+  },
+  {
+   "id": "fsgnjn.s",
+   "operands": "fs3, ft5, ft5",
+   "ordering": "",
+   "gnu": "fsgnjn.s fs3, ft5, ft5",
+   "words": [
+    "0x205299d3"
+   ]
+  },
+  {
+   "id": "fsgnjn.s",
+   "operands": "fs3, fs9, fs2",
+   "ordering": "",
+   "gnu": "fsgnjn.s fs3, fs9, fs2",
+   "words": [
+    "0x212c99d3"
+   ]
+  },
+  {
+   "id": "fsgnjx.d",
+   "operands": "ft8, fa0, ft8",
+   "ordering": "",
+   "gnu": "fsgnjx.d ft8, fa0, ft8",
+   "words": [
+    "0x23c52e53"
+   ]
+  },
+  {
+   "id": "fsgnjx.d",
+   "operands": "fa0, ft0, fs10",
+   "ordering": "",
+   "gnu": "fsgnjx.d fa0, ft0, fs10",
+   "words": [
+    "0x23a02553"
+   ]
+  },
+  {
+   "id": "fsgnjx.d",
+   "operands": "fs0, fs5, ft5",
+   "ordering": "",
+   "gnu": "fsgnjx.d fs0, fs5, ft5",
+   "words": [
+    "0x225aa453"
+   ]
+  },
+  {
+   "id": "fsgnjx.d",
+   "operands": "fa6, ft5, fs8",
+   "ordering": "",
+   "gnu": "fsgnjx.d fa6, ft5, fs8",
+   "words": [
+    "0x2382a853"
+   ]
+  },
+  {
+   "id": "fsgnjx.s",
+   "operands": "ft5, fs3, fs7",
+   "ordering": "",
+   "gnu": "fsgnjx.s ft5, fs3, fs7",
+   "words": [
+    "0x2179a2d3"
+   ]
+  },
+  {
+   "id": "fsgnjx.s",
+   "operands": "fs2, ft7, ft8",
+   "ordering": "",
+   "gnu": "fsgnjx.s fs2, ft7, ft8",
+   "words": [
+    "0x21c3a953"
+   ]
+  },
+  {
+   "id": "fsgnjx.s",
+   "operands": "fs9, fs1, fs2",
+   "ordering": "",
+   "gnu": "fsgnjx.s fs9, fs1, fs2",
+   "words": [
+    "0x2124acd3"
+   ]
+  },
+  {
+   "id": "fsgnjx.s",
+   "operands": "fs2, ft6, fs3",
+   "ordering": "",
+   "gnu": "fsgnjx.s fs2, ft6, fs3",
+   "words": [
+    "0x21332953"
+   ]
+  },
+  {
+   "id": "fsqrt.d",
+   "operands": "ft3, fs6, rne",
+   "ordering": "",
+   "gnu": "fsqrt.d ft3, fs6, rne",
+   "words": [
+    "0x5a0b01d3"
+   ]
+  },
+  {
+   "id": "fsqrt.d",
+   "operands": "fs3, fs3, rne",
+   "ordering": "",
+   "gnu": "fsqrt.d fs3, fs3, rne",
+   "words": [
+    "0x5a0989d3"
+   ]
+  },
+  {
+   "id": "fsqrt.d",
+   "operands": "ft7, fs10, rmm",
+   "ordering": "",
+   "gnu": "fsqrt.d ft7, fs10, rmm",
+   "words": [
+    "0x5a0d43d3"
+   ]
+  },
+  {
+   "id": "fsqrt.d",
+   "operands": "fs3, fs8, rdn",
+   "ordering": "",
+   "gnu": "fsqrt.d fs3, fs8, rdn",
+   "words": [
+    "0x5a0c29d3"
+   ]
+  },
+  {
+   "id": "fsqrt.s",
+   "operands": "fs1, fs5, rne",
+   "ordering": "",
+   "gnu": "fsqrt.s fs1, fs5, rne",
+   "words": [
+    "0x580a84d3"
+   ]
+  },
+  {
+   "id": "fsqrt.s",
+   "operands": "fs11, fs7, rne",
+   "ordering": "",
+   "gnu": "fsqrt.s fs11, fs7, rne",
+   "words": [
+    "0x580b8dd3"
+   ]
+  },
+  {
+   "id": "fsqrt.s",
+   "operands": "fa4, ft4, rne",
+   "ordering": "",
+   "gnu": "fsqrt.s fa4, ft4, rne",
+   "words": [
+    "0x58020753"
+   ]
+  },
+  {
+   "id": "fsqrt.s",
+   "operands": "fs10, fa6, rtz",
+   "ordering": "",
+   "gnu": "fsqrt.s fs10, fa6, rtz",
+   "words": [
+    "0x58081d53"
+   ]
+  },
+  {
+   "id": "fsrm#pseudo57",
+   "operands": "s6, s9",
+   "ordering": "",
+   "gnu": "fsrm s6, s9",
+   "words": [
+    "0x002c9b73"
+   ]
+  },
+  {
+   "id": "fsrm#pseudo57",
+   "operands": "tp, s11",
+   "ordering": "",
+   "gnu": "fsrm tp, s11",
+   "words": [
+    "0x002d9273"
+   ]
+  },
+  {
+   "id": "fsrm#pseudo57",
+   "operands": "a3, ra",
+   "ordering": "",
+   "gnu": "fsrm a3, ra",
+   "words": [
+    "0x002096f3"
+   ]
+  },
+  {
+   "id": "fsrm#pseudo57",
+   "operands": "a2, s11",
+   "ordering": "",
+   "gnu": "fsrm a2, s11",
+   "words": [
+    "0x002d9673"
+   ]
+  },
+  {
+   "id": "fsrm#pseudo58",
+   "operands": "s1",
+   "ordering": "",
+   "gnu": "fsrm s1",
+   "words": [
+    "0x00249073"
+   ]
+  },
+  {
+   "id": "fsrm#pseudo58",
+   "operands": "a7",
+   "ordering": "",
+   "gnu": "fsrm a7",
+   "words": [
+    "0x00289073"
+   ]
+  },
+  {
+   "id": "fsrm#pseudo58",
+   "operands": "a2",
+   "ordering": "",
+   "gnu": "fsrm a2",
+   "words": [
+    "0x00261073"
+   ]
+  },
+  {
+   "id": "fsrm#pseudo58",
+   "operands": "a7",
+   "ordering": "",
+   "gnu": "fsrm a7",
+   "words": [
+    "0x00289073"
+   ]
+  },
+  {
+   "id": "fsrmi#pseudo59",
+   "operands": "sp, 19",
+   "ordering": "",
+   "gnu": "fsrmi sp, 19",
+   "words": [
+    "0x0029d173"
+   ]
+  },
+  {
+   "id": "fsrmi#pseudo59",
+   "operands": "a1, 22",
+   "ordering": "",
+   "gnu": "fsrmi a1, 22",
+   "words": [
+    "0x002b55f3"
+   ]
+  },
+  {
+   "id": "fsrmi#pseudo59",
+   "operands": "t6, 2",
+   "ordering": "",
+   "gnu": "fsrmi t6, 2",
+   "words": [
+    "0x00215ff3"
+   ]
+  },
+  {
+   "id": "fsrmi#pseudo59",
+   "operands": "t5, 26",
+   "ordering": "",
+   "gnu": "fsrmi t5, 26",
+   "words": [
+    "0x002d5f73"
+   ]
+  },
+  {
+   "id": "fsrmi#pseudo59",
+   "operands": "t4, 0",
+   "ordering": "",
+   "gnu": "fsrmi t4, 0",
+   "words": [
+    "0x00205ef3"
+   ]
+  },
+  {
+   "id": "fsrmi#pseudo59",
+   "operands": "a2, 31",
+   "ordering": "",
+   "gnu": "fsrmi a2, 31",
+   "words": [
+    "0x002fd673"
+   ]
+  },
+  {
+   "id": "fsrmi#pseudo60",
+   "operands": "0",
+   "ordering": "",
+   "gnu": "fsrmi 0",
+   "words": [
+    "0x00205073"
+   ]
+  },
+  {
+   "id": "fsrmi#pseudo60",
+   "operands": "10",
+   "ordering": "",
+   "gnu": "fsrmi 10",
+   "words": [
+    "0x00255073"
+   ]
+  },
+  {
+   "id": "fsrmi#pseudo60",
+   "operands": "30",
+   "ordering": "",
+   "gnu": "fsrmi 30",
+   "words": [
+    "0x002f5073"
+   ]
+  },
+  {
+   "id": "fsrmi#pseudo60",
+   "operands": "9",
+   "ordering": "",
+   "gnu": "fsrmi 9",
+   "words": [
+    "0x0024d073"
+   ]
+  },
+  {
+   "id": "fsrmi#pseudo60",
+   "operands": "0",
+   "ordering": "",
+   "gnu": "fsrmi 0",
+   "words": [
+    "0x00205073"
+   ]
+  },
+  {
+   "id": "fsrmi#pseudo60",
+   "operands": "31",
+   "ordering": "",
+   "gnu": "fsrmi 31",
+   "words": [
+    "0x002fd073"
+   ]
+  },
+  {
+   "id": "fsub.d",
+   "operands": "fs8, fa3, fa5, rmm",
+   "ordering": "",
+   "gnu": "fsub.d fs8, fa3, fa5, rmm",
+   "words": [
+    "0x0af6cc53"
+   ]
+  },
+  {
+   "id": "fsub.d",
+   "operands": "fs4, fa6, fa5, rne",
+   "ordering": "",
+   "gnu": "fsub.d fs4, fa6, fa5, rne",
+   "words": [
+    "0x0af80a53"
+   ]
+  },
+  {
+   "id": "fsub.d",
+   "operands": "ft10, fa7, fa7, rne",
+   "ordering": "",
+   "gnu": "fsub.d ft10, fa7, fa7, rne",
+   "words": [
+    "0x0b188f53"
+   ]
+  },
+  {
+   "id": "fsub.d",
+   "operands": "fa5, fa3, fs3, rmm",
+   "ordering": "",
+   "gnu": "fsub.d fa5, fa3, fs3, rmm",
+   "words": [
+    "0x0b36c7d3"
+   ]
+  },
+  {
+   "id": "fsub.s",
+   "operands": "ft9, fs8, fa5, rup",
+   "ordering": "",
+   "gnu": "fsub.s ft9, fs8, fa5, rup",
+   "words": [
+    "0x08fc3ed3"
+   ]
+  },
+  {
+   "id": "fsub.s",
+   "operands": "fa0, ft11, fs9, rtz",
+   "ordering": "",
+   "gnu": "fsub.s fa0, ft11, fs9, rtz",
+   "words": [
+    "0x099f9553"
+   ]
+  },
+  {
+   "id": "fsub.s",
+   "operands": "ft8, fa3, fs10, rdn",
+   "ordering": "",
+   "gnu": "fsub.s ft8, fa3, fs10, rdn",
+   "words": [
+    "0x09a6ae53"
+   ]
+  },
+  {
+   "id": "fsub.s",
+   "operands": "fa0, fs3, fa5, rne",
+   "ordering": "",
+   "gnu": "fsub.s fa0, fs3, fa5, rne",
+   "words": [
+    "0x08f98553"
+   ]
+  },
+  {
+   "id": "fsw",
+   "operands": "ft0, -837(t0)",
+   "ordering": "",
+   "gnu": "fsw ft0, -837(t0)",
+   "words": [
+    "0xca02ada7"
+   ]
+  },
+  {
+   "id": "fsw",
+   "operands": "fs10, 1662(sp)",
+   "ordering": "",
+   "gnu": "fsw fs10, 1662(sp)",
+   "words": [
+    "0x67a12f27"
+   ]
+  },
+  {
+   "id": "fsw",
+   "operands": "fs1, 500(a2)",
+   "ordering": "",
+   "gnu": "fsw fs1, 500(a2)",
+   "words": [
+    "0x1e962a27"
+   ]
+  },
+  {
+   "id": "fsw",
+   "operands": "fs10, -427(gp)",
+   "ordering": "",
+   "gnu": "fsw fs10, -427(gp)",
+   "words": [
+    "0xe5a1aaa7"
+   ]
+  },
+  {
+   "id": "fsw",
+   "operands": "fs8, -2048(a7)",
+   "ordering": "",
+   "gnu": "fsw fs8, -2048(a7)",
+   "words": [
+    "0x8188a027"
+   ]
+  },
+  {
+   "id": "fsw",
+   "operands": "ft0, 2047(a3)",
+   "ordering": "",
+   "gnu": "fsw ft0, 2047(a3)",
+   "words": [
+    "0x7e06afa7"
+   ]
+  },
+  {
+   "id": "j#pseudo19",
+   "operands": "805828",
+   "ordering": "",
+   "gnu": "j .+805828",
+   "words": [
+    "0x3c5c406f"
+   ]
+  },
+  {
+   "id": "j#pseudo19",
+   "operands": "494504",
+   "ordering": "",
+   "gnu": "j .+494504",
+   "words": [
+    "0x3a97806f"
+   ]
+  },
+  {
+   "id": "j#pseudo19",
+   "operands": "-277850",
+   "ordering": "",
+   "gnu": "j .-277850",
+   "words": [
+    "0xaa6bc06f"
+   ]
+  },
+  {
+   "id": "j#pseudo19",
+   "operands": "-1016828",
+   "ordering": "",
+   "gnu": "j .-1016828",
+   "words": [
+    "0xc050706f"
+   ]
+  },
+  {
+   "id": "j#pseudo19",
+   "operands": "-1048576",
+   "ordering": "",
+   "gnu": "j .-1048576",
+   "words": [
+    "0x8000006f"
+   ]
+  },
+  {
+   "id": "j#pseudo19",
+   "operands": "1048574",
+   "ordering": "",
+   "gnu": "j .+1048574",
+   "words": [
+    "0x7ffff06f"
+   ]
+  },
+  {
+   "id": "jal",
+   "operands": "s6, -707514",
+   "ordering": "",
+   "gnu": "jal s6, .-707514",
+   "words": [
+    "0xc4653b6f"
+   ]
+  },
+  {
+   "id": "jal",
+   "operands": "s3, 835236",
+   "ordering": "",
+   "gnu": "jal s3, .+835236",
+   "words": [
+    "0x6a5cb9ef"
+   ]
+  },
+  {
+   "id": "jal",
+   "operands": "a0, -8220",
+   "ordering": "",
+   "gnu": "jal a0, .-8220",
+   "words": [
+    "0xfe5fd56f"
+   ]
+  },
+  {
+   "id": "jal",
+   "operands": "s11, -704826",
+   "ordering": "",
+   "gnu": "jal s11, .-704826",
+   "words": [
+    "0xec753def"
+   ]
+  },
+  {
+   "id": "jal",
+   "operands": "t5, -1048576",
+   "ordering": "",
+   "gnu": "jal t5, .-1048576",
+   "words": [
+    "0x80000f6f"
+   ]
+  },
+  {
+   "id": "jal",
+   "operands": "t2, 1048574",
+   "ordering": "",
+   "gnu": "jal t2, .+1048574",
+   "words": [
+    "0x7ffff3ef"
+   ]
+  },
+  {
+   "id": "jal#pseudo20",
+   "operands": "388866",
+   "ordering": "",
+   "gnu": "jal .+388866",
+   "words": [
+    "0x7035e0ef"
+   ]
+  },
+  {
+   "id": "jal#pseudo20",
+   "operands": "-624760",
+   "ordering": "",
+   "gnu": "jal .-624760",
+   "words": [
+    "0xf88670ef"
+   ]
+  },
+  {
+   "id": "jal#pseudo20",
+   "operands": "880896",
+   "ordering": "",
+   "gnu": "jal .+880896",
+   "words": [
+    "0x100d70ef"
+   ]
+  },
+  {
+   "id": "jal#pseudo20",
+   "operands": "370522",
+   "ordering": "",
+   "gnu": "jal .+370522",
+   "words": [
+    "0x75a5a0ef"
+   ]
+  },
+  {
+   "id": "jal#pseudo20",
+   "operands": "-1048576",
+   "ordering": "",
+   "gnu": "jal .-1048576",
+   "words": [
+    "0x800000ef"
+   ]
+  },
+  {
+   "id": "jal#pseudo20",
+   "operands": "1048574",
+   "ordering": "",
+   "gnu": "jal .+1048574",
+   "words": [
+    "0x7ffff0ef"
+   ]
+  },
+  {
+   "id": "jalr",
+   "operands": "a3, -1458(t4)",
+   "ordering": "",
+   "gnu": "jalr a3, -1458(t4)",
+   "words": [
+    "0xa4ee86e7"
+   ]
+  },
+  {
+   "id": "jalr",
+   "operands": "a1, 873(a7)",
+   "ordering": "",
+   "gnu": "jalr a1, 873(a7)",
+   "words": [
+    "0x369885e7"
+   ]
+  },
+  {
+   "id": "jalr",
+   "operands": "s0, 1394(s5)",
+   "ordering": "",
+   "gnu": "jalr s0, 1394(s5)",
+   "words": [
+    "0x572a8467"
+   ]
+  },
+  {
+   "id": "jalr",
+   "operands": "t0, -959(gp)",
+   "ordering": "",
+   "gnu": "jalr t0, -959(gp)",
+   "words": [
+    "0xc41182e7"
+   ]
+  },
+  {
+   "id": "jalr",
+   "operands": "s9, -2048(zero)",
+   "ordering": "",
+   "gnu": "jalr s9, -2048(zero)",
+   "words": [
+    "0x80000ce7"
+   ]
+  },
+  {
+   "id": "jalr",
+   "operands": "a4, 2047(s1)",
+   "ordering": "",
+   "gnu": "jalr a4, 2047(s1)",
+   "words": [
+    "0x7ff48767"
+   ]
+  },
+  {
+   "id": "jalr#pseudo22",
+   "operands": "zero",
+   "ordering": "",
+   "gnu": "jalr zero",
+   "words": [
+    "0x000000e7"
+   ]
+  },
+  {
+   "id": "jalr#pseudo22",
+   "operands": "a6",
+   "ordering": "",
+   "gnu": "jalr a6",
+   "words": [
+    "0x000800e7"
+   ]
+  },
+  {
+   "id": "jalr#pseudo22",
+   "operands": "s11",
+   "ordering": "",
+   "gnu": "jalr s11",
+   "words": [
+    "0x000d80e7"
+   ]
+  },
+  {
+   "id": "jalr#pseudo22",
+   "operands": "s2",
+   "ordering": "",
+   "gnu": "jalr s2",
+   "words": [
+    "0x000900e7"
+   ]
+  },
+  {
+   "id": "jr#pseudo21",
+   "operands": "tp",
+   "ordering": "",
+   "gnu": "jr tp",
+   "words": [
+    "0x00020067"
+   ]
+  },
+  {
+   "id": "jr#pseudo21",
+   "operands": "s6",
+   "ordering": "",
+   "gnu": "jr s6",
+   "words": [
+    "0x000b0067"
+   ]
+  },
+  {
+   "id": "jr#pseudo21",
+   "operands": "t1",
+   "ordering": "",
+   "gnu": "jr t1",
+   "words": [
+    "0x00030067"
+   ]
+  },
+  {
+   "id": "jr#pseudo21",
+   "operands": "ra",
+   "ordering": "",
+   "gnu": "jr ra",
+   "words": [
+    "0x00008067"
+   ]
+  },
+  {
+   "id": "lb",
+   "operands": "t3, -485(tp)",
+   "ordering": "",
+   "gnu": "lb t3, -485(tp)",
+   "words": [
+    "0xe1b20e03"
+   ]
+  },
+  {
+   "id": "lb",
+   "operands": "gp, -443(s9)",
+   "ordering": "",
+   "gnu": "lb gp, -443(s9)",
+   "words": [
+    "0xe45c8183"
+   ]
+  },
+  {
+   "id": "lb",
+   "operands": "ra, 1220(t2)",
+   "ordering": "",
+   "gnu": "lb ra, 1220(t2)",
+   "words": [
+    "0x4c438083"
+   ]
+  },
+  {
+   "id": "lb",
+   "operands": "t3, 1401(s11)",
+   "ordering": "",
+   "gnu": "lb t3, 1401(s11)",
+   "words": [
+    "0x579d8e03"
+   ]
+  },
+  {
+   "id": "lb",
+   "operands": "a3, -2048(s3)",
+   "ordering": "",
+   "gnu": "lb a3, -2048(s3)",
+   "words": [
+    "0x80098683"
+   ]
+  },
+  {
+   "id": "lb",
+   "operands": "s0, 2047(a3)",
+   "ordering": "",
+   "gnu": "lb s0, 2047(a3)",
+   "words": [
+    "0x7ff68403"
+   ]
+  },
+  {
+   "id": "lbu",
+   "operands": "s3, 530(s10)",
+   "ordering": "",
+   "gnu": "lbu s3, 530(s10)",
+   "words": [
+    "0x212d4983"
+   ]
+  },
+  {
+   "id": "lbu",
+   "operands": "s1, -1360(s10)",
+   "ordering": "",
+   "gnu": "lbu s1, -1360(s10)",
+   "words": [
+    "0xab0d4483"
+   ]
+  },
+  {
+   "id": "lbu",
+   "operands": "a4, -74(a0)",
+   "ordering": "",
+   "gnu": "lbu a4, -74(a0)",
+   "words": [
+    "0xfb654703"
+   ]
+  },
+  {
+   "id": "lbu",
+   "operands": "s9, 1261(s11)",
+   "ordering": "",
+   "gnu": "lbu s9, 1261(s11)",
+   "words": [
+    "0x4eddcc83"
+   ]
+  },
+  {
+   "id": "lbu",
+   "operands": "a6, -2048(gp)",
+   "ordering": "",
+   "gnu": "lbu a6, -2048(gp)",
+   "words": [
+    "0x8001c803"
+   ]
+  },
+  {
+   "id": "lbu",
+   "operands": "a6, 2047(a4)",
+   "ordering": "",
+   "gnu": "lbu a6, 2047(a4)",
+   "words": [
+    "0x7ff74803"
+   ]
+  },
+  {
+   "id": "lh",
+   "operands": "a4, 2018(tp)",
+   "ordering": "",
+   "gnu": "lh a4, 2018(tp)",
+   "words": [
+    "0x7e221703"
+   ]
+  },
+  {
+   "id": "lh",
+   "operands": "gp, 1884(a6)",
+   "ordering": "",
+   "gnu": "lh gp, 1884(a6)",
+   "words": [
+    "0x75c81183"
+   ]
+  },
+  {
+   "id": "lh",
+   "operands": "t2, 959(s10)",
+   "ordering": "",
+   "gnu": "lh t2, 959(s10)",
+   "words": [
+    "0x3bfd1383"
+   ]
+  },
+  {
+   "id": "lh",
+   "operands": "a1, -219(a2)",
+   "ordering": "",
+   "gnu": "lh a1, -219(a2)",
+   "words": [
+    "0xf2561583"
+   ]
+  },
+  {
+   "id": "lh",
+   "operands": "t2, -2048(t3)",
+   "ordering": "",
+   "gnu": "lh t2, -2048(t3)",
+   "words": [
+    "0x800e1383"
+   ]
+  },
+  {
+   "id": "lh",
+   "operands": "a2, 2047(s0)",
+   "ordering": "",
+   "gnu": "lh a2, 2047(s0)",
+   "words": [
+    "0x7ff41603"
+   ]
+  },
+  {
+   "id": "lhu",
+   "operands": "a5, 1826(s6)",
+   "ordering": "",
+   "gnu": "lhu a5, 1826(s6)",
+   "words": [
+    "0x722b5783"
+   ]
+  },
+  {
+   "id": "lhu",
+   "operands": "t2, -1781(ra)",
+   "ordering": "",
+   "gnu": "lhu t2, -1781(ra)",
+   "words": [
+    "0x90b0d383"
+   ]
+  },
+  {
+   "id": "lhu",
+   "operands": "s0, 430(zero)",
+   "ordering": "",
+   "gnu": "lhu s0, 430(zero)",
+   "words": [
+    "0x1ae05403"
+   ]
+  },
+  {
+   "id": "lhu",
+   "operands": "s7, 842(s6)",
+   "ordering": "",
+   "gnu": "lhu s7, 842(s6)",
+   "words": [
+    "0x34ab5b83"
+   ]
+  },
+  {
+   "id": "lhu",
+   "operands": "tp, -2048(s1)",
+   "ordering": "",
+   "gnu": "lhu tp, -2048(s1)",
+   "words": [
+    "0x8004d203"
+   ]
+  },
+  {
+   "id": "lhu",
+   "operands": "tp, 2047(gp)",
+   "ordering": "",
+   "gnu": "lhu tp, 2047(gp)",
+   "words": [
+    "0x7ff1d203"
+   ]
+  },
+  {
+   "id": "li#pseudo1",
+   "operands": "a4, -1375101493",
+   "ordering": "",
+   "gnu": "li a4, -1375101493",
+   "words": [
+    "0xae09a737",
+    "0xdcb70713"
+   ]
+  },
+  {
+   "id": "li#pseudo1",
+   "operands": "s10, -508649502",
+   "ordering": "",
+   "gnu": "li s10, -508649502",
+   "words": [
+    "0xe1aead37",
+    "0xfe2d0d13"
+   ]
+  },
+  {
+   "id": "li#pseudo1",
+   "operands": "t6, -1948880580",
+   "ordering": "",
+   "gnu": "li t6, -1948880580",
+   "words": [
+    "0x8bd67fb7",
+    "0x13cf8f93"
+   ]
+  },
+  {
+   "id": "li#pseudo1",
+   "operands": "s7, 478400390",
+   "ordering": "",
+   "gnu": "li s7, 478400390",
+   "words": [
+    "0x1c83dbb7",
+    "0xf86b8b93"
+   ]
+  },
+  {
+   "id": "li#pseudo1",
+   "operands": "a4, -2147483648",
+   "ordering": "",
+   "gnu": "li a4, -2147483648",
+   "words": [
+    "0x80000737"
+   ]
+  },
+  {
+   "id": "li#pseudo1",
+   "operands": "a1, 2147483647",
+   "ordering": "",
+   "gnu": "li a1, 2147483647",
+   "words": [
+    "0x800005b7",
+    "0xfff58593"
+   ]
+  },
+  {
+   "id": "lr.w",
+   "operands": "a6, (t3)",
+   "ordering": "",
+   "gnu": "lr.w a6, (t3)",
+   "words": [
+    "0x100e282f"
+   ]
+  },
+  {
+   "id": "lr.w",
+   "operands": "a0, (s5)",
+   "ordering": "rl",
+   "gnu": "lr.w.rl a0, (s5)",
+   "words": [
+    "0x120aa52f"
+   ]
+  },
+  {
+   "id": "lr.w",
+   "operands": "a2, (a5)",
+   "ordering": "aq",
+   "gnu": "lr.w.aq a2, (a5)",
+   "words": [
+    "0x1407a62f"
+   ]
+  },
+  {
+   "id": "lr.w",
+   "operands": "a6, (t4)",
+   "ordering": "",
+   "gnu": "lr.w a6, (t4)",
+   "words": [
+    "0x100ea82f"
+   ]
+  },
+  {
+   "id": "lui",
+   "operands": "a6, 567856",
+   "ordering": "",
+   "gnu": "lui a6, 567856",
+   "words": [
+    "0x8aa30837"
+   ]
+  },
+  {
+   "id": "lui",
+   "operands": "s0, 922843",
+   "ordering": "",
+   "gnu": "lui s0, 922843",
+   "words": [
+    "0xe14db437"
+   ]
+  },
+  {
+   "id": "lui",
+   "operands": "s0, 461400",
+   "ordering": "",
+   "gnu": "lui s0, 461400",
+   "words": [
+    "0x70a58437"
+   ]
+  },
+  {
+   "id": "lui",
+   "operands": "a2, 231333",
+   "ordering": "",
+   "gnu": "lui a2, 231333",
+   "words": [
+    "0x387a5637"
+   ]
+  },
+  {
+   "id": "lui",
+   "operands": "a0, 0",
+   "ordering": "",
+   "gnu": "lui a0, 0",
+   "words": [
+    "0x00000537"
+   ]
+  },
+  {
+   "id": "lui",
+   "operands": "s11, 1048575",
+   "ordering": "",
+   "gnu": "lui s11, 1048575",
+   "words": [
+    "0xfffffdb7"
+   ]
+  },
+  {
+   "id": "lw",
+   "operands": "ra, -796(a4)",
+   "ordering": "",
+   "gnu": "lw ra, -796(a4)",
+   "words": [
+    "0xce472083"
+   ]
+  },
+  {
+   "id": "lw",
+   "operands": "tp, -1150(a1)",
+   "ordering": "",
+   "gnu": "lw tp, -1150(a1)",
+   "words": [
+    "0xb825a203"
+   ]
+  },
+  {
+   "id": "lw",
+   "operands": "tp, 1119(ra)",
+   "ordering": "",
+   "gnu": "lw tp, 1119(ra)",
+   "words": [
+    "0x45f0a203"
+   ]
+  },
+  {
+   "id": "lw",
+   "operands": "s4, -1130(tp)",
+   "ordering": "",
+   "gnu": "lw s4, -1130(tp)",
+   "words": [
+    "0xb9622a03"
+   ]
+  },
+  {
+   "id": "lw",
+   "operands": "tp, -2048(zero)",
+   "ordering": "",
+   "gnu": "lw tp, -2048(zero)",
+   "words": [
+    "0x80002203"
+   ]
+  },
+  {
+   "id": "lw",
+   "operands": "s8, 2047(a0)",
+   "ordering": "",
+   "gnu": "lw s8, 2047(a0)",
+   "words": [
+    "0x7ff52c03"
+   ]
+  },
+  {
+   "id": "mul",
+   "operands": "tp, t2, s1",
+   "ordering": "",
+   "gnu": "mul tp, t2, s1",
+   "words": [
+    "0x02938233"
+   ]
+  },
+  {
+   "id": "mul",
+   "operands": "s2, t4, tp",
+   "ordering": "",
+   "gnu": "mul s2, t4, tp",
+   "words": [
+    "0x024e8933"
+   ]
+  },
+  {
+   "id": "mul",
+   "operands": "s9, sp, a2",
+   "ordering": "",
+   "gnu": "mul s9, sp, a2",
+   "words": [
+    "0x02c10cb3"
+   ]
+  },
+  {
+   "id": "mul",
+   "operands": "t6, a0, a1",
+   "ordering": "",
+   "gnu": "mul t6, a0, a1",
+   "words": [
+    "0x02b50fb3"
+   ]
+  },
+  {
+   "id": "mulh",
+   "operands": "sp, a6, a1",
+   "ordering": "",
+   "gnu": "mulh sp, a6, a1",
+   "words": [
+    "0x02b81133"
+   ]
+  },
+  {
+   "id": "mulh",
+   "operands": "ra, s9, s1",
+   "ordering": "",
+   "gnu": "mulh ra, s9, s1",
+   "words": [
+    "0x029c90b3"
+   ]
+  },
+  {
+   "id": "mulh",
+   "operands": "s11, s0, a0",
+   "ordering": "",
+   "gnu": "mulh s11, s0, a0",
+   "words": [
+    "0x02a41db3"
+   ]
+  },
+  {
+   "id": "mulh",
+   "operands": "s0, s1, s0",
+   "ordering": "",
+   "gnu": "mulh s0, s1, s0",
+   "words": [
+    "0x02849433"
+   ]
+  },
+  {
+   "id": "mulhsu",
+   "operands": "a5, t6, s6",
+   "ordering": "",
+   "gnu": "mulhsu a5, t6, s6",
+   "words": [
+    "0x036fa7b3"
+   ]
+  },
+  {
+   "id": "mulhsu",
+   "operands": "t0, sp, gp",
+   "ordering": "",
+   "gnu": "mulhsu t0, sp, gp",
+   "words": [
+    "0x023122b3"
+   ]
+  },
+  {
+   "id": "mulhsu",
+   "operands": "a3, s3, s11",
+   "ordering": "",
+   "gnu": "mulhsu a3, s3, s11",
+   "words": [
+    "0x03b9a6b3"
+   ]
+  },
+  {
+   "id": "mulhsu",
+   "operands": "tp, ra, gp",
+   "ordering": "",
+   "gnu": "mulhsu tp, ra, gp",
+   "words": [
+    "0x0230a233"
+   ]
+  },
+  {
+   "id": "mulhu",
+   "operands": "t3, a6, tp",
+   "ordering": "",
+   "gnu": "mulhu t3, a6, tp",
+   "words": [
+    "0x02483e33"
+   ]
+  },
+  {
+   "id": "mulhu",
+   "operands": "t0, s6, s2",
+   "ordering": "",
+   "gnu": "mulhu t0, s6, s2",
+   "words": [
+    "0x032b32b3"
+   ]
+  },
+  {
+   "id": "mulhu",
+   "operands": "zero, t5, a0",
+   "ordering": "",
+   "gnu": "mulhu zero, t5, a0",
+   "words": [
+    "0x02af3033"
+   ]
+  },
+  {
+   "id": "mulhu",
+   "operands": "t3, s7, zero",
+   "ordering": "",
+   "gnu": "mulhu t3, s7, zero",
+   "words": [
+    "0x020bbe33"
+   ]
+  },
+  {
+   "id": "mv#pseudo2",
+   "operands": "s3, sp",
+   "ordering": "",
+   "gnu": "mv s3, sp",
+   "words": [
+    "0x00010993"
+   ]
+  },
+  {
+   "id": "mv#pseudo2",
+   "operands": "s4, s10",
+   "ordering": "",
+   "gnu": "mv s4, s10",
+   "words": [
+    "0x000d0a13"
+   ]
+  },
+  {
+   "id": "mv#pseudo2",
+   "operands": "ra, s2",
+   "ordering": "",
+   "gnu": "mv ra, s2",
+   "words": [
+    "0x00090093"
+   ]
+  },
+  {
+   "id": "mv#pseudo2",
+   "operands": "s4, t3",
+   "ordering": "",
+   "gnu": "mv s4, t3",
+   "words": [
+    "0x000e0a13"
+   ]
+  },
+  {
+   "id": "neg#pseudo4",
+   "operands": "gp, s8",
+   "ordering": "",
+   "gnu": "neg gp, s8",
+   "words": [
+    "0x418001b3"
+   ]
+  },
+  {
+   "id": "neg#pseudo4",
+   "operands": "s7, a5",
+   "ordering": "",
+   "gnu": "neg s7, a5",
+   "words": [
+    "0x40f00bb3"
+   ]
+  },
+  {
+   "id": "neg#pseudo4",
+   "operands": "s11, s11",
+   "ordering": "",
+   "gnu": "neg s11, s11",
+   "words": [
+    "0x41b00db3"
+   ]
+  },
+  {
+   "id": "neg#pseudo4",
+   "operands": "t6, t3",
+   "ordering": "",
+   "gnu": "neg t6, t3",
+   "words": [
+    "0x41c00fb3"
+   ]
+  },
+  {
+   "id": "nop#pseudo0",
+   "operands": "",
+   "ordering": "",
+   "gnu": "nop",
+   "words": [
+    "0x00000013"
+   ]
+  },
+  {
+   "id": "not#pseudo3",
+   "operands": "a0, s6",
+   "ordering": "",
+   "gnu": "not a0, s6",
+   "words": [
+    "0xfffb4513"
+   ]
+  },
+  {
+   "id": "not#pseudo3",
+   "operands": "s2, s3",
+   "ordering": "",
+   "gnu": "not s2, s3",
+   "words": [
+    "0xfff9c913"
+   ]
+  },
+  {
+   "id": "not#pseudo3",
+   "operands": "t6, t4",
+   "ordering": "",
+   "gnu": "not t6, t4",
+   "words": [
+    "0xfffecf93"
+   ]
+  },
+  {
+   "id": "not#pseudo3",
+   "operands": "a1, s4",
+   "ordering": "",
+   "gnu": "not a1, s4",
+   "words": [
+    "0xfffa4593"
+   ]
+  },
+  {
+   "id": "or",
+   "operands": "t4, s10, zero",
+   "ordering": "",
+   "gnu": "or t4, s10, zero",
+   "words": [
+    "0x000d6eb3"
+   ]
+  },
+  {
+   "id": "or",
+   "operands": "s3, ra, a5",
+   "ordering": "",
+   "gnu": "or s3, ra, a5",
+   "words": [
+    "0x00f0e9b3"
+   ]
+  },
+  {
+   "id": "or",
+   "operands": "t5, s7, s9",
+   "ordering": "",
+   "gnu": "or t5, s7, s9",
+   "words": [
+    "0x019bef33"
+   ]
+  },
+  {
+   "id": "or",
+   "operands": "t6, t6, t4",
+   "ordering": "",
+   "gnu": "or t6, t6, t4",
+   "words": [
+    "0x01dfefb3"
+   ]
+  },
+  {
+   "id": "ori",
+   "operands": "t3, s0, -348",
+   "ordering": "",
+   "gnu": "ori t3, s0, -348",
+   "words": [
+    "0xea446e13"
+   ]
+  },
+  {
+   "id": "ori",
+   "operands": "t1, s9, 1321",
+   "ordering": "",
+   "gnu": "ori t1, s9, 1321",
+   "words": [
+    "0x529ce313"
+   ]
+  },
+  {
+   "id": "ori",
+   "operands": "s1, s8, -1536",
+   "ordering": "",
+   "gnu": "ori s1, s8, -1536",
+   "words": [
+    "0xa00c6493"
+   ]
+  },
+  {
+   "id": "ori",
+   "operands": "t1, s3, -373",
+   "ordering": "",
+   "gnu": "ori t1, s3, -373",
+   "words": [
+    "0xe8b9e313"
+   ]
+  },
+  {
+   "id": "ori",
+   "operands": "a3, t4, -2048",
+   "ordering": "",
+   "gnu": "ori a3, t4, -2048",
+   "words": [
+    "0x800ee693"
+   ]
+  },
+  {
+   "id": "ori",
+   "operands": "ra, s2, 2047",
+   "ordering": "",
+   "gnu": "ori ra, s2, 2047",
+   "words": [
+    "0x7ff96093"
+   ]
+  },
+  {
+   "id": "pause#pseudo39",
+   "operands": "",
+   "ordering": "",
+   "gnu": "pause",
+   "words": [
+    "0x0100000f"
+   ]
+  },
+  {
+   "id": "rdcycle#pseudo47",
+   "operands": "a6",
+   "ordering": "",
+   "gnu": "rdcycle a6",
+   "words": [
+    "0xc0002873"
+   ]
+  },
+  {
+   "id": "rdcycle#pseudo47",
+   "operands": "s5",
+   "ordering": "",
+   "gnu": "rdcycle s5",
+   "words": [
+    "0xc0002af3"
+   ]
+  },
+  {
+   "id": "rdcycle#pseudo47",
+   "operands": "a5",
+   "ordering": "",
+   "gnu": "rdcycle a5",
+   "words": [
+    "0xc00027f3"
+   ]
+  },
+  {
+   "id": "rdcycle#pseudo47",
+   "operands": "a7",
+   "ordering": "",
+   "gnu": "rdcycle a7",
+   "words": [
+    "0xc00028f3"
+   ]
+  },
+  {
+   "id": "rdcycleh#pseudo50",
+   "operands": "s2",
+   "ordering": "",
+   "gnu": "rdcycleh s2",
+   "words": [
+    "0xc8002973"
+   ]
+  },
+  {
+   "id": "rdcycleh#pseudo50",
+   "operands": "s0",
+   "ordering": "",
+   "gnu": "rdcycleh s0",
+   "words": [
+    "0xc8002473"
+   ]
+  },
+  {
+   "id": "rdcycleh#pseudo50",
+   "operands": "t6",
+   "ordering": "",
+   "gnu": "rdcycleh t6",
+   "words": [
+    "0xc8002ff3"
+   ]
+  },
+  {
+   "id": "rdcycleh#pseudo50",
+   "operands": "t0",
+   "ordering": "",
+   "gnu": "rdcycleh t0",
+   "words": [
+    "0xc80022f3"
+   ]
+  },
+  {
+   "id": "rdinstret#pseudo49",
+   "operands": "a5",
+   "ordering": "",
+   "gnu": "rdinstret a5",
+   "words": [
+    "0xc02027f3"
+   ]
+  },
+  {
+   "id": "rdinstret#pseudo49",
+   "operands": "t6",
+   "ordering": "",
+   "gnu": "rdinstret t6",
+   "words": [
+    "0xc0202ff3"
+   ]
+  },
+  {
+   "id": "rdinstret#pseudo49",
+   "operands": "s0",
+   "ordering": "",
+   "gnu": "rdinstret s0",
+   "words": [
+    "0xc0202473"
+   ]
+  },
+  {
+   "id": "rdinstret#pseudo49",
+   "operands": "a2",
+   "ordering": "",
+   "gnu": "rdinstret a2",
+   "words": [
+    "0xc0202673"
+   ]
+  },
+  {
+   "id": "rdinstreth#pseudo52",
+   "operands": "a5",
+   "ordering": "",
+   "gnu": "rdinstreth a5",
+   "words": [
+    "0xc82027f3"
+   ]
+  },
+  {
+   "id": "rdinstreth#pseudo52",
+   "operands": "s8",
+   "ordering": "",
+   "gnu": "rdinstreth s8",
+   "words": [
+    "0xc8202c73"
+   ]
+  },
+  {
+   "id": "rdinstreth#pseudo52",
+   "operands": "a6",
+   "ordering": "",
+   "gnu": "rdinstreth a6",
+   "words": [
+    "0xc8202873"
+   ]
+  },
+  {
+   "id": "rdinstreth#pseudo52",
+   "operands": "s3",
+   "ordering": "",
+   "gnu": "rdinstreth s3",
+   "words": [
+    "0xc82029f3"
+   ]
+  },
+  {
+   "id": "rdtime#pseudo48",
+   "operands": "sp",
+   "ordering": "",
+   "gnu": "rdtime sp",
+   "words": [
+    "0xc0102173"
+   ]
+  },
+  {
+   "id": "rdtime#pseudo48",
+   "operands": "sp",
+   "ordering": "",
+   "gnu": "rdtime sp",
+   "words": [
+    "0xc0102173"
+   ]
+  },
+  {
+   "id": "rdtime#pseudo48",
+   "operands": "t2",
+   "ordering": "",
+   "gnu": "rdtime t2",
+   "words": [
+    "0xc01023f3"
+   ]
+  },
+  {
+   "id": "rdtime#pseudo48",
+   "operands": "a5",
+   "ordering": "",
+   "gnu": "rdtime a5",
+   "words": [
+    "0xc01027f3"
+   ]
+  },
+  {
+   "id": "rdtimeh#pseudo51",
+   "operands": "ra",
+   "ordering": "",
+   "gnu": "rdtimeh ra",
+   "words": [
+    "0xc81020f3"
+   ]
+  },
+  {
+   "id": "rdtimeh#pseudo51",
+   "operands": "a3",
+   "ordering": "",
+   "gnu": "rdtimeh a3",
+   "words": [
+    "0xc81026f3"
+   ]
+  },
+  {
+   "id": "rdtimeh#pseudo51",
+   "operands": "t1",
+   "ordering": "",
+   "gnu": "rdtimeh t1",
+   "words": [
+    "0xc8102373"
+   ]
+  },
+  {
+   "id": "rdtimeh#pseudo51",
+   "operands": "t3",
+   "ordering": "",
+   "gnu": "rdtimeh t3",
+   "words": [
+    "0xc8102e73"
+   ]
+  },
+  {
+   "id": "rem",
+   "operands": "a4, s11, a1",
+   "ordering": "",
+   "gnu": "rem a4, s11, a1",
+   "words": [
+    "0x02bde733"
+   ]
+  },
+  {
+   "id": "rem",
+   "operands": "a0, a3, t1",
+   "ordering": "",
+   "gnu": "rem a0, a3, t1",
+   "words": [
+    "0x0266e533"
+   ]
+  },
+  {
+   "id": "rem",
+   "operands": "s9, a0, t0",
+   "ordering": "",
+   "gnu": "rem s9, a0, t0",
+   "words": [
+    "0x02556cb3"
+   ]
+  },
+  {
+   "id": "rem",
+   "operands": "a2, a7, tp",
+   "ordering": "",
+   "gnu": "rem a2, a7, tp",
+   "words": [
+    "0x0248e633"
+   ]
+  },
+  {
+   "id": "remu",
+   "operands": "gp, s0, s0",
+   "ordering": "",
+   "gnu": "remu gp, s0, s0",
+   "words": [
+    "0x028471b3"
+   ]
+  },
+  {
+   "id": "remu",
+   "operands": "tp, a6, t4",
+   "ordering": "",
+   "gnu": "remu tp, a6, t4",
+   "words": [
+    "0x03d87233"
+   ]
+  },
+  {
+   "id": "remu",
+   "operands": "t4, s5, a3",
+   "ordering": "",
+   "gnu": "remu t4, s5, a3",
+   "words": [
+    "0x02dafeb3"
+   ]
+  },
+  {
+   "id": "remu",
+   "operands": "t1, s10, s10",
+   "ordering": "",
+   "gnu": "remu t1, s10, s10",
+   "words": [
+    "0x03ad7333"
+   ]
+  },
+  {
+   "id": "ret#pseudo23",
+   "operands": "",
+   "ordering": "",
+   "gnu": "ret",
+   "words": [
+    "0x00008067"
+   ]
+  },
+  {
+   "id": "sb",
+   "operands": "a0, 382(s10)",
+   "ordering": "",
+   "gnu": "sb a0, 382(s10)",
+   "words": [
+    "0x16ad0f23"
+   ]
+  },
+  {
+   "id": "sb",
+   "operands": "s2, 1389(zero)",
+   "ordering": "",
+   "gnu": "sb s2, 1389(zero)",
+   "words": [
+    "0x572006a3"
+   ]
+  },
+  {
+   "id": "sb",
+   "operands": "a6, -236(sp)",
+   "ordering": "",
+   "gnu": "sb a6, -236(sp)",
+   "words": [
+    "0xf1010a23"
+   ]
+  },
+  {
+   "id": "sb",
+   "operands": "t0, -1445(s3)",
+   "ordering": "",
+   "gnu": "sb t0, -1445(s3)",
+   "words": [
+    "0xa4598da3"
+   ]
+  },
+  {
+   "id": "sb",
+   "operands": "s7, -2048(s7)",
+   "ordering": "",
+   "gnu": "sb s7, -2048(s7)",
+   "words": [
+    "0x817b8023"
+   ]
+  },
+  {
+   "id": "sb",
+   "operands": "a2, 2047(s0)",
+   "ordering": "",
+   "gnu": "sb a2, 2047(s0)",
+   "words": [
+    "0x7ec40fa3"
+   ]
+  },
+  {
+   "id": "sc.w",
+   "operands": "gp, t4, (s6)",
+   "ordering": "",
+   "gnu": "sc.w gp, t4, (s6)",
+   "words": [
+    "0x19db21af"
+   ]
+  },
+  {
+   "id": "sc.w",
+   "operands": "t5, a3, (a4)",
+   "ordering": "",
+   "gnu": "sc.w t5, a3, (a4)",
+   "words": [
+    "0x18d72f2f"
+   ]
+  },
+  {
+   "id": "sc.w",
+   "operands": "tp, s1, (t0)",
+   "ordering": "",
+   "gnu": "sc.w tp, s1, (t0)",
+   "words": [
+    "0x1892a22f"
+   ]
+  },
+  {
+   "id": "sc.w",
+   "operands": "a5, t6, (a1)",
+   "ordering": "",
+   "gnu": "sc.w a5, t6, (a1)",
+   "words": [
+    "0x19f5a7af"
+   ]
+  },
+  {
+   "id": "seqz#pseudo5",
+   "operands": "s3, a2",
+   "ordering": "",
+   "gnu": "seqz s3, a2",
+   "words": [
+    "0x00163993"
+   ]
+  },
+  {
+   "id": "seqz#pseudo5",
+   "operands": "s6, t6",
+   "ordering": "",
+   "gnu": "seqz s6, t6",
+   "words": [
+    "0x001fbb13"
+   ]
+  },
+  {
+   "id": "seqz#pseudo5",
+   "operands": "zero, s5",
+   "ordering": "",
+   "gnu": "seqz zero, s5",
+   "words": [
+    "0x001ab013"
+   ]
+  },
+  {
+   "id": "seqz#pseudo5",
+   "operands": "a0, s3",
+   "ordering": "",
+   "gnu": "seqz a0, s3",
+   "words": [
+    "0x0019b513"
+   ]
+  },
+  {
+   "id": "sgtz#pseudo8",
+   "operands": "sp, t3",
+   "ordering": "",
+   "gnu": "sgtz sp, t3",
+   "words": [
+    "0x01c02133"
+   ]
+  },
+  {
+   "id": "sgtz#pseudo8",
+   "operands": "s4, s11",
+   "ordering": "",
+   "gnu": "sgtz s4, s11",
+   "words": [
+    "0x01b02a33"
+   ]
+  },
+  {
+   "id": "sgtz#pseudo8",
+   "operands": "s9, a7",
+   "ordering": "",
+   "gnu": "sgtz s9, a7",
+   "words": [
+    "0x01102cb3"
+   ]
+  },
+  {
+   "id": "sgtz#pseudo8",
+   "operands": "gp, s6",
+   "ordering": "",
+   "gnu": "sgtz gp, s6",
+   "words": [
+    "0x016021b3"
+   ]
+  },
+  {
+   "id": "sh",
+   "operands": "t4, -1945(a3)",
+   "ordering": "",
+   "gnu": "sh t4, -1945(a3)",
+   "words": [
+    "0x87d693a3"
+   ]
+  },
+  {
+   "id": "sh",
+   "operands": "a0, -424(a4)",
+   "ordering": "",
+   "gnu": "sh a0, -424(a4)",
+   "words": [
+    "0xe4a71c23"
+   ]
+  },
+  {
+   "id": "sh",
+   "operands": "s5, 375(s0)",
+   "ordering": "",
+   "gnu": "sh s5, 375(s0)",
+   "words": [
+    "0x17541ba3"
+   ]
+  },
+  {
+   "id": "sh",
+   "operands": "s4, -1211(zero)",
+   "ordering": "",
+   "gnu": "sh s4, -1211(zero)",
+   "words": [
+    "0xb54012a3"
+   ]
+  },
+  {
+   "id": "sh",
+   "operands": "t1, -2048(t2)",
+   "ordering": "",
+   "gnu": "sh t1, -2048(t2)",
+   "words": [
+    "0x80639023"
+   ]
+  },
+  {
+   "id": "sh",
+   "operands": "s7, 2047(s2)",
+   "ordering": "",
+   "gnu": "sh s7, 2047(s2)",
+   "words": [
+    "0x7f791fa3"
+   ]
+  },
+  {
+   "id": "sll",
+   "operands": "a6, gp, t5",
+   "ordering": "",
+   "gnu": "sll a6, gp, t5",
+   "words": [
+    "0x01e19833"
+   ]
+  },
+  {
+   "id": "sll",
+   "operands": "a2, s11, gp",
+   "ordering": "",
+   "gnu": "sll a2, s11, gp",
+   "words": [
+    "0x003d9633"
+   ]
+  },
+  {
+   "id": "sll",
+   "operands": "t5, s4, s5",
+   "ordering": "",
+   "gnu": "sll t5, s4, s5",
+   "words": [
+    "0x015a1f33"
+   ]
+  },
+  {
+   "id": "sll",
+   "operands": "t0, s10, ra",
+   "ordering": "",
+   "gnu": "sll t0, s10, ra",
+   "words": [
+    "0x001d12b3"
+   ]
+  },
+  {
+   "id": "slli",
+   "operands": "t3, a6, 31",
+   "ordering": "",
+   "gnu": "slli t3, a6, 31",
+   "words": [
+    "0x01f81e13"
+   ]
+  },
+  {
+   "id": "slli",
+   "operands": "gp, ra, 22",
+   "ordering": "",
+   "gnu": "slli gp, ra, 22",
+   "words": [
+    "0x01609193"
+   ]
+  },
+  {
+   "id": "slli",
+   "operands": "a2, s0, 6",
+   "ordering": "",
+   "gnu": "slli a2, s0, 6",
+   "words": [
+    "0x00641613"
+   ]
+  },
+  {
+   "id": "slli",
+   "operands": "s11, a7, 31",
+   "ordering": "",
+   "gnu": "slli s11, a7, 31",
+   "words": [
+    "0x01f89d93"
+   ]
+  },
+  {
+   "id": "slli",
+   "operands": "s8, s0, 0",
+   "ordering": "",
+   "gnu": "slli s8, s0, 0",
+   "words": [
+    "0x00041c13"
+   ]
+  },
+  {
+   "id": "slli",
+   "operands": "a2, s6, 31",
+   "ordering": "",
+   "gnu": "slli a2, s6, 31",
+   "words": [
+    "0x01fb1613"
+   ]
+  },
+  {
+   "id": "slt",
+   "operands": "s1, s2, t6",
+   "ordering": "",
+   "gnu": "slt s1, s2, t6",
+   "words": [
+    "0x01f924b3"
+   ]
+  },
+  {
+   "id": "slt",
+   "operands": "s0, s4, t1",
+   "ordering": "",
+   "gnu": "slt s0, s4, t1",
+   "words": [
+    "0x006a2433"
+   ]
+  },
+  {
+   "id": "slt",
+   "operands": "t2, s8, s0",
+   "ordering": "",
+   "gnu": "slt t2, s8, s0",
+   "words": [
+    "0x008c23b3"
+   ]
+  },
+  {
+   "id": "slt",
+   "operands": "s3, t3, t5",
+   "ordering": "",
+   "gnu": "slt s3, t3, t5",
+   "words": [
+    "0x01ee29b3"
+   ]
+  },
+  {
+   "id": "slti",
+   "operands": "s1, tp, -2010",
+   "ordering": "",
+   "gnu": "slti s1, tp, -2010",
+   "words": [
+    "0x82622493"
+   ]
+  },
+  {
+   "id": "slti",
+   "operands": "t5, t6, -146",
+   "ordering": "",
+   "gnu": "slti t5, t6, -146",
+   "words": [
+    "0xf6efaf13"
+   ]
+  },
+  {
+   "id": "slti",
+   "operands": "s4, s0, 246",
+   "ordering": "",
+   "gnu": "slti s4, s0, 246",
+   "words": [
+    "0x0f642a13"
+   ]
+  },
+  {
+   "id": "slti",
+   "operands": "a7, a1, 608",
+   "ordering": "",
+   "gnu": "slti a7, a1, 608",
+   "words": [
+    "0x2605a893"
+   ]
+  },
+  {
+   "id": "slti",
+   "operands": "a1, t0, -2048",
+   "ordering": "",
+   "gnu": "slti a1, t0, -2048",
+   "words": [
+    "0x8002a593"
+   ]
+  },
+  {
+   "id": "slti",
+   "operands": "zero, s5, 2047",
+   "ordering": "",
+   "gnu": "slti zero, s5, 2047",
+   "words": [
+    "0x7ffaa013"
+   ]
+  },
+  {
+   "id": "sltiu",
+   "operands": "tp, s3, -128",
+   "ordering": "",
+   "gnu": "sltiu tp, s3, -128",
+   "words": [
+    "0xf809b213"
+   ]
+  },
+  {
+   "id": "sltiu",
+   "operands": "t1, a5, 609",
+   "ordering": "",
+   "gnu": "sltiu t1, a5, 609",
+   "words": [
+    "0x2617b313"
+   ]
+  },
+  {
+   "id": "sltiu",
+   "operands": "s0, s11, 223",
+   "ordering": "",
+   "gnu": "sltiu s0, s11, 223",
+   "words": [
+    "0x0dfdb413"
+   ]
+  },
+  {
+   "id": "sltiu",
+   "operands": "s5, t2, -1494",
+   "ordering": "",
+   "gnu": "sltiu s5, t2, -1494",
+   "words": [
+    "0xa2a3ba93"
+   ]
+  },
+  {
+   "id": "sltiu",
+   "operands": "s9, a6, -2048",
+   "ordering": "",
+   "gnu": "sltiu s9, a6, -2048",
+   "words": [
+    "0x80083c93"
+   ]
+  },
+  {
+   "id": "sltiu",
+   "operands": "sp, s6, 2047",
+   "ordering": "",
+   "gnu": "sltiu sp, s6, 2047",
+   "words": [
+    "0x7ffb3113"
+   ]
+  },
+  {
+   "id": "sltu",
+   "operands": "s6, t5, a1",
+   "ordering": "",
+   "gnu": "sltu s6, t5, a1",
+   "words": [
+    "0x00bf3b33"
+   ]
+  },
+  {
+   "id": "sltu",
+   "operands": "a0, t4, t1",
+   "ordering": "",
+   "gnu": "sltu a0, t4, t1",
+   "words": [
+    "0x006eb533"
+   ]
+  },
+  {
+   "id": "sltu",
+   "operands": "a6, t2, s7",
+   "ordering": "",
+   "gnu": "sltu a6, t2, s7",
+   "words": [
+    "0x0173b833"
+   ]
+  },
+  {
+   "id": "sltu",
+   "operands": "s9, s11, s5",
+   "ordering": "",
+   "gnu": "sltu s9, s11, s5",
+   "words": [
+    "0x015dbcb3"
+   ]
+  },
+  {
+   "id": "sltz#pseudo7",
+   "operands": "s10, s8",
+   "ordering": "",
+   "gnu": "sltz s10, s8",
+   "words": [
+    "0x000c2d33"
+   ]
+  },
+  {
+   "id": "sltz#pseudo7",
+   "operands": "s1, t6",
+   "ordering": "",
+   "gnu": "sltz s1, t6",
+   "words": [
+    "0x000fa4b3"
+   ]
+  },
+  {
+   "id": "sltz#pseudo7",
+   "operands": "t0, s7",
+   "ordering": "",
+   "gnu": "sltz t0, s7",
+   "words": [
+    "0x000ba2b3"
+   ]
+  },
+  {
+   "id": "sltz#pseudo7",
+   "operands": "a5, a5",
+   "ordering": "",
+   "gnu": "sltz a5, a5",
+   "words": [
+    "0x0007a7b3"
+   ]
+  },
+  {
+   "id": "snez#pseudo6",
+   "operands": "t3, t0",
+   "ordering": "",
+   "gnu": "snez t3, t0",
+   "words": [
+    "0x00503e33"
+   ]
+  },
+  {
+   "id": "snez#pseudo6",
+   "operands": "a3, a1",
+   "ordering": "",
+   "gnu": "snez a3, a1",
+   "words": [
+    "0x00b036b3"
+   ]
+  },
+  {
+   "id": "snez#pseudo6",
+   "operands": "t5, a5",
+   "ordering": "",
+   "gnu": "snez t5, a5",
+   "words": [
+    "0x00f03f33"
+   ]
+  },
+  {
+   "id": "snez#pseudo6",
+   "operands": "s7, s0",
+   "ordering": "",
+   "gnu": "snez s7, s0",
+   "words": [
+    "0x00803bb3"
+   ]
+  },
+  {
+   "id": "sra",
+   "operands": "s1, s6, tp",
+   "ordering": "",
+   "gnu": "sra s1, s6, tp",
+   "words": [
+    "0x404b54b3"
+   ]
+  },
+  {
+   "id": "sra",
+   "operands": "a7, ra, sp",
+   "ordering": "",
+   "gnu": "sra a7, ra, sp",
+   "words": [
+    "0x4020d8b3"
+   ]
+  },
+  {
+   "id": "sra",
+   "operands": "tp, s9, tp",
+   "ordering": "",
+   "gnu": "sra tp, s9, tp",
+   "words": [
+    "0x404cd233"
+   ]
+  },
+  {
+   "id": "sra",
+   "operands": "s10, zero, t1",
+   "ordering": "",
+   "gnu": "sra s10, zero, t1",
+   "words": [
+    "0x40605d33"
+   ]
+  },
+  {
+   "id": "srai",
+   "operands": "t0, s8, 30",
+   "ordering": "",
+   "gnu": "srai t0, s8, 30",
+   "words": [
+    "0x41ec5293"
+   ]
+  },
+  {
+   "id": "srai",
+   "operands": "a5, ra, 2",
+   "ordering": "",
+   "gnu": "srai a5, ra, 2",
+   "words": [
+    "0x4020d793"
+   ]
+  },
+  {
+   "id": "srai",
+   "operands": "sp, gp, 20",
+   "ordering": "",
+   "gnu": "srai sp, gp, 20",
+   "words": [
+    "0x4141d113"
+   ]
+  },
+  {
+   "id": "srai",
+   "operands": "t4, s5, 11",
+   "ordering": "",
+   "gnu": "srai t4, s5, 11",
+   "words": [
+    "0x40bade93"
+   ]
+  },
+  {
+   "id": "srai",
+   "operands": "s9, gp, 0",
+   "ordering": "",
+   "gnu": "srai s9, gp, 0",
+   "words": [
+    "0x4001dc93"
+   ]
+  },
+  {
+   "id": "srai",
+   "operands": "s0, s9, 31",
+   "ordering": "",
+   "gnu": "srai s0, s9, 31",
+   "words": [
+    "0x41fcd413"
+   ]
+  },
+  {
+   "id": "srl",
+   "operands": "s10, t1, s2",
+   "ordering": "",
+   "gnu": "srl s10, t1, s2",
+   "words": [
+    "0x01235d33"
+   ]
+  },
+  {
+   "id": "srl",
+   "operands": "zero, s8, a1",
+   "ordering": "",
+   "gnu": "srl zero, s8, a1",
+   "words": [
+    "0x00bc5033"
+   ]
+  },
+  {
+   "id": "srl",
+   "operands": "tp, s4, gp",
+   "ordering": "",
+   "gnu": "srl tp, s4, gp",
+   "words": [
+    "0x003a5233"
+   ]
+  },
+  {
+   "id": "srl",
+   "operands": "a0, s0, t5",
+   "ordering": "",
+   "gnu": "srl a0, s0, t5",
+   "words": [
+    "0x01e45533"
+   ]
+  },
+  {
+   "id": "srli",
+   "operands": "s10, t4, 14",
+   "ordering": "",
+   "gnu": "srli s10, t4, 14",
+   "words": [
+    "0x00eedd13"
+   ]
+  },
+  {
+   "id": "srli",
+   "operands": "a1, t6, 18",
+   "ordering": "",
+   "gnu": "srli a1, t6, 18",
+   "words": [
+    "0x012fd593"
+   ]
+  },
+  {
+   "id": "srli",
+   "operands": "t3, s3, 9",
+   "ordering": "",
+   "gnu": "srli t3, s3, 9",
+   "words": [
+    "0x0099de13"
+   ]
+  },
+  {
+   "id": "srli",
+   "operands": "a1, s5, 21",
+   "ordering": "",
+   "gnu": "srli a1, s5, 21",
+   "words": [
+    "0x015ad593"
+   ]
+  },
+  {
+   "id": "srli",
+   "operands": "a3, ra, 0",
+   "ordering": "",
+   "gnu": "srli a3, ra, 0",
+   "words": [
+    "0x0000d693"
+   ]
+  },
+  {
+   "id": "srli",
+   "operands": "tp, s4, 31",
+   "ordering": "",
+   "gnu": "srli tp, s4, 31",
+   "words": [
+    "0x01fa5213"
+   ]
+  },
+  {
+   "id": "sub",
+   "operands": "tp, t6, a5",
+   "ordering": "",
+   "gnu": "sub tp, t6, a5",
+   "words": [
+    "0x40ff8233"
+   ]
+  },
+  {
+   "id": "sub",
+   "operands": "a0, s10, s0",
+   "ordering": "",
+   "gnu": "sub a0, s10, s0",
+   "words": [
+    "0x408d0533"
+   ]
+  },
+  {
+   "id": "sub",
+   "operands": "s9, a2, zero",
+   "ordering": "",
+   "gnu": "sub s9, a2, zero",
+   "words": [
+    "0x40060cb3"
+   ]
+  },
+  {
+   "id": "sub",
+   "operands": "t6, tp, a4",
+   "ordering": "",
+   "gnu": "sub t6, tp, a4",
+   "words": [
+    "0x40e20fb3"
+   ]
+  },
+  {
+   "id": "sw",
+   "operands": "s8, -201(s6)",
+   "ordering": "",
+   "gnu": "sw s8, -201(s6)",
+   "words": [
+    "0xf38b2ba3"
+   ]
+  },
+  {
+   "id": "sw",
+   "operands": "t0, 514(tp)",
+   "ordering": "",
+   "gnu": "sw t0, 514(tp)",
+   "words": [
+    "0x20522123"
+   ]
+  },
+  {
+   "id": "sw",
+   "operands": "gp, -1435(s9)",
+   "ordering": "",
+   "gnu": "sw gp, -1435(s9)",
+   "words": [
+    "0xa63ca2a3"
+   ]
+  },
+  {
+   "id": "sw",
+   "operands": "s10, 1133(t6)",
+   "ordering": "",
+   "gnu": "sw s10, 1133(t6)",
+   "words": [
+    "0x47afa6a3"
+   ]
+  },
+  {
+   "id": "sw",
+   "operands": "t1, -2048(s1)",
+   "ordering": "",
+   "gnu": "sw t1, -2048(s1)",
+   "words": [
+    "0x8064a023"
+   ]
+  },
+  {
+   "id": "sw",
+   "operands": "a3, 2047(s10)",
+   "ordering": "",
+   "gnu": "sw a3, 2047(s10)",
+   "words": [
+    "0x7edd2fa3"
+   ]
+  },
+  {
+   "id": "xor",
+   "operands": "ra, s7, t1",
+   "ordering": "",
+   "gnu": "xor ra, s7, t1",
+   "words": [
+    "0x006bc0b3"
+   ]
+  },
+  {
+   "id": "xor",
+   "operands": "zero, sp, t4",
+   "ordering": "",
+   "gnu": "xor zero, sp, t4",
+   "words": [
+    "0x01d14033"
+   ]
+  },
+  {
+   "id": "xor",
+   "operands": "s8, s5, t5",
+   "ordering": "",
+   "gnu": "xor s8, s5, t5",
+   "words": [
+    "0x01eacc33"
+   ]
+  },
+  {
+   "id": "xor",
+   "operands": "t0, zero, s5",
+   "ordering": "",
+   "gnu": "xor t0, zero, s5",
+   "words": [
+    "0x015042b3"
+   ]
+  },
+  {
+   "id": "xori",
+   "operands": "tp, a1, 469",
+   "ordering": "",
+   "gnu": "xori tp, a1, 469",
+   "words": [
+    "0x1d55c213"
+   ]
+  },
+  {
+   "id": "xori",
+   "operands": "a0, a1, -517",
+   "ordering": "",
+   "gnu": "xori a0, a1, -517",
+   "words": [
+    "0xdfb5c513"
+   ]
+  },
+  {
+   "id": "xori",
+   "operands": "tp, t0, -375",
+   "ordering": "",
+   "gnu": "xori tp, t0, -375",
+   "words": [
+    "0xe892c213"
+   ]
+  },
+  {
+   "id": "xori",
+   "operands": "s0, a5, 633",
+   "ordering": "",
+   "gnu": "xori s0, a5, 633",
+   "words": [
+    "0x2797c413"
+   ]
+  },
+  {
+   "id": "xori",
+   "operands": "a0, a3, -2048",
+   "ordering": "",
+   "gnu": "xori a0, a3, -2048",
+   "words": [
+    "0x8006c513"
+   ]
+  },
+  {
+   "id": "xori",
+   "operands": "s10, a0, 2047",
+   "ordering": "",
+   "gnu": "xori s10, a0, 2047",
+   "words": [
+    "0x7ff54d13"
+   ]
+  },
+  {
+   "id": "c.add",
+   "operands": "a2, gp",
+   "ordering": "",
+   "gnu": "c.add a2, gp",
+   "words": [
+    "0x0000960e"
+   ]
+  },
+  {
+   "id": "c.add",
+   "operands": "s4, t3",
+   "ordering": "",
+   "gnu": "c.add s4, t3",
+   "words": [
+    "0x00009a72"
+   ]
+  },
+  {
+   "id": "c.add",
+   "operands": "a3, a7",
+   "ordering": "",
+   "gnu": "c.add a3, a7",
+   "words": [
+    "0x000096c6"
+   ]
+  },
+  {
+   "id": "c.add",
+   "operands": "t3, a2",
+   "ordering": "",
+   "gnu": "c.add t3, a2",
+   "words": [
+    "0x00009e32"
+   ]
+  },
+  {
+   "id": "c.addi",
+   "operands": "gp, 21",
+   "ordering": "",
+   "gnu": "c.addi gp, 21",
+   "words": [
+    "0x000001d5"
+   ]
+  },
+  {
+   "id": "c.addi",
+   "operands": "a2, -24",
+   "ordering": "",
+   "gnu": "c.addi a2, -24",
+   "words": [
+    "0x00001621"
+   ]
+  },
+  {
+   "id": "c.addi",
+   "operands": "ra, -6",
+   "ordering": "",
+   "gnu": "c.addi ra, -6",
+   "words": [
+    "0x000010e9"
+   ]
+  },
+  {
+   "id": "c.addi",
+   "operands": "ra, 13",
+   "ordering": "",
+   "gnu": "c.addi ra, 13",
+   "words": [
+    "0x000000b5"
+   ]
+  },
+  {
+   "id": "c.addi",
+   "operands": "t2, -32",
+   "ordering": "",
+   "gnu": "c.addi t2, -32",
+   "words": [
+    "0x00001381"
+   ]
+  },
+  {
+   "id": "c.addi",
+   "operands": "t3, 31",
+   "ordering": "",
+   "gnu": "c.addi t3, 31",
+   "words": [
+    "0x00000e7d"
+   ]
+  },
+  {
+   "id": "c.addi16sp",
+   "operands": "sp, 336",
+   "ordering": "",
+   "gnu": "c.addi16sp sp, 336",
+   "words": [
+    "0x00006171"
+   ]
+  },
+  {
+   "id": "c.addi16sp",
+   "operands": "sp, 432",
+   "ordering": "",
+   "gnu": "c.addi16sp sp, 432",
+   "words": [
+    "0x0000615d"
+   ]
+  },
+  {
+   "id": "c.addi16sp",
+   "operands": "sp, 224",
+   "ordering": "",
+   "gnu": "c.addi16sp sp, 224",
+   "words": [
+    "0x0000612d"
+   ]
+  },
+  {
+   "id": "c.addi16sp",
+   "operands": "sp, -208",
+   "ordering": "",
+   "gnu": "c.addi16sp sp, -208",
+   "words": [
+    "0x00007155"
+   ]
+  },
+  {
+   "id": "c.addi16sp",
+   "operands": "sp, -512",
+   "ordering": "",
+   "gnu": "c.addi16sp sp, -512",
+   "words": [
+    "0x00007101"
+   ]
+  },
+  {
+   "id": "c.addi16sp",
+   "operands": "sp, 496",
+   "ordering": "",
+   "gnu": "c.addi16sp sp, 496",
+   "words": [
+    "0x0000617d"
+   ]
+  },
+  {
+   "id": "c.addi4spn",
+   "operands": "a1, sp, 756",
+   "ordering": "",
+   "gnu": "c.addi4spn a1, sp, 756",
+   "words": [
+    "0x00001dcc"
+   ]
+  },
+  {
+   "id": "c.addi4spn",
+   "operands": "a2, sp, 808",
+   "ordering": "",
+   "gnu": "c.addi4spn a2, sp, 808",
+   "words": [
+    "0x00001630"
+   ]
+  },
+  {
+   "id": "c.addi4spn",
+   "operands": "a0, sp, 960",
+   "ordering": "",
+   "gnu": "c.addi4spn a0, sp, 960",
+   "words": [
+    "0x00000788"
+   ]
+  },
+  {
+   "id": "c.addi4spn",
+   "operands": "a5, sp, 224",
+   "ordering": "",
+   "gnu": "c.addi4spn a5, sp, 224",
+   "words": [
+    "0x0000119c"
+   ]
+  },
+  {
+   "id": "c.addi4spn",
+   "operands": "a1, sp, 4",
+   "ordering": "",
+   "gnu": "c.addi4spn a1, sp, 4",
+   "words": [
+    "0x0000004c"
+   ]
+  },
+  {
+   "id": "c.addi4spn",
+   "operands": "a0, sp, 1020",
+   "ordering": "",
+   "gnu": "c.addi4spn a0, sp, 1020",
+   "words": [
+    "0x00001fe8"
+   ]
+  },
+  {
+   "id": "c.and",
+   "operands": "a5, a5",
+   "ordering": "",
+   "gnu": "c.and a5, a5",
+   "words": [
+    "0x00008ffd"
+   ]
+  },
+  {
+   "id": "c.and",
+   "operands": "a0, a0",
+   "ordering": "",
+   "gnu": "c.and a0, a0",
+   "words": [
+    "0x00008d69"
+   ]
+  },
+  {
+   "id": "c.and",
+   "operands": "s0, a5",
+   "ordering": "",
+   "gnu": "c.and s0, a5",
+   "words": [
+    "0x00008c7d"
+   ]
+  },
+  {
+   "id": "c.and",
+   "operands": "a4, a0",
+   "ordering": "",
+   "gnu": "c.and a4, a0",
+   "words": [
+    "0x00008f69"
+   ]
+  },
+  {
+   "id": "c.andi",
+   "operands": "a0, -21",
+   "ordering": "",
+   "gnu": "c.andi a0, -21",
+   "words": [
+    "0x0000992d"
+   ]
+  },
+  {
+   "id": "c.andi",
+   "operands": "a1, -2",
+   "ordering": "",
+   "gnu": "c.andi a1, -2",
+   "words": [
+    "0x000099f9"
+   ]
+  },
+  {
+   "id": "c.andi",
+   "operands": "a0, -7",
+   "ordering": "",
+   "gnu": "c.andi a0, -7",
+   "words": [
+    "0x00009965"
+   ]
+  },
+  {
+   "id": "c.andi",
+   "operands": "a1, -17",
+   "ordering": "",
+   "gnu": "c.andi a1, -17",
+   "words": [
+    "0x000099bd"
+   ]
+  },
+  {
+   "id": "c.andi",
+   "operands": "a4, -32",
+   "ordering": "",
+   "gnu": "c.andi a4, -32",
+   "words": [
+    "0x00009b01"
+   ]
+  },
+  {
+   "id": "c.andi",
+   "operands": "a2, 31",
+   "ordering": "",
+   "gnu": "c.andi a2, 31",
+   "words": [
+    "0x00008a7d"
+   ]
+  },
+  {
+   "id": "c.beqz",
+   "operands": "a1, -70",
+   "ordering": "",
+   "gnu": "c.beqz a1, .-70",
+   "words": [
+    "0x0000ddcd"
+   ]
+  },
+  {
+   "id": "c.beqz",
+   "operands": "s1, 64",
+   "ordering": "",
+   "gnu": "c.beqz s1, .+64",
+   "words": [
+    "0x0000c0a1"
+   ]
+  },
+  {
+   "id": "c.beqz",
+   "operands": "a3, 46",
+   "ordering": "",
+   "gnu": "c.beqz a3, .+46",
+   "words": [
+    "0x0000c69d"
+   ]
+  },
+  {
+   "id": "c.beqz",
+   "operands": "a5, 200",
+   "ordering": "",
+   "gnu": "c.beqz a5, .+200",
+   "words": [
+    "0x0000c7e1"
+   ]
+  },
+  {
+   "id": "c.beqz",
+   "operands": "a2, -256",
+   "ordering": "",
+   "gnu": "c.beqz a2, .-256",
+   "words": [
+    "0x0000d201"
+   ]
+  },
+  {
+   "id": "c.beqz",
+   "operands": "s1, 254",
+   "ordering": "",
+   "gnu": "c.beqz s1, .+254",
+   "words": [
+    "0x0000ccfd"
+   ]
+  },
+  {
+   "id": "c.bnez",
+   "operands": "a2, -146",
+   "ordering": "",
+   "gnu": "c.bnez a2, .-146",
+   "words": [
+    "0x0000f63d"
+   ]
+  },
+  {
+   "id": "c.bnez",
+   "operands": "s0, 228",
+   "ordering": "",
+   "gnu": "c.bnez s0, .+228",
+   "words": [
+    "0x0000e075"
+   ]
+  },
+  {
+   "id": "c.bnez",
+   "operands": "s0, -40",
+   "ordering": "",
+   "gnu": "c.bnez s0, .-40",
+   "words": [
+    "0x0000fc61"
+   ]
+  },
+  {
+   "id": "c.bnez",
+   "operands": "s1, 200",
+   "ordering": "",
+   "gnu": "c.bnez s1, .+200",
+   "words": [
+    "0x0000e4e1"
+   ]
+  },
+  {
+   "id": "c.bnez",
+   "operands": "s0, -256",
+   "ordering": "",
+   "gnu": "c.bnez s0, .-256",
+   "words": [
+    "0x0000f001"
+   ]
+  },
+  {
+   "id": "c.bnez",
+   "operands": "s0, 254",
+   "ordering": "",
+   "gnu": "c.bnez s0, .+254",
+   "words": [
+    "0x0000ec7d"
+   ]
+  },
+  {
+   "id": "c.ebreak",
+   "operands": "",
+   "ordering": "",
+   "gnu": "c.ebreak",
+   "words": [
+    "0x00009002"
+   ]
+  },
+  {
+   "id": "c.fld",
+   "operands": "fa5, 184(a1)",
+   "ordering": "",
+   "gnu": "c.fld fa5, 184(a1)",
+   "words": [
+    "0x00003ddc"
+   ]
+  },
+  {
+   "id": "c.fld",
+   "operands": "fa1, 200(a3)",
+   "ordering": "",
+   "gnu": "c.fld fa1, 200(a3)",
+   "words": [
+    "0x000026ec"
+   ]
+  },
+  {
+   "id": "c.fld",
+   "operands": "fa1, 192(a3)",
+   "ordering": "",
+   "gnu": "c.fld fa1, 192(a3)",
+   "words": [
+    "0x000022ec"
+   ]
+  },
+  {
+   "id": "c.fld",
+   "operands": "fa1, 160(a2)",
+   "ordering": "",
+   "gnu": "c.fld fa1, 160(a2)",
+   "words": [
+    "0x0000324c"
+   ]
+  },
+  {
+   "id": "c.fld",
+   "operands": "fa3, 0(a1)",
+   "ordering": "",
+   "gnu": "c.fld fa3, 0(a1)",
+   "words": [
+    "0x00002194"
+   ]
+  },
+  {
+   "id": "c.fld",
+   "operands": "fa3, 248(a1)",
+   "ordering": "",
+   "gnu": "c.fld fa3, 248(a1)",
+   "words": [
+    "0x00003df4"
+   ]
+  },
+  {
+   "id": "c.fldsp",
+   "operands": "fs7, 480(sp)",
+   "ordering": "",
+   "gnu": "c.fldsp fs7, 480(sp)",
+   "words": [
+    "0x00003b9e"
+   ]
+  },
+  {
+   "id": "c.fldsp",
+   "operands": "fs9, 216(sp)",
+   "ordering": "",
+   "gnu": "c.fldsp fs9, 216(sp)",
+   "words": [
+    "0x00002cee"
+   ]
+  },
+  {
+   "id": "c.fldsp",
+   "operands": "fs7, 360(sp)",
+   "ordering": "",
+   "gnu": "c.fldsp fs7, 360(sp)",
+   "words": [
+    "0x00003bb6"
+   ]
+  },
+  {
+   "id": "c.fldsp",
+   "operands": "fs6, 0(sp)",
+   "ordering": "",
+   "gnu": "c.fldsp fs6, 0(sp)",
+   "words": [
+    "0x00002b02"
+   ]
+  },
+  {
+   "id": "c.fldsp",
+   "operands": "fs2, 0(sp)",
+   "ordering": "",
+   "gnu": "c.fldsp fs2, 0(sp)",
+   "words": [
+    "0x00002902"
+   ]
+  },
+  {
+   "id": "c.fldsp",
+   "operands": "ft6, 504(sp)",
+   "ordering": "",
+   "gnu": "c.fldsp ft6, 504(sp)",
+   "words": [
+    "0x0000337e"
+   ]
+  },
+  {
+   "id": "c.flw",
+   "operands": "fa3, 116(a1)",
+   "ordering": "",
+   "gnu": "c.flw fa3, 116(a1)",
+   "words": [
+    "0x000079f4"
+   ]
+  },
+  {
+   "id": "c.flw",
+   "operands": "fa3, 8(a1)",
+   "ordering": "",
+   "gnu": "c.flw fa3, 8(a1)",
+   "words": [
+    "0x00006594"
+   ]
+  },
+  {
+   "id": "c.flw",
+   "operands": "fa0, 8(a0)",
+   "ordering": "",
+   "gnu": "c.flw fa0, 8(a0)",
+   "words": [
+    "0x00006508"
+   ]
+  },
+  {
+   "id": "c.flw",
+   "operands": "fa4, 72(a3)",
+   "ordering": "",
+   "gnu": "c.flw fa4, 72(a3)",
+   "words": [
+    "0x000066b8"
+   ]
+  },
+  {
+   "id": "c.flw",
+   "operands": "fa1, 0(a4)",
+   "ordering": "",
+   "gnu": "c.flw fa1, 0(a4)",
+   "words": [
+    "0x0000630c"
+   ]
+  },
+  {
+   "id": "c.flw",
+   "operands": "fa5, 124(a0)",
+   "ordering": "",
+   "gnu": "c.flw fa5, 124(a0)",
+   "words": [
+    "0x00007d7c"
+   ]
+  },
+  {
+   "id": "c.flwsp",
+   "operands": "fa1, 128(sp)",
+   "ordering": "",
+   "gnu": "c.flwsp fa1, 128(sp)",
+   "words": [
+    "0x0000658a"
+   ]
+  },
+  {
+   "id": "c.flwsp",
+   "operands": "ft10, 188(sp)",
+   "ordering": "",
+   "gnu": "c.flwsp ft10, 188(sp)",
+   "words": [
+    "0x00007f7a"
+   ]
+  },
+  {
+   "id": "c.flwsp",
+   "operands": "fa2, 16(sp)",
+   "ordering": "",
+   "gnu": "c.flwsp fa2, 16(sp)",
+   "words": [
+    "0x00006642"
+   ]
+  },
+  {
+   "id": "c.flwsp",
+   "operands": "fs1, 124(sp)",
+   "ordering": "",
+   "gnu": "c.flwsp fs1, 124(sp)",
+   "words": [
+    "0x000074f6"
+   ]
+  },
+  {
+   "id": "c.flwsp",
+   "operands": "fs6, 0(sp)",
+   "ordering": "",
+   "gnu": "c.flwsp fs6, 0(sp)",
+   "words": [
+    "0x00006b02"
+   ]
+  },
+  {
+   "id": "c.flwsp",
+   "operands": "fs10, 252(sp)",
+   "ordering": "",
+   "gnu": "c.flwsp fs10, 252(sp)",
+   "words": [
+    "0x00007d7e"
+   ]
+  },
+  {
+   "id": "c.fsd",
+   "operands": "fa5, 240(a3)",
+   "ordering": "",
+   "gnu": "c.fsd fa5, 240(a3)",
+   "words": [
+    "0x0000bafc"
+   ]
+  },
+  {
+   "id": "c.fsd",
+   "operands": "fs1, 240(a1)",
+   "ordering": "",
+   "gnu": "c.fsd fs1, 240(a1)",
+   "words": [
+    "0x0000b9e4"
+   ]
+  },
+  {
+   "id": "c.fsd",
+   "operands": "fa5, 48(a0)",
+   "ordering": "",
+   "gnu": "c.fsd fa5, 48(a0)",
+   "words": [
+    "0x0000b91c"
+   ]
+  },
+  {
+   "id": "c.fsd",
+   "operands": "fa0, 232(a2)",
+   "ordering": "",
+   "gnu": "c.fsd fa0, 232(a2)",
+   "words": [
+    "0x0000b668"
+   ]
+  },
+  {
+   "id": "c.fsd",
+   "operands": "fa5, 0(a2)",
+   "ordering": "",
+   "gnu": "c.fsd fa5, 0(a2)",
+   "words": [
+    "0x0000a21c"
+   ]
+  },
+  {
+   "id": "c.fsd",
+   "operands": "fa1, 248(s1)",
+   "ordering": "",
+   "gnu": "c.fsd fa1, 248(s1)",
+   "words": [
+    "0x0000bcec"
+   ]
+  },
+  {
+   "id": "c.fsdsp",
+   "operands": "ft2, 296(sp)",
+   "ordering": "",
+   "gnu": "c.fsdsp ft2, 296(sp)",
+   "words": [
+    "0x0000b60a"
+   ]
+  },
+  {
+   "id": "c.fsdsp",
+   "operands": "fs1, 504(sp)",
+   "ordering": "",
+   "gnu": "c.fsdsp fs1, 504(sp)",
+   "words": [
+    "0x0000bfa6"
+   ]
+  },
+  {
+   "id": "c.fsdsp",
+   "operands": "ft10, 64(sp)",
+   "ordering": "",
+   "gnu": "c.fsdsp ft10, 64(sp)",
+   "words": [
+    "0x0000a0fa"
+   ]
+  },
+  {
+   "id": "c.fsdsp",
+   "operands": "ft10, 336(sp)",
+   "ordering": "",
+   "gnu": "c.fsdsp ft10, 336(sp)",
+   "words": [
+    "0x0000aafa"
+   ]
+  },
+  {
+   "id": "c.fsdsp",
+   "operands": "fa1, 0(sp)",
+   "ordering": "",
+   "gnu": "c.fsdsp fa1, 0(sp)",
+   "words": [
+    "0x0000a02e"
+   ]
+  },
+  {
+   "id": "c.fsdsp",
+   "operands": "ft4, 504(sp)",
+   "ordering": "",
+   "gnu": "c.fsdsp ft4, 504(sp)",
+   "words": [
+    "0x0000bf92"
+   ]
+  },
+  {
+   "id": "c.fsw",
+   "operands": "fa4, 120(s1)",
+   "ordering": "",
+   "gnu": "c.fsw fa4, 120(s1)",
+   "words": [
+    "0x0000fcb8"
+   ]
+  },
+  {
+   "id": "c.fsw",
+   "operands": "fs0, 52(a0)",
+   "ordering": "",
+   "gnu": "c.fsw fs0, 52(a0)",
+   "words": [
+    "0x0000f940"
+   ]
+  },
+  {
+   "id": "c.fsw",
+   "operands": "fa1, 16(s1)",
+   "ordering": "",
+   "gnu": "c.fsw fa1, 16(s1)",
+   "words": [
+    "0x0000e88c"
+   ]
+  },
+  {
+   "id": "c.fsw",
+   "operands": "fa0, 92(s0)",
+   "ordering": "",
+   "gnu": "c.fsw fa0, 92(s0)",
+   "words": [
+    "0x0000ec68"
+   ]
+  },
+  {
+   "id": "c.fsw",
+   "operands": "fa4, 0(a5)",
+   "ordering": "",
+   "gnu": "c.fsw fa4, 0(a5)",
+   "words": [
+    "0x0000e398"
+   ]
+  },
+  {
+   "id": "c.fsw",
+   "operands": "fa3, 124(a1)",
+   "ordering": "",
+   "gnu": "c.fsw fa3, 124(a1)",
+   "words": [
+    "0x0000fdf4"
+   ]
+  },
+  {
+   "id": "c.fswsp",
+   "operands": "fs6, 196(sp)",
+   "ordering": "",
+   "gnu": "c.fswsp fs6, 196(sp)",
+   "words": [
+    "0x0000e3da"
+   ]
+  },
+  {
+   "id": "c.fswsp",
+   "operands": "ft11, 48(sp)",
+   "ordering": "",
+   "gnu": "c.fswsp ft11, 48(sp)",
+   "words": [
+    "0x0000f87e"
+   ]
+  },
+  {
+   "id": "c.fswsp",
+   "operands": "ft7, 236(sp)",
+   "ordering": "",
+   "gnu": "c.fswsp ft7, 236(sp)",
+   "words": [
+    "0x0000f79e"
+   ]
+  },
+  {
+   "id": "c.fswsp",
+   "operands": "fs4, 44(sp)",
+   "ordering": "",
+   "gnu": "c.fswsp fs4, 44(sp)",
+   "words": [
+    "0x0000f652"
+   ]
+  },
+  {
+   "id": "c.fswsp",
+   "operands": "fa2, 0(sp)",
+   "ordering": "",
+   "gnu": "c.fswsp fa2, 0(sp)",
+   "words": [
+    "0x0000e032"
+   ]
+  },
+  {
+   "id": "c.fswsp",
+   "operands": "fa3, 252(sp)",
+   "ordering": "",
+   "gnu": "c.fswsp fa3, 252(sp)",
+   "words": [
+    "0x0000ffb6"
+   ]
+  },
+  {
+   "id": "c.j",
+   "operands": "-1060",
+   "ordering": "",
+   "gnu": "c.j .-1060",
+   "words": [
+    "0x0000bef1"
+   ]
+  },
+  {
+   "id": "c.j",
+   "operands": "348",
+   "ordering": "",
+   "gnu": "c.j .+348",
+   "words": [
+    "0x0000aab1"
+   ]
+  },
+  {
+   "id": "c.j",
+   "operands": "920",
+   "ordering": "",
+   "gnu": "c.j .+920",
+   "words": [
+    "0x0000ae61"
+   ]
+  },
+  {
+   "id": "c.j",
+   "operands": "-860",
+   "ordering": "",
+   "gnu": "c.j .-860",
+   "words": [
+    "0x0000b155"
+   ]
+  },
+  {
+   "id": "c.j",
+   "operands": "-2048",
+   "ordering": "",
+   "gnu": "c.j .-2048",
+   "words": [
+    "0x0000b001"
+   ]
+  },
+  {
+   "id": "c.j",
+   "operands": "2046",
+   "ordering": "",
+   "gnu": "c.j .+2046",
+   "words": [
+    "0x0000affd"
+   ]
+  },
+  {
+   "id": "c.jal",
+   "operands": "-874",
+   "ordering": "",
+   "gnu": "c.jal .-874",
+   "words": [
+    "0x00003959"
+   ]
+  },
+  {
+   "id": "c.jal",
+   "operands": "502",
+   "ordering": "",
+   "gnu": "c.jal .+502",
+   "words": [
+    "0x00002add"
+   ]
+  },
+  {
+   "id": "c.jal",
+   "operands": "-1738",
+   "ordering": "",
+   "gnu": "c.jal .-1738",
+   "words": [
+    "0x00003a1d"
+   ]
+  },
+  {
+   "id": "c.jal",
+   "operands": "1892",
+   "ordering": "",
+   "gnu": "c.jal .+1892",
+   "words": [
+    "0x00002795"
+   ]
+  },
+  {
+   "id": "c.jal",
+   "operands": "-2048",
+   "ordering": "",
+   "gnu": "c.jal .-2048",
+   "words": [
+    "0x00003001"
+   ]
+  },
+  {
+   "id": "c.jal",
+   "operands": "2046",
+   "ordering": "",
+   "gnu": "c.jal .+2046",
+   "words": [
+    "0x00002ffd"
+   ]
+  },
+  {
+   "id": "c.jalr",
+   "operands": "s7",
+   "ordering": "",
+   "gnu": "c.jalr s7",
+   "words": [
+    "0x00009b82"
+   ]
+  },
+  {
+   "id": "c.jalr",
+   "operands": "s1",
+   "ordering": "",
+   "gnu": "c.jalr s1",
+   "words": [
+    "0x00009482"
+   ]
+  },
+  {
+   "id": "c.jalr",
+   "operands": "s0",
+   "ordering": "",
+   "gnu": "c.jalr s0",
+   "words": [
+    "0x00009402"
+   ]
+  },
+  {
+   "id": "c.jalr",
+   "operands": "t2",
+   "ordering": "",
+   "gnu": "c.jalr t2",
+   "words": [
+    "0x00009382"
+   ]
+  },
+  {
+   "id": "c.jr",
+   "operands": "a2",
+   "ordering": "",
+   "gnu": "c.jr a2",
+   "words": [
+    "0x00008602"
+   ]
+  },
+  {
+   "id": "c.jr",
+   "operands": "s5",
+   "ordering": "",
+   "gnu": "c.jr s5",
+   "words": [
+    "0x00008a82"
+   ]
+  },
+  {
+   "id": "c.jr",
+   "operands": "t2",
+   "ordering": "",
+   "gnu": "c.jr t2",
+   "words": [
+    "0x00008382"
+   ]
+  },
+  {
+   "id": "c.jr",
+   "operands": "gp",
+   "ordering": "",
+   "gnu": "c.jr gp",
+   "words": [
+    "0x00008182"
+   ]
+  },
+  {
+   "id": "c.li",
+   "operands": "t0, 26",
+   "ordering": "",
+   "gnu": "c.li t0, 26",
+   "words": [
+    "0x000042e9"
+   ]
+  },
+  {
+   "id": "c.li",
+   "operands": "t0, -28",
+   "ordering": "",
+   "gnu": "c.li t0, -28",
+   "words": [
+    "0x00005291"
+   ]
+  },
+  {
+   "id": "c.li",
+   "operands": "s5, -28",
+   "ordering": "",
+   "gnu": "c.li s5, -28",
+   "words": [
+    "0x00005a91"
+   ]
+  },
+  {
+   "id": "c.li",
+   "operands": "t6, -2",
+   "ordering": "",
+   "gnu": "c.li t6, -2",
+   "words": [
+    "0x00005ff9"
+   ]
+  },
+  {
+   "id": "c.li",
+   "operands": "s8, -32",
+   "ordering": "",
+   "gnu": "c.li s8, -32",
+   "words": [
+    "0x00005c01"
+   ]
+  },
+  {
+   "id": "c.li",
+   "operands": "a4, 31",
+   "ordering": "",
+   "gnu": "c.li a4, 31",
+   "words": [
+    "0x0000477d"
+   ]
+  },
+  {
+   "id": "c.lui",
+   "operands": "s10, 29",
+   "ordering": "",
+   "gnu": "c.lui s10, 29",
+   "words": [
+    "0x00006d75"
+   ]
+  },
+  {
+   "id": "c.lui",
+   "operands": "s5, -10",
+   "ordering": "",
+   "gnu": "c.lui s5, 0xffff6",
+   "words": [
+    "0x00007ad9"
+   ]
+  },
+  {
+   "id": "c.lui",
+   "operands": "s4, -17",
+   "ordering": "",
+   "gnu": "c.lui s4, 0xfffef",
+   "words": [
+    "0x00007a3d"
+   ]
+  },
+  {
+   "id": "c.lui",
+   "operands": "tp, -10",
+   "ordering": "",
+   "gnu": "c.lui tp, 0xffff6",
+   "words": [
+    "0x00007259"
+   ]
+  },
+  {
+   "id": "c.lui",
+   "operands": "s6, -32",
+   "ordering": "",
+   "gnu": "c.lui s6, 0xfffe0",
+   "words": [
+    "0x00007b01"
+   ]
+  },
+  {
+   "id": "c.lui",
+   "operands": "s5, 31",
+   "ordering": "",
+   "gnu": "c.lui s5, 31",
+   "words": [
+    "0x00006afd"
+   ]
+  },
+  {
+   "id": "c.lw",
+   "operands": "a5, 76(a2)",
+   "ordering": "",
+   "gnu": "c.lw a5, 76(a2)",
+   "words": [
+    "0x0000467c"
+   ]
+  },
+  {
+   "id": "c.lw",
+   "operands": "a3, 64(a0)",
+   "ordering": "",
+   "gnu": "c.lw a3, 64(a0)",
+   "words": [
+    "0x00004134"
+   ]
+  },
+  {
+   "id": "c.lw",
+   "operands": "a4, 68(a5)",
+   "ordering": "",
+   "gnu": "c.lw a4, 68(a5)",
+   "words": [
+    "0x000043f8"
+   ]
+  },
+  {
+   "id": "c.lw",
+   "operands": "a2, 52(a2)",
+   "ordering": "",
+   "gnu": "c.lw a2, 52(a2)",
+   "words": [
+    "0x00005a50"
+   ]
+  },
+  {
+   "id": "c.lw",
+   "operands": "a5, 0(s0)",
+   "ordering": "",
+   "gnu": "c.lw a5, 0(s0)",
+   "words": [
+    "0x0000401c"
+   ]
+  },
+  {
+   "id": "c.lw",
+   "operands": "s1, 124(a1)",
+   "ordering": "",
+   "gnu": "c.lw s1, 124(a1)",
+   "words": [
+    "0x00005de4"
+   ]
+  },
+  {
+   "id": "c.lwsp",
+   "operands": "t3, 56(sp)",
+   "ordering": "",
+   "gnu": "c.lwsp t3, 56(sp)",
+   "words": [
+    "0x00005e62"
+   ]
+  },
+  {
+   "id": "c.lwsp",
+   "operands": "s5, 204(sp)",
+   "ordering": "",
+   "gnu": "c.lwsp s5, 204(sp)",
+   "words": [
+    "0x00004abe"
+   ]
+  },
+  {
+   "id": "c.lwsp",
+   "operands": "t5, 64(sp)",
+   "ordering": "",
+   "gnu": "c.lwsp t5, 64(sp)",
+   "words": [
+    "0x00004f06"
+   ]
+  },
+  {
+   "id": "c.lwsp",
+   "operands": "a6, 88(sp)",
+   "ordering": "",
+   "gnu": "c.lwsp a6, 88(sp)",
+   "words": [
+    "0x00004866"
+   ]
+  },
+  {
+   "id": "c.lwsp",
+   "operands": "a0, 0(sp)",
+   "ordering": "",
+   "gnu": "c.lwsp a0, 0(sp)",
+   "words": [
+    "0x00004502"
+   ]
+  },
+  {
+   "id": "c.lwsp",
+   "operands": "t4, 252(sp)",
+   "ordering": "",
+   "gnu": "c.lwsp t4, 252(sp)",
+   "words": [
+    "0x00005efe"
+   ]
+  },
+  {
+   "id": "c.mv",
+   "operands": "s7, s1",
+   "ordering": "",
+   "gnu": "c.mv s7, s1",
+   "words": [
+    "0x00008ba6"
+   ]
+  },
+  {
+   "id": "c.mv",
+   "operands": "t5, s11",
+   "ordering": "",
+   "gnu": "c.mv t5, s11",
+   "words": [
+    "0x00008f6e"
+   ]
+  },
+  {
+   "id": "c.mv",
+   "operands": "s0, s7",
+   "ordering": "",
+   "gnu": "c.mv s0, s7",
+   "words": [
+    "0x0000845e"
+   ]
+  },
+  {
+   "id": "c.mv",
+   "operands": "tp, a3",
+   "ordering": "",
+   "gnu": "c.mv tp, a3",
+   "words": [
+    "0x00008236"
+   ]
+  },
+  {
+   "id": "c.nop",
+   "operands": "",
+   "ordering": "",
+   "gnu": "c.nop",
+   "words": [
+    "0x00000001"
+   ]
+  },
+  {
+   "id": "c.or",
+   "operands": "a4, a0",
+   "ordering": "",
+   "gnu": "c.or a4, a0",
+   "words": [
+    "0x00008f49"
+   ]
+  },
+  {
+   "id": "c.or",
+   "operands": "a5, s0",
+   "ordering": "",
+   "gnu": "c.or a5, s0",
+   "words": [
+    "0x00008fc1"
+   ]
+  },
+  {
+   "id": "c.or",
+   "operands": "a0, a4",
+   "ordering": "",
+   "gnu": "c.or a0, a4",
+   "words": [
+    "0x00008d59"
+   ]
+  },
+  {
+   "id": "c.or",
+   "operands": "s1, a4",
+   "ordering": "",
+   "gnu": "c.or s1, a4",
+   "words": [
+    "0x00008cd9"
+   ]
+  },
+  {
+   "id": "c.slli",
+   "operands": "t2, 1",
+   "ordering": "",
+   "gnu": "c.slli t2, 1",
+   "words": [
+    "0x00000386"
+   ]
+  },
+  {
+   "id": "c.slli",
+   "operands": "sp, 6",
+   "ordering": "",
+   "gnu": "c.slli sp, 6",
+   "words": [
+    "0x0000011a"
+   ]
+  },
+  {
+   "id": "c.slli",
+   "operands": "s2, 16",
+   "ordering": "",
+   "gnu": "c.slli s2, 16",
+   "words": [
+    "0x00000942"
+   ]
+  },
+  {
+   "id": "c.slli",
+   "operands": "sp, 12",
+   "ordering": "",
+   "gnu": "c.slli sp, 12",
+   "words": [
+    "0x00000132"
+   ]
+  },
+  {
+   "id": "c.slli",
+   "operands": "a0, 1",
+   "ordering": "",
+   "gnu": "c.slli a0, 1",
+   "words": [
+    "0x00000506"
+   ]
+  },
+  {
+   "id": "c.slli",
+   "operands": "a2, 31",
+   "ordering": "",
+   "gnu": "c.slli a2, 31",
+   "words": [
+    "0x0000067e"
+   ]
+  },
+  {
+   "id": "c.srai",
+   "operands": "s1, 13",
+   "ordering": "",
+   "gnu": "c.srai s1, 13",
+   "words": [
+    "0x000084b5"
+   ]
+  },
+  {
+   "id": "c.srai",
+   "operands": "a2, 5",
+   "ordering": "",
+   "gnu": "c.srai a2, 5",
+   "words": [
+    "0x00008615"
+   ]
+  },
+  {
+   "id": "c.srai",
+   "operands": "a3, 25",
+   "ordering": "",
+   "gnu": "c.srai a3, 25",
+   "words": [
+    "0x000086e5"
+   ]
+  },
+  {
+   "id": "c.srai",
+   "operands": "s1, 22",
+   "ordering": "",
+   "gnu": "c.srai s1, 22",
+   "words": [
+    "0x000084d9"
+   ]
+  },
+  {
+   "id": "c.srai",
+   "operands": "s0, 1",
+   "ordering": "",
+   "gnu": "c.srai s0, 1",
+   "words": [
+    "0x00008405"
+   ]
+  },
+  {
+   "id": "c.srai",
+   "operands": "s1, 31",
+   "ordering": "",
+   "gnu": "c.srai s1, 31",
+   "words": [
+    "0x000084fd"
+   ]
+  },
+  {
+   "id": "c.srli",
+   "operands": "a5, 2",
+   "ordering": "",
+   "gnu": "c.srli a5, 2",
+   "words": [
+    "0x00008389"
+   ]
+  },
+  {
+   "id": "c.srli",
+   "operands": "a0, 24",
+   "ordering": "",
+   "gnu": "c.srli a0, 24",
+   "words": [
+    "0x00008161"
+   ]
+  },
+  {
+   "id": "c.srli",
+   "operands": "a0, 17",
+   "ordering": "",
+   "gnu": "c.srli a0, 17",
+   "words": [
+    "0x00008145"
+   ]
+  },
+  {
+   "id": "c.srli",
+   "operands": "a4, 30",
+   "ordering": "",
+   "gnu": "c.srli a4, 30",
+   "words": [
+    "0x00008379"
+   ]
+  },
+  {
+   "id": "c.srli",
+   "operands": "a5, 1",
+   "ordering": "",
+   "gnu": "c.srli a5, 1",
+   "words": [
+    "0x00008385"
+   ]
+  },
+  {
+   "id": "c.srli",
+   "operands": "s1, 31",
+   "ordering": "",
+   "gnu": "c.srli s1, 31",
+   "words": [
+    "0x000080fd"
+   ]
+  },
+  {
+   "id": "c.sub",
+   "operands": "a0, a4",
+   "ordering": "",
+   "gnu": "c.sub a0, a4",
+   "words": [
+    "0x00008d19"
+   ]
+  },
+  {
+   "id": "c.sub",
+   "operands": "a3, a1",
+   "ordering": "",
+   "gnu": "c.sub a3, a1",
+   "words": [
+    "0x00008e8d"
+   ]
+  },
+  {
+   "id": "c.sub",
+   "operands": "a0, a2",
+   "ordering": "",
+   "gnu": "c.sub a0, a2",
+   "words": [
+    "0x00008d11"
+   ]
+  },
+  {
+   "id": "c.sub",
+   "operands": "s1, s0",
+   "ordering": "",
+   "gnu": "c.sub s1, s0",
+   "words": [
+    "0x00008c81"
+   ]
+  },
+  {
+   "id": "c.sw",
+   "operands": "a5, 20(a1)",
+   "ordering": "",
+   "gnu": "c.sw a5, 20(a1)",
+   "words": [
+    "0x0000c9dc"
+   ]
+  },
+  {
+   "id": "c.sw",
+   "operands": "a2, 104(a5)",
+   "ordering": "",
+   "gnu": "c.sw a2, 104(a5)",
+   "words": [
+    "0x0000d7b0"
+   ]
+  },
+  {
+   "id": "c.sw",
+   "operands": "a5, 100(s0)",
+   "ordering": "",
+   "gnu": "c.sw a5, 100(s0)",
+   "words": [
+    "0x0000d07c"
+   ]
+  },
+  {
+   "id": "c.sw",
+   "operands": "s1, 116(a1)",
+   "ordering": "",
+   "gnu": "c.sw s1, 116(a1)",
+   "words": [
+    "0x0000d9e4"
+   ]
+  },
+  {
+   "id": "c.sw",
+   "operands": "s1, 0(a5)",
+   "ordering": "",
+   "gnu": "c.sw s1, 0(a5)",
+   "words": [
+    "0x0000c384"
+   ]
+  },
+  {
+   "id": "c.sw",
+   "operands": "s0, 124(a1)",
+   "ordering": "",
+   "gnu": "c.sw s0, 124(a1)",
+   "words": [
+    "0x0000dde0"
+   ]
+  },
+  {
+   "id": "c.swsp",
+   "operands": "s0, 180(sp)",
+   "ordering": "",
+   "gnu": "c.swsp s0, 180(sp)",
+   "words": [
+    "0x0000db22"
+   ]
+  },
+  {
+   "id": "c.swsp",
+   "operands": "s1, 160(sp)",
+   "ordering": "",
+   "gnu": "c.swsp s1, 160(sp)",
+   "words": [
+    "0x0000d126"
+   ]
+  },
+  {
+   "id": "c.swsp",
+   "operands": "a6, 136(sp)",
+   "ordering": "",
+   "gnu": "c.swsp a6, 136(sp)",
+   "words": [
+    "0x0000c542"
+   ]
+  },
+  {
+   "id": "c.swsp",
+   "operands": "t3, 128(sp)",
+   "ordering": "",
+   "gnu": "c.swsp t3, 128(sp)",
+   "words": [
+    "0x0000c172"
+   ]
+  },
+  {
+   "id": "c.swsp",
+   "operands": "a0, 0(sp)",
+   "ordering": "",
+   "gnu": "c.swsp a0, 0(sp)",
+   "words": [
+    "0x0000c02a"
+   ]
+  },
+  {
+   "id": "c.swsp",
+   "operands": "s7, 252(sp)",
+   "ordering": "",
+   "gnu": "c.swsp s7, 252(sp)",
+   "words": [
+    "0x0000dfde"
+   ]
+  },
+  {
+   "id": "c.xor",
+   "operands": "a5, s0",
+   "ordering": "",
+   "gnu": "c.xor a5, s0",
+   "words": [
+    "0x00008fa1"
+   ]
+  },
+  {
+   "id": "c.xor",
+   "operands": "s1, s1",
+   "ordering": "",
+   "gnu": "c.xor s1, s1",
+   "words": [
+    "0x00008ca5"
+   ]
+  },
+  {
+   "id": "c.xor",
+   "operands": "s1, a0",
+   "ordering": "",
+   "gnu": "c.xor s1, a0",
+   "words": [
+    "0x00008ca9"
+   ]
+  },
+  {
+   "id": "c.xor",
+   "operands": "a3, a5",
+   "ordering": "",
+   "gnu": "c.xor a3, a5",
+   "words": [
+    "0x00008ebd"
+   ]
+  }
+ ]
+}

@@ -12,13 +12,14 @@ const COLUMNS = [
   { key: 'description', title: 'Description', width: 220, collapsible: true },
   { key: 'explanation', title: 'Explanation', width: 240, collapsible: true },
   { key: 'mnemonic', title: 'Mnemonic', width: 150 },
-  { key: 'operands', title: 'Operands', width: 300 },
+  { key: 'operands', title: 'Operands', width: 360 },
 ];
 const COLLAPSED_WIDTH = 26;
 const BIT_WIDTH = 24;
 const _collapsed = { description: true, explanation: true };
 let _bits = null;
 let _sheet = null;
+let _onLayout = () => {};
 
 function _explanation({ entry = {} }) {
   if (entry.expands && !entry.pseudo) return [entry.expands, _br(), entry.pseudocode];
@@ -123,9 +124,13 @@ function _applyWidths() {
   }
 }
 
-// Expands every collapsible column (printing) or restores the defaults.
-export function expandAllColumns({ expand = true }) {
-  for (const c of COLUMNS.filter((c) => c.collapsible)) _collapsed[c.key] = !expand;
+// The collapsible columns currently expanded (for share links), and setting them back.
+export function expandedColumns() {
+  return COLUMNS.filter((c) => c.collapsible && !_collapsed[c.key]).map((c) => c.key);
+}
+
+export function setExpandedColumns({ keys = [] }) {
+  for (const c of COLUMNS.filter((c) => c.collapsible)) _collapsed[c.key] = !keys.includes(c.key);
   _applyWidths();
 }
 
@@ -140,6 +145,7 @@ function _columnHead({ column = {}, rowspan = 1 }) {
   const toggle = () => {
     _collapsed[column.key] = !_collapsed[column.key];
     _applyWidths();
+    _onLayout();
   };
   head.addEventListener('click', toggle);
   head.addEventListener('keydown', (event) => {
@@ -150,28 +156,28 @@ function _columnHead({ column = {}, rowspan = 1 }) {
   return head;
 }
 
-// toggle: the button to the decoder; controls: { ext, type, mnemonic, operands } selector elements;
-// status: message area left of the output; output: hex / copy area under the bits.
-export function encoderTable({ toggle = null, controls = {}, status = null, output = null }) {
+// toggle: the button to the decoder; tools: PDF / Clear / Share; controls: { ext, type, mnemonic, operands } selectors;
+// labels: what sits in the section headers next to their titles ({ meaning, assembly, binary, hex });
+// onLayout: called when a column is expanded or collapsed.
+export function encoderTable({ toggle = null, tools = [], controls = {}, labels = {}, onLayout = () => {} }) {
   _bits = Tristates({ editable: false });
+  _onLayout = onLayout;
   const widths = _widths();
   // Collapsible headers span the selector row too: their vertical title needs the height.
   const selectorCells = COLUMNS.filter((c) => !c.collapsible).map((c) => _td({ class: `selector-cell ${c.key}` }, [controls[c.key]]));
+  const section = ({ colspan = 1, title = '', before = null, after = null, classes = '' }) => _th({ colspan: String(colspan), class: classes },
+    [_div({ class: 'section-title' }, [_div({ class: 'section-side before' }, before ? [before] : ''), _span({ class: 'section-name' }, title), _div({ class: 'section-side after' }, after ? [after] : '')])]);
   _sheet = _table({ class: 'sliderule', id: 'encoder', style: tableWidth({ widths }) }, [
-    titleCaption({ name: 'Encoder', button: toggle, side: 'right' }),
+    titleCaption({ name: 'Encoder', button: toggle, side: 'right', tools }),
     _colgroup({}, widths.map((width) => _col({ style: `width: ${width}px` }, ''))),
     _thead({}, [
       _tr({ class: 'label-row' }, [
-        _th({ colspan: '4' }, 'Meaning'),
-        _th({ colspan: '2' }, 'Assembly'),
-        _th({ colspan: '32' }, 'Bitwise Encoding — inst[31:0]'),
+        section({ colspan: 4, title: 'Meaning', after: labels.meaning }),
+        section({ colspan: 2, title: 'Assembly', after: labels.assembly }),
+        section({ colspan: 32, title: 'Bitwise Encoding — inst[31:0]', before: labels.binary, after: labels.hex }),
       ]),
       _tr({ class: 'number-row' }, [...COLUMNS.map((column) => _columnHead({ column, rowspan: column.collapsible ? 2 : 1 })), ...bitNumbers()]),
       _tr({ class: 'input-row' }, [...selectorCells, ..._bits.cells]),
-      _tr({ class: 'output-row' }, [
-        _td({ class: 'io-cell', colspan: String(COLUMNS.length) }, [status]),
-        _td({ class: 'io-cell output-cell', colspan: '32' }, [output]),
-      ]),
     ]),
     _tbody({}, ''),
   ]);

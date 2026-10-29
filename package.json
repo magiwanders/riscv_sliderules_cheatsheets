@@ -2,17 +2,22 @@
   "name": "@magiwanders/riscv-sliderules-cheatsheets",
   "private": false,
   "version": "0.0.1",
+  "description": "RISC-V (RV32GC) instruction encoder / decoder sliderules for the web",
+  "license": "MIT",
+  "author": "Simone Shawn Cazzaniga <shawn@magiwanders.com> (https://www.magiwanders.com)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/magiwanders/riscv-sliderules-cheatsheets.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "node src/isa/api-gen.js && vite build",
     "preview": "vite preview",
     "test": "node --test test/*.test.mjs",
-    "vectors": "node test/gen-gnu-vectors.mjs",
-    "pdf": "node scripts/make-pdf.mjs"
+    "vectors": "node test/gen-gnu-vectors.mjs"
   },
   "devDependencies": {
-    "playwright-core": "1.49.1",
     "vite": "^8.3.5"
   },
   "publishConfig": {

@@ -44,22 +44,23 @@ function _hex({ value = 0 }) {
   return value >= 0 ? `0x${value.toString(16)}` : `-0x${(-value).toString(16)}`;
 }
 
-// Slider + text field. The slider covers the whole range in valid steps; the text field takes exact values.
+// Slider + text field: the slider (top half of the operand, next to its name) covers the whole range in valid steps,
+// the field (bottom half) takes exact values; scrolling over it steps the value.
 function _ImmediateControl({ token = 'imm', range = {}, value = 0, onChange = () => {} }) {
   let _value = value;
   const hint = `${range.min} … ${range.max}` + (range.step > 1 ? `, multiple of ${range.step}` : '') + (range.nonZero ? ', ≠ 0' : '');
   const slider = _input({ class: 'imm-slider', type: 'range', min: String(range.min), max: String(range.max), step: String(range.step),
     'aria-label': `${token} slider`, title: `${token}: ${hint}` });
-  const field = _input({ class: 'imm-field', type: 'text', inputmode: 'numeric', spellcheck: 'false', 'aria-label': token,
-    title: `${token}: ${hint} (decimal, 0x… or 0b…; scroll to step)` });
-  const readout = _span({ class: 'imm-readout' }, '');
+  const field = _input({ class: 'imm-field', type: 'text', inputmode: 'numeric', spellcheck: 'false', 'aria-label': token });
+  const describe = (problem = null) => {
+    field.title = problem ? `${token} ${problem}` : `${token} = ${_value} = ${_hex({ value: _value })}\n${hint} (decimal, 0x… or 0b…; scroll to step)`;
+    field.classList.toggle('invalid', Boolean(problem));
+  };
   const set = ({ newValue = 0, from = null }) => {
     _value = newValue;
     if (from !== slider) slider.value = String(_value);
     if (from !== field) field.value = String(_value);
-    field.classList.remove('invalid');
-    readout.textContent = _hex({ value: _value });
-    readout.classList.remove('error');
+    describe();
     onChange(_value);
   };
   slider.addEventListener('input', () => {
@@ -70,16 +71,10 @@ function _ImmediateControl({ token = 'imm', range = {}, value = 0, onChange = ()
   field.addEventListener('input', () => {
     const v = _parseNumber({ text: field.value });
     const problem = v === null ? 'is not a number' : _immProblem({ value: v, range });
-    if (problem) {
-      field.classList.add('invalid');
-      readout.textContent = `${token} ${problem}`;
-      readout.classList.add('error');
-      return;
-    }
-    set({ newValue: v, from: field });
+    if (problem) describe(problem);
+    else set({ newValue: v, from: field });
   });
   field.addEventListener('blur', () => set({ newValue: _value }));
-  // Wheel over the field steps the value, like the carousels.
   field.addEventListener('wheel', (event) => {
     event.preventDefault();
     let v = Math.min(range.max, Math.max(range.min, _value - Math.sign(event.deltaY) * range.step));
@@ -88,8 +83,8 @@ function _ImmediateControl({ token = 'imm', range = {}, value = 0, onChange = ()
   }, { passive: false });
   slider.value = String(_value);
   field.value = String(_value);
-  readout.textContent = _hex({ value: _value });
-  return _div({ class: 'imm-control' }, [slider, field, readout]);
+  describe();
+  return { slider, field };
 }
 
 function _controlFor({ token = 'rd', info = {}, memory = {}, onChange = () => {} }) {
@@ -105,7 +100,9 @@ function _controlFor({ token = 'rd', info = {}, memory = {}, onChange = () => {}
   if (info.kind === 'imm') {
     const value = memory.imm !== undefined && !_immProblem({ value: memory.imm, range: info.range }) ? memory.imm : _immDefault({ range: info.range });
     memory.imm = value;
-    return _ImmediateControl({ token, range: info.range, value, onChange: (v) => { memory.imm = v; onChange(); } });
+    const { slider, field } = _ImmediateControl({ token, range: info.range, value, onChange: (v) => { memory.imm = v; onChange(); } });
+    field.topExtra = slider;
+    return field;
   }
   if (info.kind === 'csr') {
     const options = Object.keys(CSRS).map((name) => ({ value: name, label: name, hint: `0x${CSRS[name].toString(16).padStart(3, '0')}` }));
@@ -115,14 +112,14 @@ function _controlFor({ token = 'rd', info = {}, memory = {}, onChange = () => {}
   }
   if (info.kind === 'rm') {
     const options = [7, 0, 1, 2, 3, 4].map((v) => ({ value: ROUNDING[v], label: ROUNDING[v], hint: v === 7 ? 'default (frm)' : `rm = ${v}` }));
-    const value = memory.rm || 'dyn';
+    const value = options.some((o) => o.value === memory.rm) ? memory.rm : 'dyn';
     memory.rm = value;
     return Carousel({ options, value, label: 'rounding mode', onChange: (v) => { memory.rm = v; onChange(); } });
   }
   // Fence predecessor / successor sets.
   const options = [];
   for (let v = 15; v >= 1; v--) options.push({ value: fenceText({ value: v }), label: fenceText({ value: v }) });
-  const value = memory[key] || 'rw';
+  const value = options.some((o) => o.value === memory[key]) ? memory[key] : 'rw';
   memory[key] = value;
   return Carousel({ options, value, label: token, onChange: (v) => { memory[key] = v; onChange(); } });
 }
@@ -146,10 +143,19 @@ function _hasOrdering({ entry = null }) {
   return Boolean(entry && !entry.pseudo && entry.segments.some((s) => s.key === 'aq'));
 }
 
+// One column per operand: the name (and an immediate's slider) on the top half, the selector on the bottom half.
+function _operandColumn({ name = '', control = null, kind = 'reg' }) {
+  return _div({ class: `operand-col operand-${kind}` }, [
+    _div({ class: 'operand-top' }, [_span({ class: 'operand-name' }, name), ...(control.topExtra ? [control.topExtra] : [])]),
+    _div({ class: 'operand-bottom' }, [control]),
+  ]);
+}
+
 export function OperandPanel({ onChange = () => {} }) {
   const memory = {};
   let _entry = null;
   let _template = [];
+  let _keys = [];
   const panel = _div({ class: 'operand-panel' }, '');
 
   const emit = () => onChange(panel.read());
@@ -157,28 +163,27 @@ export function OperandPanel({ onChange = () => {} }) {
   panel.show = ({ entry = null }) => {
     _entry = entry;
     _template = entry ? (entry.asm || '').split(',').map((op) => op.trim()).filter((op) => op !== '') : [];
-    const rows = [];
+    _keys = [];
+    const columns = [];
     for (const op of _template) {
       for (const part of templateParts({ op })) {
         if (!part.token) continue;
         const info = operandInfo({ entry, token: part.token });
         if (info.kind === 'sp') continue;
-        rows.push(_div({ class: `operand-row operand-${info.kind}` }, [
-          _span({ class: 'operand-name' }, part.token),
-          _controlFor({ token: part.token, info, memory, onChange: emit }),
-        ]));
+        _keys.push(part.token.replace("'", ''));
+        columns.push(_operandColumn({ name: part.token, kind: info.kind, control: _controlFor({ token: part.token, info, memory, onChange: emit }) }));
       }
     }
     if (_hasOrdering({ entry })) {
-      memory.ordering = memory.ordering || '';
-      rows.push(_div({ class: 'operand-row operand-field' }, [
-        _span({ class: 'operand-name' }, 'order'),
-        Carousel({ options: ORDERINGS, value: memory.ordering, label: 'memory ordering', onChange: (v) => { memory.ordering = v; emit(); } }),
-      ]));
+      if (!ORDERINGS.some((o) => o.value === memory.ordering)) memory.ordering = '';
+      _keys.push('ordering');
+      columns.push(_operandColumn({ name: 'order', kind: 'field',
+        control: Carousel({ options: ORDERINGS, value: memory.ordering, label: 'memory ordering', onChange: (v) => { memory.ordering = v; emit(); } }) }));
     }
-    if (entry && !rows.length) rows.push(_div({ class: 'operand-none' }, 'no operands'));
-    if (!entry) rows.push(_div({ class: 'operand-none' }, 'choose a mnemonic'));
-    panel.replaceChildren(...rows);
+    if (entry && !columns.length) columns.push(_div({ class: 'operand-none' }, 'no operands'));
+    if (!entry) columns.push(_div({ class: 'operand-none' }, 'choose a mnemonic'));
+    panel.style.gridTemplateColumns = `repeat(${Math.max(columns.length, 1)}, minmax(0, 1fr))`;
+    panel.replaceChildren(...columns);
     emit();
   };
 
@@ -189,6 +194,17 @@ export function OperandPanel({ onChange = () => {} }) {
       .map((part) => (part.token ? _valueText({ token: part.token, info: operandInfo({ entry: _entry, token: part.token }), memory }) : part.text))
       .join('')).join(', ');
     return { entry: _entry, operands, ordering: _hasOrdering({ entry: _entry }) ? memory.ordering || '' : '' };
+  };
+
+  // The current operand values by name (share links) and putting values back before show().
+  panel.state = () => Object.fromEntries(_keys.map((key) => [key, memory[key]]));
+  panel.restore = ({ values = {} }) => {
+    // Values that do not fit the instruction are replaced by defaults when its selectors are built.
+    for (const [key, value] of Object.entries(values)) {
+      const numeric = ['rd', 'rs1', 'rs2', 'rs3', 'rs', 'rt', 'imm'].includes(key);
+      if (numeric && Number.isFinite(Number(value))) memory[key] = Number(value);
+      else if (!numeric) memory[key] = String(value);
+    }
   };
 
   return panel;

@@ -164,7 +164,7 @@ export function selectedWord({ constraints = [] }) {
 
 // io: what goes next to the bit switches (the decoded result); toggle: the button to the encoder.
 // tools: PDF / Clear / Share in the title corner; copies: { binary, hex } copy buttons by the bits' section title.
-// Header rows: section titles, the controls (switches, hex digits under them, the decoded instruction beside both),
+// Header rows: section titles, the controls (hex digits over the switches, the decoded instruction beside both),
 // then the bit numbers and column titles right above the sheet's rows.
 export function decoderTable({ onBits = () => {}, toggle = null, tools = [], copies = {}, io = null }) {
   _bits = Tristates({ editable: true, onChange: onBits });
@@ -174,11 +174,11 @@ export function decoderTable({ onBits = () => {}, toggle = null, tools = [], cop
     columns({ widths }),
     _thead({}, [
       _tr({ class: 'label-row' }, [
-        sectionHeader({ colspan: 32, title: 'Bitwise Breakdown — inst[31:0]', before: copies.binary, after: copies.hex }),
+        sectionHeader({ colspan: 32, title: 'Bitwise Breakdown — inst[31:0]', before: copies.binary, after: copies.hex, classes: 'spine' }),
         sectionHeader({ colspan: TEXT_COLUMNS.length, title: 'Meaning' }),
       ]),
-      _tr({ class: 'input-row' }, [..._bits.cells, _td({ class: 'io-cell', colspan: String(TEXT_COLUMNS.length), rowspan: '2' }, [io])]),
-      _tr({ class: 'hex-row' }, _bits.hexCells),
+      _tr({ class: 'hex-row' }, [..._bits.hexCells, _td({ class: 'io-cell', colspan: String(TEXT_COLUMNS.length), rowspan: '2' }, [io])]),
+      _tr({ class: 'input-row' }, _bits.cells),
       _tr({ class: 'number-row' }, [...bitNumbers(), ...TEXT_COLUMNS.map((name) => _th({ class: 'column-title' }, name))]),
     ]),
     _tbody({}, ''),

@@ -3,20 +3,22 @@ import { cell, segmentCells, valueCells, immediateCells, typeCell, bitNumbers, t
 import { Tristates } from './tristate.mjs';
 
 // a2b "Encoder" sliderule: every instruction and pseudo-instruction in alphabetical order, encoding on the right.
-// Under each text column header sits its selector (Ext, Type, Mnemonic, Operands); Description and Explanation
-// are collapsed to a narrow strip by default (click the header to expand). The bits are the read-only output.
+// Over each text column's title sits its selector (Ext, Type, Mnemonic, Operands); Description and Explanation
+// are folded into one narrow "Descr. ›" column by default (click its title to unfold both). The bits are the
+// read-only output.
 
 const COLUMNS = [
   { key: 'ext', title: 'Ext', width: 92 },
   { key: 'type', title: 'Type', width: 120 },
-  { key: 'description', title: 'Description', width: 220, collapsible: true },
-  { key: 'explanation', title: 'Explanation', width: 240, collapsible: true },
+  { key: 'description', title: 'Description', width: 220, details: true },
+  { key: 'explanation', title: 'Explanation', width: 240, details: true },
   { key: 'mnemonic', title: 'Mnemonic', width: 150 },
   { key: 'operands', title: 'Operands', width: 360 },
 ];
-const COLLAPSED_WIDTH = 26;
+// Folded: the description column shrinks to its "Descr. ›" title, the explanation column to nothing.
+const FOLDED_WIDTHS = { description: 58, explanation: 0 };
 const BIT_WIDTH = 24;
-const _collapsed = { description: true, explanation: true };
+let _folded = true;
 let _bits = null;
 let _sheet = null;
 let _onLayout = () => {};
@@ -109,41 +111,37 @@ export function showEncodedBits({ entry = null, encoded = null }) {
 }
 
 function _widths() {
-  return [...COLUMNS.map((c) => (c.collapsible && _collapsed[c.key] ? COLLAPSED_WIDTH : c.width)), ...new Array(32).fill(BIT_WIDTH)];
+  return [...COLUMNS.map((c) => (c.details && _folded ? FOLDED_WIDTHS[c.key] : c.width)), ...new Array(32).fill(BIT_WIDTH)];
 }
 
 function _applyWidths() {
   const widths = _widths();
   _sheet.querySelectorAll(':scope > colgroup > col').forEach((col, i) => { col.style.width = `${widths[i]}px`; });
   _sheet.style.cssText = tableWidth({ widths });
-  for (const c of COLUMNS.filter((c) => c.collapsible)) {
-    _sheet.classList.toggle(`collapsed-${c.key}`, _collapsed[c.key]);
-    const head = _sheet.querySelector(`th.text-head.${c.key}`);
-    head.setAttribute('aria-expanded', String(!_collapsed[c.key]));
-    head.title = `${_collapsed[c.key] ? 'Show' : 'Hide'} the ${c.title.toLowerCase()} column`;
-  }
+  _sheet.classList.toggle('details-folded', _folded);
+  const head = _sheet.querySelector('th.details-toggle');
+  head.replaceChildren(_folded ? 'Descr. ›' : '‹ Description');
+  head.setAttribute('aria-expanded', String(!_folded));
+  head.title = _folded ? 'Show the description and explanation columns' : 'Fold the description and explanation columns';
 }
 
-// The collapsible columns currently expanded (for share links), and setting them back.
+// The folded columns as share links store them (['details'] when unfolded), and setting them back.
 export function expandedColumns() {
-  return COLUMNS.filter((c) => c.collapsible && !_collapsed[c.key]).map((c) => c.key);
+  return _folded ? [] : ['details'];
 }
 
 export function setExpandedColumns({ keys = [] }) {
-  for (const c of COLUMNS.filter((c) => c.collapsible)) _collapsed[c.key] = !keys.includes(c.key);
+  _folded = !keys.some((key) => ['details', 'description', 'explanation'].includes(key));
   _applyWidths();
 }
 
-function _columnHead({ column = {}, rowspan = 1 }) {
-  const attributes = { class: `text-head ${column.key}` };
-  if (rowspan > 1) attributes.rowspan = String(rowspan);
-  if (!column.collapsible) return _th(attributes, column.title);
-  attributes.class += ' collapsible';
-  attributes.tabindex = '0';
-  attributes.role = 'button';
-  const head = _th(attributes, [_span({ class: 'collapse-icon', 'aria-hidden': 'true' }), _span({ class: 'collapse-title' }, column.title)]);
+// Column titles (the row between the controls and the sheet's rows); the description title folds / unfolds both.
+function _columnTitle({ column = {} }) {
+  if (column.key === 'explanation') return _th({ class: 'column-title explanation' }, column.title);
+  if (column.key !== 'description') return _th({ class: `column-title ${column.key}` }, column.title);
+  const head = _th({ class: 'column-title description details-toggle', tabindex: '0', role: 'button' }, '');
   const toggle = () => {
-    _collapsed[column.key] = !_collapsed[column.key];
+    _folded = !_folded;
     _applyWidths();
     _onLayout();
   };
@@ -157,28 +155,27 @@ function _columnHead({ column = {}, rowspan = 1 }) {
 }
 
 // toggle: the button to the decoder; tools: PDF / Clear / Share; controls: { ext, type, mnemonic, operands } selectors;
-// labels: what sits in the section headers next to their titles ({ meaning, assembly, binary, hex });
-// onLayout: called when a column is expanded or collapsed.
-// Header rows: section titles, the controls (switches with the hex digits under them; the selectors and the
-// collapsed column toggles span both), then the column titles and bit numbers right above the sheet's rows.
+// labels: what sits in the section headers next to their titles ({ meaning, assembly, assemblyCopy, binary, hex });
+// onLayout: called when the description / explanation columns are folded or unfolded.
+// Header rows: section titles, the controls (hex digits over the switches; the selectors span both rows), then the
+// column titles and bit numbers right above the sheet's rows.
 export function encoderTable({ toggle = null, tools = [], controls = {}, labels = {}, onLayout = () => {} }) {
   _bits = Tristates({ editable: false });
   _onLayout = onLayout;
   const widths = _widths();
-  const controlCells = COLUMNS.map((c) => (c.collapsible ? _columnHead({ column: c, rowspan: 2 })
-    : _td({ class: `selector-cell ${c.key}`, rowspan: '2' }, [controls[c.key]])));
+  const controlCells = COLUMNS.map((c) => _td({ class: `selector-cell ${c.key}`, rowspan: '2' }, controls[c.key] ? [controls[c.key]] : ''));
   _sheet = _table({ class: 'sliderule', id: 'encoder', style: tableWidth({ widths }) }, [
     titleCaption({ name: 'Encoder', button: toggle, side: 'right', tools }),
     _colgroup({}, widths.map((width) => _col({ style: `width: ${width}px` }, ''))),
     _thead({}, [
       _tr({ class: 'label-row' }, [
         sectionHeader({ colspan: 4, title: 'Meaning', after: labels.meaning }),
-        sectionHeader({ colspan: 2, title: 'Assembly', after: labels.assembly }),
-        sectionHeader({ colspan: 32, title: 'Bitwise Encoding — inst[31:0]', before: labels.binary, after: labels.hex }),
+        sectionHeader({ colspan: 2, title: 'Assembly', before: labels.assembly, after: labels.assemblyCopy, classes: 'section-assembly' }),
+        sectionHeader({ colspan: 32, title: 'Bitwise Encoding — inst[31:0]', before: labels.binary, after: labels.hex, classes: 'spine' }),
       ]),
-      _tr({ class: 'input-row' }, [...controlCells, ..._bits.cells]),
-      _tr({ class: 'hex-row' }, _bits.hexCells),
-      _tr({ class: 'number-row' }, [...COLUMNS.map((c) => _th({ class: `column-title ${c.key}` }, c.collapsible ? '' : c.title)), ...bitNumbers()]),
+      _tr({ class: 'hex-row' }, [...controlCells, ..._bits.hexCells]),
+      _tr({ class: 'input-row' }, _bits.cells),
+      _tr({ class: 'number-row' }, [...COLUMNS.map((column) => _columnTitle({ column })), ...bitNumbers()]),
     ]),
     _tbody({}, ''),
   ]);

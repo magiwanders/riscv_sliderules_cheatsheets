@@ -138,8 +138,8 @@ export function titleCaption({ name = 'Decoder', button = null, side = 'left', t
 }
 
 // A section title in the top header row, with optional content before / after it (values, copy buttons).
-export function sectionHeader({ colspan = 1, title = '', before = null, after = null }) {
-  return _th({ colspan: String(colspan) }, [_div({ class: 'section-title' }, [
+export function sectionHeader({ colspan = 1, title = '', before = null, after = null, classes = '' }) {
+  return _th({ colspan: String(colspan), class: classes }, [_div({ class: 'section-title' }, [
     _div({ class: 'section-side before' }, before ? [before] : ''),
     _span({ class: 'section-name' }, title),
     _div({ class: 'section-side after' }, after ? [after] : ''),

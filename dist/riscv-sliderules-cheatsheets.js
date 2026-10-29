@@ -4326,7 +4326,7 @@ function at({ editable: e = !0, onChange: t = () => {} }) {
 	function o() {
 		i.forEach((e, t) => {
 			let r = n.slice(4 * t, 4 * t + 4).map((e) => e.dataset.state);
-			r.every((e) => e === "-") ? e.setValue("x") : r.every((e) => e !== "-") ? e.setValue(parseInt(r.join(""), 2).toString(16)) : e.setValue(r.join("").replace(/-/g, "x"), r.join("").replace(/-/g, "x")), a[t].classList.toggle("tri-off", n[4 * t].classList.contains("tri-off"));
+			r.every((e) => e === "-") ? e.setValue("x") : r.every((e) => e !== "-") ? e.setValue(parseInt(r.join(""), 2).toString(16)) : e.setValue(r.join(""), r.join("")), a[t].classList.toggle("tri-off", n[4 * t].classList.contains("tri-off"));
 		});
 	}
 	function s() {
@@ -5574,10 +5574,10 @@ function Q() {
 }
 function Tn({ table: e = null }) {
 	let t = [
-		".input-row",
-		".hex-row",
-		".number-row"
-	].map((t) => _tr({}, [...e.querySelectorAll(`${t} > .spine`)].map((e) => e.cloneNode(!0)))), n = Array(32).fill(24), r = _table({
+		"input-row",
+		"hex-row",
+		"number-row"
+	].map((t) => _tr({ class: t }, [...e.querySelectorAll(`.${t} > .spine`)].map((e) => e.cloneNode(!0)))), n = Array(32).fill(24), r = _table({
 		class: "sliderule ghost",
 		"aria-hidden": "true",
 		style: O({ widths: n })

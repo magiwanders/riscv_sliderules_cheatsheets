@@ -299,9 +299,13 @@ export function refresh() {
 
 // ---------------------------------------------------------------- switching
 
-// A copy of the spine (bit numbers and switches) laid over the table, aligned with the original.
+// A copy of the spine (the bits' section title, hex digits, switches, bit numbers) laid over the table, aligned
+// with the original, each row as high as its original.
 function _ghostSpine({ table = null }) {
-  const rows = ['input-row', 'hex-row', 'number-row'].map((row) => _tr({ class: row }, [...table.querySelectorAll(`.${row} > .spine`)].map((c) => c.cloneNode(true))));
+  const rows = ['label-row', 'hex-row', 'input-row', 'number-row'].map((row) => {
+    const original = table.querySelector(`thead > .${row}`);
+    return _tr({ class: row, style: `height: ${original.getBoundingClientRect().height}px` }, [...original.querySelectorAll(':scope > .spine')].map((c) => c.cloneNode(true)));
+  });
   const widths = new Array(32).fill(24);
   const ghost = _table({ class: 'sliderule ghost', 'aria-hidden': 'true', style: tableWidth({ widths }) }, [columns({ widths }), _thead({}, rows)]);
   _elements.stage.append(ghost);
@@ -371,6 +375,7 @@ async function _switchTo({ mode = 'encoder' }) {
     const delta = _spineOffset({ table: to }) - _spineOffset({ table: from });
     const titleDelta = _centre({ element: to.querySelector('.title-main') }) - _centre({ element: from.querySelector('.title-main') });
     title.querySelector('.title-name').textContent = to.querySelector('.title-name').textContent;
+    ghost.querySelector('.section-name').textContent = to.querySelector('.label-row > .spine .section-name').textContent;
     window.scrollTo({ left: _scrollForSpine({ table: to }), behavior: 'smooth' });
     const slide = { duration: SLIDE_MS, easing: 'cubic-bezier(0.65, 0, 0.35, 1)' };
     await Promise.all([
@@ -396,10 +401,10 @@ function _modeButton({ mode = 'encoder', label = '' }) {
   return _button({ classes: 'mode-button', title: `Switch to the ${label}`, label: mode === 'encoder' ? `◀ ${label}` : `${label} ▶`, onClick: () => _switchTo({ mode }) });
 }
 
-// The whole header (section titles, switches, hex digits, bit numbers) stays on screen while scrolling: each row
+// The whole header (section titles, hex digits, switches, bit numbers) stays on screen while scrolling: each row
 // sticks below the previous one.
 function _stickHeaderRows({ table = null }) {
-  const rows = ['.label-row', '.input-row', '.hex-row', '.number-row'].map((r) => table.querySelector(`thead > ${r}`)).filter(Boolean);
+  const rows = ['.label-row', '.hex-row', '.input-row', '.number-row'].map((r) => table.querySelector(`thead > ${r}`)).filter(Boolean);
   const place = () => {
     let top = 0;
     for (const row of rows) {
@@ -449,7 +454,7 @@ export function Sliderule() {
   };
   const words = (format) => () => _words({ encoded: state.encoded && !state.encoded.error ? state.encoded : null, format }).join('\n');
   const encoderCopies = [
-    _copyButton({ label: 'Copy', title: 'Copy the assembly', classes: 'tool-button on-section', text: () => state.encoded.words.map((w) => w.assembly).join('\n') }),
+    _copyButton({ label: 'Copy Assembly', title: 'Copy the assembly (one instruction per line)', classes: 'tool-button on-section', text: () => state.encoded.words.map((w) => w.assembly).join('\n') }),
     _copyButton({ label: 'Copy bin', title: 'Copy the encoding as binary (one word per line)', classes: 'tool-button on-section', text: words('bin') }),
     _copyButton({ label: 'Copy hex', title: 'Copy the encoding as hex (one word per line)', classes: 'tool-button on-section', text: words('hex') }),
   ];
@@ -460,7 +465,8 @@ export function Sliderule() {
     controls: selectors,
     labels: {
       meaning: encoderLabels.count,
-      assembly: _div({ class: 'section-group' }, [encoderLabels.assembly, encoderCopies[0]]),
+      assembly: encoderLabels.assembly,
+      assemblyCopy: encoderCopies[0],
       binary: encoderCopies[1],
       hex: encoderCopies[2],
     },

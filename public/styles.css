@@ -369,31 +369,23 @@ table.sliderule {
 .section-side.after { justify-content: flex-end; }
 .section-group { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .section-value { font: bold 11px ui-monospace, Menlo, Consolas, monospace; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.section-asm .asm-line { font-size: 11px; color: var(--text); }
+/* Assembly section: the instruction(s) on the left, one per line, spaced like normal text. */
+.section-assembly .section-title { grid-template-columns: minmax(0, 1fr) auto auto; }
+.section-asm { display: flex; flex-direction: column; gap: 3px; padding: 2px 0; }
+.section-asm .asm-line { font-size: 12px; color: var(--text); white-space: nowrap; }
+.section-asm .asm-token { padding: 1px 5px; }
+.section-asm .asm-punct { color: #fff; padding-right: 3px; }
 .section-asm.error { color: #ffe0e0; white-space: normal; }
 .section-count { font-weight: normal; font-size: 11px; opacity: 0.9; }
 .tool-button.on-section { padding: 1px 6px; border-color: rgba(255, 255, 255, 0.7); background: transparent; color: #fff; font-size: 10px; }
 .tool-button.on-section:hover:not(:disabled) { background: rgba(255, 255, 255, 0.2); color: #fff; }
 .tool-button.on-section:disabled { color: rgba(255, 255, 255, 0.45); border-color: rgba(255, 255, 255, 0.35); }
 
-/* Collapsible columns: a narrow strip with the title written vertically, click to expand. */
-.text-head.collapsible { cursor: pointer; user-select: none; vertical-align: top; }
-.text-head.collapsible:hover { background: #eef4f5; }
-.text-head.collapsible:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
-.collapse-icon::before { content: '«'; color: var(--focus); margin-right: 4px; }
-.sliderule.collapsed-description .text-head.description,
-.sliderule.collapsed-explanation .text-head.explanation { padding: 2px 0; }
-.sliderule.collapsed-description .text-head.description .collapse-icon::before,
-.sliderule.collapsed-explanation .text-head.explanation .collapse-icon::before { content: '»'; margin: 0; }
-.sliderule.collapsed-description .text-head.description .collapse-icon,
-.sliderule.collapsed-explanation .text-head.explanation .collapse-icon { position: absolute; top: 2px; left: 2px; writing-mode: horizontal-tb; font-size: 10px; }
-.sliderule.collapsed-description .text-head.description > span,
-.sliderule.collapsed-explanation .text-head.explanation > span { display: block; writing-mode: vertical-rl; margin: 0 auto; font-size: 9px; line-height: 1; letter-spacing: -0.45px; }
-/* The vertical title must not make the bit-number / switch rows taller than the switches. */
-.sliderule.collapsed-description .text-head.description .collapse-title,
-.sliderule.collapsed-explanation .text-head.explanation .collapse-title { max-height: 55px; overflow: hidden; margin-left: 11px !important; }
-.sliderule.collapsed-description td.description,
-.sliderule.collapsed-explanation td.explanation { font-size: 0; padding: 0; }
+/* Description / Explanation: folded into one narrow "Descr. ›" column; its title unfolds both. */
+.details-toggle { cursor: pointer; user-select: none; white-space: nowrap; }
+.details-toggle:hover, .details-toggle:focus-visible { background: #5e8f99 !important; outline: none; }
+.sliderule.details-folded td.description { font-size: 0; padding: 0; }
+.sliderule.details-folded :is(td, th).explanation { font-size: 0; padding: 0; border-left: 0; border-right: 0; }
 
 /* The chosen instruction: placeholders show the selected values. */
 .text.operands.chosen { font-weight: bold; }

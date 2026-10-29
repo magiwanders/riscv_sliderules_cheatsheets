@@ -15,9 +15,9 @@ options, or click it for a list (the mnemonic list has a search box).
 - **Ext** and **Type** narrow the table down; picking a **Mnemonic** moves them to that instruction.
 - **Operands**: one selector per operand. Immediates have a slider and a field that takes decimal, `0x…` or `0b…` and
   only accepts valid values.
-- The bits, with their hex digits underneath, show the encoding. Copy the assembly next to *Assembly*, the binary
+- The bits, with their hex digits above, show the encoding. Copy the assembly next to *Assembly*, the binary
   and hex with the buttons either side of *Bitwise Encoding*.
-- *Description* and *Explanation* are collapsed: click their header to expand them.
+- *Description* and *Explanation* are folded into the narrow **Descr. ›** column: click it to unfold both.
 
 ![Decoder](docs/decoder.png)
 
@@ -26,7 +26,7 @@ its bits.
 
 - Click the 1 or 0 half of a bit (click again for x, "don't care"), or focus a bit and type: each `0` / `1` sets it
   and moves to the next one, so you can type a whole pattern. `x`, Delete and Backspace clear bits.
-- Or set four bits at once with the hex digit under them (scroll it, or click it for a list).
+- Or set four bits at once with the hex digit above them (scroll it, or click it for a list).
 - Paste into a focused bit: a hex word (`0x00a50513`) or a bit pattern (`0101…`, `x` for don't care) fills the row.
 - Copy bin / Copy hex (by *Bitwise Breakdown*) and Copy (by the instruction) work once the instruction is complete.
 - Click a mnemonic in the table to load its encoding.

@@ -1,7 +1,7 @@
 import { formats } from './isa/rv32gc.mjs';
 import { decodeWord, encodeEntry, unusedOpcode, encodable, assemblyParts, fieldMask, partialDecode } from './isa/codec.mjs';
 import { decoderTable, decoderRows, readConstraints, writeBits, selectedWord, dimUpperHalf, pasteBits, highlightBits } from './selector.mjs';
-import { encoderTable, encoderRows, showEncodedBits, expandedColumns, setExpandedColumns } from './encoder.mjs';
+import { encoderTable, encoderRows, showEncodedBits, expandedColumns, setExpandedColumns, flashChangedBits } from './encoder.mjs';
 import { OperandPanel } from './builders.mjs';
 import { Carousel } from './carousel.mjs';
 import { downloadPdf } from './pdf.mjs';
@@ -172,9 +172,10 @@ function _nothingToClear() {
 // A sheet's rows are only rebuilt when what they show changed (key): the whole encoder is thousands of cells, and
 // switching re-renders the incoming sheet.
 function _replaceRows({ table = null, key = '', rows = () => [] }) {
-  if (table.dataset.rowsKey === key) return;
+  if (table.dataset.rowsKey === key) return false;
   table.dataset.rowsKey = key;
   table.tBodies[0].replaceChildren(...rows());
+  return true;
 }
 
 function _renderDecoder() {
@@ -316,9 +317,10 @@ function _renderEncoder() {
   _elements.encoderCopies.forEach((button) => { button.disabled = !encoded; });
   showEncodedBits({ entry: state.entry, encoded });
   const key = JSON.stringify([state.ext, state.type, state.entry && state.entry.id, state.operands, encoded && encoded.words.map((w) => w.word)]);
-  _replaceRows({ table: _elements.encoder, key, rows: () => encoderRows({
+  const replaced = _replaceRows({ table: _elements.encoder, key, rows: () => encoderRows({
     entries: _filtered(), entry: state.entry, encoded, operands: encoded ? state.operands : null, onPick: _selectEntry,
   }) });
+  if (replaced) flashChangedBits({ entry: encoded ? state.entry : null });
 }
 
 export function refresh() {

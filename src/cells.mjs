@@ -50,13 +50,43 @@ export function segmentCells({ segments = [], width = 32, fields = null, inst = 
   return cells;
 }
 
-// The actual bits of an encoded word, coloured like the segments they belong to.
-export function valueCells({ inst = {}, word = 0 }) {
-  const cells = unusedUpperHalf({ width: inst.width });
-  for (const s of inst.segments) {
+// What a bit of an operand stands for, e.g. "rd = a0 (x10)" or "imm[11]".
+function _bitTitle({ s = {}, fields = {}, inst = {}, j = 0 }) {
+  if (s.kind === 'reg') {
+    const fp = (inst.fregs || []).includes(s.key);
+    return `${s.key} = ${registerName({ number: fields[s.key], fp })} (${fp ? 'f' : 'x'}${fields[s.key]})`;
+  }
+  if (s.kind === 'imm') return `${s.name}[${s.immBits[j]}]`;
+  if (s.kind === 'field') return _fieldText({ key: s.key, value: fields[s.key] });
+  return '';
+}
+
+// The actual bits of an encoded word in their own places, coloured like the segments they belong to. data-bit
+// lets the encoder mark the bits that change (see flashChangedBits in encoder.mjs).
+export function valueCells({ segments = [], width = 32, word = 0, fields = {}, inst = {} }) {
+  const cells = unusedUpperHalf({ width });
+  for (const s of segments) {
     const classes = s.kind === 'lit' ? `lit-${s.role}` : s.kind === 'imm' ? `imm imm-${s.part % 4}` : `field-${s.kind}`;
     for (let bit = s.hi; bit >= s.lo; bit--) {
-      cells.push(cell({ classes: `bit value ${classes}`, text: String((word >>> bit) & 1), title: s.kind === 'lit' ? '' : s.label }));
+      const value = cell({ classes: `bit value ${classes}`, text: String((word >>> bit) & 1), title: _bitTitle({ s, fields, inst, j: s.hi - bit }) });
+      value.dataset.bit = String(bit);
+      cells.push(value);
+    }
+  }
+  return cells;
+}
+
+// The immediate's value bit by bit (31..0), coloured like the instruction bits each one comes from; sign extension
+// and zero bits as in the immediate view.
+export function immediateValueCells({ inst = {}, value = 0 }) {
+  const cells = [];
+  for (const c of immediateView({ inst })) {
+    for (let bit = c.hi; bit > c.hi - c.width; bit--) {
+      const classes = c.kind === 'zero' ? 'bit value imm-zero' : `bit value imm imm-${c.segment.part % 4}${c.kind === 'sext' ? ' sext' : ''}`;
+      const title = c.kind === 'zero' ? `${inst.immName}[${bit}] = 0` : c.kind === 'sext' ? `${inst.immName}[${bit}]: sign extension` : `${inst.immName}[${bit}], from ${_range({ segment: c.segment })}`;
+      const valueCell = cell({ classes, text: String((value >>> bit) & 1), title });
+      valueCell.dataset.bit = String(bit);
+      cells.push(valueCell);
     }
   }
   return cells;

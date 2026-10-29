@@ -1,5 +1,5 @@
 import { encodable } from './isa/codec.mjs';
-import { cell, segmentCells, valueCells, immediateCells, typeCell, bitNumbers, tableWidth, hex, sectionHeader } from './cells.mjs';
+import { cell, segmentCells, valueCells, immediateCells, immediateValueCells, typeCell, bitNumbers, tableWidth, sectionHeader } from './cells.mjs';
 import { Tristates } from './tristate.mjs';
 
 // a2b "Encoder" sliderule: every instruction and pseudo-instruction in alphabetical order, encoding on the right.
@@ -46,8 +46,8 @@ function _textCells({ entry = {}, rowspan = 1, explanation = '', operands = null
   ];
 }
 
-// Rows of one entry. With an encoding, the expansions actually used (li may need one or two instructions) and
-// their fields fill the register / immediate placeholders, and the encoded words follow.
+// Rows of one entry. With an encoding, the expansions actually used (li may need one or two instructions) show their
+// bits in place of the field names, and the immediate row the immediate's bits.
 function _entryRows({ entry = {}, encoded = null, operands = null, onPick = () => {} }) {
   const parts = encoded
     ? encoded.words.map((w) => (w.expansion ? { ...w.expansion, word: w } : { base: entry, segments: entry.segments, text: _explanation({ entry }), word: w }))
@@ -60,25 +60,35 @@ function _entryRows({ entry = {}, encoded = null, operands = null, onPick = () =
     const textCells = i === 0
       ? _textCells({ entry, rowspan, explanation: text, operands, onPick })
       : [_td({ class: 'text explanation', title: _explanationText({ explanation: text }) }, text)];
-    return _tr({ class: `instruction-row fmt-${base.format}` + (encoded ? ' chosen' : '') },
-      [...textCells, ...segmentCells({ segments, width: base.width, fields: word ? word.fields : null, inst: base })]);
+    const bits = word
+      ? valueCells({ segments, width: base.width, word: word.word, fields: word.fields, inst: base })
+      : segmentCells({ segments, width: base.width, inst: base });
+    return _tr({ class: `instruction-row fmt-${base.format}` + (encoded ? ' chosen' : '') }, [...textCells, ...bits]);
   });
   if (showImm) {
     const { base, word } = parts[0];
-    rows.push(_tr({ class: `immediate-row fmt-${base.format}` }, [
-      _td({ class: 'text imm-name explanation' }, word ? `${base.immName} = ${word.fields.imm}` : base.immName), ...immediateCells({ inst: base }),
+    rows.push(_tr({ class: `immediate-row fmt-${base.format}` + (word ? ' chosen' : '') }, [
+      _td({ class: 'text imm-name explanation' }, word ? `${base.immName} = ${word.fields.imm}` : base.immName),
+      ...(word ? immediateValueCells({ inst: base, value: word.fields.imm }) : immediateCells({ inst: base })),
     ]));
   }
-  if (encoded) {
-    for (const { inst, word, assembly } of encoded.words) {
-      rows.push(_tr({ class: `encoded-row fmt-${inst.format}` }, [
-        cell({ width: 4, classes: 'text encoded-asm', text: assembly }),
-        cell({ width: 2, classes: 'text encoded-hex', text: hex({ word, width: inst.width }) }),
-        ...valueCells({ inst, word }),
-      ]));
+  return rows;
+}
+
+// Briefly marks the bits that changed since the previous rows of the same instruction (an operand was changed).
+let _shownBits = { id: null, bits: new Map() };
+export function flashChangedBits({ entry = null }) {
+  const bits = new Map();
+  _sheet.tBodies[0].querySelectorAll('tr').forEach((row, r) => row.querySelectorAll('td[data-bit]').forEach((td) => bits.set(`${r}:${td.dataset.bit}`, td)));
+  if (entry && _shownBits.id === entry.id && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (const [key, td] of bits) {
+      if (_shownBits.bits.has(key) && _shownBits.bits.get(key) !== td.textContent) {
+        td.animate([{ boxShadow: 'inset 0 0 0 2px #e69138', filter: 'brightness(1.25)' }, { boxShadow: 'inset 0 0 0 2px transparent', filter: 'none' }],
+          { duration: 600, easing: 'ease-out' });
+      }
     }
   }
-  return rows;
+  _shownBits = { id: entry ? entry.id : null, bits: new Map([...bits].map(([key, td]) => [key, td.textContent])) };
 }
 
 // entries: what the Ext / Type filters let through; with a chosen entry only that one is listed.

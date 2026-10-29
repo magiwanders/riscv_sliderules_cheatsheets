@@ -435,10 +435,9 @@ table.sliderule {
 .bit.any { background: var(--muted); color: #777; }
 .text.explanation { background: var(--light); }
 
-/* Encoded words: the actual bits, coloured like their fields, with a dark frame. */
-.encoded-row td { box-shadow: inset 0 0 0 1px #000; font-weight: bold; }
-.encoded-row .encoded-asm { background: var(--strong); font-family: ui-monospace, Menlo, Consolas, monospace; text-align: left; }
-.encoded-row .encoded-hex { background: var(--light); font-family: ui-monospace, Menlo, Consolas, monospace; }
+/* The chosen instruction's bits in their own places, coloured like their fields (registers and other fields
+   grey so the values stand out from the white opcode bits). */
+.bit.value { font-weight: bold; }
 .bit.value.field-reg, .bit.value.field-field { background: var(--muted); }
 
 /* HINTs (legal encodings with no architectural effect) and opcodes RV32GC leaves unused. */

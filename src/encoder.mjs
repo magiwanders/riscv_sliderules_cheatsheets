@@ -1,5 +1,5 @@
 import { encodable } from './isa/codec.mjs';
-import { cell, segmentCells, valueCells, immediateCells, typeCell, bitNumbers, tableWidth, hex, titleCaption } from './cells.mjs';
+import { cell, segmentCells, valueCells, immediateCells, typeCell, bitNumbers, tableWidth, hex, titleCaption, sectionHeader } from './cells.mjs';
 import { Tristates } from './tristate.mjs';
 
 // a2b "Encoder" sliderule: every instruction and pseudo-instruction in alphabetical order, encoding on the right.
@@ -159,25 +159,26 @@ function _columnHead({ column = {}, rowspan = 1 }) {
 // toggle: the button to the decoder; tools: PDF / Clear / Share; controls: { ext, type, mnemonic, operands } selectors;
 // labels: what sits in the section headers next to their titles ({ meaning, assembly, binary, hex });
 // onLayout: called when a column is expanded or collapsed.
+// Header rows: section titles, the controls (switches with the hex digits under them; the selectors and the
+// collapsed column toggles span both), then the column titles and bit numbers right above the sheet's rows.
 export function encoderTable({ toggle = null, tools = [], controls = {}, labels = {}, onLayout = () => {} }) {
   _bits = Tristates({ editable: false });
   _onLayout = onLayout;
   const widths = _widths();
-  // Collapsible headers span the selector row too: their vertical title needs the height.
-  const selectorCells = COLUMNS.filter((c) => !c.collapsible).map((c) => _td({ class: `selector-cell ${c.key}` }, [controls[c.key]]));
-  const section = ({ colspan = 1, title = '', before = null, after = null, classes = '' }) => _th({ colspan: String(colspan), class: classes },
-    [_div({ class: 'section-title' }, [_div({ class: 'section-side before' }, before ? [before] : ''), _span({ class: 'section-name' }, title), _div({ class: 'section-side after' }, after ? [after] : '')])]);
+  const controlCells = COLUMNS.map((c) => (c.collapsible ? _columnHead({ column: c, rowspan: 2 })
+    : _td({ class: `selector-cell ${c.key}`, rowspan: '2' }, [controls[c.key]])));
   _sheet = _table({ class: 'sliderule', id: 'encoder', style: tableWidth({ widths }) }, [
     titleCaption({ name: 'Encoder', button: toggle, side: 'right', tools }),
     _colgroup({}, widths.map((width) => _col({ style: `width: ${width}px` }, ''))),
     _thead({}, [
       _tr({ class: 'label-row' }, [
-        section({ colspan: 4, title: 'Meaning', after: labels.meaning }),
-        section({ colspan: 2, title: 'Assembly', after: labels.assembly }),
-        section({ colspan: 32, title: 'Bitwise Encoding — inst[31:0]', before: labels.binary, after: labels.hex }),
+        sectionHeader({ colspan: 4, title: 'Meaning', after: labels.meaning }),
+        sectionHeader({ colspan: 2, title: 'Assembly', after: labels.assembly }),
+        sectionHeader({ colspan: 32, title: 'Bitwise Encoding — inst[31:0]', before: labels.binary, after: labels.hex }),
       ]),
-      _tr({ class: 'number-row' }, [...COLUMNS.map((column) => _columnHead({ column, rowspan: column.collapsible ? 2 : 1 })), ...bitNumbers()]),
-      _tr({ class: 'input-row' }, [...selectorCells, ..._bits.cells]),
+      _tr({ class: 'input-row' }, [...controlCells, ..._bits.cells]),
+      _tr({ class: 'hex-row' }, _bits.hexCells),
+      _tr({ class: 'number-row' }, [...COLUMNS.map((c) => _th({ class: `column-title ${c.key}` }, c.collapsible ? '' : c.title)), ...bitNumbers()]),
     ]),
     _tbody({}, ''),
   ]);

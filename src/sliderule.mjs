@@ -17,7 +17,7 @@ const SLIDE_MS = 560;
 const COPIED_MS = 1200;
 const EXTENSION_ORDER = ['I', 'M', 'A', 'F', 'D', 'Zicsr', 'Zifencei', 'C', 'C + F', 'C + D', 'PSEUDO'];
 const URL_KEYS = ['ext', 'type', 'm', 'open', 'bits'];
-const state = { mode: 'encoder', ext: '*', type: '*', entry: null, encoded: null, operands: null, decoded: null, switching: false };
+const state = { mode: 'encoder', ext: '*', type: '*', entry: null, encoded: null, operands: null, decoded: null, word: null, switching: false };
 let _elements = null;
 
 // ---------------------------------------------------------------- assembly with coloured operands
@@ -190,6 +190,8 @@ function _renderDecoder() {
     _show({ target, content: lines });
   }
   _elements.decoderCopy.disabled = !state.decoded;
+  state.word = word === null ? null : { word, width: (word & 3) === 3 ? 32 : 16 };
+  _elements.decoderWordCopies.forEach((button) => { button.disabled = word === null; });
   const onPattern = ({ inst }) => {
     writeBits({ value: inst.match, mask: inst.mask, width: inst.width });
     refresh();
@@ -278,8 +280,6 @@ function _renderEncoder() {
   labels.count.textContent = state.entry ? '' : `${count} instruction${count === 1 ? '' : 's'}`;
   if (state.encoded && state.encoded.error) _show({ target: labels.assembly, content: state.encoded.error, error: true });
   else _show({ target: labels.assembly, content: encoded ? encoded.words.map(({ inst, fields }) => _div({}, [_assemblyLine({ inst, fields })])) : '' });
-  labels.binary.replaceChildren(..._words({ encoded, format: 'bin' }).map((w) => _div({}, w)));
-  labels.hex.replaceChildren(..._words({ encoded, format: 'hex' }).map((w) => _div({}, w)));
   _elements.encoderCopies.forEach((button) => { button.disabled = !encoded; });
   showEncodedBits({ entry: state.entry, encoded });
   _elements.encoder.querySelector('tbody').replaceChildren(...encoderRows({
@@ -301,7 +301,7 @@ export function refresh() {
 
 // A copy of the spine (bit numbers and switches) laid over the table, aligned with the original.
 function _ghostSpine({ table = null }) {
-  const rows = ['.number-row', '.input-row'].map((row) => _tr({}, [...table.querySelectorAll(`${row} > .spine`)].map((c) => c.cloneNode(true))));
+  const rows = ['input-row', 'hex-row', 'number-row'].map((row) => _tr({ class: row }, [...table.querySelectorAll(`.${row} > .spine`)].map((c) => c.cloneNode(true))));
   const widths = new Array(32).fill(24);
   const ghost = _table({ class: 'sliderule ghost', 'aria-hidden': 'true', style: tableWidth({ widths }) }, [columns({ widths }), _thead({}, rows)]);
   _elements.stage.append(ghost);
@@ -396,9 +396,10 @@ function _modeButton({ mode = 'encoder', label = '' }) {
   return _button({ classes: 'mode-button', title: `Switch to the ${label}`, label: mode === 'encoder' ? `◀ ${label}` : `${label} ▶`, onClick: () => _switchTo({ mode }) });
 }
 
-// The section titles, bit numbers and switches stay on screen while scrolling: each row sticks below the previous.
+// The whole header (section titles, switches, hex digits, bit numbers) stays on screen while scrolling: each row
+// sticks below the previous one.
 function _stickHeaderRows({ table = null }) {
-  const rows = ['.label-row', '.number-row', '.input-row'].map((r) => table.querySelector(`thead > ${r}`)).filter(Boolean);
+  const rows = ['.label-row', '.input-row', '.hex-row', '.number-row'].map((r) => table.querySelector(`thead > ${r}`)).filter(Boolean);
   const place = () => {
     let top = 0;
     for (const row of rows) {
@@ -431,7 +432,13 @@ export function Sliderule() {
   const decoderResult = _div({ class: 'io-result' }, '');
   const decoderCopy = _copyButton({ label: 'Copy', title: 'Copy the assembly (once the instruction is complete)', text: () => state.decoded.assembly });
   const decoderClear = _clearButton({ onClick: () => { writeBits({ value: 0, mask: 0 }); refresh(); } });
+  const decodedWord = (format) => () => (format === 'hex' ? hex(state.word) : (state.word.word >>> 0).toString(2).padStart(state.word.width, '0'));
+  const decoderWordCopies = [
+    _copyButton({ label: 'Copy bin', title: 'Copy the bits as binary (once every bit of the instruction is set)', classes: 'tool-button on-section', text: decodedWord('bin') }),
+    _copyButton({ label: 'Copy hex', title: 'Copy the bits as hex (once every bit of the instruction is set)', classes: 'tool-button on-section', text: decodedWord('hex') }),
+  ];
   const decoder = decoderTable({ onBits: refresh, toggle: _modeButton({ mode: 'encoder', label: 'Encoder' }),
+    copies: { binary: decoderWordCopies[0], hex: decoderWordCopies[1] },
     tools: [_pdfButton({ table: () => decoder, name: () => _fileName({ mode: 'decoder' }) }), decoderClear, _shareButton()],
     io: _div({ class: 'io' }, [decoderResult, _div({ class: 'io-tools' }, [decoderCopy])]) });
 
@@ -439,8 +446,6 @@ export function Sliderule() {
   const encoderLabels = {
     count: _span({ class: 'section-count' }, ''),
     assembly: _div({ class: 'section-value section-asm' }, ''),
-    binary: _div({ class: 'section-value section-bin' }, ''),
-    hex: _div({ class: 'section-value section-hex' }, ''),
   };
   const words = (format) => () => _words({ encoded: state.encoded && !state.encoded.error ? state.encoded : null, format }).join('\n');
   const encoderCopies = [
@@ -456,14 +461,14 @@ export function Sliderule() {
     labels: {
       meaning: encoderLabels.count,
       assembly: _div({ class: 'section-group' }, [encoderLabels.assembly, encoderCopies[0]]),
-      binary: _div({ class: 'section-group' }, [encoderCopies[1], encoderLabels.binary]),
-      hex: _div({ class: 'section-group' }, [encoderLabels.hex, encoderCopies[2]]),
+      binary: encoderCopies[1],
+      hex: encoderCopies[2],
     },
     onLayout: _writeUrl,
   });
 
   const stage = _div({ id: 'sliderule', class: 'stage' }, [_div({ class: 'view' }, [decoder]), _div({ class: 'view' }, [encoder])]);
-  _elements = { decoder, encoder, decoderResult, decoderCopy, decoderClear, encoderLabels, encoderCopies, encoderClear, selectors, operands: selectors.operands, stage };
+  _elements = { decoder, encoder, decoderResult, decoderCopy, decoderClear, decoderWordCopies, encoderLabels, encoderCopies, encoderClear, selectors, operands: selectors.operands, stage };
   const { mode, params } = _readUrl();
   state.mode = mode;
   _activate({ mode });

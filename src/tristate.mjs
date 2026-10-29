@@ -3,6 +3,11 @@
 // Click a half to set it, click it again to go back to x. Keyboard: 0 / 1 set and move right,
 // x / Delete clear, Backspace clears the bit just typed, arrows / Home / End move: typing a run of 0s and 1s
 // fills the following bits one after the other. Pasting a hex word (0x...) or a bit pattern fills the whole row.
+// Under the switches, one hex digit per 4 bits (a carousel: x, 0-f) always shows the same bits; editable, it sets them.
+import { Carousel } from './carousel.mjs';
+
+const HEX_OPTIONS = [{ value: 'x', label: 'x', hint: "don't care" },
+  ...[...'0123456789abcdef'].map((digit) => ({ value: digit, label: digit, hint: parseInt(digit, 16).toString(2).padStart(4, '0') }))];
 
 // Pasted text as switch states (index 0 = bit 31): a hex word (0x..., 16 bit words leave the upper half x)
 // or a bit pattern (0b optional, x or - for don't care, lsb last). null if it is neither.
@@ -42,10 +47,41 @@ export function Tristates({ editable = true, onChange = () => {} }) {
     cells.push(_th({ class: 'bit-head spine' }, [sw]));
   }
 
+  // nibble 0 = bits 31..28
+  const nibbles = [];
+  const hexCells = [];
+  for (let n = 0; n < 8; n++) {
+    const hi = 31 - 4 * n;
+    const carousel = Carousel({ options: HEX_OPTIONS, value: 'x', label: `inst[${hi}:${hi - 3}] in hex`, readOnly: !editable, classes: 'hex-carousel',
+      onChange: (digit) => {
+        const bits = digit === 'x' ? '----' : parseInt(digit, 16).toString(2).padStart(4, '0');
+        [...bits].forEach((state, k) => { switches[4 * n + k].dataset.state = state; });
+        changed();
+      } });
+    nibbles.push(carousel);
+    hexCells.push(_th({ class: 'hex-head spine', colspan: '4' }, [carousel]));
+  }
+
+  // A nibble shows x when all its bits are x, its digit when all are set, and its bits (e.g. 1-0-) otherwise.
+  function _syncHex() {
+    nibbles.forEach((carousel, n) => {
+      const states = switches.slice(4 * n, 4 * n + 4).map((sw) => sw.dataset.state);
+      if (states.every((st) => st === '-')) carousel.setValue('x');
+      else if (states.every((st) => st !== '-')) carousel.setValue(parseInt(states.join(''), 2).toString(16));
+      else carousel.setValue(states.join(''), states.join('')); // '-' as in the spec: 'x' would read like 0x…
+      hexCells[n].classList.toggle('tri-off', switches[4 * n].classList.contains('tri-off'));
+    });
+  }
+
+  function changed() {
+    _syncHex();
+    onChange();
+  }
+
   function _toggle({ sw = null, value = '1' }) {
     sw.dataset.state = sw.dataset.state === value ? '-' : value;
     _focus({ index: switches.indexOf(sw) });
-    onChange();
+    changed();
   }
 
   // Roving tabindex: the row is a single tab stop.
@@ -58,7 +94,7 @@ export function Tristates({ editable = true, onChange = () => {} }) {
   function _onKey({ event = null, index = 0 }) {
     const set = (value, move, at = index) => {
       switches[at].dataset.state = value;
-      onChange();
+      changed();
       _focus({ index: at + move });
     };
     // Like a text cursor: Backspace clears the bit just typed (the one to the left, unless this one is set).
@@ -82,11 +118,12 @@ export function Tristates({ editable = true, onChange = () => {} }) {
 
   function _apply({ states = [] }) {
     states.forEach((state, i) => { switches[i].dataset.state = state; });
-    onChange();
+    changed();
   }
 
   return {
     cells,
+    hexCells,
     // index 0 = bit 31
     read: () => switches.map((sw) => sw.dataset.state),
     // Bits outside the mask (and above a 16 bit width) become x; with off, the upper half of a 16 bit word is greyed out.
@@ -96,6 +133,7 @@ export function Tristates({ editable = true, onChange = () => {} }) {
         sw.dataset.state = bit < width && (mask >>> bit) & 1 ? String((value >>> bit) & 1) : '-';
         sw.classList.toggle('tri-off', off && bit >= width);
       });
+      _syncHex();
     },
     // Fills the row from pasted text; false if the text is neither a hex word nor a bit pattern.
     paste: ({ text = '' }) => {
@@ -106,6 +144,9 @@ export function Tristates({ editable = true, onChange = () => {} }) {
     // Marks the bits of an operand (mask over inst[31:0]), e.g. while its token is hovered.
     highlight: ({ mask = 0 }) => switches.forEach((sw, i) => sw.classList.toggle('tri-mark', Boolean((mask >>> (31 - i)) & 1))),
     // Greys out bits 31..16 once the word is known to be a 16 bit instruction.
-    dimUpper: ({ dim = false }) => switches.forEach((sw, i) => sw.classList.toggle('tri-off', dim && i < 16)),
+    dimUpper: ({ dim = false }) => {
+      switches.forEach((sw, i) => sw.classList.toggle('tri-off', dim && i < 16));
+      _syncHex();
+    },
   };
 }

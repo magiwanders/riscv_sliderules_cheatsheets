@@ -29,8 +29,45 @@ extension, has its own checklist below.
 - Instruction knowledge lives in `rv32gc.mjs` only. If you find yourself writing an instruction name in UI code,
   add a property to the data instead (see `asmShift`, `rmDefault`, `nonZeroImm`).
 - Comments say why, briefly, in the style of the surrounding code. Two-space indent, single quotes, semicolons.
-- Colours: every format has a `.fmt-<FORMAT>` rule in `public/styles.css` setting `--strong` and `--light`; everything
-  else (immediate shades, chips, carousels) derives from those two.
+- Colours: see *Colour palette* below.
+
+## Colour palette
+
+The colours come from the original spreadsheet sheets (Google Sheets' palette) and carry meaning. Keep to these rules.
+
+**Every format is one hue with two shades**, set by a `.fmt-<FORMAT>` rule in `public/styles.css`:
+`--strong` is the hue's Google Sheets *light 1* shade (format header row, mnemonic cell, funct / literal bits),
+`--light` its *light 3* shade (text cells, Ext / Type columns). Current hues:
+
+| Format(s) | Hue | `--strong` | `--light` |
+| --- | --- | --- | --- |
+| R, CA | red | `#e06666` | `#f4cccc` |
+| CR | red (*light 2* as strong: a lighter variant) | `#ea9999` | `#f4cccc` |
+| I, CI, CIW | green | `#93c47d` | `#d9ead3` |
+| S, CS, CSS | yellow | `#ffd966` | `#fff2cc` |
+| B, CB | cornflower blue | `#6d9eeb` | `#c9daf8` |
+| U | purple | `#8e7cc3` | `#d9d2e9` |
+| J, CJ | orange | `#f6b26b` | `#fce5cd` |
+| CL | magenta | `#c27ba0` | `#ead1dc` |
+| R4 | tan (not on paper, custom) | `#c9a46b` | `#f1e4cf` |
+
+- **A compressed format reuses the hue of the 32 bit format it mirrors** (CA → R, CI / CIW → I, CS / CSS → S, CB → B,
+  CJ → J). Give it the *light 2* shade as `--strong` only when it has to be told apart from a sibling in the same
+  decoder section (as CR is from CA).
+- **A genuinely new format gets a hue nobody uses yet**, as a *light 1* / *light 3* pair. Still free: blue
+  (`#6fa8dc` / `#cfe2f3`). Teal-cyan is taken by the section bars, greys by the grid (`#b7b7b7`) and `--muted`. If you need a
+  colour outside the palette, pick a strong shade that dark text reads well on and a light shade around 80 % towards
+  white, as R4's tan does.
+- **Never reuse the reserved colours** for a format: section bars and the bit-number row `--section` `#76a5af`
+  (teal); reserved encodings `--reserved` `#ff0000`; pseudo-instructions `--pseudo` `#ff00ff` (magenta, white bold
+  text); the unused upper half of a compressed instruction `--unused` `#000000`; HINTs, unused opcodes, `x` / zero
+  bits `--muted` `#f3f3f3` with grey text.
+- **Registers and opcode bits are white** (`--register`) in every format, so the format colour marks what the
+  instruction does, not where its operands are.
+- **Immediates are derived, not picked**: the pieces of a split immediate get four shades of `--strong`
+  (`.imm-0` the strong colour itself, `.imm-1` 45 % mixed with white, `.imm-2` 70 % mixed with black with white text,
+  `.imm-3` 70 % mixed with white) through `color-mix()`. The same piece has the same shade in the instruction row and
+  in the immediate row underneath, so a new format only needs its two shades.
 
 ## Adding an extension
 
@@ -52,7 +89,8 @@ Work through these in order; most extensions only need steps 1, 2, 5 and 6.
      `asm`), `nonZeroImm`, `expands` (text of a compressed instruction's 32 bit equivalent), `reserved` / `hint` rows.
    Masks, matching, decoding, encoding, table cells and the encoder's selectors all follow from these strings.
 3. **New format?** Add it to `formats` (`title`, `width`, `layout` of `[name, hi, lo, role]` with roles `opcode`,
-   `funct`, `reg`, `imm`) and give it a `.fmt-<NAME>` colour pair in `public/styles.css`.
+   `funct`, `reg`, `imm`) and give it a `.fmt-<NAME>` colour pair in `public/styles.css` following the palette rules
+   above.
 4. **New operand kind?** (a field that is not a register, immediate, csr, rm, fence set or aq/rl, e.g. a vector mask.)
    Extend `FIELDS` / `OPERAND` and `operandInfo` in `codec.mjs`, `_controlFor` in `builders.mjs` (its selector),
    `assemblyParts` (how it prints) and `test/cases.mjs` (how tests pick values).

@@ -84,7 +84,7 @@ export function bitNumbers() {
   return numbers;
 }
 
-const REPO = 'https://github.com/magiwanders/riscv-sliderules-cheatsheets';
+const REPO = 'https://github.com/magiwanders/riscv_sliderules_cheatsheets';
 const GITHUB_PATH = 'M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z';
 
 function _svg({ children = '' }) {
@@ -109,6 +109,16 @@ function _credits() {
   ]);
 }
 
+// The 2023 LFX mentorship contributors.
+const CONTRIBUTORS = [['Jayaraj J', 'jyrj'], ['Karbon Chen', 'CSY-tvgo']];
+
+function _contributors() {
+  const links = CONTRIBUTORS.flatMap(([name, login], i) => [
+    ...(i ? [', '] : []), _a({ href: `https://github.com/${login}`, target: '_blank', rel: 'noopener' }, `${name} (@${login})`),
+  ]);
+  return _div({ class: 'title-credits title-contributors' }, ['Contributors: ', ...links]);
+}
+
 // Title of the sheet. The button to the other sheet sits in the corner on the side its table appears, the sheet's
 // tools (PDF, Clear, Share) and the contribution link in the opposite corner. Corner contents are left out of the
 // PDF (no-print). A caption, so it spans the whole table.
@@ -122,8 +132,18 @@ export function titleCaption({ name = 'Decoder', button = null, side = 'left', t
     _div({ class: 'title-isa' }, 'RV32GC'),
     _div({ class: 'title-name' }, name),
     _credits(),
+    _contributors(),
   ]);
   return _caption({ class: 'title-cell' }, [_div({ class: 'title-bar' }, side === 'left' ? [corner, title, toolbox] : [toolbox, title, corner])]);
+}
+
+// A section title in the top header row, with optional content before / after it (values, copy buttons).
+export function sectionHeader({ colspan = 1, title = '', before = null, after = null }) {
+  return _th({ colspan: String(colspan) }, [_div({ class: 'section-title' }, [
+    _div({ class: 'section-side before' }, before ? [before] : ''),
+    _span({ class: 'section-name' }, title),
+    _div({ class: 'section-side after' }, after ? [after] : ''),
+  ])]);
 }
 
 export function columns({ widths = [] }) {

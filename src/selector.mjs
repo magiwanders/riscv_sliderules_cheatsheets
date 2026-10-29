@@ -1,6 +1,6 @@
 import { formats, groups, sections } from './isa/rv32gc.mjs';
 import { compiled, matchesConstraints, assemblyParts, unusedOpcodeRows } from './isa/codec.mjs';
-import { cell, segmentCells, immediateCells, typeCell, bitNumbers, columns, tableWidth, titleCaption } from './cells.mjs';
+import { cell, segmentCells, immediateCells, typeCell, bitNumbers, columns, tableWidth, titleCaption, sectionHeader } from './cells.mjs';
 import { Tristates } from './tristate.mjs';
 
 // b2a "Decoder" sliderule: the bit selector is the table header (bits on the left), rows are ordered lsb first.
@@ -163,8 +163,10 @@ export function selectedWord({ constraints = [] }) {
 }
 
 // io: what goes next to the bit switches (the decoded result); toggle: the button to the encoder.
-// tools: PDF / Clear / Share in the title corner.
-export function decoderTable({ onBits = () => {}, toggle = null, tools = [], io = null }) {
+// tools: PDF / Clear / Share in the title corner; copies: { binary, hex } copy buttons by the bits' section title.
+// Header rows: section titles, the controls (switches, hex digits under them, the decoded instruction beside both),
+// then the bit numbers and column titles right above the sheet's rows.
+export function decoderTable({ onBits = () => {}, toggle = null, tools = [], copies = {}, io = null }) {
   _bits = Tristates({ editable: true, onChange: onBits });
   const widths = [...new Array(32).fill(24), ...TEXT_WIDTHS];
   return _table({ class: 'sliderule', id: 'decoder', style: tableWidth({ widths }) }, [
@@ -172,11 +174,12 @@ export function decoderTable({ onBits = () => {}, toggle = null, tools = [], io 
     columns({ widths }),
     _thead({}, [
       _tr({ class: 'label-row' }, [
-        _th({ colspan: '32' }, 'Bitwise Breakdown — inst[31:0]'),
-        _th({ colspan: String(TEXT_COLUMNS.length) }, 'Meaning'),
+        sectionHeader({ colspan: 32, title: 'Bitwise Breakdown — inst[31:0]', before: copies.binary, after: copies.hex }),
+        sectionHeader({ colspan: TEXT_COLUMNS.length, title: 'Meaning' }),
       ]),
-      _tr({ class: 'number-row' }, [...bitNumbers(), ...TEXT_COLUMNS.map((name) => _th({ class: 'text-head' }, name))]),
-      _tr({ class: 'input-row' }, [..._bits.cells, _td({ class: 'io-cell', colspan: String(TEXT_COLUMNS.length) }, [io])]),
+      _tr({ class: 'input-row' }, [..._bits.cells, _td({ class: 'io-cell', colspan: String(TEXT_COLUMNS.length), rowspan: '2' }, [io])]),
+      _tr({ class: 'hex-row' }, _bits.hexCells),
+      _tr({ class: 'number-row' }, [...bitNumbers(), ...TEXT_COLUMNS.map((name) => _th({ class: 'column-title' }, name))]),
     ]),
     _tbody({}, ''),
   ]);

@@ -3,11 +3,11 @@
   "private": false,
   "version": "0.0.1",
   "description": "RISC-V (RV32GC) instruction encoder / decoder sliderules for the web",
-  "license": "MIT",
+  "license": "CC-BY-SA-4.0",
   "author": "Simone Shawn Cazzaniga <shawn@magiwanders.com> (https://www.magiwanders.com)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/magiwanders/riscv-sliderules-cheatsheets.git"
+    "url": "https://github.com/magiwanders/riscv_sliderules_cheatsheets.git"
   },
   "type": "module",
   "scripts": {

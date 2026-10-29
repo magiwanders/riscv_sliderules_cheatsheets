@@ -83,6 +83,7 @@ table.sliderule {
 .title-name { font-size: 15px; font-weight: bold; margin-top: 2px; }
 .title-credits { display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 10px; font-weight: normal; color: #555; margin-top: 4px; }
 .title-credits a { color: inherit; }
+.title-contributors { margin-top: 1px; }
 .title-credits a:hover { color: var(--focus); }
 .credit-icon { display: inline-flex; color: #333; }
 .credit-icon:hover { color: var(--focus); }
@@ -128,7 +129,8 @@ table.sliderule {
 /* Bit numbers, switches and the encoder output stay in view while scrolling the table (tops set by script). */
 .sliderule .label-row > *,
 .sliderule .number-row > *,
-.sliderule .input-row > * {
+.sliderule .input-row > *,
+.sliderule .hex-row > * {
   position: sticky;
   top: 0;
   background: var(--page);
@@ -137,8 +139,12 @@ table.sliderule {
 
 .sliderule .number-row > * { height: 16px; }
 .sliderule .label-row > * { background: var(--section); }
+/* Bit numbers and column titles sit between the controls and the rows, coloured like the section titles. */
+.sliderule .number-row > * { background: var(--section); color: #fff; font-weight: bold; }
+.sliderule .hex-row > * { padding: 1px; }
+.hex-head.tri-off { opacity: 0.25; }
 /* The switch row is exactly as high as the switches: every selector next to them fits that height. */
-.sliderule .input-row > * { height: 40px; box-shadow: 0 1px 0 var(--grid); }
+.sliderule .input-row > * { height: 40px; }
 
 .sliderule .bit-number {
   font-weight: normal;
@@ -263,7 +269,7 @@ table.sliderule {
 .carousel {
   display: flex;
   align-items: stretch;
-  height: 38px;
+  height: 62px;
   box-sizing: border-box;
   border: 1px solid var(--grid);
   border-radius: 4px;
@@ -311,7 +317,12 @@ table.sliderule {
 .carousel-value[class*="fmt-"] { background: var(--light); }
 .carousel-value.pseudo { background: var(--pseudo); color: #fff; }
 .mnemonic-carousel { font-size: 13px; }
-.operand-bottom .carousel { height: 19px; font-size: 11px; }
+.operand-bottom .carousel { height: 26px; font-size: 11px; }
+.hex-carousel { height: 20px; font-size: 12px; }
+.hex-carousel .carousel-step { width: 14px; }
+.carousel.readonly .carousel-step { display: none; }
+.carousel.readonly .carousel-value { border: none; color: var(--text); cursor: default; }
+.carousel.readonly:hover { border-color: var(--grid); }
 .operand-bottom .carousel-step { width: 12px; font-size: 12px; }
 
 .carousel-popup {
@@ -341,13 +352,13 @@ table.sliderule {
 .carousel-empty { padding: 6px 8px; color: #888; }
 
 /* Operands: one row per operand, the name on the left. */
-.operand-panel { display: grid; gap: 3px; height: 38px; }
-.operand-col { display: grid; grid-template-rows: 1fr 19px; min-width: 0; }
+.operand-panel { display: grid; gap: 3px; height: 62px; }
+.operand-col { display: grid; grid-template-rows: 1fr 26px; min-width: 0; }
 .operand-top { display: flex; align-items: center; gap: 3px; min-width: 0; }
 .operand-name { font: bold 10px ui-monospace, Menlo, Consolas, monospace; color: #555; }
 .operand-none { color: #888; font-size: 11px; align-self: center; }
 .imm-slider { flex: 1; min-width: 0; height: 12px; margin: 0; accent-color: var(--focus); }
-.imm-field { width: 100%; height: 19px; box-sizing: border-box; padding: 0 4px; border: 1px solid var(--grid); border-radius: 4px; font: 11px ui-monospace, Menlo, Consolas, monospace; }
+.imm-field { width: 100%; height: 26px; box-sizing: border-box; padding: 0 4px; border: 1px solid var(--grid); border-radius: 4px; font: 11px ui-monospace, Menlo, Consolas, monospace; }
 .imm-field:focus { outline: 2px solid var(--focus); outline-offset: 0; }
 .imm-field.invalid { border-color: var(--error); background: #fff0f0; }
 
@@ -358,7 +369,6 @@ table.sliderule {
 .section-side.after { justify-content: flex-end; }
 .section-group { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .section-value { font: bold 11px ui-monospace, Menlo, Consolas, monospace; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.section-bin { font-size: 10px; letter-spacing: 0.3px; }
 .section-asm .asm-line { font-size: 11px; color: var(--text); }
 .section-asm.error { color: #ffe0e0; white-space: normal; }
 .section-count { font-weight: normal; font-size: 11px; opacity: 0.9; }

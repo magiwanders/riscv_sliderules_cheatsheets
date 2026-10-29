@@ -24,24 +24,30 @@ function _onScroll(event) {
   if (_openPopup && !_openPopup.popup.contains(event.target)) _closePopup();
 }
 
-// searchAll: options a typed filter searches (e.g. every mnemonic, while cycling stays within the current ones).
-export function Carousel({ options = [], value = null, onChange = () => {}, label = '', searchable = false, searchAll = null, classes = '' }) {
+// searchAll: options a typed filter searches (e.g. every mnemonic, while cycling stays within the current ones);
+// readOnly: only shows the value (no steps, wheel or list).
+export function Carousel({ options = [], value = null, onChange = () => {}, label = '', searchable = false, searchAll = null, readOnly = false, classes = '' }) {
   let _options = options;
   let _value = value ?? (options[0] ? options[0].value : null);
+  let _shown = null; // label of a value that is not one of the options (see setValue)
   let _wheel = 0;
   const prev = _button({ class: 'carousel-step', type: 'button', tabindex: '-1', 'aria-label': `Previous ${label}` }, '‹');
   const next = _button({ class: 'carousel-step', type: 'button', tabindex: '-1', 'aria-label': `Next ${label}` }, '›');
   const current = _button({ class: 'carousel-value', type: 'button', 'aria-haspopup': 'listbox',
     title: `${label}: scroll or use the arrow keys to cycle, click for the list` }, '');
-  const root = _div({ class: `carousel ${classes}`.trim(), role: 'group', 'aria-label': label }, [prev, current, next]);
+  const root = _div({ class: `carousel ${readOnly ? 'readonly ' : ''}${classes}`.trim(), role: 'group', 'aria-label': label }, [prev, current, next]);
+  if (readOnly) {
+    current.disabled = true;
+    current.title = label;
+  }
 
   const index = () => _options.findIndex((o) => o.value === _value);
 
   function _render() {
     const option = _options[index()];
-    current.replaceChildren(option ? option.short ?? option.label : '—');
+    current.replaceChildren(option ? option.short ?? option.label : _shown ?? '—');
     current.className = 'carousel-value' + (option && option.classes ? ` ${option.classes}` : '');
-    const disabled = _options.length < 2;
+    const disabled = readOnly || _options.length < 2;
     prev.disabled = disabled;
     next.disabled = disabled;
   }
@@ -49,6 +55,7 @@ export function Carousel({ options = [], value = null, onChange = () => {}, labe
   function _set(newValue) {
     if (newValue === _value) return;
     _value = newValue;
+    _shown = null;
     _render();
     onChange(_value);
   }
@@ -160,7 +167,7 @@ export function Carousel({ options = [], value = null, onChange = () => {}, labe
     _step(keys[event.key]);
   });
   root.addEventListener('wheel', (event) => {
-    if (_options.length < 2) return;
+    if (readOnly || _options.length < 2) return;
     event.preventDefault();
     const delta = event.deltaY || event.deltaX;
     // A mouse wheel notch is one option; small trackpad deltas add up to one.
@@ -179,11 +186,13 @@ export function Carousel({ options = [], value = null, onChange = () => {}, labe
   root.setOptions = ({ options: newOptions = [], value: newValue = _value }) => {
     _options = newOptions;
     _value = newOptions.some((o) => o.value === newValue) ? newValue : newOptions[0] ? newOptions[0].value : null;
+    _shown = null;
     _render();
   };
-  // Changes the value without notifying (the caller already knows).
-  root.setValue = (newValue) => {
+  // Changes the value without notifying (the caller already knows). A value that is not an option needs its label.
+  root.setValue = (newValue, shown = null) => {
     _value = newValue;
+    _shown = shown;
     _render();
   };
   Object.defineProperty(root, 'value', { get: () => _value });

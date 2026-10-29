@@ -3247,7 +3247,7 @@ function ee({ spec: e = "" }) {
 		return r;
 	});
 }
-function te({ enc: e = "", format: t = "R" }) {
+function v({ enc: e = "", format: t = "R" }) {
 	let n = [];
 	for (let t of e.trim().split(/\s+/)) {
 		let r;
@@ -3309,14 +3309,14 @@ function te({ enc: e = "", format: t = "R" }) {
 		segments: n
 	};
 }
-function v({ word: e = 0, hi: t = 0, lo: n = 0 }) {
+function y({ word: e = 0, hi: t = 0, lo: n = 0 }) {
 	return e >>> n & 2 ** (t - n + 1) - 1;
 }
-function ne({ value: e = 0, width: t = 1 }) {
+function te({ value: e = 0, width: t = 1 }) {
 	return (e >>> 0 & 2 ** t - 1).toString(2).padStart(t, "0");
 }
-var y = i.map((t, r) => {
-	let i = n[t.group], { width: a, segments: o } = te({
+var b = i.map((t, r) => {
+	let i = n[t.group], { width: a, segments: o } = v({
 		enc: t.enc,
 		format: i.format
 	});
@@ -3341,15 +3341,15 @@ var y = i.map((t, r) => {
 		immSigned: l.length > 0 && u.includes(l[0].name),
 		immNonZero: l.length > 0 && (l[0].name.startsWith("nz") || !!t.nonZeroImm)
 	};
-}), re = [...y].sort((e, t) => t.literalCount - e.literalCount);
-function ie({ inst: e = {}, word: t = 0 }) {
+}), ne = [...b].sort((e, t) => t.literalCount - e.literalCount);
+function re({ inst: e = {}, word: t = 0 }) {
 	let n = 0;
 	for (let r of e.segments.filter((e) => e.kind === "imm")) r.immBits.forEach((e, i) => {
 		n += (t >>> r.hi - i & 1) * 2 ** e;
 	});
 	return e.immSigned && n >= 2 ** e.immMsb && (n -= 2 ** (e.immMsb + 1)), n;
 }
-function ae({ inst: e = {} }) {
+function ie({ inst: e = {} }) {
 	let t = e.segments.filter((e) => e.kind === "imm").flatMap((e) => e.immBits), n = 2 ** Math.min(...t), r = e.immMsb;
 	if (e.asmShift) {
 		if (r === 31) return {
@@ -3378,18 +3378,18 @@ function ae({ inst: e = {} }) {
 		nonZero: e.immNonZero
 	};
 }
-function oe({ inst: e = {}, word: t = 0 }) {
-	for (let n of e.segments) if (n.kind === "reg" && n.exclude.includes(v({
+function ae({ inst: e = {}, word: t = 0 }) {
+	for (let n of e.segments) if (n.kind === "reg" && n.exclude.includes(y({
 		word: t,
 		hi: n.hi,
 		lo: n.lo
 	}))) return !1;
-	return !(e.immNonZero && ie({
+	return !(e.immNonZero && re({
 		inst: e,
 		word: t
 	}) === 0);
 }
-function se({ inst: e = {}, constraints: t = [] }) {
+function oe({ inst: e = {}, constraints: t = [] }) {
 	let n = 0, r = 0;
 	for (let i = 0; i < e.width; i++) {
 		let e = t[31 - i];
@@ -3398,7 +3398,7 @@ function se({ inst: e = {}, constraints: t = [] }) {
 	if (n >>>= 0, r >>>= 0, ((r ^ e.match) & e.mask & n) >>> 0) return !1;
 	for (let t of e.segments) {
 		let e = (2 ** t.width - 1) * 2 ** t.lo >>> 0;
-		if (t.kind === "reg" && (n & e) >>> 0 === e && t.exclude.includes(v({
+		if (t.kind === "reg" && (n & e) >>> 0 === e && t.exclude.includes(y({
 			word: r,
 			hi: t.hi,
 			lo: t.lo
@@ -3410,10 +3410,10 @@ function se({ inst: e = {}, constraints: t = [] }) {
 	}
 	return !0;
 }
-function ce({ number: e = 0, fp: t = !1 }) {
+function se({ number: e = 0, fp: t = !1 }) {
 	return (t ? p : f)[e];
 }
-function b({ value: e = 0 }) {
+function x({ value: e = 0 }) {
 	return [
 		"i",
 		"o",
@@ -3421,29 +3421,29 @@ function b({ value: e = 0 }) {
 		"w"
 	].filter((t, n) => e >> 3 - n & 1).join("") || "0";
 }
-function le({ value: e = 0 }) {
+function ce({ value: e = 0 }) {
 	return Object.keys(h).find((t) => h[t] === e) || `0x${e.toString(16)}`;
 }
-function ue({ inst: e = {}, key: t = "rd" }) {
+function le({ inst: e = {}, key: t = "rd" }) {
 	return (e.fregs || []).includes(t);
 }
-function de({ inst: e = {}, word: t = 0 }) {
+function S({ inst: e = {}, word: t = 0 }) {
 	let n = {};
-	for (let r of e.segments) r.kind === "reg" ? n[r.key] = v({
+	for (let r of e.segments) r.kind === "reg" ? n[r.key] = y({
 		word: t,
 		hi: r.hi,
 		lo: r.lo
-	}) + (r.compressed ? 8 : 0) : r.kind === "field" && (n[r.key] = v({
+	}) + (r.compressed ? 8 : 0) : r.kind === "field" && (n[r.key] = y({
 		word: t,
 		hi: r.hi,
 		lo: r.lo
 	}));
-	return e.immName && (n.imm = ie({
+	return e.immName && (n.imm = re({
 		inst: e,
 		word: t
 	})), n;
 }
-function x({ inst: e = {}, fields: t = {} }) {
+function C({ inst: e = {}, fields: t = {} }) {
 	let n = e.name;
 	(t.aq || t.rl) && (n += "." + (t.aq ? "aq" : "") + (t.rl ? "rl" : ""));
 	let r = [{
@@ -3456,7 +3456,7 @@ function x({ inst: e = {}, fields: t = {} }) {
 			kind: "punct",
 			text: i === 0 ? " " : ", "
 		});
-		for (let i of w({ op: n })) {
+		for (let i of ke({ op: n })) {
 			if (!i.token) {
 				r.push({
 					kind: "punct",
@@ -3477,7 +3477,7 @@ function x({ inst: e = {}, fields: t = {} }) {
 			let a = t[n];
 			if (a == null) {
 				r.push({
-					kind: fe({ key: n }),
+					kind: ue({ key: n }),
 					key: n,
 					text: i.token,
 					known: !1
@@ -3485,14 +3485,14 @@ function x({ inst: e = {}, fields: t = {} }) {
 				continue;
 			}
 			let o;
-			o = n === "imm" ? String(e.asmShift ? `0x${(a >>> e.asmShift & 2 ** (32 - e.asmShift) - 1).toString(16)}` : a) : n === "csr" ? le({ value: a }) : n === "rm" ? m[a] || `rm${a}` : n === "pred" || n === "succ" ? b({ value: a }) : ce({
+			o = n === "imm" ? String(e.asmShift ? `0x${(a >>> e.asmShift & 2 ** (32 - e.asmShift) - 1).toString(16)}` : a) : n === "csr" ? ce({ value: a }) : n === "rm" ? m[a] || `rm${a}` : n === "pred" || n === "succ" ? x({ value: a }) : se({
 				number: a,
-				fp: ue({
+				fp: le({
 					inst: e,
 					key: n
 				})
 			}), r.push({
-				kind: fe({ key: n }),
+				kind: ue({ key: n }),
 				key: n,
 				text: o,
 				known: !0
@@ -3500,7 +3500,7 @@ function x({ inst: e = {}, fields: t = {} }) {
 		}
 	}), r;
 }
-function fe({ key: e = "rd" }) {
+function ue({ key: e = "rd" }) {
 	return e === "imm" ? "imm" : [
 		"csr",
 		"rm",
@@ -3508,17 +3508,17 @@ function fe({ key: e = "rd" }) {
 		"succ"
 	].includes(e) ? "field" : "reg";
 }
-function pe({ inst: e = {}, fields: t = {} }) {
-	return x({
+function de({ inst: e = {}, fields: t = {} }) {
+	return C({
 		inst: e,
 		fields: t
 	}).map((e) => e.text).join("");
 }
-function me({ inst: e = {}, key: t = "rd" }) {
+function fe({ inst: e = {}, key: t = "rd" }) {
 	return e.segments.filter((e) => e.key === t).reduce((e, t) => (e | (2 ** t.width - 1) * 2 ** t.lo) >>> 0, 0);
 }
-function he({ constraints: e = [] }) {
-	let t = y.filter((t) => !t.reserved && !t.hint && se({
+function pe({ constraints: e = [] }) {
+	let t = b.filter((t) => !t.reserved && !t.hint && oe({
 		inst: t,
 		constraints: e
 	})), n = [...new Set(t.map((e) => e.name))];
@@ -3533,12 +3533,12 @@ function he({ constraints: e = [] }) {
 		let n = e[31 - t];
 		n !== "-" && (i = (i | 2 ** t) >>> 0, a = (a | Number(n) * 2 ** t) >>> 0);
 	}
-	let o = de({
+	let o = S({
 		inst: r,
 		word: a
 	}), s = {};
 	for (let e of Object.keys(o)) {
-		let t = me({
+		let t = fe({
 			inst: r,
 			key: e
 		});
@@ -3551,16 +3551,16 @@ function he({ constraints: e = [] }) {
 		fields: s
 	};
 }
-function ge({ word: e = 0 }) {
+function me({ word: e = 0 }) {
 	e >>>= 0;
 	let t = (e & 3) != 3;
 	t && (e &= 65535);
-	for (let n of re) {
-		if (n.width === 16 !== t || (e & n.mask) >>> 0 !== n.match || !oe({
+	for (let n of ne) {
+		if (n.width === 16 !== t || (e & n.mask) >>> 0 !== n.match || !ae({
 			inst: n,
 			word: e
 		})) continue;
-		let r = de({
+		let r = S({
 			inst: n,
 			word: e
 		});
@@ -3570,16 +3570,16 @@ function ge({ word: e = 0 }) {
 			fields: r,
 			assembly: n.description
 		};
-		let i = [be({
+		let i = [ve({
 			inst: n,
 			fields: r,
 			word: e
-		}), xe({ fields: r })].filter(Boolean).join(" ; ");
+		}), ye({ fields: r })].filter(Boolean).join(" ; ");
 		return {
 			inst: n,
 			word: e,
 			fields: r,
-			assembly: pe({
+			assembly: de({
 				inst: n,
 				fields: r
 			}),
@@ -3588,7 +3588,7 @@ function ge({ word: e = 0 }) {
 	}
 	return null;
 }
-var _e = [
+var he = [
 	"lui",
 	"auipc",
 	"addi",
@@ -3603,7 +3603,7 @@ var _e = [
 	"sll",
 	"srl",
 	"sra"
-], ve = [
+], ge = [
 	"slti",
 	"sltiu",
 	"slli",
@@ -3611,22 +3611,22 @@ var _e = [
 	"srai",
 	"slt",
 	"sltu"
-], ye = {
+], _e = {
 	2: "ntl.p1",
 	3: "ntl.pall",
 	4: "ntl.s1",
 	5: "ntl.all"
 };
-function be({ inst: e = {}, fields: t = {}, word: n = 0 }) {
-	return e.name === "fence" ? t.pred === 0 || t.succ === 0 ? "HINT (empty predecessor or successor set): standard use, executes as a no-op" : "" : t.rd !== 0 || n === 19 ? "" : e.name === "add" && t.rs1 === 0 && ye[t.rs2] ? `HINT: ${ye[t.rs2]} (Zihintntl non-temporal locality)` : e.name === "slli" && t.rs1 === 0 && t.imm === 31 ? "HINT: semihosting entry marker" : e.name === "srai" && t.rs1 === 0 && t.imm === 7 ? "HINT: semihosting exit marker" : _e.includes(e.name) ? "HINT (rd = x0): standard use, executes as a no-op" : ve.includes(e.name) ? "HINT (rd = x0): custom use, executes as a no-op" : "";
+function ve({ inst: e = {}, fields: t = {}, word: n = 0 }) {
+	return e.name === "fence" ? t.pred === 0 || t.succ === 0 ? "HINT (empty predecessor or successor set): standard use, executes as a no-op" : "" : t.rd !== 0 || n === 19 ? "" : e.name === "add" && t.rs1 === 0 && _e[t.rs2] ? `HINT: ${_e[t.rs2]} (Zihintntl non-temporal locality)` : e.name === "slli" && t.rs1 === 0 && t.imm === 31 ? "HINT: semihosting entry marker" : e.name === "srai" && t.rs1 === 0 && t.imm === 7 ? "HINT: semihosting exit marker" : he.includes(e.name) ? "HINT (rd = x0): standard use, executes as a no-op" : ge.includes(e.name) ? "HINT (rd = x0): custom use, executes as a no-op" : "";
 }
-function xe({ fields: e = {} }) {
-	return e.rm === 5 || e.rm === 6 ? `rm = ${ne({
+function ye({ fields: e = {} }) {
+	return e.rm === 5 || e.rm === 6 ? `rm = ${te({
 		value: e.rm,
 		width: 3
 	})} is reserved: illegal instruction` : "";
 }
-var Se = a.map((e) => {
+var be = a.map((e) => {
 	let t = parseInt(e.opcode, 2);
 	return {
 		...e,
@@ -3636,16 +3636,16 @@ var Se = a.map((e) => {
 		sortKey: g[32].map((e) => e < 7 ? t >>> e & 1 : 2).join("")
 	};
 });
-function Ce({ word: e = 0 }) {
-	return Se.find((t) => (e >>> 0 & 127) === t.match) || null;
+function xe({ word: e = 0 }) {
+	return be.find((t) => (e >>> 0 & 127) === t.match) || null;
 }
-function we({ value: e = 0 }) {
+function Se({ value: e = 0 }) {
 	return e + 2048 >> 12 & 1048575;
 }
-function Te({ value: e = 0 }) {
+function Ce({ value: e = 0 }) {
 	return e - (e + 2048 >> 12 << 12) | 0;
 }
-function Ee({ base: e = {}, mapping: t = {} }) {
+function we({ base: e = {}, mapping: t = {} }) {
 	return e.segments.map((e) => {
 		let n = t[e.key];
 		if (typeof n == "number" && e.kind === "imm") {
@@ -3660,7 +3660,7 @@ function Ee({ base: e = {}, mapping: t = {} }) {
 		return typeof n == "number" && (e.kind === "reg" || e.kind === "field") ? {
 			...e,
 			kind: "lit",
-			bits: ne({
+			bits: te({
 				value: e.compressed ? n - 8 : n,
 				width: e.width
 			}),
@@ -3671,32 +3671,32 @@ function Ee({ base: e = {}, mapping: t = {} }) {
 		} : e;
 	});
 }
-function De({ base: e = {}, mapping: t = {} }) {
+function Te({ base: e = {}, mapping: t = {} }) {
 	let n = (e.asm || "").replace(d, (e) => {
 		let n = e.replace("'", ""), r = t[n];
-		return r === "hi" ? "imm[31:12]" : r === "lo" ? "imm[11:0]" : typeof r == "string" ? r : typeof r == "number" ? n === "imm" ? String(r) : n === "csr" ? le({ value: r }) : n === "pred" || n === "succ" ? b({ value: r }) : `x${r}` : e;
+		return r === "hi" ? "imm[31:12]" : r === "lo" ? "imm[11:0]" : typeof r == "string" ? r : typeof r == "number" ? n === "imm" ? String(r) : n === "csr" ? ce({ value: r }) : n === "pred" || n === "succ" ? x({ value: r }) : `x${r}` : e;
 	});
 	return `${e.name} ${n}`.trim();
 }
-function Oe({ expands: e = [] }) {
+function Ee({ expands: e = [] }) {
 	return e.map(([e, t]) => {
-		let n = y.find((t) => t.name === e && !t.reserved && !t.hint);
+		let n = b.find((t) => t.name === e && !t.reserved && !t.hint);
 		return {
 			base: n,
 			mapping: t,
-			segments: Ee({
+			segments: we({
 				base: n,
 				mapping: t
 			}),
-			text: De({
+			text: Te({
 				base: n,
 				mapping: t
 			})
 		};
 	});
 }
-var ke = o.map((e, t) => {
-	let n = Oe({ expands: e.expands });
+var De = o.map((e, t) => {
+	let n = Ee({ expands: e.expands });
 	return {
 		...e,
 		id: `${e.name}#pseudo${t}`,
@@ -3704,11 +3704,11 @@ var ke = o.map((e, t) => {
 		extension: "PSEUDO",
 		width: 32,
 		expansions: n,
-		shortExpansions: e.short ? Oe({ expands: e.short }) : null,
+		shortExpansions: e.short ? Ee({ expands: e.short }) : null,
 		format: n.length === 1 ? n[0].base.format : "/"
 	};
-}), S = [...y.filter((e) => !e.reserved && !e.hint), ...ke].sort((e, t) => e.name.localeCompare(t.name) || Number(!!e.pseudo) - Number(!!t.pseudo));
-function C({ entry: e = {}, token: t = "rd" }) {
+}), w = [...b.filter((e) => !e.reserved && !e.hint), ...De].sort((e, t) => e.name.localeCompare(t.name) || Number(!!e.pseudo) - Number(!!t.pseudo));
+function Oe({ entry: e = {}, token: t = "rd" }) {
 	let n = t.replace("'", "");
 	if (n === "sp") return { kind: "sp" };
 	let { inst: r, k: i, split: a } = (e.pseudo ? e.expansions.flatMap(({ base: e, mapping: t }) => [...new Set(e.segments.map((e) => e.key).filter(Boolean))].filter((e) => t[e] === n || t[e] === void 0 && e === n || n === "imm" && e === "imm" && ["hi", "lo"].includes(t.imm)).map((n) => ({
@@ -3734,7 +3734,7 @@ function C({ entry: e = {}, token: t = "rd" }) {
 		}
 	} : {
 		kind: "imm",
-		range: ae({ inst: r })
+		range: ie({ inst: r })
 	};
 	if (i === "csr") return { kind: "csr" };
 	if (i === "rm") return {
@@ -3745,7 +3745,7 @@ function C({ entry: e = {}, token: t = "rd" }) {
 	let o = r.segments.find((e) => e.kind === "reg" && e.key === i);
 	return {
 		kind: "reg",
-		fp: ue({
+		fp: le({
 			inst: r,
 			key: i
 		}),
@@ -3753,18 +3753,18 @@ function C({ entry: e = {}, token: t = "rd" }) {
 		exclude: o ? o.exclude : []
 	};
 }
-function w({ op: e = "" }) {
+function ke({ op: e = "" }) {
 	let t = [], n = 0;
 	for (let r of e.matchAll(d)) r.index > n && t.push({ text: e.slice(n, r.index) }), t.push({ token: r[0] }), n = r.index + r[0].length;
 	return n < e.length && t.push({ text: e.slice(n) }), t;
 }
-function T({ text: e = "" }) {
+function Ae({ text: e = "" }) {
 	let t = e.trim().toLowerCase(), n = t.startsWith("-"), r = n ? t.slice(1) : t;
 	if (!/^(0x[0-9a-f]+|0b[01]+|\d+)$/.test(r)) throw Error(`"${e}" is not a number`);
 	let i = r.startsWith("0b") ? parseInt(r.slice(2), 2) : Number(r);
 	return n ? -i : i;
 }
-function Ae({ text: e = "", fp: t = !1 }) {
+function je({ text: e = "", fp: t = !1 }) {
 	let n = e.trim().toLowerCase(), r = n.match(t ? /^f(\d+)$/ : /^x(\d+)$/);
 	if (r && Number(r[1]) < 32) return Number(r[1]);
 	if (!t && n === "fp") return 8;
@@ -3772,19 +3772,19 @@ function Ae({ text: e = "", fp: t = !1 }) {
 	if (i < 0) throw Error(`"${e}" is not a${t ? " floating-point" : "n integer"} register`);
 	return i;
 }
-function je({ text: e = "" }) {
+function Me({ text: e = "" }) {
 	let t = e.trim().toLowerCase();
 	return /^[iorw]+$/.test(t) ? [
 		"i",
 		"o",
 		"r",
 		"w"
-	].reduce((e, n, r) => e | (t.includes(n) ? 1 << 3 - r : 0), 0) : T({ text: t });
+	].reduce((e, n, r) => e | (t.includes(n) ? 1 << 3 - r : 0), 0) : Ae({ text: t });
 }
-function Me({ inst: e = {}, key: t = "rd", value: n = 0, word: r = 0 }) {
+function Ne({ inst: e = {}, key: t = "rd", value: n = 0, word: r = 0 }) {
 	if (t === "imm") {
 		e.asmShift && e.immMsb !== 31 && n >= 2 ** 20 - 2 ** (e.immMsb - e.asmShift) && n < 2 ** 20 && (n -= 2 ** 20);
-		let t = e.asmShift ? n * 2 ** e.asmShift | 0 : n, { min: i, max: a } = ae({ inst: e });
+		let t = e.asmShift ? n * 2 ** e.asmShift | 0 : n, { min: i, max: a } = ie({ inst: e });
 		if (n < i || n > a) throw Error(`${e.name}: immediate ${n} out of range [${i}, ${a}]`);
 		let o = new Set(e.segments.filter((e) => e.kind === "imm").flatMap((e) => e.immBits));
 		for (let r = 0; r < e.immMsb; r++) if (!o.has(r) && t >> r & 1) throw Error(`${e.name}: immediate ${n} must be a multiple of ${2 ** Math.min(...o)}`);
@@ -3806,11 +3806,11 @@ function Me({ inst: e = {}, key: t = "rd", value: n = 0, word: r = 0 }) {
 	}
 	return r;
 }
-function Ne({ inst: e = {}, fields: t = {} }) {
+function Pe({ inst: e = {}, fields: t = {} }) {
 	let n = e.match, r = [...new Set(e.segments.map((e) => e.key).filter(Boolean))];
 	for (let i of r) {
 		if (t[i] === void 0) throw Error(`${e.name}: missing ${i}`);
-		n = Me({
+		n = Ne({
 			inst: e,
 			key: i,
 			value: t[i],
@@ -3818,7 +3818,7 @@ function Ne({ inst: e = {}, fields: t = {} }) {
 		});
 	}
 	n >>>= 0;
-	let i = de({
+	let i = S({
 		inst: e,
 		word: n
 	});
@@ -3826,13 +3826,13 @@ function Ne({ inst: e = {}, fields: t = {} }) {
 		inst: e,
 		word: n,
 		fields: i,
-		assembly: pe({
+		assembly: de({
 			inst: e,
 			fields: i
 		})
 	};
 }
-function Pe({ entry: e = {}, text: t = "" }) {
+function Fe({ entry: e = {}, text: t = "" }) {
 	let n = (e.asm || "").split(",").map((e) => e.trim()).filter((e) => e !== ""), r = t.split(",").map((e) => e.trim()).filter((e) => e !== ""), i = +(n[n.length - 1] === "rm");
 	if (r.length > n.length || r.length < n.length - i) throw Error(`${e.name} expects: ${e.name} ${e.asm}`);
 	let a = {};
@@ -3840,25 +3840,25 @@ function Pe({ entry: e = {}, text: t = "" }) {
 		let i = t.match(d) || [], o = RegExp("^" + t.replace(/[()]/g, "\\$&").replace(d, "(.+?)") + "$"), s = r[n].match(o);
 		if (!s) throw Error(`operand "${r[n]}" does not match "${t}"`);
 		i.forEach((t, n) => {
-			let r = t.replace("'", ""), i = s[n + 1], o = C({
+			let r = t.replace("'", ""), i = s[n + 1], o = Oe({
 				entry: e,
 				token: r
 			});
 			if (o.kind === "sp") {
-				if (Ae({ text: i }) !== 2) throw Error(`${e.name} only works with sp`);
-			} else if (o.kind === "imm") a[r] = T({ text: i });
-			else if (o.kind === "csr") a[r] = i.toLowerCase() in h ? h[i.toLowerCase()] : T({ text: i });
+				if (je({ text: i }) !== 2) throw Error(`${e.name} only works with sp`);
+			} else if (o.kind === "imm") a[r] = Ae({ text: i });
+			else if (o.kind === "csr") a[r] = i.toLowerCase() in h ? h[i.toLowerCase()] : Ae({ text: i });
 			else if (o.kind === "rm") {
 				if (a[r] = m.indexOf(i.toLowerCase()), a[r] < 0 || i === "") throw Error(`"${i}" is not a rounding mode`);
-			} else o.kind === "fence" ? a[r] = je({ text: i }) : a[r] = Ae({
+			} else o.kind === "fence" ? a[r] = Me({ text: i }) : a[r] = je({
 				text: i,
 				fp: o.fp
 			});
 		});
 	}), a;
 }
-function Fe({ entry: e = {}, operands: t = "", ordering: n = "" }) {
-	let r = Pe({
+function Ie({ entry: e = {}, operands: t = "", ordering: n = "" }) {
+	let r = Fe({
 		entry: e,
 		text: t
 	}), i = {
@@ -3868,7 +3868,7 @@ function Fe({ entry: e = {}, operands: t = "", ordering: n = "" }) {
 	};
 	if (!e.pseudo) return {
 		entry: e,
-		words: [Ne({
+		words: [Pe({
 			inst: e,
 			fields: {
 				...i,
@@ -3880,17 +3880,17 @@ function Fe({ entry: e = {}, operands: t = "", ordering: n = "" }) {
 	let a = e.shortExpansions && (r.imm | 0) >= -2048 && (r.imm | 0) <= 2047;
 	return a && (r.imm |= 0), {
 		entry: e,
-		words: (a ? e.shortExpansions : e.expansions).filter(({ mapping: t }) => !(e.dropZeroLo && t.imm === "lo" && Te({ value: r.imm | 0 }) === 0)).map((e) => {
+		words: (a ? e.shortExpansions : e.expansions).filter(({ mapping: t }) => !(e.dropZeroLo && t.imm === "lo" && Ce({ value: r.imm | 0 }) === 0)).map((e) => {
 			let { base: t, mapping: n } = e, a = {
 				...i,
 				rm: t.rmDefault ?? 7
 			};
 			for (let e of new Set(t.segments.map((e) => e.key).filter(Boolean))) {
 				let t = n[e];
-				typeof t == "number" ? a[e] = t : t === "hi" ? a[e] = we({ value: r.imm | 0 }) : t === "lo" ? a[e] = Te({ value: r.imm | 0 }) : typeof t == "string" ? a[e] = r[t] : r[e] !== void 0 && (a[e] = r[e]);
+				typeof t == "number" ? a[e] = t : t === "hi" ? a[e] = Se({ value: r.imm | 0 }) : t === "lo" ? a[e] = Ce({ value: r.imm | 0 }) : typeof t == "string" ? a[e] = r[t] : r[e] !== void 0 && (a[e] = r[e]);
 			}
 			return {
-				...Ne({
+				...Pe({
 					inst: t,
 					fields: a
 				}),
@@ -3899,7 +3899,7 @@ function Fe({ entry: e = {}, operands: t = "", ordering: n = "" }) {
 		})
 	};
 }
-function Ie({ inst: e = {} }) {
+function Le({ inst: e = {} }) {
 	if (!e.immName) return null;
 	let t = {};
 	e.segments.filter((e) => e.kind === "imm").forEach((e) => e.immBits.forEach((n) => {
@@ -3924,61 +3924,59 @@ function Ie({ inst: e = {} }) {
 	}
 	return r;
 }
-// package.json
-var Le = "0.0.1";
 // src/cells.mjs
-function E({ width: e = 1, rowspan: t = 1, classes: n = "", text: r = "", title: i = "" }) {
+function T({ width: e = 1, rowspan: t = 1, classes: n = "", text: r = "", title: i = "" }) {
 	let a = { class: n };
 	return e > 1 && (a.colspan = String(e)), t > 1 && (a.rowspan = String(t)), i && (a.title = i), _td(a, r);
 }
 function Re({ width: e = 32 }) {
-	return e === 16 ? [E({
+	return e === 16 ? [T({
 		width: 16,
 		classes: "bit unused"
 	})] : [];
 }
-function D({ segment: e = {} }) {
+function E({ segment: e = {} }) {
 	return `inst[${e.hi}${e.width > 1 ? ":" + e.lo : ""}]`;
 }
 function ze({ key: e = "rm", value: t = 0 }) {
-	return e === "pred" || e === "succ" ? b({ value: t }) : e === "rm" ? `rm = ${m[t] || t}` : e === "csr" ? `csr = ${Object.keys(h).find((e) => h[e] === t) || `0x${t.toString(16)}`}` : String(t);
+	return e === "pred" || e === "succ" ? x({ value: t }) : e === "rm" ? `rm = ${m[t] || t}` : e === "csr" ? `csr = ${Object.keys(h).find((e) => h[e] === t) || `0x${t.toString(16)}`}` : String(t);
 }
 function Be({ segments: e = [], width: t = 32, fields: n = null, inst: r = {} }) {
 	let i = Re({ width: t });
-	for (let t of e) if (t.kind === "lit") for (let e of t.bits) i.push(E({
+	for (let t of e) if (t.kind === "lit") for (let e of t.bits) i.push(T({
 		classes: `bit lit-${t.role}`,
 		text: e
 	}));
-	else if (t.kind === "any") i.push(E({
+	else if (t.kind === "any") i.push(T({
 		width: t.width,
 		classes: "bit any",
 		text: t.width > 1 ? "– any –" : "–",
-		title: `${D({ segment: t })} = don't care`
+		title: `${E({ segment: t })} = don't care`
 	}));
-	else if (t.kind === "imm") i.push(E({
+	else if (t.kind === "imm") i.push(T({
 		width: t.width,
 		classes: `bit imm imm-${t.part % 4}`,
 		text: t.width > 1 ? `${t.name}[${t.label}]` : t.label,
-		title: `${D({ segment: t })} = ${t.name}[${t.immBits.join("|")}]`
+		title: `${E({ segment: t })} = ${t.name}[${t.immBits.join("|")}]`
 	}));
 	else if (n && t.kind === "reg") {
-		let e = ce({
+		let e = se({
 			number: n[t.key],
 			fp: (r.fregs || []).includes(t.key)
 		});
-		i.push(E({
+		i.push(T({
 			width: t.width,
 			classes: "bit field-reg",
 			text: t.width > 3 ? `${t.key} = ${e}` : e
 		}));
-	} else n && t.kind === "field" ? i.push(E({
+	} else n && t.kind === "field" ? i.push(T({
 		width: t.width,
 		classes: "bit field-field",
 		text: ze({
 			key: t.key,
 			value: n[t.key]
 		})
-	})) : i.push(E({
+	})) : i.push(T({
 		width: t.width,
 		classes: `bit field-${t.kind}`,
 		text: t.label
@@ -3989,7 +3987,7 @@ function Ve({ inst: e = {}, word: t = 0 }) {
 	let n = Re({ width: e.width });
 	for (let r of e.segments) {
 		let e = r.kind === "lit" ? `lit-${r.role}` : r.kind === "imm" ? `imm imm-${r.part % 4}` : `field-${r.kind}`;
-		for (let i = r.hi; i >= r.lo; i--) n.push(E({
+		for (let i = r.hi; i >= r.lo; i--) n.push(T({
 			classes: `bit value ${e}`,
 			text: String(t >>> i & 1),
 			title: r.kind === "lit" ? "" : r.label
@@ -3998,18 +3996,18 @@ function Ve({ inst: e = {}, word: t = 0 }) {
 	return n;
 }
 function He({ inst: e = {} }) {
-	return Ie({ inst: e }).map((e) => {
-		if (e.kind === "zero") return E({
+	return Le({ inst: e }).map((e) => {
+		if (e.kind === "zero") return T({
 			width: e.width,
 			classes: "bit imm-zero",
 			text: e.width > 1 ? "– 0 –" : "0"
 		});
 		let t = e.kind === "sext" ? `– ${e.segment.immBits[0]} –` : e.segment.label;
-		return E({
+		return T({
 			width: e.width,
 			classes: `bit imm imm-${e.segment.part % 4}${e.kind === "sext" ? " sext" : ""}`,
 			text: t,
-			title: e.kind === "sext" ? `sign extension of inst[${e.segment.hi}]` : `from ${D({ segment: e.segment })}`
+			title: e.kind === "sext" ? `sign extension of inst[${e.segment.hi}]` : `from ${E({ segment: e.segment })}`
 		});
 	});
 }
@@ -4021,7 +4019,7 @@ function Ue({ format: t = "R", rowspan: n = 1 }) {
 		_b({}, `${t} - Type`),
 		_br(),
 		`"${e[t].title}"`
-	]) : E({
+	]) : T({
 		rowspan: n,
 		classes: "text type",
 		text: t
@@ -4032,49 +4030,241 @@ function We() {
 	for (let t = 31; t >= 0; t--) e.push(_th({ class: "bit-number spine" }, String(t)));
 	return e;
 }
-var O = "RV32GC-Sliderules.pdf", Ge = [
-	"localhost",
-	"127.0.0.1",
-	"sliderules.magiwanders.com"
-].includes(location.hostname) ? O : `https://sliderules.magiwanders.com/${O}`;
-function Ke() {
-	return _a({
-		class: "pdf-button",
-		href: Ge,
-		download: O,
-		title: `Download both sheets as an A3 PDF (v${Le})`
-	}, [_span({
-		class: "pdf-icon",
-		"aria-hidden": "true"
-	}, "⤓"), " PDF"]);
+var Ge = "https://github.com/magiwanders/riscv_sliderules_cheatsheets", Ke = "M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z";
+function qe({ children: e = "" }) {
+	let t = document.createElement("template");
+	return t.innerHTML = `<svg class="icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">${e}</svg>`, t.content.firstChild;
 }
-function qe({ name: e = "Decoder", button: t = null, side: n = "left" }) {
-	let r = _div({ class: `title-corner ${n}` }, [t]), i = _div({ class: `title-corner ${n === "left" ? "right" : "left"}` }, [Ke()]), a = _div({ class: "title-main" }, [
+function Je({ href: e = "", label: t = "", icon: n = null }) {
+	return _a({
+		class: "credit-icon",
+		href: e,
+		target: "_blank",
+		rel: "noopener",
+		title: t,
+		"aria-label": t
+	}, [n]);
+}
+function Ye() {
+	let e = qe({ children: `<path fill="currentColor" d="${Ke}"/>` }), t = qe({ children: "<rect width=\"16\" height=\"16\" rx=\"3\" fill=\"currentColor\"/><text x=\"8\" y=\"12.2\" text-anchor=\"middle\" font-family=\"Arial, Helvetica, sans-serif\" font-weight=\"bold\" font-size=\"10\" fill=\"#fff\">in</text>" });
+	return _div({ class: "title-credits" }, [
+		"Sliderule RISC-V Cheatsheet by Simone Shawn Cazzaniga ",
+		Je({
+			href: "https://github.com/magiwanders",
+			label: "GitHub: magiwanders",
+			icon: e
+		}),
+		Je({
+			href: "https://www.linkedin.com/in/simone-shawn-cazzaniga/",
+			label: "LinkedIn",
+			icon: t
+		}),
+		" ",
+		_a({
+			href: "https://www.magiwanders.com",
+			target: "_blank",
+			rel: "noopener"
+		}, "www.magiwanders.com"),
+		" | ",
+		_a({ href: "mailto:shawn@magiwanders.com" }, "shawn@magiwanders.com")
+	]);
+}
+var Xe = [["Jayaraj J", "jyrj"], ["Karbon Chen", "CSY-tvgo"]];
+function Ze() {
+	let e = Xe.flatMap(([e, t], n) => [...n ? [", "] : [], _a({
+		href: `https://github.com/${t}`,
+		target: "_blank",
+		rel: "noopener"
+	}, `${e} (@${t})`)]);
+	return _div({ class: "title-credits title-contributors" }, ["Contributors: ", ...e]);
+}
+function Qe({ name: e = "Decoder", button: t = null, side: n = "left", tools: r = [] }) {
+	let i = _div({ class: `title-corner ${n} no-print` }, [t]), a = _div({ class: `title-corner ${n === "left" ? "right" : "left"} no-print` }, [_div({ class: "title-tools" }, [_div({ class: "title-buttons" }, r), _a({
+		class: "contribute-link",
+		href: `${Ge}#contributing`,
+		target: "_blank",
+		rel: "noopener"
+	}, "Contribute or report an issue ↗")])]), o = _div({ class: "title-main" }, [
 		_div({ class: "title-isa" }, "RV32GC"),
-		_div({ class: "title-name" }, `Sliderule ${e}`),
-		_div({ class: "title-credits" }, `Instruction Set "Sliderule" ${e} by Simone Shawn Cazzaniga (magiwanders@github | www.magiwanders.com | shawn@magiwanders.com)`)
+		_div({ class: "title-name" }, e),
+		Ye(),
+		Ze()
 	]);
 	return _caption({ class: "title-cell" }, [_div({ class: "title-bar" }, n === "left" ? [
-		r,
-		a,
-		i
-	] : [
 		i,
+		o,
+		a
+	] : [
 		a,
-		r
+		o,
+		i
 	])]);
 }
-function Je({ widths: e = [] }) {
+function D({ colspan: e = 1, title: t = "", before: n = null, after: r = null }) {
+	return _th({ colspan: String(e) }, [_div({ class: "section-title" }, [
+		_div({ class: "section-side before" }, n ? [n] : ""),
+		_span({ class: "section-name" }, t),
+		_div({ class: "section-side after" }, r ? [r] : "")
+	])]);
+}
+function $e({ widths: e = [] }) {
 	return _colgroup({}, e.map((e) => _col({ style: `width: ${e}px` }, "")));
 }
-function k({ widths: e = [] }) {
+function O({ widths: e = [] }) {
 	return `width: ${e.reduce((e, t) => e + t, 0)}px`;
 }
-function A({ word: e = 0, width: t = 32 }) {
+function k({ word: e = 0, width: t = 32 }) {
 	return `0x${(e >>> 0).toString(16).padStart(t / 4, "0")}`;
 }
+// src/carousel.mjs
+var et = 40, A = null;
+function j() {
+	if (!A) return;
+	let { popup: e, owner: t } = A;
+	A = null, e.remove(), t.classList.remove("open"), document.removeEventListener("pointerdown", tt, !0), window.removeEventListener("resize", j), window.removeEventListener("scroll", nt, !0);
+}
+function tt(e) {
+	A && !A.popup.contains(e.target) && !A.owner.contains(e.target) && j();
+}
+function nt(e) {
+	A && !A.popup.contains(e.target) && j();
+}
+function M({ options: e = [], value: t = null, onChange: n = () => {}, label: r = "", searchable: i = !1, searchAll: a = null, readOnly: o = !1, classes: s = "" }) {
+	let c = e, l = t ?? (e[0] ? e[0].value : null), u = null, d = 0, f = _button({
+		class: "carousel-step",
+		type: "button",
+		tabindex: "-1",
+		"aria-label": `Previous ${r}`
+	}, "‹"), p = _button({
+		class: "carousel-step",
+		type: "button",
+		tabindex: "-1",
+		"aria-label": `Next ${r}`
+	}, "›"), m = _button({
+		class: "carousel-value",
+		type: "button",
+		"aria-haspopup": "listbox",
+		title: `${r}: scroll or use the arrow keys to cycle, click for the list`
+	}, ""), h = _div({
+		class: `carousel ${o ? "readonly " : ""}${s}`.trim(),
+		role: "group",
+		"aria-label": r
+	}, [
+		f,
+		m,
+		p
+	]);
+	o && (m.disabled = !0, m.title = r);
+	let g = () => c.findIndex((e) => e.value === l);
+	function _() {
+		let e = c[g()];
+		m.replaceChildren(e ? e.short ?? e.label : u ?? "—"), m.className = "carousel-value" + (e && e.classes ? ` ${e.classes}` : "");
+		let t = o || c.length < 2;
+		f.disabled = t, p.disabled = t;
+	}
+	function ee(e) {
+		e !== l && (l = e, u = null, _(), n(l));
+	}
+	function v(e) {
+		if (!c.length) return;
+		let t = g(), n = c.length;
+		ee(c[((t < 0 ? 0 : t + e) % n + n) % n].value);
+	}
+	function y() {
+		if (A && A.owner === h) {
+			j();
+			return;
+		}
+		j();
+		let e = _div({
+			class: "carousel-list",
+			role: "listbox",
+			"aria-label": r
+		}, ""), t = i ? _input({
+			class: "carousel-filter",
+			type: "search",
+			placeholder: `Filter ${r}…`,
+			"aria-label": `Filter ${r}`
+		}) : null, n = _div({ class: "carousel-popup" }, t ? [t, e] : [e]), o = [], s = 0, u = (e) => {
+			o.length && (s = (e + o.length) % o.length, o.forEach((e, t) => e.el.classList.toggle("active", t === s)), o[s].el.scrollIntoView({ block: "nearest" }));
+		}, d = (e) => {
+			j(), ee(e.value), m.focus();
+		}, f = () => {
+			let n = t ? t.value.trim().toLowerCase() : "", r = n && a ? a() : c, i = (e) => {
+				let t = String(e.label).toLowerCase();
+				return t === n ? 0 : t.startsWith(n) ? 1 : t.includes(n) ? 2 : `${e.hint || ""} ${e.group || ""}`.toLowerCase().includes(n) ? 3 : -1;
+			}, s = n ? r.map((e) => ({
+				o: e,
+				rank: i(e)
+			})).filter(({ rank: e }) => e >= 0).sort((e, t) => e.rank - t.rank).map(({ o: e }) => e) : r, f = [];
+			o = [];
+			let p = null;
+			for (let e of s) {
+				!n && e.group && e.group !== p && (p = e.group, f.push(_div({ class: "carousel-group" }, p)));
+				let t = _div({
+					class: "carousel-option" + (e.value === l ? " selected" : "") + (e.classes ? ` ${e.classes}` : ""),
+					role: "option",
+					"aria-selected": String(e.value === l)
+				}, [_span({ class: "carousel-option-label" }, e.label), ...e.hint || n && e.group ? [_span({ class: "carousel-option-hint" }, [e.hint || "", n && e.group ? `  ${e.group}` : ""].join(""))] : []]);
+				t.addEventListener("pointerdown", (e) => e.preventDefault()), t.addEventListener("click", () => d(e)), o.push({
+					el: t,
+					option: e
+				}), f.push(t);
+			}
+			f.length || f.push(_div({ class: "carousel-empty" }, "No match")), e.replaceChildren(...f);
+			let m = o.findIndex((e) => e.option.value === l);
+			u(n || m < 0 ? 0 : m);
+		};
+		n.addEventListener("keydown", (e) => {
+			let t = {
+				ArrowDown: () => u(s + 1),
+				ArrowUp: () => u(s - 1),
+				Enter: () => o[s] && d(o[s].option),
+				Escape: () => {
+					j(), m.focus();
+				},
+				Tab: () => j()
+			};
+			t[e.key] && (e.key !== "Tab" && e.preventDefault(), t[e.key]());
+		}), t && t.addEventListener("input", f), document.body.append(n);
+		let p = h.getBoundingClientRect();
+		n.style.minWidth = `${Math.max(p.width, 140)}px`, n.style.left = `${Math.min(p.left + window.scrollX, window.scrollX + document.documentElement.clientWidth - n.offsetWidth - 8)}px`;
+		let g = window.innerHeight - p.bottom;
+		n.style.maxHeight = `${Math.max(g, p.top) - 16}px`, n.style.top = g >= Math.min(n.offsetHeight, 240) || g >= p.top ? `${p.bottom + window.scrollY + 2}px` : `${p.top + window.scrollY - Math.min(n.offsetHeight, p.top - 16) - 2}px`, h.classList.add("open"), A = {
+			popup: n,
+			owner: h
+		}, f(), n.tabIndex = -1, (t || n).focus(), document.addEventListener("pointerdown", tt, !0), window.addEventListener("resize", j), window.addEventListener("scroll", nt, !0);
+	}
+	return f.addEventListener("click", () => v(-1)), p.addEventListener("click", () => v(1)), m.addEventListener("click", y), m.addEventListener("keydown", (e) => {
+		let t = {
+			ArrowUp: -1,
+			ArrowLeft: -1,
+			ArrowDown: 1,
+			ArrowRight: 1
+		};
+		t[e.key] === void 0 || e.altKey || e.ctrlKey || e.metaKey || (e.preventDefault(), v(t[e.key]));
+	}), h.addEventListener("wheel", (e) => {
+		if (o || c.length < 2) return;
+		e.preventDefault();
+		let t = e.deltaY || e.deltaX;
+		e.deltaMode !== 0 || Math.abs(t) >= et ? (d = 0, v(Math.sign(t))) : (d += t, Math.abs(d) >= et && (v(Math.sign(d)), d = 0));
+	}, { passive: !1 }), h.setOptions = ({ options: e = [], value: t = l }) => {
+		c = e, l = e.some((e) => e.value === t) ? t : e[0] ? e[0].value : null, u = null, _();
+	}, h.setValue = (e, t = null) => {
+		l = e, u = t, _();
+	}, Object.defineProperty(h, "value", { get: () => l }), _(), h;
+}
 // src/tristate.mjs
-function Ye({ text: e = "" }) {
+var rt = [{
+	value: "x",
+	label: "x",
+	hint: "don't care"
+}, ...[..."0123456789abcdef"].map((e) => ({
+	value: e,
+	label: e,
+	hint: parseInt(e, 16).toString(2).padStart(4, "0")
+}))];
+function it({ text: e = "" }) {
 	let t = e.trim().toLowerCase().replace(/[_\s]/g, "");
 	if (/^0x[0-9a-f]{1,8}$/.test(t)) {
 		let e = parseInt(t.slice(2), 16) >>> 0, n = (e & 3) == 3 ? 32 : 16;
@@ -4082,90 +4272,121 @@ function Ye({ text: e = "" }) {
 	}
 	return /^(0b)?[01x-]{1,32}$/.test(t) ? [...t.replace(/^0b/, "").replace(/x/g, "-").padStart(32, "-")] : null;
 }
-function Xe({ editable: e = !0, onChange: t = () => {} }) {
+function at({ editable: e = !0, onChange: t = () => {} }) {
 	let n = [], r = [];
 	for (let t = 31; t >= 0; t--) {
-		let a = _button({
+		let i = _button({
 			class: "tri-half tri-1",
 			type: "button",
 			tabindex: "-1",
 			"aria-label": `inst[${t}] = 1`
-		}, "1"), c = _button({
+		}, "1"), a = _button({
 			class: "tri-half tri-0",
 			type: "button",
 			tabindex: "-1",
 			"aria-label": `inst[${t}] = 0`
-		}, "0"), l = {
+		}, "0"), o = {
 			class: "tri",
 			"data-state": "-",
 			role: "group",
 			"aria-label": `inst[${t}]`
 		};
-		e ? (l.tabindex = t === 31 ? "0" : "-1", l.title = `inst[${t}]: click 1 or 0, click again for x`) : (a.disabled = !0, c.disabled = !0);
-		let u = _div(l, [a, c]);
-		e && (a.addEventListener("click", () => i({
-			sw: u,
+		e ? (o.tabindex = t === 31 ? "0" : "-1", o.title = `inst[${t}]: click 1 or 0, click again for x`) : (i.disabled = !0, a.disabled = !0);
+		let s = _div(o, [i, a]);
+		e && (i.addEventListener("click", () => c({
+			sw: s,
 			value: "1"
-		})), c.addEventListener("click", () => i({
-			sw: u,
+		})), a.addEventListener("click", () => c({
+			sw: s,
 			value: "0"
-		})), u.addEventListener("keydown", (e) => o({
+		})), s.addEventListener("keydown", (e) => u({
 			event: e,
-			index: n.indexOf(u)
-		})), u.addEventListener("paste", s)), n.push(u), r.push(_th({ class: "bit-head spine" }, [u]));
+			index: n.indexOf(s)
+		})), s.addEventListener("paste", d)), n.push(s), r.push(_th({ class: "bit-head spine" }, [s]));
 	}
-	function i({ sw: e = null, value: r = "1" }) {
-		e.dataset.state = e.dataset.state === r ? "-" : r, a({ index: n.indexOf(e) }), t();
+	let i = [], a = [];
+	for (let t = 0; t < 8; t++) {
+		let r = 31 - 4 * t, o = M({
+			options: rt,
+			value: "x",
+			label: `inst[${r}:${r - 3}] in hex`,
+			readOnly: !e,
+			classes: "hex-carousel",
+			onChange: (e) => {
+				[...e === "x" ? "----" : parseInt(e, 16).toString(2).padStart(4, "0")].forEach((e, r) => {
+					n[4 * t + r].dataset.state = e;
+				}), s();
+			}
+		});
+		i.push(o), a.push(_th({
+			class: "hex-head spine",
+			colspan: "4"
+		}, [o]));
 	}
-	function a({ index: e = 0 }) {
+	function o() {
+		i.forEach((e, t) => {
+			let r = n.slice(4 * t, 4 * t + 4).map((e) => e.dataset.state);
+			r.every((e) => e === "-") ? e.setValue("x") : r.every((e) => e !== "-") ? e.setValue(parseInt(r.join(""), 2).toString(16)) : e.setValue(r.join("").replace(/-/g, "x"), r.join("").replace(/-/g, "x")), a[t].classList.toggle("tri-off", n[4 * t].classList.contains("tri-off"));
+		});
+	}
+	function s() {
+		o(), t();
+	}
+	function c({ sw: e = null, value: t = "1" }) {
+		e.dataset.state = e.dataset.state === t ? "-" : t, l({ index: n.indexOf(e) }), s();
+	}
+	function l({ index: e = 0 }) {
 		let t = Math.max(0, Math.min(31, e));
 		n.forEach((e, n) => e.setAttribute("tabindex", n === t ? "0" : "-1")), n[t].focus();
 	}
-	function o({ event: e = null, index: r = 0 }) {
-		let i = (e, i, o = r) => {
-			n[o].dataset.state = e, t(), a({ index: o + i });
-		}, o = {
-			0: () => i("0", 1),
-			1: () => i("1", 1),
-			x: () => i("-", 0),
-			X: () => i("-", 0),
-			Delete: () => i("-", 0),
-			Backspace: () => n[r].dataset.state !== "-" || r === 0 ? i("-", 0) : i("-", 0, r - 1),
-			ArrowLeft: () => a({ index: r - 1 }),
-			ArrowRight: () => a({ index: r + 1 }),
-			Home: () => a({ index: 0 }),
-			End: () => a({ index: 31 })
+	function u({ event: e = null, index: t = 0 }) {
+		let r = (e, r, i = t) => {
+			n[i].dataset.state = e, s(), l({ index: i + r });
+		}, i = {
+			0: () => r("0", 1),
+			1: () => r("1", 1),
+			x: () => r("-", 0),
+			X: () => r("-", 0),
+			Delete: () => r("-", 0),
+			Backspace: () => n[t].dataset.state !== "-" || t === 0 ? r("-", 0) : r("-", 0, t - 1),
+			ArrowLeft: () => l({ index: t - 1 }),
+			ArrowRight: () => l({ index: t + 1 }),
+			Home: () => l({ index: 0 }),
+			End: () => l({ index: 31 })
 		};
-		!o[e.key] || e.ctrlKey || e.metaKey || e.altKey || (e.preventDefault(), o[e.key]());
+		!i[e.key] || e.ctrlKey || e.metaKey || e.altKey || (e.preventDefault(), i[e.key]());
 	}
-	function s(e) {
-		let t = Ye({ text: (e.clipboardData || window.clipboardData).getData("text") });
-		t && (e.preventDefault(), c({ states: t }));
+	function d(e) {
+		let t = it({ text: (e.clipboardData || window.clipboardData).getData("text") });
+		t && (e.preventDefault(), f({ states: t }));
 	}
-	function c({ states: e = [] }) {
+	function f({ states: e = [] }) {
 		e.forEach((e, t) => {
 			n[t].dataset.state = e;
-		}), t();
+		}), s();
 	}
 	return {
 		cells: r,
+		hexCells: a,
 		read: () => n.map((e) => e.dataset.state),
 		write: ({ value: e = 0, mask: t = 4294967295, width: r = 32, off: i = !1 }) => {
 			n.forEach((n, a) => {
 				let o = 31 - a;
 				n.dataset.state = o < r && t >>> o & 1 ? String(e >>> o & 1) : "-", n.classList.toggle("tri-off", i && o >= r);
-			});
+			}), o();
 		},
 		paste: ({ text: e = "" }) => {
-			let t = Ye({ text: e });
-			return t && c({ states: t }), !!t;
+			let t = it({ text: e });
+			return t && f({ states: t }), !!t;
 		},
 		highlight: ({ mask: e = 0 }) => n.forEach((t, n) => t.classList.toggle("tri-mark", !!(e >>> 31 - n & 1))),
-		dimUpper: ({ dim: e = !1 }) => n.forEach((t, n) => t.classList.toggle("tri-off", e && n < 16))
+		dimUpper: ({ dim: e = !1 }) => {
+			n.forEach((t, n) => t.classList.toggle("tri-off", e && n < 16)), o();
+		}
 	};
 }
 // src/selector.mjs
-var j = [
+var N = [
 	"Instruction",
 	"Mnemonic",
 	"Operands",
@@ -4173,7 +4394,7 @@ var j = [
 	"Pseudocode",
 	"Type",
 	"Ext"
-], Ze = [
+], ot = [
 	170,
 	90,
 	150,
@@ -4181,60 +4402,60 @@ var j = [
 	230,
 	120,
 	60
-], Qe = 32 + j.length, M = null;
-function $e({ inst: e = {}, bit: t = 0 }) {
+], st = 32 + N.length, P = null;
+function ct({ inst: e = {}, bit: t = 0 }) {
 	return e.mask >>> t & 1 ? String(e.match >>> t & 1) : null;
 }
-function et({ title: e = "" }) {
-	return _tr({ class: "section-row" }, [E({
-		width: Qe,
+function lt({ title: e = "" }) {
+	return _tr({ class: "section-row" }, [T({
+		width: st,
 		text: e
 	})]);
 }
-function tt({ group: t = {}, members: n = [], rowspan: r = 1 }) {
+function ut({ group: t = {}, members: n = [], rowspan: r = 1 }) {
 	let i = e[t.format], a = [];
-	i.width === 16 && a.push(E({
+	i.width === 16 && a.push(T({
 		width: 16,
 		classes: "bit unused"
 	}));
 	for (let [e, t, r, o] of i.layout) {
 		let i = [];
 		for (let e = t; e >= r; e--) {
-			let t = $e({
+			let t = ct({
 				inst: n[0],
 				bit: e
 			});
-			i.push(t !== null && n.every((n) => $e({
+			i.push(t !== null && n.every((n) => ct({
 				inst: n,
 				bit: e
 			}) === t) ? t : null);
 		}
-		i.every((e) => e !== null) ? i.forEach((e) => a.push(E({
+		i.every((e) => e !== null) ? i.forEach((e) => a.push(T({
 			classes: `bit lit-${o}`,
 			text: e
-		}))) : a.push(E({
+		}))) : a.push(T({
 			width: t - r + 1,
 			classes: `bit field-${o}`,
 			text: e
 		}));
 	}
-	return a.push(E({
+	return a.push(T({
 		width: 4,
 		classes: "text group-title",
 		text: t.title
-	}), E({
+	}), T({
 		classes: "text group-pseudo",
 		text: t.pseudocode
 	}), Ue({
 		format: t.format,
 		rowspan: r
-	}), E({
+	}), T({
 		rowspan: r,
 		classes: "text ext",
 		text: `'${t.extension}'`
 	})), _tr({ class: `group-row fmt-${t.format}` }, a);
 }
-function nt({ inst: e = {}, decoded: t = null, onPattern: n = () => {} }) {
+function dt({ inst: e = {}, decoded: t = null, onPattern: n = () => {} }) {
 	let r = t && t.inst === e ? t.fields : null, i = Be({
 		segments: e.segments,
 		width: e.width,
@@ -4243,7 +4464,7 @@ function nt({ inst: e = {}, decoded: t = null, onPattern: n = () => {} }) {
 	});
 	if (e.reserved || e.hint) {
 		let t = e.reserved ? "reserved" : "hint";
-		return i.push(E({
+		return i.push(T({
 			width: 5,
 			classes: `text ${t}`,
 			text: e.hint ? `${e.description} : PC += ${e.width / 8}, no other effect` : e.description
@@ -4253,139 +4474,139 @@ function nt({ inst: e = {}, decoded: t = null, onPattern: n = () => {} }) {
 		class: "text mnemonic",
 		title: "Show this encoding in the bit selector"
 	}, e.name);
-	return a.addEventListener("click", () => n({ inst: e })), i.push(E({
+	return a.addEventListener("click", () => n({ inst: e })), i.push(T({
 		classes: "text description",
 		text: e.description
-	}), a, E({
+	}), a, T({
 		classes: "text operands",
-		text: r ? x({
+		text: r ? C({
 			inst: e,
 			fields: r
 		}).slice(1).map((e) => e.text).join("").trim() || "—" : e.asm || "—"
-	}), E({
+	}), T({
 		classes: "text expansion",
 		text: e.expands || ""
-	}), E({
+	}), T({
 		classes: "text pseudocode",
 		text: e.pseudocode
 	})), _tr({ class: `instruction-row fmt-${e.format}` + (r ? " decoded" : "") }, i);
 }
-function rt({ inst: e = {}, decoded: t = null }) {
+function ft({ inst: e = {}, decoded: t = null }) {
 	let n = He({ inst: e });
-	return n.push(E({
+	return n.push(T({
 		width: 4,
 		classes: "text imm-name",
 		text: t && t.inst === e ? `${e.immName} = ${t.fields.imm}` : e.immName
-	}), E({
+	}), T({
 		classes: "text imm-desc",
 		text: `${e.format} ${e.immSigned ? "sign-extended" : "zero-extended"} immediate`
 	})), _tr({ class: `immediate-row fmt-${e.format}` }, n);
 }
-function it({ inst: e = {} }) {
+function pt({ inst: e = {} }) {
 	return e.segments.filter((e) => e.kind === "imm").map((e) => `${e.hi}:${e.immBits}`).join(" ");
 }
-function at({ unused: e = {} }) {
-	let t = [E({
+function mt({ unused: e = {} }) {
+	let t = [T({
 		width: 25,
 		classes: "bit any",
 		text: "– not used in RV32GC –"
 	})];
-	for (let n of e.opcode) t.push(E({
+	for (let n of e.opcode) t.push(T({
 		classes: "bit lit-opcode",
 		text: n
 	}));
-	return t.push(E({
+	return t.push(T({
 		width: 4,
 		classes: "text unused-name",
 		text: e.name
-	}), E({
+	}), T({
 		classes: "text unused-note",
 		text: e.note
-	}), E({
+	}), T({
 		classes: "text unused-note",
 		text: "—"
-	}), E({
+	}), T({
 		classes: "text unused-note",
 		text: "—"
 	})), _tr({ class: "unused-row" }, t);
 }
-function ot({ unused: e = {}, constraints: t = [] }) {
+function ht({ unused: e = {}, constraints: t = [] }) {
 	return [...e.opcode].every((e, n) => [e, "-"].includes(t[25 + n]));
 }
-function st({ section: e = "q3" }) {
-	let t = (e) => y.filter((t) => t.groupKey === e).map((e) => e.sortKey).sort()[0], r = Object.keys(n).filter((t) => n[t].section === e).map((e) => ({
+function gt({ section: e = "q3" }) {
+	let t = (e) => b.filter((t) => t.groupKey === e).map((e) => e.sortKey).sort()[0], r = Object.keys(n).filter((t) => n[t].section === e).map((e) => ({
 		groupKey: e,
 		sortKey: t(e)
 	}));
-	return e === "q3" && r.push(...Se.map((e) => ({
+	return e === "q3" && r.push(...be.map((e) => ({
 		unused: e,
 		sortKey: e.sortKey
 	}))), r.sort((e, t) => e.sortKey.localeCompare(t.sortKey));
 }
-function ct({ constraints: e = [], decoded: r = null, onPattern: i = () => {} }) {
+function _t({ constraints: e = [], decoded: r = null, onPattern: i = () => {} }) {
 	let a = [];
 	for (let o of Object.keys(t)) {
 		let s = [];
-		for (let { groupKey: t, unused: a } of st({ section: o })) {
+		for (let { groupKey: t, unused: a } of gt({ section: o })) {
 			if (a) {
-				ot({
+				ht({
 					unused: a,
 					constraints: e
-				}) && s.push(at({ unused: a }));
+				}) && s.push(mt({ unused: a }));
 				continue;
 			}
-			let o = y.filter((n) => n.groupKey === t && se({
+			let o = b.filter((n) => n.groupKey === t && oe({
 				inst: n,
 				constraints: e
 			})).sort((e, t) => e.sortKey.localeCompare(t.sortKey));
 			if (!o.length) continue;
-			let c = o.filter((e) => e.immName), l = c.length > 0 && c.every((e) => it({ inst: e }) === it({ inst: c[0] })), u = [];
-			l && u.push(rt({
+			let c = o.filter((e) => e.immName), l = c.length > 0 && c.every((e) => pt({ inst: e }) === pt({ inst: c[0] })), u = [];
+			l && u.push(ft({
 				inst: r && c.includes(r.inst) ? r.inst : c[0],
 				decoded: r
 			}));
-			for (let e of o) u.push(nt({
+			for (let e of o) u.push(dt({
 				inst: e,
 				decoded: r,
 				onPattern: i
-			})), e.immName && !l && u.push(rt({
+			})), e.immName && !l && u.push(ft({
 				inst: e,
 				decoded: r
 			}));
-			s.push(tt({
+			s.push(ut({
 				group: n[t],
 				members: o,
 				rowspan: u.length + 1
 			}), ...u);
 		}
-		s.length && a.push(et({ title: t[o] }), ...s);
+		s.length && a.push(lt({ title: t[o] }), ...s);
 	}
-	return a.length || a.push(_tr({}, [E({
-		width: Qe,
+	return a.length || a.push(_tr({}, [T({
+		width: st,
 		classes: "text empty",
 		text: "No instruction matches the selected bits."
 	})])), a;
 }
-function lt() {
-	return M.read();
+function vt() {
+	return P.read();
 }
-function ut({ value: e = 0, mask: t = 4294967295, width: n = 32 }) {
-	M.write({
+function yt({ value: e = 0, mask: t = 4294967295, width: n = 32 }) {
+	P.write({
 		value: e,
 		mask: t,
 		width: n
 	});
 }
-function dt({ dim: e = !1 }) {
-	M.dimUpper({ dim: e });
+function bt({ dim: e = !1 }) {
+	P.dimUpper({ dim: e });
 }
-function ft({ text: e = "" }) {
-	return M.paste({ text: e });
+function xt({ text: e = "" }) {
+	return P.paste({ text: e });
 }
-function N({ mask: e = 0 }) {
-	M.highlight({ mask: e });
+function St({ mask: e = 0 }) {
+	P.highlight({ mask: e });
 }
-function pt({ constraints: e = [] }) {
+function Ct({ constraints: e = [] }) {
 	let t = (t) => e[31 - t];
 	if (t(0) === "-" || t(1) === "-") return null;
 	let n = t(0) === "1" && t(1) === "1" ? 32 : 16, r = 0;
@@ -4395,36 +4616,47 @@ function pt({ constraints: e = [] }) {
 	}
 	return r;
 }
-function mt({ onBits: e = () => {}, toggle: t = null, io: n = null }) {
-	M = Xe({
+function wt({ onBits: e = () => {}, toggle: t = null, tools: n = [], copies: r = {}, io: i = null }) {
+	P = at({
 		editable: !0,
 		onChange: e
 	});
-	let r = [...Array(32).fill(24), ...Ze];
+	let a = [...Array(32).fill(24), ...ot];
 	return _table({
 		class: "sliderule",
 		id: "decoder",
-		style: k({ widths: r })
+		style: O({ widths: a })
 	}, [
-		qe({
+		Qe({
 			name: "Decoder",
 			button: t,
-			side: "left"
+			side: "left",
+			tools: n
 		}),
-		Je({ widths: r }),
+		$e({ widths: a }),
 		_thead({}, [
-			_tr({ class: "label-row" }, [_th({ colspan: "32" }, "Bitwise Breakdown — inst[31:0]"), _th({ colspan: String(j.length) }, "Meaning")]),
-			_tr({ class: "number-row" }, [...We(), ...j.map((e) => _th({ class: "text-head" }, e))]),
-			_tr({ class: "input-row" }, [...M.cells, _td({
+			_tr({ class: "label-row" }, [D({
+				colspan: 32,
+				title: "Bitwise Breakdown — inst[31:0]",
+				before: r.binary,
+				after: r.hex
+			}), D({
+				colspan: N.length,
+				title: "Meaning"
+			})]),
+			_tr({ class: "input-row" }, [...P.cells, _td({
 				class: "io-cell",
-				colspan: String(j.length)
-			}, [n])])
+				colspan: String(N.length),
+				rowspan: "2"
+			}, [i])]),
+			_tr({ class: "hex-row" }, P.hexCells),
+			_tr({ class: "number-row" }, [...We(), ...N.map((e) => _th({ class: "column-title" }, e))])
 		]),
 		_tbody({}, "")
 	]);
 }
 // src/encoder.mjs
-var P = [
+var F = [
 	{
 		key: "ext",
 		title: "Ext",
@@ -4455,30 +4687,30 @@ var P = [
 	{
 		key: "operands",
 		title: "Operands",
-		width: 300
+		width: 360
 	}
-], ht = 26, gt = 24, F = {
+], Tt = 26, Et = 24, I = {
 	description: !0,
 	explanation: !0
-}, I = null, L = null;
-function _t({ entry: e = {} }) {
+}, L = null, R = null, Dt = () => {};
+function Ot({ entry: e = {} }) {
 	return e.expands && !e.pseudo ? [
 		e.expands,
 		_br(),
 		e.pseudocode
 	] : e.pseudocode || "";
 }
-function vt({ explanation: e = "" }) {
+function kt({ explanation: e = "" }) {
 	return (Array.isArray(e) ? e : [e]).map((e) => typeof e == "string" ? e : "\n").join("");
 }
-function yt({ entry: e = {}, rowspan: t = 1, explanation: n = "", operands: r = null, onPick: i = () => {} }) {
+function At({ entry: e = {}, rowspan: t = 1, explanation: n = "", operands: r = null, onPick: i = () => {} }) {
 	let a = _td({
 		class: "text mnemonic" + (e.pseudo ? " pseudo" : ""),
 		rowspan: String(t),
 		title: "Build this instruction"
 	}, e.name);
 	return a.addEventListener("click", () => i({ entry: e })), [
-		E({
+		T({
 			rowspan: t,
 			classes: "text ext" + (e.pseudo ? " pseudo" : ""),
 			text: e.extension
@@ -4487,7 +4719,7 @@ function yt({ entry: e = {}, rowspan: t = 1, explanation: n = "", operands: r = 
 			format: e.format,
 			rowspan: t
 		}),
-		E({
+		T({
 			rowspan: t,
 			classes: "text description",
 			text: e.description,
@@ -4495,24 +4727,24 @@ function yt({ entry: e = {}, rowspan: t = 1, explanation: n = "", operands: r = 
 		}),
 		_td({
 			class: "text explanation",
-			title: vt({ explanation: n })
+			title: kt({ explanation: n })
 		}, n),
 		a,
-		E({
+		T({
 			rowspan: t,
 			classes: "text operands" + (r ? " chosen" : ""),
 			text: r ?? (e.asm || "—")
 		})
 	];
 }
-function bt({ entry: e = {}, encoded: t = null, operands: n = null, onPick: r = () => {} }) {
+function jt({ entry: e = {}, encoded: t = null, operands: n = null, onPick: r = () => {} }) {
 	let i = t ? t.words.map((t) => t.expansion ? {
 		...t.expansion,
 		word: t
 	} : {
 		base: e,
 		segments: e.segments,
-		text: _t({ entry: e }),
+		text: Ot({ entry: e }),
 		word: t
 	}) : e.pseudo ? e.expansions.map((e) => ({
 		...e,
@@ -4520,10 +4752,10 @@ function bt({ entry: e = {}, encoded: t = null, operands: n = null, onPick: r = 
 	})) : [{
 		base: e,
 		segments: e.segments,
-		text: _t({ entry: e }),
+		text: Ot({ entry: e }),
 		word: null
 	}], a = i.length === 1 && i[0].segments.some((e) => e.kind === "imm"), o = i.length + +!!a, s = i.map(({ base: i, segments: a, text: s, word: c }, l) => {
-		let u = l === 0 ? yt({
+		let u = l === 0 ? At({
 			entry: e,
 			rowspan: o,
 			explanation: s,
@@ -4531,7 +4763,7 @@ function bt({ entry: e = {}, encoded: t = null, operands: n = null, onPick: r = 
 			onPick: r
 		}) : [_td({
 			class: "text explanation",
-			title: vt({ explanation: s })
+			title: kt({ explanation: s })
 		}, s)];
 		return _tr({ class: `instruction-row fmt-${i.format}` + (t ? " chosen" : "") }, [...u, ...Be({
 			segments: a,
@@ -4545,15 +4777,15 @@ function bt({ entry: e = {}, encoded: t = null, operands: n = null, onPick: r = 
 		s.push(_tr({ class: `immediate-row fmt-${e.format}` }, [_td({ class: "text imm-name explanation" }, t ? `${e.immName} = ${t.fields.imm}` : e.immName), ...He({ inst: e })]));
 	}
 	if (t) for (let { inst: e, word: n, assembly: r } of t.words) s.push(_tr({ class: `encoded-row fmt-${e.format}` }, [
-		E({
+		T({
 			width: 4,
 			classes: "text encoded-asm",
 			text: r
 		}),
-		E({
+		T({
 			width: 2,
 			classes: "text encoded-hex",
-			text: A({
+			text: k({
 				word: n,
 				width: e.width
 			})
@@ -4565,27 +4797,27 @@ function bt({ entry: e = {}, encoded: t = null, operands: n = null, onPick: r = 
 	]));
 	return s;
 }
-function xt({ entries: e = S, entry: t = null, encoded: n = null, operands: r = null, onPick: i = () => {} }) {
-	if (t) return bt({
+function Mt({ entries: e = w, entry: t = null, encoded: n = null, operands: r = null, onPick: i = () => {} }) {
+	if (t) return jt({
 		entry: t,
 		encoded: n,
 		operands: r,
 		onPick: i
 	});
-	let a = e.flatMap((e) => bt({
+	let a = e.flatMap((e) => jt({
 		entry: e,
 		onPick: i
 	}));
-	return a.length || a.push(_tr({}, [E({
-		width: P.length + 32,
+	return a.length || a.push(_tr({}, [T({
+		width: F.length + 32,
 		classes: "text empty",
 		text: "No instruction has this extension and type."
 	})])), a;
 }
-function St({ entry: e = null, encoded: t = null }) {
+function Nt({ entry: e = null, encoded: t = null }) {
 	if (t) {
 		let { word: e, inst: n } = t.words[0];
-		I.write({
+		L.write({
 			value: e,
 			width: n.width,
 			off: n.width === 16
@@ -4593,7 +4825,7 @@ function St({ entry: e = null, encoded: t = null }) {
 		return;
 	}
 	if (!e) {
-		I.write({ mask: 0 });
+		L.write({ mask: 0 });
 		return;
 	}
 	let { base: n, segments: r } = e.pseudo ? e.expansions[0] : {
@@ -4601,32 +4833,35 @@ function St({ entry: e = null, encoded: t = null }) {
 		segments: e.segments
 	}, i = 0, a = 0;
 	for (let e of r.filter((e) => e.kind === "lit")) i |= 2 ** e.width - 1 << e.lo, a |= parseInt(e.bits, 2) << e.lo;
-	I.write({
+	L.write({
 		value: a,
 		mask: i >>> 0,
 		width: n.width,
 		off: n.width === 16
 	});
 }
-function Ct() {
-	return [...P.map((e) => e.collapsible && F[e.key] ? ht : e.width), ...Array(32).fill(gt)];
+function Pt() {
+	return [...F.map((e) => e.collapsible && I[e.key] ? Tt : e.width), ...Array(32).fill(Et)];
 }
-function R() {
-	let e = Ct();
-	L.querySelectorAll(":scope > colgroup > col").forEach((t, n) => {
+function z() {
+	let e = Pt();
+	R.querySelectorAll(":scope > colgroup > col").forEach((t, n) => {
 		t.style.width = `${e[n]}px`;
-	}), L.style.cssText = k({ widths: e });
-	for (let e of P.filter((e) => e.collapsible)) {
-		L.classList.toggle(`collapsed-${e.key}`, F[e.key]);
-		let t = L.querySelector(`th.text-head.${e.key}`);
-		t.setAttribute("aria-expanded", String(!F[e.key])), t.title = `${F[e.key] ? "Show" : "Hide"} the ${e.title.toLowerCase()} column`;
+	}), R.style.cssText = O({ widths: e });
+	for (let e of F.filter((e) => e.collapsible)) {
+		R.classList.toggle(`collapsed-${e.key}`, I[e.key]);
+		let t = R.querySelector(`th.text-head.${e.key}`);
+		t.setAttribute("aria-expanded", String(!I[e.key])), t.title = `${I[e.key] ? "Show" : "Hide"} the ${e.title.toLowerCase()} column`;
 	}
 }
-function wt({ expand: e = !0 }) {
-	for (let t of P.filter((e) => e.collapsible)) F[t.key] = !e;
-	R();
+function Ft() {
+	return F.filter((e) => e.collapsible && !I[e.key]).map((e) => e.key);
 }
-function Tt({ column: e = {}, rowspan: t = 1 }) {
+function It({ keys: e = [] }) {
+	for (let t of F.filter((e) => e.collapsible)) I[t.key] = !e.includes(t.key);
+	z();
+}
+function Lt({ column: e = {}, rowspan: t = 1 }) {
 	let n = { class: `text-head ${e.key}` };
 	if (t > 1 && (n.rowspan = String(t)), !e.collapsible) return _th(n, e.title);
 	n.class += " collapsible", n.tabindex = "0", n.role = "button";
@@ -4634,186 +4869,61 @@ function Tt({ column: e = {}, rowspan: t = 1 }) {
 		class: "collapse-icon",
 		"aria-hidden": "true"
 	}), _span({ class: "collapse-title" }, e.title)]), i = () => {
-		F[e.key] = !F[e.key], R();
+		I[e.key] = !I[e.key], z(), Dt();
 	};
 	return r.addEventListener("click", i), r.addEventListener("keydown", (e) => {
 		(e.key === "Enter" || e.key === " ") && (e.preventDefault(), i());
 	}), r;
 }
-function Et({ toggle: e = null, controls: t = {}, status: n = null, output: r = null }) {
-	I = Xe({ editable: !1 });
-	let i = Ct(), a = P.filter((e) => !e.collapsible).map((e) => _td({ class: `selector-cell ${e.key}` }, [t[e.key]]));
-	return L = _table({
+function Rt({ toggle: e = null, tools: t = [], controls: n = {}, labels: r = {}, onLayout: i = () => {} }) {
+	L = at({ editable: !1 }), Dt = i;
+	let a = Pt(), o = F.map((e) => e.collapsible ? Lt({
+		column: e,
+		rowspan: 2
+	}) : _td({
+		class: `selector-cell ${e.key}`,
+		rowspan: "2"
+	}, [n[e.key]]));
+	return R = _table({
 		class: "sliderule",
 		id: "encoder",
-		style: k({ widths: i })
+		style: O({ widths: a })
 	}, [
-		qe({
+		Qe({
 			name: "Encoder",
 			button: e,
-			side: "right"
+			side: "right",
+			tools: t
 		}),
-		_colgroup({}, i.map((e) => _col({ style: `width: ${e}px` }, ""))),
+		_colgroup({}, a.map((e) => _col({ style: `width: ${e}px` }, ""))),
 		_thead({}, [
 			_tr({ class: "label-row" }, [
-				_th({ colspan: "4" }, "Meaning"),
-				_th({ colspan: "2" }, "Assembly"),
-				_th({ colspan: "32" }, "Bitwise Encoding — inst[31:0]")
+				D({
+					colspan: 4,
+					title: "Meaning",
+					after: r.meaning
+				}),
+				D({
+					colspan: 2,
+					title: "Assembly",
+					after: r.assembly
+				}),
+				D({
+					colspan: 32,
+					title: "Bitwise Encoding — inst[31:0]",
+					before: r.binary,
+					after: r.hex
+				})
 			]),
-			_tr({ class: "number-row" }, [...P.map((e) => Tt({
-				column: e,
-				rowspan: e.collapsible ? 2 : 1
-			})), ...We()]),
-			_tr({ class: "input-row" }, [...a, ...I.cells]),
-			_tr({ class: "output-row" }, [_td({
-				class: "io-cell",
-				colspan: String(P.length)
-			}, [n]), _td({
-				class: "io-cell output-cell",
-				colspan: "32"
-			}, [r])])
+			_tr({ class: "input-row" }, [...o, ...L.cells]),
+			_tr({ class: "hex-row" }, L.hexCells),
+			_tr({ class: "number-row" }, [...F.map((e) => _th({ class: `column-title ${e.key}` }, e.collapsible ? "" : e.title)), ...We()])
 		]),
 		_tbody({}, "")
-	]), R(), L;
-}
-// src/carousel.mjs
-var Dt = 40, z = null;
-function B() {
-	if (!z) return;
-	let { popup: e, owner: t } = z;
-	z = null, e.remove(), t.classList.remove("open"), document.removeEventListener("pointerdown", Ot, !0), window.removeEventListener("resize", B), window.removeEventListener("scroll", kt, !0);
-}
-function Ot(e) {
-	z && !z.popup.contains(e.target) && !z.owner.contains(e.target) && B();
-}
-function kt(e) {
-	z && !z.popup.contains(e.target) && B();
-}
-function V({ options: e = [], value: t = null, onChange: n = () => {}, label: r = "", searchable: i = !1, searchAll: a = null, classes: o = "" }) {
-	let s = e, c = t ?? (e[0] ? e[0].value : null), l = 0, u = _button({
-		class: "carousel-step",
-		type: "button",
-		tabindex: "-1",
-		"aria-label": `Previous ${r}`
-	}, "‹"), d = _button({
-		class: "carousel-step",
-		type: "button",
-		tabindex: "-1",
-		"aria-label": `Next ${r}`
-	}, "›"), f = _button({
-		class: "carousel-value",
-		type: "button",
-		"aria-haspopup": "listbox",
-		title: `${r}: scroll or use the arrow keys to cycle, click for the list`
-	}, ""), p = _div({
-		class: `carousel ${o}`.trim(),
-		role: "group",
-		"aria-label": r
-	}, [
-		u,
-		f,
-		d
-	]), m = () => s.findIndex((e) => e.value === c);
-	function h() {
-		let e = s[m()];
-		f.replaceChildren(e ? e.short ?? e.label : "—"), f.className = "carousel-value" + (e && e.classes ? ` ${e.classes}` : "");
-		let t = s.length < 2;
-		u.disabled = t, d.disabled = t;
-	}
-	function g(e) {
-		e !== c && (c = e, h(), n(c));
-	}
-	function _(e) {
-		if (!s.length) return;
-		let t = m(), n = s.length;
-		g(s[((t < 0 ? 0 : t + e) % n + n) % n].value);
-	}
-	function ee() {
-		if (z && z.owner === p) {
-			B();
-			return;
-		}
-		B();
-		let e = _div({
-			class: "carousel-list",
-			role: "listbox",
-			"aria-label": r
-		}, ""), t = i ? _input({
-			class: "carousel-filter",
-			type: "search",
-			placeholder: `Filter ${r}…`,
-			"aria-label": `Filter ${r}`
-		}) : null, n = _div({ class: "carousel-popup" }, t ? [t, e] : [e]), o = [], l = 0, u = (e) => {
-			o.length && (l = (e + o.length) % o.length, o.forEach((e, t) => e.el.classList.toggle("active", t === l)), o[l].el.scrollIntoView({ block: "nearest" }));
-		}, d = (e) => {
-			B(), g(e.value), f.focus();
-		}, m = () => {
-			let n = t ? t.value.trim().toLowerCase() : "", r = n && a ? a() : s, i = (e) => {
-				let t = String(e.label).toLowerCase();
-				return t === n ? 0 : t.startsWith(n) ? 1 : t.includes(n) ? 2 : `${e.hint || ""} ${e.group || ""}`.toLowerCase().includes(n) ? 3 : -1;
-			}, l = n ? r.map((e) => ({
-				o: e,
-				rank: i(e)
-			})).filter(({ rank: e }) => e >= 0).sort((e, t) => e.rank - t.rank).map(({ o: e }) => e) : r, f = [];
-			o = [];
-			let p = null;
-			for (let e of l) {
-				!n && e.group && e.group !== p && (p = e.group, f.push(_div({ class: "carousel-group" }, p)));
-				let t = _div({
-					class: "carousel-option" + (e.value === c ? " selected" : "") + (e.classes ? ` ${e.classes}` : ""),
-					role: "option",
-					"aria-selected": String(e.value === c)
-				}, [_span({ class: "carousel-option-label" }, e.label), ...e.hint || n && e.group ? [_span({ class: "carousel-option-hint" }, [e.hint || "", n && e.group ? `  ${e.group}` : ""].join(""))] : []]);
-				t.addEventListener("pointerdown", (e) => e.preventDefault()), t.addEventListener("click", () => d(e)), o.push({
-					el: t,
-					option: e
-				}), f.push(t);
-			}
-			f.length || f.push(_div({ class: "carousel-empty" }, "No match")), e.replaceChildren(...f);
-			let m = o.findIndex((e) => e.option.value === c);
-			u(n || m < 0 ? 0 : m);
-		};
-		n.addEventListener("keydown", (e) => {
-			let t = {
-				ArrowDown: () => u(l + 1),
-				ArrowUp: () => u(l - 1),
-				Enter: () => o[l] && d(o[l].option),
-				Escape: () => {
-					B(), f.focus();
-				},
-				Tab: () => B()
-			};
-			t[e.key] && (e.key !== "Tab" && e.preventDefault(), t[e.key]());
-		}), t && t.addEventListener("input", m), document.body.append(n);
-		let h = p.getBoundingClientRect();
-		n.style.minWidth = `${Math.max(h.width, 140)}px`, n.style.left = `${Math.min(h.left + window.scrollX, window.scrollX + document.documentElement.clientWidth - n.offsetWidth - 8)}px`;
-		let _ = window.innerHeight - h.bottom;
-		n.style.maxHeight = `${Math.max(_, h.top) - 16}px`, n.style.top = _ >= Math.min(n.offsetHeight, 240) || _ >= h.top ? `${h.bottom + window.scrollY + 2}px` : `${h.top + window.scrollY - Math.min(n.offsetHeight, h.top - 16) - 2}px`, p.classList.add("open"), z = {
-			popup: n,
-			owner: p
-		}, m(), n.tabIndex = -1, (t || n).focus(), document.addEventListener("pointerdown", Ot, !0), window.addEventListener("resize", B), window.addEventListener("scroll", kt, !0);
-	}
-	return u.addEventListener("click", () => _(-1)), d.addEventListener("click", () => _(1)), f.addEventListener("click", ee), f.addEventListener("keydown", (e) => {
-		let t = {
-			ArrowUp: -1,
-			ArrowLeft: -1,
-			ArrowDown: 1,
-			ArrowRight: 1
-		};
-		t[e.key] === void 0 || e.altKey || e.ctrlKey || e.metaKey || (e.preventDefault(), _(t[e.key]));
-	}), p.addEventListener("wheel", (e) => {
-		if (s.length < 2) return;
-		e.preventDefault();
-		let t = e.deltaY || e.deltaX;
-		e.deltaMode !== 0 || Math.abs(t) >= Dt ? (l = 0, _(Math.sign(t))) : (l += t, Math.abs(l) >= Dt && (_(Math.sign(l)), l = 0));
-	}, { passive: !1 }), p.setOptions = ({ options: e = [], value: t = c }) => {
-		s = e, c = e.some((e) => e.value === t) ? t : e[0] ? e[0].value : null, h();
-	}, p.setValue = (e) => {
-		c = e, h();
-	}, Object.defineProperty(p, "value", { get: () => c }), h(), p;
+	]), z(), R;
 }
 // src/builders.mjs
-var At = {
+var zt = {
 	rd: 10,
 	rs1: 11,
 	rs2: 12,
@@ -4821,7 +4931,7 @@ var At = {
 	rs: 11,
 	rt: 12
 };
-function jt({ info: e = {} }) {
+function Bt({ info: e = {} }) {
 	let t = [];
 	for (let n = 0; n < 32; n++) {
 		if (e.compressed && (n < 8 || n > 15) || e.exclude.includes(n)) continue;
@@ -4834,22 +4944,22 @@ function jt({ info: e = {} }) {
 	}
 	return t;
 }
-function Mt({ text: e = "" }) {
+function Vt({ text: e = "" }) {
 	let t = e.trim().toLowerCase().replace(/_/g, "").match(/^(-?)(0x[0-9a-f]+|0b[01]+|\d+)$/);
 	if (!t) return null;
 	let n = t[2], r = n.startsWith("0b") ? parseInt(n.slice(2), 2) : Number(n);
 	return t[1] ? -r : r;
 }
-function H({ value: e = 0, range: t = {} }) {
+function B({ value: e = 0, range: t = {} }) {
 	return e < t.min || e > t.max ? `must be between ${t.min} and ${t.max}` : t.step > 1 && e % t.step !== 0 ? `must be a multiple of ${t.step}` : t.nonZero && e === 0 ? "cannot be 0" : null;
 }
-function Nt({ range: e = {} }) {
+function Ht({ range: e = {} }) {
 	return e.nonZero ? e.step <= e.max ? e.step : e.min : Math.min(Math.max(0, e.min), e.max);
 }
-function Pt({ value: e = 0 }) {
+function Ut({ value: e = 0 }) {
 	return e >= 0 ? `0x${e.toString(16)}` : `-0x${(-e).toString(16)}`;
 }
-function Ft({ token: e = "imm", range: t = {}, value: n = 0, onChange: r = () => {} }) {
+function Wt({ token: e = "imm", range: t = {}, value: n = 0, onChange: r = () => {} }) {
 	let i = n, a = `${t.min} … ${t.max}` + (t.step > 1 ? `, multiple of ${t.step}` : "") + (t.nonZero ? ", ≠ 0" : ""), o = _input({
 		class: "imm-slider",
 		type: "range",
@@ -4863,10 +4973,11 @@ function Ft({ token: e = "imm", range: t = {}, value: n = 0, onChange: r = () =>
 		type: "text",
 		inputmode: "numeric",
 		spellcheck: "false",
-		"aria-label": e,
-		title: `${e}: ${a} (decimal, 0x… or 0b…; scroll to step)`
-	}), c = _span({ class: "imm-readout" }, ""), l = ({ newValue: e = 0, from: t = null }) => {
-		i = e, t !== o && (o.value = String(i)), t !== s && (s.value = String(i)), s.classList.remove("invalid"), c.textContent = Pt({ value: i }), c.classList.remove("error"), r(i);
+		"aria-label": e
+	}), c = (t = null) => {
+		s.title = t ? `${e} ${t}` : `${e} = ${i} = ${Ut({ value: i })}\n${a} (decimal, 0x… or 0b…; scroll to step)`, s.classList.toggle("invalid", !!t);
+	}, l = ({ newValue: e = 0, from: t = null }) => {
+		i = e, t !== o && (o.value = String(i)), t !== s && (s.value = String(i)), c(), r(i);
 	};
 	return o.addEventListener("input", () => {
 		let e = Number(o.value);
@@ -4875,32 +4986,31 @@ function Ft({ token: e = "imm", range: t = {}, value: n = 0, onChange: r = () =>
 			from: e === Number(o.value) ? o : null
 		});
 	}), s.addEventListener("input", () => {
-		let n = Mt({ text: s.value }), r = n === null ? "is not a number" : H({
-			value: n,
+		let e = Vt({ text: s.value }), n = e === null ? "is not a number" : B({
+			value: e,
 			range: t
 		});
-		r ? (s.classList.add("invalid"), c.textContent = `${e} ${r}`, c.classList.add("error")) : l({
-			newValue: n,
+		n ? c(n) : l({
+			newValue: e,
 			from: s
 		});
 	}), s.addEventListener("blur", () => l({ newValue: i })), s.addEventListener("wheel", (e) => {
 		e.preventDefault();
 		let n = Math.min(t.max, Math.max(t.min, i - Math.sign(e.deltaY) * t.step));
-		t.nonZero && n === 0 && (n -= Math.sign(e.deltaY) * t.step), H({
+		t.nonZero && n === 0 && (n -= Math.sign(e.deltaY) * t.step), B({
 			value: n,
 			range: t
 		}) || l({ newValue: n });
-	}, { passive: !1 }), o.value = String(i), s.value = String(i), c.textContent = Pt({ value: i }), _div({ class: "imm-control" }, [
-		o,
-		s,
-		c
-	]);
+	}, { passive: !1 }), o.value = String(i), s.value = String(i), c(), {
+		slider: o,
+		field: s
+	};
 }
-function It({ token: e = "rd", info: t = {}, memory: n = {}, onChange: r = () => {} }) {
+function Gt({ token: e = "rd", info: t = {}, memory: n = {}, onChange: r = () => {} }) {
 	let i = e.replace("'", "");
 	if (t.kind === "reg") {
-		let a = jt({ info: t }), o = n[i], s = At[i] ?? 10, c = a.some((e) => e.value === o) ? o : a.some((e) => e.value === s) ? s : a[0].value;
-		return n[i] = c, V({
+		let a = Bt({ info: t }), o = n[i], s = zt[i] ?? 10, c = a.some((e) => e.value === o) ? o : a.some((e) => e.value === s) ? s : a[0].value;
+		return n[i] = c, M({
 			options: a,
 			value: c,
 			label: e,
@@ -4911,11 +5021,12 @@ function It({ token: e = "rd", info: t = {}, memory: n = {}, onChange: r = () =>
 		});
 	}
 	if (t.kind === "imm") {
-		let i = n.imm !== void 0 && !H({
+		let i = n.imm !== void 0 && !B({
 			value: n.imm,
 			range: t.range
-		}) ? n.imm : Nt({ range: t.range });
-		return n.imm = i, Ft({
+		}) ? n.imm : Ht({ range: t.range });
+		n.imm = i;
+		let { slider: a, field: o } = Wt({
 			token: e,
 			range: t.range,
 			value: i,
@@ -4923,6 +5034,7 @@ function It({ token: e = "rd", info: t = {}, memory: n = {}, onChange: r = () =>
 				n.imm = e, r();
 			}
 		});
+		return o.topExtra = a, o;
 	}
 	if (t.kind === "csr") {
 		let e = Object.keys(h).map((e) => ({
@@ -4930,7 +5042,7 @@ function It({ token: e = "rd", info: t = {}, memory: n = {}, onChange: r = () =>
 			label: e,
 			hint: `0x${h[e].toString(16).padStart(3, "0")}`
 		})), t = n.csr in h ? n.csr : "mstatus";
-		return n.csr = t, V({
+		return n.csr = t, M({
 			options: e,
 			value: t,
 			label: "csr",
@@ -4952,8 +5064,8 @@ function It({ token: e = "rd", info: t = {}, memory: n = {}, onChange: r = () =>
 			value: m[e],
 			label: m[e],
 			hint: e === 7 ? "default (frm)" : `rm = ${e}`
-		})), t = n.rm || "dyn";
-		return n.rm = t, V({
+		})), t = e.some((e) => e.value === n.rm) ? n.rm : "dyn";
+		return n.rm = t, M({
 			options: e,
 			value: t,
 			label: "rounding mode",
@@ -4964,11 +5076,11 @@ function It({ token: e = "rd", info: t = {}, memory: n = {}, onChange: r = () =>
 	}
 	let a = [];
 	for (let e = 15; e >= 1; e--) a.push({
-		value: b({ value: e }),
-		label: b({ value: e })
+		value: x({ value: e }),
+		label: x({ value: e })
 	});
-	let o = n[i] || "rw";
-	return n[i] = o, V({
+	let o = a.some((e) => e.value === n[i]) ? n[i] : "rw";
+	return n[i] = o, M({
 		options: a,
 		value: o,
 		label: e,
@@ -4977,11 +5089,11 @@ function It({ token: e = "rd", info: t = {}, memory: n = {}, onChange: r = () =>
 		}
 	});
 }
-function Lt({ token: e = "rd", info: t = {}, memory: n = {} }) {
+function Kt({ token: e = "rd", info: t = {}, memory: n = {} }) {
 	let r = e.replace("'", "");
 	return t.kind === "sp" ? "sp" : t.kind === "reg" ? (t.fp ? p : f)[n[r]] : t.kind === "imm" ? String(n.imm) : String(n[r]);
 }
-var Rt = [
+var qt = [
 	{
 		value: "",
 		label: "—",
@@ -5003,44 +5115,55 @@ var Rt = [
 		hint: "sequentially consistent"
 	}
 ];
-function zt({ entry: e = null }) {
+function Jt({ entry: e = null }) {
 	return !!(e && !e.pseudo && e.segments.some((e) => e.key === "aq"));
 }
-function Bt({ onChange: e = () => {} }) {
-	let t = {}, n = null, r = [], i = _div({ class: "operand-panel" }, ""), a = () => e(i.read());
-	return i.show = ({ entry: e = null }) => {
-		n = e, r = e ? (e.asm || "").split(",").map((e) => e.trim()).filter((e) => e !== "") : [];
-		let o = [];
-		for (let n of r) for (let r of w({ op: n })) {
+function Yt({ name: e = "", control: t = null, kind: n = "reg" }) {
+	return _div({ class: `operand-col operand-${n}` }, [_div({ class: "operand-top" }, [_span({ class: "operand-name" }, e), ...t.topExtra ? [t.topExtra] : []]), _div({ class: "operand-bottom" }, [t])]);
+}
+function Xt({ onChange: e = () => {} }) {
+	let t = {}, n = null, r = [], i = [], a = _div({ class: "operand-panel" }, ""), o = () => e(a.read());
+	return a.show = ({ entry: e = null }) => {
+		n = e, r = e ? (e.asm || "").split(",").map((e) => e.trim()).filter((e) => e !== "") : [], i = [];
+		let s = [];
+		for (let n of r) for (let r of ke({ op: n })) {
 			if (!r.token) continue;
-			let n = C({
+			let n = Oe({
 				entry: e,
 				token: r.token
 			});
-			n.kind !== "sp" && o.push(_div({ class: `operand-row operand-${n.kind}` }, [_span({ class: "operand-name" }, r.token), It({
-				token: r.token,
-				info: n,
-				memory: t,
-				onChange: a
-			})]));
+			n.kind !== "sp" && (i.push(r.token.replace("'", "")), s.push(Yt({
+				name: r.token,
+				kind: n.kind,
+				control: Gt({
+					token: r.token,
+					info: n,
+					memory: t,
+					onChange: o
+				})
+			})));
 		}
-		zt({ entry: e }) && (t.ordering = t.ordering || "", o.push(_div({ class: "operand-row operand-field" }, [_span({ class: "operand-name" }, "order"), V({
-			options: Rt,
-			value: t.ordering,
-			label: "memory ordering",
-			onChange: (e) => {
-				t.ordering = e, a();
-			}
-		})]))), e && !o.length && o.push(_div({ class: "operand-none" }, "no operands")), e || o.push(_div({ class: "operand-none" }, "choose a mnemonic")), i.replaceChildren(...o), a();
-	}, i.read = () => {
+		Jt({ entry: e }) && (qt.some((e) => e.value === t.ordering) || (t.ordering = ""), i.push("ordering"), s.push(Yt({
+			name: "order",
+			kind: "field",
+			control: M({
+				options: qt,
+				value: t.ordering,
+				label: "memory ordering",
+				onChange: (e) => {
+					t.ordering = e, o();
+				}
+			})
+		}))), e && !s.length && s.push(_div({ class: "operand-none" }, "no operands")), e || s.push(_div({ class: "operand-none" }, "choose a mnemonic")), a.style.gridTemplateColumns = `repeat(${Math.max(s.length, 1)}, minmax(0, 1fr))`, a.replaceChildren(...s), o();
+	}, a.read = () => {
 		if (!n) return {
 			entry: null,
 			operands: null,
 			ordering: ""
 		};
-		let e = r.map((e) => w({ op: e }).map((e) => e.token ? Lt({
+		let e = r.map((e) => ke({ op: e }).map((e) => e.token ? Kt({
 			token: e.token,
-			info: C({
+			info: Oe({
 				entry: n,
 				token: e.token
 			}),
@@ -5049,12 +5172,59 @@ function Bt({ onChange: e = () => {} }) {
 		return {
 			entry: n,
 			operands: e,
-			ordering: zt({ entry: n }) && t.ordering || ""
+			ordering: Jt({ entry: n }) && t.ordering || ""
 		};
-	}, i;
+	}, a.state = () => Object.fromEntries(i.map((e) => [e, t[e]])), a.restore = ({ values: e = {} }) => {
+		for (let [n, r] of Object.entries(e)) {
+			let e = [
+				"rd",
+				"rs1",
+				"rs2",
+				"rs3",
+				"rs",
+				"rt",
+				"imm"
+			].includes(n);
+			e && Number.isFinite(Number(r)) ? t[n] = Number(r) : e || (t[n] = String(r));
+		}
+	}, a;
+}
+// src/pdf.mjs
+var Zt = "https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js", Qt = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js", V = {
+	width: 420,
+	height: 297,
+	margin: 8
+}, $t = 16e3, H = {};
+function en({ src: e = "" }) {
+	return H[e] || (H[e] = new Promise((t, n) => {
+		let r = document.createElement("script");
+		r.src = e, r.onload = t, r.onerror = () => {
+			delete H[e], n(/* @__PURE__ */ Error(`could not load ${e}`));
+		}, document.head.append(r);
+	})), H[e];
+}
+async function tn({ element: e = null, fileName: t = "sliderule.pdf" }) {
+	await Promise.all([en({ src: Zt }), en({ src: Qt })]);
+	let n = Math.min(2, $t / e.offsetHeight, $t / e.offsetWidth), r = await window.htmlToImage.toCanvas(e, {
+		pixelRatio: n,
+		backgroundColor: "#ffffff",
+		filter: (e) => !(e.classList && e.classList.contains("no-print"))
+	}), i = new window.jspdf.jsPDF({
+		orientation: "landscape",
+		unit: "mm",
+		format: "a3"
+	}), a = V.width - 2 * V.margin, o = a / r.width, s = Math.floor((V.height - 2 * V.margin) / o), c = document.createElement("canvas");
+	c.width = r.width;
+	for (let e = 0; e < r.height; e += s) {
+		let t = Math.min(s, r.height - e);
+		c.height = t;
+		let n = c.getContext("2d");
+		n.fillStyle = "#ffffff", n.fillRect(0, 0, c.width, t), n.drawImage(r, 0, e, r.width, t, 0, 0, r.width, t), e > 0 && i.addPage(), i.addImage(c.toDataURL("image/png"), "PNG", V.margin, V.margin, a, t * o, void 0, "FAST");
+	}
+	i.save(t);
 }
 // src/sliderule.mjs
-var Vt = 220, Ht = 560, Ut = 1200, Wt = [
+var nn = 220, rn = 560, an = 1200, on = [
 	"I",
 	"M",
 	"A",
@@ -5066,16 +5236,24 @@ var Vt = 220, Ht = 560, Ut = 1200, Wt = [
 	"C + F",
 	"C + D",
 	"PSEUDO"
+], sn = [
+	"ext",
+	"type",
+	"m",
+	"open",
+	"bits"
 ], U = {
-	mode: "decoder",
+	mode: "encoder",
 	ext: "*",
 	type: "*",
 	entry: null,
 	encoded: null,
 	operands: null,
+	decoded: null,
+	word: null,
 	switching: !1
 }, W = null;
-function Gt({ inst: e = {}, part: t = {}, fields: n = {} }) {
+function cn({ inst: e = {}, part: t = {}, fields: n = {} }) {
 	if (!t.known) return `${t.text}: bits not set yet`;
 	if (t.kind === "imm") {
 		let t = n.imm;
@@ -5084,7 +5262,7 @@ function Gt({ inst: e = {}, part: t = {}, fields: n = {} }) {
 	return t.kind === "reg" && t.key !== "sp" ? `${t.key} = ${(e.fregs || []).includes(t.key) ? "f" : "x"}${n[t.key]}` : t.key ? `${t.key} = ${n[t.key]}` : "";
 }
 function G({ inst: e = {}, fields: t = {}, onHover: n = null }) {
-	let r = x({
+	let r = C({
 		inst: e,
 		fields: t
 	});
@@ -5092,14 +5270,14 @@ function G({ inst: e = {}, fields: t = {}, onHover: n = null }) {
 		if (r.kind === "punct") return _span({ class: "asm-punct" }, r.text);
 		let i = _span({
 			class: `asm-token asm-${r.kind}` + (r.known ? "" : " unknown"),
-			title: Gt({
+			title: cn({
 				inst: e,
 				part: r,
 				fields: t
 			})
 		}, r.text);
 		if (n) {
-			let t = r.kind === "mnemonic" ? e.mask : r.key === "sp" ? 0 : me({
+			let t = r.kind === "mnemonic" ? e.mask : r.key === "sp" ? 0 : fe({
 				inst: e,
 				key: r.key
 			});
@@ -5111,7 +5289,7 @@ function G({ inst: e = {}, fields: t = {}, onHover: n = null }) {
 function K({ target: e = null, content: t = "", error: n = !1 }) {
 	e.classList.toggle("error", n), e.replaceChildren(...Array.isArray(t) ? t : [t]);
 }
-function q({ label: e = "", title: t = "", classes: n = "tool-button", onClick: r = () => {} }) {
+function ln({ label: e = "", title: t = "", classes: n = "tool-button", onClick: r = () => {} }) {
 	let i = window._button({
 		class: n,
 		type: "button",
@@ -5119,29 +5297,97 @@ function q({ label: e = "", title: t = "", classes: n = "tool-button", onClick: 
 	}, e);
 	return i.addEventListener("click", r), i;
 }
-function J({ label: e = "Copy", title: t = "", text: n = () => "" }) {
-	let r = q({
+function un({ label: e = "", title: t = "", classes: n = "tool-button", done: r = "Copied ✓", action: i = async () => {} }) {
+	let a = ln({
 		label: e,
-		title: t
+		title: t,
+		classes: n
 	});
-	return r.addEventListener("click", async () => {
+	return a.addEventListener("click", async () => {
 		try {
-			await navigator.clipboard.writeText(n()), r.textContent = "Copied ✓";
-		} catch {
-			r.textContent = "Copy failed";
+			await i(), a.textContent = r;
+		} catch (e) {
+			a.textContent = "Failed", a.title = `${t}\n${e.message}`;
 		}
 		setTimeout(() => {
-			r.textContent = e;
-		}, Ut);
-	}), r;
+			a.textContent = e;
+		}, an);
+	}), a;
 }
-function Kt() {
-	let e = lt(), t = pt({ constraints: e }), n = t === null ? null : ge({ word: t }), r = W.decoderResult;
-	if (dt({ dim: e[31] !== "-" && e[30] !== "-" && (e[31] !== "1" || e[30] !== "1") }), N({ mask: 0 }), t === null) {
-		let t = he({ constraints: e });
+function q({ label: e = "Copy", title: t = "", classes: n = "tool-button", text: r = () => "" }) {
+	return un({
+		label: e,
+		title: t,
+		classes: n,
+		action: () => navigator.clipboard.writeText(r())
+	});
+}
+function dn() {
+	let e = new URLSearchParams();
+	if (U.ext !== "*" && e.set("ext", U.ext), U.type !== "*" && e.set("type", U.type), U.entry) {
+		e.set("m", U.entry.id);
+		for (let [t, n] of Object.entries(W.operands.state())) e.set(t, n);
+	}
+	Ft().length && e.set("open", Ft().join(","));
+	let t = vt().join("").replace(/-/g, "x");
+	return /[01]/.test(t) && e.set("bits", t), e;
+}
+function fn() {
+	if (!W) return;
+	let e = dn().toString();
+	try {
+		history.replaceState(null, "", `#${U.mode}${e ? "?" + e : ""}`);
+	} catch {}
+}
+function pn() {
+	let [e, t = ""] = location.hash.slice(1).split("?");
+	return {
+		mode: e === "decoder" ? "decoder" : "encoder",
+		params: new URLSearchParams(t)
+	};
+}
+function mn({ params: e = new URLSearchParams() }) {
+	e.get("open") && It({ keys: e.get("open").split(",") }), e.get("bits") && xt({ text: e.get("bits") });
+	let t = w.find((t) => t.id === e.get("m")) || null;
+	t ? (W.operands.restore({ values: Object.fromEntries([...e].filter(([e]) => !sn.includes(e))) }), Z({ entry: t })) : (Y().some((t) => t.value === e.get("ext")) && (U.ext = e.get("ext")), yn().some((t) => t.value === e.get("type")) && (U.type = e.get("type")), X(), W.operands.show({ entry: null }));
+}
+function hn({ table: e = null, name: t = () => "" }) {
+	return un({
+		label: "⤓ PDF",
+		classes: "tool-button title-tool",
+		done: "Saved ✓",
+		title: "Download this sheet as you see it (A3 PDF). Clear first for the whole sheet.",
+		action: async () => tn({
+			element: e(),
+			fileName: t()
+		})
+	});
+}
+function gn() {
+	return un({
+		label: "Share",
+		classes: "tool-button title-tool",
+		title: "Share this exact view (copies the link)",
+		action: async () => {
+			fn(), await navigator.clipboard.writeText(location.href);
+		}
+	});
+}
+function _n({ onClick: e = () => {} }) {
+	return ln({
+		label: "Clear",
+		classes: "tool-button title-tool",
+		title: "Back to the whole sheet",
+		onClick: e
+	});
+}
+function vn() {
+	let e = vt(), t = Ct({ constraints: e }), n = t === null ? null : me({ word: t }), r = W.decoderResult;
+	if (U.decoded = null, bt({ dim: e[31] !== "-" && e[30] !== "-" && (e[31] !== "1" || e[30] !== "1") }), St({ mask: 0 }), t === null) {
+		let t = pe({ constraints: e });
 		if (e.every((e) => e === "-")) K({
 			target: r,
-			content: "Click 1 / 0 on the bits, type 0s and 1s (each one moves to the next bit), or paste a word: the instruction builds up here."
+			content: "Click 1 / 0 on the bits, type 0s and 1s (each one moves to the next bit), or click a bit and paste a word (0x… or 0101…): the instruction builds up here."
 		});
 		else if (t.inst) {
 			let n = e.slice(32 - t.inst.width).filter((e) => e === "-").length;
@@ -5150,7 +5396,7 @@ function Kt() {
 				content: [_div({ class: "io-line" }, [G({
 					inst: t.inst,
 					fields: t.fields,
-					onHover: N
+					onHover: St
 				})]), _div({ class: "io-note" }, `${n} bit${n === 1 ? "" : "s"} still unset`)]
 			});
 		} else if (!t.names.length) K({
@@ -5166,39 +5412,33 @@ function Kt() {
 			});
 		}
 	} else if (!n) {
-		let e = (t & 3) == 3 ? Ce({ word: t }) : null;
+		let e = (t & 3) == 3 ? xe({ word: t }) : null;
 		K({
 			target: r,
 			error: !0,
-			content: `${A({
+			content: `${k({
 				word: t,
 				width: (t & 3) == 3 ? 32 : 16
 			})} is not a valid RV32GC instruction` + (e ? ` (${e.name} opcode: ${e.note})` : "")
 		});
 	} else if (n.inst.reserved || n.inst.hint) K({
 		target: r,
-		content: [_div({ class: "io-line" }, [_b({ class: "io-asm" }, n.assembly), _span({ class: "io-hex" }, A({
+		content: [_div({ class: "io-line" }, [_b({ class: "io-asm" }, n.assembly), _span({ class: "io-hex" }, k({
 			word: t,
 			width: n.inst.width
 		}))])]
 	});
 	else {
-		let { inst: e, fields: t } = n, i = [_div({ class: "io-line" }, [
-			G({
-				inst: e,
-				fields: t,
-				onHover: N
-			}),
-			_span({ class: "io-hex" }, A({
-				word: n.word,
-				width: e.width
-			})),
-			J({
-				label: "Copy",
-				title: "Copy the assembly",
-				text: () => n.assembly
-			})
-		])];
+		let { inst: e, fields: t } = n;
+		U.decoded = n;
+		let i = [_div({ class: "io-line" }, [G({
+			inst: e,
+			fields: t,
+			onHover: St
+		}), _span({ class: "io-hex" }, k({
+			word: n.word,
+			width: e.width
+		}))])];
 		if (e.immName) {
 			let n = t.imm;
 			i.push(_div({ class: "io-note" }, `${e.immName} = ${n} = ${n < 0 ? "-" : ""}0x${Math.abs(n).toString(16)} (${e.immSigned ? "sign" : "zero"}-extended)`));
@@ -5208,53 +5448,40 @@ function Kt() {
 			content: i
 		});
 	}
-	W.decoder.querySelector("tbody").replaceChildren(...ct({
+	W.decoderCopy.disabled = !U.decoded, U.word = t === null ? null : {
+		word: t,
+		width: (t & 3) == 3 ? 32 : 16
+	}, W.decoderWordCopies.forEach((e) => {
+		e.disabled = t === null;
+	}), W.decoder.querySelector("tbody").replaceChildren(..._t({
 		constraints: e,
 		decoded: n,
 		onPattern: ({ inst: e }) => {
-			ut({
+			yt({
 				value: e.match,
 				mask: e.mask,
 				width: e.width
-			}), Z();
+			}), Q();
 		}
 	}));
 }
-async function qt() {
-	let e = "";
-	try {
-		e = await navigator.clipboard.readText();
-	} catch {
-		K({
-			target: W.decoderResult,
-			error: !0,
-			content: "The browser did not allow reading the clipboard: click a bit and press Ctrl+V instead."
-		});
-		return;
-	}
-	ft({ text: e }) || K({
-		target: W.decoderResult,
-		error: !0,
-		content: `"${e.trim().slice(0, 40)}" is not a hex word (0x…) or a bit pattern.`
-	});
+function J() {
+	return w.filter((e) => (U.ext === "*" || e.extension === U.ext) && (U.type === "*" || e.format === U.type));
 }
 function Y() {
-	return S.filter((e) => (U.ext === "*" || e.extension === U.ext) && (U.type === "*" || e.format === U.type));
-}
-function Jt() {
-	let e = new Set(S.map((e) => e.extension));
+	let e = new Set(w.map((e) => e.extension));
 	return [{
 		value: "*",
 		label: "All",
 		hint: "every extension"
-	}, ...Wt.filter((t) => e.has(t)).map((e) => ({
+	}, ...on.filter((t) => e.has(t)).map((e) => ({
 		value: e,
 		label: e === "PSEUDO" ? "Pseudo" : e,
 		classes: e === "PSEUDO" ? "pseudo" : ""
 	}))];
 }
-function Yt() {
-	let t = new Set(S.filter((e) => U.ext === "*" || e.extension === U.ext).map((e) => e.format));
+function yn() {
+	let t = new Set(w.filter((e) => U.ext === "*" || e.extension === U.ext).map((e) => e.format));
 	return [{
 		value: "*",
 		label: "All",
@@ -5266,8 +5493,8 @@ function Yt() {
 		classes: `fmt-${t}`
 	}))];
 }
-function X({ entries: e = Y() } = {}) {
-	let t = (e) => Wt.indexOf(e.extension);
+function bn({ entries: e = J() } = {}) {
+	let t = (e) => on.indexOf(e.extension);
 	return e = [...e].sort((e, n) => t(e) - t(n) || e.name.localeCompare(n.name)), [{
 		value: "",
 		label: "—",
@@ -5280,28 +5507,28 @@ function X({ entries: e = Y() } = {}) {
 		classes: e.pseudo ? "pseudo" : `fmt-${e.format}`
 	}))];
 }
-function Xt() {
+function X() {
 	let { ext: e, type: t, mnemonic: n } = W.selectors;
 	e.setOptions({
-		options: Jt(),
+		options: Y(),
 		value: U.ext
 	}), t.setOptions({
-		options: Yt(),
+		options: yn(),
 		value: U.type
 	}), U.type = t.value, n.setOptions({
-		options: X(),
+		options: bn(),
 		value: U.entry ? U.entry.id : ""
 	});
 }
-function Zt({ entry: e = null }) {
-	U.entry = e, e && (U.ext = e.extension, U.type = e.format), Xt(), W.operands.show({ entry: e });
+function Z({ entry: e = null }) {
+	U.entry = e, e && (U.ext = e.extension, U.type = e.format), X(), W.operands.show({ entry: e });
 }
-function Qt() {
-	U.entry && !Y().includes(U.entry) ? (Xt(), W.operands.show({ entry: null })) : (Xt(), tn());
+function xn() {
+	U.entry && !J().includes(U.entry) ? (X(), W.operands.show({ entry: null })) : (X(), Q());
 }
-function $t({ entry: e = null, operands: t = null, ordering: n = "" }) {
+function Sn({ entry: e = null, operands: t = null, ordering: n = "" }) {
 	if (U.entry = e, U.operands = t, U.encoded = null, e && t !== null) try {
-		U.encoded = Fe({
+		U.encoded = Ie({
 			entry: e,
 			operands: t,
 			ordering: n
@@ -5309,128 +5536,146 @@ function $t({ entry: e = null, operands: t = null, ordering: n = "" }) {
 	} catch (e) {
 		U.encoded = { error: e.message };
 	}
-	Z();
+	Q();
 }
-function en({ format: e = "hex" }) {
-	let t = U.encoded && !U.encoded.error ? U.encoded : null;
-	return t ? t.words.map(({ word: t, inst: n }) => e === "hex" ? A({
-		word: t,
+function Cn({ encoded: e = null, format: t = "hex" }) {
+	return e ? e.words.map(({ word: e, inst: n }) => t === "hex" ? k({
+		word: e,
 		width: n.width
-	}) : (t >>> 0).toString(2).padStart(n.width, "0")).join("\n") : "";
+	}) : (e >>> 0).toString(2).padStart(n.width, "0")) : [];
 }
-function tn() {
-	let e = U.encoded && !U.encoded.error ? U.encoded : null, { encoderStatus: t, encoderWords: n, copyButtons: r } = W;
-	if (U.encoded && U.encoded.error) K({
-		target: t,
+function wn() {
+	let e = U.encoded && !U.encoded.error ? U.encoded : null, { encoderLabels: t } = W, n = J().length;
+	t.count.textContent = U.entry ? "" : `${n} instruction${n === 1 ? "" : "s"}`, U.encoded && U.encoded.error ? K({
+		target: t.assembly,
 		content: U.encoded.error,
 		error: !0
-	});
-	else if (e) K({
-		target: t,
-		content: e.words.map(({ inst: e, fields: t }) => _div({ class: "io-line" }, [G({
+	}) : K({
+		target: t.assembly,
+		content: e ? e.words.map(({ inst: e, fields: t }) => _div({}, [G({
 			inst: e,
 			fields: t
-		})]))
-	});
-	else {
-		let e = Y().length;
-		K({
-			target: t,
-			content: `${e} instruction${e === 1 ? "" : "s"}: scroll the selectors (or click to pick from a list), or click a mnemonic below.`
-		});
-	}
-	n.replaceChildren(...e ? e.words.map(({ word: e, inst: t }) => _span({ class: "io-word" }, [_b({ class: "io-hex-big" }, A({
-		word: e,
-		width: t.width
-	})), _span({ class: "io-bin" }, (e >>> 0).toString(2).padStart(t.width, "0"))])) : [_span({ class: "io-placeholder" }, "The encoding appears here once an instruction is chosen.")]), r.forEach((t) => {
+		})])) : ""
+	}), W.encoderCopies.forEach((t) => {
 		t.disabled = !e;
-	}), St({
+	}), Nt({
 		entry: U.entry,
 		encoded: e
-	}), W.encoder.querySelector("tbody").replaceChildren(...xt({
-		entries: Y(),
+	}), W.encoder.querySelector("tbody").replaceChildren(...Mt({
+		entries: J(),
 		entry: U.entry,
 		encoded: e,
 		operands: e ? U.operands : null,
-		onPick: Zt
+		onPick: Z
 	}));
 }
-function Z() {
-	(U.mode === "encoder" || U.print) && tn(), (U.mode === "decoder" || U.print) && Kt();
+function Q() {
+	W && (U.mode === "encoder" ? wn() : vn(), W.encoderClear.disabled = U.ext === "*" && U.type === "*" && !U.entry, W.decoderClear.disabled = vt().every((e) => e === "-"), fn());
 }
-function nn({ table: e = null }) {
-	let t = [".number-row", ".input-row"].map((t) => _tr({}, [...e.querySelectorAll(`${t} > .spine`)].map((e) => e.cloneNode(!0)))), n = Array(32).fill(24), r = _table({
+function Tn({ table: e = null }) {
+	let t = [
+		".input-row",
+		".hex-row",
+		".number-row"
+	].map((t) => _tr({}, [...e.querySelectorAll(`${t} > .spine`)].map((e) => e.cloneNode(!0)))), n = Array(32).fill(24), r = _table({
 		class: "sliderule ghost",
 		"aria-hidden": "true",
-		style: k({ widths: n })
-	}, [Je({ widths: n }), _thead({}, t)]);
+		style: O({ widths: n })
+	}, [$e({ widths: n }), _thead({}, t)]);
 	W.stage.append(r);
 	let i = e.querySelector(".bit-number").getBoundingClientRect(), a = r.querySelector(".bit-number").getBoundingClientRect();
 	return r.style.left = `${i.left - a.left}px`, r.style.top = `${i.top - a.top}px`, r;
 }
-function Q({ element: e = null, keyframes: t = [], duration: n = Vt, easing: r = "ease-in-out" }) {
+function En({ table: e = null }) {
+	let t = e.querySelector(".title-main"), n = t.cloneNode(!0);
+	n.classList.add("title-ghost"), n.setAttribute("aria-hidden", "true");
+	let r = t.getBoundingClientRect(), i = W.stage.getBoundingClientRect();
+	return Object.assign(n.style, {
+		left: `${r.left - i.left}px`,
+		top: `${r.top - i.top}px`,
+		width: `${r.width}px`
+	}), W.stage.append(n), n;
+}
+function Dn({ element: e = null }) {
+	let t = e.getBoundingClientRect();
+	return t.left + t.width / 2;
+}
+function $({ element: e = null, keyframes: t = [], duration: n = nn, easing: r = "ease-in-out" }) {
 	return e.animate(t, {
 		duration: n,
 		easing: r,
 		fill: "forwards"
 	}).finished;
 }
-function rn({ table: e = null }) {
+function On({ table: e = null }) {
 	return e.querySelector(".bit-number").offsetLeft;
 }
-function an({ table: e = null }) {
+function kn({ table: e = null }) {
 	let t = e.querySelectorAll(".bit-number"), n = t[0].getBoundingClientRect().left + window.scrollX - 16, r = t[t.length - 1].getBoundingClientRect().right + window.scrollX + 16;
 	return r > window.scrollX + window.innerWidth ? Math.min(n, r - window.innerWidth) : n < window.scrollX ? n : window.scrollX;
 }
-function $({ mode: e = "decoder" }) {
+function An({ mode: e = "encoder" }) {
 	W.decoder.parentElement.classList.toggle("active", e === "decoder"), W.encoder.parentElement.classList.toggle("active", e === "encoder");
 }
-async function on({ mode: e = "decoder" }) {
+async function jn({ mode: e = "encoder" }) {
 	if (e === U.mode || U.switching) return;
 	U.switching = !0;
 	let t = U.mode === "encoder" ? W.encoder : W.decoder, n = e === "encoder" ? W.encoder : W.decoder;
-	if (U.mode = e, Z(), window.matchMedia("(prefers-reduced-motion: reduce)").matches) $({ mode: e });
+	if (U.mode = e, Q(), window.matchMedia("(prefers-reduced-motion: reduce)").matches) An({ mode: e });
 	else {
-		let r = nn({ table: t });
-		await Q({
+		let r = Tn({ table: t }), i = En({ table: t });
+		await $({
 			element: t,
 			keyframes: [{ opacity: 1 }, { opacity: 0 }]
 		});
-		let i = rn({ table: n }) - rn({ table: t });
-		window.scrollTo({
-			left: an({ table: n }),
+		let a = On({ table: n }) - On({ table: t }), o = Dn({ element: n.querySelector(".title-main") }) - Dn({ element: t.querySelector(".title-main") });
+		i.querySelector(".title-name").textContent = n.querySelector(".title-name").textContent, window.scrollTo({
+			left: kn({ table: n }),
 			behavior: "smooth"
-		}), await Q({
-			element: r,
-			keyframes: [{ transform: "translateX(0)" }, { transform: `translateX(${i}px)` }],
-			duration: Ht,
+		});
+		let s = {
+			duration: rn,
 			easing: "cubic-bezier(0.65, 0, 0.35, 1)"
-		}), $({ mode: e }), t.getAnimations().forEach((e) => e.cancel()), await Promise.all([Q({
-			element: n,
-			keyframes: [{ opacity: 0 }, { opacity: 1 }]
-		}), Q({
+		};
+		await Promise.all([$({
 			element: r,
-			keyframes: [{ opacity: 1 }, { opacity: 0 }]
-		})]), n.getAnimations().forEach((e) => e.cancel()), r.remove();
+			keyframes: [{ transform: "translateX(0)" }, { transform: `translateX(${a}px)` }],
+			...s
+		}), $({
+			element: i,
+			keyframes: [{ transform: "translateX(0)" }, { transform: `translateX(${o}px)` }],
+			...s
+		})]), An({ mode: e }), t.getAnimations().forEach((e) => e.cancel()), await Promise.all([
+			$({
+				element: n,
+				keyframes: [{ opacity: 0 }, { opacity: 1 }]
+			}),
+			$({
+				element: r,
+				keyframes: [{ opacity: 1 }, { opacity: 0 }]
+			}),
+			$({
+				element: i,
+				keyframes: [{ opacity: 1 }, { opacity: 0 }]
+			})
+		]), n.getAnimations().forEach((e) => e.cancel()), r.remove(), i.remove();
 	}
-	try {
-		history.replaceState(null, "", `#${e}`);
-	} catch {}
-	window.scrollTo({ left: an({ table: n }) }), U.switching = !1;
+	window.scrollTo({ left: kn({ table: n }) }), U.switching = !1;
 }
-function sn({ mode: e = "encoder", label: t = "" }) {
-	return q({
+function Mn({ mode: e = "encoder", label: t = "" }) {
+	return ln({
 		classes: "mode-button",
 		title: `Switch to the ${t}`,
 		label: e === "encoder" ? `◀ ${t}` : `${t} ▶`,
-		onClick: () => on({ mode: e })
+		onClick: () => jn({ mode: e })
 	});
 }
-function cn({ table: e = null }) {
+function Nn({ table: e = null }) {
 	let t = [
-		".number-row",
+		".label-row",
 		".input-row",
-		".output-row"
+		".hex-row",
+		".number-row"
 	].map((t) => e.querySelector(`thead > ${t}`)).filter(Boolean), n = () => {
 		let e = 0;
 		for (let n of t) {
@@ -5440,106 +5685,153 @@ function cn({ table: e = null }) {
 	};
 	new ResizeObserver(n).observe(e.tHead), n();
 }
-function ln() {
+function Pn() {
 	return {
-		ext: V({
+		ext: M({
 			label: "extension",
-			options: Jt(),
+			options: Y(),
 			value: "*",
 			onChange: (e) => {
-				U.ext = e, Qt();
+				U.ext = e, xn();
 			}
 		}),
-		type: V({
+		type: M({
 			label: "format type",
-			options: Yt(),
+			options: yn(),
 			value: "*",
 			onChange: (e) => {
-				U.type = e, Qt();
+				U.type = e, xn();
 			}
 		}),
-		mnemonic: V({
+		mnemonic: M({
 			label: "mnemonic",
-			options: X(),
+			options: bn(),
 			value: "",
 			searchable: !0,
 			classes: "mnemonic-carousel",
-			searchAll: () => X({ entries: S }),
-			onChange: (e) => Zt({ entry: S.find((t) => t.id === e) || null })
+			searchAll: () => bn({ entries: w }),
+			onChange: (e) => Z({ entry: w.find((t) => t.id === e) || null })
 		}),
-		operands: Bt({ onChange: $t })
+		operands: Xt({ onChange: Sn })
 	};
 }
-function un() {
-	let e = new URLSearchParams(location.search).has("print"), t = _div({ class: "io-result" }, ""), n = mt({
-		onBits: Z,
-		toggle: sn({
-			mode: "encoder",
-			label: "a2b · Encoder"
-		}),
-		io: _div({ class: "io" }, [t, _div({ class: "io-tools" }, [q({
-			label: "Paste",
-			title: "Fill the bits from the clipboard (a hex word or a bit pattern)",
-			onClick: qt
-		}), q({
-			label: "Clear",
-			title: "Set every bit back to x",
-			onClick: () => {
-				ut({
-					value: 0,
-					mask: 0
-				}), Z();
-			}
-		})])])
-	}), r = ln(), i = _div({ class: "io-result" }, ""), a = _div({ class: "io-words" }, ""), o = [J({
-		label: "Copy hex",
-		title: "Copy the encoding as hex (one word per line)",
-		text: () => en({ format: "hex" })
-	}), J({
+function Fn({ mode: e = "encoder" }) {
+	return e === "encoder" ? `RV32GC-Encoder${U.entry ? "-" + U.entry.name : ""}.pdf` : `RV32GC-Decoder${U.decoded ? "-" + U.decoded.inst.name : ""}.pdf`;
+}
+function In() {
+	let e = _div({ class: "io-result" }, ""), t = q({
+		label: "Copy",
+		title: "Copy the assembly (once the instruction is complete)",
+		text: () => U.decoded.assembly
+	}), n = _n({ onClick: () => {
+		yt({
+			value: 0,
+			mask: 0
+		}), Q();
+	} }), r = (e) => () => e === "hex" ? k(U.word) : (U.word.word >>> 0).toString(2).padStart(U.word.width, "0"), i = [q({
 		label: "Copy bin",
-		title: "Copy the encoding as binary (one word per line)",
-		text: () => en({ format: "bin" })
-	})], s = Et({
-		toggle: sn({
-			mode: "decoder",
-			label: "b2a · Decoder"
+		title: "Copy the bits as binary (once every bit of the instruction is set)",
+		classes: "tool-button on-section",
+		text: r("bin")
+	}), q({
+		label: "Copy hex",
+		title: "Copy the bits as hex (once every bit of the instruction is set)",
+		classes: "tool-button on-section",
+		text: r("hex")
+	})], a = wt({
+		onBits: Q,
+		toggle: Mn({
+			mode: "encoder",
+			label: "Encoder"
 		}),
-		controls: {
-			ext: r.ext,
-			type: r.type,
-			mnemonic: r.mnemonic,
-			operands: r.operands
+		copies: {
+			binary: i[0],
+			hex: i[1]
 		},
-		status: _div({ class: "io" }, [i, _div({ class: "io-tools" }, [q({
-			label: "Clear",
-			title: "Back to every instruction",
-			onClick: () => {
-				U.ext = "*", U.type = "*", Zt({ entry: null });
-			}
-		})])]),
-		output: _div({ class: "io io-output" }, [a, _div({ class: "io-tools" }, o)])
-	}), c = _div({
+		tools: [
+			hn({
+				table: () => a,
+				name: () => Fn({ mode: "decoder" })
+			}),
+			n,
+			gn()
+		],
+		io: _div({ class: "io" }, [e, _div({ class: "io-tools" }, [t])])
+	}), o = Pn(), s = {
+		count: _span({ class: "section-count" }, ""),
+		assembly: _div({ class: "section-value section-asm" }, "")
+	}, c = (e) => () => Cn({
+		encoded: U.encoded && !U.encoded.error ? U.encoded : null,
+		format: e
+	}).join("\n"), l = [
+		q({
+			label: "Copy",
+			title: "Copy the assembly",
+			classes: "tool-button on-section",
+			text: () => U.encoded.words.map((e) => e.assembly).join("\n")
+		}),
+		q({
+			label: "Copy bin",
+			title: "Copy the encoding as binary (one word per line)",
+			classes: "tool-button on-section",
+			text: c("bin")
+		}),
+		q({
+			label: "Copy hex",
+			title: "Copy the encoding as hex (one word per line)",
+			classes: "tool-button on-section",
+			text: c("hex")
+		})
+	], u = _n({ onClick: () => {
+		U.ext = "*", U.type = "*", Z({ entry: null });
+	} }), d = Rt({
+		toggle: Mn({
+			mode: "decoder",
+			label: "Decoder"
+		}),
+		tools: [
+			hn({
+				table: () => d,
+				name: () => Fn({ mode: "encoder" })
+			}),
+			u,
+			gn()
+		],
+		controls: o,
+		labels: {
+			meaning: s.count,
+			assembly: _div({ class: "section-group" }, [s.assembly, l[0]]),
+			binary: l[1],
+			hex: l[2]
+		},
+		onLayout: fn
+	}), f = _div({
 		id: "sliderule",
-		class: "stage" + (e ? " print" : "")
-	}, [_div({ class: "view" }, [n]), _div({ class: "view" }, [s])]);
-	return W = {
-		decoder: n,
-		encoder: s,
-		decoderResult: t,
-		encoderStatus: i,
-		encoderWords: a,
-		copyButtons: o,
-		selectors: r,
-		operands: r.operands,
-		stage: c
-	}, U.print = e, U.mode = location.hash === "#encoder" ? "encoder" : "decoder", $({ mode: U.mode }), e && wt({ expand: !0 }), Kt(), r.operands.show({ entry: null }), requestAnimationFrame(() => [n, s].forEach((e) => cn({ table: e }))), c;
+		class: "stage"
+	}, [_div({ class: "view" }, [a]), _div({ class: "view" }, [d])]);
+	W = {
+		decoder: a,
+		encoder: d,
+		decoderResult: e,
+		decoderCopy: t,
+		decoderClear: n,
+		decoderWordCopies: i,
+		encoderLabels: s,
+		encoderCopies: l,
+		encoderClear: u,
+		selectors: o,
+		operands: o.operands,
+		stage: f
+	};
+	let { mode: p, params: m } = pn();
+	return U.mode = p, An({ mode: p }), mn({ params: m }), p === "encoder" ? vn() : wn(), Q(), requestAnimationFrame(() => [a, d].forEach((e) => Nn({ table: e }))), f;
 }
 // src/main.mjs
-var dn = {
+var Ln = {
 	loadInto: (e) => {
-		document.getElementById(e).append(un());
+		document.getElementById(e).append(In());
 	},
-	refresh: Z
+	refresh: Q
 };
-window.sliderules = dn;
-export { dn as default };
+window.sliderules = Ln;
+export { Ln as default };

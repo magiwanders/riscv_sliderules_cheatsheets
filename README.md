@@ -31,7 +31,7 @@ its bits.
 - Copy bin / Copy hex (by *Bitwise Breakdown*) and Copy (by the instruction) work once the instruction is complete.
 - Click a mnemonic in the table to load its encoding.
 
-**Both views**: **⤓ PDF** downloads the sheet as you see it (A3). Press **Clear** first for the whole sheet. **Share**
+**Both views**: **⤓ PDF** downloads the sheet as you see it (A3). Press **Clear** first for the whole sheet. **Share exact session**
 copies a link that reopens exactly this view: the selectors, operands and bits are all in the link.
 
 ## Embedding

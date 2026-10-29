@@ -131,7 +131,7 @@ function _pdfButton({ table = null, name = () => '' }) {
 }
 
 function _shareButton() {
-  return _confirmingButton({ label: 'Share', classes: 'tool-button title-tool', title: 'Share this exact view (copies the link)',
+  return _confirmingButton({ label: 'Share exact session', classes: 'tool-button title-tool', title: 'Copy a link that reopens exactly this session: view, selectors, operands and bits',
     action: async () => {
       _writeUrl();
       await navigator.clipboard.writeText(location.href);

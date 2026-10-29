@@ -1,7 +1,7 @@
 import { formats } from './isa/rv32gc.mjs';
 import { decodeWord, encodeEntry, unusedOpcode, encodable, assemblyParts, fieldMask, partialDecode } from './isa/codec.mjs';
 import { decoderTable, decoderRows, readConstraints, writeBits, selectedWord, dimUpperHalf, pasteBits, highlightBits } from './selector.mjs';
-import { encoderTable, encoderRows, showEncodedBits, expandedColumns, setExpandedColumns } from './encoder.mjs';
+import { encoderTable, encoderRows, showEncodedBits, highlightEncodedBits, expandedColumns, setExpandedColumns } from './encoder.mjs';
 import { OperandPanel } from './builders.mjs';
 import { Carousel } from './carousel.mjs';
 import { downloadPdf } from './pdf.mjs';
@@ -315,7 +315,9 @@ function _renderEncoder() {
   const count = _filtered().length;
   labels.count.textContent = state.entry ? '' : `${count} instruction${count === 1 ? '' : 's'}`;
   if (state.encoded && state.encoded.error) _show({ target: labels.assembly, content: state.encoded.error, error: true });
-  else _show({ target: labels.assembly, content: encoded ? encoded.words.map(({ inst, fields }) => _div({}, [_assemblyLine({ inst, fields })])) : '' });
+  // Hovering an operand marks its bits; only the first word is in the switches, so only its line does.
+  else _show({ target: labels.assembly, content: encoded ? encoded.words.map(({ inst, fields }, i) => _div({}, [_assemblyLine({ inst, fields, onHover: i === 0 ? highlightEncodedBits : null })])) : '' });
+  highlightEncodedBits({ mask: 0 });
   _elements.encoderCopies.forEach((button) => { button.disabled = !encoded; });
   showEncodedBits({ entry: state.entry, encoded });
   const key = JSON.stringify([state.ext, state.type, state.entry && state.entry.id, state.operands, encoded && encoded.words.map((w) => w.word)]);

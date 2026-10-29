@@ -84,6 +84,11 @@ export function encoderRows({ entries = encodable, entry = null, encoded = null,
   return rows;
 }
 
+// Marks the bits of an operand in the (read-only) switches while its token in the assembly is hovered.
+export function highlightEncodedBits({ mask = 0 }) {
+  _bits.highlight({ mask });
+}
+
 // The bits show what is known so far: the fixed bits once an instruction is chosen, every bit once it is encoded.
 export function showEncodedBits({ entry = null, encoded = null }) {
   if (encoded) {

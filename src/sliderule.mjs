@@ -5,7 +5,7 @@ import { encoderTable, encoderRows, showEncodedBits, expandedColumns, setExpande
 import { OperandPanel } from './builders.mjs';
 import { Carousel } from './carousel.mjs';
 import { downloadPdf } from './pdf.mjs';
-import { hex, columns, tableWidth } from './cells.mjs';
+import { hex, sheetHeader } from './cells.mjs';
 
 // The sliderule app: the Encoder (bits on the right, the default) or the Decoder (bits on the left), one at a time;
 // switching slides one sheet out and the other in around the 32 bit "spine" (see _switchTo). The URL hash always
@@ -14,8 +14,6 @@ import { hex, columns, tableWidth } from './cells.mjs';
 const SLIDE_MS = 650;
 const SLIDE_EASING = 'cubic-bezier(0.65, 0, 0.35, 1)';
 const RESIZE_MS = 220;
-// Cells of the bit columns (header and rows): what cross-fades between the sheets while switching.
-const SPINE_CELLS = ':is(thead .spine, tbody td.bit)';
 const COPIED_MS = 1200;
 const EXTENSION_ORDER = ['I', 'M', 'A', 'F', 'D', 'Zicsr', 'Zifencei', 'C', 'C + F', 'C + D', 'PSEUDO'];
 const URL_KEYS = ['ext', 'type', 'm', 'open', 'bits'];
@@ -133,24 +131,40 @@ function _restore({ params = new URLSearchParams() }) {
   _elements.operands.show({ entry: null });
 }
 
-// ---------------------------------------------------------------- tools in the title corner
+// ---------------------------------------------------------------- tools in the header (they act on the shown sheet)
 
-function _pdfButton({ table = null, name = () => '' }) {
-  return _confirmingButton({ label: '⤓ PDF', classes: 'tool-button title-tool', done: 'Saved ✓',
+function _currentTable() {
+  return state.mode === 'encoder' ? _elements.encoder : _elements.decoder;
+}
+
+function _pdfButton() {
+  return _confirmingButton({ label: '⤓ PDF', classes: 'tool-button header-tool', done: 'Saved ✓',
     title: 'Download this sheet as you see it (A3 PDF). Clear first for the whole sheet.',
-    action: async () => downloadPdf({ element: table(), fileName: name() }) });
+    action: async () => downloadPdf({ header: _elements.header, element: _currentTable(), fileName: _fileName({ mode: state.mode }) }) });
 }
 
 function _shareButton() {
-  return _confirmingButton({ label: 'Share', classes: 'tool-button title-tool', done: 'Copied Exact Session ✓', title: 'Copy a link that reopens exactly this session: view, selectors, operands and bits',
+  return _confirmingButton({ label: 'Share', classes: 'tool-button header-tool', done: 'Copied Exact Session ✓', title: 'Copy a link that reopens exactly this session: view, selectors, operands and bits',
     action: async () => {
       _writeUrl();
       await navigator.clipboard.writeText(location.href);
     } });
 }
 
-function _clearButton({ onClick = () => {} }) {
-  return _button({ label: 'Clear', classes: 'tool-button title-tool', title: 'Back to the whole sheet', onClick });
+function _clear() {
+  if (state.mode === 'decoder') {
+    writeBits({ value: 0, mask: 0 });
+    refresh();
+    return;
+  }
+  state.ext = '*';
+  state.type = '*';
+  _selectEntry({ entry: null });
+}
+
+function _nothingToClear() {
+  if (state.mode === 'decoder') return readConstraints().every((c) => c === '-');
+  return state.ext === '*' && state.type === '*' && !state.entry;
 }
 
 // ---------------------------------------------------------------- decoder
@@ -303,8 +317,7 @@ export function refresh() {
   if (state.mode === 'encoder') _renderEncoder();
   else _renderDecoder();
   // Clear is only enabled when there is something to clear.
-  _elements.encoderClear.disabled = state.ext === '*' && state.type === '*' && !state.entry;
-  _elements.decoderClear.disabled = readConstraints().every((c) => c === '-');
+  _elements.clear.disabled = _nothingToClear();
   _writeUrl();
 }
 
@@ -319,19 +332,23 @@ function _spineOffset({ table = null }) {
   return table.querySelector('.bit-number').offsetLeft;
 }
 
-function _centre({ element = null }) {
-  const box = element.getBoundingClientRect();
-  return box.left + box.width / 2;
+// The page scroll at the end of a switch: right aligned (the right end of the sheets in view).
+function _rightmostScroll() {
+  return Math.max(0, document.documentElement.scrollWidth - document.documentElement.clientWidth);
 }
 
-// Page scroll that brings the whole spine of a table into view (it is wider than most screens).
-function _scrollForSpine({ table = null, shift = 0 }) {
-  const numbers = table.querySelectorAll('.bit-number');
-  const left = numbers[0].getBoundingClientRect().left + shift + window.scrollX - 16;
-  const right = numbers[numbers.length - 1].getBoundingClientRect().right + shift + window.scrollX + 16;
-  if (right > window.scrollX + window.innerWidth) return Math.min(left, right - window.innerWidth);
-  if (left < window.scrollX) return left;
-  return window.scrollX;
+// Scrolls the page horizontally in step with the slide (same duration and easing as the sheets), so it arrives
+// exactly when they do and nothing jumps at the end.
+function _scrollAlong({ to = 0 }) {
+  const from = window.scrollX;
+  if (Math.abs(to - from) < 1) return;
+  const scroller = document.createElement('div').animate([{ opacity: 0 }, { opacity: 1 }], { duration: SLIDE_MS, easing: SLIDE_EASING });
+  const step = () => {
+    const progress = scroller.effect.getComputedTiming().progress;
+    window.scrollTo({ left: from + (to - from) * (progress ?? 1) });
+    if (scroller.playState === 'running') requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
 }
 
 function _activate({ mode = 'encoder' }) {
@@ -341,52 +358,70 @@ function _activate({ mode = 'encoder' }) {
 
 // Both sheets slide sideways together by the distance between their bit columns: the columns only the old sheet
 // has leave the view on one side, the new sheet's come in from the other, and the bits stay where the eye is,
-// the new sheet's bits fading in over the old ones. The captions are held in place (tools do not move); the title
-// glides to where the new sheet centres it while the two titles cross-fade. Nothing fades to white.
+// the new sheet's bits fading in over the old ones. Nothing fades to white. The header does not move; the page
+// scrolls along to end right aligned.
 async function _switchTo({ mode = 'encoder' }) {
   if (mode === state.mode || state.switching) return;
   state.switching = true;
   const from = state.mode === 'encoder' ? _elements.encoder : _elements.decoder;
   const to = mode === 'encoder' ? _elements.encoder : _elements.decoder;
   state.mode = mode;
+  _selectPill({ mode });
   refresh();
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const stage = _elements.stage;
-    const shift = _spineOffset({ table: to }) - _spineOffset({ table: from });
-    const titleShift = _centre({ element: to.querySelector('.title-main') }) - _centre({ element: from.querySelector('.title-main') });
-    stage.classList.add('switching');
-    to.parentElement.classList.add('incoming');
-    window.scrollTo({ left: _scrollForSpine({ table: from, shift }), behavior: 'smooth' });
-    const move = (x0, x1) => [{ transform: `translateX(${x0}px)` }, { transform: `translateX(${x1}px)` }];
-    const animations = [
-      _animate({ element: from, keyframes: move(0, shift) }),
-      _animate({ element: to, keyframes: move(-shift, 0) }),
-      _animate({ element: from.caption, keyframes: move(0, -shift) }),
-      _animate({ element: to.caption, keyframes: move(shift, 0) }),
-      _animate({ element: from.querySelector('.title-main'), keyframes: [{ transform: 'translateX(0)', opacity: 1 }, { transform: `translateX(${titleShift}px)`, opacity: 0 }] }),
-      _animate({ element: to.querySelector('.title-main'), keyframes: [{ transform: `translateX(${-titleShift}px)`, opacity: 0 }, { transform: 'translateX(0)', opacity: 1 }] }),
-      ...[...to.querySelectorAll(SPINE_CELLS)].map((element) => _animate({ element, keyframes: [{ opacity: 0 }, { opacity: 1 }] })),
-    ];
-    await Promise.all(animations.map((a) => a.finished));
+  const stage = _elements.stage;
+  try {
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const shift = _spineOffset({ table: to }) - _spineOffset({ table: from });
+      stage.classList.add('switching');
+      to.parentElement.classList.add('incoming');
+      _scrollAlong({ to: _rightmostScroll() });
+      const move = (x0, x1) => [{ transform: `translateX(${x0}px)` }, { transform: `translateX(${x1}px)` }];
+      const animations = [
+        _animate({ element: from, keyframes: move(0, shift) }),
+        _animate({ element: to, keyframes: move(-shift, 0) }),
+        // One animated property for all the new sheet's bit cells (see --spine-opacity in styles.css).
+        _animate({ element: to, keyframes: [{ '--spine-opacity': 0 }, { '--spine-opacity': 1 }] }),
+      ];
+      await Promise.allSettled(animations.map((a) => a.finished));
+    }
+  } finally {
     to.parentElement.classList.remove('incoming');
     stage.classList.remove('switching');
+    _activate({ mode });
+    window.scrollTo({ left: _rightmostScroll() });
+    state.switching = false;
   }
-  _activate({ mode });
-  window.scrollTo({ left: _scrollForSpine({ table: to }) });
-  state.switching = false;
 }
 
-// Encoder / Decoder pill under the big title; the segment of the sheet it sits on is the selected one.
-function _modePill({ current = 'encoder' }) {
+// Encoder / Decoder pill in the header; the segment of the shown sheet is the selected one.
+function _modePill() {
   const segments = ['encoder', 'decoder'].map((mode) => {
     const label = mode === 'encoder' ? 'Encoder' : 'Decoder';
-    const selected = mode === current;
-    const segment = _button({ classes: 'mode-segment' + (selected ? ' selected' : ''), label, title: selected ? `This is the ${label}` : `Switch to the ${label}`,
-      onClick: () => _switchTo({ mode }) });
-    segment.setAttribute('aria-pressed', String(selected));
+    const segment = _button({ classes: 'mode-segment', label, onClick: () => _switchTo({ mode }) });
+    segment.dataset.mode = mode;
     return segment;
   });
   return _div({ class: 'mode-pill', role: 'group', 'aria-label': 'Sheet' }, segments);
+}
+
+function _selectPill({ mode = 'encoder' }) {
+  for (const segment of _elements.pill.children) {
+    const selected = segment.dataset.mode === mode;
+    const label = segment.textContent;
+    segment.classList.toggle('selected', selected);
+    segment.setAttribute('aria-pressed', String(selected));
+    segment.title = selected ? `This is the ${label}` : `Switch to the ${label}`;
+  }
+}
+
+// The header spans the visible width of the page and stays in view when the sheets scroll sideways.
+function _fitHeader({ app = null, header = null }) {
+  const fit = () => {
+    const left = app.getBoundingClientRect().left + window.scrollX;
+    header.style.width = `${document.documentElement.clientWidth - 2 * left}px`;
+  };
+  window.addEventListener('resize', fit);
+  fit();
 }
 
 // The whole header (section titles, hex digits, switches, bit numbers) stays on screen while scrolling: each row
@@ -424,15 +459,13 @@ function _fileName({ mode = 'encoder' }) {
 export function Sliderule() {
   const decoderResult = _div({ class: 'io-result smooth-height' }, '');
   const decoderCopy = _copyButton({ label: 'Copy', title: 'Copy the assembly (once the instruction is complete)', text: () => state.decoded.assembly });
-  const decoderClear = _clearButton({ onClick: () => { writeBits({ value: 0, mask: 0 }); refresh(); } });
   const decodedWord = (format) => () => (format === 'hex' ? hex(state.word) : (state.word.word >>> 0).toString(2).padStart(state.word.width, '0'));
   const decoderWordCopies = [
     _copyButton({ label: 'Copy bin', title: 'Copy the bits as binary (once every bit of the instruction is set)', classes: 'tool-button on-section', text: decodedWord('bin') }),
     _copyButton({ label: 'Copy hex', title: 'Copy the bits as hex (once every bit of the instruction is set)', classes: 'tool-button on-section', text: decodedWord('hex') }),
   ];
-  const decoder = decoderTable({ onBits: refresh, toggle: _modePill({ current: 'decoder' }),
+  const decoder = decoderTable({ onBits: refresh,
     copies: { binary: decoderWordCopies[0], hex: decoderWordCopies[1] },
-    tools: [_pdfButton({ table: () => decoder, name: () => _fileName({ mode: 'decoder' }) }), decoderClear, _shareButton()],
     io: _div({ class: 'io' }, [decoderResult, _div({ class: 'io-tools' }, [decoderCopy])]) });
 
   const selectors = _encoderControls();
@@ -446,10 +479,7 @@ export function Sliderule() {
     _copyButton({ label: 'Copy bin', title: 'Copy the encoding as binary (one word per line)', classes: 'tool-button on-section', text: words('bin') }),
     _copyButton({ label: 'Copy hex', title: 'Copy the encoding as hex (one word per line)', classes: 'tool-button on-section', text: words('hex') }),
   ];
-  const encoderClear = _clearButton({ onClick: () => { state.ext = '*'; state.type = '*'; _selectEntry({ entry: null }); } });
   const encoder = encoderTable({
-    toggle: _modePill({ current: 'encoder' }),
-    tools: [_pdfButton({ table: () => encoder, name: () => _fileName({ mode: 'encoder' }) }), encoderClear, _shareButton()],
     controls: selectors,
     labels: {
       meaning: encoderLabels.count,
@@ -461,16 +491,24 @@ export function Sliderule() {
     onLayout: _writeUrl,
   });
 
+  const pill = _modePill();
+  const clear = _button({ label: 'Clear', classes: 'tool-button header-tool', title: 'Back to the whole sheet', onClick: _clear });
+  const header = sheetHeader({ switcher: pill, tools: [_pdfButton(), clear, _shareButton()] });
   const stage = _div({ id: 'sliderule', class: 'stage' }, [_div({ class: 'view' }, [decoder]), _div({ class: 'view' }, [encoder])]);
-  _elements = { decoder, encoder, decoderResult, decoderCopy, decoderClear, decoderWordCopies, encoderLabels, encoderCopies, encoderClear, selectors, operands: selectors.operands, stage };
+  const app = _div({ class: 'sliderules-app' }, [header, stage]);
+  _elements = { header, pill, clear, decoder, encoder, decoderResult, decoderCopy, decoderWordCopies, encoderLabels, encoderCopies, selectors, operands: selectors.operands, stage };
   const { mode, params } = _readUrl();
   state.mode = mode;
+  _selectPill({ mode });
   _activate({ mode });
   _restore({ params });
   // Each table only re-renders while shown: fill the hidden one once so it is ready for the switch.
   if (mode === 'encoder') _renderDecoder();
   else _renderEncoder();
   refresh();
-  requestAnimationFrame(() => [decoder, encoder].forEach((table) => _stickHeaderRows({ table })));
-  return stage;
+  requestAnimationFrame(() => {
+    [decoder, encoder].forEach((table) => _stickHeaderRows({ table }));
+    _fitHeader({ app, header });
+  });
+  return app;
 }

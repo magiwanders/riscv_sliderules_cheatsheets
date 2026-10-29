@@ -43,6 +43,9 @@
 .stage.switching { overflow-x: clip; }
 .stage.switching > .view { visibility: visible; height: auto; overflow: visible; }
 .stage.switching > .view.incoming { position: relative; z-index: 1; }
+/* The incoming sheet's bit columns fade in over the outgoing sheet's: one animated property for all their cells. */
+@property --spine-opacity { syntax: '<number>'; inherits: true; initial-value: 1; }
+.stage.switching > .view.incoming :is(thead .spine, tbody td.bit) { opacity: var(--spine-opacity); }
 
 /* ---------- sliderule table ---------- */
 
@@ -62,36 +65,26 @@ table.sliderule {
   text-overflow: ellipsis;
 }
 
-/* Title, as on the paper sheets (a caption: it spans the whole table). */
-.sliderule > caption.title-cell {
-  padding: 0 0 10px;
-}
-
-.title-bar {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: start;
-}
-
-.title-main { text-align: center; }
-.title-isa { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
-.title-credits { display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 10px; font-weight: normal; color: #555; margin-top: 4px; }
-.title-credits a { color: inherit; }
-.title-contributors { margin-top: 1px; }
-.title-credits a:hover { color: var(--focus); }
+/* Header above both sheets: one line of title, pill and tools, one small line of credits and the contribution
+   link. It spans the visible width (set by script) and stays in view when the sheets scroll sideways. */
+.sliderules-app { width: max-content; min-width: 100%; }
+.sheet-header { position: sticky; left: 16px; box-sizing: border-box; margin-bottom: 8px; }
+.header-main { display: flex; align-items: center; gap: 14px; }
+.header-title { font-size: 22px; font-weight: bold; letter-spacing: 1px; white-space: nowrap; }
+.header-tools { display: flex; gap: 4px; margin-left: auto; }
+.tool-button.header-tool { padding: 6px 12px; font-size: 12px; font-weight: bold; }
+.header-sub { display: flex; align-items: center; gap: 12px; margin-top: 3px; font-size: 10px; color: #555; }
+.header-credits { display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; }
+.header-credits a { color: inherit; }
+.header-credits a:hover { color: var(--focus); }
+.header-separator { margin: 0 4px; }
 .credit-icon { display: inline-flex; color: #333; }
 .credit-icon:hover { color: var(--focus); }
-.title-tools { position: sticky; left: 8px; right: 8px; display: flex; flex-direction: column; gap: 4px; }
-.title-buttons { display: flex; gap: 4px; }
-.tool-button.title-tool { padding: 6px 12px; font-size: 12px; font-weight: bold; }
-.contribute-link { font-size: 10px; color: var(--focus); }
-.title-corner { display: flex; }
-.title-corner.right { justify-content: flex-end; text-align: right; }
+.contribute-link { margin-left: auto; color: var(--focus); white-space: nowrap; }
 
-/* Encoder / Decoder pill under the big title. */
+/* Encoder / Decoder pill, next to the title. */
 .mode-pill {
   display: inline-flex;
-  margin-top: 4px;
   padding: 2px;
   border: 2px solid var(--section);
   border-radius: 999px;
@@ -99,14 +92,14 @@ table.sliderule {
 }
 
 .mode-segment {
-  padding: 4px 16px;
+  padding: 3px 14px;
   border: none;
   border-radius: 999px;
   background: transparent;
   color: var(--text);
-  font: bold 14px Arial, Helvetica, sans-serif;
+  font: bold 13px Arial, Helvetica, sans-serif;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.3s, color 0.3s;
 }
 
 .mode-segment.selected { background: var(--section); color: #fff; cursor: default; }

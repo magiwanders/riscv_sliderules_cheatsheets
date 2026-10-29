@@ -11,9 +11,9 @@ extension, has its own checklist below.
 | `src/isa/rv32gc.mjs` | **All instruction data**: formats, decoder sections, groups, instructions, unused opcodes, pseudo-instructions. Encodings are strings in the spec's notation. |
 | `src/isa/codec.mjs` | Everything derived from that data: parsing encodings into segments, masks, matching, decoding, encoding, pseudo-instruction expansion, operand descriptions for the UI. No DOM. |
 | `src/isa/api-gen.js` | Writes `public/isa/*.json` (the data as an API) during `npm run build`. |
-| `src/sliderule.mjs` | The app: state, encoder selectors, decoder output, URL state (share links), view switching animation. |
+| `src/sliderule.mjs` | The app: state, encoder selectors, decoder output, header tools, URL state (share links), view switching animation. |
 | `src/encoder.mjs`, `src/selector.mjs` | Encoder table (a2b) and decoder table (b2a). |
-| `src/cells.mjs` | Table cells shared by both tables, the title. |
+| `src/cells.mjs` | Table cells shared by both tables, the header above them (title, pill, tools, credits). |
 | `src/carousel.mjs`, `src/builders.mjs`, `src/tristate.mjs` | Carousel selector, encoder operand selectors, the 32 bit 0/1/x switches. |
 | `src/pdf.mjs` | PDF download of the visible sheet (loads html-to-image and jsPDF from CDNs on demand). |
 | `public/` | Copied as is into the build: `styles.css`, `embed.js` (one-line embedding), `index.html`. |

@@ -24,13 +24,28 @@ function _load({ src = '' }) {
   return _scripts[src];
 }
 
-// element: the sheet (its .no-print parts are left out); fileName: name of the downloaded file.
-export async function downloadPdf({ element = null, fileName = 'sliderule.pdf' }) {
-  await Promise.all([_load({ src: HTML_TO_IMAGE }), _load({ src: JSPDF })]);
-  const pixelRatio = Math.min(2, MAX_CANVAS_PX / element.offsetHeight, MAX_CANVAS_PX / element.offsetWidth);
-  const sheet = await window.htmlToImage.toCanvas(element, {
+function _render({ element = null, pixelRatio = 2 }) {
+  return window.htmlToImage.toCanvas(element, {
     pixelRatio, backgroundColor: '#ffffff', filter: (node) => !(node.classList && node.classList.contains('no-print')),
   });
+}
+
+// header: drawn above the sheet; element: the sheet (.no-print parts of both are left out); fileName: the download.
+export async function downloadPdf({ header = null, element = null, fileName = 'sliderule.pdf' }) {
+  await Promise.all([_load({ src: HTML_TO_IMAGE }), _load({ src: JSPDF })]);
+  const height = element.offsetHeight + (header ? header.offsetHeight : 0);
+  const pixelRatio = Math.min(2, MAX_CANVAS_PX / height, MAX_CANVAS_PX / element.offsetWidth);
+  const table = await _render({ element, pixelRatio });
+  const top = header ? await _render({ element: header, pixelRatio }) : null;
+  const gap = top ? Math.round(8 * pixelRatio) : 0;
+  const sheet = document.createElement('canvas');
+  sheet.width = table.width;
+  sheet.height = table.height + (top ? top.height + gap : 0);
+  const draw = sheet.getContext('2d');
+  draw.fillStyle = '#ffffff';
+  draw.fillRect(0, 0, sheet.width, sheet.height);
+  if (top) draw.drawImage(top, 0, 0, Math.min(top.width, sheet.width), top.height, 0, 0, Math.min(top.width, sheet.width), top.height);
+  draw.drawImage(table, 0, sheet.height - table.height);
   const pdf = new window.jspdf.jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a3' });
   const width = PAGE_MM.width - 2 * PAGE_MM.margin;
   const mmPerPx = width / sheet.width;

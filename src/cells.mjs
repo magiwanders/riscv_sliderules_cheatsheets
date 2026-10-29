@@ -97,44 +97,42 @@ function _iconLink({ href = '', label = '', icon = null }) {
   return _a({ class: 'credit-icon', href, target: '_blank', rel: 'noopener', title: label, 'aria-label': label }, [icon]);
 }
 
-function _credits() {
-  const github = _svg({ children: `<path fill="currentColor" d="${GITHUB_PATH}"/>` });
-  const linkedin = _svg({ children: '<rect width="16" height="16" rx="3" fill="currentColor"/><text x="8" y="12.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="10" fill="#fff">in</text>' });
-  return _div({ class: 'title-credits' }, [
-    'Sliderule RISC-V Cheatsheet by Simone Shawn Cazzaniga ',
-    _iconLink({ href: 'https://github.com/magiwanders', label: 'GitHub: magiwanders', icon: github }),
-    _iconLink({ href: 'https://www.linkedin.com/in/simone-shawn-cazzaniga/', label: 'LinkedIn', icon: linkedin }),
-    ' ', _a({ href: 'https://www.magiwanders.com', target: '_blank', rel: 'noopener' }, 'www.magiwanders.com'),
-    ' | ', _a({ href: 'mailto:shawn@magiwanders.com' }, 'shawn@magiwanders.com'),
-  ]);
-}
-
 // The 2023 LFX mentorship contributors.
 const CONTRIBUTORS = [['Jayaraj J', 'jyrj'], ['Karbon Chen', 'CSY-tvgo']];
 
-function _contributors() {
-  const links = CONTRIBUTORS.flatMap(([name, login], i) => [
-    ...(i ? [', '] : []), _a({ href: `https://github.com/${login}`, target: '_blank', rel: 'noopener' }, `${name} (@${login})`),
-  ]);
-  return _div({ class: 'title-credits title-contributors' }, ['Contributors: ', ...links]);
+function _link({ href = '', text = '' }) {
+  return _a({ href, target: '_blank', rel: 'noopener' }, text);
 }
 
-// Title of the sheet: RV32GC, the Encoder / Decoder pill switching sheets, the credits. The sheet's tools (PDF, Clear,
-// Share) and the contribution link sit in the top left corner of both sheets, so they stay put when switching.
-// Corner contents are left out of the PDF (no-print). A caption, so it spans the whole table.
-// switcher: the Encoder / Decoder pill.
-export function titleCaption({ switcher = null, tools = [] }) {
-  const toolbox = _div({ class: 'title-corner left no-print' }, [_div({ class: 'title-tools' }, [
-    _div({ class: 'title-buttons' }, tools),
-    _a({ class: 'contribute-link', href: `${REPO}#contributing`, target: '_blank', rel: 'noopener' }, 'Contribute or report an issue ↗'),
-  ])]);
-  const title = _div({ class: 'title-main' }, [
-    _div({ class: 'title-isa' }, 'RV32GC'),
-    switcher,
-    _credits(),
-    _contributors(),
+function _credits() {
+  const github = _svg({ children: `<path fill="currentColor" d="${GITHUB_PATH}"/>` });
+  const linkedin = _svg({ children: '<rect width="16" height="16" rx="3" fill="currentColor"/><text x="8" y="12.2" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="10" fill="#fff">in</text>' });
+  const contributors = CONTRIBUTORS.flatMap(([name, login], i) => [...(i ? [', '] : []), _link({ href: `https://github.com/${login}`, text: `${name} (@${login})` })]);
+  return _div({ class: 'header-credits' }, [
+    'by Simone Shawn Cazzaniga ',
+    _iconLink({ href: 'https://github.com/magiwanders', label: 'GitHub: magiwanders', icon: github }),
+    _iconLink({ href: 'https://www.linkedin.com/in/simone-shawn-cazzaniga/', label: 'LinkedIn', icon: linkedin }),
+    ' ', _link({ href: 'https://www.magiwanders.com', text: 'www.magiwanders.com' }),
+    ' | ', _a({ href: 'mailto:shawn@magiwanders.com' }, 'shawn@magiwanders.com'),
+    _span({ class: 'header-separator' }, '·'), 'Contributors: ', ...contributors,
   ]);
-  return _caption({ class: 'title-cell' }, [_div({ class: 'title-bar' }, [toolbox, title, _div({ class: 'title-corner right' }, '')])]);
+}
+
+// The header above both sheets (it does not move when switching): the title and the Encoder / Decoder pill on the
+// left, the tools (PDF, Clear, Share) on the right; credits and the contribution link below. Tools and the
+// contribution link are left out of the PDF (no-print).
+export function sheetHeader({ switcher = null, tools = [] }) {
+  return _div({ class: 'sheet-header' }, [
+    _div({ class: 'header-main' }, [
+      _span({ class: 'header-title' }, 'Sliderule RV32GC Cheatsheet'),
+      switcher,
+      _div({ class: 'header-tools no-print' }, tools),
+    ]),
+    _div({ class: 'header-sub' }, [
+      _credits(),
+      _a({ class: 'contribute-link no-print', href: `${REPO}#contributing`, target: '_blank', rel: 'noopener' }, 'Contribute or report an issue ↗'),
+    ]),
+  ]);
 }
 
 // A section title in the top header row, with optional content before / after it (values, copy buttons).

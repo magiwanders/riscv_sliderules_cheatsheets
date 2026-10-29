@@ -1,5 +1,5 @@
 import { encodable } from './isa/codec.mjs';
-import { cell, segmentCells, valueCells, immediateCells, typeCell, bitNumbers, tableWidth, hex, titleCaption, sectionHeader } from './cells.mjs';
+import { cell, segmentCells, valueCells, immediateCells, typeCell, bitNumbers, tableWidth, hex, sectionHeader } from './cells.mjs';
 import { Tristates } from './tristate.mjs';
 
 // a2b "Encoder" sliderule: every instruction and pseudo-instruction in alphabetical order, encoding on the right.
@@ -154,18 +154,17 @@ function _columnTitle({ column = {} }) {
   return head;
 }
 
-// toggle: the Encoder / Decoder pill; tools: PDF / Clear / Share; controls: { ext, type, mnemonic, operands } selectors;
+// controls: { ext, type, mnemonic, operands } selectors;
 // labels: what sits in the section headers next to their titles ({ meaning, assembly, assemblyCopy, binary, hex });
 // onLayout: called when the description / explanation columns are folded or unfolded.
 // Header rows: section titles, the controls (hex digits over the switches; the selectors span both rows), then the
 // column titles and bit numbers right above the sheet's rows.
-export function encoderTable({ toggle = null, tools = [], controls = {}, labels = {}, onLayout = () => {} }) {
+export function encoderTable({ controls = {}, labels = {}, onLayout = () => {} }) {
   _bits = Tristates({ editable: false });
   _onLayout = onLayout;
   const widths = _widths();
   const controlCells = COLUMNS.map((c) => _td({ class: `selector-cell ${c.key}`, rowspan: '2' }, controls[c.key] ? [controls[c.key]] : ''));
-  _sheet = _table({ class: 'sliderule', id: 'encoder', style: tableWidth({ widths }) }, [
-    titleCaption({ switcher: toggle, tools }),
+  _sheet = _table({ class: 'sliderule', id: 'encoder-sheet', style: tableWidth({ widths }) }, [
     _colgroup({}, widths.map((width) => _col({ style: `width: ${width}px` }, ''))),
     _thead({}, [
       _tr({ class: 'label-row' }, [

@@ -5,17 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build; node src/isa/api-gen.js",
+    "build": "node src/isa/api-gen.js && vite build",
     "preview": "vite preview",
-    "test": ""
+    "test": "node --test test/*.test.mjs",
+    "vectors": "node test/gen-gnu-vectors.mjs",
+    "pdf": "node scripts/make-pdf.mjs"
   },
   "devDependencies": {
-    "vite": "^7.0.0"
+    "playwright-core": "1.49.1",
+    "vite": "^8.3.5"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/magiwanders/riscv-sliderules-cheatsheets"
-  },
-  "dependencies": {
-    "jspreadsheet-ce": "^5.0.2"
   }
 }

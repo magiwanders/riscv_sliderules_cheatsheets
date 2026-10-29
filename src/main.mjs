@@ -1,19 +1,12 @@
-import { Encoder, Decoder, Pruner } from './builders.mjs';
-import { updateEncode, updateDecode, updatePruned } from './selector.mjs';
+import { Sliderule, refresh } from './sliderule.mjs';
 
 let sliderules = {
   loadInto: (elementID) => {
     document.getElementById(elementID).append(
-      Encoder(), 
-      Decoder(),
-      Pruner(),
-      _div({ id: 'result' }), // No need for each interface to have its own result div. This will be substituted by the visualization by Siyu.
-      _div({ id: 'spreadsheet' })
+      Sliderule()
       )
   },
-  updateEncode:updateEncode,
-  updateDecode:updateDecode,
-  updatePruned:updatePruned
+  refresh:refresh
 };
 
 window.sliderules = sliderules;

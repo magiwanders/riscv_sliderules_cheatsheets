@@ -1,39 +1,464 @@
-.bit-button {
-  width: 30px;
-  height: 30px;
-  margin: 5px;
-  background-color: #ccc;
-  color: #000;
-  font-weight: bold;
-  border: none;
+/* Colours follow the A3 sliderule: each instruction format has a hue (strong + light shade),
+   immediate pieces are shades of that hue, registers are white, section bars teal, reserved red. */
+:root {
+  --section: #76a5af;
+  --reserved: #ff0000;
+  --unused: #000000;
+  --register: #ffffff;
+  --grid: #b7b7b7;
+  --text: #1f1f1f;
+  --page: #ffffff;
+  --muted: #f3f3f3;
+  --error: #c00000;
+}
+
+body {
+  background: var(--page);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 16px;
+}
+
+:root {
+  --spine-on: #1f1f1f;
+  --spine-off: #f1f4f5;
+  --spine-ink: #a9b4b8;
+  --focus: #45818e;
+}
+
+/* ---------- stage: both tables stay laid out (switching only flips visibility), one is shown ---------- */
+
+.stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: max-content;
+}
+
+.stage > .view {
+  grid-area: 1 / 1;
+}
+
+.stage > .view:not(.active) {
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Copy of the bit numbers and switches that slides across while switching tables. */
+.stage > table.ghost {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.stage > table.ghost :is(td, th) {
+  position: static;
+}
+
+/* ---------- sliderule table ---------- */
+
+table.sliderule {
+  border-collapse: collapse;
+  font-size: 11px;
+  table-layout: fixed;
+}
+
+.sliderule td,
+.sliderule th {
+  border: 1px solid var(--grid);
+  padding: 2px 3px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Title, as on the paper sheets (a caption: spans the table, not repeated on printed pages). */
+.sliderule > caption.title-cell {
+  padding: 0 0 10px;
+}
+
+.title-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+}
+
+.title-main { text-align: center; }
+.title-isa { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+.title-name { font-size: 15px; font-weight: bold; margin-top: 2px; }
+.title-credits { font-size: 10px; font-weight: normal; color: #555; margin-top: 4px; }
+.title-corner { display: flex; }
+.title-corner.right { justify-content: flex-end; text-align: right; }
+
+.mode-button,
+.pdf-button {
+  position: sticky;
+  left: 8px;
+  right: 8px;
+  padding: 8px 16px;
+  border: 2px solid var(--section);
+  border-radius: 6px;
+  background: var(--page);
+  color: var(--text);
+  font: bold 13px Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.mode-button:hover,
+.mode-button:focus-visible,
+.pdf-button:hover,
+.pdf-button:focus-visible {
+  background: var(--section);
+  color: #fff;
   outline: none;
+}
+
+.pdf-icon { font-size: 14px; }
+
+.sliderule .label-row th {
+  background: var(--section);
+  color: #fff;
+  font-size: 12px;
+  padding: 4px;
+}
+
+/* Bit numbers, switches and the encoder output stay in view while scrolling the table (tops set by script). */
+.sliderule .number-row > *,
+.sliderule .input-row > *,
+.sliderule .output-row > * {
+  position: sticky;
+  top: 0;
+  background: var(--page);
+  z-index: 2;
+}
+
+.sliderule .number-row > * { height: 16px; }
+#decoder .input-row > * { height: 40px; box-shadow: 0 1px 0 var(--grid); }
+#encoder .input-row > * { vertical-align: top; }
+#encoder .output-row > * { box-shadow: 0 1px 0 var(--grid); }
+
+.sliderule .bit-number {
+  font-weight: normal;
+}
+
+.sliderule .bit-head {
+  padding: 1px;
+}
+
+/* ---------- 0 / 1 / x switches ---------- */
+
+.tri {
+  display: flex;
+  flex-direction: column;
+  height: 38px;
+  border: 1px solid var(--grid);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--spine-off);
+}
+
+.tri:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.tri-half {
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--spine-ink);
+  font: bold 11px ui-monospace, Menlo, Consolas, monospace;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.tri-1 { border-bottom: 1px solid var(--grid); }
+.tri-half:not(:disabled):hover { background: #dbe6e8; color: var(--text); }
+.tri[data-state="1"] .tri-1,
+.tri[data-state="0"] .tri-0 { background: var(--spine-on); color: #fff; }
+.tri[data-state="-"] { background: repeating-linear-gradient(135deg, var(--spine-off) 0 4px, #e6ebed 4px 8px); }
+.tri-half:disabled { cursor: default; }
+.tri.tri-off { opacity: 0.25; }
+
+/* Marked bits: the operand under the mouse in the decoded instruction. */
+.tri.tri-mark { box-shadow: 0 0 0 2px #e69138; border-color: #e69138; }
+
+/* ---------- next to the switches: decoded instruction / encoder status and output ---------- */
+
+.sliderule .io-cell {
+  text-align: left;
+  padding: 3px 6px;
+  white-space: normal;
+  overflow: visible;
+}
+
+/* On screens narrower than the table, the inputs stay within the visible part of their cell. */
+.io {
+  position: sticky;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+}
+
+#encoder .output-row .io-cell:first-child .io { width: auto; }
+
+.io-tools { display: flex; gap: 4px; flex: none; }
+
+.io-result {
+  flex: 1;
+  min-width: 0;
+  font-size: 11px;
+  color: #555;
+  overflow: hidden;
+}
+
+.io-result.error { color: var(--error); font-weight: bold; }
+.io-line { display: flex; gap: 12px; align-items: center; white-space: nowrap; color: var(--text); }
+.io-line + .io-line { margin-top: 2px; }
+.io-asm { font: bold 13px ui-monospace, Menlo, Consolas, monospace; }
+.io-hex, .io-bin { font-family: ui-monospace, Menlo, Consolas, monospace; color: #555; }
+.io-note { color: #555; font-style: italic; margin-top: 2px; }
+.io-words { display: flex; flex-direction: column; gap: 1px; }
+.io-word { display: flex; gap: 12px; align-items: baseline; white-space: nowrap; }
+.io-hex-big { font: bold 14px ui-monospace, Menlo, Consolas, monospace; }
+.io-bin { letter-spacing: 0.5px; }
+.io-placeholder { color: #777; font-size: 11px; }
+
+.tool-button {
+  flex: none;
+  padding: 3px 10px;
+  border: 1px solid var(--grid);
+  border-radius: 4px;
+  background: var(--page);
+  color: var(--text);
+  font-size: 11px;
+  white-space: nowrap;
   cursor: pointer;
 }
 
-.bit-button:hover {
-  background-color: #ddd;
-}
+.tool-button:hover:not(:disabled),
+.tool-button:focus-visible { border-color: var(--section); background: #eef4f5; outline: none; }
+.tool-button:disabled { color: #aaa; cursor: default; }
 
+/* Assembly with coloured operands: mnemonic in the format hue, registers as white chips, immediates in the
+   immediate shade, fields (csr, rm, fence sets) outlined. Unknown operands (bits not set yet) are dashed. */
+.asm-line { font: bold 14px ui-monospace, Menlo, Consolas, monospace; white-space: pre; }
+.asm-token { padding: 1px 4px; border-radius: 3px; border: 1px solid transparent; }
+.asm-mnemonic { background: var(--strong); }
+.asm-reg { background: #ececec; }
+.asm-imm { background: color-mix(in srgb, var(--strong) 45%, white); }
+.asm-field { background: var(--muted); border-color: var(--grid); }
+.asm-token.unknown { background: transparent; border: 1px dashed var(--grid); color: #999; font-weight: normal; font-style: italic; }
+.asm-punct { color: #555; }
+.io-line .tool-button { padding: 1px 8px; }
 
-#bitStrip {
+/* ---------- encoder selectors ---------- */
+
+.selector-cell { padding: 4px 3px !important; text-align: left !important; overflow: visible !important; white-space: normal !important; }
+
+.carousel {
   display: flex;
-  flex-wrap: wrap;
+  align-items: stretch;
+  height: 24px;
+  border: 1px solid var(--grid);
+  border-radius: 4px;
+  background: var(--page);
+  font: 12px ui-monospace, Menlo, Consolas, monospace;
+  min-width: 0;
 }
 
+.carousel:hover, .carousel.open { border-color: var(--section); }
+.carousel:focus-within { outline: 2px solid var(--focus); outline-offset: 1px; }
 
-.input-wrapper {
-  position: relative;
-  display: inline-block;
-  width: 520px;
-  margin-bottom: 10px;
+.carousel-step {
+  flex: none;
+  width: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #888;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
 }
 
-.input-wrapper input {
-  padding: 5px;
-  border: 1px solid #ccc;
-  width: 100%;
+.carousel-step:hover:not(:disabled) { background: #eef4f5; color: var(--text); }
+.carousel-step:disabled { color: #ddd; cursor: default; }
+
+.carousel-value {
+  flex: 1;
+  min-width: 0;
+  padding: 0 2px;
+  border: none;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
-.input-wrapper input:focus::placeholder {
-  color: transparent;
+.carousel-value:focus { outline: none; }
+.carousel-value[class*="fmt-"] { background: var(--light); }
+.carousel-value.pseudo { background: var(--pseudo); color: #fff; }
+.mnemonic-carousel { height: 28px; font-size: 13px; }
+
+.carousel-popup {
+  position: absolute;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  max-width: 360px;
+  border: 1px solid var(--section);
+  border-radius: 6px;
+  background: var(--page);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  font: 12px ui-monospace, Menlo, Consolas, monospace;
+  overflow: hidden;
 }
+
+.carousel-popup:focus { outline: none; }
+.carousel-filter { margin: 6px; padding: 4px 6px; border: 1px solid var(--grid); border-radius: 4px; font: inherit; }
+.carousel-list { overflow-y: auto; padding: 2px 0; }
+.carousel-group { padding: 6px 8px 2px; color: #777; font: bold 10px Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+.carousel-option { display: flex; justify-content: space-between; gap: 16px; padding: 3px 8px; cursor: pointer; white-space: nowrap; }
+.carousel-option.active { background: #e3eef0; }
+.carousel-option.selected .carousel-option-label { font-weight: bold; }
+.carousel-option.selected::before { content: '✓'; margin-left: -4px; color: var(--focus); }
+.carousel-option-hint { color: #888; }
+.carousel-option.pseudo .carousel-option-label { color: #b000b0; }
+.carousel-empty { padding: 6px 8px; color: #888; }
+
+/* Operands: one row per operand, the name on the left. */
+.operand-panel { display: flex; flex-direction: column; gap: 3px; }
+.operand-row { display: grid; grid-template-columns: 40px 1fr; align-items: center; gap: 4px; }
+.operand-name { font: bold 11px ui-monospace, Menlo, Consolas, monospace; color: #555; text-align: right; }
+.operand-none { color: #888; font-size: 11px; padding: 4px 0; }
+.imm-control { display: grid; grid-template-columns: 1fr 86px; grid-template-rows: auto auto; gap: 1px 4px; align-items: center; }
+.imm-slider { grid-column: 1; width: 100%; margin: 0; accent-color: var(--focus); }
+.imm-field { grid-column: 2; width: 100%; box-sizing: border-box; padding: 2px 4px; border: 1px solid var(--grid); border-radius: 4px; font: 12px ui-monospace, Menlo, Consolas, monospace; }
+.imm-field:focus { outline: 2px solid var(--focus); outline-offset: 0; }
+.imm-field.invalid { border-color: var(--error); background: #fff0f0; }
+.imm-readout { grid-column: 1 / 3; font: 10px ui-monospace, Menlo, Consolas, monospace; color: #777; white-space: normal; }
+.imm-readout.error { color: var(--error); }
+
+/* Collapsible columns: a narrow strip with the title written vertically, click to expand. */
+.text-head.collapsible { cursor: pointer; user-select: none; vertical-align: top; }
+.text-head.collapsible:hover { background: #eef4f5; }
+.text-head.collapsible:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.collapse-icon::before { content: '«'; color: var(--focus); margin-right: 4px; }
+.sliderule.collapsed-description .text-head.description,
+.sliderule.collapsed-explanation .text-head.explanation { padding: 4px 0; }
+.sliderule.collapsed-description .text-head.description .collapse-icon::before,
+.sliderule.collapsed-explanation .text-head.explanation .collapse-icon::before { content: '»'; margin: 0 0 4px; }
+.sliderule.collapsed-description .text-head.description > span,
+.sliderule.collapsed-explanation .text-head.explanation > span { display: block; writing-mode: vertical-rl; margin: 0 auto; }
+.sliderule.collapsed-description td.description,
+.sliderule.collapsed-explanation td.explanation { font-size: 0; padding: 0; }
+
+/* The chosen instruction: placeholders show the selected values. */
+.text.operands.chosen { font-weight: bold; }
+.instruction-row.chosen .bit.field-reg { font-weight: bold; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tri-half, .mode-button, .pdf-button { transition: none; }
+}
+
+/* ---------- paper (?print renders the PDF): both sheets, no controls ---------- */
+
+.stage.print > .view { grid-area: auto; }
+.stage.print > .view:not(.active) { visibility: visible; height: auto; overflow: visible; }
+.stage.print { gap: 0; }
+.stage.print > .view + .view { break-before: page; }
+.stage.print .input-row,
+.stage.print .output-row,
+.stage.print .title-corner > *,
+.stage.print .collapse-icon { display: none; }
+.stage.print :is(.number-row, .input-row, .output-row) > * { position: static; }
+
+@page { size: A3 landscape; margin: 8mm; }
+
+@media print {
+  body { margin: 0; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* Format hues: same palette as the A3 sheet. R4 does not appear on paper: it gets its own tan. */
+.fmt-R, .fmt-CA   { --strong: #e06666; --light: #f4cccc; }
+.fmt-CR           { --strong: #ea9999; --light: #f4cccc; }
+.fmt-R4           { --strong: #c9a46b; --light: #f1e4cf; }
+.fmt-I, .fmt-CI, .fmt-CIW { --strong: #93c47d; --light: #d9ead3; }
+.fmt-S, .fmt-CS, .fmt-CSS { --strong: #ffd966; --light: #fff2cc; }
+.fmt-B, .fmt-CB   { --strong: #6d9eeb; --light: #c9daf8; }
+.fmt-U            { --strong: #8e7cc3; --light: #d9d2e9; }
+.fmt-J, .fmt-CJ   { --strong: #f6b26b; --light: #fce5cd; }
+.fmt-CL           { --strong: #c27ba0; --light: #ead1dc; }
+
+.section-row td {
+  background: var(--section);
+  color: #fff;
+  font-weight: bold;
+  text-align: left;
+  padding: 4px 8px;
+}
+
+.bit.unused { background: var(--unused); }
+.bit.field-reg, .bit.field-field { background: var(--register); }
+.bit.field-funct, .bit.lit-funct, .bit.lit-imm, .bit.lit-reg { background: var(--strong); font-weight: bold; }
+.bit.field-opcode, .bit.lit-opcode { background: var(--register); }
+.bit.field-imm { background: var(--strong); }
+
+/* Immediate pieces: four shades of the format hue, matched between instruction and immediate rows. */
+.bit.imm-0 { background: color-mix(in srgb, var(--strong) 100%, white); }
+.bit.imm-1 { background: color-mix(in srgb, var(--strong) 45%, white); }
+.bit.imm-2 { background: color-mix(in srgb, var(--strong) 70%, black); color: #fff; }
+.bit.imm-3 { background: color-mix(in srgb, var(--strong) 70%, white); }
+.bit.sext  { font-style: italic; }
+.bit.imm-zero { background: var(--muted); color: #777; }
+
+.text { text-align: left; }
+.group-row .group-title { background: var(--strong); font-weight: bold; }
+.group-row .group-pseudo { background: var(--light); font-weight: bold; }
+.instruction-row .text { background: var(--light); }
+.instruction-row .mnemonic { background: var(--strong); font-weight: bold; font-family: ui-monospace, Menlo, Consolas, monospace; cursor: pointer; }
+.instruction-row .operands,
+.instruction-row .expansion { font-family: ui-monospace, Menlo, Consolas, monospace; }
+.immediate-row .text { background: var(--strong); text-align: center; }
+.immediate-row .imm-desc { background: var(--light); }
+.text.type { background: var(--light); text-align: center; vertical-align: middle; white-space: normal; }
+.text.ext { background: var(--light); text-align: center; vertical-align: middle; font-weight: bold; }
+.text.reserved { background: var(--reserved); color: #fff; font-weight: bold; text-align: center; }
+.text.empty { text-align: center; color: #777; padding: 12px; }
+
+.instruction-row.decoded td { box-shadow: inset 0 0 0 2px #000; }
+
+/* Pseudo-instructions are magenta, as on the a2b sheet. Operands a pseudo-instruction fixes are plain white bits. */
+:root { --pseudo: #ff00ff; }
+.text.pseudo { background: var(--pseudo) !important; color: #fff; font-weight: bold; }
+.bit.lit-fixed { background: var(--register); font-weight: bold; }
+.bit.any { background: var(--muted); color: #777; }
+.text.explanation { background: var(--light); }
+
+/* Encoded words: the actual bits, coloured like their fields, with a dark frame. */
+.encoded-row td { box-shadow: inset 0 0 0 1px #000; font-weight: bold; }
+.encoded-row .encoded-asm { background: var(--strong); font-family: ui-monospace, Menlo, Consolas, monospace; text-align: left; }
+.encoded-row .encoded-hex { background: var(--light); font-family: ui-monospace, Menlo, Consolas, monospace; }
+.bit.value.field-reg, .bit.value.field-field { background: var(--muted); }
+
+/* HINTs (legal encodings with no architectural effect) and opcodes RV32GC leaves unused. */
+.text.hint { background: var(--muted); color: #555; font-style: italic; text-align: center; }
+.unused-row td { background: var(--muted); color: #777; }
+.unused-row .unused-name { font-weight: bold; text-align: center; }

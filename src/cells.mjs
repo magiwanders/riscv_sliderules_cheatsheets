@@ -161,7 +161,7 @@ function _credits() {
 }
 
 // The header above both sheets (it does not move when switching): the title and the Encoder / Decoder pill on the
-// left, the tools (PDF, Clear, Share) on the right; credits and the contribution link below. Tools and the
+// left, the tools (PDF, Clear, Share) on the right; credits, the license and the contribution link below. Tools and the
 // contribution link are left out of the PDF (no-print).
 export function sheetHeader({ switcher = null, tools = [] }) {
   return _div({ class: 'sheet-header' }, [
@@ -172,6 +172,7 @@ export function sheetHeader({ switcher = null, tools = [] }) {
     ]),
     _div({ class: 'header-sub' }, [
       _credits(),
+      _a({ class: 'license-note', href: 'https://creativecommons.org/licenses/by-sa/4.0/', target: '_blank', rel: 'noopener' }, 'Licensed under CC BY-SA 4.0'),
       _a({ class: 'contribute-link no-print', href: `${REPO}#contributing`, target: '_blank', rel: 'noopener' }, 'Contribute or report an issue ↗'),
     ]),
   ]);

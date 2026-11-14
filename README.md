@@ -1,7 +1,8 @@
 # RISC-V Sliderules
 
 An instruction **encoder** and **decoder** in the browser, laid out like the paper "sliderule" cheatsheets, for
-RISC-V RV32GC, the Zilog Z80, the MOS 6502 and the Hack computer of nand2tetris (choose one in the title):
+RISC-V RV32 with every ratified extension (1,142 instructions; it starts as RV32GC), the Zilog Z80, the MOS 6502 and the
+Hack computer of nand2tetris (choose one in the title):
 pick an instruction and read its bits, or set bits and read the instruction.
 
 **→ [sliderules.magiwanders.com](https://sliderules.magiwanders.com)**
@@ -82,11 +83,14 @@ descriptions, pseudocode, flags, HINT and reserved rows, register meanings.
 
 | Instruction set | Sail | TableGen |
 | --- | --- | --- |
-| RV32GC | The official [RISC-V Sail model](https://github.com/riscv/sail-riscv) | [LLVM](https://github.com/llvm/llvm-project)'s RISC-V target |
+| RV32 | The official [RISC-V Sail model](https://github.com/riscv/sail-riscv) | [LLVM](https://github.com/llvm/llvm-project)'s RISC-V target |
 | 6502 | **Unofficial**, written for these sheets: no Sail model of the 6502 exists | [llvm-mos](https://github.com/llvm-mos/llvm-mos) (LLVM for the 6502, not upstream LLVM) |
 | Z80 | **Unofficial**, written for these sheets from Zilog's manual | **Unofficial**, likewise |
 | Hack | **Unofficial**, written for these sheets from the nand2tetris book | **Unofficial**, likewise |
 
+For RV32 a third source joins them: RISC-V International's [Unified Database](https://github.com/riscv-software-src/riscv-unified-db),
+which every encoding must also agree with, and whose names start the descriptions. A few ratified extensions are not in
+the Sail model yet (Q, Zcmp, Zcmt, Zilsd, Zclsd, Smrnmi): their instructions come from LLVM and the Unified Database.
 The unofficial descriptions (`spec/unofficial/`) are only the encoding side of a model (no execute clauses); `llvm-tblgen`
 reads the TableGen ones, the Sail compiler has not checked the Sail ones. What makes the sheets trustworthy is the
 testing below: two independent assemblers per instruction set. `npm run isa` generates `src/isa/generated/` from all of
@@ -135,7 +139,7 @@ bits grey, the unused upper half of a compressed instruction black.
 
 | Instruction set | Version | Tested against | Coverage |
 | --- | --- | --- | --- |
-| RV32GC | v1.0 | GNU as 2.45, LLVM llvm-mc 23.1.5 | 976 vectors each over 212 of the 226 instructions and pseudo-instructions, plus known encodings and round trips of all of them |
+| RV32 | v1.0 | GNU as 2.45, LLVM llvm-mc 23.1.5 | 6,765 vectors each, in three extension profiles (RV32GC; every extension that can be on with the others; floats in integer registers with Zcmp, Zcmt, Zclsd), over 1,577 of the 1,615 instructions and pseudo-instructions they hold; known encodings and round trips of all of them in each profile |
 | 6502 | v0.1 | py65 1.2.0, ca65 2.19 | 725 vectors (724 for ca65) over the 151 official opcodes; the opcode table equals py65's across all 256 opcodes |
 | Z80 | v0.1 | skoolkit 10.2, sjasmplus 1.24.0 | 617 vectors each over the 166 documented forms; all 1,786 opcodes behind every prefix agree with skoolkit, apart from the undocumented ones left out on purpose and `ED 63` / `ED 6B`, which skoolkit only knows as an option |
 | Hack | v0.1 | Known encodings | The assembly of the nand2tetris examples, and round trips of every instruction; every word of `Pong.hack` was once checked to decode and reassemble to itself (not part of `npm test`) |
@@ -143,8 +147,11 @@ bits grey, the unused upper half of a compressed instruction black.
 
 **Every sheet with assemblers is bit-perfect against two of them:** every encodable instruction and pseudo-instruction
 is encoded by the sheet with random operands and the edges of its immediate's range, the same lines are assembled by
-each assembler, and the bytes must match bit for bit. For RV32GC, GNU as and llvm-mc must also agree with each other.
-The 14 RV32GC pseudo-instructions left out (`call`, `tail`, `la`, global loads and stores, ...) depend on the linker; ca65
+each assembler, and the bytes must match bit for bit. For RV32, GNU as and llvm-mc must also agree with each other; some
+extensions take the same encodings (Zfinx is F's in integer registers, Zclsd takes C + F's, Zcmp and Zcmt C + D's), so
+the toggles never have both on and the assemblers check three profiles that together hold every instruction. Vector
+registers are chosen so that no group overlaps another or the mask, as assemblers require. The 38 RV32 pseudo-instructions
+left out (`call`, `tail`, `la`, global loads and stores, ...) depend on the linker; ca65
 refuses `JMP ($xxFF)` (the NMOS page bug), so those cases are left out for it. `npm test` also generates the data again
 from its sources and fails if the committed files differ, which re-checks Sail against TableGen bit by bit.
 

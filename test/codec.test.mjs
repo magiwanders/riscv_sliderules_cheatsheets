@@ -16,7 +16,6 @@ const KNOWN = [
   ['fence', [0x0ff0000f]],
   ['fence.i', [0x0000100f]],
   ['fence.tso', [0x8330000f]],
-  ['pause', [0x0100000f]],
   ['csrr a0, mhartid', [0xf1402573]],
   ['auipc ra, 0', [0x00000097]],
   ['lui a0, 0x12345', [0x12345537]],

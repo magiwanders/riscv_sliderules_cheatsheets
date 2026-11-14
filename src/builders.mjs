@@ -130,10 +130,10 @@ function _controlFor({ codec = null, token = 'rd', info = {}, memory = {}, onCha
   return Carousel({ options, value, label: token, onChange: (v) => { memory[key] = v; onChange(); } });
 }
 
-function _valueText({ codec = null, token = 'rd', info = {}, memory = {} }) {
+function _valueText({ codec = null, token = 'rd', info = {}, memory = {}, entry = null }) {
   const key = codec.tokenKey(token);
   if (info.kind === 'sp') return 'sp';
-  if (info.kind === 'enum' || info.key) return codec.operandText({ key, value: memory[key] });
+  if (info.kind === 'enum' || info.key) return codec.operandText({ key, value: memory[key], fields: memory, inst: entry });
   if (info.kind === 'reg') return (info.fp ? F_ABI : X_ABI)[memory[key]];
   if (info.kind === 'imm') return String(memory.imm);
   return String(memory[key]);
@@ -198,8 +198,9 @@ export function OperandPanel({ codec = null, onChange = () => {} }) {
   // The operands as assembly text (what encodeEntry parses) and the memory ordering suffix.
   panel.read = () => {
     if (!_entry) return { entry: null, operands: null, ordering: '' };
-    const operands = _template.map((op) => templateParts({ op })
-      .map((part) => (part.token ? _valueText({ codec, token: part.token, info: operandInfo({ entry: _entry, token: part.token }), memory }) : part.text))
+    // an operand at the value that leaves it out (an unmasked vm) is not written at all
+    const operands = _template.filter((op) => !codec.isOmitted({ key: op, value: memory[op] })).map((op) => templateParts({ op })
+      .map((part) => (part.token ? _valueText({ codec, token: part.token, info: operandInfo({ entry: _entry, token: part.token }), memory, entry: _entry }) : part.text))
       .join('')).join(', ');
     return { entry: _entry, operands, ordering: _hasOrdering({ entry: _entry }) ? memory.ordering || '' : '' };
   };

@@ -1,0 +1,96 @@
+// =======================================================================================
+// This Sail RISC-V architecture model, comprising all files and
+// directories except where otherwise noted is subject the BSD
+// two-clause license in the LICENSE file.
+//
+// SPDX-License-Identifier: BSD-2-Clause
+// =======================================================================================
+
+// Cache Block Operations - Zero
+
+function clause currentlyEnabled(Ext_Zicboz) = hartSupports(Ext_Zicboz)
+
+// *****************************************************************
+union clause instruction = ZICBOZ : (regidx)
+
+$[wavedrom "CBO.ZERO base CBO _ MISC-MEM"]
+mapping clause encdec = ZICBOZ(rs1)
+  <-> 0b000000000100 @ encdec_reg(rs1) @ 0b010 @ 0b00000 @ 0b0001111
+  when currentlyEnabled(Ext_Zicboz)
+
+mapping clause assembly = ZICBOZ(rs1)
+  <-> "cbo.zero" ^ spc() ^ "(" ^ opt_spc() ^ reg_name(rs1) ^ opt_spc() ^ ")"
+
+function clause execute ZICBOZ(rs1) = {
+  match feature_enabled_for_priv(cur_privilege, menvcfg[CBZE], read_senvcfg()[CBZE], read_henvcfg()[CBZE]) {
+    FEATURE_ENABLED => (),
+    FEATURE_ILLEGAL => return Illegal_Instruction(),
+    FEATURE_VIRTUAL => return Virtual_Instruction(),
+  };
+
+  let rs1_val = X(rs1);
+  let cache_block_size = 2 ^ plat_cache_block_size_exp;
+  let access : MemoryAccessType(mem_payload) = CacheAccess(CB_zero());
+  let access_info = default_access_info(access);
+  let eff_priv = access_info.eff_privilege;
+
+  // Offset from rs1 to the beginning of the cache block. This is 0 if rs1
+  // is aligned to the cache block, or negative if rs1 is misaligned.
+  let negative_offset = (rs1_val & ~(zero_extend(ones(plat_cache_block_size_exp)))) - rs1_val;
+
+  match get_transformed_data_addr(rs1, negative_offset, access, access_info, cache_block_size) {
+    Ext_DataAddr_Error(e) => Ext_DataAddr_Check_Failure(e),
+    Ext_DataAddr_OK(vaddr) => {
+
+      // Triggers match on the addresses in the whole cache block.
+      match match_memory_trigger_before(cur_privilege, TriggerAddress(TriggerAddress_Store, bits_of(vaddr), cache_block_size)) {
+        Some(pti) => return PendingTrigger(pti),
+        None()    => (),
+      };
+
+      // "An implementation may update the bytes in any order and with any granularity
+      //  and atomicity, including individual bytes."
+      //
+      // This implementation does a single atomic write.
+      let vaddr_for_error = vaddr - negative_offset;
+      match translateAddr(vaddr, access, eff_priv) {
+        // vaddr is the aligned address, but errors report the address that
+        // was encoded in the instruction. We subtract the negative offset
+        // (add the positive offset) to get it. Normally this will be
+        // equal to rs1, but pointer masking can change that.
+        Err(e, _) => trap({ e with excinfo = bits_of(vaddr_for_error) }),
+        Ok(paddr, pbmt, _) => {
+
+          // `exception_vaddr()` is expecting the physical addresses
+          // corresponding to the faulting virtual address, so they
+          // need to be offset like the virtual address was done for
+          // the `trap()` above.
+          let paddr_for_error = paddr - negative_offset;
+
+          match mem_write_ea(paddr, cache_block_size, eff_priv, access, pbmt, false, false, false) {
+            Err(exc_addr, e) => {
+              // Cache accesses should not get split.
+              assert(exc_addr == paddr);
+              // See above.
+              let exc_vaddr = exception_vaddr(access_info, vaddr_for_error, paddr_for_error, paddr_for_error);
+              memory_exception(e, exc_vaddr, access_info)
+            },
+            Ok(_)  => {
+              match mem_write_value(paddr, cache_block_size, zeros(), eff_priv, access, pbmt, false, false, false) {
+                Ok(true)  => RETIRE_SUCCESS,
+                Ok(false) => internal_error(__FILE__, __LINE__, "store got false from mem_write_value"),
+                Err(exc_addr, e) => {
+                  // Cache accesses should not get split.
+                  assert(exc_addr == paddr);
+                  // See above.
+                  let exc_vaddr = exception_vaddr(access_info, vaddr_for_error, paddr_for_error, paddr_for_error);
+                  memory_exception(e, exc_vaddr, access_info)
+                },
+              }
+            }
+          }
+        }
+      }
+    },
+  }
+}

@@ -11,7 +11,7 @@ the most common changes, adding a RISC-V extension or a whole instruction set, h
 | `src/isa/rv32gc.mjs`, `hack.mjs`, `mos6502.mjs`, `z80.mjs` | One module per instruction set, what the codec reads: formats, decoder sections, groups, instructions, unused opcodes, pseudo-instructions, and the set's own settings (spine, immediates, decode order, ...). Encodings are strings in the spec's notation. Each re-exports its data, registers included, from `generated/`. |
 | `src/isa/generated/` | **Generated, do not edit**: the instruction data and registers of every set, written by `npm run isa`. |
 | `src/isa/overlay/*.json` | What the sheets show that Sail and TableGen do not carry: sections, groups, titles, descriptions, pseudocode, flags, HINT / reserved rows, the order of rows, unused opcodes, pseudo-instructions, register meanings, and the few presentation overrides. Edit these. |
-| `spec/` | The sources. Official, pinned (do not edit): the Sail model's RV32GC files (`spec/sail-riscv/`), LLVM's RISC-V and llvm-mos's 6502 `.td` files and their TableGen extracts (`spec/llvm/`). Unofficial, this project's own (edit, then `npm run isa`): Sail and TableGen of the Z80 and Hack, Sail of the 6502 (`spec/unofficial/`). `spec/README.md` has the versions and how to update them. |
+| `spec/` | The sources. Official, pinned (do not edit): the Sail model's RV32 files (`spec/sail-riscv/`), LLVM's RISC-V and llvm-mos's 6502 `.td` files and their TableGen extracts (`spec/llvm/`), the RISC-V Unified Database's instructions (`spec/udb/`). Unofficial, this project's own (edit, then `npm run isa`): Sail and TableGen of the Z80 and Hack, Sail of the 6502 (`spec/unofficial/`). `spec/README.md` has the versions and how to update them. |
 | `tools/isa/` | The generators: `sail.mjs` reads Sail encodings, `tablegen.mjs` extracts TableGen (`npm run isa:tablegen`), `gen-rv32gc.mjs`, `gen-mos6502.mjs`, `gen-retro.mjs` (Z80, Hack) check Sail against TableGen and merge them with the overlay into `src/isa/generated/`. |
 | `src/isa/isas.mjs` | The instruction sets of the title's selector: `isas`, listed under their `family` (`families` names them). Those with a `codec` have sheets; the others show a `<Coming soon>` placeholder (`_selectIsa` in `src/sliderule.mjs`). `extensions` gives a member the extension toggles. |
 | `src/isa/riscv-extensions.mjs` | The ratified RISC-V extensions the toggles show: the letters, the Z extensions folded under each, G and the bundles (B, Zk), what each needs, the ISA string. `withExtensions` in `rv32gc.mjs` makes the sheets of a set of them. |
@@ -61,12 +61,15 @@ The colours come from the original spreadsheet sheets (Google Sheets' palette) a
 | J, CJ | orange | `#f6b26b` | `#fce5cd` |
 | CL | magenta | `#c27ba0` | `#ead1dc` |
 | R4 | tan (not on paper, custom) | `#c9a46b` | `#f1e4cf` |
+| V (vector arithmetic) | blue | `#6fa8dc` | `#cfe2f3` |
+| VL, VS (vector loads / stores) | as I, S | | |
+| CLB, CLH / CSB, CSH, CMPP / CU (Zcb, Zcmp) | as CL / CS, CSS / CA | | |
 
 - **A compressed format reuses the hue of the 32 bit format it mirrors** (CA → R, CI / CIW → I, CS / CSS → S, CB → B,
   CJ → J). Give it the *light 2* shade as `--strong` only when it has to be told apart from a sibling in the same
   decoder section (as CR is from CA).
-- **A genuinely new format gets a hue nobody uses yet**, as a *light 1* / *light 3* pair. Still free: blue
-  (`#6fa8dc` / `#cfe2f3`). Teal-cyan is taken by the section bars, greys by the grid (`#b7b7b7`) and `--muted`. If you need a
+- **A genuinely new format gets a hue nobody uses yet**, as a *light 1* / *light 3* pair. The palette's last free
+  hue, blue (`#6fa8dc` / `#cfe2f3`), went to the vector format V. Teal-cyan is taken by the section bars, greys by the grid (`#b7b7b7`) and `--muted`. If you need a
   colour outside the palette, pick a strong shade that dark text reads well on and a light shade around 80 % towards
   white, as R4's tan does.
 - **Never reuse the reserved colours** for a format: section bars and the bit-number row `--section` `#76a5af`
@@ -87,8 +90,10 @@ The colours come from the original spreadsheet sheets (Google Sheets' palette) a
 
 ## Adding an extension
 
-RV32GC's data is generated (`npm run isa`, `tools/isa/gen-rv32gc.mjs`): encodings and assembly from the Sail model and
-LLVM's TableGen, everything else from `src/isa/overlay/rv32gc.json`. The generator stops with a message naming what is
+RV32 has every ratified extension the Sail model, LLVM and the Unified Database know; a new one (once ratified) goes in
+`EXTENSION_TREE` of `src/isa/riscv-extensions.mjs` (with `REQUIRES` / `CONFLICTS`), and its instructions follow these
+steps. RV32's data is generated (`npm run isa`, `tools/isa/gen-rv32gc.mjs`): encodings and assembly from the Sail model
+and LLVM's TableGen, checked against the Unified Database, everything else from `src/isa/overlay/rv32gc.json`. The generator stops with a message naming what is
 missing or disagrees, so the order below is the order its messages come in. Work through these in order.
 
 1. **Sail**: copy the extension's `*_insts.sail` (and the types / mappings it uses) from the pinned sail-riscv tag into
@@ -97,20 +102,25 @@ missing or disagrees, so the order below is the order its messages come in. Work
    in `tools/isa/sail.mjs`, mirroring its Sail definition.
 2. **TableGen**: allow the extension's predicate in `TARGETS.RISCV` of `tools/isa/tablegen.mjs` and extract again (see
    `spec/README.md`). Sail and TableGen must then agree on every bit: the generator pairs each Sail encoding with one
-   LLVM instruction. Instructions only one of them has go in `EXCLUDE_SAIL` / `EXCLUDE_LLVM` with a reason.
+   LLVM instruction (several LLVM instructions may share one Sail clause: the 32 mop.r.N). Instructions only one of them
+   has go in `EXCLUDE_SAIL` / `EXCLUDE_LLVM` with a reason; an extension the Sail model lacks goes in `LLVM_ONLY`, and its
+   instructions then need the Unified Database (`spec/udb`) as their second source.
 3. **Groups** (`groups` in the overlay). A group is one header row of the decoder: instructions sharing a format and
    a meaning, usually a major opcode or a funct3 family. Give it `section` (`q0`–`q2` compressed quadrants, `q3`
    32 bit), `format` (must be LLVM's format of its members), `extension` (the name shown in the Ext column, e.g.
    `'Zba'`), `title` and `pseudocode`.
 4. **Rows** (`instructions` in the overlay, in order: the decoder breaks ties by it). One object per row:
-   - instructions: `group`, `name` (the mnemonic), `description`, `pseudocode`, `expands` for a compressed
+   - instructions: `group`, `def` (the LLVM instruction: mnemonics repeat, as F's and Zfinx's fadd.s), `description`,
+     `pseudocode`, `expands` for a compressed
      instruction's 32 bit equivalent. `enc`, `asm`, `fregs`, `extension`, `asmShift`, `rmDefault`, `nonZeroImm` and the
      register constraints are generated; the README's *How the sheets are drawn* gives the rules;
    - HINT and reserved rows: `group`, `hint: true` or `reserved: true`, `enc`, `description`. A row that equals an
      instruction of its group with one operand fixed takes that value away from it (c.li's HINT row makes its `rd!=0`).
      `sail: 'CTOR'` ties a row to a Sail encoding LLVM spells as something else (PAUSE);
    - overrides, only where the spec's tables draw something differently: `dontCare` (bit ranges `'19:15'` the hardware
-     ignores), `cells` (cell widths in bits, msb first, re-splitting literal runs), `immName`.
+     ignores), `cells` (cell widths in bits, msb first, re-splitting literal runs), `immName`, `zero` (fields the
+     assembly cannot set, written as 0: vsetvli's vtr). A group whose sheet format is not LLVM's says so in `llvmFormats`
+     (vector instructions are LLVM's R, the sheets' V).
    Masks, matching, decoding, encoding, table cells and the encoder's selectors all follow from the generated strings.
 5. **New format?** Add it to `formats` in the overlay (`title`, `width`, `layout` of `[name, hi, lo, role]` with roles
    `opcode`, `funct`, `reg`, `imm`; the layout also cuts cells) and give it a `.fmt-<NAME>` colour pair in
@@ -180,9 +190,10 @@ npm run dev        # look at both sheets: http://localhost:5173
 
 - Add a few encodings you can cite (spec examples, objdump output) to `KNOWN` in `test/codec.test.mjs`.
 - `npm run vectors` needs a RISC-V GNU toolchain (`riscv-none-elf-as`, or set `RISCV_PREFIX`), `npm run vectors:llvm`
-  llvm-mc and llvm-objdump with the RISC-V target. Add the extension to `MARCH` in `test/gen-gnu-vectors.mjs` and
-  `MATTR` in `test/gen-llvm-vectors.mjs`; PC-relative groups go in `PC_RELATIVE`, pseudo-instructions that need
-  relocations in `RELOCATED` (`test/riscv-text.mjs`). Commit the regenerated vectors with the change.
+  llvm-mc and llvm-objdump with the RISC-V target. Both assemble the profiles of `test/riscv-profiles.mjs` (their
+  `-march` / `-mattr` follow from the extensions); an extension that conflicts with others goes in the profile that has
+  room for it. PC-relative groups go in `PC_RELATIVE`, pseudo-instructions that need relocations in `RELOCATED`
+  (`test/riscv-text.mjs`). Commit the regenerated vectors with the change.
 - In the browser: pick the new instructions in the encoder (each operand selector, extreme immediates), paste their
   words into the decoder, and check the colours and the decoder's grouping.
 - `dist/` is git-ignored; building it deploys the live site, so only run `npm run build` when asked.

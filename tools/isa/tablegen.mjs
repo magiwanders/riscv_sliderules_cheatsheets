@@ -15,8 +15,18 @@ import { mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { allExtensions } from '../../src/isa/riscv-extensions.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
+
+// The RISC-V predicates of ratified extensions: HasStdExtX for an extension the toggles know (or one of its parts),
+// HasStdExtXOrY when one of them is, the vector predicates, RV32. Not RV64-only, vendor or draft extensions.
+const _RATIFIED = new Set([...allExtensions(), 'Zca', 'Zcf', 'Zcd', 'Zmmul', 'Zaamo', 'Zalrsc', 'Zve32x', 'Zve32f', 'Zve64x', 'Zve64f', 'Zve64d']);
+function _ratified(predicate) {
+  if (['IsRV32', 'HasVInstructions', 'HasVInstructionsAnyF', 'HasVInstructionsI64', 'HasHalfFPLoadStoreMove', 'HasStdExtFOrZfinx'].includes(predicate)) return true;
+  const m = predicate.match(/^HasStdExt(\w+)$/);
+  return Boolean(m) && m[1].split(/Or(?=[A-Z])/).some((e) => _RATIFIED.has(e));
+}
 const ROOT = join(HERE, '..', '..');
 
 export function dumpRecords({ tblgen = 'llvm-tblgen', llvm = '', target = 'RISCV', td = null, includes = [] }) {
@@ -34,15 +44,17 @@ export function dumpRecords({ tblgen = 'llvm-tblgen', llvm = '', target = 'RISCV
 
 const _def = (value) => (value && typeof value === 'object' && value.kind === 'def' ? value.def : value);
 
-// Register numbers of a register class, from its MemberList dag (add / sub / sequence of named registers).
+// Register numbers of a register class, from its MemberList dag (add / sub / and / sequence of named registers, and
+// the decimate / trunc / shl / rotl of register tuples): a tuple, such as the vector group V8M2, counts as the number of
+// its first register. Names a sequence makes that are not registers (tuples of other strides) are left out.
 function _members({ records, name, seen = new Set() }) {
   if (seen.has(name)) throw new Error(`register class ${name} refers to itself`);
   const record = records[name];
-  if (!record) throw new Error(`no record ${name}`);
+  if (!record) return [];
   if (!record['!superclasses'].includes('RegisterClass')) {
-    const number = record.HWEncoding ? record.HWEncoding.reduce((v, bit, i) => v + (bit ? 2 ** i : 0), 0) : null;
-    if (number === null) throw new Error(`${name} is neither a register class nor a register`);
-    return [number];
+    if (record.HWEncoding) return [record.HWEncoding.reduce((v, bit, i) => v + (bit ? 2 ** i : 0), 0)];
+    if (record.SubRegs && record.SubRegs.length) return _members({ records, name: _def(record.SubRegs[0]), seen });
+    throw new Error(`${name} is neither a register class nor a register`);
   }
   const evaluate = (node) => {
     if (node.kind === 'def') return _members({ records, name: node.def, seen: new Set([...seen, name]) });
@@ -50,17 +62,24 @@ function _members({ records, name, seen = new Set() }) {
     const op = node.operator.def;
     const args = node.args.map(([value]) => value);
     if (op === 'add') return args.flatMap(evaluate);
-    if (op === 'sub') {
+    if (op === 'sub' || op === 'and') {
       const [first, ...rest] = args.map(evaluate);
-      const removed = new Set(rest.flat());
-      return first.filter((n) => !removed.has(n));
+      const others = new Set(rest.flat());
+      return first.filter((n) => (op === 'sub' ? !others.has(n) : others.has(n)));
     }
     if (op === 'sequence') {
-      const [format, from, to] = args;
+      const [format, from, to, stride = 1] = args;
       const names = [];
-      for (let i = from; from <= to ? i <= to : i >= to; i += from <= to ? 1 : -1) names.push(format.replace('%u', i));
+      const step = from <= to ? stride : -stride;
+      for (let i = from; from <= to ? i <= to : i >= to; i += step) names.push(format.replace('%u', i));
       return names.flatMap((n) => _members({ records, name: n, seen: new Set([...seen, name]) }));
     }
+    const [list, n] = [evaluate(args[0]), args[1]];
+    if (op === 'decimate') return list.filter((_, i) => i % n === 0);
+    if (op === 'trunc') return list.slice(0, n);
+    if (op === 'shl') return list.slice(n);
+    if (op === 'rotl') return [...list.slice(n), ...list.slice(0, n)];
+    if (op === 'rotr') return [...list.slice(-n), ...list.slice(0, -n)];
     throw new Error(`register class ${name}: operator ${op} not supported`);
   };
   return evaluate(record.MemberList);
@@ -134,19 +153,15 @@ export function compactTarget({ records, keepInstruction = () => true, keepAlias
 // ---------------------------------------------------------------- targets
 
 const TARGETS = {
-  // RV32GC: the base, M, A, F, D, C and their parts, without the AQ / RL copies of the atomics (aq and rl are fields
-  // on the sheet) and without code generation pseudos.
+  // RV32 with every ratified extension of the toggles (src/isa/riscv-extensions.mjs) and their parts, without the AQ / RL
+  // copies of the atomics (aq and rl are fields on the sheet), RV64-only and code generation pseudos.
   RISCV: {
     keepInstruction: ({ name, record }) => {
       if (record.isPseudo || record.isCodeGenOnly || !record['!superclasses'].includes('RVInstCommon')) return false;
       if (/_(AQ|RL|AQRL)$/.test(name)) return false;
-      const allowed = /^(IsRV32|HasStdExt(Zca|Zcf|Zcd|F|D|M|Zmmul|Zaamo|Zalrsc|Zicsr|Zifencei|Zihintpause))$/;
-      return (record.Predicates || []).every((p) => allowed.test(_def(p)));
+      return (record.Predicates || []).every((p) => _ratified(_def(p)));
     },
-    keepAlias: ({ record }) => {
-      const allowed = /^(IsRV32|HasStdExt(Zca|Zcf|Zcd|F|D|M|Zmmul|Zaamo|Zalrsc|Zicsr|Zifencei|Zihintpause|FOrZfinx))$/;
-      return (record.Predicates || []).every((p) => allowed.test(_def(p)));
-    },
+    keepAlias: ({ record }) => (record.Predicates || []).every((p) => _ratified(_def(p))),
     // the registers sheet: integer and floating-point registers with their ABI names, and the CSRs' addresses
     extra: ({ records }) => {
       const number = (bits) => bits.reduce((v, bit, i) => v + bit * 2 ** i, 0);

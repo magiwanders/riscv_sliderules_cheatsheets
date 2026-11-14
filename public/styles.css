@@ -517,7 +517,13 @@ table.registers-sheet { table-layout: auto; }
 .fmt-B, .fmt-CB   { --strong: #6d9eeb; --light: #c9daf8; }
 .fmt-U            { --strong: #8e7cc3; --light: #d9d2e9; }
 .fmt-J, .fmt-CJ   { --strong: #f6b26b; --light: #fce5cd; }
-.fmt-CL           { --strong: #c27ba0; --light: #ead1dc; }
+.fmt-CL, .fmt-CLB, .fmt-CLH { --strong: #c27ba0; --light: #ead1dc; }
+/* Vector arithmetic: a format of its own, the palette's free blue; vector loads / stores mirror loads / stores. Zcb's
+   loads / stores mirror CL / CS, its unary CU mirrors CA, Zcmp's push / pop the stack-relative CSS. */
+.fmt-V            { --strong: #6fa8dc; --light: #cfe2f3; }
+.fmt-VL           { --strong: #93c47d; --light: #d9ead3; }
+.fmt-VS, .fmt-CSB, .fmt-CSH, .fmt-CMPP { --strong: #ffd966; --light: #fff2cc; }
+.fmt-CU           { --strong: #e06666; --light: #f4cccc; }
 /* The other instruction sets take the hue of what their formats mirror: operands in registers red, immediates green,
    short addresses yellow, long ones blue, pointers purple, relative jumps orange (see CLAUDE.md). */
 .fmt-C, .fmt-IMP, .fmt-ACC, .fmt-REG { --strong: #e06666; --light: #f4cccc; }

@@ -3,7 +3,14 @@ import * as rv32gc from './rv32gc.mjs';
 // Matching, decoding and encoding driven by the spec-notation encodings of an instruction set. Everything an instruction
 // set is (a module such as rv32gc.mjs or z80.mjs) goes through createCodec, which returns the functions for that set.
 
-const REG = /^(rd|rs1|rs2|rs3)('?)(?:\/(?:rd|rs1|rs2)'?)?(?:!=(\d+|\{[\d,]+\}))?$/;
+const REG = /^(rd|rs1|rs2|rs3)('?)(?:\/(?:rd|rs1|rs2)'?)?(?:(!=|=)(\d+|\{[\d,]+\}))?$/;
+// A constraint on a field: "!=0", "!={0,2}" (not these) or "={1,5}" (only these, of the field's values in `range`).
+function _excluded({ op = null, list = '', range = [] }) {
+  if (!op) return [];
+  const values = list.replace(/[{}]/g, '').split(',').map(Number);
+  return op === '!=' ? values : range.filter((n) => !values.includes(n));
+}
+const _constraintLabel = (token) => token.replace(/!=\{?([\d,]+)\}?/, ' ≠ $1').replace(/=\{?([\d,]+)\}?/, ' ∈ $1').replace(/,/g, ', ');
 const FIELDS = { aq: 1, rl: 1, rm: 3, pred: 4, succ: 4 };
 const REGISTER_KEYS = ['rd', 'rs1', 'rs2', 'rs3', 'rs', 'rt'];
 
@@ -64,7 +71,8 @@ function _lo({ value = 0 }) {
   return (value - (((value + 0x800) >> 12) << 12)) | 0;
 }
 
-// Operands of an assembly template; commas inside parentheses belong to the operand, as in "(zp,X)".
+// Operands of an assembly template; commas inside parentheses or braces belong to the operand, as in "(zp,X)" or
+// Zcmp's "{ra, s0-s1}".
 export function splitOperands({ text = '' }) {
   const operands = [''];
   let depth = 0;
@@ -73,7 +81,7 @@ export function splitOperands({ text = '' }) {
       operands.push('');
       continue;
     }
-    depth += c === '(' ? 1 : c === ')' ? -1 : 0;
+    depth += c === '(' || c === '{' ? 1 : c === ')' || c === '}' ? -1 : 0;
     operands[operands.length - 1] += c;
   }
   return operands.map((op) => op.trim()).filter((op) => op !== '');
@@ -141,17 +149,21 @@ export function createCodec(spec) {
     const segments = [];
     for (const token of enc.trim().split(/\s+/)) {
       let m;
-      if (OPERANDS[token]) {
-        const { width, exclude = [], names } = OPERANDS[token];
-        segments.push({ kind: 'field', key: token, label: token, width, exclude, numeric: !names });
+      const op = token.match(/^(\w+)(?:(!=|=)(\d+|\{[\d,]+\}))?$/);
+      if (op && OPERANDS[op[1]]) {
+        // an operand of the set's own, possibly with a constraint of this instruction (vd!={0,1})
+        const { width, exclude = [], names } = OPERANDS[op[1]];
+        const own = _excluded({ op: op[2], list: op[3], range: Array.from({ length: 2 ** width }, (_, n) => n) });
+        segments.push({ kind: 'field', key: op[1], label: _constraintLabel(token), width, exclude: [...new Set([...exclude, ...own])], numeric: !names });
       } else if (/^[01]+$/.test(token)) {
         segments.push({ kind: 'lit', label: token, width: token.length, bits: token });
       } else if (/^-+$/.test(token)) {
         segments.push({ kind: 'any', label: '–', width: token.length });
       } else if ((m = token.match(REG))) {
-        const exclude = m[3] ? m[3].replace(/[{}]/g, '').split(',').map(Number) : [];
-        const label = token.replace(/!=\{?([\d,]+)\}?/, ' ≠ $1').replace(/,/g, ', ');
-        segments.push({ kind: 'reg', key: m[1], compressed: m[2] === "'", width: m[2] ? 3 : 5, exclude, label });
+        // register numbers: x8-x15 for a compressed field
+        const range = Array.from({ length: m[2] ? 8 : 32 }, (_, n) => (m[2] ? n + 8 : n));
+        const exclude = _excluded({ op: m[3], list: m[4], range });
+        segments.push({ kind: 'reg', key: m[1], compressed: m[2] === "'", width: m[2] ? 3 : 5, exclude, label: _constraintLabel(token) });
       } else if ((m = token.match(IMM))) {
         if (m[1] === 'csr') {
           segments.push({ kind: 'field', key: 'csr', label: token, width: 12 });
@@ -231,14 +243,14 @@ export function createCodec(spec) {
       const top = msb - inst.asmShift;
       return { min: -(2 ** top), max: 2 ** top - 1, step: 1, nonZero: inst.immNonZero };
     }
-    return inst.immSigned
-      ? { min: -(2 ** msb), max: 2 ** msb - step, step, nonZero: inst.immNonZero }
-      : { min: 0, max: 2 ** (msb + 1) - step, step, nonZero: inst.immNonZero };
+    // immMin: a floor of the range (cm.jalt's index from 32, below it is cm.jt)
+    const min = inst.immSigned ? -(2 ** msb) : Math.max(0, inst.immMin ?? 0);
+    return { min, max: inst.immSigned ? 2 ** msb - step : 2 ** (msb + 1) - step, step, nonZero: inst.immNonZero };
   }
 
   function _satisfiesFieldConstraints({ inst = {}, word = 0 }) {
     for (const s of inst.segments) {
-      if (s.exclude && s.exclude.includes(_field({ word, hi: s.hi, lo: s.lo }))) return false;
+      if (s.exclude && s.exclude.includes(_field({ word, hi: s.hi, lo: s.lo }) + (s.compressed ? 8 : 0))) return false;
     }
     return !(inst.immNonZero && _immValue({ inst, word }) === 0);
   }
@@ -259,7 +271,7 @@ export function createCodec(spec) {
     // Field constraints (rd != 0, nzimm) can only be checked once every bit of the field is known.
     for (const s of inst.segments) {
       const fieldMask = ((2 ** s.width - 1) * 2 ** s.lo) >>> 0;
-      if (s.exclude && (known & fieldMask) >>> 0 === fieldMask && s.exclude.includes(_field({ word: value, hi: s.hi, lo: s.lo }))) return false;
+      if (s.exclude && (known & fieldMask) >>> 0 === fieldMask && s.exclude.includes(_field({ word: value, hi: s.hi, lo: s.lo }) + (s.compressed ? 8 : 0))) return false;
     }
     if (inst.immNonZero) {
       const immMask = inst.segments.filter((s) => s.kind === 'imm').reduce((m, s) => m | ((2 ** s.width - 1) << s.lo), 0) >>> 0;
@@ -288,7 +300,7 @@ export function createCodec(spec) {
     let mnemonic = inst.name;
     if (fields.aq || fields.rl) mnemonic += '.' + (fields.aq ? 'aq' : '') + (fields.rl ? 'rl' : '');
     const parts = [{ kind: 'mnemonic', text: mnemonic, known: true }];
-    const operands = splitOperands({ text: inst.asm }).filter((op) => !(op === 'rm' && fields.rm === 7));
+    const operands = splitOperands({ text: inst.asm }).filter((op) => !(op === 'rm' && fields.rm === 7) && !isOmitted({ key: op, value: fields[op] }));
     operands.forEach((op, i) => {
       parts.push({ kind: 'punct', text: i === 0 ? ' ' : spec.separator ?? ', ' });
       for (const part of templateParts({ op })) {
@@ -307,7 +319,7 @@ export function createCodec(spec) {
           continue;
         }
         let text;
-        if (OPERANDS[key]) text = operandText({ key, value });
+        if (OPERANDS[key]) text = operandText({ key, value, fields, inst });
         else if (key === 'imm' && spec.immText) text = spec.immText({ inst, value });
         else if (key === 'imm') text = String(inst.asmShift ? `0x${((value >>> inst.asmShift) & (2 ** (32 - inst.asmShift) - 1)).toString(16)}` : value);
         else if (key === 'csr') text = _csrText({ value });
@@ -326,10 +338,16 @@ export function createCodec(spec) {
   }
 
   // An operand of the instruction set's own (not a RISC-V register, csr, ...) as assembly text.
-  function operandText({ key = '', value = 0 }) {
+  // fields, inst: the instruction's other operands, for an operand whose text depends on them (Zcmp's stack adjustment).
+  function operandText({ key = '', value = 0, fields = {}, inst = {} }) {
     const operand = OPERANDS[key];
     if (operand.names) return operand.names[value];
-    return operand.text ? operand.text({ value }) : String(value);
+    return operand.text ? operand.text({ value, fields, inst }) : String(value);
+  }
+
+  // An operand left out of the assembly at this value (vm: an unmasked instruction has no mask operand).
+  function isOmitted({ key = '', value = null }) {
+    return Boolean(OPERANDS[key]) && OPERANDS[key].omit !== undefined && value === OPERANDS[key].omit;
   }
 
   function _tokenKind({ key = 'rd' }) {
@@ -482,9 +500,13 @@ export function createCodec(spec) {
   function operandInfo({ entry = {}, token = 'rd' }) {
     const key = tokenKey(token);
     if (OPERANDS[key]) {
-      const { names, exclude = [], width } = OPERANDS[key];
-      if (names) return { kind: 'enum', key, names, exclude };
-      return { kind: 'imm', key, range: { min: -(2 ** (width - 1)), max: 2 ** (width - 1) - 1, step: 1, nonZero: false } };
+      const { names, exclude = [], width, signed = false, omit } = OPERANDS[key];
+      // the instruction's own constraint on the operand too (vd!={...})
+      const segment = (entry.segments || []).find((s) => s.key === key);
+      const excluded = [...new Set([...exclude, ...(segment ? segment.exclude || [] : [])])];
+      if (names) return { kind: 'enum', key, names, exclude: excluded, omit };
+      const range = signed ? { min: -(2 ** (width - 1)), max: 2 ** (width - 1) - 1 } : { min: 0, max: 2 ** width - 1 };
+      return { kind: 'imm', key, range: { ...range, step: 1, nonZero: false } };
     }
     if (key === 'sp') return { kind: 'sp' };
     const targets = entry.pseudo
@@ -571,7 +593,9 @@ export function createCodec(spec) {
   function _parseOperands({ entry = {}, text = '' }) {
     const template = splitOperands({ text: entry.asm });
     const given = splitOperands({ text });
-    const optional = template[template.length - 1] === 'rm' ? 1 : 0;
+    // the last operand may be left out: a rounding mode (dyn), a mask (unmasked)
+    const last = template[template.length - 1];
+    const optional = last === 'rm' || (OPERANDS[last] && OPERANDS[last].omit !== undefined) ? 1 : 0;
     if (given.length > template.length || given.length < template.length - optional) {
       throw new Error(`${entry.name} expects: ${entry.name} ${entry.asm}`);
     }
@@ -587,8 +611,12 @@ export function createCodec(spec) {
         const info = operandInfo({ entry, token: key });
         if (info.kind === 'sp') {
           if (_parseRegister({ text }) !== 2) throw new Error(`${entry.name} only works with sp`);
-        } else if (info.kind === 'imm') values[key] = _parseNumber({ text });
-        else if (info.kind === 'enum') values[key] = info.names.findIndex((name) => name.toLowerCase() === text.toLowerCase());
+        } else if (OPERANDS[key] && OPERANDS[key].parse) values[key] = OPERANDS[key].parse({ text, values, inst: entry });
+        else if (info.kind === 'imm') values[key] = _parseNumber({ text });
+        else if (info.kind === 'enum') {
+          values[key] = info.names.findIndex((name) => name.toLowerCase() === text.toLowerCase());
+          if (values[key] < 0) throw new Error(`"${text}" is not one of ${key}`);
+        }
         else if (info.kind === 'csr') values[key] = text.toLowerCase() in CSRS ? CSRS[text.toLowerCase()] : _parseNumber({ text });
         else if (info.kind === 'rm') {
           values[key] = ROUNDING.indexOf(text.toLowerCase());
@@ -597,6 +625,7 @@ export function createCodec(spec) {
         else values[key] = _parseRegister({ text, fp: info.fp });
       });
     });
+    if (given.length < template.length && OPERANDS[last] && OPERANDS[last].omit !== undefined) values[last] = OPERANDS[last].omit;
     return values;
   }
 
@@ -720,7 +749,7 @@ export function createCodec(spec) {
 
   return {
     spec, compiled, pseudos, encodable, unusedOpcodeRows, parseEncoding, immRange, matchesConstraints, extractFields, assemblyParts, operandsText,
-    operandText, formatAssembly, fieldMask, partialDecode, knownWidth, selectedWord, missingBits, decodeWord, unusedOpcode, operandInfo, templateParts,
+    operandText, isOmitted, formatAssembly, fieldMask, partialDecode, knownWidth, selectedWord, missingBits, decodeWord, unusedOpcode, operandInfo, templateParts,
     tokenKey, encodeEntry, encodeAssembly, immediateView, hex, binary, bitName, bitNumber, byteStart, pasteStates, typeName, numericOperand,
   };
 }

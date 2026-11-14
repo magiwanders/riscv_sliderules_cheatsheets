@@ -31,6 +31,13 @@ fs.writeFileSync(
     }, null, 2)
 )
 
+// Every RV32 instruction of every extension (instructions.json above is RV32GC, the sheets' default).
+{
+    const all = await import('./generated/rv32gc.mjs');
+    fs.writeFileSync('public/isa/rv32.json', JSON.stringify({ formats: all.formats, groups: all.groups, instructions: all.instructions,
+        pseudoInstructions: all.pseudoInstructions, registers: all.registers }, null, 2));
+}
+
 // The integer registers in the shape this file always had.
 const [integer] = registers;
 fs.writeFileSync(
@@ -65,16 +72,19 @@ for (const { value, codec } of isas.filter((isa) => isa.codec && isa.value !== '
 
 // ---------------------------------------------------------------- Sail and TableGen downloads
 
-const RISCV_TD = ['RISCVRegisterInfo.td', 'RISCVSystemOperands.td', 'RISCVInstrFormats.td', 'RISCVInstrFormatsC.td', 'RISCVInstrInfo.td',
-    'RISCVInstrInfoM.td', 'RISCVInstrInfoA.td', 'RISCVInstrInfoZa.td', 'RISCVInstrInfoF.td', 'RISCVInstrInfoD.td', 'RISCVInstrInfoC.td'];
+const RISCV_TD = ['RISCVRegisterInfo.td', 'RISCVSystemOperands.td', 'RISCVInstrFormats.td', 'RISCVInstrFormatsC.td', 'RISCVInstrFormatsV.td',
+    'RISCVInstrInfo.td', 'RISCVInstrInfoM.td', 'RISCVInstrInfoA.td', 'RISCVInstrInfoZa.td', 'RISCVInstrInfoF.td', 'RISCVInstrInfoD.td', 'RISCVInstrInfoQ.td',
+    'RISCVInstrInfoZfh.td', 'RISCVInstrInfoZfbfmin.td', 'RISCVInstrInfoZfa.td', 'RISCVInstrInfoC.td', 'RISCVInstrInfoZc.td', 'RISCVInstrInfoZcmop.td',
+    'RISCVInstrInfoZclsd.td', 'RISCVInstrInfoZilsd.td', 'RISCVInstrInfoZb.td', 'RISCVInstrInfoZk.td', 'RISCVInstrInfoZicond.td', 'RISCVInstrInfoZicbo.td',
+    'RISCVInstrInfoZimop.td', 'RISCVInstrInfoZicfiss.td', 'RISCVInstrInfoV.td', 'RISCVInstrInfoZvk.td', 'RISCVInstrInfoZvfbf.td'];
 const MOS_TD = ['MOSRegisterInfo.td', 'MOSInstrFormats.td', 'MOSInstrInfo.td'];
 
 const EXPORTS = {
     rv32gc: {
         sail: { files: SAIL_FILES.map((f) => f.slice(f.indexOf('spec/'))), licence: 'spec/sail-riscv/LICENCE',
-            about: 'RV32GC in the official RISC-V Sail model, riscv/sail-riscv tag 2026-11-09-8118453 (BSD 2-Clause)' },
+            about: 'RV32 and its ratified extensions in the official RISC-V Sail model, riscv/sail-riscv tag 2026-11-09-8118453 (BSD 2-Clause)' },
         tablegen: { files: RISCV_TD.map((f) => `spec/llvm/RISCV/${f}`), licence: 'spec/llvm/LICENSE.TXT',
-            about: 'RV32GC in LLVM\'s RISC-V target, llvm/llvm-project llvmorg-23.1.5 (Apache 2.0 with LLVM exception); the target\'s other files (vector, vendor extensions, scheduling) are left out' },
+            about: 'RV32 and its ratified extensions in LLVM\'s RISC-V target, llvm/llvm-project llvmorg-23.1.5 (Apache 2.0 with LLVM exception); the target\'s other files (pseudos, vendor extensions, scheduling) are left out' },
     },
     6502: {
         sail: { files: ['spec/unofficial/mos6502/mos6502.sail'] },

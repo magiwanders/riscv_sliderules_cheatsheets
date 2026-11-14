@@ -1,5 +1,5 @@
 import { isas, families } from './isa/isas.mjs';
-import { EXTENSION_TREE, G, BASE, toggled, isaString } from './isa/riscv-extensions.mjs';
+import { EXTENSION_TREE, G, BASE, WITHOUT_INSTRUCTIONS, toggled, isaString } from './isa/riscv-extensions.mjs';
 import { decoderSheet, decoderRows } from './selector.mjs';
 import { encoderSheet, encoderRows, showEncodedBits, highlightEncodedBits, expandedColumns, setExpandedColumns } from './encoder.mjs';
 import { OperandPanel } from './builders.mjs';
@@ -670,7 +670,7 @@ function _updateExtensions() {
     const some = members.some((n) => enabled.has(n));
     const folded = children.filter((n) => enabled.has(n) && !(bundle || []).includes(n)).length;
     const button = _button({ classes: `ext-toggle${on ? ' on' : some ? ' partial' : ''}${usable.length || name === BASE ? '' : ' unavailable'}${name === BASE ? ' base' : ''}`,
-      label: name, title: `${name}: ${title}${name === BASE ? ' (always there)' : usable.length ? '' : ' (not on the sheets yet)'}`,
+      label: name, title: `${name}: ${title}${name === BASE ? ' (always there)' : usable.length ? '' : ` (${WITHOUT_INSTRUCTIONS[name] || 'not on the sheets yet'})`}`,
       onClick: () => set(flip(members, !on)) });
     button.disabled = !usable.length;
     button.setAttribute('aria-pressed', String(on));
@@ -701,7 +701,7 @@ function _updateExtensions() {
     _div({ class: 'ext-popover-list' }, open.children.map((name) => {
       const on = enabled.has(name);
       const button = _button({ classes: `ext-toggle${on ? ' on' : ''}${available.has(name) ? '' : ' unavailable'}`, label: name,
-        title: available.has(name) ? `${name}: click to turn ${on ? 'off' : 'on'}` : `${name}: not on the sheets yet`,
+        title: available.has(name) ? `${name}: click to turn ${on ? 'off' : 'on'}` : `${name}: ${WITHOUT_INSTRUCTIONS[name] || 'not on the sheets yet'}`,
         onClick: () => set(toggled({ enabled, name, on: !on, available })) });
       button.disabled = !available.has(name);
       return button;

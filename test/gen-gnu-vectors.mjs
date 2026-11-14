@@ -1,5 +1,5 @@
-// Assembles the test cases (test/cases.mjs) with GNU as and stores the resulting words in test/vectors/gnu-as.json,
-// the reference gnu.test.mjs compares the sliderule encoder against.
+// Assembles the test cases (test/cases.mjs) of every extension profile (test/riscv-profiles.mjs) with GNU as and stores
+// the resulting words in test/vectors/gnu-as.json, the reference riscv-assemblers.test.mjs compares the encoder against.
 //
 //   npm run vectors            (needs riscv-none-elf-as / -objdump, e.g. the xPack GNU RISC-V toolchain)
 //   RISCV_PREFIX=/path/to/riscv64-unknown-elf- npm run vectors
@@ -13,10 +13,10 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { allCases } from './cases.mjs';
 import { assemblerText, assemblable } from './riscv-text.mjs';
+import { profiles } from './riscv-profiles.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT = join(HERE, 'vectors', 'gnu-as.json');
-const MARCH = 'rv32gc_zicsr_zifencei_zihintpause';
 function _prefix() {
   if (process.env.RISCV_PREFIX) return process.env.RISCV_PREFIX;
   const opt = join(homedir(), '.local', 'opt');
@@ -26,14 +26,14 @@ function _prefix() {
 
 const _gnuText = (c) => assemblerText({ ...c, dialect: 'gnu' });
 
-function _assemble({ prefix = '', lines = [], rvc = false }) {
+function _assemble({ prefix = '', lines = [], rvc = false, march = '' }) {
   const dir = mkdtempSync(join(tmpdir(), 'sliderule-vectors-'));
   try {
     const source = join(dir, 'cases.s');
     const object = join(dir, 'cases.o');
     writeFileSync(source, [`.option ${rvc ? 'rvc' : 'norvc'}`, '.option norelax', ...lines.flatMap((line, i) => [`case${i}:`, `  ${line}`]), ''].join('\n'));
-    execFileSync(`${prefix}as`, [`-march=${MARCH}`, '-mabi=ilp32d', '-mno-relax', '-o', object, source], { stdio: ['ignore', 'ignore', 'inherit'] });
-    const dump = execFileSync(`${prefix}objdump`, ['-d', '-M', 'no-aliases,numeric', object], { encoding: 'utf8' });
+    execFileSync(`${prefix}as`, [`-march=${march}`, '-mabi=ilp32', '-mno-relax', '-o', object, source], { stdio: ['ignore', 'ignore', 'inherit'] });
+    const dump = execFileSync(`${prefix}objdump`, ['-d', '-M', 'no-aliases,numeric', object], { encoding: 'utf8', maxBuffer: 2 ** 28 });
     const words = lines.map(() => []);
     let current = -1;
     for (const line of dump.split('\n')) {
@@ -49,19 +49,24 @@ function _assemble({ prefix = '', lines = [], rvc = false }) {
 }
 
 const prefix = _prefix();
-const cases = assemblable(allCases());
-if (process.argv.includes('--source')) {
-  for (const c of cases) console.log(`${_gnuText(c).padEnd(44)} # ${c.entry.name} ${c.operands}`);
-  process.exit(0);
-}
 const vectors = [];
-for (const rvc of [false, true]) {
-  const group = cases.filter(({ entry }) => (entry.width === 16) === rvc);
-  const lines = group.map((c) => _gnuText(c));
-  const words = _assemble({ prefix, lines, rvc });
-  group.forEach((c, i) => vectors.push({ id: c.id, operands: c.operands, ordering: c.ordering, gnu: lines[i], words: words[i] }));
+const marches = {};
+for (const profile of profiles) {
+  const cases = assemblable(allCases({ codec: profile.codec, safe: true }));
+  if (process.argv.includes('--source')) {
+    for (const c of cases) console.log(`${profile.name.padEnd(7)} ${_gnuText(c).padEnd(44)} # ${c.entry.name} ${c.operands}`);
+    continue;
+  }
+  marches[profile.name] = profile.march;
+  for (const rvc of [false, true]) {
+    const group = cases.filter(({ entry }) => (entry.width === 16) === rvc);
+    const lines = group.map((c) => _gnuText(c));
+    const words = _assemble({ prefix, lines, rvc, march: profile.march });
+    group.forEach((c, i) => vectors.push({ profile: profile.name, id: c.id, operands: c.operands, ordering: c.ordering, gnu: lines[i], words: words[i] }));
+  }
 }
+if (process.argv.includes('--source')) process.exit(0);
 const version = execFileSync(`${prefix}as`, ['--version'], { encoding: 'utf8' }).split('\n')[0];
 mkdirSync(dirname(OUT), { recursive: true });
-writeFileSync(OUT, JSON.stringify({ assembler: version, march: MARCH, vectors }, null, 1) + '\n');
+writeFileSync(OUT, JSON.stringify({ assembler: version, march: marches, vectors }, null, 1) + '\n');
 console.log(`${vectors.length} vectors from ${version} → ${OUT}`);

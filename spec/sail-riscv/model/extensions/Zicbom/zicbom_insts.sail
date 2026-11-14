@@ -1,0 +1,145 @@
+// =======================================================================================
+// This Sail RISC-V architecture model, comprising all files and
+// directories except where otherwise noted is subject the BSD
+// two-clause license in the LICENSE file.
+//
+// SPDX-License-Identifier: BSD-2-Clause
+// =======================================================================================
+
+// Cache Block Operations - Management
+
+function clause currentlyEnabled(Ext_Zicbom) = hartSupports(Ext_Zicbom)
+
+// *****************************************************************
+union clause instruction = ZICBOM : (cbop_zicbom, regidx)
+
+mapping encdec_cbop : cbop_zicbom <-> bits(12) = {
+  CBO_CLEAN <-> 0b000000000001,
+  CBO_FLUSH <-> 0b000000000010,
+  CBO_INVAL <-> 0b000000000000,
+}
+
+$[wavedrom "CBO-OP base CBO _ MISC-MEM"]
+mapping clause encdec = ZICBOM(cbop, rs1)
+  <-> encdec_cbop(cbop) @ encdec_reg(rs1) @ 0b010 @ 0b00000 @ 0b0001111
+  when currentlyEnabled(Ext_Zicbom)
+
+mapping cbop_mnemonic : cbop_zicbom <-> string = {
+  CBO_CLEAN <-> "cbo.clean",
+  CBO_FLUSH <-> "cbo.flush",
+  CBO_INVAL <-> "cbo.inval"
+}
+
+mapping clause assembly = ZICBOM(cbop, rs1)
+  <-> cbop_mnemonic(cbop) ^ spc() ^ "(" ^ opt_spc() ^ reg_name(rs1) ^ opt_spc() ^ ")"
+
+// CBIE from xenvcfg
+private enum cbie = {CBIE_ILLEGAL, CBIE_EXEC_FLUSH, CBIE_EXEC_INVAL}
+
+private mapping encdec_cbie : cbie <-> bits(2) = {
+  CBIE_ILLEGAL    <-> 0b00,
+  CBIE_EXEC_FLUSH <-> 0b01,
+  CBIE_EXEC_INVAL <-> 0b11,
+  backwards 0b10   => internal_error(__FILE__, __LINE__, "reserved CBIE"),
+}
+
+private enum checked_cbop = {CBOP_ILLEGAL, CBOP_ILLEGAL_VIRTUAL, CBOP_INVAL_FLUSH, CBOP_INVAL_INVAL}
+
+// Select the cbop to perform based on the privilege.
+private function cbop_priv_check(p: Privilege) -> checked_cbop = {
+  let mCBIE : cbie = encdec_cbie(menvcfg[CBIE]);
+  let sCBIE : cbie = if   currentlyEnabled(Ext_S)
+                     then encdec_cbie(read_senvcfg()[CBIE])
+                     else encdec_cbie(menvcfg[CBIE]);
+  let hCBIE : cbie = if currentlyEnabled(Ext_H)
+                     then encdec_cbie(read_henvcfg()[CBIE])
+                     else encdec_cbie(menvcfg[CBIE]);
+  // Mirrors the cbo.inval pseudocode in the CMO chapter of the unpriv spec.
+  if      (p != Machine & mCBIE == CBIE_ILLEGAL)
+        | (p == User    & sCBIE == CBIE_ILLEGAL)
+  then CBOP_ILLEGAL
+  else if (p == VirtualSupervisor & hCBIE == CBIE_ILLEGAL)
+        | (p == VirtualUser       & (hCBIE == CBIE_ILLEGAL | sCBIE == CBIE_ILLEGAL))
+  then CBOP_ILLEGAL_VIRTUAL
+  else if (p != Machine           & mCBIE == CBIE_EXEC_FLUSH)
+        | (p == User              & sCBIE == CBIE_EXEC_FLUSH)
+        | (p == VirtualSupervisor & hCBIE == CBIE_EXEC_FLUSH)
+        | (p == VirtualUser       & (hCBIE == CBIE_EXEC_FLUSH | sCBIE == CBIE_EXEC_FLUSH))
+  then CBOP_INVAL_FLUSH
+  else CBOP_INVAL_INVAL
+}
+
+private function process_clean_inval(rs1 : regidx, cbop : cbop_zicbom) -> ExecutionResult = {
+  let rs1_val = X(rs1);
+  let cache_block_size = 2 ^ plat_cache_block_size_exp;
+
+  let access : MemoryAccessType(mem_payload) = CacheAccess(CB_manage(cbop));
+  let access_info = default_access_info(access);
+  let eff_priv = access_info.eff_privilege;
+
+  // Offset from rs1 to the beginning of the cache block. This is 0 if rs1
+  // is aligned to the cache block, or negative if rs1 is misaligned.
+  let negative_offset = (rs1_val & ~(zero_extend(ones(plat_cache_block_size_exp)))) - rs1_val;
+
+  // TODO: This is incorrect since CHERI only requires at least one byte
+  // to be in bounds here, whereas `get_transformed_data_addr()` checks that all bytes
+  // are in bounds. We will need to add a new function, parameter or access type.
+  match get_transformed_data_addr(rs1, negative_offset, access, access_info, cache_block_size) {
+    Ext_DataAddr_Error(e) => Ext_DataAddr_Check_Failure(e),
+    Ext_DataAddr_OK(vaddr) => {
+      // vaddr is the aligned address, but errors report the address that
+      // was encoded in the instruction. We subtract the negative offset
+      // (add the positive offset) to get it. Normally this will be
+      // equal to rs1, but pointer masking can change that.
+      let vaddr_for_error = vaddr - negative_offset;
+
+      match match_memory_trigger_before(cur_privilege, TriggerAddress(TriggerAddress_Store, bits_of(vaddr), cache_block_size)) {
+        Some(pti) => return PendingTrigger(pti),
+        None()    => (),
+      };
+
+      // TODO/NOTE: This is weird, we should not translateAddr a different address than specified and report it
+      match translateAddr(vaddr, access, eff_priv) {
+        Ok(paddr, pbmt, _) => {
+          // Check PMA and PMP access controls.
+          match phys_access_check(access, pbmt, eff_priv, paddr, cache_block_size, false) {
+            Err(e)  => {
+              // `exception_vaddr()` is expecting the physical
+              // addresses corresponding to the faulting virtual
+              // address (i.e. `vaddr_for_error`).
+              let paddr_for_error = paddr - negative_offset;
+              let exc_vaddr = exception_vaddr(access_info, vaddr_for_error, paddr_for_error, paddr_for_error);
+              memory_exception(e, exc_vaddr, access_info)
+            },
+            // If there is no error, the model has no caches so there's no
+            // more action required.
+            Ok(_)   => RETIRE_SUCCESS
+          }
+        },
+        Err(e, _) =>  trap({ e with excinfo = bits_of(vaddr_for_error) }),
+      }
+    }
+  }
+}
+
+function clause execute ZICBOM(CBO_CLEAN, rs1) =
+  match feature_enabled_for_priv(cur_privilege, menvcfg[CBCFE], read_senvcfg()[CBCFE], read_henvcfg()[CBCFE]) {
+    FEATURE_ENABLED => process_clean_inval(rs1, CBO_CLEAN),
+    FEATURE_ILLEGAL => Illegal_Instruction(),
+    FEATURE_VIRTUAL => Virtual_Instruction(),
+  }
+
+function clause execute ZICBOM(CBO_FLUSH, rs1) =
+  match feature_enabled_for_priv(cur_privilege, menvcfg[CBCFE], read_senvcfg()[CBCFE], read_henvcfg()[CBCFE]) {
+    FEATURE_ENABLED => process_clean_inval(rs1, CBO_FLUSH),
+    FEATURE_ILLEGAL => Illegal_Instruction(),
+    FEATURE_VIRTUAL => Virtual_Instruction(),
+  }
+
+function clause execute ZICBOM(CBO_INVAL, rs1) =
+  match cbop_priv_check(cur_privilege) {
+    CBOP_ILLEGAL         => Illegal_Instruction(),
+    CBOP_ILLEGAL_VIRTUAL => Virtual_Instruction(),
+    CBOP_INVAL_INVAL     => process_clean_inval(rs1, CBO_INVAL),
+    CBOP_INVAL_FLUSH     => process_clean_inval(rs1, CBO_FLUSH),
+  }

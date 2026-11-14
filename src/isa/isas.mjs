@@ -21,17 +21,17 @@ export const families = [
   { value: 'hack', label: 'nand2tetris' },
 ];
 
-// A RISC-V member's sheets for a set of enabled extensions, made once per set; with every extension the sheets have,
-// the member's own codec. It starts as G + C.
-function _extensions({ module, width, full }) {
+// A RISC-V member's sheets for a set of enabled extensions, made once per set; with the extensions it starts with
+// (RV32GC), the member's own codec.
+function _extensions({ module, width, base }) {
   const codecs = new Map();
   const key = (set) => [...set].sort().join(',');
   return {
     width,
     available: module.sheetExtensions,
-    defaults: new Set(['I', 'M', 'A', 'F', 'D', 'Zicsr', 'Zifencei', 'C'].filter((e) => module.sheetExtensions.has(e))),
+    defaults: module.defaultExtensions,
     codecFor: ({ enabled }) => {
-      if (key(enabled) === key(module.sheetExtensions)) return full;
+      if (key(enabled) === key(module.defaultExtensions)) return base;
       if (!codecs.has(key(enabled))) codecs.set(key(enabled), createCodec(module.withExtensions({ enabled })));
       return codecs.get(key(enabled));
     },
@@ -39,8 +39,8 @@ function _extensions({ module, width, full }) {
 }
 
 export const isas = [
-  { value: 'rv32gc', family: 'riscv', label: 'RV32', version: 'v1.0', codec: rv32, extensions: _extensions({ module: rv32gc, width: 32, full: rv32 }),
-    specs: { sail: 'the RV32GC files of the official RISC-V Sail model (sail-riscv)', tablegen: 'the RV32GC files of LLVM\'s RISC-V target (official)' } },
+  { value: 'rv32gc', family: 'riscv', label: 'RV32', version: 'v1.0', codec: rv32, extensions: _extensions({ module: rv32gc, width: 32, base: rv32 }),
+    specs: { sail: 'the RV32 files of the official RISC-V Sail model (sail-riscv), every ratified extension', tablegen: 'the RV32 files of LLVM\'s RISC-V target (official), every ratified extension' } },
   { value: 'rv64gc', family: 'riscv', label: 'RV64' },
   { value: 'mips32', family: 'mips', label: 'MIPS32' },
   { value: 'mips64', family: 'mips', label: 'MIPS64' },

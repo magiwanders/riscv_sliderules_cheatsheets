@@ -17,8 +17,8 @@ export function outsideCells({ codec = null, width = 32 }) {
   return width < spine.width ? [cell({ width: spine.width - width, classes: spine.bytes ? 'bit absent' : 'bit unused' })] : [];
 }
 
-function _fieldText({ codec = null, key = 'rm', value = 0 }) {
-  if (codec.spec.operands && codec.spec.operands[key]) return codec.operandText({ key, value });
+function _fieldText({ codec = null, key = 'rm', value = 0, fields = {}, inst = {} }) {
+  if (codec.spec.operands && codec.spec.operands[key]) return codec.operandText({ key, value, fields, inst });
   if (key === 'pred' || key === 'succ') return fenceText({ value });
   if (key === 'rm') return `rm = ${ROUNDING[value] || value}`;
   if (key === 'csr') return `csr = ${Object.keys(CSRS).find((name) => CSRS[name] === value) || `0x${value.toString(16)}`}`;
@@ -63,7 +63,7 @@ export function segmentCells({ codec = null, segments = [], width = 32, fields =
       const value = registerName({ number: fields[s.key], fp: (inst.fregs || []).includes(s.key) });
       td = cell({ width: s.width, classes: 'bit field-reg', text: s.width > 3 ? `${s.key} = ${value}` : value });
     } else if (fields && s.kind === 'field') {
-      td = cell({ width: s.width, classes: `bit field-${s.numeric ? 'imm' : 'field'}`, text: _fieldText({ codec, key: s.key, value: fields[s.key] }) });
+      td = cell({ width: s.width, classes: `bit field-${s.numeric ? 'imm' : 'field'}`, text: _fieldText({ codec, key: s.key, value: fields[s.key], fields, inst }) });
     } else {
       td = cell({ width: s.width, classes: `bit field-${s.numeric ? 'imm' : s.kind}`, text: s.label });
     }

@@ -13,11 +13,12 @@ function _stripComments({ text = '' }) {
   return text.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/[^\n]*/g, '');
 }
 
-// Top-level items: a new one starts at every line that begins in column 0 (closing brackets continue the item).
+// Top-level items: a new one starts at every line that begins in column 0 (closing brackets, and the <-> or when of
+// a clause written flush left, continue the item).
 function _items({ text = '' }) {
   const items = [];
   for (const line of text.split('\n')) {
-    if (/^[^\s})\]]/.test(line)) items.push(line);
+    if (/^[^\s})\]]/.test(line) && !/^(<->|when\b)/.test(line)) items.push(line);
     else if (items.length) items[items.length - 1] += `\n${line}`;
   }
   return items.map((item) => item.trim()).filter(Boolean);
@@ -66,6 +67,7 @@ const _literalBits = (text) => {
 export function readSail({ files = [] }) {
   const mappings = {};
   const unions = {};
+  const aliases = {}; // type shamt_zba = bits(2)
   const clauses = [];
   for (const file of files) {
     for (const item of _items({ text: _stripComments({ text: readFileSync(file, 'utf8') }) })) {
@@ -74,6 +76,8 @@ export function readSail({ files = [] }) {
         const entries = splitTop({ text: m[4] }).filter(Boolean).filter((e) => !/^(forwards|backwards)\b/.test(e))
           .map((e) => splitTop({ text: e, separator: '<->' }));
         mappings[m[1]] = { name: m[1], from: m[2].trim(), to: m[3].trim(), entries, file };
+      } else if ((m = item.match(/^type\s+(\w+)\s*=\s*(bits\(\d+\))\s*$/))) {
+        aliases[m[1]] = m[2];
       } else if ((m = item.match(/^union\s+clause\s+instruction\s*=\s*(\w+)\s*:\s*([\s\S]+)$/))) {
         const types = m[2].trim() === 'unit' ? [] : splitTop({ text: m[2].trim().replace(/^\(([\s\S]*)\)$/, '$1') });
         unions[m[1]] = types;
@@ -90,6 +94,7 @@ export function readSail({ files = [] }) {
       }
     }
   }
+  for (const [ctor, types] of Object.entries(unions)) unions[ctor] = types.map((t) => aliases[t] || t);
   return { mappings, unions, clauses };
 }
 
@@ -100,8 +105,8 @@ export function readSail({ files = [] }) {
 const _HELPERS = {
   haveSingleFPU: ({ config }) => config.extensions.has('F') || config.extensions.has('Zfinx'),
   haveDoubleFPU: ({ config }) => config.extensions.has('D') || config.extensions.has('Zdinx'),
-  // dext_insts.sail: odd registers only matter for RV32 Zdinx
-  validDoubleRegs: ({ config }) => !(config.extensions.has('Zdinx') && config.xlen === 32) || _unsupported('validDoubleRegs with Zdinx'),
+  // dext_insts.sail: RV32 Zdinx wants even register pairs; the encodings are there, LLVM's register classes say which
+  validDoubleRegs: () => true,
   // fext_insts.sail
   float_load_store_width_supported: ({ config, args: [width] }) =>
     ({ 1: false, 2: config.extensions.has('Zfhmin') || config.extensions.has('Zfbfmin'), 4: config.extensions.has('F'), 8: config.extensions.has('D') })[width],
@@ -110,11 +115,37 @@ const _HELPERS = {
   // zalrsc_insts.sail
   lrsc_width_valid: ({ config, args: [width] }) => width === 4 || (width === 8 && config.xlen >= 64),
   // zaamo_insts.sail: without Zacas and Zabha, the AMOs other than AMOCAS of at least a word and at most xlen
+  // the register alignment of AMOCAS.D on RV32 (even rd, rs2) is a constraint the sheets leave to the assembler
   amo_encoding_valid: ({ config, args: [width, op] }) => {
-    if (config.extensions.has('Zacas') || config.extensions.has('Zabha')) _unsupported('amo_encoding_valid with Zacas / Zabha');
-    return op !== 'AMOCAS' && config.extensions.has('Zaamo') && width >= 4 && width <= config.xlen / 8;
+    const has = (e) => config.extensions.has(e);
+    if (!(op === 'AMOCAS' ? has('Zacas') : has('Zaamo'))) return false;
+    if (width < 4) return has('Zabha');
+    return width <= config.xlen / 8 || (op === 'AMOCAS' && width <= config.xlen / 4);
   },
+  // vext_*.sail: whether an encoding exists depends on the current SEW; an instruction exists if it does for some SEW
+  get_sew: () => ({ anySew: true }),
+  get_lmul_pow: () => ({ anySew: true }), // likewise LMUL
+  // vext_mem_insts.sail: log2 of a load / store width in bits
+  vlewidth_pow: ({ args: [width] }) => _VLEWIDTH_POW[width] ?? _unsupported(`vlewidth_pow(${width})`),
+  // vext_utils_insts.sail: the conversions exist when Zvfh(min) or Zve32f / Zve64d give them some SEW
+  valid_widening_fp_conversion: ({ config }) => ['Zvfhmin', 'Zvfh', 'Zve32f', 'Zve64d'].some((e) => config.extensions.has(e)),
+  valid_narrowing_fp_conversion: ({ config }) => ['Zvfhmin', 'Zvfh', 'Zve32f', 'Zve64d'].some((e) => config.extensions.has(e)),
+  haveHalfFPU: ({ config }) => config.extensions.has('Zfh') || config.extensions.has('Zhinx'),
+  in32BitMode: ({ config }) => config.xlen === 32,
+  haveHalfMin: ({ config }) => ['Zfh', 'Zfhmin', 'Zhinx', 'Zhinxmin'].some((e) => config.extensions.has(e)),
+  // vector_crypto/*.sail: checks of vl, LMUL and register overlap at run time; the encodings are there
+  zvk_check_encdec: () => true,
+  zvknhab_check_encdec: () => true,
+  zvk_valid_reg_overlap: () => true,
+  // zicfiss_insts.sail: shadow stacks enabled at the current privilege; without, these encodings are May-Be-Operations
+  zicfiss_xSSE: () => true,
 };
+
+// Names guards compare registers and configuration values with.
+const _REGISTERS = { zreg: 0, ra: 1, sp: 2, t0: 5 };
+// The configuration the sheets take: indices of indexed vector loads and stores up to 32 bits (64 bit ones are RV64's).
+const _CONSTANTS = { max_index_eew_exp: 5 };
+const _VLEWIDTH_POW = { VLE8: 3, VLE16: 4, VLE32: 5, VLE64: 6 };
 
 function _unsupported(what) {
   throw new Error(`Sail guard not supported: ${what}`);
@@ -123,7 +154,7 @@ function _unsupported(what) {
 // Tokens of a guard expression.
 function _tokens({ text = '' }) {
   const tokens = [];
-  const re = /\s*(0b[01_]+|0x[0-9a-fA-F_]+|\d+|[A-Za-z_][\w]*|==|!=|<=|>=|\.\.|[()[\],&|<>*+\-])/y;
+  const re = /\s*(0b[01_]+|0x[0-9a-fA-F_]+|\d+|[A-Za-z_][\w]*|<=_u|>=_u|<_u|>_u|==|!=|<=|>=|\.\.|[()[\],&|<>*+\-])/y;
   let m;
   let at = 0;
   while (at < text.length) {
@@ -150,6 +181,8 @@ function _evaluate({ text = '', config, bindings = {} }) {
     return tokens[at++];
   };
 
+  // Once one side of & / | decides, the other is only read (skipping): it may call what this file does not know.
+  let skipping = 0;
   const and = (a, b) => {
     if (a === false || b === false) return false;
     if (a === true) return b;
@@ -160,10 +193,17 @@ function _evaluate({ text = '', config, bindings = {} }) {
     if (a === true || b === true) return true;
     if (a === false) return b;
     if (b === false) return a;
+    // rs2 == ra | rs2 == t0: one register of a set
+    if (a.length === 1 && b.length === 1 && a[0].kind === 'oneOf' && b[0].kind === 'oneOf' && a[0].name === b[0].name) {
+      return [{ kind: 'oneOf', name: a[0].name, values: [...a[0].values, ...b[0].values] }];
+    }
     return _unsupported(`"${text}" (alternative constraints)`);
   };
 
   function compare(a, op, b) {
+    if (skipping) return true;
+    // the current SEW: an encoding is there if it is for some SEW
+    if ((a && a.anySew) || (b && b.anySew)) return true;
     const symbolic = (v) => v && typeof v === 'object' && v.sym;
     if (symbolic(a) || symbolic(b)) {
       const [s, v] = symbolic(a) ? [a, b] : [b, a];
@@ -171,15 +211,16 @@ function _evaluate({ text = '', config, bindings = {} }) {
       if (op === '!=' && s.bit === undefined && v === 'sp') return [{ kind: 'exclude', name: s.sym, value: 2 }];
       if (op === '!=' && s.bit === undefined && typeof v === 'number') return [{ kind: 'exclude', name: s.sym, value: v }];
       if (op === '==' && s.bit !== undefined && typeof v === 'number') return [{ kind: 'fixed', name: s.sym, bit: s.bit, value: v }];
+      if (op === '==' && s.bit === undefined && v in _REGISTERS) return [{ kind: 'oneOf', name: s.sym, values: [_REGISTERS[v]] }];
       return _unsupported(`"${text}"`);
     }
     switch (op) {
       case '==': return a === b;
       case '!=': return a !== b;
-      case '<': return a < b;
-      case '<=': return a <= b;
-      case '>': return a > b;
-      case '>=': return a >= b;
+      case '<': case '<_u': return a < b;
+      case '<=': case '<=_u': return a <= b;
+      case '>': case '>_u': return a > b;
+      case '>=': case '>=_u': return a >= b;
       default: return _unsupported(op);
     }
   }
@@ -218,12 +259,14 @@ function _evaluate({ text = '', config, bindings = {} }) {
         if (peek() === ',') take(',');
       }
       take(')');
+      if (skipping) return true;
       if (t === 'currentlyEnabled') return config.extensions.has(String(args[0]).replace(/^Ext_/, ''));
       if (t === 'zeros') return 0;
       if (!_HELPERS[t]) return _unsupported(`function ${t} in "${text}"`);
       return _HELPERS[t]({ config, args });
     }
     if (t === 'xlen') return config.xlen;
+    if (t in _CONSTANTS) return _CONSTANTS[t];
     if (t === 'xlen_bytes') return config.xlen / 8;
     if (t in bindings) {
       const v = bindings[t];
@@ -240,7 +283,7 @@ function _evaluate({ text = '', config, bindings = {} }) {
 
   function cmpExpr() {
     const a = primary();
-    if (['==', '!=', '<', '<=', '>', '>='].includes(peek())) {
+    if (['==', '!=', '<', '<=', '>', '>=', '<_u', '<=_u', '>_u', '>=_u'].includes(peek())) {
       const op = take();
       return compare(a, op, primary());
     }
@@ -251,7 +294,11 @@ function _evaluate({ text = '', config, bindings = {} }) {
     let v = cmpExpr();
     while (peek() === '&') {
       take('&');
-      v = and(v, cmpExpr());
+      if (v === false) {
+        skipping++;
+        cmpExpr();
+        skipping--;
+      } else v = and(v, cmpExpr());
     }
     return v;
   }
@@ -260,7 +307,11 @@ function _evaluate({ text = '', config, bindings = {} }) {
     let v = andExpr();
     while (peek() === '|') {
       take('|');
-      v = or(v, andExpr());
+      if (v === true) {
+        skipping++;
+        andExpr();
+        skipping--;
+      } else v = or(v, andExpr());
     }
     return v;
   }
@@ -272,9 +323,9 @@ function _evaluate({ text = '', config, bindings = {} }) {
 
 // ---------------------------------------------------------------- enumerating instructions
 
-const REGISTER_MAPPINGS = { encdec_reg: 'x', encdec_creg: 'xc', encdec_freg: 'f', encdec_cfreg: 'fc' };
-const REGISTER_TYPES = { regidx: 'x', cregidx: 'xc', fregidx: 'f', cfregidx: 'fc' };
-const REGISTER_WIDTHS = { x: 5, xc: 3, f: 5, fc: 3 };
+const REGISTER_MAPPINGS = { encdec_reg: 'x', encdec_creg: 'xc', encdec_freg: 'f', encdec_cfreg: 'fc', encdec_vreg: 'v' };
+const REGISTER_TYPES = { regidx: 'x', cregidx: 'xc', fregidx: 'f', cfregidx: 'fc', vregidx: 'v' };
+const REGISTER_WIDTHS = { x: 5, xc: 3, f: 5, fc: 3, v: 5 };
 // Operands written as fields of their own on the sheets rather than enumerated or read as immediates.
 const FIELD_MAPPINGS = { encdec_rounding_mode: 'rm' };
 const FIELD_OPERANDS = ['aq', 'rl'];
@@ -292,7 +343,9 @@ function _typeWidth({ type = '' }) {
 function _table({ sail, name }) {
   const mapping = sail.mappings[name];
   if (!mapping) throw new Error(`Sail mapping ${name} not found`);
-  return mapping.entries.map(([from, to]) => {
+  return mapping.entries.map(([left, right]) => {
+    // written either way round: value <-> bits or bits <-> value
+    const [from, to] = _literalBits(right) === null && _literalBits(left) !== null ? [right, left] : [left, right];
     const bits = _literalBits(to);
     if (bits === null) throw new Error(`Sail mapping ${name}: "${to}" is not a bit literal`);
     const value = /^\d+$/.test(from) ? Number(from) : from === 'true' ? true : from === 'false' ? false : from;
@@ -311,12 +364,20 @@ function _instances({ sail, clause, config }) {
   clause.args.forEach((arg, position) => {
     const type = types[position];
     const pieces = splitTop({ text: arg, separator: '@' });
-    // an AST operand written with constant low bits, as in BTYPE(imm @ 0b0, ...): imm[k] is bit k + 1 of the offset
+    // an AST operand written with constant bits, as in BTYPE(imm @ 0b0, ...): imm[k] is bit k + 1 of the offset; constant
+    // high bits (VSETIVLI(0b0 @ vtr, ...)) only narrow it
     if (pieces.length > 1) {
-      const [name, ...rest] = pieces;
-      const low = rest.map((p) => _literalBits(p));
-      if (!/^\w+$/.test(name) || low.some((b) => b === null || /1/.test(b))) throw new Error(`${clause.ctor}: argument "${arg}" not understood`);
-      operands[name] = { position, type, scale: low.join('').length };
+      const names = pieces.filter((p) => _literalBits(p) === null);
+      // a number split into fields, as ZIMOP_MOP_R(mop_30 @ mop_27_26 @ mop_21_20, ...): each piece is a field
+      if (names.length > 1 && names.every((n) => /^\w+$/.test(n)) && names.length === pieces.length) {
+        names.forEach((n) => { operands[n] = { position, type: null, scale: 0 }; });
+        return;
+      }
+      const at = pieces.findIndex((p) => _literalBits(p) === null);
+      const low = pieces.slice(at + 1).map((p) => _literalBits(p));
+      const high = pieces.slice(0, at).map((p) => _literalBits(p)).join('').length;
+      if (names.length !== 1 || !/^\w+$/.test(names[0]) || low.some((b) => /1/.test(b))) throw new Error(`${clause.ctor}: argument "${arg}" not understood`);
+      operands[names[0]] = { position, type, scale: low.join('').length, high };
       return;
     }
     if (_literalBits(arg) !== null) {
@@ -387,7 +448,7 @@ function _instances({ sail, clause, config }) {
       } else {
         const operand = operands[p.name];
         if (!operand) throw new Error(`${clause.ctor}: ${p.name} is not an argument`);
-        const width = p.kind === 'var' ? p.width ?? _typeWidth({ type: operand.type }) - operand.scale : null;
+        const width = p.kind === 'var' ? p.width ?? _typeWidth({ type: operand.type }) - operand.scale - (operand.high || 0) : null;
         const [hi, lo] = p.kind === 'slice' ? [p.hi, p.lo] : [width - 1, 0];
         const cls = REGISTER_TYPES[operand.type];
         for (let b = hi; b >= lo; b--) {

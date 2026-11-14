@@ -6,7 +6,8 @@ of `unofficial/`, which are this project's own: edit those, then run `npm run is
 
 | Directory / file | Source | Version | Licence |
 | --- | --- | --- | --- |
-| `sail-riscv/` | The RISC-V Sail model, [riscv/sail-riscv](https://github.com/riscv/sail-riscv): the files with the RV32GC encodings (`model/...`) | tag `2026-11-09-8118453` (commit `8118453168a11439fd88318e7e1192eb938efcd1`) | BSD 2-Clause, `sail-riscv/LICENCE` |
+| `sail-riscv/` | The RISC-V Sail model, [riscv/sail-riscv](https://github.com/riscv/sail-riscv): the files with the encodings of RV32 and its ratified extensions (`model/...`) | tag `2026-11-09-8118453` (commit `8118453168a11439fd88318e7e1192eb938efcd1`) | BSD 2-Clause, `sail-riscv/LICENCE` |
+| `udb/instructions.json` | The RISC-V Unified Database, [riscv-software-src/riscv-unified-db](https://github.com/riscv-software-src/riscv-unified-db): each instruction's long name, RV32 encoding (match) and extensions, extracted from `spec/std/isa/inst` by `tools/isa/udb.py` | commit `d583fecd3d95841b9d6751f800337d1e2999c3fd` | BSD 3-Clause Clear, `udb/LICENSE` |
 | `llvm/RISCV.json` | LLVM's RISC-V TableGen description, [llvm/llvm-project](https://github.com/llvm/llvm-project) `llvm/lib/Target/RISCV`, extracted with `llvm-tblgen --dump-json` | `llvmorg-23.1.5` | Apache 2.0 with LLVM exception, `llvm/LICENSE.TXT` |
 | `llvm/MOS.json` | llvm-mos's 6502 TableGen description, [llvm-mos/llvm-mos](https://github.com/llvm-mos/llvm-mos) `llvm/lib/Target/MOS` (not part of upstream LLVM), same extraction | commit `ae72e49843c256272d89421942079cd623bedafb` | Apache 2.0 with LLVM exception |
 
@@ -36,6 +37,8 @@ the book's examples). An instruction is its bytes in memory order in Sail, while
 as LLVM does.
 
 ## Updating
+
+Unified Database: `~/.local/opt/sliderules-venv/bin/python -I tools/isa/udb.py ~/riscv-unified-db <commit>` (PyYAML).
 
 Sail: copy the same files from a newer tag of sail-riscv into `sail-riscv/model/` (and the `.td` files of `llvm/RISCV/`
 and `llvm/MOS/` from the new LLVM / llvm-mos) and run `npm run isa`. The Sail reader

@@ -563,6 +563,396 @@
           "opcode"
         ]
       ]
+    },
+    "V": {
+      "title": "Vector",
+      "width": 32,
+      "layout": [
+        [
+          "funct6",
+          31,
+          26,
+          "funct"
+        ],
+        [
+          "vm",
+          25,
+          25,
+          "reg"
+        ],
+        [
+          "vs2",
+          24,
+          20,
+          "reg"
+        ],
+        [
+          "vs1",
+          19,
+          15,
+          "reg"
+        ],
+        [
+          "funct3",
+          14,
+          12,
+          "funct"
+        ],
+        [
+          "vd",
+          11,
+          7,
+          "reg"
+        ],
+        [
+          "opcode",
+          6,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "VL": {
+      "title": "Vector Load",
+      "width": 32,
+      "layout": [
+        [
+          "nf",
+          31,
+          29,
+          "funct"
+        ],
+        [
+          "mew",
+          28,
+          28,
+          "funct"
+        ],
+        [
+          "mop",
+          27,
+          26,
+          "funct"
+        ],
+        [
+          "vm",
+          25,
+          25,
+          "reg"
+        ],
+        [
+          "lumop",
+          24,
+          20,
+          "funct"
+        ],
+        [
+          "rs1",
+          19,
+          15,
+          "reg"
+        ],
+        [
+          "width",
+          14,
+          12,
+          "funct"
+        ],
+        [
+          "vd",
+          11,
+          7,
+          "reg"
+        ],
+        [
+          "opcode",
+          6,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "VS": {
+      "title": "Vector Store",
+      "width": 32,
+      "layout": [
+        [
+          "nf",
+          31,
+          29,
+          "funct"
+        ],
+        [
+          "mew",
+          28,
+          28,
+          "funct"
+        ],
+        [
+          "mop",
+          27,
+          26,
+          "funct"
+        ],
+        [
+          "vm",
+          25,
+          25,
+          "reg"
+        ],
+        [
+          "sumop",
+          24,
+          20,
+          "funct"
+        ],
+        [
+          "rs1",
+          19,
+          15,
+          "reg"
+        ],
+        [
+          "width",
+          14,
+          12,
+          "funct"
+        ],
+        [
+          "vs3",
+          11,
+          7,
+          "reg"
+        ],
+        [
+          "opcode",
+          6,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CLB": {
+      "title": "Load Byte",
+      "width": 16,
+      "layout": [
+        [
+          "funct6",
+          15,
+          10,
+          "funct"
+        ],
+        [
+          "rs1'",
+          9,
+          7,
+          "reg"
+        ],
+        [
+          "uimm",
+          6,
+          5,
+          "imm"
+        ],
+        [
+          "rd'",
+          4,
+          2,
+          "reg"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CLH": {
+      "title": "Load Half-Word",
+      "width": 16,
+      "layout": [
+        [
+          "funct6",
+          15,
+          10,
+          "funct"
+        ],
+        [
+          "rs1'",
+          9,
+          7,
+          "reg"
+        ],
+        [
+          "funct1",
+          6,
+          6,
+          "funct"
+        ],
+        [
+          "uimm",
+          5,
+          5,
+          "imm"
+        ],
+        [
+          "rd'",
+          4,
+          2,
+          "reg"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CSB": {
+      "title": "Store Byte",
+      "width": 16,
+      "layout": [
+        [
+          "funct6",
+          15,
+          10,
+          "funct"
+        ],
+        [
+          "rs1'",
+          9,
+          7,
+          "reg"
+        ],
+        [
+          "uimm",
+          6,
+          5,
+          "imm"
+        ],
+        [
+          "rs2'",
+          4,
+          2,
+          "reg"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CSH": {
+      "title": "Store Half-Word",
+      "width": 16,
+      "layout": [
+        [
+          "funct6",
+          15,
+          10,
+          "funct"
+        ],
+        [
+          "rs1'",
+          9,
+          7,
+          "reg"
+        ],
+        [
+          "funct1",
+          6,
+          6,
+          "funct"
+        ],
+        [
+          "uimm",
+          5,
+          5,
+          "imm"
+        ],
+        [
+          "rs2'",
+          4,
+          2,
+          "reg"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CU": {
+      "title": "Unary",
+      "width": 16,
+      "layout": [
+        [
+          "funct6",
+          15,
+          10,
+          "funct"
+        ],
+        [
+          "rd'/rs1'",
+          9,
+          7,
+          "reg"
+        ],
+        [
+          "funct5",
+          6,
+          2,
+          "funct"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CMPP": {
+      "title": "Push / Pop",
+      "width": 16,
+      "layout": [
+        [
+          "funct6",
+          15,
+          10,
+          "funct"
+        ],
+        [
+          "funct2",
+          9,
+          8,
+          "funct"
+        ],
+        [
+          "rlist",
+          7,
+          4,
+          "reg"
+        ],
+        [
+          "spimm",
+          3,
+          2,
+          "imm"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
     }
   },
   "groups": {
@@ -1708,19 +2098,6 @@
       "width": 32,
       "mask": "0xf000707f",
       "match": "0x0000000f"
-    },
-    {
-      "group": "misc-mem",
-      "name": "hint",
-      "hint": true,
-      "enc": "0000 0001 0000 00000 000 00000 0001111",
-      "description": "PAUSE (Zihintpause) — fence w, 0: briefly pause instruction retirement",
-      "requires": "Zihintpause",
-      "extension": "I",
-      "format": "I",
-      "width": 32,
-      "mask": "0xffffffff",
-      "match": "0x0100000f"
     },
     {
       "group": "misc-mem",
@@ -3761,14 +4138,6 @@
       "description": "Fence (all accesses)",
       "expands": [
         "fence iorw, iorw"
-      ]
-    },
-    {
-      "name": "pause",
-      "asm": "",
-      "description": "Pause Hint (Zihintpause)",
-      "expands": [
-        "fence w, 0"
       ]
     },
     {

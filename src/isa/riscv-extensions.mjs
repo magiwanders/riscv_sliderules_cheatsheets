@@ -19,16 +19,32 @@ export const EXTENSION_TREE = [
   { name: 'H', title: 'Hypervisor, and the privileged extensions that add instructions', children: ['Svinval', 'Smrnmi'] },
 ];
 
+// Ratified extensions without instructions of their own on the sheets, and why: their chips say it.
+export const WITHOUT_INSTRUCTIONS = {
+  Zicntr: 'counters read through CSRs (rdcycle, rdtime, rdinstret are with Zicsr)', Zihpm: 'performance counters, CSRs only',
+  Ztso: 'a memory model, no instructions', Zkr: 'the seed CSR, no instructions', Zkt: 'a data-independent timing guarantee, no instructions',
+  Zvkt: 'a data-independent timing guarantee, no instructions', Zvfhmin: 'conversions V lists already', Zvknhb: 'Zvknha\'s instructions, at SEW 64 too',
+  Zalasr: 'not in LLVM 23 or the Sail model yet',
+};
+
 // G, the general-purpose ISA: the letters it frames, and what its label turns on.
 export const G = { letters: ['I', 'M', 'A', 'F', 'D'], extensions: ['I', 'M', 'A', 'F', 'D', 'Zicsr', 'Zifencei'] };
 
 // The base, always there.
 export const BASE = 'I';
 
-// What an extension needs: turning it on turns these on, turning one of these off turns it off.
-export const REQUIRES = { D: ['F'], F: ['Zicsr'], Q: ['D'], Zfh: ['F'], Zfhmin: ['F'], Zfa: ['F'], Zfbfmin: ['F'], Zdinx: ['Zfinx'], Zhinx: ['Zfinx'],
-  Zhinxmin: ['Zfinx'], Zcb: ['C'], Zcmp: ['C'], Zcmt: ['C', 'Zicsr'], Zcmop: ['C'], Zclsd: ['C', 'Zilsd'], V: ['Zicsr'], Zvfh: ['V'], Zvfhmin: ['V'],
-  Zvfbfmin: ['V'], Zvfbfwma: ['V'] };
+// What an extension needs (the specification's dependencies): turning it on turns these on, turning one of these off
+// turns it off.
+export const REQUIRES = { D: ['F'], F: ['Zicsr'], Q: ['D'], Zfh: ['F'], Zfhmin: ['F'], Zfa: ['F'], Zfbfmin: ['F'], Zfinx: ['Zicsr'], Zdinx: ['Zfinx'],
+  Zhinx: ['Zfinx'], Zhinxmin: ['Zfinx'], Zcb: ['C'], Zcmp: ['C'], Zcmt: ['C', 'Zicsr'], Zcmop: ['C', 'Zimop'], Zclsd: ['C', 'Zilsd'], V: ['D', 'Zicsr'],
+  Zvfh: ['V', 'Zfhmin'], Zvfhmin: ['V'], Zvfbfmin: ['V', 'Zfbfmin'], Zvfbfwma: ['Zvfbfmin'], Zvbb: ['V'], Zvbc: ['V'], Zvkb: ['V'], Zvkg: ['V'], Zvkned: ['V'],
+  Zvknha: ['V'], Zvknhb: ['V'], Zvksed: ['V'], Zvksh: ['V'], Zacas: ['A'], Zabha: ['A'], Zawrs: ['A'], Zicfiss: ['Zimop', 'A'] };
+
+// Extensions that take the same encodings and so cannot be on together: turning one on turns the others off. Floats in
+// integer registers spell F's instructions, Zclsd's c.ld / c.sd are c.flw / c.fsw (C + F), Zcmp's and Zcmt's encodings
+// are c.fld / c.fsd's (C + D).
+export const CONFLICTS = { Zfinx: ['F'], F: ['Zfinx'], Zclsd: ['F'], Zcmp: ['D'], Zcmt: ['D'] };
+const _conflictsOf = (name) => [...(CONFLICTS[name] || []), ...Object.entries(CONFLICTS).filter(([, others]) => others.includes(name)).map(([n]) => n)];
 
 // Every extension the toggles know.
 export const allExtensions = () => [...new Set(EXTENSION_TREE.flatMap((e) => [...(e.bundle ? [] : [e.name]), ...e.children]))];
@@ -38,14 +54,15 @@ export function toggled({ enabled = new Set(), name = '', on = true, available =
   const next = new Set(enabled);
   const add = (n) => {
     if (next.has(n) || !available.has(n)) return;
+    _conflictsOf(n).forEach(remove);
     next.add(n);
     (REQUIRES[n] || []).forEach(add);
   };
-  const remove = (n) => {
+  function remove(n) {
     if (n === BASE || !next.has(n)) return;
     next.delete(n);
     Object.entries(REQUIRES).filter(([, needs]) => needs.includes(n)).forEach(([dependent]) => remove(dependent));
-  };
+  }
   if (on) add(name);
   else remove(name);
   return next;

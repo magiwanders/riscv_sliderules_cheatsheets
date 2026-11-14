@@ -5,22 +5,18 @@
 //   RISCV_PREFIX=/path/to/riscv64-unknown-elf- npm run vectors
 //   npm run vectors -- --source   (only print the GNU assembly, no toolchain needed)
 //
-// PC-relative operands are written as ".+offset" for GNU (a bare number is an absolute address there), negative
-// c.lui values as 0xfffe0-0xfffff. Pseudo-instructions that need relocations (call, tail, la, global loads and
-// stores) are left out: their encoding depends on the linker.
+// How each case is written for GNU as: test/riscv-text.mjs.
 import { execFileSync } from 'node:child_process';
 import { mkdtempSync, writeFileSync, rmSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
 import { tmpdir, homedir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { allCases } from './cases.mjs';
+import { assemblerText, assemblable } from './riscv-text.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT = join(HERE, 'vectors', 'gnu-as.json');
 const MARCH = 'rv32gc_zicsr_zifencei_zihintpause';
-const PC_RELATIVE = ['branch', 'jal', 'c.jal', 'c.j', 'c.branch'];
-const RELOCATED = ['call', 'tail', 'la', 'lla', 'lb', 'lh', 'lw', 'sb', 'sh', 'sw', 'flw', 'fld', 'fsw', 'fsd'];
-
 function _prefix() {
   if (process.env.RISCV_PREFIX) return process.env.RISCV_PREFIX;
   const opt = join(homedir(), '.local', 'opt');
@@ -28,26 +24,7 @@ function _prefix() {
   return xpack ? join(opt, xpack, 'bin', 'riscv-none-elf-') : 'riscv-none-elf-';
 }
 
-// The base instruction a case's immediate ends up in (pseudo-instructions: the first expansion using it).
-function _immBase({ entry = {} }) {
-  if (!entry.pseudo) return entry;
-  const x = entry.expansions.find(({ base, mapping }) => base.segments.some((s) => s.kind === 'imm') && typeof mapping.imm !== 'number');
-  return x ? x.base : null;
-}
-
-function _gnuText({ entry = {}, operands = '', ordering = '', values = {} }) {
-  let text = operands;
-  const base = _immBase({ entry });
-  if (values.imm !== undefined && base) {
-    const imm = String(values.imm);
-    let gnu = imm;
-    if (PC_RELATIVE.includes(base.group)) gnu = `.${values.imm >= 0 ? '+' : ''}${values.imm}`;
-    else if (base.name === 'c.lui' && values.imm < 0) gnu = `0x${(values.imm & 0xfffff).toString(16)}`;
-    // the immediate is the only operand written as a plain number, replace that occurrence
-    text = text.replace(new RegExp(`(^|[ ,(])${imm.replace('-', '\\-')}(?=$|[,(])`), `$1${gnu}`);
-  }
-  return `${entry.name}${ordering ? '.' + ordering : ''}${text ? ' ' + text : ''}`;
-}
+const _gnuText = (c) => assemblerText({ ...c, dialect: 'gnu' });
 
 function _assemble({ prefix = '', lines = [], rvc = false }) {
   const dir = mkdtempSync(join(tmpdir(), 'sliderule-vectors-'));
@@ -72,7 +49,7 @@ function _assemble({ prefix = '', lines = [], rvc = false }) {
 }
 
 const prefix = _prefix();
-const cases = allCases().filter(({ entry }) => !(entry.pseudo && RELOCATED.includes(entry.name)));
+const cases = assemblable(allCases());
 if (process.argv.includes('--source')) {
   for (const c of cases) console.log(`${_gnuText(c).padEnd(44)} # ${c.entry.name} ${c.operands}`);
   process.exit(0);

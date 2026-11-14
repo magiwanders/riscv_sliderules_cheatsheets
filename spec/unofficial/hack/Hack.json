@@ -1,0 +1,1168 @@
+{
+ "source": {
+  "project": "unofficial",
+  "revision": "spec/unofficial/hack/Hack.td",
+  "tblgen": "23.1.5",
+  "target": "Hack"
+ },
+ "instructions": {
+  "A_INSTR": {
+   "asm": "@$imm",
+   "outs": [],
+   "ins": [
+    [
+     "addr15",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "imm{14}",
+    "imm{13}",
+    "imm{12}",
+    "imm{11}",
+    "imm{10}",
+    "imm{9}",
+    "imm{8}",
+    "imm{7}",
+    "imm{6}",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{1}",
+    "imm{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_0": {
+   "asm": "$dest=0;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_1": {
+   "asm": "$dest=1;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_A": {
+   "asm": "$dest=A;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_A_MINUS_1": {
+   "asm": "$dest=A-1;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_A_MINUS_D": {
+   "asm": "$dest=A-D;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_A_PLUS_1": {
+   "asm": "$dest=A+1;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_D": {
+   "asm": "$dest=D;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_D_AND_A": {
+   "asm": "$dest=D&A;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_D_AND_M": {
+   "asm": "$dest=D&M;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_D_MINUS_1": {
+   "asm": "$dest=D-1;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_D_MINUS_A": {
+   "asm": "$dest=D-A;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_D_MINUS_M": {
+   "asm": "$dest=D-M;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_D_OR_A": {
+   "asm": "$dest=D\\|A;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_D_OR_M": {
+   "asm": "$dest=D\\|M;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_D_PLUS_1": {
+   "asm": "$dest=D+1;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_D_PLUS_A": {
+   "asm": "$dest=D+A;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_D_PLUS_M": {
+   "asm": "$dest=D+M;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_M": {
+   "asm": "$dest=M;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_MINUS_1": {
+   "asm": "$dest=-1;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_MINUS_A": {
+   "asm": "$dest=-A;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_MINUS_D": {
+   "asm": "$dest=-D;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_MINUS_M": {
+   "asm": "$dest=-M;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_M_MINUS_1": {
+   "asm": "$dest=M-1;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_M_MINUS_D": {
+   "asm": "$dest=M-D;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_M_PLUS_1": {
+   "asm": "$dest=M+1;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_NOT_A": {
+   "asm": "$dest=!A;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_NOT_D": {
+   "asm": "$dest=!D;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  },
+  "C_NOT_M": {
+   "asm": "$dest=!M;$jump",
+   "outs": [],
+   "ins": [
+    [
+     "dest_op",
+     "dest"
+    ],
+    [
+     "jump_op",
+     "jump"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "dest{2}",
+    "dest{1}",
+    "dest{0}",
+    "jump{2}",
+    "jump{1}",
+    "jump{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "HackInst"
+   ]
+  }
+ },
+ "aliases": [],
+ "operands": {
+  "addr15": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "dest_op": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "jump_op": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  }
+ },
+ "registerClasses": {}
+}

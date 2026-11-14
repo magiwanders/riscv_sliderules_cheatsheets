@@ -5,6 +5,7 @@ import { OperandPanel } from './builders.mjs';
 import { Carousel } from './carousel.mjs';
 import { downloadPdf } from './pdf.mjs';
 import { sheetHeader, contributeLink, flashChangedBits } from './cells.mjs';
+import { registersSheet } from './registers.mjs';
 
 // The sliderule app: the Encoder (bits on the right, the default) or the Decoder (bits on the left), one at a time;
 // switching slides one sheet out and the other in around the "spine" of bits (see _switchTo). The URL hash always
@@ -16,16 +17,21 @@ const SLIDE_MS = 650;
 const SLIDE_EASING = 'cubic-bezier(0.65, 0, 0.35, 1)';
 const RESIZE_MS = 220;
 const COPIED_MS = 1200;
-const URL_KEYS = ['isa', 'ext', 'type', 'm', 'open', 'bits'];
+const URL_KEYS = ['isa', 'ext', 'type', 'm', 'open', 'bits', 'regs'];
 const COMING_SOON = '<Coming soon>';
 const _sets = new Map(); // the sheets and state of each instruction set chosen so far
 let _app = null; // what all sets share: header, stage host, placeholder
 let _isa = isas[0];
 let _mode = 'encoder';
+let _showRegisters = false;
 let _switching = false;
 let state = null;
 let _elements = null;
 let _codec = null;
+// Where the site's files are (isa/*.sail, isa/*.td): next to the library when built, the site root in development.
+// The UMD build has no import.meta.url: there the page's own address stands in.
+const _HERE = import.meta.url || (typeof document === 'undefined' ? 'http://localhost/' : document.baseURI);
+const ASSETS = new URL(_HERE.includes('/src/') ? '../' : './', _HERE);
 
 // ---------------------------------------------------------------- assembly with coloured operands
 
@@ -100,6 +106,7 @@ function _copyButton({ label = 'Copy', title = '', classes = 'tool-button', text
 function _stateParams() {
   const params = new URLSearchParams();
   if (_isa !== isas[0]) params.set('isa', _isa.value);
+  if (_showRegisters) params.set('regs', '1');
   if (!_isa.codec) return params;
   if (state.ext !== '*') params.set('ext', state.ext);
   if (state.type !== '*') params.set('type', state.type);
@@ -151,6 +158,55 @@ function _pdfButton() {
   return _confirmingButton({ label: '⤓ PDF', classes: 'tool-button header-tool', done: 'Saved ✓',
     title: 'Download this sheet as you see it (A3 PDF). Clear first for the whole sheet.',
     action: async () => downloadPdf({ header: _app.header, element: _currentTable(), fileName: _fileName({ mode: _mode }) }) });
+}
+
+// The instruction set's Sail and TableGen, as files: official where they exist (spec/README.md), built into isa/ by
+// src/isa/api-gen.js. A link, so it also works where the page cannot fetch from the sheets' server.
+function _exportLink({ kind = 'sail' }) {
+  const label = kind === 'sail' ? '⤓ Sail' : '⤓ TableGen';
+  return _a({ class: 'tool-button header-tool', target: '_blank', rel: 'noopener', 'data-kind': kind }, label);
+}
+
+function _updateExports() {
+  for (const link of [_app.sail, _app.tablegen]) {
+    const { kind } = link.dataset;
+    const about = _isa.specs && _isa.specs[kind];
+    link.classList.toggle('disabled', !about);
+    link.setAttribute('aria-disabled', String(!about));
+    if (!about) {
+      link.removeAttribute('href');
+      link.title = 'Coming soon';
+      continue;
+    }
+    const file = `${_isa.codec.spec.name}.${kind === 'sail' ? 'sail' : 'td'}`;
+    link.href = new URL(`isa/${_isa.value}.${kind === 'sail' ? 'sail' : 'td'}`, ASSETS).href;
+    link.download = file;
+    link.title = `Download the ${kind === 'sail' ? 'Sail' : 'TableGen'} of ${_isa.label} (${file}): ${about}`;
+  }
+}
+
+// Registers toggle next to the pill: off by default; on, the registers sheet of the instruction set shows under the header.
+function _registersToggle() {
+  return _button({ classes: 'registers-toggle', label: 'Registers', onClick: () => _setRegisters({ on: !_showRegisters }) });
+}
+
+function _setRegisters({ on = false }) {
+  _showRegisters = on;
+  _app.registersToggle.classList.toggle('selected', on);
+  _app.registersToggle.setAttribute('aria-pressed', String(on));
+  _app.registersToggle.title = on ? 'Hide the registers' : 'Show every register of this instruction set';
+  _updateRegisters();
+  _writeUrl();
+}
+
+function _updateRegisters() {
+  const shown = _showRegisters && Boolean(_isa.codec);
+  _app.registers.hidden = !shown;
+  _app.registersToggle.disabled = !_isa.codec;
+  if (shown && _app.registers.dataset.isa !== _isa.value) {
+    _app.registers.replaceChildren(registersSheet({ codec: _isa.codec }));
+    _app.registers.dataset.isa = _isa.value;
+  }
 }
 
 function _shareButton() {
@@ -526,6 +582,8 @@ function _selectIsa({ isa = isas[0], restore = null }) {
   _app.version.textContent = isa.version ?? '';
   for (const segment of _app.pill.children) segment.disabled = !isa.codec;
   _app.pdf.disabled = !isa.codec;
+  _updateExports();
+  _updateRegisters();
   refresh();
   _app.fitHeader();
 }
@@ -603,12 +661,21 @@ export function Sliderule() {
   const pdf = _pdfButton();
   const isa = _isaPicker();
   const version = _span({ class: 'header-version', title: 'Version of this sheet' }, '');
-  const header = sheetHeader({ isaPicker: isa, version, switcher: pill, tools: [clear, pdf, _shareButton()] });
+  const sail = _exportLink({ kind: 'sail' });
+  const tablegen = _exportLink({ kind: 'tablegen' });
+  const registersToggle = _registersToggle();
+  const switcher = _div({ class: 'header-switches' }, [pill, registersToggle]);
+  const header = sheetHeader({ isaPicker: isa, version, switcher, tools: [clear, pdf, sail, tablegen, _shareButton()] });
+  const registers = _div({ class: 'registers-host' }, '');
+  registers.hidden = true;
   const host = _div({ class: 'stage-host' }, '');
   const placeholder = _div({ class: 'sheet-placeholder' }, '');
-  const app = _div({ class: 'sliderules-app' }, [header, placeholder, host]);
-  _app = { fitHeader: () => {}, header, placeholder, host, isa, version, pill, clear, pdf };
+  const app = _div({ class: 'sliderules-app' }, [header, registers, placeholder, host]);
+  _app = { fitHeader: () => {}, header, placeholder, host, isa, version, pill, clear, pdf, sail, tablegen, registers, registersToggle };
   const { mode, params } = _readUrl();
+  _showRegisters = params.get('regs') === '1';
+  registersToggle.classList.toggle('selected', _showRegisters);
+  registersToggle.setAttribute('aria-pressed', String(_showRegisters));
   const chosen = isas.find(({ value }) => value === params.get('isa')) || isas[0];
   _mode = mode;
   _selectPill({ mode });

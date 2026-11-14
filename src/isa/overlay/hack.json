@@ -1,0 +1,475 @@
+{
+  "$comment": "What the Hack sheets show that spec/unofficial/hack (Sail and TableGen) does not carry: sections, groups, formats, operand names, descriptions and pseudocode in the language's order, the assembler's predefined symbols. tools/isa/gen-retro.mjs merges them into src/isa/generated/hack.mjs.",
+  "formats": {
+    "A": {
+      "title": "Address",
+      "width": 16,
+      "layout": [
+        [
+          "0",
+          15,
+          15,
+          "opcode"
+        ],
+        [
+          "value",
+          14,
+          0,
+          "imm"
+        ]
+      ]
+    },
+    "C": {
+      "title": "Compute",
+      "width": 16,
+      "layout": [
+        [
+          "111",
+          15,
+          13,
+          "opcode"
+        ],
+        [
+          "a",
+          12,
+          12,
+          "funct"
+        ],
+        [
+          "zx",
+          11,
+          11,
+          "funct"
+        ],
+        [
+          "nx",
+          10,
+          10,
+          "funct"
+        ],
+        [
+          "zy",
+          9,
+          9,
+          "funct"
+        ],
+        [
+          "ny",
+          8,
+          8,
+          "funct"
+        ],
+        [
+          "f",
+          7,
+          7,
+          "funct"
+        ],
+        [
+          "no",
+          6,
+          6,
+          "funct"
+        ],
+        [
+          "dest",
+          5,
+          3,
+          "reg"
+        ],
+        [
+          "jump",
+          2,
+          0,
+          "reg"
+        ]
+      ]
+    }
+  },
+  "sections": {
+    "address": "A-Instructions — inst[15] = 0",
+    "compute": "C-Instructions — inst[15:13] = 111"
+  },
+  "extensions": [
+    "Address",
+    "ALU",
+    "Memory",
+    "PSEUDO"
+  ],
+  "operands": {
+    "dest": {
+      "width": 3,
+      "names": [
+        "null",
+        "M",
+        "D",
+        "MD",
+        "A",
+        "AM",
+        "AD",
+        "AMD"
+      ]
+    },
+    "jump": {
+      "width": 3,
+      "names": [
+        "null",
+        "JGT",
+        "JEQ",
+        "JGE",
+        "JLT",
+        "JNE",
+        "JLE",
+        "JMP"
+      ]
+    }
+  },
+  "groups": {
+    "address": {
+      "section": "address",
+      "format": "A",
+      "extension": "Address",
+      "title": "Load the A Register",
+      "pseudocode": "A = value ; PC += 1"
+    },
+    "alu": {
+      "section": "compute",
+      "format": "C",
+      "extension": "ALU",
+      "title": "Compute on D and A (a = 0)",
+      "pseudocode": "dest = comp ; if ( comp (jump) 0 ) PC = A"
+    },
+    "memory": {
+      "section": "compute",
+      "format": "C",
+      "extension": "Memory",
+      "title": "Compute on D and M = RAM[A] (a = 1)",
+      "pseudocode": "dest = comp ; if ( comp (jump) 0 ) PC = A"
+    }
+  },
+  "instructions": [
+    {
+      "group": "address",
+      "def": "A_INSTR",
+      "description": "Load Address",
+      "pseudocode": "A = imm"
+    },
+    {
+      "group": "alu",
+      "def": "C_0",
+      "description": "Zero",
+      "pseudocode": "comp = 0"
+    },
+    {
+      "group": "alu",
+      "def": "C_1",
+      "description": "One",
+      "pseudocode": "comp = 1"
+    },
+    {
+      "group": "alu",
+      "def": "C_MINUS_1",
+      "description": "Minus One",
+      "pseudocode": "comp = -1"
+    },
+    {
+      "group": "alu",
+      "def": "C_D",
+      "description": "D",
+      "pseudocode": "comp = D"
+    },
+    {
+      "group": "alu",
+      "def": "C_A",
+      "description": "A",
+      "pseudocode": "comp = A"
+    },
+    {
+      "group": "alu",
+      "def": "C_NOT_D",
+      "description": "Not D",
+      "pseudocode": "comp = !D"
+    },
+    {
+      "group": "alu",
+      "def": "C_NOT_A",
+      "description": "Not A",
+      "pseudocode": "comp = !A"
+    },
+    {
+      "group": "alu",
+      "def": "C_MINUS_D",
+      "description": "Negate D",
+      "pseudocode": "comp = -D"
+    },
+    {
+      "group": "alu",
+      "def": "C_MINUS_A",
+      "description": "Negate A",
+      "pseudocode": "comp = -A"
+    },
+    {
+      "group": "alu",
+      "def": "C_D_PLUS_1",
+      "description": "Increment D",
+      "pseudocode": "comp = D+1"
+    },
+    {
+      "group": "alu",
+      "def": "C_A_PLUS_1",
+      "description": "Increment A",
+      "pseudocode": "comp = A+1"
+    },
+    {
+      "group": "alu",
+      "def": "C_D_MINUS_1",
+      "description": "Decrement D",
+      "pseudocode": "comp = D-1"
+    },
+    {
+      "group": "alu",
+      "def": "C_A_MINUS_1",
+      "description": "Decrement A",
+      "pseudocode": "comp = A-1"
+    },
+    {
+      "group": "alu",
+      "def": "C_D_PLUS_A",
+      "description": "Add",
+      "pseudocode": "comp = D+A"
+    },
+    {
+      "group": "alu",
+      "def": "C_D_MINUS_A",
+      "description": "Subtract A from D",
+      "pseudocode": "comp = D-A"
+    },
+    {
+      "group": "alu",
+      "def": "C_A_MINUS_D",
+      "description": "Subtract D from A",
+      "pseudocode": "comp = A-D"
+    },
+    {
+      "group": "alu",
+      "def": "C_D_AND_A",
+      "description": "Bitwise And",
+      "pseudocode": "comp = D&A"
+    },
+    {
+      "group": "alu",
+      "def": "C_D_OR_A",
+      "description": "Bitwise Or",
+      "pseudocode": "comp = D|A"
+    },
+    {
+      "group": "memory",
+      "def": "C_M",
+      "description": "M",
+      "pseudocode": "comp = M"
+    },
+    {
+      "group": "memory",
+      "def": "C_NOT_M",
+      "description": "Not M",
+      "pseudocode": "comp = !M"
+    },
+    {
+      "group": "memory",
+      "def": "C_MINUS_M",
+      "description": "Negate M",
+      "pseudocode": "comp = -M"
+    },
+    {
+      "group": "memory",
+      "def": "C_M_PLUS_1",
+      "description": "Increment M",
+      "pseudocode": "comp = M+1"
+    },
+    {
+      "group": "memory",
+      "def": "C_M_MINUS_1",
+      "description": "Decrement M",
+      "pseudocode": "comp = M-1"
+    },
+    {
+      "group": "memory",
+      "def": "C_D_PLUS_M",
+      "description": "Add",
+      "pseudocode": "comp = D+M"
+    },
+    {
+      "group": "memory",
+      "def": "C_D_MINUS_M",
+      "description": "Subtract M from D",
+      "pseudocode": "comp = D-M"
+    },
+    {
+      "group": "memory",
+      "def": "C_M_MINUS_D",
+      "description": "Subtract D from M",
+      "pseudocode": "comp = M-D"
+    },
+    {
+      "group": "memory",
+      "def": "C_D_AND_M",
+      "description": "Bitwise And",
+      "pseudocode": "comp = D&M"
+    },
+    {
+      "group": "memory",
+      "def": "C_D_OR_M",
+      "description": "Bitwise Or",
+      "pseudocode": "comp = D|M"
+    }
+  ],
+  "symbols": [
+    {
+      "name": "@SP",
+      "value": 0,
+      "description": "Stack Pointer"
+    },
+    {
+      "name": "@LCL",
+      "value": 1,
+      "description": "Local Segment Pointer"
+    },
+    {
+      "name": "@ARG",
+      "value": 2,
+      "description": "Argument Segment Pointer"
+    },
+    {
+      "name": "@THIS",
+      "value": 3,
+      "description": "This Segment Pointer"
+    },
+    {
+      "name": "@THAT",
+      "value": 4,
+      "description": "That Segment Pointer"
+    },
+    {
+      "name": "@R0",
+      "value": 0,
+      "description": "Virtual Register 0"
+    },
+    {
+      "name": "@R1",
+      "value": 1,
+      "description": "Virtual Register 1"
+    },
+    {
+      "name": "@R2",
+      "value": 2,
+      "description": "Virtual Register 2"
+    },
+    {
+      "name": "@R3",
+      "value": 3,
+      "description": "Virtual Register 3"
+    },
+    {
+      "name": "@R4",
+      "value": 4,
+      "description": "Virtual Register 4"
+    },
+    {
+      "name": "@R5",
+      "value": 5,
+      "description": "Virtual Register 5"
+    },
+    {
+      "name": "@R6",
+      "value": 6,
+      "description": "Virtual Register 6"
+    },
+    {
+      "name": "@R7",
+      "value": 7,
+      "description": "Virtual Register 7"
+    },
+    {
+      "name": "@R8",
+      "value": 8,
+      "description": "Virtual Register 8"
+    },
+    {
+      "name": "@R9",
+      "value": 9,
+      "description": "Virtual Register 9"
+    },
+    {
+      "name": "@R10",
+      "value": 10,
+      "description": "Virtual Register 10"
+    },
+    {
+      "name": "@R11",
+      "value": 11,
+      "description": "Virtual Register 11"
+    },
+    {
+      "name": "@R12",
+      "value": 12,
+      "description": "Virtual Register 12"
+    },
+    {
+      "name": "@R13",
+      "value": 13,
+      "description": "Virtual Register 13"
+    },
+    {
+      "name": "@R14",
+      "value": 14,
+      "description": "Virtual Register 14"
+    },
+    {
+      "name": "@R15",
+      "value": 15,
+      "description": "Virtual Register 15"
+    },
+    {
+      "name": "@SCREEN",
+      "value": 16384,
+      "description": "Screen Memory Map"
+    },
+    {
+      "name": "@KBD",
+      "value": 24576,
+      "description": "Keyboard Memory Map"
+    }
+  ],
+  "registers": [
+    {
+      "title": "Registers",
+      "columns": [
+        "Register",
+        "dest bit",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "A",
+          "d1 = inst[5]",
+          "Address register: a value, or the address of M and of jumps"
+        ],
+        [
+          "D",
+          "d2 = inst[4]",
+          "Data register"
+        ],
+        [
+          "M",
+          "d3 = inst[3]",
+          "Not a register: RAM[A]"
+        ],
+        [
+          "PC",
+          "—",
+          "Program counter (15 bit): the next instruction, or A after a jump that is taken"
+        ]
+      ]
+    }
+  ]
+}

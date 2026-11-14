@@ -111,6 +111,36 @@ table.sliderule {
 }
 
 .mode-segment.selected { background: var(--section); color: #fff; cursor: default; }
+
+/* Registers toggle next to the pill, the same shape; on, the registers sheet shows under the header. */
+.header-switches { display: inline-flex; align-items: center; gap: 8px; }
+.registers-toggle {
+  padding: 3px 14px;
+  border: 2px solid var(--section);
+  border-radius: 999px;
+  background: var(--page);
+  color: var(--text);
+  font: bold 13px Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.registers-toggle.selected { background: var(--section); color: #fff; }
+.registers-toggle:disabled { opacity: 0.5; cursor: default; }
+.registers-toggle:not(.selected):not(:disabled):hover,
+.registers-toggle:not(.selected):not(:disabled):focus-visible { background: #e3eef0; outline: none; }
+
+/* Sail / TableGen downloads are links shaped as tool buttons; without a file for the set they are greyed out. */
+a.tool-button { display: inline-block; text-decoration: none; }
+a.tool-button.disabled { color: #bbb; background: #f5f5f5; border-color: #e3e3e3; cursor: default; pointer-events: none; }
+
+/* The registers sheet: in view when scrolling sideways, like the header; sized by its content. */
+.registers-host { position: sticky; left: 16px; width: max-content; margin-bottom: 8px; }
+table.registers-sheet { table-layout: auto; }
+.registers-sheet .registers-head th { background: var(--strong); font-weight: bold; }
+.registers-sheet .registers-row .text { background: var(--light); }
+.registers-sheet .register-name { background: var(--strong) !important; font: bold 11px ui-monospace, Menlo, Consolas, monospace; }
+.registers-sheet .register-value { font-family: ui-monospace, Menlo, Consolas, monospace; }
+.registers-sheet .register-meaning { text-align: left; max-width: 640px; }
 .mode-segment:disabled { opacity: 0.5; cursor: default; }
 .mode-segment:not(.selected):not(:disabled):hover,
 .mode-segment:not(.selected):not(:disabled):focus-visible { background: #e3eef0; outline: none; }

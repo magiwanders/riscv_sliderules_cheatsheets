@@ -4,8 +4,9 @@ import { readFileSync } from 'node:fs';
 import { isas } from '../src/isa/isas.mjs';
 import { allCases } from './cases.mjs';
 
-// The sheets other than RV32GC. The 6502 and the Z80 against independent assemblers: test/vectors/{mos6502,z80}.json is
-// written by `npm run vectors:retro` (test/gen-retro-vectors.mjs). Hack against the assembly of the nand2tetris book.
+// The sheets other than RV32GC. The 6502 and the Z80 against two independent assemblers each: py65 and skoolkit
+// (test/vectors/{mos6502,z80}.json, `npm run vectors:retro`), ca65 and sjasmplus (test/vectors/mos6502-ca65.json,
+// z80-sjasmplus.json, `npm run vectors:retro-asm`). Hack against the assembly of the nand2tetris book.
 
 const codecOf = (value) => isas.find((i) => i.value === value).codec;
 const mos6502 = codecOf('6502');
@@ -17,8 +18,8 @@ const vectors = (name) => JSON.parse(readFileSync(new URL(`./vectors/${name}.jso
 const bytesOf = ({ codec, word }) => codec.hex({ word: word.word, width: word.inst.width }).slice(2).match(/../g).map((b) => parseInt(b, 16));
 const wordOf = ({ bytes, width }) => [...bytes, ...new Array(width / 8).fill(0)].slice(0, width / 8).reduce((word, b) => word * 256 + b, 0);
 
-for (const [name, codec] of [['mos6502', mos6502], ['z80', z80]]) {
-  test(`${name} encodings match ${vectors(name).reference}`, () => {
+for (const [name, codec] of [['mos6502', mos6502], ['z80', z80], ['mos6502-ca65', mos6502], ['z80-sjasmplus', z80]]) {
+  test(`${name.replace(/-.*/, '')} encodings match ${vectors(name).reference}`, () => {
     const failures = [];
     for (const { id, operands, assembly, bytes } of vectors(name).vectors) {
       const entry = codec.encodable.find((e) => e.id === id);

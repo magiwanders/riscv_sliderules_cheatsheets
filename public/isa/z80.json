@@ -2904,5 +2904,226 @@
       "match": "0xed5e"
     }
   ],
-  "pseudoInstructions": []
+  "pseudoInstructions": [],
+  "registers": [
+    {
+      "title": "8-Bit Registers (r, r2)",
+      "columns": [
+        "Register",
+        "r",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "B",
+          "000",
+          "General purpose; high byte of BC, the DJNZ counter"
+        ],
+        [
+          "C",
+          "001",
+          "General purpose; low byte of BC, the port of IN r, (C) and OUT (C), r"
+        ],
+        [
+          "D",
+          "010",
+          "General purpose; high byte of DE"
+        ],
+        [
+          "E",
+          "011",
+          "General purpose; low byte of DE"
+        ],
+        [
+          "H",
+          "100",
+          "General purpose; high byte of HL"
+        ],
+        [
+          "L",
+          "101",
+          "General purpose; low byte of HL"
+        ],
+        [
+          "(HL)",
+          "110",
+          "Not a register: the memory byte HL points to (rows of their own)"
+        ],
+        [
+          "A",
+          "111",
+          "Accumulator: arithmetic and logic results"
+        ]
+      ]
+    },
+    {
+      "title": "Register Pairs",
+      "columns": [
+        "Pair",
+        "dd, ss",
+        "qq",
+        "pp",
+        "rr",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "BC",
+          "00",
+          "00",
+          "00",
+          "00",
+          "B and C; the byte counter of block instructions"
+        ],
+        [
+          "DE",
+          "01",
+          "01",
+          "01",
+          "01",
+          "D and E; the destination of block transfers"
+        ],
+        [
+          "HL",
+          "10",
+          "10",
+          "—",
+          "—",
+          "H and L; memory pointer, 16 bit accumulator"
+        ],
+        [
+          "SP",
+          "11",
+          "—",
+          "11",
+          "11",
+          "Stack pointer"
+        ],
+        [
+          "AF",
+          "—",
+          "11",
+          "—",
+          "—",
+          "A and the flags F, for PUSH and POP"
+        ],
+        [
+          "IX",
+          "—",
+          "—",
+          "10",
+          "—",
+          "Index register X, in ADD IX, pp"
+        ],
+        [
+          "IY",
+          "—",
+          "—",
+          "—",
+          "10",
+          "Index register Y, in ADD IY, rr"
+        ]
+      ]
+    },
+    {
+      "title": "Index, Special and Shadow Registers",
+      "columns": [
+        "Register",
+        "Encoding",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "IX",
+          "prefix DD, i = 0",
+          "Index register X: base of (IX+d)"
+        ],
+        [
+          "IY",
+          "prefix FD, i = 1",
+          "Index register Y: base of (IY+d)"
+        ],
+        [
+          "PC",
+          "—",
+          "Program counter"
+        ],
+        [
+          "I",
+          "LD A, I / LD I, A",
+          "Interrupt vector: high byte of the mode 2 table address"
+        ],
+        [
+          "R",
+          "LD A, R / LD R, A",
+          "Memory refresh counter (bits 6:0 count, bit 7 stays)"
+        ],
+        [
+          "AF' BC' DE' HL'",
+          "EX AF, AF' / EXX",
+          "Shadow registers, swapped with the main set"
+        ],
+        [
+          "IFF1, IFF2",
+          "DI / EI",
+          "Interrupt enable flip-flops; IFF2 keeps IFF1 during an NMI"
+        ],
+        [
+          "IM",
+          "IM 0 / 1 / 2",
+          "Interrupt mode"
+        ]
+      ]
+    },
+    {
+      "title": "Flags (F)",
+      "columns": [
+        "Bit",
+        "Flag",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "7",
+          "S",
+          "Sign: bit 7 of the result"
+        ],
+        [
+          "6",
+          "Z",
+          "Zero: the result is 0"
+        ],
+        [
+          "5",
+          "—",
+          "Undocumented: a copy of bit 5 of the result"
+        ],
+        [
+          "4",
+          "H",
+          "Half carry: out of bit 3, for DAA"
+        ],
+        [
+          "3",
+          "—",
+          "Undocumented: a copy of bit 3 of the result"
+        ],
+        [
+          "2",
+          "P/V",
+          "Parity (logic, rotates) or overflow (arithmetic); IFF2 for LD A, I and LD A, R"
+        ],
+        [
+          "1",
+          "N",
+          "Subtract: the last operation was a subtraction, for DAA"
+        ],
+        [
+          "0",
+          "C",
+          "Carry: out of bit 7"
+        ]
+      ]
+    }
+  ]
 }

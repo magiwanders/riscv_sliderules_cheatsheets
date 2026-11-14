@@ -1,0 +1,6029 @@
+{
+ "source": {
+  "project": "llvm-mos/llvm-mos",
+  "revision": "ae72e498",
+  "tblgen": "23.1.5",
+  "target": "MOS"
+ },
+ "instructions": {
+  "ADC_Absolute": {
+   "asm": "adc $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "ADC_AbsoluteX": {
+   "asm": "adc $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "ADC_AbsoluteY": {
+   "asm": "adc $param , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "ADC_Immediate": {
+   "asm": "adc #$param",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ADC_IndexedIndirect": {
+   "asm": "adc ( $param , x )",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ADC_IndirectIndexed": {
+   "asm": "adc ( $param ) , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ADC_ZeroPage": {
+   "asm": "adc $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ADC_ZeroPageX": {
+   "asm": "adc $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "AND_Absolute": {
+   "asm": "and $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "AND_AbsoluteX": {
+   "asm": "and $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "AND_AbsoluteY": {
+   "asm": "and $param , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "AND_Immediate": {
+   "asm": "and #$param",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "AND_IndexedIndirect": {
+   "asm": "and ( $param , x )",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "AND_IndirectIndexed": {
+   "asm": "and ( $param ) , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "AND_ZeroPage": {
+   "asm": "and $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "AND_ZeroPageX": {
+   "asm": "and $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ASL_Absolute": {
+   "asm": "asl $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "ASL_AbsoluteX": {
+   "asm": "asl $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "ASL_Accumulator": {
+   "asm": "asl",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8"
+   ]
+  },
+  "ASL_ZeroPage": {
+   "asm": "asl $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ASL_ZeroPageX": {
+   "asm": "asl $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "BCC_Relative": {
+   "asm": "bcc $param",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16",
+    "InstConditionalBranch",
+    "ConditionalBranch"
+   ]
+  },
+  "BCS_Relative": {
+   "asm": "bcs $param",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16",
+    "InstConditionalBranch",
+    "ConditionalBranch"
+   ]
+  },
+  "BEQ_Relative": {
+   "asm": "beq $param",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16",
+    "InstConditionalBranch",
+    "ConditionalBranch"
+   ]
+  },
+  "BIT_Absolute": {
+   "asm": "bit $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "BIT_ZeroPage": {
+   "asm": "bit $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "BMI_Relative": {
+   "asm": "bmi $param",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16",
+    "InstConditionalBranch",
+    "ConditionalBranch"
+   ]
+  },
+  "BNE_Relative": {
+   "asm": "bne $param",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16",
+    "InstConditionalBranch",
+    "ConditionalBranch"
+   ]
+  },
+  "BPL_Relative": {
+   "asm": "bpl $param",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16",
+    "InstConditionalBranch",
+    "ConditionalBranch"
+   ]
+  },
+  "BRK_Implied": {
+   "asm": "brk",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow0",
+    "InstConditionalBranch",
+    "InstUnconditionalBranch"
+   ]
+  },
+  "BVC_Relative": {
+   "asm": "bvc $param",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16",
+    "InstConditionalBranch",
+    "ConditionalBranch"
+   ]
+  },
+  "BVS_Relative": {
+   "asm": "bvs $param",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16",
+    "InstConditionalBranch",
+    "ConditionalBranch"
+   ]
+  },
+  "CLC_Implied": {
+   "asm": "clc",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "CLD_Implied": {
+   "asm": "cld",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "CLI_Implied": {
+   "asm": "cli",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "CLV_Implied": {
+   "asm": "clv",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "CMP_Absolute": {
+   "asm": "cmp $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "CMP_AbsoluteX": {
+   "asm": "cmp $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "CMP_AbsoluteY": {
+   "asm": "cmp $param , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "CMP_Immediate": {
+   "asm": "cmp #$param",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "CMP_IndexedIndirect": {
+   "asm": "cmp ( $param , x )",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "CMP_IndirectIndexed": {
+   "asm": "cmp ( $param ) , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "CMP_ZeroPage": {
+   "asm": "cmp $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "CMP_ZeroPageX": {
+   "asm": "cmp $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "CPX_Absolute": {
+   "asm": "cpx $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "CPX_Immediate": {
+   "asm": "cpx #$param",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "CPX_ZeroPage": {
+   "asm": "cpx $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "CPY_Absolute": {
+   "asm": "cpy $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "CPY_Immediate": {
+   "asm": "cpy #$param",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "CPY_ZeroPage": {
+   "asm": "cpy $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "DEC_Absolute": {
+   "asm": "dec $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "DEC_AbsoluteX": {
+   "asm": "dec $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "DEC_ZeroPage": {
+   "asm": "dec $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "DEC_ZeroPageX": {
+   "asm": "dec $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "DEX_Implied": {
+   "asm": "dex",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLowA"
+   ]
+  },
+  "DEY_Implied": {
+   "asm": "dey",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "EOR_Absolute": {
+   "asm": "eor $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "EOR_AbsoluteX": {
+   "asm": "eor $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "EOR_AbsoluteY": {
+   "asm": "eor $param , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "EOR_Immediate": {
+   "asm": "eor #$param",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "EOR_IndexedIndirect": {
+   "asm": "eor ( $param , x )",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "EOR_IndirectIndexed": {
+   "asm": "eor ( $param ) , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "EOR_ZeroPage": {
+   "asm": "eor $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "EOR_ZeroPageX": {
+   "asm": "eor $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "INC_Absolute": {
+   "asm": "inc $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "INC_AbsoluteX": {
+   "asm": "inc $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "INC_ZeroPage": {
+   "asm": "inc $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "INC_ZeroPageX": {
+   "asm": "inc $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "INX_Implied": {
+   "asm": "inx",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "INY_Implied": {
+   "asm": "iny",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "JMP_Absolute": {
+   "asm": "jmp $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24",
+    "InstConditionalBranch",
+    "InstUnconditionalBranch"
+   ]
+  },
+  "JMP_Indirect16": {
+   "asm": "jmp ( $param )",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24",
+    "InstConditionalBranch",
+    "InstUnconditionalBranch"
+   ]
+  },
+  "JSR_Absolute": {
+   "asm": "jsr $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24",
+    "InstCall"
+   ]
+  },
+  "LDA_Absolute": {
+   "asm": "lda $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "LDA_AbsoluteX": {
+   "asm": "lda $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "LDA_AbsoluteY": {
+   "asm": "lda $param , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "LDA_Immediate": {
+   "asm": "lda #$param",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "LDA_IndexedIndirect": {
+   "asm": "lda ( $param , x )",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "LDA_IndirectIndexed": {
+   "asm": "lda ( $param ) , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "LDA_ZeroPage": {
+   "asm": "lda $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "LDA_ZeroPageX": {
+   "asm": "lda $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "LDX_Absolute": {
+   "asm": "ldx $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "LDX_AbsoluteY": {
+   "asm": "ldx $param , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "LDX_Immediate": {
+   "asm": "ldx #$param",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "LDX_ZeroPage": {
+   "asm": "ldx $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "LDX_ZeroPageY": {
+   "asm": "ldx $param , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "LDY_Absolute": {
+   "asm": "ldy $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "LDY_AbsoluteX": {
+   "asm": "ldy $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "LDY_Immediate": {
+   "asm": "ldy #$param",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "LDY_ZeroPage": {
+   "asm": "ldy $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "LDY_ZeroPageX": {
+   "asm": "ldy $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "LSR_Absolute": {
+   "asm": "lsr $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "LSR_AbsoluteX": {
+   "asm": "lsr $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "LSR_Accumulator": {
+   "asm": "lsr",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8"
+   ]
+  },
+  "LSR_ZeroPage": {
+   "asm": "lsr $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "LSR_ZeroPageX": {
+   "asm": "lsr $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "NOP_Implied": {
+   "asm": "nop",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLowA"
+   ]
+  },
+  "ORA_Absolute": {
+   "asm": "ora $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "ORA_AbsoluteX": {
+   "asm": "ora $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "ORA_AbsoluteY": {
+   "asm": "ora $param , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "ORA_Immediate": {
+   "asm": "ora #$param",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ORA_IndexedIndirect": {
+   "asm": "ora ( $param , x )",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ORA_IndirectIndexed": {
+   "asm": "ora ( $param ) , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ORA_ZeroPage": {
+   "asm": "ora $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ORA_ZeroPageX": {
+   "asm": "ora $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "PHA_Implied": {
+   "asm": "pha",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "PHP_Implied": {
+   "asm": "php",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "PLA_Implied": {
+   "asm": "pla",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "PLP_Implied": {
+   "asm": "plp",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "ROL_Absolute": {
+   "asm": "rol $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "ROL_AbsoluteX": {
+   "asm": "rol $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "ROL_Accumulator": {
+   "asm": "rol",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8"
+   ]
+  },
+  "ROL_ZeroPage": {
+   "asm": "rol $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ROL_ZeroPageX": {
+   "asm": "rol $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ROR_Absolute": {
+   "asm": "ror $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "ROR_AbsoluteX": {
+   "asm": "ror $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "ROR_Accumulator": {
+   "asm": "ror",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8"
+   ]
+  },
+  "ROR_ZeroPage": {
+   "asm": "ror $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "ROR_ZeroPageX": {
+   "asm": "ror $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "RTI_Implied": {
+   "asm": "rti",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow0",
+    "InstReturn"
+   ]
+  },
+  "RTS_Implied": {
+   "asm": "rts",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow0",
+    "InstReturn"
+   ]
+  },
+  "SBC_Absolute": {
+   "asm": "sbc $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "SBC_AbsoluteX": {
+   "asm": "sbc $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "SBC_AbsoluteY": {
+   "asm": "sbc $param , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "SBC_Immediate": {
+   "asm": "sbc #$param",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "SBC_IndexedIndirect": {
+   "asm": "sbc ( $param , x )",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "SBC_IndirectIndexed": {
+   "asm": "sbc ( $param ) , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "SBC_ZeroPage": {
+   "asm": "sbc $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "SBC_ZeroPageX": {
+   "asm": "sbc $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "SEC_Implied": {
+   "asm": "sec",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "SED_Implied": {
+   "asm": "sed",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "SEI_Implied": {
+   "asm": "sei",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "STA_Absolute": {
+   "asm": "sta $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "STA_AbsoluteX": {
+   "asm": "sta $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "STA_AbsoluteY": {
+   "asm": "sta $param , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "STA_IndexedIndirect": {
+   "asm": "sta ( $param , x )",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "STA_IndirectIndexed": {
+   "asm": "sta ( $param ) , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "STA_ZeroPage": {
+   "asm": "sta $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "STA_ZeroPageX": {
+   "asm": "sta $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "STX_Absolute": {
+   "asm": "stx $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "STX_ZeroPage": {
+   "asm": "stx $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "STX_ZeroPageY": {
+   "asm": "stx $param , y",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "STY_Absolute": {
+   "asm": "sty $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr16",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{15}",
+    "param{14}",
+    "param{13}",
+    "param{12}",
+    "param{11}",
+    "param{10}",
+    "param{9}",
+    "param{8}",
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst24"
+   ]
+  },
+  "STY_ZeroPage": {
+   "asm": "sty $param",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "STY_ZeroPageX": {
+   "asm": "sty $param , x",
+   "outs": [],
+   "ins": [
+    [
+     "addr8",
+     "param"
+    ]
+   ],
+   "inst": [
+    "param{7}",
+    "param{6}",
+    "param{5}",
+    "param{4}",
+    "param{3}",
+    "param{2}",
+    "param{1}",
+    "param{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst16"
+   ]
+  },
+  "TAX_Implied": {
+   "asm": "tax",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLowA"
+   ]
+  },
+  "TAY_Implied": {
+   "asm": "tay",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  },
+  "TSX_Implied": {
+   "asm": "tsx",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLowA"
+   ]
+  },
+  "TXA_Implied": {
+   "asm": "txa",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLowA"
+   ]
+  },
+  "TXS_Implied": {
+   "asm": "txs",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLowA"
+   ]
+  },
+  "TYA_Implied": {
+   "asm": "tya",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "Has6502"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "Inst",
+    "InstAddressMode",
+    "Inst8",
+    "InstNybble",
+    "InstLow8"
+   ]
+  }
+ },
+ "aliases": [],
+ "operands": {
+  "addr16": {
+   "regClass": null,
+   "operandType": "OPERAND_ADDR16",
+   "encoder": "encodeImm<MOS::Addr16, 1>",
+   "decoder": "decodeUImmOperand<16>",
+   "printer": "printOperand",
+   "parser": "anonymous_14723",
+   "superclasses": [
+    "addr16at"
+   ]
+  },
+  "addr8": {
+   "regClass": null,
+   "operandType": "OPERAND_ADDR8",
+   "encoder": "encodeImm<MOS::Addr8, 1>",
+   "decoder": "decodeAddr8Operand",
+   "printer": "printOperand",
+   "parser": "anonymous_14722",
+   "superclasses": [
+    "addr8at"
+   ]
+  },
+  "imm8": {
+   "regClass": null,
+   "operandType": "OPERAND_IMM8",
+   "encoder": "encodeImm<MOS::Imm8, 1>",
+   "decoder": "decodeUImmOperand<8>",
+   "printer": "printOperand",
+   "parser": "anonymous_14718",
+   "superclasses": [
+    "imm8at"
+   ]
+  },
+  "pcrel8": {
+   "regClass": null,
+   "operandType": "OPERAND_PCREL",
+   "encoder": "encodeImm<MOS::PCRel8, 1>",
+   "decoder": "decodeSImmOperand<8>",
+   "printer": "printBranchOperand",
+   "parser": "anonymous_14720",
+   "superclasses": [
+    "pcrel8at"
+   ]
+  }
+ },
+ "registerClasses": {}
+}

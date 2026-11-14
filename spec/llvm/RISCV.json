@@ -1,0 +1,14011 @@
+{
+ "source": {
+  "project": "llvm/llvm-project",
+  "revision": "llvmorg-23.1.5",
+  "tblgen": "23.1.5",
+  "target": "RISCV"
+ },
+ "instructions": {
+  "ADD": {
+   "asm": "add\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "ADDI": {
+   "asm": "addi\t$rd, $rs1, $imm12",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "ALU_ri"
+   ]
+  },
+  "AMOADD_W": {
+   "asm": "amoadd.w\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOAND_W": {
+   "asm": "amoand.w\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOMAXU_W": {
+   "asm": "amomaxu.w\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOMAX_W": {
+   "asm": "amomax.w\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOMINU_W": {
+   "asm": "amominu.w\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOMIN_W": {
+   "asm": "amomin.w\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOOR_W": {
+   "asm": "amoor.w\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOSWAP_W": {
+   "asm": "amoswap.w\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOXOR_W": {
+   "asm": "amoxor.w\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AND": {
+   "asm": "and\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "ANDI": {
+   "asm": "andi\t$rd, $rs1, $imm12",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "ALU_ri"
+   ]
+  },
+  "AUIPC": {
+   "asm": "auipc\t$rd, $imm20",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "uimm20_auipc",
+     "imm20"
+    ]
+   ],
+   "inst": [
+    "imm20{19}",
+    "imm20{18}",
+    "imm20{17}",
+    "imm20{16}",
+    "imm20{15}",
+    "imm20{14}",
+    "imm20{13}",
+    "imm20{12}",
+    "imm20{11}",
+    "imm20{10}",
+    "imm20{9}",
+    "imm20{8}",
+    "imm20{7}",
+    "imm20{6}",
+    "imm20{5}",
+    "imm20{4}",
+    "imm20{3}",
+    "imm20{2}",
+    "imm20{1}",
+    "imm20{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatU",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstU"
+   ]
+  },
+  "BEQ": {
+   "asm": "beq\t$rs1, $rs2, $imm12",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "bare_simm13_lsb0",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "imm12{10}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatB",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstB",
+    "BranchCC_rri"
+   ]
+  },
+  "BGE": {
+   "asm": "bge\t$rs1, $rs2, $imm12",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "bare_simm13_lsb0",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "imm12{10}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatB",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstB",
+    "BranchCC_rri"
+   ]
+  },
+  "BGEU": {
+   "asm": "bgeu\t$rs1, $rs2, $imm12",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "bare_simm13_lsb0",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "imm12{10}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatB",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstB",
+    "BranchCC_rri"
+   ]
+  },
+  "BLT": {
+   "asm": "blt\t$rs1, $rs2, $imm12",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "bare_simm13_lsb0",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "imm12{10}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatB",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstB",
+    "BranchCC_rri"
+   ]
+  },
+  "BLTU": {
+   "asm": "bltu\t$rs1, $rs2, $imm12",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "bare_simm13_lsb0",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "0",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "imm12{10}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatB",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstB",
+    "BranchCC_rri"
+   ]
+  },
+  "BNE": {
+   "asm": "bne\t$rs1, $rs2, $imm12",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "bare_simm13_lsb0",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "imm12{10}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatB",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstB",
+    "BranchCC_rri"
+   ]
+  },
+  "CSRRC": {
+   "asm": "csrrc\t$rd, $imm12, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "csr_sysreg",
+     "imm12"
+    ],
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "CSR_ir"
+   ]
+  },
+  "CSRRCI": {
+   "asm": "csrrci\t$rd, $imm12, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "csr_sysreg",
+     "imm12"
+    ],
+    [
+     "uimm5",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "CSR_ii"
+   ]
+  },
+  "CSRRS": {
+   "asm": "csrrs\t$rd, $imm12, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "csr_sysreg",
+     "imm12"
+    ],
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "CSR_ir"
+   ]
+  },
+  "CSRRSI": {
+   "asm": "csrrsi\t$rd, $imm12, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "csr_sysreg",
+     "imm12"
+    ],
+    [
+     "uimm5",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "CSR_ii"
+   ]
+  },
+  "CSRRW": {
+   "asm": "csrrw\t$rd, $imm12, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "csr_sysreg",
+     "imm12"
+    ],
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "CSR_ir"
+   ]
+  },
+  "CSRRWI": {
+   "asm": "csrrwi\t$rd, $imm12, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "csr_sysreg",
+     "imm12"
+    ],
+    [
+     "uimm5",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "CSR_ii"
+   ]
+  },
+  "C_ADD": {
+   "asm": "c.add\t$rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPRNoX0",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "$rs1 = $rd",
+   "format": "InstFormatCR",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CR"
+   ]
+  },
+  "C_ADDI": {
+   "asm": "c.addi\t$rd, $imm",
+   "outs": [
+    [
+     "GPRNoX0",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRNoX0",
+     "rd"
+    ],
+    [
+     "simm6",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "imm{5}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{1}",
+    "imm{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatCI",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CI"
+   ]
+  },
+  "C_ADDI16SP": {
+   "asm": "c.addi16sp\t$rd, $imm",
+   "outs": [
+    [
+     "SP",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "SP",
+     "rd"
+    ],
+    [
+     "simm10_lsb0000nonzero",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "imm{9}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "imm{4}",
+    "imm{6}",
+    "imm{8}",
+    "imm{7}",
+    "imm{5}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatCI",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CI"
+   ]
+  },
+  "C_ADDI4SPN": {
+   "asm": "c.addi4spn\t$rd, $rs1, $imm",
+   "outs": [
+    [
+     "GPRC",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "SP",
+     "rs1"
+    ],
+    [
+     "uimm10_lsb00nonzero",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "imm{5}",
+    "imm{4}",
+    "imm{9}",
+    "imm{8}",
+    "imm{7}",
+    "imm{6}",
+    "imm{2}",
+    "imm{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCIW",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CIW"
+   ]
+  },
+  "C_AND": {
+   "asm": "c.and\t$rd, $rs2",
+   "outs": [
+    [
+     "GPRC",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRC",
+     "rd"
+    ],
+    [
+     "GPRC",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatCA",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CA",
+    "CA_ALU"
+   ]
+  },
+  "C_ANDI": {
+   "asm": "c.andi\t$rs1, $imm",
+   "outs": [
+    [
+     "GPRC",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRC",
+     "rs1"
+    ],
+    [
+     "simm6",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "imm{5}",
+    "1",
+    "0",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{1}",
+    "imm{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "$rs1 = $rd",
+   "format": "InstFormatCB",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CB"
+   ]
+  },
+  "C_BEQZ": {
+   "asm": "c.beqz\t$rs1, $imm",
+   "outs": [],
+   "ins": [
+    [
+     "GPRC",
+     "rs1"
+    ],
+    [
+     "bare_simm9_lsb0",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "imm{7}",
+    "imm{3}",
+    "imm{2}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{6}",
+    "imm{5}",
+    "imm{1}",
+    "imm{0}",
+    "imm{4}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCB",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CB",
+    "Bcz"
+   ]
+  },
+  "C_BNEZ": {
+   "asm": "c.bnez\t$rs1, $imm",
+   "outs": [],
+   "ins": [
+    [
+     "GPRC",
+     "rs1"
+    ],
+    [
+     "bare_simm9_lsb0",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "imm{7}",
+    "imm{3}",
+    "imm{2}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{6}",
+    "imm{5}",
+    "imm{1}",
+    "imm{0}",
+    "imm{4}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCB",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CB",
+    "Bcz"
+   ]
+  },
+  "C_EBREAK": {
+   "asm": "c.ebreak",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCR",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CR"
+   ]
+  },
+  "C_FLD": {
+   "asm": "c.fld\t$rd, ${imm}(${rs1})",
+   "outs": [
+    [
+     "FPR64C",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtrC",
+     "rs1"
+    ],
+    [
+     "uimm8_lsb000",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{7}",
+    "imm{6}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZcd"
+   ],
+   "constraints": "",
+   "format": "InstFormatCL",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CL",
+    "CLoad_ri"
+   ]
+  },
+  "C_FLDSP": {
+   "asm": "c.fldsp\t$rd, ${imm}(${rs1})",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "SPMem",
+     "rs1"
+    ],
+    [
+     "uimm9_lsb000",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "imm{5}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "imm{4}",
+    "imm{3}",
+    "imm{8}",
+    "imm{7}",
+    "imm{6}",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZcd"
+   ],
+   "constraints": "",
+   "format": "InstFormatCI",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CI",
+    "CStackLoad"
+   ]
+  },
+  "C_FLW": {
+   "asm": "c.flw\t$rd, ${imm}(${rs1})",
+   "outs": [
+    [
+     "FPR32C",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtrC",
+     "rs1"
+    ],
+    [
+     "uimm7_lsb00",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{2}",
+    "imm{6}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZcf",
+    "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatCL",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CL",
+    "CLoad_ri"
+   ]
+  },
+  "C_FLWSP": {
+   "asm": "c.flwsp\t$rd, ${imm}(${rs1})",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "SPMem",
+     "rs1"
+    ],
+    [
+     "uimm8_lsb00",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "imm{5}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{7}",
+    "imm{6}",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZcf",
+    "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatCI",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CI",
+    "CStackLoad"
+   ]
+  },
+  "C_FSD": {
+   "asm": "c.fsd\t$rs2, ${imm}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "FPR64C",
+     "rs2"
+    ],
+    [
+     "BasePtrC",
+     "rs1"
+    ],
+    [
+     "uimm8_lsb000",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{7}",
+    "imm{6}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZcd"
+   ],
+   "constraints": "",
+   "format": "InstFormatCS",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CS",
+    "CStore_rri"
+   ]
+  },
+  "C_FSDSP": {
+   "asm": "c.fsdsp\t$rs2, ${imm}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "FPR64",
+     "rs2"
+    ],
+    [
+     "SPMem",
+     "rs1"
+    ],
+    [
+     "uimm9_lsb000",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "imm{8}",
+    "imm{7}",
+    "imm{6}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZcd"
+   ],
+   "constraints": "",
+   "format": "InstFormatCSS",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CSS",
+    "CStackStore"
+   ]
+  },
+  "C_FSW": {
+   "asm": "c.fsw\t$rs2, ${imm}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "FPR32C",
+     "rs2"
+    ],
+    [
+     "BasePtrC",
+     "rs1"
+    ],
+    [
+     "uimm7_lsb00",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{2}",
+    "imm{6}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZcf",
+    "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatCS",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CS",
+    "CStore_rri"
+   ]
+  },
+  "C_FSWSP": {
+   "asm": "c.fswsp\t$rs2, ${imm}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "FPR32",
+     "rs2"
+    ],
+    [
+     "SPMem",
+     "rs1"
+    ],
+    [
+     "uimm8_lsb00",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{7}",
+    "imm{6}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZcf",
+    "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatCSS",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CSS",
+    "CStackStore"
+   ]
+  },
+  "C_J": {
+   "asm": "c.j\t$offset",
+   "outs": [],
+   "ins": [
+    [
+     "bare_simm12_lsb0",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "offset{10}",
+    "offset{3}",
+    "offset{8}",
+    "offset{7}",
+    "offset{9}",
+    "offset{5}",
+    "offset{6}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}",
+    "offset{4}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCJ",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CJ"
+   ]
+  },
+  "C_JAL": {
+   "asm": "c.jal\t$offset",
+   "outs": [],
+   "ins": [
+    [
+     "bare_simm12_lsb0",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "offset{10}",
+    "offset{3}",
+    "offset{8}",
+    "offset{7}",
+    "offset{9}",
+    "offset{5}",
+    "offset{6}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}",
+    "offset{4}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca",
+    "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatCJ",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CJ"
+   ]
+  },
+  "C_JALR": {
+   "asm": "c.jalr\t$rs1",
+   "outs": [],
+   "ins": [
+    [
+     "GPRNoX0",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCR",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CR"
+   ]
+  },
+  "C_JR": {
+   "asm": "c.jr\t$rs1",
+   "outs": [],
+   "ins": [
+    [
+     "GPRNoX0",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCR",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CR"
+   ]
+  },
+  "C_LI": {
+   "asm": "c.li\t$rd, $imm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "simm6",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "imm{5}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{1}",
+    "imm{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCI",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CI"
+   ]
+  },
+  "C_LUI": {
+   "asm": "c.lui\t$rd, $imm",
+   "outs": [
+    [
+     "GPRNoX2",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "c_lui_imm",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "imm{5}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{1}",
+    "imm{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCI",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CI"
+   ]
+  },
+  "C_LW": {
+   "asm": "c.lw\t$rd, ${imm}(${rs1})",
+   "outs": [
+    [
+     "GPRC",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtrC",
+     "rs1"
+    ],
+    [
+     "uimm7_lsb00",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{2}",
+    "imm{6}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCL",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CL",
+    "CLoad_ri"
+   ]
+  },
+  "C_LWSP": {
+   "asm": "c.lwsp\t$rd, ${imm}(${rs1})",
+   "outs": [
+    [
+     "GPRNoX0",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "SPMem",
+     "rs1"
+    ],
+    [
+     "uimm8_lsb00",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "imm{5}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{7}",
+    "imm{6}",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCI",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CI",
+    "CStackLoad"
+   ]
+  },
+  "C_MV": {
+   "asm": "c.mv\t$rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRNoX0",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCR",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CR"
+   ]
+  },
+  "C_NOP": {
+   "asm": "c.nop",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCI",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CI"
+   ]
+  },
+  "C_NOP_HINT": {
+   "asm": "c.nop\t$imm",
+   "outs": [],
+   "ins": [
+    [
+     "simm6nonzero",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "imm{5}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{1}",
+    "imm{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCI",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CI"
+   ]
+  },
+  "C_OR": {
+   "asm": "c.or\t$rd, $rs2",
+   "outs": [
+    [
+     "GPRC",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRC",
+     "rd"
+    ],
+    [
+     "GPRC",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatCA",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CA",
+    "CA_ALU"
+   ]
+  },
+  "C_SLLI": {
+   "asm": "c.slli\t$rd, $imm",
+   "outs": [
+    [
+     "GPR",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rd"
+    ],
+    [
+     "uimmlog2xlen",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "imm{5}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{1}",
+    "imm{0}",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatCI",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CI"
+   ]
+  },
+  "C_SRAI": {
+   "asm": "c.srai\t$rs1, $imm",
+   "outs": [
+    [
+     "GPRC",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRC",
+     "rs1"
+    ],
+    [
+     "uimmlog2xlen",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "imm{5}",
+    "0",
+    "1",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{1}",
+    "imm{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "$rs1 = $rd",
+   "format": "InstFormatCB",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CB",
+    "Shift_right"
+   ]
+  },
+  "C_SRLI": {
+   "asm": "c.srli\t$rs1, $imm",
+   "outs": [
+    [
+     "GPRC",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRC",
+     "rs1"
+    ],
+    [
+     "uimmlog2xlen",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "imm{5}",
+    "0",
+    "0",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{1}",
+    "imm{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "$rs1 = $rd",
+   "format": "InstFormatCB",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CB",
+    "Shift_right"
+   ]
+  },
+  "C_SUB": {
+   "asm": "c.sub\t$rd, $rs2",
+   "outs": [
+    [
+     "GPRC",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRC",
+     "rd"
+    ],
+    [
+     "GPRC",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatCA",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CA",
+    "CA_ALU"
+   ]
+  },
+  "C_SW": {
+   "asm": "c.sw\t$rs2, ${imm}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "GPRC",
+     "rs2"
+    ],
+    [
+     "BasePtrC",
+     "rs1"
+    ],
+    [
+     "uimm7_lsb00",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{2}",
+    "imm{6}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCS",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CS",
+    "CStore_rri"
+   ]
+  },
+  "C_SWSP": {
+   "asm": "c.swsp\t$rs2, ${imm}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "SPMem",
+     "rs1"
+    ],
+    [
+     "uimm8_lsb00",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{7}",
+    "imm{6}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatCSS",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CSS",
+    "CStackStore"
+   ]
+  },
+  "C_UNIMP": {
+   "asm": "c.unimp",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "",
+   "format": "InstFormatOther",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16"
+   ]
+  },
+  "C_XOR": {
+   "asm": "c.xor\t$rd, $rs2",
+   "outs": [
+    [
+     "GPRC",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRC",
+     "rd"
+    ],
+    [
+     "GPRC",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatCA",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CA",
+    "CA_ALU"
+   ]
+  },
+  "DIV": {
+   "asm": "div\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtM"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "DIVU": {
+   "asm": "divu\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtM"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "DRET": {
+   "asm": "dret",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "Priv"
+   ]
+  },
+  "EBREAK": {
+   "asm": "ebreak",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI"
+   ]
+  },
+  "ECALL": {
+   "asm": "ecall",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI"
+   ]
+  },
+  "FADD_D": {
+   "asm": "fadd.d\t$rd, $rs1, $rs2$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPALU_rr_frm"
+   ]
+  },
+  "FADD_S": {
+   "asm": "fadd.s\t$rd, $rs1, $rs2$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPALU_rr_frm"
+   ]
+  },
+  "FCLASS_D": {
+   "asm": "fclass.d\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPUnaryOp_r"
+   ]
+  },
+  "FCLASS_S": {
+   "asm": "fclass.s\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPUnaryOp_r"
+   ]
+  },
+  "FCVT_D_S": {
+   "asm": "fcvt.d.s\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "frmarglegacy",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frmlegacy"
+   ]
+  },
+  "FCVT_D_W": {
+   "asm": "fcvt.d.w\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarglegacy",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frmlegacy"
+   ]
+  },
+  "FCVT_D_WU": {
+   "asm": "fcvt.d.wu\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarglegacy",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frmlegacy"
+   ]
+  },
+  "FCVT_S_D": {
+   "asm": "fcvt.s.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_S_W": {
+   "asm": "fcvt.s.w\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_S_WU": {
+   "asm": "fcvt.s.wu\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_WU_D": {
+   "asm": "fcvt.wu.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_WU_S": {
+   "asm": "fcvt.wu.s\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_W_D": {
+   "asm": "fcvt.w.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_W_S": {
+   "asm": "fcvt.w.s\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FDIV_D": {
+   "asm": "fdiv.d\t$rd, $rs1, $rs2$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPALU_rr_frm"
+   ]
+  },
+  "FDIV_S": {
+   "asm": "fdiv.s\t$rd, $rs1, $rs2$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPALU_rr_frm"
+   ]
+  },
+  "FENCE": {
+   "asm": "fence\t$pred, $succ",
+   "outs": [],
+   "ins": [
+    [
+     "fencearg",
+     "pred"
+    ],
+    [
+     "fencearg",
+     "succ"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "pred{3}",
+    "pred{2}",
+    "pred{1}",
+    "pred{0}",
+    "succ{3}",
+    "succ{2}",
+    "succ{1}",
+    "succ{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI"
+   ]
+  },
+  "FENCE_I": {
+   "asm": "fence.i",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI"
+   ]
+  },
+  "FENCE_TSO": {
+   "asm": "fence.tso",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI"
+   ]
+  },
+  "FEQ_D": {
+   "asm": "feq.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPCmp_rr"
+   ]
+  },
+  "FEQ_S": {
+   "asm": "feq.s\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPCmp_rr"
+   ]
+  },
+  "FLD": {
+   "asm": "fld\t$rd, ${imm12}(${rs1})",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "FPLoad_r"
+   ]
+  },
+  "FLE_D": {
+   "asm": "fle.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPCmp_rr"
+   ]
+  },
+  "FLE_S": {
+   "asm": "fle.s\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPCmp_rr"
+   ]
+  },
+  "FLT_D": {
+   "asm": "flt.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPCmp_rr"
+   ]
+  },
+  "FLT_S": {
+   "asm": "flt.s\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPCmp_rr"
+   ]
+  },
+  "FLW": {
+   "asm": "flw\t$rd, ${imm12}(${rs1})",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "FPLoad_r"
+   ]
+  },
+  "FMADD_D": {
+   "asm": "fmadd.d\t$rd, $rs1, $rs2, $rs3$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ],
+    [
+     "FPR64",
+     "rs3"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "rs3{4}",
+    "rs3{3}",
+    "rs3{2}",
+    "rs3{1}",
+    "rs3{0}",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR4",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstR4Frm",
+    "FPFMA_rrr_frm"
+   ]
+  },
+  "FMADD_S": {
+   "asm": "fmadd.s\t$rd, $rs1, $rs2, $rs3$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ],
+    [
+     "FPR32",
+     "rs3"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "rs3{4}",
+    "rs3{3}",
+    "rs3{2}",
+    "rs3{1}",
+    "rs3{0}",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR4",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstR4Frm",
+    "FPFMA_rrr_frm"
+   ]
+  },
+  "FMAX_D": {
+   "asm": "fmax.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
+  "FMAX_S": {
+   "asm": "fmax.s\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
+  "FMIN_D": {
+   "asm": "fmin.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
+  "FMIN_S": {
+   "asm": "fmin.s\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
+  "FMSUB_D": {
+   "asm": "fmsub.d\t$rd, $rs1, $rs2, $rs3$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ],
+    [
+     "FPR64",
+     "rs3"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "rs3{4}",
+    "rs3{3}",
+    "rs3{2}",
+    "rs3{1}",
+    "rs3{0}",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR4",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstR4Frm",
+    "FPFMA_rrr_frm"
+   ]
+  },
+  "FMSUB_S": {
+   "asm": "fmsub.s\t$rd, $rs1, $rs2, $rs3$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ],
+    [
+     "FPR32",
+     "rs3"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "rs3{4}",
+    "rs3{3}",
+    "rs3{2}",
+    "rs3{1}",
+    "rs3{0}",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR4",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstR4Frm",
+    "FPFMA_rrr_frm"
+   ]
+  },
+  "FMUL_D": {
+   "asm": "fmul.d\t$rd, $rs1, $rs2$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPALU_rr_frm"
+   ]
+  },
+  "FMUL_S": {
+   "asm": "fmul.s\t$rd, $rs1, $rs2$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPALU_rr_frm"
+   ]
+  },
+  "FMV_W_X": {
+   "asm": "fmv.w.x\t$rd, $rs1",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPUnaryOp_r"
+   ]
+  },
+  "FMV_X_W": {
+   "asm": "fmv.x.w\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPUnaryOp_r"
+   ]
+  },
+  "FNMADD_D": {
+   "asm": "fnmadd.d\t$rd, $rs1, $rs2, $rs3$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ],
+    [
+     "FPR64",
+     "rs3"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "rs3{4}",
+    "rs3{3}",
+    "rs3{2}",
+    "rs3{1}",
+    "rs3{0}",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR4",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstR4Frm",
+    "FPFMA_rrr_frm"
+   ]
+  },
+  "FNMADD_S": {
+   "asm": "fnmadd.s\t$rd, $rs1, $rs2, $rs3$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ],
+    [
+     "FPR32",
+     "rs3"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "rs3{4}",
+    "rs3{3}",
+    "rs3{2}",
+    "rs3{1}",
+    "rs3{0}",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR4",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstR4Frm",
+    "FPFMA_rrr_frm"
+   ]
+  },
+  "FNMSUB_D": {
+   "asm": "fnmsub.d\t$rd, $rs1, $rs2, $rs3$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ],
+    [
+     "FPR64",
+     "rs3"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "rs3{4}",
+    "rs3{3}",
+    "rs3{2}",
+    "rs3{1}",
+    "rs3{0}",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR4",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstR4Frm",
+    "FPFMA_rrr_frm"
+   ]
+  },
+  "FNMSUB_S": {
+   "asm": "fnmsub.s\t$rd, $rs1, $rs2, $rs3$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ],
+    [
+     "FPR32",
+     "rs3"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "rs3{4}",
+    "rs3{3}",
+    "rs3{2}",
+    "rs3{1}",
+    "rs3{0}",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR4",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstR4Frm",
+    "FPFMA_rrr_frm"
+   ]
+  },
+  "FSD": {
+   "asm": "fsd\t$rs2, ${imm12}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "FPR64",
+     "rs2"
+    ],
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatS",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstS",
+    "FPStore_r"
+   ]
+  },
+  "FSGNJN_D": {
+   "asm": "fsgnjn.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
+  "FSGNJN_S": {
+   "asm": "fsgnjn.s\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
+  "FSGNJX_D": {
+   "asm": "fsgnjx.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
+  "FSGNJX_S": {
+   "asm": "fsgnjx.s\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
+  "FSGNJ_D": {
+   "asm": "fsgnj.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
+  "FSGNJ_S": {
+   "asm": "fsgnj.s\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
+  "FSQRT_D": {
+   "asm": "fsqrt.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FSQRT_S": {
+   "asm": "fsqrt.s\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FSUB_D": {
+   "asm": "fsub.d\t$rd, $rs1, $rs2$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "FPR64",
+     "rs2"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPALU_rr_frm"
+   ]
+  },
+  "FSUB_S": {
+   "asm": "fsub.s\t$rd, $rs1, $rs2$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "FPR32",
+     "rs2"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPALU_rr_frm"
+   ]
+  },
+  "FSW": {
+   "asm": "fsw\t$rs2, ${imm12}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "FPR32",
+     "rs2"
+    ],
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatS",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstS",
+    "FPStore_r"
+   ]
+  },
+  "JAL": {
+   "asm": "jal\t$rd, $imm20",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "simm21_lsb0_jal",
+     "imm20"
+    ]
+   ],
+   "inst": [
+    "imm20{19}",
+    "imm20{9}",
+    "imm20{8}",
+    "imm20{7}",
+    "imm20{6}",
+    "imm20{5}",
+    "imm20{4}",
+    "imm20{3}",
+    "imm20{2}",
+    "imm20{1}",
+    "imm20{0}",
+    "imm20{10}",
+    "imm20{18}",
+    "imm20{17}",
+    "imm20{16}",
+    "imm20{15}",
+    "imm20{14}",
+    "imm20{13}",
+    "imm20{12}",
+    "imm20{11}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatJ",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstJ"
+   ]
+  },
+  "JALR": {
+   "asm": "jalr\t$rd, ${imm12}(${rs1})",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI"
+   ]
+  },
+  "LB": {
+   "asm": "lb\t$rd, ${imm12}(${rs1})",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "Load_ri"
+   ]
+  },
+  "LBU": {
+   "asm": "lbu\t$rd, ${imm12}(${rs1})",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "Load_ri"
+   ]
+  },
+  "LH": {
+   "asm": "lh\t$rd, ${imm12}(${rs1})",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "Load_ri"
+   ]
+  },
+  "LHU": {
+   "asm": "lhu\t$rd, ${imm12}(${rs1})",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "Load_ri"
+   ]
+  },
+  "LR_W": {
+   "asm": "lr.w\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZalrsc"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "LR_r"
+   ]
+  },
+  "LUI": {
+   "asm": "lui\t$rd, $imm20",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "uimm20_lui",
+     "imm20"
+    ]
+   ],
+   "inst": [
+    "imm20{19}",
+    "imm20{18}",
+    "imm20{17}",
+    "imm20{16}",
+    "imm20{15}",
+    "imm20{14}",
+    "imm20{13}",
+    "imm20{12}",
+    "imm20{11}",
+    "imm20{10}",
+    "imm20{9}",
+    "imm20{8}",
+    "imm20{7}",
+    "imm20{6}",
+    "imm20{5}",
+    "imm20{4}",
+    "imm20{3}",
+    "imm20{2}",
+    "imm20{1}",
+    "imm20{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatU",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstU"
+   ]
+  },
+  "LW": {
+   "asm": "lw\t$rd, ${imm12}(${rs1})",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "Load_ri"
+   ]
+  },
+  "MRET": {
+   "asm": "mret",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "Priv"
+   ]
+  },
+  "MUL": {
+   "asm": "mul\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZmmul"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "MULH": {
+   "asm": "mulh\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZmmul"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "MULHSU": {
+   "asm": "mulhsu\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZmmul"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "MULHU": {
+   "asm": "mulhu\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZmmul"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "OR": {
+   "asm": "or\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "ORI": {
+   "asm": "ori\t$rd, $rs1, $imm12",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "ALU_ri"
+   ]
+  },
+  "PREFETCH_I": {
+   "asm": "prefetch.i\t${imm12}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lsb00000",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatOther",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstS",
+    "Prefetch_ri"
+   ]
+  },
+  "PREFETCH_R": {
+   "asm": "prefetch.r\t${imm12}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lsb00000",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatOther",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstS",
+    "Prefetch_ri"
+   ]
+  },
+  "PREFETCH_W": {
+   "asm": "prefetch.w\t${imm12}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lsb00000",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatOther",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstS",
+    "Prefetch_ri"
+   ]
+  },
+  "REM": {
+   "asm": "rem\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtM"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "REMU": {
+   "asm": "remu\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtM"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "SB": {
+   "asm": "sb\t$rs2, ${imm12}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatS",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstS",
+    "Store_rri"
+   ]
+  },
+  "SC_W": {
+   "asm": "sc.w\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZalrsc"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "SC_r"
+   ]
+  },
+  "SFENCE_VMA": {
+   "asm": "sfence.vma\t$rs1, $rs2",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "Priv_rr"
+   ]
+  },
+  "SH": {
+   "asm": "sh\t$rs2, ${imm12}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatS",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstS",
+    "Store_rri"
+   ]
+  },
+  "SLL": {
+   "asm": "sll\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "SLLI": {
+   "asm": "slli\t$rd, $rs1, $shamt",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "uimmlog2xlen",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "shamt{5}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIShift",
+    "Shift_ri"
+   ]
+  },
+  "SLT": {
+   "asm": "slt\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "SLTI": {
+   "asm": "slti\t$rd, $rs1, $imm12",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "ALU_ri"
+   ]
+  },
+  "SLTIU": {
+   "asm": "sltiu\t$rd, $rs1, $imm12",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "ALU_ri"
+   ]
+  },
+  "SLTU": {
+   "asm": "sltu\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "SRA": {
+   "asm": "sra\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "SRAI": {
+   "asm": "srai\t$rd, $rs1, $shamt",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "uimmlog2xlen",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "shamt{5}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIShift",
+    "Shift_ri"
+   ]
+  },
+  "SRET": {
+   "asm": "sret",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "Priv"
+   ]
+  },
+  "SRL": {
+   "asm": "srl\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "SRLI": {
+   "asm": "srli\t$rd, $rs1, $shamt",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "uimmlog2xlen",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "shamt{5}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIShift",
+    "Shift_ri"
+   ]
+  },
+  "SUB": {
+   "asm": "sub\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "SW": {
+   "asm": "sw\t$rs2, ${imm12}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatS",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstS",
+    "Store_rri"
+   ]
+  },
+  "UNIMP": {
+   "asm": "unimp",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI"
+   ]
+  },
+  "WFI": {
+   "asm": "wfi",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "Priv"
+   ]
+  },
+  "XOR": {
+   "asm": "xor\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "XORI": {
+   "asm": "xori\t$rd, $rs1, $imm12",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "ALU_ri"
+   ]
+  }
+ },
+ "aliases": [
+  {
+   "asm": "nop",
+   "base": "ADDI",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "register": 0
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 3
+  },
+  {
+   "asm": "li $rd, $imm",
+   "base": "ADDI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "register": 0
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "imm"
+    }
+   ],
+   "predicates": [],
+   "priority": 2
+  },
+  {
+   "asm": "mv $rd, $rs",
+   "base": "ADDI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "not $rd, $rs",
+   "base": "XORI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "value": -1
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "neg $rd, $rs",
+   "base": "SUB",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "register": 0
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "seqz $rd, $rs",
+   "base": "SLTIU",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "value": 1
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "snez $rd, $rs",
+   "base": "SLTU",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "register": 0
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "sltz $rd, $rs",
+   "base": "SLT",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "sgtz $rd, $rs",
+   "base": "SLT",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "register": 0
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "sgt $rd, $rs, $rt",
+   "base": "SLT",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rt"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "sgtu $rd, $rs, $rt",
+   "base": "SLTU",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rt"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "beqz $rs, $offset",
+   "base": "BEQ",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "register": 0
+    },
+    {
+     "cls": "bare_simm13_lsb0",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "bnez $rs, $offset",
+   "base": "BNE",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "register": 0
+    },
+    {
+     "cls": "bare_simm13_lsb0",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "blez $rs, $offset",
+   "base": "BGE",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "cls": "bare_simm13_lsb0",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "bgez $rs, $offset",
+   "base": "BGE",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "register": 0
+    },
+    {
+     "cls": "bare_simm13_lsb0",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "bltz $rs, $offset",
+   "base": "BLT",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "register": 0
+    },
+    {
+     "cls": "bare_simm13_lsb0",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "bgtz $rs, $offset",
+   "base": "BLT",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "cls": "bare_simm13_lsb0",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "bgt $rs, $rt, $offset",
+   "base": "BLT",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rt"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "cls": "bare_simm13_lsb0",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "ble $rs, $rt, $offset",
+   "base": "BGE",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rt"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "cls": "bare_simm13_lsb0",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "bgtu $rs, $rt, $offset",
+   "base": "BLTU",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rt"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "cls": "bare_simm13_lsb0",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "bleu $rs, $rt, $offset",
+   "base": "BGEU",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rt"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "cls": "bare_simm13_lsb0",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "j $offset",
+   "base": "JAL",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "simm21_lsb0_jal",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "jal $offset",
+   "base": "JAL",
+   "args": [
+    {
+     "register": 1
+    },
+    {
+     "cls": "simm21_lsb0_jal",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "jr $rs",
+   "base": "JALR",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 3
+  },
+  {
+   "asm": "jr ${offset}(${rs})",
+   "base": "JALR",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "jalr $rs",
+   "base": "JALR",
+   "args": [
+    {
+     "register": 1
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 3
+  },
+  {
+   "asm": "jalr ${offset}(${rs})",
+   "base": "JALR",
+   "args": [
+    {
+     "register": 1
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "jalr $rd, $rs",
+   "base": "JALR",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 2
+  },
+  {
+   "asm": "ret",
+   "base": "JALR",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "register": 1
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 4
+  },
+  {
+   "asm": "jr $rs, $offset",
+   "base": "JALR",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "jalr $rs, $offset",
+   "base": "JALR",
+   "args": [
+    {
+     "register": 1
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "jalr $rd, $rs, $offset",
+   "base": "JALR",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "offset"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "jr (${rs})",
+   "base": "JALR",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "jalr (${rs})",
+   "base": "JALR",
+   "args": [
+    {
+     "register": 1
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "jalr $rd, (${rs})",
+   "base": "JALR",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "fence",
+   "base": "FENCE",
+   "args": [
+    {
+     "value": 15
+    },
+    {
+     "value": 15
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "pause",
+   "base": "FENCE",
+   "args": [
+    {
+     "value": 1
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "rdinstret $rd",
+   "base": "CSRRS",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 3074
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 2
+  },
+  {
+   "asm": "rdcycle $rd",
+   "base": "CSRRS",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 3072
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 2
+  },
+  {
+   "asm": "rdtime $rd",
+   "base": "CSRRS",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 3073
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 2
+  },
+  {
+   "asm": "rdinstreth $rd",
+   "base": "CSRRS",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 3202
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [
+    "IsRV32"
+   ],
+   "priority": 2
+  },
+  {
+   "asm": "rdcycleh $rd",
+   "base": "CSRRS",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 3200
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [
+    "IsRV32"
+   ],
+   "priority": 2
+  },
+  {
+   "asm": "rdtimeh $rd",
+   "base": "CSRRS",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 3201
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [
+    "IsRV32"
+   ],
+   "priority": 2
+  },
+  {
+   "asm": "csrr $rd, $csr",
+   "base": "CSRRS",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "csrw $csr, $rs",
+   "base": "CSRRW",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "csrs $csr, $rs",
+   "base": "CSRRS",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "csrc $csr, $rs",
+   "base": "CSRRC",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "csrwi $csr, $imm",
+   "base": "CSRRWI",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "csrsi $csr, $imm",
+   "base": "CSRRSI",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "csrci $csr, $imm",
+   "base": "CSRRCI",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "csrw $csr, $imm",
+   "base": "CSRRWI",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "csrs $csr, $imm",
+   "base": "CSRRSI",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "csrc $csr, $imm",
+   "base": "CSRRCI",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "csrrw $rd, $csr, $imm",
+   "base": "CSRRWI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "csrrs $rd, $csr, $imm",
+   "base": "CSRRSI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "csrrc $rd, $csr, $imm",
+   "base": "CSRRCI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "csr_sysreg",
+     "name": "csr"
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "sfence.vma",
+   "base": "SFENCE_VMA",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 2
+  },
+  {
+   "asm": "sfence.vma $rs",
+   "base": "SFENCE_VMA",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "ntl.p1",
+   "base": "ADD",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "register": 0
+    },
+    {
+     "register": 2
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "ntl.pall",
+   "base": "ADD",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "register": 0
+    },
+    {
+     "register": 3
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "ntl.s1",
+   "base": "ADD",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "register": 0
+    },
+    {
+     "register": 4
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "ntl.all",
+   "base": "ADD",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "register": 0
+    },
+    {
+     "register": 5
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "lb $rd, (${rs1})",
+   "base": "LB",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "lh $rd, (${rs1})",
+   "base": "LH",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "lw $rd, (${rs1})",
+   "base": "LW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "lbu $rd, (${rs1})",
+   "base": "LBU",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "lhu $rd, (${rs1})",
+   "base": "LHU",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "sb $rs2, (${rs1})",
+   "base": "SB",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rs2"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "sh $rs2, (${rs1})",
+   "base": "SH",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rs2"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "sw $rs2, (${rs1})",
+   "base": "SW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rs2"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "add $rd, $rs1, $imm12",
+   "base": "ADDI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "imm12"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "and $rd, $rs1, $imm12",
+   "base": "ANDI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "imm12"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "xor $rd, $rs1, $imm12",
+   "base": "XORI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "imm12"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "or $rd, $rs1, $imm12",
+   "base": "ORI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "imm12"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "sll $rd, $rs1, $shamt",
+   "base": "SLLI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "uimmlog2xlen",
+     "name": "shamt"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "srl $rd, $rs1, $shamt",
+   "base": "SRLI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "uimmlog2xlen",
+     "name": "shamt"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "sra $rd, $rs1, $shamt",
+   "base": "SRAI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "uimmlog2xlen",
+     "name": "shamt"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "slt $rd, $rs1, $imm12",
+   "base": "SLTI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "imm12"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "sltu $rd, $rs1, $imm12",
+   "base": "SLTIU",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "imm12"
+    }
+   ],
+   "predicates": [],
+   "priority": 0
+  },
+  {
+   "asm": "zext.b $rd, $rs",
+   "base": "ANDI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "value": 255
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "lpad $imm20",
+   "base": "AUIPC",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "cls": "uimm20",
+     "name": "imm20"
+    }
+   ],
+   "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "frcsr $rd",
+   "base": "CSRRS",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 3
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 2
+  },
+  {
+   "asm": "fscsr $rd, $rs",
+   "base": "CSRRW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 3
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fscsr $rs",
+   "base": "CSRRW",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "bits": 3
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 2
+  },
+  {
+   "asm": "frrm $rd",
+   "base": "CSRRS",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 2
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 2
+  },
+  {
+   "asm": "fsrm $rd, $rs",
+   "base": "CSRRW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 2
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fsrm $rs",
+   "base": "CSRRW",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "bits": 2
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 2
+  },
+  {
+   "asm": "fsrmi $rd, $imm",
+   "base": "CSRRWI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 2
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fsrmi $imm",
+   "base": "CSRRWI",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "bits": 2
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 2
+  },
+  {
+   "asm": "frflags $rd",
+   "base": "CSRRS",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 1
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 2
+  },
+  {
+   "asm": "fsflags $rd, $rs",
+   "base": "CSRRW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 1
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fsflags $rs",
+   "base": "CSRRW",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "bits": 1
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 2
+  },
+  {
+   "asm": "fsflagsi $rd, $imm",
+   "base": "CSRRWI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "bits": 1
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fsflagsi $imm",
+   "base": "CSRRWI",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "bits": 1
+    },
+    {
+     "cls": "uimm5",
+     "name": "imm"
+    }
+   ],
+   "predicates": [
+    "HasStdExtFOrZfinx"
+   ],
+   "priority": 2
+  },
+  {
+   "asm": "flw $rd, (${rs1})",
+   "base": "FLW",
+   "args": [
+    {
+     "cls": "FPR32",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "fsw $rs2, (${rs1})",
+   "base": "FSW",
+   "args": [
+    {
+     "cls": "FPR32",
+     "name": "rs2"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "fmv.s $rd, $rs",
+   "base": "FSGNJ_S",
+   "args": [
+    {
+     "cls": "FPR32",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR32",
+     "name": "rs"
+    },
+    {
+     "cls": "FPR32",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fabs.s $rd, $rs",
+   "base": "FSGNJX_S",
+   "args": [
+    {
+     "cls": "FPR32",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR32",
+     "name": "rs"
+    },
+    {
+     "cls": "FPR32",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fneg.s $rd, $rs",
+   "base": "FSGNJN_S",
+   "args": [
+    {
+     "cls": "FPR32",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR32",
+     "name": "rs"
+    },
+    {
+     "cls": "FPR32",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fgt.s $rd, $rs, $rt",
+   "base": "FLT_S",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR32",
+     "name": "rt"
+    },
+    {
+     "cls": "FPR32",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "fge.s $rd, $rs, $rt",
+   "base": "FLE_S",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR32",
+     "name": "rt"
+    },
+    {
+     "cls": "FPR32",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtF"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "fld $rd, (${rs1})",
+   "base": "FLD",
+   "args": [
+    {
+     "cls": "FPR64",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "fsd $rs2, (${rs1})",
+   "base": "FSD",
+   "args": [
+    {
+     "cls": "FPR64",
+     "name": "rs2"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "fmv.d $rd, $rs",
+   "base": "FSGNJ_D",
+   "args": [
+    {
+     "cls": "FPR64",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR64",
+     "name": "rs"
+    },
+    {
+     "cls": "FPR64",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fabs.d $rd, $rs",
+   "base": "FSGNJX_D",
+   "args": [
+    {
+     "cls": "FPR64",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR64",
+     "name": "rs"
+    },
+    {
+     "cls": "FPR64",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fneg.d $rd, $rs",
+   "base": "FSGNJN_D",
+   "args": [
+    {
+     "cls": "FPR64",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR64",
+     "name": "rs"
+    },
+    {
+     "cls": "FPR64",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fgt.d $rd, $rs, $rt",
+   "base": "FLT_D",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR64",
+     "name": "rt"
+    },
+    {
+     "cls": "FPR64",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "fge.d $rd, $rs, $rt",
+   "base": "FLE_D",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR64",
+     "name": "rt"
+    },
+    {
+     "cls": "FPR64",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtD"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.slli64 $rd",
+   "base": "C_SLLI",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.srli64 $rs1",
+   "base": "C_SRLI",
+   "args": [
+    {
+     "cls": "GPRC",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.srai64 $rs1",
+   "base": "C_SRAI",
+   "args": [
+    {
+     "cls": "GPRC",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.ntl.p1",
+   "base": "C_ADD",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "register": 2
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "c.ntl.pall",
+   "base": "C_ADD",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "register": 3
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "c.ntl.s1",
+   "base": "C_ADD",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "register": 4
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "c.ntl.all",
+   "base": "C_ADD",
+   "args": [
+    {
+     "register": 0
+    },
+    {
+     "register": 5
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "c.lw $rd, (${rs1})",
+   "base": "C_LW",
+   "args": [
+    {
+     "cls": "GPRC",
+     "name": "rd"
+    },
+    {
+     "cls": "BasePtrC",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.sw $rs2, (${rs1})",
+   "base": "C_SW",
+   "args": [
+    {
+     "cls": "GPRC",
+     "name": "rs2"
+    },
+    {
+     "cls": "BasePtrC",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.lwsp $rd, (${rs1})",
+   "base": "C_LWSP",
+   "args": [
+    {
+     "cls": "GPRNoX0",
+     "name": "rd"
+    },
+    {
+     "cls": "SPMem",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.swsp $rs2, (${rs1})",
+   "base": "C_SWSP",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rs2"
+    },
+    {
+     "cls": "SPMem",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.flw $rd, (${rs1})",
+   "base": "C_FLW",
+   "args": [
+    {
+     "cls": "FPR32C",
+     "name": "rd"
+    },
+    {
+     "cls": "BasePtrC",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZcf",
+    "IsRV32"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.fsw $rs2, (${rs1})",
+   "base": "C_FSW",
+   "args": [
+    {
+     "cls": "FPR32C",
+     "name": "rs2"
+    },
+    {
+     "cls": "BasePtrC",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZcf",
+    "IsRV32"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.flwsp $rd, (${rs1})",
+   "base": "C_FLWSP",
+   "args": [
+    {
+     "cls": "FPR32",
+     "name": "rd"
+    },
+    {
+     "cls": "SPMem",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZcf",
+    "IsRV32"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.fswsp $rs2, (${rs1})",
+   "base": "C_FSWSP",
+   "args": [
+    {
+     "cls": "FPR32",
+     "name": "rs2"
+    },
+    {
+     "cls": "SPMem",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZcf",
+    "IsRV32"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.fld $rd, (${rs1})",
+   "base": "C_FLD",
+   "args": [
+    {
+     "cls": "FPR64C",
+     "name": "rd"
+    },
+    {
+     "cls": "BasePtrC",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZcd"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.fsd $rs2, (${rs1})",
+   "base": "C_FSD",
+   "args": [
+    {
+     "cls": "FPR64C",
+     "name": "rs2"
+    },
+    {
+     "cls": "BasePtrC",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZcd"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.fldsp $rd, (${rs1})",
+   "base": "C_FLDSP",
+   "args": [
+    {
+     "cls": "FPR64",
+     "name": "rd"
+    },
+    {
+     "cls": "SPMem",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZcd"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.fsdsp $rs2, (${rs1})",
+   "base": "C_FSDSP",
+   "args": [
+    {
+     "cls": "FPR64",
+     "name": "rs2"
+    },
+    {
+     "cls": "SPMem",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZcd"
+   ],
+   "priority": 0
+  }
+ ],
+ "operands": {
+  "BasePtr": {
+   "regClass": "GPR",
+   "operandType": "OPERAND_MEMORY",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": null,
+   "superclasses": [
+    "RegisterOperand",
+    "MemOperand"
+   ]
+  },
+  "BasePtrC": {
+   "regClass": "GPRC",
+   "operandType": "OPERAND_MEMORY",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": null,
+   "superclasses": [
+    "RegisterOperand",
+    "MemOperand"
+   ]
+  },
+  "GPRMemZeroOffset": {
+   "regClass": "GPR",
+   "operandType": "OPERAND_MEMORY",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printZeroOffsetMemOp",
+   "parser": "ZeroOffsetMemOpOperand",
+   "superclasses": [
+    "RegisterOperand",
+    "MemOperand"
+   ]
+  },
+  "SPMem": {
+   "regClass": "SP",
+   "operandType": "OPERAND_MEMORY",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": null,
+   "superclasses": [
+    "RegisterOperand",
+    "MemOperand"
+   ]
+  },
+  "bare_simm12_lsb0": {
+   "regClass": null,
+   "operandType": "OPERAND_PCREL",
+   "encoder": "getImmOpValueAsrN<1>",
+   "decoder": "decodeSImmOperandAndLslN<12, 1>",
+   "printer": "printBranchOperand",
+   "parser": "anonymous_61802",
+   "superclasses": [
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf"
+   ]
+  },
+  "bare_simm13_lsb0": {
+   "regClass": null,
+   "operandType": "OPERAND_PCREL",
+   "encoder": "getImmOpValueAsrN<1>",
+   "decoder": "decodeSImmOperandAndLslN<13, 1>",
+   "printer": "printBranchOperand",
+   "parser": "anonymous_15067",
+   "superclasses": [
+    "BareSImm13Lsb0MaybeSym",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf"
+   ]
+  },
+  "bare_simm9_lsb0": {
+   "regClass": null,
+   "operandType": "OPERAND_PCREL",
+   "encoder": "getImmOpValueAsrN<1>",
+   "decoder": "decodeSImmOperandAndLslN<9, 1>",
+   "printer": "printBranchOperand",
+   "parser": "anonymous_61798",
+   "superclasses": [
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf"
+   ]
+  },
+  "c_lui_imm": {
+   "regClass": null,
+   "operandType": "OPERAND_CLUI_IMM",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeCLUIImmOperand",
+   "printer": "printOperand",
+   "parser": "CLUIImmAsmOperand",
+   "superclasses": [
+    "RISCVOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf"
+   ]
+  },
+  "csr_sysreg": {
+   "regClass": null,
+   "operandType": "OPERAND_UIMM12",
+   "encoder": null,
+   "decoder": "decodeUImmOperand<12>",
+   "printer": "printCSRSystemRegister",
+   "parser": "CSRSystemRegister",
+   "superclasses": [
+    "RISCVOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf",
+    "TImmLeaf"
+   ]
+  },
+  "fencearg": {
+   "regClass": null,
+   "operandType": "OPERAND_UIMM4",
+   "encoder": null,
+   "decoder": "decodeUImmOperand<4>",
+   "printer": "printFenceArg",
+   "parser": "FenceArg",
+   "superclasses": [
+    "RISCVOp"
+   ]
+  },
+  "frmarg": {
+   "regClass": null,
+   "operandType": "OPERAND_FRMARG",
+   "encoder": null,
+   "decoder": "decodeFRMArg",
+   "printer": "printFRMArg",
+   "parser": "FRMArg",
+   "superclasses": []
+  },
+  "frmarglegacy": {
+   "regClass": null,
+   "operandType": "OPERAND_FRMARG",
+   "encoder": null,
+   "decoder": "decodeFRMArg",
+   "printer": "printFRMArgLegacy",
+   "parser": "FRMArgLegacy",
+   "superclasses": []
+  },
+  "simm10_lsb0000nonzero": {
+   "regClass": null,
+   "operandType": "OPERAND_SIMM10_LSB0000_NONZERO",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeSImmNonZeroOperand<10>",
+   "printer": "printOperand",
+   "parser": "anonymous_61801",
+   "superclasses": [
+    "RISCVOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf"
+   ]
+  },
+  "simm12_lo": {
+   "regClass": null,
+   "operandType": "OPERAND_SIMM12_LO",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeSImmOperand<12>",
+   "printer": "printOperand",
+   "parser": "anonymous_15066",
+   "superclasses": [
+    "RISCVOp",
+    "RISCVSImmOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf",
+    "RISCVSImmLeafOp"
+   ]
+  },
+  "simm12_lsb00000": {
+   "regClass": null,
+   "operandType": "OPERAND_SIMM12_LSB00000",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeSImmOperand<12>",
+   "printer": "printOperand",
+   "parser": "anonymous_16046",
+   "superclasses": [
+    "RISCVOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf"
+   ]
+  },
+  "simm21_lsb0_jal": {
+   "regClass": null,
+   "operandType": "OPERAND_PCREL",
+   "encoder": "getImmOpValueAsrN<1>",
+   "decoder": "decodeSImmOperandAndLslN<21, 1>",
+   "printer": "printBranchOperand",
+   "parser": "Simm21Lsb0JALAsmOperand",
+   "superclasses": [
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf"
+   ]
+  },
+  "simm6": {
+   "regClass": null,
+   "operandType": "OPERAND_SIMM6",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeSImmOperand<6>",
+   "printer": "printOperand",
+   "parser": "anonymous_61793",
+   "superclasses": [
+    "RISCVOp",
+    "RISCVSImmOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf",
+    "RISCVSImmLeafOp"
+   ]
+  },
+  "simm6nonzero": {
+   "regClass": null,
+   "operandType": "OPERAND_SIMM6_NONZERO",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeSImmNonZeroOperand<6>",
+   "printer": "printOperand",
+   "parser": "anonymous_61794",
+   "superclasses": [
+    "RISCVOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf"
+   ]
+  },
+  "uimm10_lsb00nonzero": {
+   "regClass": null,
+   "operandType": "OPERAND_UIMM10_LSB00_NONZERO",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeUImmNonZeroOperand<10>",
+   "printer": "printOperand",
+   "parser": "anonymous_61800",
+   "superclasses": [
+    "RISCVOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf"
+   ]
+  },
+  "uimm20": {
+   "regClass": null,
+   "operandType": "OPERAND_UIMM20",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeUImmOperand<20>",
+   "printer": "printOperand",
+   "parser": "anonymous_15068",
+   "superclasses": [
+    "RISCVOp",
+    "RISCVUImmOp"
+   ]
+  },
+  "uimm20_auipc": {
+   "regClass": null,
+   "operandType": "OPERAND_UIMM20_AUIPC",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeUImmOperand<20>",
+   "printer": "printOperand",
+   "parser": "anonymous_15070",
+   "superclasses": [
+    "RISCVOp",
+    "RISCVUImmOp",
+    "UImm20OperandMaybeSym"
+   ]
+  },
+  "uimm20_lui": {
+   "regClass": null,
+   "operandType": "OPERAND_UIMM20_LUI",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeUImmOperand<20>",
+   "printer": "printOperand",
+   "parser": "anonymous_15069",
+   "superclasses": [
+    "RISCVOp",
+    "RISCVUImmOp",
+    "UImm20OperandMaybeSym"
+   ]
+  },
+  "uimm5": {
+   "regClass": null,
+   "operandType": "OPERAND_UIMM5",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeUImmOperand<5>",
+   "printer": "printOperand",
+   "parser": "anonymous_15057",
+   "superclasses": [
+    "RISCVOp",
+    "RISCVUImmOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf",
+    "RISCVUImmLeafOp"
+   ]
+  },
+  "uimm7_lsb00": {
+   "regClass": null,
+   "operandType": "OPERAND_UIMM7_LSB00",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeUImmOperand<7>",
+   "printer": "printOperand",
+   "parser": "anonymous_61795",
+   "superclasses": [
+    "RISCVOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf",
+    "RISCVUImmLsbZeroOp"
+   ]
+  },
+  "uimm8_lsb00": {
+   "regClass": null,
+   "operandType": "OPERAND_UIMM8_LSB00",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeUImmOperand<8>",
+   "printer": "printOperand",
+   "parser": "anonymous_61796",
+   "superclasses": [
+    "RISCVOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf",
+    "RISCVUImmLsbZeroOp"
+   ]
+  },
+  "uimm8_lsb000": {
+   "regClass": null,
+   "operandType": "OPERAND_UIMM8_LSB000",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeUImmOperand<8>",
+   "printer": "printOperand",
+   "parser": "anonymous_61797",
+   "superclasses": [
+    "RISCVOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf",
+    "RISCVUImmLsbZeroOp"
+   ]
+  },
+  "uimm9_lsb000": {
+   "regClass": null,
+   "operandType": "OPERAND_UIMM9_LSB000",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeUImmOperand<9>",
+   "printer": "printOperand",
+   "parser": "anonymous_61799",
+   "superclasses": [
+    "RISCVOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf",
+    "RISCVUImmLsbZeroOp"
+   ]
+  },
+  "uimmlog2xlen": {
+   "regClass": null,
+   "operandType": "OPERAND_UIMMLOG2XLEN",
+   "encoder": null,
+   "decoder": "decodeUImmLog2XLenOperand",
+   "printer": "printOperand",
+   "parser": "UImmLog2XLenAsmOperand",
+   "superclasses": [
+    "RISCVOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf"
+   ]
+  }
+ },
+ "registerClasses": {
+  "GPR": [
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   5,
+   6,
+   7,
+   28,
+   29,
+   30,
+   31,
+   8,
+   9,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "GPRC": [
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   8,
+   9
+  ],
+  "FPR32": [
+   15,
+   14,
+   13,
+   12,
+   11,
+   10,
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   16,
+   17,
+   28,
+   29,
+   30,
+   31,
+   8,
+   9,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27
+  ],
+  "FPR32C": [
+   15,
+   14,
+   13,
+   12,
+   11,
+   10,
+   8,
+   9
+  ],
+  "FPR64": [
+   15,
+   14,
+   13,
+   12,
+   11,
+   10,
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   16,
+   17,
+   28,
+   29,
+   30,
+   31,
+   8,
+   9,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27
+  ],
+  "FPR64C": [
+   15,
+   14,
+   13,
+   12,
+   11,
+   10,
+   8,
+   9
+  ],
+  "GPRNoX0": [
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   5,
+   6,
+   7,
+   28,
+   29,
+   30,
+   31,
+   8,
+   9,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   1,
+   2,
+   3,
+   4
+  ],
+  "GPRNoX2": [
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   5,
+   6,
+   7,
+   28,
+   29,
+   30,
+   31,
+   8,
+   9,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   0,
+   1,
+   3,
+   4
+  ],
+  "SP": [
+   2
+  ]
+ },
+ "registers": [
+  {
+   "def": "F0_F",
+   "name": "f0",
+   "abi": [
+    "ft0"
+   ],
+   "encoding": 0
+  },
+  {
+   "def": "F1_F",
+   "name": "f1",
+   "abi": [
+    "ft1"
+   ],
+   "encoding": 1
+  },
+  {
+   "def": "F2_F",
+   "name": "f2",
+   "abi": [
+    "ft2"
+   ],
+   "encoding": 2
+  },
+  {
+   "def": "F3_F",
+   "name": "f3",
+   "abi": [
+    "ft3"
+   ],
+   "encoding": 3
+  },
+  {
+   "def": "F4_F",
+   "name": "f4",
+   "abi": [
+    "ft4"
+   ],
+   "encoding": 4
+  },
+  {
+   "def": "F5_F",
+   "name": "f5",
+   "abi": [
+    "ft5"
+   ],
+   "encoding": 5
+  },
+  {
+   "def": "F6_F",
+   "name": "f6",
+   "abi": [
+    "ft6"
+   ],
+   "encoding": 6
+  },
+  {
+   "def": "F7_F",
+   "name": "f7",
+   "abi": [
+    "ft7"
+   ],
+   "encoding": 7
+  },
+  {
+   "def": "F8_F",
+   "name": "f8",
+   "abi": [
+    "fs0"
+   ],
+   "encoding": 8
+  },
+  {
+   "def": "F9_F",
+   "name": "f9",
+   "abi": [
+    "fs1"
+   ],
+   "encoding": 9
+  },
+  {
+   "def": "F10_F",
+   "name": "f10",
+   "abi": [
+    "fa0"
+   ],
+   "encoding": 10
+  },
+  {
+   "def": "F11_F",
+   "name": "f11",
+   "abi": [
+    "fa1"
+   ],
+   "encoding": 11
+  },
+  {
+   "def": "F12_F",
+   "name": "f12",
+   "abi": [
+    "fa2"
+   ],
+   "encoding": 12
+  },
+  {
+   "def": "F13_F",
+   "name": "f13",
+   "abi": [
+    "fa3"
+   ],
+   "encoding": 13
+  },
+  {
+   "def": "F14_F",
+   "name": "f14",
+   "abi": [
+    "fa4"
+   ],
+   "encoding": 14
+  },
+  {
+   "def": "F15_F",
+   "name": "f15",
+   "abi": [
+    "fa5"
+   ],
+   "encoding": 15
+  },
+  {
+   "def": "F16_F",
+   "name": "f16",
+   "abi": [
+    "fa6"
+   ],
+   "encoding": 16
+  },
+  {
+   "def": "F17_F",
+   "name": "f17",
+   "abi": [
+    "fa7"
+   ],
+   "encoding": 17
+  },
+  {
+   "def": "F18_F",
+   "name": "f18",
+   "abi": [
+    "fs2"
+   ],
+   "encoding": 18
+  },
+  {
+   "def": "F19_F",
+   "name": "f19",
+   "abi": [
+    "fs3"
+   ],
+   "encoding": 19
+  },
+  {
+   "def": "F20_F",
+   "name": "f20",
+   "abi": [
+    "fs4"
+   ],
+   "encoding": 20
+  },
+  {
+   "def": "F21_F",
+   "name": "f21",
+   "abi": [
+    "fs5"
+   ],
+   "encoding": 21
+  },
+  {
+   "def": "F22_F",
+   "name": "f22",
+   "abi": [
+    "fs6"
+   ],
+   "encoding": 22
+  },
+  {
+   "def": "F23_F",
+   "name": "f23",
+   "abi": [
+    "fs7"
+   ],
+   "encoding": 23
+  },
+  {
+   "def": "F24_F",
+   "name": "f24",
+   "abi": [
+    "fs8"
+   ],
+   "encoding": 24
+  },
+  {
+   "def": "F25_F",
+   "name": "f25",
+   "abi": [
+    "fs9"
+   ],
+   "encoding": 25
+  },
+  {
+   "def": "F26_F",
+   "name": "f26",
+   "abi": [
+    "fs10"
+   ],
+   "encoding": 26
+  },
+  {
+   "def": "F27_F",
+   "name": "f27",
+   "abi": [
+    "fs11"
+   ],
+   "encoding": 27
+  },
+  {
+   "def": "F28_F",
+   "name": "f28",
+   "abi": [
+    "ft8"
+   ],
+   "encoding": 28
+  },
+  {
+   "def": "F29_F",
+   "name": "f29",
+   "abi": [
+    "ft9"
+   ],
+   "encoding": 29
+  },
+  {
+   "def": "F30_F",
+   "name": "f30",
+   "abi": [
+    "ft10"
+   ],
+   "encoding": 30
+  },
+  {
+   "def": "F31_F",
+   "name": "f31",
+   "abi": [
+    "ft11"
+   ],
+   "encoding": 31
+  },
+  {
+   "def": "X0",
+   "name": "x0",
+   "abi": [
+    "zero"
+   ],
+   "encoding": 0
+  },
+  {
+   "def": "X1",
+   "name": "x1",
+   "abi": [
+    "ra"
+   ],
+   "encoding": 1
+  },
+  {
+   "def": "X2",
+   "name": "x2",
+   "abi": [
+    "sp"
+   ],
+   "encoding": 2
+  },
+  {
+   "def": "X3",
+   "name": "x3",
+   "abi": [
+    "gp"
+   ],
+   "encoding": 3
+  },
+  {
+   "def": "X4",
+   "name": "x4",
+   "abi": [
+    "tp"
+   ],
+   "encoding": 4
+  },
+  {
+   "def": "X5",
+   "name": "x5",
+   "abi": [
+    "t0"
+   ],
+   "encoding": 5
+  },
+  {
+   "def": "X6",
+   "name": "x6",
+   "abi": [
+    "t1"
+   ],
+   "encoding": 6
+  },
+  {
+   "def": "X7",
+   "name": "x7",
+   "abi": [
+    "t2"
+   ],
+   "encoding": 7
+  },
+  {
+   "def": "X8",
+   "name": "x8",
+   "abi": [
+    "s0",
+    "fp"
+   ],
+   "encoding": 8
+  },
+  {
+   "def": "X9",
+   "name": "x9",
+   "abi": [
+    "s1"
+   ],
+   "encoding": 9
+  },
+  {
+   "def": "X10",
+   "name": "x10",
+   "abi": [
+    "a0"
+   ],
+   "encoding": 10
+  },
+  {
+   "def": "X11",
+   "name": "x11",
+   "abi": [
+    "a1"
+   ],
+   "encoding": 11
+  },
+  {
+   "def": "X12",
+   "name": "x12",
+   "abi": [
+    "a2"
+   ],
+   "encoding": 12
+  },
+  {
+   "def": "X13",
+   "name": "x13",
+   "abi": [
+    "a3"
+   ],
+   "encoding": 13
+  },
+  {
+   "def": "X14",
+   "name": "x14",
+   "abi": [
+    "a4"
+   ],
+   "encoding": 14
+  },
+  {
+   "def": "X15",
+   "name": "x15",
+   "abi": [
+    "a5"
+   ],
+   "encoding": 15
+  },
+  {
+   "def": "X16",
+   "name": "x16",
+   "abi": [
+    "a6"
+   ],
+   "encoding": 16
+  },
+  {
+   "def": "X17",
+   "name": "x17",
+   "abi": [
+    "a7"
+   ],
+   "encoding": 17
+  },
+  {
+   "def": "X18",
+   "name": "x18",
+   "abi": [
+    "s2"
+   ],
+   "encoding": 18
+  },
+  {
+   "def": "X19",
+   "name": "x19",
+   "abi": [
+    "s3"
+   ],
+   "encoding": 19
+  },
+  {
+   "def": "X20",
+   "name": "x20",
+   "abi": [
+    "s4"
+   ],
+   "encoding": 20
+  },
+  {
+   "def": "X21",
+   "name": "x21",
+   "abi": [
+    "s5"
+   ],
+   "encoding": 21
+  },
+  {
+   "def": "X22",
+   "name": "x22",
+   "abi": [
+    "s6"
+   ],
+   "encoding": 22
+  },
+  {
+   "def": "X23",
+   "name": "x23",
+   "abi": [
+    "s7"
+   ],
+   "encoding": 23
+  },
+  {
+   "def": "X24",
+   "name": "x24",
+   "abi": [
+    "s8"
+   ],
+   "encoding": 24
+  },
+  {
+   "def": "X25",
+   "name": "x25",
+   "abi": [
+    "s9"
+   ],
+   "encoding": 25
+  },
+  {
+   "def": "X26",
+   "name": "x26",
+   "abi": [
+    "s10"
+   ],
+   "encoding": 26
+  },
+  {
+   "def": "X27",
+   "name": "x27",
+   "abi": [
+    "s11"
+   ],
+   "encoding": 27
+  },
+  {
+   "def": "X28",
+   "name": "x28",
+   "abi": [
+    "t3"
+   ],
+   "encoding": 28
+  },
+  {
+   "def": "X29",
+   "name": "x29",
+   "abi": [
+    "t4"
+   ],
+   "encoding": 29
+  },
+  {
+   "def": "X30",
+   "name": "x30",
+   "abi": [
+    "t5"
+   ],
+   "encoding": 30
+  },
+  {
+   "def": "X31",
+   "name": "x31",
+   "abi": [
+    "t6"
+   ],
+   "encoding": 31
+  }
+ ],
+ "sysregs": {
+  "fflags": 1,
+  "frm": 2,
+  "fcsr": 3,
+  "vstart": 8,
+  "vxsat": 9,
+  "vxrm": 10,
+  "vcsr": 15,
+  "ssp": 17,
+  "seed": 21,
+  "jvt": 23,
+  "sstatus": 256,
+  "sie": 260,
+  "stvec": 261,
+  "scounteren": 262,
+  "sf.stvt": 263,
+  "senvcfg": 266,
+  "sstateen0": 268,
+  "sstateen1": 269,
+  "sstateen2": 270,
+  "sstateen3": 271,
+  "sieh": 276,
+  "scountinhibit": 288,
+  "sscratch": 320,
+  "sepc": 321,
+  "scause": 322,
+  "stval": 323,
+  "sip": 324,
+  "sf.snxti": 325,
+  "sf.sintstatus": 326,
+  "sf.sscratchcsw": 328,
+  "sf.sscratchcswl": 329,
+  "stimecmp": 333,
+  "sctrctl": 334,
+  "sctrstatus": 335,
+  "siselect": 336,
+  "sireg": 337,
+  "sireg2": 338,
+  "sireg3": 339,
+  "siph": 340,
+  "sireg4": 341,
+  "sireg5": 342,
+  "sireg6": 343,
+  "stopei": 348,
+  "stimecmph": 349,
+  "sctrdepth": 351,
+  "satp": 384,
+  "srmcfg": 385,
+  "vsstatus": 512,
+  "vsie": 516,
+  "vstvec": 517,
+  "vsieh": 532,
+  "vsscratch": 576,
+  "vsepc": 577,
+  "vscause": 578,
+  "vstval": 579,
+  "vsip": 580,
+  "vstimecmp": 589,
+  "vsctrctl": 590,
+  "vsiselect": 592,
+  "vsireg": 593,
+  "vsireg2": 594,
+  "vsireg3": 595,
+  "vsiph": 596,
+  "vsireg4": 597,
+  "vsireg5": 598,
+  "vsireg6": 599,
+  "vstopei": 604,
+  "vstimecmph": 605,
+  "vsatp": 640,
+  "mstatus": 768,
+  "misa": 769,
+  "medeleg": 770,
+  "mideleg": 771,
+  "mie": 772,
+  "mtvec": 773,
+  "mcounteren": 774,
+  "sf.mtvt": 775,
+  "mvien": 776,
+  "mvip": 777,
+  "menvcfg": 778,
+  "mstateen0": 780,
+  "mstateen1": 781,
+  "mstateen2": 782,
+  "mstateen3": 783,
+  "mstatush": 784,
+  "medelegh": 786,
+  "midelegh": 787,
+  "mieh": 788,
+  "mvienh": 792,
+  "mviph": 793,
+  "menvcfgh": 794,
+  "mstateen0h": 796,
+  "mstateen1h": 797,
+  "mstateen2h": 798,
+  "mstateen3h": 799,
+  "mcountinhibit": 800,
+  "mcyclecfg": 801,
+  "minstretcfg": 802,
+  "mhpmevent3": 803,
+  "mhpmevent4": 804,
+  "mhpmevent5": 805,
+  "mhpmevent6": 806,
+  "mhpmevent7": 807,
+  "mhpmevent8": 808,
+  "mhpmevent9": 809,
+  "mhpmevent10": 810,
+  "mhpmevent11": 811,
+  "mhpmevent12": 812,
+  "mhpmevent13": 813,
+  "mhpmevent14": 814,
+  "mhpmevent15": 815,
+  "mhpmevent16": 816,
+  "mhpmevent17": 817,
+  "mhpmevent18": 818,
+  "mhpmevent19": 819,
+  "mhpmevent20": 820,
+  "mhpmevent21": 821,
+  "mhpmevent22": 822,
+  "mhpmevent23": 823,
+  "mhpmevent24": 824,
+  "mhpmevent25": 825,
+  "mhpmevent26": 826,
+  "mhpmevent27": 827,
+  "mhpmevent28": 828,
+  "mhpmevent29": 829,
+  "mhpmevent30": 830,
+  "mhpmevent31": 831,
+  "mscratch": 832,
+  "mepc": 833,
+  "mcause": 834,
+  "mtval": 835,
+  "mip": 836,
+  "sf.mnxti": 837,
+  "sf.mintstatus": 838,
+  "sf.mscratchcsw": 840,
+  "sf.mscratchcswl": 841,
+  "mtinst": 842,
+  "mtval2": 843,
+  "mctrctl": 846,
+  "miselect": 848,
+  "mireg": 849,
+  "mireg2": 850,
+  "mireg3": 851,
+  "miph": 852,
+  "mireg4": 853,
+  "mireg5": 854,
+  "mireg6": 855,
+  "mtopei": 860,
+  "pmpcfg0": 928,
+  "pmpcfg1": 929,
+  "pmpcfg2": 930,
+  "pmpcfg3": 931,
+  "pmpcfg4": 932,
+  "pmpcfg5": 933,
+  "pmpcfg6": 934,
+  "pmpcfg7": 935,
+  "pmpcfg8": 936,
+  "pmpcfg9": 937,
+  "pmpcfg10": 938,
+  "pmpcfg11": 939,
+  "pmpcfg12": 940,
+  "pmpcfg13": 941,
+  "pmpcfg14": 942,
+  "pmpcfg15": 943,
+  "pmpaddr0": 944,
+  "pmpaddr1": 945,
+  "pmpaddr2": 946,
+  "pmpaddr3": 947,
+  "pmpaddr4": 948,
+  "pmpaddr5": 949,
+  "pmpaddr6": 950,
+  "pmpaddr7": 951,
+  "pmpaddr8": 952,
+  "pmpaddr9": 953,
+  "pmpaddr10": 954,
+  "pmpaddr11": 955,
+  "pmpaddr12": 956,
+  "pmpaddr13": 957,
+  "pmpaddr14": 958,
+  "pmpaddr15": 959,
+  "pmpaddr16": 960,
+  "pmpaddr17": 961,
+  "pmpaddr18": 962,
+  "pmpaddr19": 963,
+  "pmpaddr20": 964,
+  "pmpaddr21": 965,
+  "pmpaddr22": 966,
+  "pmpaddr23": 967,
+  "pmpaddr24": 968,
+  "pmpaddr25": 969,
+  "pmpaddr26": 970,
+  "pmpaddr27": 971,
+  "pmpaddr28": 972,
+  "pmpaddr29": 973,
+  "pmpaddr30": 974,
+  "pmpaddr31": 975,
+  "pmpaddr32": 976,
+  "pmpaddr33": 977,
+  "pmpaddr34": 978,
+  "pmpaddr35": 979,
+  "pmpaddr36": 980,
+  "pmpaddr37": 981,
+  "pmpaddr38": 982,
+  "pmpaddr39": 983,
+  "pmpaddr40": 984,
+  "pmpaddr41": 985,
+  "pmpaddr42": 986,
+  "pmpaddr43": 987,
+  "pmpaddr44": 988,
+  "pmpaddr45": 989,
+  "pmpaddr46": 990,
+  "pmpaddr47": 991,
+  "pmpaddr48": 992,
+  "pmpaddr49": 993,
+  "pmpaddr50": 994,
+  "pmpaddr51": 995,
+  "pmpaddr52": 996,
+  "pmpaddr53": 997,
+  "pmpaddr54": 998,
+  "pmpaddr55": 999,
+  "pmpaddr56": 1000,
+  "pmpaddr57": 1001,
+  "pmpaddr58": 1002,
+  "pmpaddr59": 1003,
+  "pmpaddr60": 1004,
+  "pmpaddr61": 1005,
+  "pmpaddr62": 1006,
+  "pmpaddr63": 1007,
+  "scontext": 1448,
+  "hstatus": 1536,
+  "hedeleg": 1538,
+  "hideleg": 1539,
+  "hie": 1540,
+  "htimedelta": 1541,
+  "hcounteren": 1542,
+  "hgeie": 1543,
+  "hvien": 1544,
+  "hvictl": 1545,
+  "henvcfg": 1546,
+  "hstateen0": 1548,
+  "hstateen1": 1549,
+  "hstateen2": 1550,
+  "hstateen3": 1551,
+  "hedelegh": 1554,
+  "hidelegh": 1555,
+  "htimedeltah": 1557,
+  "hvienh": 1560,
+  "henvcfgh": 1562,
+  "hstateen0h": 1564,
+  "hstateen1h": 1565,
+  "hstateen2h": 1566,
+  "hstateen3h": 1567,
+  "htval": 1603,
+  "hip": 1604,
+  "hvip": 1605,
+  "hviprio1": 1606,
+  "hviprio2": 1607,
+  "htinst": 1610,
+  "hviph": 1621,
+  "hviprio1h": 1622,
+  "hviprio2h": 1623,
+  "hgatp": 1664,
+  "hcontext": 1704,
+  "mcyclecfgh": 1825,
+  "minstretcfgh": 1826,
+  "mhpmevent3h": 1827,
+  "mhpmevent4h": 1828,
+  "mhpmevent5h": 1829,
+  "mhpmevent6h": 1830,
+  "mhpmevent7h": 1831,
+  "mhpmevent8h": 1832,
+  "mhpmevent9h": 1833,
+  "mhpmevent10h": 1834,
+  "mhpmevent11h": 1835,
+  "mhpmevent12h": 1836,
+  "mhpmevent13h": 1837,
+  "mhpmevent14h": 1838,
+  "mhpmevent15h": 1839,
+  "mhpmevent16h": 1840,
+  "mhpmevent17h": 1841,
+  "mhpmevent18h": 1842,
+  "mhpmevent19h": 1843,
+  "mhpmevent20h": 1844,
+  "mhpmevent21h": 1845,
+  "mhpmevent22h": 1846,
+  "mhpmevent23h": 1847,
+  "mhpmevent24h": 1848,
+  "mhpmevent25h": 1849,
+  "mhpmevent26h": 1850,
+  "mhpmevent27h": 1851,
+  "mhpmevent28h": 1852,
+  "mhpmevent29h": 1853,
+  "mhpmevent30h": 1854,
+  "mhpmevent31h": 1855,
+  "mnscratch": 1856,
+  "mnepc": 1857,
+  "mncause": 1858,
+  "mnstatus": 1860,
+  "mseccfg": 1863,
+  "mseccfgh": 1879,
+  "tselect": 1952,
+  "tdata1": 1953,
+  "tdata2": 1954,
+  "tdata3": 1955,
+  "tinfo": 1956,
+  "tcontrol": 1957,
+  "mcontext": 1960,
+  "mscontext": 1962,
+  "dcsr": 1968,
+  "dpc": 1969,
+  "dscratch0": 1970,
+  "dscratch1": 1971,
+  "qc.mmcr": 1984,
+  "aif.matp": 1984,
+  "qc.mntvec": 1987,
+  "qc.mstktopaddr": 1988,
+  "qc.mstkbottomaddr": 1989,
+  "qc.mthreadptr": 1992,
+  "qc.mcause": 1993,
+  "aif.minstmask": 1997,
+  "aif.minstmatch": 1998,
+  "qc.mwpstartaddr0": 2000,
+  "aif.cache_invalidate": 2000,
+  "qc.mwpstartaddr1": 2001,
+  "qc.mwpstartaddr2": 2002,
+  "aif.menable_shadows": 2002,
+  "qc.mwpstartaddr3": 2003,
+  "aif.excl_mode": 2003,
+  "qc.mwpendaddr0": 2004,
+  "qc.mwpendaddr1": 2005,
+  "aif.mbusaddr": 2005,
+  "qc.mwpendaddr2": 2006,
+  "qc.mwpendaddr3": 2007,
+  "aif.mcache_control": 2016,
+  "qc.mclicip0": 2032,
+  "qc.mclicip1": 2033,
+  "qc.mclicip2": 2034,
+  "qc.mclicip3": 2035,
+  "qc.mclicip4": 2036,
+  "qc.mclicip5": 2037,
+  "qc.mclicip6": 2038,
+  "qc.mclicip7": 2039,
+  "qc.mclicie0": 2040,
+  "qc.mclicie1": 2041,
+  "aif.evict_sw": 2041,
+  "qc.mclicie2": 2042,
+  "qc.mclicie3": 2043,
+  "aif.flush_sw": 2043,
+  "qc.mclicie4": 2044,
+  "qc.mclicie5": 2045,
+  "aif.lock_sw": 2045,
+  "qc.mclicie6": 2046,
+  "qc.mclicie7": 2047,
+  "aif.unlock_sw": 2047,
+  "aif.tensor_reduce": 2048,
+  "aif.tensor_fma": 2049,
+  "aif.tensor_conv_size": 2050,
+  "aif.tensor_conv_ctrl": 2051,
+  "aif.tensor_coop": 2052,
+  "aif.tensor_mask": 2053,
+  "aif.tensor_quant": 2054,
+  "aif.tex_send": 2055,
+  "aif.tensor_error": 2056,
+  "aif.ucache_control": 2064,
+  "aif.prefetch_va": 2079,
+  "aif.flb": 2080,
+  "aif.fcc": 2081,
+  "aif.stall": 2082,
+  "aif.tensor_wait": 2096,
+  "aif.tensor_load": 2111,
+  "aif.gsc_progress": 2112,
+  "aif.tensor_load_l2": 2143,
+  "aif.tensor_store": 2175,
+  "aif.evict_va": 2207,
+  "aif.flush_va": 2239,
+  "aif.validation0": 2256,
+  "aif.validation1": 2257,
+  "aif.validation2": 2258,
+  "aif.validation3": 2259,
+  "aif.lock_va": 2271,
+  "aif.unlock_va": 2303,
+  "aif.portctrl0": 2508,
+  "aif.portctrl1": 2509,
+  "aif.portctrl2": 2510,
+  "aif.portctrl3": 2511,
+  "mcycle": 2816,
+  "minstret": 2818,
+  "mhpmcounter3": 2819,
+  "mhpmcounter4": 2820,
+  "mhpmcounter5": 2821,
+  "mhpmcounter6": 2822,
+  "mhpmcounter7": 2823,
+  "mhpmcounter8": 2824,
+  "mhpmcounter9": 2825,
+  "mhpmcounter10": 2826,
+  "mhpmcounter11": 2827,
+  "mhpmcounter12": 2828,
+  "mhpmcounter13": 2829,
+  "mhpmcounter14": 2830,
+  "mhpmcounter15": 2831,
+  "mhpmcounter16": 2832,
+  "mhpmcounter17": 2833,
+  "mhpmcounter18": 2834,
+  "mhpmcounter19": 2835,
+  "mhpmcounter20": 2836,
+  "mhpmcounter21": 2837,
+  "mhpmcounter22": 2838,
+  "mhpmcounter23": 2839,
+  "mhpmcounter24": 2840,
+  "mhpmcounter25": 2841,
+  "mhpmcounter26": 2842,
+  "mhpmcounter27": 2843,
+  "mhpmcounter28": 2844,
+  "mhpmcounter29": 2845,
+  "mhpmcounter30": 2846,
+  "mhpmcounter31": 2847,
+  "mcycleh": 2944,
+  "minstreth": 2946,
+  "mhpmcounter3h": 2947,
+  "mhpmcounter4h": 2948,
+  "mhpmcounter5h": 2949,
+  "mhpmcounter6h": 2950,
+  "mhpmcounter7h": 2951,
+  "mhpmcounter8h": 2952,
+  "mhpmcounter9h": 2953,
+  "mhpmcounter10h": 2954,
+  "mhpmcounter11h": 2955,
+  "mhpmcounter12h": 2956,
+  "mhpmcounter13h": 2957,
+  "mhpmcounter14h": 2958,
+  "mhpmcounter15h": 2959,
+  "mhpmcounter16h": 2960,
+  "mhpmcounter17h": 2961,
+  "mhpmcounter18h": 2962,
+  "mhpmcounter19h": 2963,
+  "mhpmcounter20h": 2964,
+  "mhpmcounter21h": 2965,
+  "mhpmcounter22h": 2966,
+  "mhpmcounter23h": 2967,
+  "mhpmcounter24h": 2968,
+  "mhpmcounter25h": 2969,
+  "mhpmcounter26h": 2970,
+  "mhpmcounter27h": 2971,
+  "mhpmcounter28h": 2972,
+  "mhpmcounter29h": 2973,
+  "mhpmcounter30h": 2974,
+  "mhpmcounter31h": 2975,
+  "qc.mclicilvl00": 3008,
+  "qc.mclicilvl01": 3009,
+  "qc.mclicilvl02": 3010,
+  "qc.mclicilvl03": 3011,
+  "qc.mclicilvl04": 3012,
+  "qc.mclicilvl05": 3013,
+  "qc.mclicilvl06": 3014,
+  "qc.mclicilvl07": 3015,
+  "qc.mclicilvl08": 3016,
+  "qc.mclicilvl09": 3017,
+  "qc.mclicilvl10": 3018,
+  "qc.mclicilvl11": 3019,
+  "qc.mclicilvl12": 3020,
+  "qc.mclicilvl13": 3021,
+  "qc.mclicilvl14": 3022,
+  "qc.mclicilvl15": 3023,
+  "qc.mclicilvl16": 3024,
+  "qc.mclicilvl17": 3025,
+  "qc.mclicilvl18": 3026,
+  "qc.mclicilvl19": 3027,
+  "qc.mclicilvl20": 3028,
+  "qc.mclicilvl21": 3029,
+  "qc.mclicilvl22": 3030,
+  "qc.mclicilvl23": 3031,
+  "qc.mclicilvl24": 3032,
+  "qc.mclicilvl25": 3033,
+  "qc.mclicilvl26": 3034,
+  "qc.mclicilvl27": 3035,
+  "qc.mclicilvl28": 3036,
+  "qc.mclicilvl29": 3037,
+  "qc.mclicilvl30": 3038,
+  "qc.mclicilvl31": 3039,
+  "cycle": 3072,
+  "time": 3073,
+  "instret": 3074,
+  "hpmcounter3": 3075,
+  "hpmcounter4": 3076,
+  "hpmcounter5": 3077,
+  "hpmcounter6": 3078,
+  "hpmcounter7": 3079,
+  "hpmcounter8": 3080,
+  "hpmcounter9": 3081,
+  "hpmcounter10": 3082,
+  "hpmcounter11": 3083,
+  "hpmcounter12": 3084,
+  "hpmcounter13": 3085,
+  "hpmcounter14": 3086,
+  "hpmcounter15": 3087,
+  "hpmcounter16": 3088,
+  "hpmcounter17": 3089,
+  "hpmcounter18": 3090,
+  "hpmcounter19": 3091,
+  "hpmcounter20": 3092,
+  "hpmcounter21": 3093,
+  "hpmcounter22": 3094,
+  "hpmcounter23": 3095,
+  "hpmcounter24": 3096,
+  "hpmcounter25": 3097,
+  "hpmcounter26": 3098,
+  "hpmcounter27": 3099,
+  "hpmcounter28": 3100,
+  "hpmcounter29": 3101,
+  "hpmcounter30": 3102,
+  "hpmcounter31": 3103,
+  "vl": 3104,
+  "vtype": 3105,
+  "vlenb": 3106,
+  "cycleh": 3200,
+  "timeh": 3201,
+  "instreth": 3202,
+  "hpmcounter3h": 3203,
+  "hpmcounter4h": 3204,
+  "hpmcounter5h": 3205,
+  "hpmcounter6h": 3206,
+  "hpmcounter7h": 3207,
+  "hpmcounter8h": 3208,
+  "hpmcounter9h": 3209,
+  "hpmcounter10h": 3210,
+  "hpmcounter11h": 3211,
+  "hpmcounter12h": 3212,
+  "hpmcounter13h": 3213,
+  "hpmcounter14h": 3214,
+  "hpmcounter15h": 3215,
+  "hpmcounter16h": 3216,
+  "hpmcounter17h": 3217,
+  "hpmcounter18h": 3218,
+  "hpmcounter19h": 3219,
+  "hpmcounter20h": 3220,
+  "hpmcounter21h": 3221,
+  "hpmcounter22h": 3222,
+  "hpmcounter23h": 3223,
+  "hpmcounter24h": 3224,
+  "hpmcounter25h": 3225,
+  "hpmcounter26h": 3226,
+  "hpmcounter27h": 3227,
+  "hpmcounter28h": 3228,
+  "hpmcounter29h": 3229,
+  "hpmcounter30h": 3230,
+  "hpmcounter31h": 3231,
+  "aif.fccnb": 3264,
+  "aif.porthead0": 3272,
+  "aif.porthead1": 3273,
+  "aif.porthead2": 3274,
+  "aif.porthead3": 3275,
+  "aif.portheadnb0": 3276,
+  "aif.portheadnb1": 3277,
+  "aif.portheadnb2": 3278,
+  "aif.portheadnb3": 3279,
+  "aif.hartid": 3280,
+  "scountovf": 3488,
+  "stopi": 3504,
+  "hgeip": 3602,
+  "vstopi": 3760,
+  "mvendorid": 3857,
+  "marchid": 3858,
+  "mimpid": 3859,
+  "mhartid": 3860,
+  "mconfigptr": 3861,
+  "mtopi": 4016,
+  "aif.dcache_debug": 4032
+ }
+}

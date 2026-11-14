@@ -1,0 +1,572 @@
+{
+  "$comment": "What the 6502 sheets show that llvm-mos TableGen does not carry: the sections, the addressing modes' titles and pseudocode, each mnemonic's class, description, pseudocode and flags. tools/isa/gen-mos6502.mjs merges it with spec/llvm/MOS.json into src/isa/generated/mos6502.mjs.",
+  "formats": {
+    "IMP": {
+      "title": "Implied"
+    },
+    "ACC": {
+      "title": "Accumulator"
+    },
+    "IMM": {
+      "title": "Immediate"
+    },
+    "ZP": {
+      "title": "Zero Page"
+    },
+    "ZPX": {
+      "title": "Zero Page, X"
+    },
+    "ZPY": {
+      "title": "Zero Page, Y"
+    },
+    "ABS": {
+      "title": "Absolute"
+    },
+    "ABX": {
+      "title": "Absolute, X"
+    },
+    "ABY": {
+      "title": "Absolute, Y"
+    },
+    "IND": {
+      "title": "Indirect"
+    },
+    "IZX": {
+      "title": "Indexed Indirect"
+    },
+    "IZY": {
+      "title": "Indirect Indexed"
+    },
+    "REL": {
+      "title": "Relative"
+    }
+  },
+  "sections": {
+    "cc0": "cc = 00 — Control, Compare X / Y, Load / Store Y",
+    "cc1": "cc = 01 — Accumulator: Load / Store, Arithmetic, Logic",
+    "cc2": "cc = 10 — Shifts, Increments, Load / Store X, Transfers"
+  },
+  "extensions": [
+    "Load / Store",
+    "Transfer",
+    "Stack",
+    "Arithmetic",
+    "Logic",
+    "Shift",
+    "Compare",
+    "Increment",
+    "Jump",
+    "Branch",
+    "Flags",
+    "System"
+  ],
+  "modes": {
+    "IMM": {
+      "title": "Immediate Operand",
+      "pseudocode": "M = imm"
+    },
+    "ZP": {
+      "title": "Zero Page Address",
+      "pseudocode": "M = [ zp ]"
+    },
+    "ZPX": {
+      "title": "Zero Page Indexed by X",
+      "pseudocode": "M = [ (zp + X) & $FF ]"
+    },
+    "ABS": {
+      "title": "Absolute Address",
+      "pseudocode": "M = [ addr ]"
+    },
+    "ABX": {
+      "title": "Absolute Indexed by X",
+      "pseudocode": "M = [ addr + X ]"
+    },
+    "ABY": {
+      "title": "Absolute Indexed by Y",
+      "pseudocode": "M = [ addr + Y ]"
+    },
+    "IZX": {
+      "title": "Pointer in Zero Page, Indexed before",
+      "pseudocode": "M = [ [ (zp + X) & $FF ] ]"
+    },
+    "IZY": {
+      "title": "Pointer in Zero Page, Indexed after",
+      "pseudocode": "M = [ [ zp ] + Y ]"
+    },
+    "ZPY": {
+      "title": "Zero Page Indexed by Y",
+      "pseudocode": "M = [ (zp + Y) & $FF ]"
+    },
+    "IMP": {
+      "title": "Implied Operand",
+      "pseudocode": ""
+    },
+    "ACC": {
+      "title": "On the Accumulator",
+      "pseudocode": "M = A"
+    },
+    "IND": {
+      "title": "Absolute Indirect",
+      "pseudocode": "PC = [ addr ]"
+    },
+    "REL": {
+      "title": "Relative to the Next Instruction",
+      "pseudocode": "PC += rel"
+    }
+  },
+  "mnemonics": {
+    "LDA": {
+      "class": "Load / Store",
+      "description": "Load Accumulator",
+      "pseudocode": "A = M",
+      "flags": "N Z"
+    },
+    "LDX": {
+      "class": "Load / Store",
+      "description": "Load X",
+      "pseudocode": "X = M",
+      "flags": "N Z"
+    },
+    "LDY": {
+      "class": "Load / Store",
+      "description": "Load Y",
+      "pseudocode": "Y = M",
+      "flags": "N Z"
+    },
+    "STA": {
+      "class": "Load / Store",
+      "description": "Store Accumulator",
+      "pseudocode": "M = A",
+      "flags": ""
+    },
+    "STX": {
+      "class": "Load / Store",
+      "description": "Store X",
+      "pseudocode": "M = X",
+      "flags": ""
+    },
+    "STY": {
+      "class": "Load / Store",
+      "description": "Store Y",
+      "pseudocode": "M = Y",
+      "flags": ""
+    },
+    "TAX": {
+      "class": "Transfer",
+      "description": "Transfer A to X",
+      "pseudocode": "X = A",
+      "flags": "N Z"
+    },
+    "TAY": {
+      "class": "Transfer",
+      "description": "Transfer A to Y",
+      "pseudocode": "Y = A",
+      "flags": "N Z"
+    },
+    "TXA": {
+      "class": "Transfer",
+      "description": "Transfer X to A",
+      "pseudocode": "A = X",
+      "flags": "N Z"
+    },
+    "TYA": {
+      "class": "Transfer",
+      "description": "Transfer Y to A",
+      "pseudocode": "A = Y",
+      "flags": "N Z"
+    },
+    "TSX": {
+      "class": "Transfer",
+      "description": "Transfer SP to X",
+      "pseudocode": "X = SP",
+      "flags": "N Z"
+    },
+    "TXS": {
+      "class": "Transfer",
+      "description": "Transfer X to SP",
+      "pseudocode": "SP = X",
+      "flags": ""
+    },
+    "PHA": {
+      "class": "Stack",
+      "description": "Push Accumulator",
+      "pseudocode": "push A",
+      "flags": ""
+    },
+    "PHP": {
+      "class": "Stack",
+      "description": "Push Processor Status",
+      "pseudocode": "push P (B set)",
+      "flags": ""
+    },
+    "PLA": {
+      "class": "Stack",
+      "description": "Pull Accumulator",
+      "pseudocode": "A = pull",
+      "flags": "N Z"
+    },
+    "PLP": {
+      "class": "Stack",
+      "description": "Pull Processor Status",
+      "pseudocode": "P = pull",
+      "flags": "N V D I Z C"
+    },
+    "ADC": {
+      "class": "Arithmetic",
+      "description": "Add with Carry",
+      "pseudocode": "A = A + M + C",
+      "flags": "N V Z C"
+    },
+    "SBC": {
+      "class": "Arithmetic",
+      "description": "Subtract with Borrow",
+      "pseudocode": "A = A - M - !C",
+      "flags": "N V Z C"
+    },
+    "AND": {
+      "class": "Logic",
+      "description": "Bitwise And",
+      "pseudocode": "A = A & M",
+      "flags": "N Z"
+    },
+    "ORA": {
+      "class": "Logic",
+      "description": "Bitwise Or",
+      "pseudocode": "A = A | M",
+      "flags": "N Z"
+    },
+    "EOR": {
+      "class": "Logic",
+      "description": "Bitwise Exclusive Or",
+      "pseudocode": "A = A ^ M",
+      "flags": "N Z"
+    },
+    "BIT": {
+      "class": "Logic",
+      "description": "Bit Test",
+      "pseudocode": "Z = !(A & M) ; N = M[7] ; V = M[6]",
+      "flags": "N V Z"
+    },
+    "ASL": {
+      "class": "Shift",
+      "description": "Arithmetic Shift Left",
+      "pseudocode": "C = M[7] ; M <<= 1",
+      "flags": "N Z C"
+    },
+    "LSR": {
+      "class": "Shift",
+      "description": "Logical Shift Right",
+      "pseudocode": "C = M[0] ; M >>= 1",
+      "flags": "N Z C"
+    },
+    "ROL": {
+      "class": "Shift",
+      "description": "Rotate Left through Carry",
+      "pseudocode": "M = (M << 1) | C",
+      "flags": "N Z C"
+    },
+    "ROR": {
+      "class": "Shift",
+      "description": "Rotate Right through Carry",
+      "pseudocode": "M = (C << 7) | (M >> 1)",
+      "flags": "N Z C"
+    },
+    "CMP": {
+      "class": "Compare",
+      "description": "Compare Accumulator",
+      "pseudocode": "flags of A - M",
+      "flags": "N Z C"
+    },
+    "CPX": {
+      "class": "Compare",
+      "description": "Compare X",
+      "pseudocode": "flags of X - M",
+      "flags": "N Z C"
+    },
+    "CPY": {
+      "class": "Compare",
+      "description": "Compare Y",
+      "pseudocode": "flags of Y - M",
+      "flags": "N Z C"
+    },
+    "INC": {
+      "class": "Increment",
+      "description": "Increment Memory",
+      "pseudocode": "M += 1",
+      "flags": "N Z"
+    },
+    "DEC": {
+      "class": "Increment",
+      "description": "Decrement Memory",
+      "pseudocode": "M -= 1",
+      "flags": "N Z"
+    },
+    "INX": {
+      "class": "Increment",
+      "description": "Increment X",
+      "pseudocode": "X += 1",
+      "flags": "N Z"
+    },
+    "INY": {
+      "class": "Increment",
+      "description": "Increment Y",
+      "pseudocode": "Y += 1",
+      "flags": "N Z"
+    },
+    "DEX": {
+      "class": "Increment",
+      "description": "Decrement X",
+      "pseudocode": "X -= 1",
+      "flags": "N Z"
+    },
+    "DEY": {
+      "class": "Increment",
+      "description": "Decrement Y",
+      "pseudocode": "Y -= 1",
+      "flags": "N Z"
+    },
+    "JMP": {
+      "class": "Jump",
+      "description": "Jump",
+      "pseudocode": "PC = addr",
+      "flags": ""
+    },
+    "JSR": {
+      "class": "Jump",
+      "description": "Jump to Subroutine",
+      "pseudocode": "push PC + 2 ; PC = addr",
+      "flags": ""
+    },
+    "RTS": {
+      "class": "Jump",
+      "description": "Return from Subroutine",
+      "pseudocode": "PC = pull + 1",
+      "flags": ""
+    },
+    "RTI": {
+      "class": "Jump",
+      "description": "Return from Interrupt",
+      "pseudocode": "P = pull ; PC = pull",
+      "flags": "N V D I Z C"
+    },
+    "BPL": {
+      "class": "Branch",
+      "description": "Branch on Plus",
+      "pseudocode": "if ( N = 0 ) PC += rel",
+      "flags": ""
+    },
+    "BMI": {
+      "class": "Branch",
+      "description": "Branch on Minus",
+      "pseudocode": "if ( N = 1 ) PC += rel",
+      "flags": ""
+    },
+    "BVC": {
+      "class": "Branch",
+      "description": "Branch on Overflow Clear",
+      "pseudocode": "if ( V = 0 ) PC += rel",
+      "flags": ""
+    },
+    "BVS": {
+      "class": "Branch",
+      "description": "Branch on Overflow Set",
+      "pseudocode": "if ( V = 1 ) PC += rel",
+      "flags": ""
+    },
+    "BCC": {
+      "class": "Branch",
+      "description": "Branch on Carry Clear",
+      "pseudocode": "if ( C = 0 ) PC += rel",
+      "flags": ""
+    },
+    "BCS": {
+      "class": "Branch",
+      "description": "Branch on Carry Set",
+      "pseudocode": "if ( C = 1 ) PC += rel",
+      "flags": ""
+    },
+    "BNE": {
+      "class": "Branch",
+      "description": "Branch on Not Equal",
+      "pseudocode": "if ( Z = 0 ) PC += rel",
+      "flags": ""
+    },
+    "BEQ": {
+      "class": "Branch",
+      "description": "Branch on Equal",
+      "pseudocode": "if ( Z = 1 ) PC += rel",
+      "flags": ""
+    },
+    "CLC": {
+      "class": "Flags",
+      "description": "Clear Carry",
+      "pseudocode": "C = 0",
+      "flags": "C"
+    },
+    "SEC": {
+      "class": "Flags",
+      "description": "Set Carry",
+      "pseudocode": "C = 1",
+      "flags": "C"
+    },
+    "CLI": {
+      "class": "Flags",
+      "description": "Clear Interrupt Disable",
+      "pseudocode": "I = 0",
+      "flags": "I"
+    },
+    "SEI": {
+      "class": "Flags",
+      "description": "Set Interrupt Disable",
+      "pseudocode": "I = 1",
+      "flags": "I"
+    },
+    "CLV": {
+      "class": "Flags",
+      "description": "Clear Overflow",
+      "pseudocode": "V = 0",
+      "flags": "V"
+    },
+    "CLD": {
+      "class": "Flags",
+      "description": "Clear Decimal Mode",
+      "pseudocode": "D = 0",
+      "flags": "D"
+    },
+    "SED": {
+      "class": "Flags",
+      "description": "Set Decimal Mode",
+      "pseudocode": "D = 1",
+      "flags": "D"
+    },
+    "NOP": {
+      "class": "System",
+      "description": "No Operation",
+      "pseudocode": "PC += 1",
+      "flags": ""
+    },
+    "BRK": {
+      "class": "System",
+      "description": "Break",
+      "pseudocode": "push PC + 2, P ; PC = [ $FFFE ]",
+      "flags": "I"
+    }
+  },
+  "registers": [
+    {
+      "title": "Registers",
+      "columns": [
+        "Register",
+        "Width",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "A",
+          "8 bit",
+          "Accumulator: arithmetic and logic results"
+        ],
+        [
+          "X",
+          "8 bit",
+          "Index register X: zp,X  abs,X  (zp,X); counters"
+        ],
+        [
+          "Y",
+          "8 bit",
+          "Index register Y: zp,Y  abs,Y  (zp),Y; counters"
+        ],
+        [
+          "S",
+          "8 bit",
+          "Stack pointer: the stack is page 1 ($0100–$01FF), growing down; S is the next free byte"
+        ],
+        [
+          "PC",
+          "16 bit",
+          "Program counter"
+        ],
+        [
+          "P",
+          "8 bit",
+          "Processor status: the flags below"
+        ]
+      ]
+    },
+    {
+      "title": "Processor Status (P)",
+      "columns": [
+        "Bit",
+        "Flag",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "7",
+          "N",
+          "Negative: bit 7 of the result"
+        ],
+        [
+          "6",
+          "V",
+          "Overflow: signed overflow of ADC / SBC; BIT copies bit 6"
+        ],
+        [
+          "5",
+          "—",
+          "Unused, reads 1"
+        ],
+        [
+          "4",
+          "B",
+          "Break: 1 in the copy BRK and PHP push, 0 in the one IRQ and NMI push"
+        ],
+        [
+          "3",
+          "D",
+          "Decimal mode: ADC and SBC work in BCD"
+        ],
+        [
+          "2",
+          "I",
+          "IRQ disable"
+        ],
+        [
+          "1",
+          "Z",
+          "Zero: the result is 0"
+        ],
+        [
+          "0",
+          "C",
+          "Carry: out of bit 7, borrow inverted for SBC and CMP"
+        ]
+      ]
+    },
+    {
+      "title": "Vectors",
+      "columns": [
+        "Address",
+        "Name",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "$FFFA",
+          "NMI",
+          "Non-maskable interrupt handler"
+        ],
+        [
+          "$FFFC",
+          "RESET",
+          "Start address after reset"
+        ],
+        [
+          "$FFFE",
+          "IRQ / BRK",
+          "Interrupt request and BRK handler"
+        ]
+      ]
+    }
+  ]
+}

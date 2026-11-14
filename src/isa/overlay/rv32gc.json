@@ -1,0 +1,3099 @@
+{
+  "$comment": "What the sheets show about RV32GC that the Sail model and LLVM TableGen do not carry: sections, groups and their titles, the order of rows, descriptions and pseudocode, HINT and reserved rows, unused opcodes, pseudo-instructions. tools/isa/gen-rv32gc.mjs merges it with them into src/isa/generated/rv32gc.mjs.",
+  "formats": {
+    "R": {
+      "title": "Register",
+      "width": 32,
+      "layout": [
+        [
+          "funct7",
+          31,
+          25,
+          "funct"
+        ],
+        [
+          "rs2",
+          24,
+          20,
+          "reg"
+        ],
+        [
+          "rs1",
+          19,
+          15,
+          "reg"
+        ],
+        [
+          "funct3",
+          14,
+          12,
+          "funct"
+        ],
+        [
+          "rd",
+          11,
+          7,
+          "reg"
+        ],
+        [
+          "opcode",
+          6,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "R4": {
+      "title": "Register (4 operands)",
+      "width": 32,
+      "layout": [
+        [
+          "rs3",
+          31,
+          27,
+          "reg"
+        ],
+        [
+          "funct2",
+          26,
+          25,
+          "funct"
+        ],
+        [
+          "rs2",
+          24,
+          20,
+          "reg"
+        ],
+        [
+          "rs1",
+          19,
+          15,
+          "reg"
+        ],
+        [
+          "funct3",
+          14,
+          12,
+          "funct"
+        ],
+        [
+          "rd",
+          11,
+          7,
+          "reg"
+        ],
+        [
+          "opcode",
+          6,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "I": {
+      "title": "Immediate",
+      "width": 32,
+      "layout": [
+        [
+          "imm[11:0]",
+          31,
+          20,
+          "imm"
+        ],
+        [
+          "rs1",
+          19,
+          15,
+          "reg"
+        ],
+        [
+          "funct3",
+          14,
+          12,
+          "funct"
+        ],
+        [
+          "rd",
+          11,
+          7,
+          "reg"
+        ],
+        [
+          "opcode",
+          6,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "S": {
+      "title": "Store",
+      "width": 32,
+      "layout": [
+        [
+          "imm[11:5]",
+          31,
+          25,
+          "imm"
+        ],
+        [
+          "rs2",
+          24,
+          20,
+          "reg"
+        ],
+        [
+          "rs1",
+          19,
+          15,
+          "reg"
+        ],
+        [
+          "funct3",
+          14,
+          12,
+          "funct"
+        ],
+        [
+          "imm[4:0]",
+          11,
+          7,
+          "imm"
+        ],
+        [
+          "opcode",
+          6,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "B": {
+      "title": "Branch",
+      "width": 32,
+      "layout": [
+        [
+          "imm[12|10:5]",
+          31,
+          25,
+          "imm"
+        ],
+        [
+          "rs2",
+          24,
+          20,
+          "reg"
+        ],
+        [
+          "rs1",
+          19,
+          15,
+          "reg"
+        ],
+        [
+          "funct3",
+          14,
+          12,
+          "funct"
+        ],
+        [
+          "imm[4:1|11]",
+          11,
+          7,
+          "imm"
+        ],
+        [
+          "opcode",
+          6,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "U": {
+      "title": "Upper Immediate",
+      "width": 32,
+      "layout": [
+        [
+          "imm[31:12]",
+          31,
+          12,
+          "imm"
+        ],
+        [
+          "rd",
+          11,
+          7,
+          "reg"
+        ],
+        [
+          "opcode",
+          6,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "J": {
+      "title": "Jump",
+      "width": 32,
+      "layout": [
+        [
+          "imm[20|10:1|11|19:12]",
+          31,
+          12,
+          "imm"
+        ],
+        [
+          "rd",
+          11,
+          7,
+          "reg"
+        ],
+        [
+          "opcode",
+          6,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CR": {
+      "title": "Register",
+      "width": 16,
+      "layout": [
+        [
+          "funct4",
+          15,
+          12,
+          "funct"
+        ],
+        [
+          "rd/rs1",
+          11,
+          7,
+          "reg"
+        ],
+        [
+          "rs2",
+          6,
+          2,
+          "reg"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CI": {
+      "title": "Immediate",
+      "width": 16,
+      "layout": [
+        [
+          "funct3",
+          15,
+          13,
+          "funct"
+        ],
+        [
+          "imm",
+          12,
+          12,
+          "imm"
+        ],
+        [
+          "rd/rs1",
+          11,
+          7,
+          "reg"
+        ],
+        [
+          "imm",
+          6,
+          2,
+          "imm"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CSS": {
+      "title": "Stack-relative Store",
+      "width": 16,
+      "layout": [
+        [
+          "funct3",
+          15,
+          13,
+          "funct"
+        ],
+        [
+          "imm",
+          12,
+          7,
+          "imm"
+        ],
+        [
+          "rs2",
+          6,
+          2,
+          "reg"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CIW": {
+      "title": "Wide Immediate",
+      "width": 16,
+      "layout": [
+        [
+          "funct3",
+          15,
+          13,
+          "funct"
+        ],
+        [
+          "imm",
+          12,
+          5,
+          "imm"
+        ],
+        [
+          "rd'",
+          4,
+          2,
+          "reg"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CL": {
+      "title": "Load",
+      "width": 16,
+      "layout": [
+        [
+          "funct3",
+          15,
+          13,
+          "funct"
+        ],
+        [
+          "imm",
+          12,
+          10,
+          "imm"
+        ],
+        [
+          "rs1'",
+          9,
+          7,
+          "reg"
+        ],
+        [
+          "imm",
+          6,
+          5,
+          "imm"
+        ],
+        [
+          "rd'",
+          4,
+          2,
+          "reg"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CS": {
+      "title": "Store",
+      "width": 16,
+      "layout": [
+        [
+          "funct3",
+          15,
+          13,
+          "funct"
+        ],
+        [
+          "imm",
+          12,
+          10,
+          "imm"
+        ],
+        [
+          "rs1'",
+          9,
+          7,
+          "reg"
+        ],
+        [
+          "imm",
+          6,
+          5,
+          "imm"
+        ],
+        [
+          "rs2'",
+          4,
+          2,
+          "reg"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CA": {
+      "title": "Arithmetic",
+      "width": 16,
+      "layout": [
+        [
+          "funct6",
+          15,
+          10,
+          "funct"
+        ],
+        [
+          "rd'/rs1'",
+          9,
+          7,
+          "reg"
+        ],
+        [
+          "funct2",
+          6,
+          5,
+          "funct"
+        ],
+        [
+          "rs2'",
+          4,
+          2,
+          "reg"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CB": {
+      "title": "Branch / Arithmetic",
+      "width": 16,
+      "layout": [
+        [
+          "funct3",
+          15,
+          13,
+          "funct"
+        ],
+        [
+          "offset",
+          12,
+          10,
+          "imm"
+        ],
+        [
+          "rs1'",
+          9,
+          7,
+          "reg"
+        ],
+        [
+          "offset",
+          6,
+          2,
+          "imm"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    },
+    "CJ": {
+      "title": "Jump",
+      "width": 16,
+      "layout": [
+        [
+          "funct3",
+          15,
+          13,
+          "funct"
+        ],
+        [
+          "jump target",
+          12,
+          2,
+          "imm"
+        ],
+        [
+          "op",
+          1,
+          0,
+          "opcode"
+        ]
+      ]
+    }
+  },
+  "sections": {
+    "q0": "Quadrant 0 — Compressed Instructions (inst[1:0] = 00)",
+    "q2": "Quadrant 2 — Compressed Instructions (inst[1:0] = 10)",
+    "q1": "Quadrant 1 — Compressed Instructions (inst[1:0] = 01)",
+    "q3": "Quadrant 3 — Non-Compressed Instructions (inst[1:0] = 11)"
+  },
+  "extensions": [
+    "I",
+    "M",
+    "A",
+    "F",
+    "D",
+    "Zicsr",
+    "Zifencei",
+    "C",
+    "C + F",
+    "C + D",
+    "PSEUDO"
+  ],
+  "groups": {
+    "c.addi4spn": {
+      "section": "q0",
+      "format": "CIW",
+      "extension": "C",
+      "title": "Put SP + nzuimm in rd'",
+      "pseudocode": "rd' = sp + nzuimm"
+    },
+    "c.fld": {
+      "section": "q0",
+      "format": "CL",
+      "extension": "C + D",
+      "title": "Load Double (FP)",
+      "pseudocode": "rd' ← M[ rs1' + uimm ][63:0]"
+    },
+    "c.lw": {
+      "section": "q0",
+      "format": "CL",
+      "extension": "C",
+      "title": "Load Word",
+      "pseudocode": "rd' ← M[ rs1' + uimm ][31:0]"
+    },
+    "c.flw": {
+      "section": "q0",
+      "format": "CL",
+      "extension": "C + F",
+      "title": "Load Float (FP)",
+      "pseudocode": "rd' ← M[ rs1' + uimm ][31:0]"
+    },
+    "c.q0-100": {
+      "section": "q0",
+      "format": "CL",
+      "extension": "C",
+      "title": "Reserved",
+      "pseudocode": ""
+    },
+    "c.fsd": {
+      "section": "q0",
+      "format": "CS",
+      "extension": "C + D",
+      "title": "Store Double (FP)",
+      "pseudocode": "rs2' → M[ rs1' + uimm ][63:0]"
+    },
+    "c.sw": {
+      "section": "q0",
+      "format": "CS",
+      "extension": "C",
+      "title": "Store Word",
+      "pseudocode": "rs2' → M[ rs1' + uimm ][31:0]"
+    },
+    "c.fsw": {
+      "section": "q0",
+      "format": "CS",
+      "extension": "C + F",
+      "title": "Store Float (FP)",
+      "pseudocode": "rs2' → M[ rs1' + uimm ][31:0]"
+    },
+    "c.addi": {
+      "section": "q1",
+      "format": "CI",
+      "extension": "C",
+      "title": "Add Immediate / No Operation",
+      "pseudocode": "rd += nzimm"
+    },
+    "c.jal": {
+      "section": "q1",
+      "format": "CJ",
+      "extension": "C",
+      "title": "Jump and Link",
+      "pseudocode": "ra = PC + 2 ; PC += offset"
+    },
+    "c.li": {
+      "section": "q1",
+      "format": "CI",
+      "extension": "C",
+      "title": "Load Immediate",
+      "pseudocode": "rd = imm"
+    },
+    "c.lui": {
+      "section": "q1",
+      "format": "CI",
+      "extension": "C",
+      "title": "Load Upper Immediate / Add to SP",
+      "pseudocode": "rd = nzimm  |  sp += nzimm"
+    },
+    "c.cb-alu": {
+      "section": "q1",
+      "format": "CB",
+      "extension": "C",
+      "title": "Shift Right / And Immediate",
+      "pseudocode": "rd' = rd' (funct2) imm"
+    },
+    "c.ca": {
+      "section": "q1",
+      "format": "CA",
+      "extension": "C",
+      "title": "CA Register Operations",
+      "pseudocode": "rd' = rd' (funct2) rs2'"
+    },
+    "c.j": {
+      "section": "q1",
+      "format": "CJ",
+      "extension": "C",
+      "title": "Jump",
+      "pseudocode": "PC += offset"
+    },
+    "c.branch": {
+      "section": "q1",
+      "format": "CB",
+      "extension": "C",
+      "title": "Branch",
+      "pseudocode": "if ( rs1' (funct3) x0 ) PC += offset"
+    },
+    "c.slli": {
+      "section": "q2",
+      "format": "CI",
+      "extension": "C",
+      "title": "Shift Left Logical Immediate",
+      "pseudocode": "rd <<= shamt"
+    },
+    "c.fldsp": {
+      "section": "q2",
+      "format": "CI",
+      "extension": "C + D",
+      "title": "Load Double from SP (FP)",
+      "pseudocode": "rd ← M[ sp + uimm ][63:0]"
+    },
+    "c.lwsp": {
+      "section": "q2",
+      "format": "CI",
+      "extension": "C",
+      "title": "Load Word from SP",
+      "pseudocode": "rd ← M[ sp + uimm ][31:0]"
+    },
+    "c.flwsp": {
+      "section": "q2",
+      "format": "CI",
+      "extension": "C + F",
+      "title": "Load Float from SP (FP)",
+      "pseudocode": "rd ← M[ sp + uimm ][31:0]"
+    },
+    "c.cr": {
+      "section": "q2",
+      "format": "CR",
+      "extension": "C",
+      "title": "CR Control Transfer / Register Operations",
+      "pseudocode": "( ra = PC + 2 ; ) PC = rs1  |  rd = rd (funct4) rs2"
+    },
+    "c.fsdsp": {
+      "section": "q2",
+      "format": "CSS",
+      "extension": "C + D",
+      "title": "Store Double to SP (FP)",
+      "pseudocode": "rs2 → M[ sp + uimm ][63:0]"
+    },
+    "c.swsp": {
+      "section": "q2",
+      "format": "CSS",
+      "extension": "C",
+      "title": "Store Word to SP",
+      "pseudocode": "rs2 → M[ sp + uimm ][31:0]"
+    },
+    "c.fswsp": {
+      "section": "q2",
+      "format": "CSS",
+      "extension": "C + F",
+      "title": "Store Float to SP (FP)",
+      "pseudocode": "rs2 → M[ sp + uimm ][31:0]"
+    },
+    "load": {
+      "section": "q3",
+      "format": "I",
+      "extension": "I",
+      "title": "Load",
+      "pseudocode": "rd = M[ rs1 + imm ] [funct3]"
+    },
+    "load-fp": {
+      "section": "q3",
+      "format": "I",
+      "extension": "F / D",
+      "title": "Floating-Point Load",
+      "pseudocode": "rd = M[ rs1 + imm ] [funct3]"
+    },
+    "misc-mem": {
+      "section": "q3",
+      "format": "I",
+      "extension": "I",
+      "title": "Memory Ordering",
+      "pseudocode": "order memory accesses"
+    },
+    "fencei": {
+      "section": "q3",
+      "format": "I",
+      "extension": "Zifencei",
+      "title": "Instruction Fence",
+      "pseudocode": "sync instruction and data streams"
+    },
+    "op-imm": {
+      "section": "q3",
+      "format": "I",
+      "extension": "I",
+      "title": "Operations with Immediate",
+      "pseudocode": "rd = rs1 (funct3) imm"
+    },
+    "auipc": {
+      "section": "q3",
+      "format": "U",
+      "extension": "I",
+      "title": "Add Upper Immediate to PC",
+      "pseudocode": "rd = PC + imm"
+    },
+    "store": {
+      "section": "q3",
+      "format": "S",
+      "extension": "I",
+      "title": "Store",
+      "pseudocode": "rs2 [funct3] → M[ rs1 + imm ]"
+    },
+    "store-fp": {
+      "section": "q3",
+      "format": "S",
+      "extension": "F / D",
+      "title": "Floating-Point Store",
+      "pseudocode": "rs2 [funct3] → M[ rs1 + imm ]"
+    },
+    "amo": {
+      "section": "q3",
+      "format": "R",
+      "extension": "A",
+      "title": "Atomic Operations",
+      "pseudocode": "t = M[rs1] ; M[rs1] = t (funct5) rs2 ; rd = t"
+    },
+    "op": {
+      "section": "q3",
+      "format": "R",
+      "extension": "I",
+      "title": "Operations with Registers",
+      "pseudocode": "rd = rs1 (funct) rs2"
+    },
+    "op-m": {
+      "section": "q3",
+      "format": "R",
+      "extension": "M",
+      "title": "Multiplication and Division",
+      "pseudocode": "rd = rs1 (funct3) rs2"
+    },
+    "lui": {
+      "section": "q3",
+      "format": "U",
+      "extension": "I",
+      "title": "Load Upper Immediate",
+      "pseudocode": "rd = imm"
+    },
+    "madd": {
+      "section": "q3",
+      "format": "R4",
+      "extension": "F / D",
+      "title": "Fused Multiply-Add",
+      "pseudocode": "rd = rs1 × rs2 + rs3"
+    },
+    "msub": {
+      "section": "q3",
+      "format": "R4",
+      "extension": "F / D",
+      "title": "Fused Multiply-Subtract",
+      "pseudocode": "rd = rs1 × rs2 − rs3"
+    },
+    "nmsub": {
+      "section": "q3",
+      "format": "R4",
+      "extension": "F / D",
+      "title": "Fused Negated Multiply-Subtract",
+      "pseudocode": "rd = −(rs1 × rs2) + rs3"
+    },
+    "nmadd": {
+      "section": "q3",
+      "format": "R4",
+      "extension": "F / D",
+      "title": "Fused Negated Multiply-Add",
+      "pseudocode": "rd = −(rs1 × rs2) − rs3"
+    },
+    "op-fp": {
+      "section": "q3",
+      "format": "R",
+      "extension": "F",
+      "title": "Single-Precision Operations",
+      "pseudocode": "rd = rs1 (funct7) rs2"
+    },
+    "op-fp-d": {
+      "section": "q3",
+      "format": "R",
+      "extension": "D",
+      "title": "Double-Precision Operations",
+      "pseudocode": "rd = rs1 (funct7) rs2"
+    },
+    "branch": {
+      "section": "q3",
+      "format": "B",
+      "extension": "I",
+      "title": "Branch",
+      "pseudocode": "if ( rs1 (funct3) rs2 ) PC += imm"
+    },
+    "jalr": {
+      "section": "q3",
+      "format": "I",
+      "extension": "I",
+      "title": "Jump and Link Register",
+      "pseudocode": "rd = PC + 4 ; PC = rs1 + imm"
+    },
+    "jal": {
+      "section": "q3",
+      "format": "J",
+      "extension": "I",
+      "title": "Jump and Link",
+      "pseudocode": "rd = PC + 4 ; PC += imm"
+    },
+    "system": {
+      "section": "q3",
+      "format": "I",
+      "extension": "I",
+      "title": "Environment",
+      "pseudocode": "control to debug / OS"
+    },
+    "csr": {
+      "section": "q3",
+      "format": "I",
+      "extension": "Zicsr",
+      "title": "Control and Status Registers",
+      "pseudocode": "rd = CSR ; CSR = f( CSR, rs1 | zimm )"
+    }
+  },
+  "instructions": [
+    {
+      "group": "c.addi4spn",
+      "reserved": true,
+      "enc": "000 00000000 --- 00",
+      "description": "RESERVED (nzuimm = 0) — 0x0000 is the defined illegal instruction"
+    },
+    {
+      "group": "c.addi4spn",
+      "name": "c.addi4spn",
+      "description": "Add Immediate (×4) to SP into rd'",
+      "pseudocode": "rd' = sp + nzuimm",
+      "expands": "addi rd', sp, nzuimm"
+    },
+    {
+      "group": "c.fld",
+      "name": "c.fld",
+      "description": "Load Double (FP)",
+      "pseudocode": "rd' ← M[ rs1' + uimm ][63:0]",
+      "expands": "fld rd', uimm(rs1')"
+    },
+    {
+      "group": "c.lw",
+      "name": "c.lw",
+      "description": "Load Word",
+      "pseudocode": "rd' ← M[ rs1' + uimm ][31:0]",
+      "expands": "lw rd', uimm(rs1')"
+    },
+    {
+      "group": "c.flw",
+      "name": "c.flw",
+      "description": "Load Float (FP)",
+      "pseudocode": "rd' ← M[ rs1' + uimm ][31:0]",
+      "expands": "flw rd', uimm(rs1')"
+    },
+    {
+      "group": "c.q0-100",
+      "reserved": true,
+      "enc": "100 ----------- 00",
+      "description": "RESERVED"
+    },
+    {
+      "group": "c.fsd",
+      "name": "c.fsd",
+      "description": "Store Double (FP)",
+      "pseudocode": "rs2' → M[ rs1' + uimm ][63:0]",
+      "expands": "fsd rs2', uimm(rs1')"
+    },
+    {
+      "group": "c.sw",
+      "name": "c.sw",
+      "description": "Store Word",
+      "pseudocode": "rs2' → M[ rs1' + uimm ][31:0]",
+      "expands": "sw rs2', uimm(rs1')"
+    },
+    {
+      "group": "c.fsw",
+      "name": "c.fsw",
+      "description": "Store Float (FP)",
+      "pseudocode": "rs2' → M[ rs1' + uimm ][31:0]",
+      "expands": "fsw rs2', uimm(rs1')"
+    },
+    {
+      "group": "c.addi",
+      "name": "c.nop",
+      "description": "No Operation",
+      "pseudocode": "literally do nothing",
+      "expands": "addi x0, x0, 0"
+    },
+    {
+      "group": "c.addi",
+      "name": "c.addi",
+      "description": "Add Immediate",
+      "pseudocode": "rd += nzimm",
+      "expands": "addi rd, rd, nzimm"
+    },
+    {
+      "group": "c.addi",
+      "hint": true,
+      "enc": "000 nzimm[5] 00000 nzimm[4:0] 01",
+      "description": "HINT — c.nop with nzimm ≠ 0 (standard use)"
+    },
+    {
+      "group": "c.addi",
+      "hint": true,
+      "enc": "000 0 rd/rs1!=0 00000 01",
+      "description": "HINT — c.addi with nzimm = 0 (standard use)"
+    },
+    {
+      "group": "c.jal",
+      "name": "c.jal",
+      "description": "Jump and Link",
+      "pseudocode": "ra = PC + 2 ; PC += offset",
+      "expands": "jal x1, offset"
+    },
+    {
+      "group": "c.li",
+      "name": "c.li",
+      "description": "Load Immediate",
+      "pseudocode": "rd = imm",
+      "expands": "addi rd, x0, imm"
+    },
+    {
+      "group": "c.li",
+      "hint": true,
+      "enc": "010 imm[5] 00000 imm[4:0] 01",
+      "description": "HINT — c.li with rd = x0 (standard use)"
+    },
+    {
+      "group": "c.lui",
+      "reserved": true,
+      "enc": "011 0 ----- 00000 01",
+      "description": "RESERVED (nzimm = 0)"
+    },
+    {
+      "group": "c.lui",
+      "name": "c.addi16sp",
+      "description": "Add Immediate (×16) to SP",
+      "pseudocode": "sp += nzimm",
+      "expands": "addi x2, x2, nzimm"
+    },
+    {
+      "group": "c.lui",
+      "name": "c.lui",
+      "description": "Load Upper Immediate",
+      "pseudocode": "rd = nzimm (sign-extended)",
+      "expands": "lui rd, nzimm"
+    },
+    {
+      "group": "c.lui",
+      "hint": true,
+      "enc": "011 nzimm[17] 00000 nzimm[16:12] 01",
+      "description": "HINT — c.lui with rd = x0 (standard use)"
+    },
+    {
+      "group": "c.cb-alu",
+      "name": "c.srli",
+      "description": "Shift Right Logical Immediate",
+      "pseudocode": "rd' = rd' >> shamt (zero extends)",
+      "expands": "srli rd', rd', shamt"
+    },
+    {
+      "group": "c.cb-alu",
+      "name": "c.srai",
+      "description": "Shift Right Arithmetic Immediate",
+      "pseudocode": "rd' = rd' >> shamt (msb extends)",
+      "expands": "srai rd', rd', shamt"
+    },
+    {
+      "group": "c.cb-alu",
+      "hint": true,
+      "enc": "100 0 00 rd'/rs1' 00000 01",
+      "description": "HINT — c.srli with shamt = 0 (custom use)"
+    },
+    {
+      "group": "c.cb-alu",
+      "hint": true,
+      "enc": "100 0 01 rd'/rs1' 00000 01",
+      "description": "HINT — c.srai with shamt = 0 (custom use)"
+    },
+    {
+      "group": "c.cb-alu",
+      "reserved": true,
+      "enc": "100 1 0 - --- ----- 01",
+      "description": "CUSTOM — c.srli / c.srai with shamt[5] = 1: designated for custom extensions (RV32)"
+    },
+    {
+      "group": "c.cb-alu",
+      "name": "c.andi",
+      "description": "And Immediate",
+      "pseudocode": "rd' &= imm",
+      "expands": "andi rd', rd', imm"
+    },
+    {
+      "group": "c.ca",
+      "name": "c.sub",
+      "description": "Subtract",
+      "pseudocode": "rd' -= rs2'",
+      "expands": "sub rd', rd', rs2'"
+    },
+    {
+      "group": "c.ca",
+      "name": "c.xor",
+      "description": "Xor",
+      "pseudocode": "rd' ^= rs2'",
+      "expands": "xor rd', rd', rs2'"
+    },
+    {
+      "group": "c.ca",
+      "name": "c.or",
+      "description": "Or",
+      "pseudocode": "rd' |= rs2'",
+      "expands": "or rd', rd', rs2'"
+    },
+    {
+      "group": "c.ca",
+      "name": "c.and",
+      "description": "And",
+      "pseudocode": "rd' &= rs2'",
+      "expands": "and rd', rd', rs2'"
+    },
+    {
+      "group": "c.ca",
+      "reserved": true,
+      "enc": "100111 --- -- --- 01",
+      "description": "RESERVED on RV32 (c.subw / c.addw on RV64)"
+    },
+    {
+      "group": "c.j",
+      "name": "c.j",
+      "description": "Jump",
+      "pseudocode": "PC += offset",
+      "expands": "jal x0, offset"
+    },
+    {
+      "group": "c.branch",
+      "name": "c.beqz",
+      "description": "Branch if EQual to Zero",
+      "pseudocode": "if ( rs1' == 0 ) PC += offset",
+      "expands": "beq rs1', x0, offset"
+    },
+    {
+      "group": "c.branch",
+      "name": "c.bnez",
+      "description": "Branch if Not Equal to Zero",
+      "pseudocode": "if ( rs1' != 0 ) PC += offset",
+      "expands": "bne rs1', x0, offset"
+    },
+    {
+      "group": "c.slli",
+      "name": "c.slli",
+      "description": "Shift Left Logical Immediate",
+      "pseudocode": "rd <<= shamt",
+      "expands": "slli rd, rd, shamt"
+    },
+    {
+      "group": "c.slli",
+      "hint": true,
+      "enc": "000 0 rd/rs1!=0 00000 10",
+      "description": "HINT — c.slli with shamt = 0 (custom use)"
+    },
+    {
+      "group": "c.slli",
+      "hint": true,
+      "enc": "000 0 00000 shamt[4:0] 10",
+      "description": "HINT — c.slli with rd = x0 (custom use)"
+    },
+    {
+      "group": "c.slli",
+      "reserved": true,
+      "enc": "000 1 ----- ----- 10",
+      "description": "CUSTOM — c.slli with shamt[5] = 1: designated for custom extensions (RV32)"
+    },
+    {
+      "group": "c.fldsp",
+      "name": "c.fldsp",
+      "description": "Load Double from SP (FP)",
+      "pseudocode": "rd ← M[ sp + uimm ][63:0]",
+      "expands": "fld rd, uimm(sp)"
+    },
+    {
+      "group": "c.lwsp",
+      "reserved": true,
+      "enc": "010 - 00000 ----- 10",
+      "description": "RESERVED (rd = 0)"
+    },
+    {
+      "group": "c.lwsp",
+      "name": "c.lwsp",
+      "description": "Load Word from SP",
+      "pseudocode": "rd ← M[ sp + uimm ][31:0]",
+      "expands": "lw rd, uimm(sp)"
+    },
+    {
+      "group": "c.flwsp",
+      "name": "c.flwsp",
+      "description": "Load Float from SP (FP)",
+      "pseudocode": "rd ← M[ sp + uimm ][31:0]",
+      "expands": "flw rd, uimm(sp)"
+    },
+    {
+      "group": "c.cr",
+      "reserved": true,
+      "enc": "1000 00000 00000 10",
+      "description": "RESERVED (rs1 = 0)"
+    },
+    {
+      "group": "c.cr",
+      "name": "c.jr",
+      "description": "Jump Register",
+      "pseudocode": "PC = rs1",
+      "expands": "jalr x0, 0(rs1)"
+    },
+    {
+      "group": "c.cr",
+      "name": "c.mv",
+      "description": "Move Register",
+      "pseudocode": "rd = rs2",
+      "expands": "add rd, x0, rs2"
+    },
+    {
+      "group": "c.cr",
+      "hint": true,
+      "enc": "1000 00000 rs2!=0 10",
+      "description": "HINT — c.mv with rd = x0 (standard use)"
+    },
+    {
+      "group": "c.cr",
+      "name": "c.ebreak",
+      "description": "Environment Break",
+      "pseudocode": "control back to debug environment",
+      "expands": "ebreak"
+    },
+    {
+      "group": "c.cr",
+      "name": "c.jalr",
+      "description": "Jump and Link Register",
+      "pseudocode": "ra = PC + 2 ; PC = rs1",
+      "expands": "jalr x1, 0(rs1)"
+    },
+    {
+      "group": "c.cr",
+      "name": "c.add",
+      "description": "Add",
+      "pseudocode": "rd += rs2",
+      "expands": "add rd, rd, rs2"
+    },
+    {
+      "group": "c.cr",
+      "hint": true,
+      "enc": "1001 00000 rs2!=0 10",
+      "description": "HINT — c.add with rd = x0 (standard use; rs2 = x2–x5 are c.ntl.p1 / pall / s1 / all)"
+    },
+    {
+      "group": "c.fsdsp",
+      "name": "c.fsdsp",
+      "description": "Store Double to SP (FP)",
+      "pseudocode": "rs2 → M[ sp + uimm ][63:0]",
+      "expands": "fsd rs2, uimm(sp)"
+    },
+    {
+      "group": "c.swsp",
+      "name": "c.swsp",
+      "description": "Store Word to SP",
+      "pseudocode": "rs2 → M[ sp + uimm ][31:0]",
+      "expands": "sw rs2, uimm(sp)"
+    },
+    {
+      "group": "c.fswsp",
+      "name": "c.fswsp",
+      "description": "Store Float to SP (FP)",
+      "pseudocode": "rs2 → M[ sp + uimm ][31:0]",
+      "expands": "fsw rs2, uimm(sp)"
+    },
+    {
+      "group": "load",
+      "name": "lb",
+      "description": "Load Byte",
+      "pseudocode": "rd ← sext( M[ rs1 + imm ][7:0] )"
+    },
+    {
+      "group": "load",
+      "name": "lh",
+      "description": "Load Half-Word",
+      "pseudocode": "rd ← sext( M[ rs1 + imm ][15:0] )"
+    },
+    {
+      "group": "load",
+      "name": "lw",
+      "description": "Load Word",
+      "pseudocode": "rd ← M[ rs1 + imm ][31:0]"
+    },
+    {
+      "group": "load",
+      "name": "lbu",
+      "description": "Load Byte Unsigned",
+      "pseudocode": "rd ← zext( M[ rs1 + imm ][7:0] )"
+    },
+    {
+      "group": "load",
+      "name": "lhu",
+      "description": "Load Half-Word Unsigned",
+      "pseudocode": "rd ← zext( M[ rs1 + imm ][15:0] )"
+    },
+    {
+      "group": "misc-mem",
+      "name": "fence",
+      "description": "Fence",
+      "pseudocode": "order pred accesses before succ accesses",
+      "dontCare": [
+        "19:15",
+        "11:7"
+      ]
+    },
+    {
+      "group": "misc-mem",
+      "hint": true,
+      "enc": "0000 0001 0000 00000 000 00000 0001111",
+      "description": "PAUSE (Zihintpause) — fence w, 0: briefly pause instruction retirement",
+      "sail": "PAUSE"
+    },
+    {
+      "group": "misc-mem",
+      "name": "fence.tso",
+      "description": "Fence (Total Store Order)",
+      "pseudocode": "order rw → rw, except w → r",
+      "dontCare": [
+        "19:15",
+        "11:7"
+      ],
+      "cells": "4 4 4 5 3 5 7"
+    },
+    {
+      "group": "misc-mem",
+      "reserved": true,
+      "enc": "---- ---- ---- ----- 000 ----- 0001111",
+      "description": "RESERVED fm / pred / succ — executes as a normal fence"
+    },
+    {
+      "group": "fencei",
+      "name": "fence.i",
+      "description": "Instruction Fence",
+      "pseudocode": "sync instruction and data streams",
+      "dontCare": [
+        "31:20",
+        "19:15",
+        "11:7"
+      ]
+    },
+    {
+      "group": "op-imm",
+      "name": "addi",
+      "description": "Add Immediate",
+      "pseudocode": "rd = rs1 + imm"
+    },
+    {
+      "group": "op-imm",
+      "name": "slli",
+      "description": "Shift Left Logical Immediate",
+      "pseudocode": "rd = rs1 << shamt",
+      "cells": "7 5 5 3 5 7"
+    },
+    {
+      "group": "op-imm",
+      "name": "slti",
+      "description": "Set Less Than Immediate",
+      "pseudocode": "rd = ( rs1 < imm ) ? 1 : 0 (signed)"
+    },
+    {
+      "group": "op-imm",
+      "name": "sltiu",
+      "description": "Set Less Than Immediate Unsigned",
+      "pseudocode": "rd = ( rs1 < imm ) ? 1 : 0 (unsigned)"
+    },
+    {
+      "group": "op-imm",
+      "name": "xori",
+      "description": "Xor Immediate",
+      "pseudocode": "rd = rs1 ^ imm"
+    },
+    {
+      "group": "op-imm",
+      "name": "srli",
+      "description": "Shift Right Logical Immediate",
+      "pseudocode": "rd = rs1 >> shamt (zero extends)",
+      "cells": "7 5 5 3 5 7"
+    },
+    {
+      "group": "op-imm",
+      "name": "srai",
+      "description": "Shift Right Arithmetic Immediate",
+      "pseudocode": "rd = rs1 >> shamt (msb extends)",
+      "cells": "7 5 5 3 5 7"
+    },
+    {
+      "group": "op-imm",
+      "name": "ori",
+      "description": "Or Immediate",
+      "pseudocode": "rd = rs1 | imm"
+    },
+    {
+      "group": "op-imm",
+      "name": "andi",
+      "description": "And Immediate",
+      "pseudocode": "rd = rs1 & imm"
+    },
+    {
+      "group": "auipc",
+      "name": "auipc",
+      "description": "Add Upper Immediate to PC",
+      "pseudocode": "rd = PC + ( imm << 12 )"
+    },
+    {
+      "group": "store",
+      "name": "sb",
+      "description": "Store Byte",
+      "pseudocode": "rs2[7:0] → M[ rs1 + imm ]"
+    },
+    {
+      "group": "store",
+      "name": "sh",
+      "description": "Store Half-Word",
+      "pseudocode": "rs2[15:0] → M[ rs1 + imm ]"
+    },
+    {
+      "group": "store",
+      "name": "sw",
+      "description": "Store Word",
+      "pseudocode": "rs2[31:0] → M[ rs1 + imm ]"
+    },
+    {
+      "group": "op",
+      "name": "add",
+      "description": "Add",
+      "pseudocode": "rd = rs1 + rs2"
+    },
+    {
+      "group": "op",
+      "name": "sub",
+      "description": "Subtract",
+      "pseudocode": "rd = rs1 - rs2"
+    },
+    {
+      "group": "op",
+      "name": "sll",
+      "description": "Shift Left Logical",
+      "pseudocode": "rd = rs1 << rs2[4:0]"
+    },
+    {
+      "group": "op",
+      "name": "slt",
+      "description": "Set Less Than",
+      "pseudocode": "rd = ( rs1 < rs2 ) ? 1 : 0 (signed)"
+    },
+    {
+      "group": "op",
+      "name": "sltu",
+      "description": "Set Less Than Unsigned",
+      "pseudocode": "rd = ( rs1 < rs2 ) ? 1 : 0 (unsigned)"
+    },
+    {
+      "group": "op",
+      "name": "xor",
+      "description": "Xor",
+      "pseudocode": "rd = rs1 ^ rs2"
+    },
+    {
+      "group": "op",
+      "name": "srl",
+      "description": "Shift Right Logical",
+      "pseudocode": "rd = rs1 >> rs2[4:0] (zero extends)"
+    },
+    {
+      "group": "op",
+      "name": "sra",
+      "description": "Shift Right Arithmetic",
+      "pseudocode": "rd = rs1 >> rs2[4:0] (msb extends)"
+    },
+    {
+      "group": "op",
+      "name": "or",
+      "description": "Or",
+      "pseudocode": "rd = rs1 | rs2"
+    },
+    {
+      "group": "op",
+      "name": "and",
+      "description": "And",
+      "pseudocode": "rd = rs1 & rs2"
+    },
+    {
+      "group": "lui",
+      "name": "lui",
+      "description": "Load Upper Immediate",
+      "pseudocode": "rd = imm << 12"
+    },
+    {
+      "group": "branch",
+      "name": "beq",
+      "description": "Branch if EQual",
+      "pseudocode": "if ( rs1 == rs2 ) PC += imm"
+    },
+    {
+      "group": "branch",
+      "name": "bne",
+      "description": "Branch if Not Equal",
+      "pseudocode": "if ( rs1 != rs2 ) PC += imm"
+    },
+    {
+      "group": "branch",
+      "name": "blt",
+      "description": "Branch if Less Than",
+      "pseudocode": "if ( rs1 < rs2 ) PC += imm (signed)"
+    },
+    {
+      "group": "branch",
+      "name": "bge",
+      "description": "Branch if Greater or Equal",
+      "pseudocode": "if ( rs1 >= rs2 ) PC += imm (signed)"
+    },
+    {
+      "group": "branch",
+      "name": "bltu",
+      "description": "Branch if Less Than Unsigned",
+      "pseudocode": "if ( rs1 < rs2 ) PC += imm (unsigned)"
+    },
+    {
+      "group": "branch",
+      "name": "bgeu",
+      "description": "Branch if Greater or Equal Unsigned",
+      "pseudocode": "if ( rs1 >= rs2 ) PC += imm (unsigned)"
+    },
+    {
+      "group": "jalr",
+      "name": "jalr",
+      "description": "Jump and Link Register",
+      "pseudocode": "rd = PC + 4 ; PC = ( rs1 + imm ) & ~1"
+    },
+    {
+      "group": "jal",
+      "name": "jal",
+      "description": "Jump and Link",
+      "pseudocode": "rd = PC + 4 ; PC += imm"
+    },
+    {
+      "group": "system",
+      "name": "ecall",
+      "description": "Environment Call",
+      "pseudocode": "transfer control to execution environment"
+    },
+    {
+      "group": "system",
+      "name": "ebreak",
+      "description": "Environment Break",
+      "pseudocode": "transfer control back to debug environment"
+    },
+    {
+      "group": "csr",
+      "name": "csrrw",
+      "description": "CSR Read and Write",
+      "pseudocode": "rd = CSR ; CSR = rs1"
+    },
+    {
+      "group": "csr",
+      "name": "csrrs",
+      "description": "CSR Read and Set",
+      "pseudocode": "rd = CSR ; CSR |= rs1"
+    },
+    {
+      "group": "csr",
+      "name": "csrrc",
+      "description": "CSR Read and Clear",
+      "pseudocode": "rd = CSR ; CSR &= ~rs1"
+    },
+    {
+      "group": "csr",
+      "name": "csrrwi",
+      "description": "CSR Read and Write Immediate",
+      "pseudocode": "rd = CSR ; CSR = zimm",
+      "immName": "zimm"
+    },
+    {
+      "group": "csr",
+      "name": "csrrsi",
+      "description": "CSR Read and Set Immediate",
+      "pseudocode": "rd = CSR ; CSR |= zimm",
+      "immName": "zimm"
+    },
+    {
+      "group": "csr",
+      "name": "csrrci",
+      "description": "CSR Read and Clear Immediate",
+      "pseudocode": "rd = CSR ; CSR &= ~zimm",
+      "immName": "zimm"
+    },
+    {
+      "group": "op-m",
+      "name": "mul",
+      "description": "Multiply",
+      "pseudocode": "rd = ( rs1 × rs2 )[31:0]"
+    },
+    {
+      "group": "op-m",
+      "name": "mulh",
+      "description": "Multiply High Signed × Signed",
+      "pseudocode": "rd = ( s rs1 × s rs2 )[63:32]"
+    },
+    {
+      "group": "op-m",
+      "name": "mulhsu",
+      "description": "Multiply High Signed × Unsigned",
+      "pseudocode": "rd = ( s rs1 × u rs2 )[63:32]"
+    },
+    {
+      "group": "op-m",
+      "name": "mulhu",
+      "description": "Multiply High Unsigned × Unsigned",
+      "pseudocode": "rd = ( u rs1 × u rs2 )[63:32]"
+    },
+    {
+      "group": "op-m",
+      "name": "div",
+      "description": "Divide",
+      "pseudocode": "rd = rs1 ÷ rs2 (signed)"
+    },
+    {
+      "group": "op-m",
+      "name": "divu",
+      "description": "Divide Unsigned",
+      "pseudocode": "rd = rs1 ÷ rs2 (unsigned)"
+    },
+    {
+      "group": "op-m",
+      "name": "rem",
+      "description": "Remainder",
+      "pseudocode": "rd = rs1 % rs2 (signed)"
+    },
+    {
+      "group": "op-m",
+      "name": "remu",
+      "description": "Remainder Unsigned",
+      "pseudocode": "rd = rs1 % rs2 (unsigned)"
+    },
+    {
+      "group": "amo",
+      "name": "lr.w",
+      "description": "Load Reserved",
+      "pseudocode": "rd ← M[rs1] ; reserve M[rs1]"
+    },
+    {
+      "group": "amo",
+      "name": "sc.w",
+      "description": "Store Conditional",
+      "pseudocode": "if reserved { M[rs1] = rs2 ; rd = 0 } else rd ≠ 0"
+    },
+    {
+      "group": "amo",
+      "name": "amoswap.w",
+      "description": "Atomic Swap",
+      "pseudocode": "t = M[rs1] ; M[rs1] = rs2 ; rd = t"
+    },
+    {
+      "group": "amo",
+      "name": "amoadd.w",
+      "description": "Atomic Add",
+      "pseudocode": "t = M[rs1] ; M[rs1] = t + rs2 ; rd = t"
+    },
+    {
+      "group": "amo",
+      "name": "amoxor.w",
+      "description": "Atomic Xor",
+      "pseudocode": "t = M[rs1] ; M[rs1] = t ^ rs2 ; rd = t"
+    },
+    {
+      "group": "amo",
+      "name": "amoand.w",
+      "description": "Atomic And",
+      "pseudocode": "t = M[rs1] ; M[rs1] = t & rs2 ; rd = t"
+    },
+    {
+      "group": "amo",
+      "name": "amoor.w",
+      "description": "Atomic Or",
+      "pseudocode": "t = M[rs1] ; M[rs1] = t | rs2 ; rd = t"
+    },
+    {
+      "group": "amo",
+      "name": "amomin.w",
+      "description": "Atomic Min",
+      "pseudocode": "t = M[rs1] ; M[rs1] = min( t, rs2 ) (signed) ; rd = t"
+    },
+    {
+      "group": "amo",
+      "name": "amomax.w",
+      "description": "Atomic Max",
+      "pseudocode": "t = M[rs1] ; M[rs1] = max( t, rs2 ) (signed) ; rd = t"
+    },
+    {
+      "group": "amo",
+      "name": "amominu.w",
+      "description": "Atomic Min Unsigned",
+      "pseudocode": "t = M[rs1] ; M[rs1] = min( t, rs2 ) (unsigned) ; rd = t"
+    },
+    {
+      "group": "amo",
+      "name": "amomaxu.w",
+      "description": "Atomic Max Unsigned",
+      "pseudocode": "t = M[rs1] ; M[rs1] = max( t, rs2 ) (unsigned) ; rd = t"
+    },
+    {
+      "group": "load-fp",
+      "name": "flw",
+      "description": "Load Float",
+      "pseudocode": "rd ← M[ rs1 + imm ][31:0]"
+    },
+    {
+      "group": "store-fp",
+      "name": "fsw",
+      "description": "Store Float",
+      "pseudocode": "rs2[31:0] → M[ rs1 + imm ]"
+    },
+    {
+      "group": "madd",
+      "name": "fmadd.s",
+      "description": "Fused Multiply-Add",
+      "pseudocode": "rd = rs1 × rs2 + rs3"
+    },
+    {
+      "group": "msub",
+      "name": "fmsub.s",
+      "description": "Fused Multiply-Subtract",
+      "pseudocode": "rd = rs1 × rs2 − rs3"
+    },
+    {
+      "group": "nmsub",
+      "name": "fnmsub.s",
+      "description": "Fused Negated Multiply-Subtract",
+      "pseudocode": "rd = −(rs1 × rs2) + rs3"
+    },
+    {
+      "group": "nmadd",
+      "name": "fnmadd.s",
+      "description": "Fused Negated Multiply-Add",
+      "pseudocode": "rd = −(rs1 × rs2) − rs3"
+    },
+    {
+      "group": "op-fp",
+      "name": "fadd.s",
+      "description": "Add",
+      "pseudocode": "rd = rs1 + rs2"
+    },
+    {
+      "group": "op-fp",
+      "name": "fsub.s",
+      "description": "Subtract",
+      "pseudocode": "rd = rs1 − rs2"
+    },
+    {
+      "group": "op-fp",
+      "name": "fmul.s",
+      "description": "Multiply",
+      "pseudocode": "rd = rs1 × rs2"
+    },
+    {
+      "group": "op-fp",
+      "name": "fdiv.s",
+      "description": "Divide",
+      "pseudocode": "rd = rs1 ÷ rs2"
+    },
+    {
+      "group": "op-fp",
+      "name": "fsqrt.s",
+      "description": "Square Root",
+      "pseudocode": "rd = √rs1"
+    },
+    {
+      "group": "op-fp",
+      "name": "fsgnj.s",
+      "description": "Sign Inject",
+      "pseudocode": "rd = { rs2[31], rs1[30:0] }"
+    },
+    {
+      "group": "op-fp",
+      "name": "fsgnjn.s",
+      "description": "Sign Inject Negated",
+      "pseudocode": "rd = { ~rs2[31], rs1[30:0] }"
+    },
+    {
+      "group": "op-fp",
+      "name": "fsgnjx.s",
+      "description": "Sign Inject Xor",
+      "pseudocode": "rd = { rs1[31] ^ rs2[31], rs1[30:0] }"
+    },
+    {
+      "group": "op-fp",
+      "name": "fmin.s",
+      "description": "Minimum",
+      "pseudocode": "rd = min( rs1, rs2 )"
+    },
+    {
+      "group": "op-fp",
+      "name": "fmax.s",
+      "description": "Maximum",
+      "pseudocode": "rd = max( rs1, rs2 )"
+    },
+    {
+      "group": "op-fp",
+      "name": "fcvt.w.s",
+      "description": "Convert Float to Word",
+      "pseudocode": "x[rd] = (int32) f[rs1]"
+    },
+    {
+      "group": "op-fp",
+      "name": "fcvt.wu.s",
+      "description": "Convert Float to Unsigned Word",
+      "pseudocode": "x[rd] = (uint32) f[rs1]"
+    },
+    {
+      "group": "op-fp",
+      "name": "fmv.x.w",
+      "description": "Move Float bits to Integer",
+      "pseudocode": "x[rd] = f[rs1][31:0]"
+    },
+    {
+      "group": "op-fp",
+      "name": "feq.s",
+      "description": "Equal",
+      "pseudocode": "x[rd] = ( rs1 == rs2 )"
+    },
+    {
+      "group": "op-fp",
+      "name": "flt.s",
+      "description": "Less Than",
+      "pseudocode": "x[rd] = ( rs1 < rs2 )"
+    },
+    {
+      "group": "op-fp",
+      "name": "fle.s",
+      "description": "Less or Equal",
+      "pseudocode": "x[rd] = ( rs1 <= rs2 )"
+    },
+    {
+      "group": "op-fp",
+      "name": "fclass.s",
+      "description": "Classify",
+      "pseudocode": "x[rd] = class mask of f[rs1]"
+    },
+    {
+      "group": "op-fp",
+      "name": "fcvt.s.w",
+      "description": "Convert Word to Float",
+      "pseudocode": "f[rd] = (float) (int32) x[rs1]"
+    },
+    {
+      "group": "op-fp",
+      "name": "fcvt.s.wu",
+      "description": "Convert Unsigned Word to Float",
+      "pseudocode": "f[rd] = (float) (uint32) x[rs1]"
+    },
+    {
+      "group": "op-fp",
+      "name": "fmv.w.x",
+      "description": "Move Integer bits to Float",
+      "pseudocode": "f[rd] = x[rs1][31:0]"
+    },
+    {
+      "group": "load-fp",
+      "name": "fld",
+      "description": "Load Double",
+      "pseudocode": "rd ← M[ rs1 + imm ][63:0]"
+    },
+    {
+      "group": "store-fp",
+      "name": "fsd",
+      "description": "Store Double",
+      "pseudocode": "rs2[63:0] → M[ rs1 + imm ]"
+    },
+    {
+      "group": "madd",
+      "name": "fmadd.d",
+      "description": "Fused Multiply-Add",
+      "pseudocode": "rd = rs1 × rs2 + rs3"
+    },
+    {
+      "group": "msub",
+      "name": "fmsub.d",
+      "description": "Fused Multiply-Subtract",
+      "pseudocode": "rd = rs1 × rs2 − rs3"
+    },
+    {
+      "group": "nmsub",
+      "name": "fnmsub.d",
+      "description": "Fused Negated Multiply-Subtract",
+      "pseudocode": "rd = −(rs1 × rs2) + rs3"
+    },
+    {
+      "group": "nmadd",
+      "name": "fnmadd.d",
+      "description": "Fused Negated Multiply-Add",
+      "pseudocode": "rd = −(rs1 × rs2) − rs3"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fadd.d",
+      "description": "Add",
+      "pseudocode": "rd = rs1 + rs2"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fsub.d",
+      "description": "Subtract",
+      "pseudocode": "rd = rs1 − rs2"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fmul.d",
+      "description": "Multiply",
+      "pseudocode": "rd = rs1 × rs2"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fdiv.d",
+      "description": "Divide",
+      "pseudocode": "rd = rs1 ÷ rs2"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fsqrt.d",
+      "description": "Square Root",
+      "pseudocode": "rd = √rs1"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fsgnj.d",
+      "description": "Sign Inject",
+      "pseudocode": "rd = { rs2[63], rs1[62:0] }"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fsgnjn.d",
+      "description": "Sign Inject Negated",
+      "pseudocode": "rd = { ~rs2[63], rs1[62:0] }"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fsgnjx.d",
+      "description": "Sign Inject Xor",
+      "pseudocode": "rd = { rs1[63] ^ rs2[63], rs1[62:0] }"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fmin.d",
+      "description": "Minimum",
+      "pseudocode": "rd = min( rs1, rs2 )"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fmax.d",
+      "description": "Maximum",
+      "pseudocode": "rd = max( rs1, rs2 )"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fcvt.s.d",
+      "description": "Convert Double to Float",
+      "pseudocode": "f[rd] = (float) f[rs1]"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fcvt.d.s",
+      "description": "Convert Float to Double",
+      "pseudocode": "f[rd] = (double) f[rs1]"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "feq.d",
+      "description": "Equal",
+      "pseudocode": "x[rd] = ( rs1 == rs2 )"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "flt.d",
+      "description": "Less Than",
+      "pseudocode": "x[rd] = ( rs1 < rs2 )"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fle.d",
+      "description": "Less or Equal",
+      "pseudocode": "x[rd] = ( rs1 <= rs2 )"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fclass.d",
+      "description": "Classify",
+      "pseudocode": "x[rd] = class mask of f[rs1]"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fcvt.w.d",
+      "description": "Convert Double to Word",
+      "pseudocode": "x[rd] = (int32) f[rs1]"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fcvt.wu.d",
+      "description": "Convert Double to Unsigned Word",
+      "pseudocode": "x[rd] = (uint32) f[rs1]"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fcvt.d.w",
+      "description": "Convert Word to Double",
+      "pseudocode": "f[rd] = (double) (int32) x[rs1]"
+    },
+    {
+      "group": "op-fp-d",
+      "name": "fcvt.d.wu",
+      "description": "Convert Unsigned Word to Double",
+      "pseudocode": "f[rd] = (double) (uint32) x[rs1]"
+    }
+  ],
+  "unusedOpcodes": [
+    {
+      "opcode": "0001011",
+      "name": "custom-0",
+      "note": "designated for custom extensions"
+    },
+    {
+      "opcode": "0011011",
+      "name": "OP-IMM-32",
+      "note": "RV64 only (addiw, slliw, …)"
+    },
+    {
+      "opcode": "0011111",
+      "name": "reserved (>32b)",
+      "note": "reserved for instructions longer than 32 bit"
+    },
+    {
+      "opcode": "0101011",
+      "name": "custom-1",
+      "note": "designated for custom extensions"
+    },
+    {
+      "opcode": "0111011",
+      "name": "OP-32",
+      "note": "RV64 only (addw, subw, …)"
+    },
+    {
+      "opcode": "0111111",
+      "name": "reserved (>32b)",
+      "note": "reserved for instructions longer than 32 bit"
+    },
+    {
+      "opcode": "1010111",
+      "name": "OP-V",
+      "note": "'V' vector extension"
+    },
+    {
+      "opcode": "1011011",
+      "name": "custom-2",
+      "note": "designated for custom extensions"
+    },
+    {
+      "opcode": "1011111",
+      "name": "reserved (>32b)",
+      "note": "reserved for instructions longer than 32 bit"
+    },
+    {
+      "opcode": "1101011",
+      "name": "reserved",
+      "note": "reserved for future standard extensions"
+    },
+    {
+      "opcode": "1110111",
+      "name": "OP-VE",
+      "note": "vector crypto extensions (Zvk*)"
+    },
+    {
+      "opcode": "1111011",
+      "name": "custom-3",
+      "note": "designated for custom extensions"
+    },
+    {
+      "opcode": "1111111",
+      "name": "reserved (>32b)",
+      "note": "reserved for instructions longer than 32 bit"
+    }
+  ],
+  "pseudoInstructions": [
+    {
+      "name": "nop",
+      "asm": "",
+      "description": "No Operation"
+    },
+    {
+      "name": "li",
+      "asm": "rd, imm",
+      "expands": [
+        [
+          "lui",
+          {
+            "imm": "hi"
+          }
+        ],
+        [
+          "addi",
+          {
+            "rs1": "rd",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "short": true,
+      "dropZeroLo": true,
+      "description": "Load Immediate (just addi rd, x0, imm when imm fits in 12 bits; just lui when imm[11:0] = 0)"
+    },
+    {
+      "name": "mv",
+      "asm": "rd, rs",
+      "description": "Move Register"
+    },
+    {
+      "name": "not",
+      "asm": "rd, rs",
+      "description": "1's Complement"
+    },
+    {
+      "name": "neg",
+      "asm": "rd, rs",
+      "description": "2's Complement"
+    },
+    {
+      "name": "seqz",
+      "asm": "rd, rs",
+      "description": "Set if = Zero"
+    },
+    {
+      "name": "snez",
+      "asm": "rd, rs",
+      "description": "Set if ≠ Zero"
+    },
+    {
+      "name": "sltz",
+      "asm": "rd, rs",
+      "description": "Set if < Zero"
+    },
+    {
+      "name": "sgtz",
+      "asm": "rd, rs",
+      "description": "Set if > Zero"
+    },
+    {
+      "name": "beqz",
+      "asm": "rs, imm",
+      "description": "Branch if = Zero"
+    },
+    {
+      "name": "bnez",
+      "asm": "rs, imm",
+      "description": "Branch if ≠ Zero"
+    },
+    {
+      "name": "blez",
+      "asm": "rs, imm",
+      "description": "Branch if ≤ Zero"
+    },
+    {
+      "name": "bgez",
+      "asm": "rs, imm",
+      "description": "Branch if ≥ Zero"
+    },
+    {
+      "name": "bltz",
+      "asm": "rs, imm",
+      "description": "Branch if < Zero"
+    },
+    {
+      "name": "bgtz",
+      "asm": "rs, imm",
+      "description": "Branch if > Zero"
+    },
+    {
+      "name": "bgt",
+      "asm": "rs, rt, imm",
+      "description": "Branch if Greater"
+    },
+    {
+      "name": "ble",
+      "asm": "rs, rt, imm",
+      "description": "Branch if Less or Equal"
+    },
+    {
+      "name": "bgtu",
+      "asm": "rs, rt, imm",
+      "description": "Branch if Greater Unsigned"
+    },
+    {
+      "name": "bleu",
+      "asm": "rs, rt, imm",
+      "description": "Branch if Less or Equal Unsigned"
+    },
+    {
+      "name": "j",
+      "asm": "imm",
+      "description": "Jump"
+    },
+    {
+      "name": "jal",
+      "asm": "imm",
+      "description": "Jump and Link (to ra)"
+    },
+    {
+      "name": "jr",
+      "asm": "rs",
+      "description": "Jump Register"
+    },
+    {
+      "name": "jalr",
+      "asm": "rs",
+      "description": "Jump and Link Register (to ra)"
+    },
+    {
+      "name": "ret",
+      "asm": "",
+      "description": "Return from Subroutine"
+    },
+    {
+      "name": "call",
+      "asm": "imm",
+      "expands": [
+        [
+          "auipc",
+          {
+            "rd": 1,
+            "imm": "hi"
+          }
+        ],
+        [
+          "jalr",
+          {
+            "rd": 1,
+            "rs1": 1,
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Call Far-Away Subroutine"
+    },
+    {
+      "name": "tail",
+      "asm": "imm",
+      "expands": [
+        [
+          "auipc",
+          {
+            "rd": 6,
+            "imm": "hi"
+          }
+        ],
+        [
+          "jalr",
+          {
+            "rd": 0,
+            "rs1": 6,
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Tail Call Far-Away Subroutine"
+    },
+    {
+      "name": "la",
+      "asm": "rd, imm",
+      "expands": [
+        [
+          "auipc",
+          {
+            "imm": "hi"
+          }
+        ],
+        [
+          "addi",
+          {
+            "rs1": "rd",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Load Address (PC-relative)"
+    },
+    {
+      "name": "lla",
+      "asm": "rd, imm",
+      "expands": [
+        [
+          "auipc",
+          {
+            "imm": "hi"
+          }
+        ],
+        [
+          "addi",
+          {
+            "rs1": "rd",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Load Local Address (always PC-relative)"
+    },
+    {
+      "name": "lb",
+      "asm": "rd, imm",
+      "expands": [
+        [
+          "auipc",
+          {
+            "imm": "hi"
+          }
+        ],
+        [
+          "lb",
+          {
+            "rs1": "rd",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Load Global Byte"
+    },
+    {
+      "name": "lh",
+      "asm": "rd, imm",
+      "expands": [
+        [
+          "auipc",
+          {
+            "imm": "hi"
+          }
+        ],
+        [
+          "lh",
+          {
+            "rs1": "rd",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Load Global Half-Word"
+    },
+    {
+      "name": "lw",
+      "asm": "rd, imm",
+      "expands": [
+        [
+          "auipc",
+          {
+            "imm": "hi"
+          }
+        ],
+        [
+          "lw",
+          {
+            "rs1": "rd",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Load Global Word"
+    },
+    {
+      "name": "sb",
+      "asm": "rs2, imm, rt",
+      "expands": [
+        [
+          "auipc",
+          {
+            "rd": "rt",
+            "imm": "hi"
+          }
+        ],
+        [
+          "sb",
+          {
+            "rs1": "rt",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Store Global Byte"
+    },
+    {
+      "name": "sh",
+      "asm": "rs2, imm, rt",
+      "expands": [
+        [
+          "auipc",
+          {
+            "rd": "rt",
+            "imm": "hi"
+          }
+        ],
+        [
+          "sh",
+          {
+            "rs1": "rt",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Store Global Half-Word"
+    },
+    {
+      "name": "sw",
+      "asm": "rs2, imm, rt",
+      "expands": [
+        [
+          "auipc",
+          {
+            "rd": "rt",
+            "imm": "hi"
+          }
+        ],
+        [
+          "sw",
+          {
+            "rs1": "rt",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Store Global Word"
+    },
+    {
+      "name": "flw",
+      "asm": "rd, imm, rt",
+      "expands": [
+        [
+          "auipc",
+          {
+            "rd": "rt",
+            "imm": "hi"
+          }
+        ],
+        [
+          "flw",
+          {
+            "rs1": "rt",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Load Global Float"
+    },
+    {
+      "name": "fld",
+      "asm": "rd, imm, rt",
+      "expands": [
+        [
+          "auipc",
+          {
+            "rd": "rt",
+            "imm": "hi"
+          }
+        ],
+        [
+          "fld",
+          {
+            "rs1": "rt",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Load Global Double"
+    },
+    {
+      "name": "fsw",
+      "asm": "rs2, imm, rt",
+      "expands": [
+        [
+          "auipc",
+          {
+            "rd": "rt",
+            "imm": "hi"
+          }
+        ],
+        [
+          "fsw",
+          {
+            "rs1": "rt",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Store Global Float"
+    },
+    {
+      "name": "fsd",
+      "asm": "rs2, imm, rt",
+      "expands": [
+        [
+          "auipc",
+          {
+            "rd": "rt",
+            "imm": "hi"
+          }
+        ],
+        [
+          "fsd",
+          {
+            "rs1": "rt",
+            "imm": "lo"
+          }
+        ]
+      ],
+      "description": "Store Global Double"
+    },
+    {
+      "name": "fence",
+      "asm": "",
+      "description": "Fence (all accesses)"
+    },
+    {
+      "name": "pause",
+      "asm": "",
+      "description": "Pause Hint (Zihintpause)"
+    },
+    {
+      "name": "csrr",
+      "asm": "rd, csr",
+      "description": "CSR Read"
+    },
+    {
+      "name": "csrw",
+      "asm": "csr, rs",
+      "description": "CSR Write"
+    },
+    {
+      "name": "csrs",
+      "asm": "csr, rs",
+      "description": "CSR Set bits"
+    },
+    {
+      "name": "csrc",
+      "asm": "csr, rs",
+      "description": "CSR Clear bits"
+    },
+    {
+      "name": "csrwi",
+      "asm": "csr, imm",
+      "description": "CSR Write Immediate"
+    },
+    {
+      "name": "csrsi",
+      "asm": "csr, imm",
+      "description": "CSR Set bits Immediate"
+    },
+    {
+      "name": "csrci",
+      "asm": "csr, imm",
+      "description": "CSR Clear bits Immediate"
+    },
+    {
+      "name": "rdcycle",
+      "asm": "rd",
+      "description": "Read Cycle Counter"
+    },
+    {
+      "name": "rdtime",
+      "asm": "rd",
+      "description": "Read Real-Time Clock"
+    },
+    {
+      "name": "rdinstret",
+      "asm": "rd",
+      "description": "Read Instructions-Retired Counter"
+    },
+    {
+      "name": "rdcycleh",
+      "asm": "rd",
+      "description": "Read Cycle Counter, upper 32 bits"
+    },
+    {
+      "name": "rdtimeh",
+      "asm": "rd",
+      "description": "Read Real-Time Clock, upper 32 bits"
+    },
+    {
+      "name": "rdinstreth",
+      "asm": "rd",
+      "description": "Read Instructions-Retired Counter, upper 32 bits"
+    },
+    {
+      "name": "frcsr",
+      "asm": "rd",
+      "description": "Read FP Control/Status Register"
+    },
+    {
+      "name": "fscsr",
+      "asm": "rd, rs",
+      "description": "Swap FP Control/Status Register"
+    },
+    {
+      "name": "fscsr",
+      "asm": "rs",
+      "description": "Write FP Control/Status Register"
+    },
+    {
+      "name": "frrm",
+      "asm": "rd",
+      "description": "Read FP Rounding Mode"
+    },
+    {
+      "name": "fsrm",
+      "asm": "rd, rs",
+      "description": "Swap FP Rounding Mode"
+    },
+    {
+      "name": "fsrm",
+      "asm": "rs",
+      "description": "Write FP Rounding Mode"
+    },
+    {
+      "name": "fsrmi",
+      "asm": "rd, imm",
+      "description": "Swap FP Rounding Mode, Immediate"
+    },
+    {
+      "name": "fsrmi",
+      "asm": "imm",
+      "description": "Write FP Rounding Mode, Immediate"
+    },
+    {
+      "name": "frflags",
+      "asm": "rd",
+      "description": "Read FP Exception Flags"
+    },
+    {
+      "name": "fsflags",
+      "asm": "rd, rs",
+      "description": "Swap FP Exception Flags"
+    },
+    {
+      "name": "fsflags",
+      "asm": "rs",
+      "description": "Write FP Exception Flags"
+    },
+    {
+      "name": "fsflagsi",
+      "asm": "rd, imm",
+      "description": "Swap FP Exception Flags, Immediate"
+    },
+    {
+      "name": "fsflagsi",
+      "asm": "imm",
+      "description": "Write FP Exception Flags, Immediate"
+    },
+    {
+      "name": "fmv.s",
+      "asm": "rd, rs",
+      "description": "Copy Float Register"
+    },
+    {
+      "name": "fabs.s",
+      "asm": "rd, rs",
+      "description": "Float Absolute Value"
+    },
+    {
+      "name": "fneg.s",
+      "asm": "rd, rs",
+      "description": "Float Negate"
+    },
+    {
+      "name": "fmv.d",
+      "asm": "rd, rs",
+      "description": "Copy Double Register"
+    },
+    {
+      "name": "fabs.d",
+      "asm": "rd, rs",
+      "description": "Double Absolute Value"
+    },
+    {
+      "name": "fneg.d",
+      "asm": "rd, rs",
+      "description": "Double Negate"
+    }
+  ],
+  "registers": {
+    "x": {
+      "x0": {
+        "saver": "—",
+        "meaning": "Hardwired zero: reads 0, writes are ignored"
+      },
+      "x1": {
+        "saver": "Caller",
+        "meaning": "Return address"
+      },
+      "x2": {
+        "saver": "Callee",
+        "meaning": "Stack pointer"
+      },
+      "x3": {
+        "saver": "—",
+        "meaning": "Global pointer"
+      },
+      "x4": {
+        "saver": "—",
+        "meaning": "Thread pointer"
+      },
+      "x5": {
+        "saver": "Caller",
+        "meaning": "Temporary, alternate link register"
+      },
+      "x6": {
+        "saver": "Caller",
+        "meaning": "Temporary"
+      },
+      "x7": {
+        "saver": "Caller",
+        "meaning": "Temporary"
+      },
+      "x8": {
+        "saver": "Callee",
+        "meaning": "Saved register, frame pointer"
+      },
+      "x9": {
+        "saver": "Callee",
+        "meaning": "Saved register"
+      },
+      "x10": {
+        "saver": "Caller",
+        "meaning": "Function argument, return value"
+      },
+      "x11": {
+        "saver": "Caller",
+        "meaning": "Function argument, return value"
+      },
+      "x12": {
+        "saver": "Caller",
+        "meaning": "Function argument"
+      },
+      "x13": {
+        "saver": "Caller",
+        "meaning": "Function argument"
+      },
+      "x14": {
+        "saver": "Caller",
+        "meaning": "Function argument"
+      },
+      "x15": {
+        "saver": "Caller",
+        "meaning": "Function argument"
+      },
+      "x16": {
+        "saver": "Caller",
+        "meaning": "Function argument"
+      },
+      "x17": {
+        "saver": "Caller",
+        "meaning": "Function argument"
+      },
+      "x18": {
+        "saver": "Callee",
+        "meaning": "Saved register"
+      },
+      "x19": {
+        "saver": "Callee",
+        "meaning": "Saved register"
+      },
+      "x20": {
+        "saver": "Callee",
+        "meaning": "Saved register"
+      },
+      "x21": {
+        "saver": "Callee",
+        "meaning": "Saved register"
+      },
+      "x22": {
+        "saver": "Callee",
+        "meaning": "Saved register"
+      },
+      "x23": {
+        "saver": "Callee",
+        "meaning": "Saved register"
+      },
+      "x24": {
+        "saver": "Callee",
+        "meaning": "Saved register"
+      },
+      "x25": {
+        "saver": "Callee",
+        "meaning": "Saved register"
+      },
+      "x26": {
+        "saver": "Callee",
+        "meaning": "Saved register"
+      },
+      "x27": {
+        "saver": "Callee",
+        "meaning": "Saved register"
+      },
+      "x28": {
+        "saver": "Caller",
+        "meaning": "Temporary"
+      },
+      "x29": {
+        "saver": "Caller",
+        "meaning": "Temporary"
+      },
+      "x30": {
+        "saver": "Caller",
+        "meaning": "Temporary"
+      },
+      "x31": {
+        "saver": "Caller",
+        "meaning": "Temporary"
+      }
+    },
+    "f": {
+      "f0": {
+        "saver": "Caller",
+        "meaning": "FP temporary"
+      },
+      "f1": {
+        "saver": "Caller",
+        "meaning": "FP temporary"
+      },
+      "f2": {
+        "saver": "Caller",
+        "meaning": "FP temporary"
+      },
+      "f3": {
+        "saver": "Caller",
+        "meaning": "FP temporary"
+      },
+      "f4": {
+        "saver": "Caller",
+        "meaning": "FP temporary"
+      },
+      "f5": {
+        "saver": "Caller",
+        "meaning": "FP temporary"
+      },
+      "f6": {
+        "saver": "Caller",
+        "meaning": "FP temporary"
+      },
+      "f7": {
+        "saver": "Caller",
+        "meaning": "FP temporary"
+      },
+      "f8": {
+        "saver": "Callee",
+        "meaning": "FP saved register"
+      },
+      "f9": {
+        "saver": "Callee",
+        "meaning": "FP saved register"
+      },
+      "f10": {
+        "saver": "Caller",
+        "meaning": "FP argument, return value"
+      },
+      "f11": {
+        "saver": "Caller",
+        "meaning": "FP argument, return value"
+      },
+      "f12": {
+        "saver": "Caller",
+        "meaning": "FP argument"
+      },
+      "f13": {
+        "saver": "Caller",
+        "meaning": "FP argument"
+      },
+      "f14": {
+        "saver": "Caller",
+        "meaning": "FP argument"
+      },
+      "f15": {
+        "saver": "Caller",
+        "meaning": "FP argument"
+      },
+      "f16": {
+        "saver": "Caller",
+        "meaning": "FP argument"
+      },
+      "f17": {
+        "saver": "Caller",
+        "meaning": "FP argument"
+      },
+      "f18": {
+        "saver": "Callee",
+        "meaning": "FP saved register"
+      },
+      "f19": {
+        "saver": "Callee",
+        "meaning": "FP saved register"
+      },
+      "f20": {
+        "saver": "Callee",
+        "meaning": "FP saved register"
+      },
+      "f21": {
+        "saver": "Callee",
+        "meaning": "FP saved register"
+      },
+      "f22": {
+        "saver": "Callee",
+        "meaning": "FP saved register"
+      },
+      "f23": {
+        "saver": "Callee",
+        "meaning": "FP saved register"
+      },
+      "f24": {
+        "saver": "Callee",
+        "meaning": "FP saved register"
+      },
+      "f25": {
+        "saver": "Callee",
+        "meaning": "FP saved register"
+      },
+      "f26": {
+        "saver": "Callee",
+        "meaning": "FP saved register"
+      },
+      "f27": {
+        "saver": "Callee",
+        "meaning": "FP saved register"
+      },
+      "f28": {
+        "saver": "Caller",
+        "meaning": "FP temporary"
+      },
+      "f29": {
+        "saver": "Caller",
+        "meaning": "FP temporary"
+      },
+      "f30": {
+        "saver": "Caller",
+        "meaning": "FP temporary"
+      },
+      "f31": {
+        "saver": "Caller",
+        "meaning": "FP temporary"
+      }
+    },
+    "csr": {
+      "fflags": "FP accrued exceptions (NV DZ OF UF NX)",
+      "frm": "FP dynamic rounding mode",
+      "fcsr": "FP control and status: frm and fflags",
+      "cycle": "Cycle counter, low 32 bits",
+      "time": "Real-time clock, low 32 bits",
+      "instret": "Instructions retired, low 32 bits",
+      "cycleh": "Cycle counter, high 32 bits",
+      "timeh": "Real-time clock, high 32 bits",
+      "instreth": "Instructions retired, high 32 bits",
+      "sstatus": "Supervisor status",
+      "sie": "Supervisor interrupt enable",
+      "stvec": "Supervisor trap handler base address",
+      "scounteren": "Supervisor counter enable",
+      "sscratch": "Scratch register for supervisor trap handlers",
+      "sepc": "Supervisor exception program counter",
+      "scause": "Supervisor trap cause",
+      "stval": "Supervisor bad address or instruction",
+      "sip": "Supervisor interrupt pending",
+      "satp": "Supervisor address translation and protection",
+      "mvendorid": "Vendor ID",
+      "marchid": "Architecture ID",
+      "mimpid": "Implementation ID",
+      "mhartid": "Hardware thread ID",
+      "mstatus": "Machine status",
+      "misa": "ISA and extensions",
+      "medeleg": "Machine exception delegation",
+      "mideleg": "Machine interrupt delegation",
+      "mie": "Machine interrupt enable",
+      "mtvec": "Machine trap handler base address",
+      "mcounteren": "Machine counter enable",
+      "mstatush": "Additional machine status (RV32)",
+      "mscratch": "Scratch register for machine trap handlers",
+      "mepc": "Machine exception program counter",
+      "mcause": "Machine trap cause",
+      "mtval": "Machine bad address or instruction",
+      "mip": "Machine interrupt pending",
+      "mcycle": "Machine cycle counter, low 32 bits",
+      "minstret": "Machine instructions retired, low 32 bits",
+      "mcycleh": "Machine cycle counter, high 32 bits",
+      "minstreth": "Machine instructions retired, high 32 bits"
+    },
+    "sections": [
+      {
+        "title": "Program Counter",
+        "columns": [
+          "Register",
+          "Width",
+          "Meaning"
+        ],
+        "rows": [
+          [
+            "pc",
+            "32 bit",
+            "Address of the current instruction; not an operand, read with auipc, changed by jumps and branches"
+          ]
+        ]
+      },
+      {
+        "title": "fcsr Fields",
+        "columns": [
+          "Bits",
+          "Field",
+          "Meaning"
+        ],
+        "rows": [
+          [
+            "7:5",
+            "frm",
+            "Dynamic rounding mode, used when an instruction's rm is dyn (111)"
+          ],
+          [
+            "4",
+            "NV",
+            "Invalid operation"
+          ],
+          [
+            "3",
+            "DZ",
+            "Divide by zero"
+          ],
+          [
+            "2",
+            "OF",
+            "Overflow"
+          ],
+          [
+            "1",
+            "UF",
+            "Underflow"
+          ],
+          [
+            "0",
+            "NX",
+            "Inexact"
+          ]
+        ]
+      },
+      {
+        "title": "Rounding Modes (rm, frm)",
+        "columns": [
+          "rm",
+          "Name",
+          "Meaning"
+        ],
+        "rows": [
+          [
+            "000",
+            "rne",
+            "Round to nearest, ties to even"
+          ],
+          [
+            "001",
+            "rtz",
+            "Round towards zero"
+          ],
+          [
+            "010",
+            "rdn",
+            "Round down, towards −∞"
+          ],
+          [
+            "011",
+            "rup",
+            "Round up, towards +∞"
+          ],
+          [
+            "100",
+            "rmm",
+            "Round to nearest, ties to max magnitude"
+          ],
+          [
+            "101",
+            "—",
+            "Reserved"
+          ],
+          [
+            "110",
+            "—",
+            "Reserved"
+          ],
+          [
+            "111",
+            "dyn",
+            "Dynamic: the rounding mode in frm (rm only)"
+          ]
+        ]
+      }
+    ]
+  }
+}

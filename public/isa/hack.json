@@ -711,5 +711,162 @@
         "@24576"
       ]
     }
+  ],
+  "registers": [
+    {
+      "title": "Registers",
+      "columns": [
+        "Register",
+        "dest bit",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "A",
+          "d1 = inst[5]",
+          "Address register: a value, or the address of M and of jumps"
+        ],
+        [
+          "D",
+          "d2 = inst[4]",
+          "Data register"
+        ],
+        [
+          "M",
+          "d3 = inst[3]",
+          "Not a register: RAM[A]"
+        ],
+        [
+          "PC",
+          "—",
+          "Program counter (15 bit): the next instruction, or A after a jump that is taken"
+        ]
+      ]
+    },
+    {
+      "title": "Predefined Symbols",
+      "columns": [
+        "Symbol",
+        "Value",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "SP",
+          "0",
+          "Stack Pointer"
+        ],
+        [
+          "LCL",
+          "1",
+          "Local Segment Pointer"
+        ],
+        [
+          "ARG",
+          "2",
+          "Argument Segment Pointer"
+        ],
+        [
+          "THIS",
+          "3",
+          "This Segment Pointer"
+        ],
+        [
+          "THAT",
+          "4",
+          "That Segment Pointer"
+        ],
+        [
+          "R0",
+          "0",
+          "Virtual Register 0"
+        ],
+        [
+          "R1",
+          "1",
+          "Virtual Register 1"
+        ],
+        [
+          "R2",
+          "2",
+          "Virtual Register 2"
+        ],
+        [
+          "R3",
+          "3",
+          "Virtual Register 3"
+        ],
+        [
+          "R4",
+          "4",
+          "Virtual Register 4"
+        ],
+        [
+          "R5",
+          "5",
+          "Virtual Register 5"
+        ],
+        [
+          "R6",
+          "6",
+          "Virtual Register 6"
+        ],
+        [
+          "R7",
+          "7",
+          "Virtual Register 7"
+        ],
+        [
+          "R8",
+          "8",
+          "Virtual Register 8"
+        ],
+        [
+          "R9",
+          "9",
+          "Virtual Register 9"
+        ],
+        [
+          "R10",
+          "10",
+          "Virtual Register 10"
+        ],
+        [
+          "R11",
+          "11",
+          "Virtual Register 11"
+        ],
+        [
+          "R12",
+          "12",
+          "Virtual Register 12"
+        ],
+        [
+          "R13",
+          "13",
+          "Virtual Register 13"
+        ],
+        [
+          "R14",
+          "14",
+          "Virtual Register 14"
+        ],
+        [
+          "R15",
+          "15",
+          "Virtual Register 15"
+        ],
+        [
+          "SCREEN",
+          "16384",
+          "Screen Memory Map"
+        ],
+        [
+          "KBD",
+          "24576",
+          "Keyboard Memory Map"
+        ]
+      ]
+    }
   ]
 }

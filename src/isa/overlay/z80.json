@@ -1,0 +1,1980 @@
+{
+  "$comment": "What the Z80 sheets show that spec/unofficial/z80 (Sail and TableGen) does not carry: sections, groups, formats, operand names, each row's class, description, pseudocode and flags, in the decoder's order. tools/isa/gen-retro.mjs merges them into src/isa/generated/z80.mjs.",
+  "formats": {
+    "IMP": {
+      "title": "Implied"
+    },
+    "REG": {
+      "title": "Register"
+    },
+    "IMM": {
+      "title": "Immediate"
+    },
+    "EXT": {
+      "title": "Extended"
+    },
+    "IND": {
+      "title": "Register Indirect"
+    },
+    "IDX": {
+      "title": "Indexed"
+    },
+    "REL": {
+      "title": "Relative"
+    },
+    "BIT": {
+      "title": "Bit"
+    }
+  },
+  "sections": {
+    "main": "Main Opcodes",
+    "cb": "CB Prefix — Rotates, Shifts and Bit Operations",
+    "ed": "ED Prefix — Extended Instructions",
+    "index": "DD / FD Prefix — IX / IY"
+  },
+  "extensions": [
+    "8-Bit Load",
+    "16-Bit Load",
+    "Exchange",
+    "Block",
+    "Arithmetic",
+    "16-Bit Arithmetic",
+    "Rotate",
+    "Bit",
+    "Jump",
+    "Call",
+    "I/O",
+    "Control"
+  ],
+  "operands": {
+    "r": {
+      "width": 3,
+      "names": [
+        "B",
+        "C",
+        "D",
+        "E",
+        "H",
+        "L",
+        "(HL)",
+        "A"
+      ],
+      "exclude": [
+        6
+      ]
+    },
+    "r2": {
+      "width": 3,
+      "names": [
+        "B",
+        "C",
+        "D",
+        "E",
+        "H",
+        "L",
+        "(HL)",
+        "A"
+      ],
+      "exclude": [
+        6
+      ]
+    },
+    "dd": {
+      "width": 2,
+      "names": [
+        "BC",
+        "DE",
+        "HL",
+        "SP"
+      ]
+    },
+    "ss": {
+      "width": 2,
+      "names": [
+        "BC",
+        "DE",
+        "HL",
+        "SP"
+      ]
+    },
+    "qq": {
+      "width": 2,
+      "names": [
+        "BC",
+        "DE",
+        "HL",
+        "AF"
+      ]
+    },
+    "pp": {
+      "width": 2,
+      "names": [
+        "BC",
+        "DE",
+        "IX",
+        "SP"
+      ]
+    },
+    "rr": {
+      "width": 2,
+      "names": [
+        "BC",
+        "DE",
+        "IY",
+        "SP"
+      ]
+    },
+    "cc": {
+      "width": 3,
+      "names": [
+        "NZ",
+        "Z",
+        "NC",
+        "C",
+        "PO",
+        "PE",
+        "P",
+        "M"
+      ]
+    },
+    "jc": {
+      "width": 2,
+      "names": [
+        "NZ",
+        "Z",
+        "NC",
+        "C"
+      ]
+    },
+    "b": {
+      "width": 3,
+      "names": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    "t": {
+      "width": 3,
+      "names": [
+        "$00",
+        "$08",
+        "$10",
+        "$18",
+        "$20",
+        "$28",
+        "$30",
+        "$38"
+      ]
+    },
+    "i": {
+      "width": 1,
+      "names": [
+        "IX",
+        "IY"
+      ]
+    },
+    "d": {
+      "width": 8,
+      "signed": true
+    }
+  },
+  "groups": {
+    "ld-r": {
+      "section": "main",
+      "format": "REG",
+      "title": "8-Bit Register Load",
+      "pseudocode": "r = r2"
+    },
+    "ld-n": {
+      "section": "main",
+      "format": "IMM",
+      "title": "8-Bit Immediate Load",
+      "pseudocode": "r = n"
+    },
+    "ld-hl": {
+      "section": "main",
+      "format": "IND",
+      "title": "Load through HL",
+      "pseudocode": "r ↔ [ HL ]"
+    },
+    "ld-hl-n": {
+      "section": "main",
+      "format": "IND",
+      "title": "Store Immediate through HL",
+      "pseudocode": "[ HL ] = n"
+    },
+    "ld-a": {
+      "section": "main",
+      "format": "IND",
+      "title": "Load A through BC / DE",
+      "pseudocode": "A ↔ [ BC / DE ]"
+    },
+    "ld-nn": {
+      "section": "main",
+      "format": "EXT",
+      "title": "Load from / to an Address",
+      "pseudocode": "A / HL ↔ [ nn ]"
+    },
+    "ld-dd": {
+      "section": "main",
+      "format": "IMM",
+      "title": "16-Bit Immediate Load",
+      "pseudocode": "dd = nn"
+    },
+    "stack": {
+      "section": "main",
+      "format": "REG",
+      "title": "Stack",
+      "pseudocode": "SP -= 2 ; [ SP ] = qq  |  qq = [ SP ] ; SP += 2"
+    },
+    "exchange": {
+      "section": "main",
+      "format": "IMP",
+      "title": "Exchange",
+      "pseudocode": "swap the two"
+    },
+    "alu-r": {
+      "section": "main",
+      "format": "REG",
+      "title": "Arithmetic and Logic on a Register",
+      "pseudocode": "A = A (op) r"
+    },
+    "alu-hl": {
+      "section": "main",
+      "format": "IND",
+      "title": "Arithmetic and Logic through HL",
+      "pseudocode": "A = A (op) [ HL ]"
+    },
+    "alu-n": {
+      "section": "main",
+      "format": "IMM",
+      "title": "Arithmetic and Logic with Immediate",
+      "pseudocode": "A = A (op) n"
+    },
+    "inc-r": {
+      "section": "main",
+      "format": "REG",
+      "title": "Increment / Decrement Register",
+      "pseudocode": "r ±= 1"
+    },
+    "inc-hl": {
+      "section": "main",
+      "format": "IND",
+      "title": "Increment / Decrement through HL",
+      "pseudocode": "[ HL ] ±= 1"
+    },
+    "inc-ss": {
+      "section": "main",
+      "format": "REG",
+      "title": "16-Bit Arithmetic",
+      "pseudocode": "on the pair ss"
+    },
+    "rot-a": {
+      "section": "main",
+      "format": "IMP",
+      "title": "Rotate the Accumulator",
+      "pseudocode": "A rotated by one bit"
+    },
+    "control": {
+      "section": "main",
+      "format": "IMP",
+      "title": "General Purpose and CPU Control",
+      "pseudocode": ""
+    },
+    "jump": {
+      "section": "main",
+      "format": "EXT",
+      "title": "Jump and Call",
+      "pseudocode": "if ( cc ) PC = nn"
+    },
+    "relative": {
+      "section": "main",
+      "format": "REL",
+      "title": "Relative Jump",
+      "pseudocode": "if ( jc ) PC += e"
+    },
+    "return": {
+      "section": "main",
+      "format": "IMP",
+      "title": "Return, Restart, Jump through HL",
+      "pseudocode": "PC = [ SP ] ..."
+    },
+    "io-n": {
+      "section": "main",
+      "format": "IMM",
+      "title": "Input / Output on Port n",
+      "pseudocode": "A ↔ port n"
+    },
+    "cb-r": {
+      "section": "cb",
+      "format": "REG",
+      "title": "Rotate / Shift Register",
+      "pseudocode": "r rotated by one bit"
+    },
+    "cb-hl": {
+      "section": "cb",
+      "format": "IND",
+      "title": "Rotate / Shift through HL",
+      "pseudocode": "[ HL ] rotated by one bit"
+    },
+    "bit-r": {
+      "section": "cb",
+      "format": "BIT",
+      "title": "Bit of a Register",
+      "pseudocode": "r[b]"
+    },
+    "bit-hl": {
+      "section": "cb",
+      "format": "BIT",
+      "title": "Bit through HL",
+      "pseudocode": "[ HL ][b]"
+    },
+    "ed-nn": {
+      "section": "ed",
+      "format": "EXT",
+      "title": "16-Bit Load from / to an Address",
+      "pseudocode": "dd ↔ [ nn ]"
+    },
+    "ed-hl": {
+      "section": "ed",
+      "format": "REG",
+      "title": "16-Bit Arithmetic with Carry",
+      "pseudocode": "HL = HL (op) ss"
+    },
+    "ed-io": {
+      "section": "ed",
+      "format": "REG",
+      "title": "Input / Output on Port C",
+      "pseudocode": "r ↔ port C"
+    },
+    "ed-ir": {
+      "section": "ed",
+      "format": "IMP",
+      "title": "Interrupt and Refresh Registers",
+      "pseudocode": ""
+    },
+    "ed-block": {
+      "section": "ed",
+      "format": "IMP",
+      "title": "Block Transfer, Search, Input and Output",
+      "pseudocode": "one step, repeated by the *R forms"
+    },
+    "ed-misc": {
+      "section": "ed",
+      "format": "IMP",
+      "title": "Negate, Returns, Interrupt Mode, Digit Rotates",
+      "pseudocode": ""
+    },
+    "x-ld": {
+      "section": "index",
+      "format": "IDX",
+      "title": "Load through IX / IY",
+      "pseudocode": "r ↔ [ i + d ]"
+    },
+    "x-ld-n": {
+      "section": "index",
+      "format": "IDX",
+      "title": "Store Immediate through IX / IY",
+      "pseudocode": "[ i + d ] = n"
+    },
+    "x-nn": {
+      "section": "index",
+      "format": "IMM",
+      "title": "16-Bit Immediate Load",
+      "pseudocode": "i = nn"
+    },
+    "x-ext": {
+      "section": "index",
+      "format": "EXT",
+      "title": "Load from / to an Address",
+      "pseudocode": "i ↔ [ nn ]"
+    },
+    "x-alu": {
+      "section": "index",
+      "format": "IDX",
+      "title": "Arithmetic and Logic through IX / IY",
+      "pseudocode": "A = A (op) [ i + d ]"
+    },
+    "x-reg": {
+      "section": "index",
+      "format": "REG",
+      "title": "On IX / IY",
+      "pseudocode": "on the register i"
+    },
+    "x-add": {
+      "section": "index",
+      "format": "REG",
+      "title": "16-Bit Add",
+      "pseudocode": "IX / IY += pair"
+    },
+    "x-rot": {
+      "section": "index",
+      "format": "IDX",
+      "title": "Rotate / Shift through IX / IY",
+      "pseudocode": "[ i + d ] rotated by one bit"
+    },
+    "x-bit": {
+      "section": "index",
+      "format": "BIT",
+      "title": "Bit through IX / IY",
+      "pseudocode": "[ i + d ][b]"
+    }
+  },
+  "instructions": [
+    {
+      "group": "ld-r",
+      "def": "LD_r_r2",
+      "extension": "8-Bit Load",
+      "description": "Load Register",
+      "pseudocode": "r = r2",
+      "expands": ""
+    },
+    {
+      "group": "ld-n",
+      "def": "LD_r_n",
+      "extension": "8-Bit Load",
+      "description": "Load Immediate",
+      "pseudocode": "r = n",
+      "expands": ""
+    },
+    {
+      "group": "ld-hl",
+      "def": "LD_r_mHL",
+      "extension": "8-Bit Load",
+      "description": "Load from Memory",
+      "pseudocode": "r = [ HL ]",
+      "expands": ""
+    },
+    {
+      "group": "ld-hl",
+      "def": "LD_mHL_r2",
+      "extension": "8-Bit Load",
+      "description": "Store to Memory",
+      "pseudocode": "[ HL ] = r2",
+      "expands": ""
+    },
+    {
+      "group": "ld-hl-n",
+      "def": "LD_mHL_n",
+      "extension": "8-Bit Load",
+      "description": "Store Immediate",
+      "pseudocode": "[ HL ] = n",
+      "expands": ""
+    },
+    {
+      "group": "ld-a",
+      "def": "LD_A_mBC",
+      "extension": "8-Bit Load",
+      "description": "Load A",
+      "pseudocode": "A = [ BC ]",
+      "expands": ""
+    },
+    {
+      "group": "ld-a",
+      "def": "LD_A_mDE",
+      "extension": "8-Bit Load",
+      "description": "Load A",
+      "pseudocode": "A = [ DE ]",
+      "expands": ""
+    },
+    {
+      "group": "ld-a",
+      "def": "LD_mBC_A",
+      "extension": "8-Bit Load",
+      "description": "Store A",
+      "pseudocode": "[ BC ] = A",
+      "expands": ""
+    },
+    {
+      "group": "ld-a",
+      "def": "LD_mDE_A",
+      "extension": "8-Bit Load",
+      "description": "Store A",
+      "pseudocode": "[ DE ] = A",
+      "expands": ""
+    },
+    {
+      "group": "ld-nn",
+      "def": "LD_A_mnn",
+      "extension": "8-Bit Load",
+      "description": "Load A",
+      "pseudocode": "A = [ nn ]",
+      "expands": ""
+    },
+    {
+      "group": "ld-nn",
+      "def": "LD_mnn_A",
+      "extension": "8-Bit Load",
+      "description": "Store A",
+      "pseudocode": "[ nn ] = A",
+      "expands": ""
+    },
+    {
+      "group": "x-ld",
+      "def": "LD_r_mid",
+      "extension": "8-Bit Load",
+      "description": "Load Indexed",
+      "pseudocode": "r = [ i + d ]",
+      "expands": ""
+    },
+    {
+      "group": "x-ld",
+      "def": "LD_mid_r2",
+      "extension": "8-Bit Load",
+      "description": "Store Indexed",
+      "pseudocode": "[ i + d ] = r2",
+      "expands": ""
+    },
+    {
+      "group": "x-ld-n",
+      "def": "LD_mid_n",
+      "extension": "8-Bit Load",
+      "description": "Store Immediate Indexed",
+      "pseudocode": "[ i + d ] = n",
+      "expands": ""
+    },
+    {
+      "group": "ed-ir",
+      "def": "LD_A_I",
+      "extension": "8-Bit Load",
+      "description": "Load Interrupt Vector",
+      "pseudocode": "A = I",
+      "expands": "S Z H P/V N"
+    },
+    {
+      "group": "ed-ir",
+      "def": "LD_A_R",
+      "extension": "8-Bit Load",
+      "description": "Load Refresh Register",
+      "pseudocode": "A = R",
+      "expands": "S Z H P/V N"
+    },
+    {
+      "group": "ed-ir",
+      "def": "LD_I_A",
+      "extension": "8-Bit Load",
+      "description": "Set Interrupt Vector",
+      "pseudocode": "I = A",
+      "expands": ""
+    },
+    {
+      "group": "ed-ir",
+      "def": "LD_R_A",
+      "extension": "8-Bit Load",
+      "description": "Set Refresh Register",
+      "pseudocode": "R = A",
+      "expands": ""
+    },
+    {
+      "group": "ld-dd",
+      "def": "LD_dd_nn",
+      "extension": "16-Bit Load",
+      "description": "Load Immediate",
+      "pseudocode": "dd = nn",
+      "expands": ""
+    },
+    {
+      "group": "ld-nn",
+      "def": "LD_HL_mnn",
+      "extension": "16-Bit Load",
+      "description": "Load HL",
+      "pseudocode": "HL = [ nn ]",
+      "expands": ""
+    },
+    {
+      "group": "ld-nn",
+      "def": "LD_mnn_HL",
+      "extension": "16-Bit Load",
+      "description": "Store HL",
+      "pseudocode": "[ nn ] = HL",
+      "expands": ""
+    },
+    {
+      "group": "ed-nn",
+      "def": "LD_dd_mnn",
+      "extension": "16-Bit Load",
+      "description": "Load Pair",
+      "pseudocode": "dd = [ nn ]",
+      "expands": ""
+    },
+    {
+      "group": "ed-nn",
+      "def": "LD_mnn_dd",
+      "extension": "16-Bit Load",
+      "description": "Store Pair",
+      "pseudocode": "[ nn ] = dd",
+      "expands": ""
+    },
+    {
+      "group": "x-nn",
+      "def": "LD_i_nn",
+      "extension": "16-Bit Load",
+      "description": "Load Immediate",
+      "pseudocode": "i = nn",
+      "expands": ""
+    },
+    {
+      "group": "x-ext",
+      "def": "LD_i_mnn",
+      "extension": "16-Bit Load",
+      "description": "Load Index",
+      "pseudocode": "i = [ nn ]",
+      "expands": ""
+    },
+    {
+      "group": "x-ext",
+      "def": "LD_mnn_i",
+      "extension": "16-Bit Load",
+      "description": "Store Index",
+      "pseudocode": "[ nn ] = i",
+      "expands": ""
+    },
+    {
+      "group": "return",
+      "def": "LD_SP_HL",
+      "extension": "16-Bit Load",
+      "description": "Load Stack Pointer",
+      "pseudocode": "SP = HL",
+      "expands": ""
+    },
+    {
+      "group": "x-reg",
+      "def": "LD_SP_i",
+      "extension": "16-Bit Load",
+      "description": "Load Stack Pointer",
+      "pseudocode": "SP = i",
+      "expands": ""
+    },
+    {
+      "group": "stack",
+      "def": "PUSH_qq",
+      "extension": "16-Bit Load",
+      "description": "Push Pair",
+      "pseudocode": "SP -= 2 ; [ SP ] = qq",
+      "expands": ""
+    },
+    {
+      "group": "stack",
+      "def": "POP_qq",
+      "extension": "16-Bit Load",
+      "description": "Pop Pair",
+      "pseudocode": "qq = [ SP ] ; SP += 2",
+      "expands": ""
+    },
+    {
+      "group": "x-reg",
+      "def": "PUSH_i",
+      "extension": "16-Bit Load",
+      "description": "Push Index",
+      "pseudocode": "SP -= 2 ; [ SP ] = i",
+      "expands": ""
+    },
+    {
+      "group": "x-reg",
+      "def": "POP_i",
+      "extension": "16-Bit Load",
+      "description": "Pop Index",
+      "pseudocode": "i = [ SP ] ; SP += 2",
+      "expands": ""
+    },
+    {
+      "group": "exchange",
+      "def": "EX_DE_HL",
+      "extension": "Exchange",
+      "description": "Exchange DE and HL",
+      "pseudocode": "DE ↔ HL",
+      "expands": ""
+    },
+    {
+      "group": "exchange",
+      "def": "EX_AF_AFx",
+      "extension": "Exchange",
+      "description": "Exchange with Shadow AF",
+      "pseudocode": "AF ↔ AF'",
+      "expands": ""
+    },
+    {
+      "group": "exchange",
+      "def": "EXX",
+      "extension": "Exchange",
+      "description": "Exchange Pairs with Shadows",
+      "pseudocode": "BC, DE, HL ↔ BC', DE', HL'",
+      "expands": ""
+    },
+    {
+      "group": "exchange",
+      "def": "EX_mSP_HL",
+      "extension": "Exchange",
+      "description": "Exchange with Stack Top",
+      "pseudocode": "[ SP ] ↔ HL",
+      "expands": ""
+    },
+    {
+      "group": "x-reg",
+      "def": "EX_mSP_i",
+      "extension": "Exchange",
+      "description": "Exchange with Stack Top",
+      "pseudocode": "[ SP ] ↔ i",
+      "expands": ""
+    },
+    {
+      "group": "ed-block",
+      "def": "LDI",
+      "extension": "Block",
+      "description": "Load and Increment",
+      "pseudocode": "[ DE ] = [ HL ] ; HL++ ; DE++ ; BC--",
+      "expands": "H P/V N"
+    },
+    {
+      "group": "ed-block",
+      "def": "LDIR",
+      "extension": "Block",
+      "description": "Load, Increment, Repeat",
+      "pseudocode": "LDI until BC = 0",
+      "expands": "H P/V N"
+    },
+    {
+      "group": "ed-block",
+      "def": "LDD",
+      "extension": "Block",
+      "description": "Load and Decrement",
+      "pseudocode": "[ DE ] = [ HL ] ; HL-- ; DE-- ; BC--",
+      "expands": "H P/V N"
+    },
+    {
+      "group": "ed-block",
+      "def": "LDDR",
+      "extension": "Block",
+      "description": "Load, Decrement, Repeat",
+      "pseudocode": "LDD until BC = 0",
+      "expands": "H P/V N"
+    },
+    {
+      "group": "ed-block",
+      "def": "CPI",
+      "extension": "Block",
+      "description": "Compare and Increment",
+      "pseudocode": "flags of A - [ HL ] ; HL++ ; BC--",
+      "expands": "S Z H P/V N"
+    },
+    {
+      "group": "ed-block",
+      "def": "CPIR",
+      "extension": "Block",
+      "description": "Compare, Increment, Repeat",
+      "pseudocode": "CPI until BC = 0 or A = [ HL ]",
+      "expands": "S Z H P/V N"
+    },
+    {
+      "group": "ed-block",
+      "def": "CPD",
+      "extension": "Block",
+      "description": "Compare and Decrement",
+      "pseudocode": "flags of A - [ HL ] ; HL-- ; BC--",
+      "expands": "S Z H P/V N"
+    },
+    {
+      "group": "ed-block",
+      "def": "CPDR",
+      "extension": "Block",
+      "description": "Compare, Decrement, Repeat",
+      "pseudocode": "CPD until BC = 0 or A = [ HL ]",
+      "expands": "S Z H P/V N"
+    },
+    {
+      "group": "ed-block",
+      "def": "INI",
+      "extension": "I/O",
+      "description": "Input and Increment",
+      "pseudocode": "[ HL ] = port C ; HL++ ; B--",
+      "expands": "Z N"
+    },
+    {
+      "group": "ed-block",
+      "def": "INIR",
+      "extension": "I/O",
+      "description": "Input, Increment, Repeat",
+      "pseudocode": "INI until B = 0",
+      "expands": "Z N"
+    },
+    {
+      "group": "ed-block",
+      "def": "IND",
+      "extension": "I/O",
+      "description": "Input and Decrement",
+      "pseudocode": "[ HL ] = port C ; HL-- ; B--",
+      "expands": "Z N"
+    },
+    {
+      "group": "ed-block",
+      "def": "INDR",
+      "extension": "I/O",
+      "description": "Input, Decrement, Repeat",
+      "pseudocode": "IND until B = 0",
+      "expands": "Z N"
+    },
+    {
+      "group": "ed-block",
+      "def": "OUTI",
+      "extension": "I/O",
+      "description": "Output and Increment",
+      "pseudocode": "port C = [ HL ] ; HL++ ; B--",
+      "expands": "Z N"
+    },
+    {
+      "group": "ed-block",
+      "def": "OTIR",
+      "extension": "I/O",
+      "description": "Output, Increment, Repeat",
+      "pseudocode": "OUTI until B = 0",
+      "expands": "Z N"
+    },
+    {
+      "group": "ed-block",
+      "def": "OUTD",
+      "extension": "I/O",
+      "description": "Output and Decrement",
+      "pseudocode": "port C = [ HL ] ; HL-- ; B--",
+      "expands": "Z N"
+    },
+    {
+      "group": "ed-block",
+      "def": "OTDR",
+      "extension": "I/O",
+      "description": "Output, Decrement, Repeat",
+      "pseudocode": "OUTD until B = 0",
+      "expands": "Z N"
+    },
+    {
+      "group": "alu-r",
+      "def": "ADD_A_r",
+      "extension": "Arithmetic",
+      "description": "Add",
+      "pseudocode": "A = A + r",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-hl",
+      "def": "ADD_A_mHL",
+      "extension": "Arithmetic",
+      "description": "Add",
+      "pseudocode": "A = A + [ HL ]",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-n",
+      "def": "ADD_A_n",
+      "extension": "Arithmetic",
+      "description": "Add",
+      "pseudocode": "A = A + n",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "x-alu",
+      "def": "ADD_A_mid",
+      "extension": "Arithmetic",
+      "description": "Add",
+      "pseudocode": "A = A + [ i + d ]",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-r",
+      "def": "ADC_A_r",
+      "extension": "Arithmetic",
+      "description": "Add with Carry",
+      "pseudocode": "A = A + C + r",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-hl",
+      "def": "ADC_A_mHL",
+      "extension": "Arithmetic",
+      "description": "Add with Carry",
+      "pseudocode": "A = A + C + [ HL ]",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-n",
+      "def": "ADC_A_n",
+      "extension": "Arithmetic",
+      "description": "Add with Carry",
+      "pseudocode": "A = A + C + n",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "x-alu",
+      "def": "ADC_A_mid",
+      "extension": "Arithmetic",
+      "description": "Add with Carry",
+      "pseudocode": "A = A + C + [ i + d ]",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-r",
+      "def": "SUB_r",
+      "extension": "Arithmetic",
+      "description": "Subtract",
+      "pseudocode": "A = A - r",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-hl",
+      "def": "SUB_mHL",
+      "extension": "Arithmetic",
+      "description": "Subtract",
+      "pseudocode": "A = A - [ HL ]",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-n",
+      "def": "SUB_n",
+      "extension": "Arithmetic",
+      "description": "Subtract",
+      "pseudocode": "A = A - n",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "x-alu",
+      "def": "SUB_mid",
+      "extension": "Arithmetic",
+      "description": "Subtract",
+      "pseudocode": "A = A - [ i + d ]",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-r",
+      "def": "SBC_A_r",
+      "extension": "Arithmetic",
+      "description": "Subtract with Carry",
+      "pseudocode": "A = A - C - r",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-hl",
+      "def": "SBC_A_mHL",
+      "extension": "Arithmetic",
+      "description": "Subtract with Carry",
+      "pseudocode": "A = A - C - [ HL ]",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-n",
+      "def": "SBC_A_n",
+      "extension": "Arithmetic",
+      "description": "Subtract with Carry",
+      "pseudocode": "A = A - C - n",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "x-alu",
+      "def": "SBC_A_mid",
+      "extension": "Arithmetic",
+      "description": "Subtract with Carry",
+      "pseudocode": "A = A - C - [ i + d ]",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-r",
+      "def": "AND_r",
+      "extension": "Arithmetic",
+      "description": "Bitwise And",
+      "pseudocode": "A = A & r",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "alu-hl",
+      "def": "AND_mHL",
+      "extension": "Arithmetic",
+      "description": "Bitwise And",
+      "pseudocode": "A = A & [ HL ]",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "alu-n",
+      "def": "AND_n",
+      "extension": "Arithmetic",
+      "description": "Bitwise And",
+      "pseudocode": "A = A & n",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "x-alu",
+      "def": "AND_mid",
+      "extension": "Arithmetic",
+      "description": "Bitwise And",
+      "pseudocode": "A = A & [ i + d ]",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "alu-r",
+      "def": "XOR_r",
+      "extension": "Arithmetic",
+      "description": "Bitwise Exclusive Or",
+      "pseudocode": "A = A ^ r",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "alu-hl",
+      "def": "XOR_mHL",
+      "extension": "Arithmetic",
+      "description": "Bitwise Exclusive Or",
+      "pseudocode": "A = A ^ [ HL ]",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "alu-n",
+      "def": "XOR_n",
+      "extension": "Arithmetic",
+      "description": "Bitwise Exclusive Or",
+      "pseudocode": "A = A ^ n",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "x-alu",
+      "def": "XOR_mid",
+      "extension": "Arithmetic",
+      "description": "Bitwise Exclusive Or",
+      "pseudocode": "A = A ^ [ i + d ]",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "alu-r",
+      "def": "OR_r",
+      "extension": "Arithmetic",
+      "description": "Bitwise Or",
+      "pseudocode": "A = A | r",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "alu-hl",
+      "def": "OR_mHL",
+      "extension": "Arithmetic",
+      "description": "Bitwise Or",
+      "pseudocode": "A = A | [ HL ]",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "alu-n",
+      "def": "OR_n",
+      "extension": "Arithmetic",
+      "description": "Bitwise Or",
+      "pseudocode": "A = A | n",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "x-alu",
+      "def": "OR_mid",
+      "extension": "Arithmetic",
+      "description": "Bitwise Or",
+      "pseudocode": "A = A | [ i + d ]",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "alu-r",
+      "def": "CP_r",
+      "extension": "Arithmetic",
+      "description": "Compare",
+      "pseudocode": "A = A - (flags only) r",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-hl",
+      "def": "CP_mHL",
+      "extension": "Arithmetic",
+      "description": "Compare",
+      "pseudocode": "A = A - (flags only) [ HL ]",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "alu-n",
+      "def": "CP_n",
+      "extension": "Arithmetic",
+      "description": "Compare",
+      "pseudocode": "A = A - (flags only) n",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "x-alu",
+      "def": "CP_mid",
+      "extension": "Arithmetic",
+      "description": "Compare",
+      "pseudocode": "A = A - (flags only) [ i + d ]",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "inc-r",
+      "def": "INC_r",
+      "extension": "Arithmetic",
+      "description": "Increment",
+      "pseudocode": "r += 1",
+      "expands": "S Z H V N"
+    },
+    {
+      "group": "inc-hl",
+      "def": "INC_mHL",
+      "extension": "Arithmetic",
+      "description": "Increment",
+      "pseudocode": "[ HL ] += 1",
+      "expands": "S Z H V N"
+    },
+    {
+      "group": "x-alu",
+      "def": "INC_mid",
+      "extension": "Arithmetic",
+      "description": "Increment",
+      "pseudocode": "[ i + d ] += 1",
+      "expands": "S Z H V N"
+    },
+    {
+      "group": "inc-r",
+      "def": "DEC_r",
+      "extension": "Arithmetic",
+      "description": "Decrement",
+      "pseudocode": "r -= 1",
+      "expands": "S Z H V N"
+    },
+    {
+      "group": "inc-hl",
+      "def": "DEC_mHL",
+      "extension": "Arithmetic",
+      "description": "Decrement",
+      "pseudocode": "[ HL ] -= 1",
+      "expands": "S Z H V N"
+    },
+    {
+      "group": "x-alu",
+      "def": "DEC_mid",
+      "extension": "Arithmetic",
+      "description": "Decrement",
+      "pseudocode": "[ i + d ] -= 1",
+      "expands": "S Z H V N"
+    },
+    {
+      "group": "inc-ss",
+      "def": "ADD_HL_ss",
+      "extension": "16-Bit Arithmetic",
+      "description": "Add Pair",
+      "pseudocode": "HL += ss",
+      "expands": "H N C"
+    },
+    {
+      "group": "ed-hl",
+      "def": "ADC_HL_ss",
+      "extension": "16-Bit Arithmetic",
+      "description": "Add Pair with Carry",
+      "pseudocode": "HL += ss + C",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "ed-hl",
+      "def": "SBC_HL_ss",
+      "extension": "16-Bit Arithmetic",
+      "description": "Subtract Pair with Carry",
+      "pseudocode": "HL -= ss + C",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "x-add",
+      "def": "ADD_IX_pp",
+      "extension": "16-Bit Arithmetic",
+      "description": "Add to IX",
+      "pseudocode": "IX += pp",
+      "expands": "H N C"
+    },
+    {
+      "group": "x-add",
+      "def": "ADD_IY_rr",
+      "extension": "16-Bit Arithmetic",
+      "description": "Add to IY",
+      "pseudocode": "IY += rr",
+      "expands": "H N C"
+    },
+    {
+      "group": "inc-ss",
+      "def": "INC_ss",
+      "extension": "16-Bit Arithmetic",
+      "description": "Increment Pair",
+      "pseudocode": "ss += 1",
+      "expands": ""
+    },
+    {
+      "group": "inc-ss",
+      "def": "DEC_ss",
+      "extension": "16-Bit Arithmetic",
+      "description": "Decrement Pair",
+      "pseudocode": "ss -= 1",
+      "expands": ""
+    },
+    {
+      "group": "x-reg",
+      "def": "INC_i",
+      "extension": "16-Bit Arithmetic",
+      "description": "Increment Index",
+      "pseudocode": "i += 1",
+      "expands": ""
+    },
+    {
+      "group": "x-reg",
+      "def": "DEC_i",
+      "extension": "16-Bit Arithmetic",
+      "description": "Decrement Index",
+      "pseudocode": "i -= 1",
+      "expands": ""
+    },
+    {
+      "group": "rot-a",
+      "def": "RLCA",
+      "extension": "Rotate",
+      "description": "Rotate A Left Circular",
+      "pseudocode": "C = A[7] ; A = (A << 1) | C",
+      "expands": "H N C"
+    },
+    {
+      "group": "rot-a",
+      "def": "RRCA",
+      "extension": "Rotate",
+      "description": "Rotate A Right Circular",
+      "pseudocode": "C = A[0] ; A = (A >> 1) | (C << 7)",
+      "expands": "H N C"
+    },
+    {
+      "group": "rot-a",
+      "def": "RLA",
+      "extension": "Rotate",
+      "description": "Rotate A Left through Carry",
+      "pseudocode": "A = (A << 1) | C ; C = old A[7]",
+      "expands": "H N C"
+    },
+    {
+      "group": "rot-a",
+      "def": "RRA",
+      "extension": "Rotate",
+      "description": "Rotate A Right through Carry",
+      "pseudocode": "A = (A >> 1) | (C << 7) ; C = old A[0]",
+      "expands": "H N C"
+    },
+    {
+      "group": "cb-r",
+      "def": "RLC_r",
+      "extension": "Rotate",
+      "description": "Rotate Left Circular",
+      "pseudocode": "r rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-hl",
+      "def": "RLC_mHL",
+      "extension": "Rotate",
+      "description": "Rotate Left Circular",
+      "pseudocode": "[ HL ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "x-rot",
+      "def": "RLC_mid",
+      "extension": "Rotate",
+      "description": "Rotate Left Circular",
+      "pseudocode": "[ i + d ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-r",
+      "def": "RRC_r",
+      "extension": "Rotate",
+      "description": "Rotate Right Circular",
+      "pseudocode": "r rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-hl",
+      "def": "RRC_mHL",
+      "extension": "Rotate",
+      "description": "Rotate Right Circular",
+      "pseudocode": "[ HL ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "x-rot",
+      "def": "RRC_mid",
+      "extension": "Rotate",
+      "description": "Rotate Right Circular",
+      "pseudocode": "[ i + d ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-r",
+      "def": "RL_r",
+      "extension": "Rotate",
+      "description": "Rotate Left through Carry",
+      "pseudocode": "r rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-hl",
+      "def": "RL_mHL",
+      "extension": "Rotate",
+      "description": "Rotate Left through Carry",
+      "pseudocode": "[ HL ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "x-rot",
+      "def": "RL_mid",
+      "extension": "Rotate",
+      "description": "Rotate Left through Carry",
+      "pseudocode": "[ i + d ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-r",
+      "def": "RR_r",
+      "extension": "Rotate",
+      "description": "Rotate Right through Carry",
+      "pseudocode": "r rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-hl",
+      "def": "RR_mHL",
+      "extension": "Rotate",
+      "description": "Rotate Right through Carry",
+      "pseudocode": "[ HL ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "x-rot",
+      "def": "RR_mid",
+      "extension": "Rotate",
+      "description": "Rotate Right through Carry",
+      "pseudocode": "[ i + d ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-r",
+      "def": "SLA_r",
+      "extension": "Rotate",
+      "description": "Shift Left Arithmetic",
+      "pseudocode": "r rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-hl",
+      "def": "SLA_mHL",
+      "extension": "Rotate",
+      "description": "Shift Left Arithmetic",
+      "pseudocode": "[ HL ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "x-rot",
+      "def": "SLA_mid",
+      "extension": "Rotate",
+      "description": "Shift Left Arithmetic",
+      "pseudocode": "[ i + d ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-r",
+      "def": "SRA_r",
+      "extension": "Rotate",
+      "description": "Shift Right Arithmetic",
+      "pseudocode": "r rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-hl",
+      "def": "SRA_mHL",
+      "extension": "Rotate",
+      "description": "Shift Right Arithmetic",
+      "pseudocode": "[ HL ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "x-rot",
+      "def": "SRA_mid",
+      "extension": "Rotate",
+      "description": "Shift Right Arithmetic",
+      "pseudocode": "[ i + d ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-r",
+      "def": "SRL_r",
+      "extension": "Rotate",
+      "description": "Shift Right Logical",
+      "pseudocode": "r rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "cb-hl",
+      "def": "SRL_mHL",
+      "extension": "Rotate",
+      "description": "Shift Right Logical",
+      "pseudocode": "[ HL ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "x-rot",
+      "def": "SRL_mid",
+      "extension": "Rotate",
+      "description": "Shift Right Logical",
+      "pseudocode": "[ i + d ] rotated by one bit",
+      "expands": "S Z H P N C"
+    },
+    {
+      "group": "ed-misc",
+      "def": "RLD",
+      "extension": "Rotate",
+      "description": "Rotate Digit Left",
+      "pseudocode": "digits of A[3:0] and [ HL ] rotate left",
+      "expands": "S Z H P N"
+    },
+    {
+      "group": "ed-misc",
+      "def": "RRD",
+      "extension": "Rotate",
+      "description": "Rotate Digit Right",
+      "pseudocode": "digits of A[3:0] and [ HL ] rotate right",
+      "expands": "S Z H P N"
+    },
+    {
+      "group": "bit-r",
+      "def": "BIT_b_r",
+      "extension": "Bit",
+      "description": "Test Bit",
+      "pseudocode": "Z = ! r[b]",
+      "expands": "Z H N"
+    },
+    {
+      "group": "bit-hl",
+      "def": "BIT_b_mHL",
+      "extension": "Bit",
+      "description": "Test Bit",
+      "pseudocode": "Z = ! [ HL ][b]",
+      "expands": "Z H N"
+    },
+    {
+      "group": "x-bit",
+      "def": "BIT_b_mid",
+      "extension": "Bit",
+      "description": "Test Bit",
+      "pseudocode": "Z = ! [ i + d ][b]",
+      "expands": "Z H N"
+    },
+    {
+      "group": "bit-r",
+      "def": "RES_b_r",
+      "extension": "Bit",
+      "description": "Reset Bit",
+      "pseudocode": "0 → r[b]",
+      "expands": ""
+    },
+    {
+      "group": "bit-hl",
+      "def": "RES_b_mHL",
+      "extension": "Bit",
+      "description": "Reset Bit",
+      "pseudocode": "0 → [ HL ][b]",
+      "expands": ""
+    },
+    {
+      "group": "x-bit",
+      "def": "RES_b_mid",
+      "extension": "Bit",
+      "description": "Reset Bit",
+      "pseudocode": "0 → [ i + d ][b]",
+      "expands": ""
+    },
+    {
+      "group": "bit-r",
+      "def": "SET_b_r",
+      "extension": "Bit",
+      "description": "Set Bit",
+      "pseudocode": "1 → r[b]",
+      "expands": ""
+    },
+    {
+      "group": "bit-hl",
+      "def": "SET_b_mHL",
+      "extension": "Bit",
+      "description": "Set Bit",
+      "pseudocode": "1 → [ HL ][b]",
+      "expands": ""
+    },
+    {
+      "group": "x-bit",
+      "def": "SET_b_mid",
+      "extension": "Bit",
+      "description": "Set Bit",
+      "pseudocode": "1 → [ i + d ][b]",
+      "expands": ""
+    },
+    {
+      "group": "jump",
+      "def": "JP_nn",
+      "extension": "Jump",
+      "description": "Jump",
+      "pseudocode": "PC = nn",
+      "expands": ""
+    },
+    {
+      "group": "jump",
+      "def": "JP_cc_nn",
+      "extension": "Jump",
+      "description": "Jump if",
+      "pseudocode": "if ( cc ) PC = nn",
+      "expands": ""
+    },
+    {
+      "group": "relative",
+      "def": "JR_e",
+      "extension": "Jump",
+      "description": "Jump Relative",
+      "pseudocode": "PC += e",
+      "expands": ""
+    },
+    {
+      "group": "relative",
+      "def": "JR_jc_e",
+      "extension": "Jump",
+      "description": "Jump Relative if",
+      "pseudocode": "if ( jc ) PC += e",
+      "expands": ""
+    },
+    {
+      "group": "relative",
+      "def": "DJNZ_e",
+      "extension": "Jump",
+      "description": "Decrement B, Jump if Not Zero",
+      "pseudocode": "B -= 1 ; if ( B ≠ 0 ) PC += e",
+      "expands": ""
+    },
+    {
+      "group": "return",
+      "def": "JP_mHL",
+      "extension": "Jump",
+      "description": "Jump to HL",
+      "pseudocode": "PC = HL",
+      "expands": ""
+    },
+    {
+      "group": "x-reg",
+      "def": "JP_mi",
+      "extension": "Jump",
+      "description": "Jump to IX / IY",
+      "pseudocode": "PC = i",
+      "expands": ""
+    },
+    {
+      "group": "jump",
+      "def": "CALL_nn",
+      "extension": "Call",
+      "description": "Call",
+      "pseudocode": "push PC ; PC = nn",
+      "expands": ""
+    },
+    {
+      "group": "jump",
+      "def": "CALL_cc_nn",
+      "extension": "Call",
+      "description": "Call if",
+      "pseudocode": "if ( cc ) { push PC ; PC = nn }",
+      "expands": ""
+    },
+    {
+      "group": "return",
+      "def": "RET",
+      "extension": "Call",
+      "description": "Return",
+      "pseudocode": "PC = pop",
+      "expands": ""
+    },
+    {
+      "group": "return",
+      "def": "RET_cc",
+      "extension": "Call",
+      "description": "Return if",
+      "pseudocode": "if ( cc ) PC = pop",
+      "expands": ""
+    },
+    {
+      "group": "return",
+      "def": "RST_t",
+      "extension": "Call",
+      "description": "Restart",
+      "pseudocode": "push PC ; PC = t",
+      "expands": ""
+    },
+    {
+      "group": "ed-misc",
+      "def": "RETI",
+      "extension": "Call",
+      "description": "Return from Interrupt",
+      "pseudocode": "PC = pop",
+      "expands": ""
+    },
+    {
+      "group": "ed-misc",
+      "def": "RETN",
+      "extension": "Call",
+      "description": "Return from Non-Maskable Interrupt",
+      "pseudocode": "PC = pop ; IFF1 = IFF2",
+      "expands": ""
+    },
+    {
+      "group": "io-n",
+      "def": "IN_A_mn",
+      "extension": "I/O",
+      "description": "Input from Port",
+      "pseudocode": "A = port n",
+      "expands": ""
+    },
+    {
+      "group": "io-n",
+      "def": "OUT_mn_A",
+      "extension": "I/O",
+      "description": "Output to Port",
+      "pseudocode": "port n = A",
+      "expands": ""
+    },
+    {
+      "group": "ed-io",
+      "def": "IN_r_mC",
+      "extension": "I/O",
+      "description": "Input from Port C",
+      "pseudocode": "r = port C",
+      "expands": "S Z H P N"
+    },
+    {
+      "group": "ed-io",
+      "def": "OUT_mC_r2",
+      "extension": "I/O",
+      "description": "Output to Port C",
+      "pseudocode": "port C = r2",
+      "expands": ""
+    },
+    {
+      "group": "control",
+      "def": "NOP",
+      "extension": "Control",
+      "description": "No Operation",
+      "pseudocode": "PC += 1",
+      "expands": ""
+    },
+    {
+      "group": "control",
+      "def": "HALT",
+      "extension": "Control",
+      "description": "Halt",
+      "pseudocode": "wait for an interrupt",
+      "expands": ""
+    },
+    {
+      "group": "control",
+      "def": "DI",
+      "extension": "Control",
+      "description": "Disable Interrupts",
+      "pseudocode": "IFF1 = IFF2 = 0",
+      "expands": ""
+    },
+    {
+      "group": "control",
+      "def": "EI",
+      "extension": "Control",
+      "description": "Enable Interrupts",
+      "pseudocode": "IFF1 = IFF2 = 1",
+      "expands": ""
+    },
+    {
+      "group": "control",
+      "def": "DAA",
+      "extension": "Arithmetic",
+      "description": "Decimal Adjust Accumulator",
+      "pseudocode": "A = BCD correction of A",
+      "expands": "S Z H P C"
+    },
+    {
+      "group": "control",
+      "def": "CPL",
+      "extension": "Arithmetic",
+      "description": "Complement Accumulator",
+      "pseudocode": "A = ~A",
+      "expands": "H N"
+    },
+    {
+      "group": "control",
+      "def": "CCF",
+      "extension": "Control",
+      "description": "Complement Carry",
+      "pseudocode": "H = C ; C = !C",
+      "expands": "H N C"
+    },
+    {
+      "group": "control",
+      "def": "SCF",
+      "extension": "Control",
+      "description": "Set Carry",
+      "pseudocode": "C = 1",
+      "expands": "H N C"
+    },
+    {
+      "group": "ed-misc",
+      "def": "NEG",
+      "extension": "Arithmetic",
+      "description": "Negate Accumulator",
+      "pseudocode": "A = 0 - A",
+      "expands": "S Z H V N C"
+    },
+    {
+      "group": "ed-misc",
+      "def": "IM_0",
+      "extension": "Control",
+      "description": "Interrupt Mode 0",
+      "pseudocode": "interrupts run what the device supplies",
+      "expands": ""
+    },
+    {
+      "group": "ed-misc",
+      "def": "IM_1",
+      "extension": "Control",
+      "description": "Interrupt Mode 1",
+      "pseudocode": "interrupts call $0038",
+      "expands": ""
+    },
+    {
+      "group": "ed-misc",
+      "def": "IM_2",
+      "extension": "Control",
+      "description": "Interrupt Mode 2",
+      "pseudocode": "interrupts call through the table at I",
+      "expands": ""
+    }
+  ],
+  "registers": [
+    {
+      "title": "8-Bit Registers (r, r2)",
+      "columns": [
+        "Register",
+        "r",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "B",
+          "000",
+          "General purpose; high byte of BC, the DJNZ counter"
+        ],
+        [
+          "C",
+          "001",
+          "General purpose; low byte of BC, the port of IN r, (C) and OUT (C), r"
+        ],
+        [
+          "D",
+          "010",
+          "General purpose; high byte of DE"
+        ],
+        [
+          "E",
+          "011",
+          "General purpose; low byte of DE"
+        ],
+        [
+          "H",
+          "100",
+          "General purpose; high byte of HL"
+        ],
+        [
+          "L",
+          "101",
+          "General purpose; low byte of HL"
+        ],
+        [
+          "(HL)",
+          "110",
+          "Not a register: the memory byte HL points to (rows of their own)"
+        ],
+        [
+          "A",
+          "111",
+          "Accumulator: arithmetic and logic results"
+        ]
+      ]
+    },
+    {
+      "title": "Register Pairs",
+      "columns": [
+        "Pair",
+        "dd, ss",
+        "qq",
+        "pp",
+        "rr",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "BC",
+          "00",
+          "00",
+          "00",
+          "00",
+          "B and C; the byte counter of block instructions"
+        ],
+        [
+          "DE",
+          "01",
+          "01",
+          "01",
+          "01",
+          "D and E; the destination of block transfers"
+        ],
+        [
+          "HL",
+          "10",
+          "10",
+          "—",
+          "—",
+          "H and L; memory pointer, 16 bit accumulator"
+        ],
+        [
+          "SP",
+          "11",
+          "—",
+          "11",
+          "11",
+          "Stack pointer"
+        ],
+        [
+          "AF",
+          "—",
+          "11",
+          "—",
+          "—",
+          "A and the flags F, for PUSH and POP"
+        ],
+        [
+          "IX",
+          "—",
+          "—",
+          "10",
+          "—",
+          "Index register X, in ADD IX, pp"
+        ],
+        [
+          "IY",
+          "—",
+          "—",
+          "—",
+          "10",
+          "Index register Y, in ADD IY, rr"
+        ]
+      ]
+    },
+    {
+      "title": "Index, Special and Shadow Registers",
+      "columns": [
+        "Register",
+        "Encoding",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "IX",
+          "prefix DD, i = 0",
+          "Index register X: base of (IX+d)"
+        ],
+        [
+          "IY",
+          "prefix FD, i = 1",
+          "Index register Y: base of (IY+d)"
+        ],
+        [
+          "PC",
+          "—",
+          "Program counter"
+        ],
+        [
+          "I",
+          "LD A, I / LD I, A",
+          "Interrupt vector: high byte of the mode 2 table address"
+        ],
+        [
+          "R",
+          "LD A, R / LD R, A",
+          "Memory refresh counter (bits 6:0 count, bit 7 stays)"
+        ],
+        [
+          "AF' BC' DE' HL'",
+          "EX AF, AF' / EXX",
+          "Shadow registers, swapped with the main set"
+        ],
+        [
+          "IFF1, IFF2",
+          "DI / EI",
+          "Interrupt enable flip-flops; IFF2 keeps IFF1 during an NMI"
+        ],
+        [
+          "IM",
+          "IM 0 / 1 / 2",
+          "Interrupt mode"
+        ]
+      ]
+    },
+    {
+      "title": "Flags (F)",
+      "columns": [
+        "Bit",
+        "Flag",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "7",
+          "S",
+          "Sign: bit 7 of the result"
+        ],
+        [
+          "6",
+          "Z",
+          "Zero: the result is 0"
+        ],
+        [
+          "5",
+          "—",
+          "Undocumented: a copy of bit 5 of the result"
+        ],
+        [
+          "4",
+          "H",
+          "Half carry: out of bit 3, for DAA"
+        ],
+        [
+          "3",
+          "—",
+          "Undocumented: a copy of bit 3 of the result"
+        ],
+        [
+          "2",
+          "P/V",
+          "Parity (logic, rotates) or overflow (arithmetic); IFF2 for LD A, I and LD A, R"
+        ],
+        [
+          "1",
+          "N",
+          "Subtract: the last operation was a subtraction, for DAA"
+        ],
+        [
+          "0",
+          "C",
+          "Carry: out of bit 7"
+        ]
+      ]
+    }
+  ]
+}

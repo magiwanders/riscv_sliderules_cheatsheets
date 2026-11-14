@@ -1,24 +1,24 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { isas, families, membersOf } from '../src/isa/isas.mjs';
-import { toggled, isaString, EXTENSION_GROUPS } from '../src/isa/riscv-extensions.mjs';
+import { toggled, isaString, allExtensions } from '../src/isa/riscv-extensions.mjs';
 
-// The title's families, their members, and RISC-V's extension toggles: the sheets of a set of extensions hold exactly
+// The title's list (members under their family's name), and RISC-V's extension toggles: the sheets of a set of extensions hold exactly
 // the rows those extensions allow.
 
 const rv32 = isas.find((isa) => isa.value === 'rv32gc');
-const { available, codecFor } = rv32.extensions;
+const { available, codecFor, defaults } = rv32.extensions;
 const names = (codec) => new Set(codec.encodable.map((e) => e.name));
 
-test('every member belongs to a family, every family has members', () => {
-  assert.deepEqual(families.map((f) => f.label), ['RISC-V', 'MIPS', 'Intel', 'ARM', 'Z80', '6502', 'Hack (nand2tetris)']);
+test('every member belongs to a family, every family has members, listed together', () => {
+  assert.deepEqual(families.map((f) => f.label), ['RISC-V', 'MIPS', 'Intel', 'Arm', 'Zilog', 'MOS Technology', 'nand2tetris']);
   for (const isa of isas) assert.ok(families.some((f) => f.value === isa.family), isa.value);
   for (const f of families) assert.ok(membersOf(f.value).length, f.value);
-  for (const f of families.filter((f) => membersOf(f.value).length > 1)) assert.ok(membersOf(f.value).every((m) => m.variant), f.value);
+  assert.deepEqual(isas.map((i) => i.family).filter((f, k, all) => all.indexOf(f) === k), families.map((f) => f.value), 'one run per family');
 });
 
 test('the toggles cover every extension the sheets have, and only ratified names', () => {
-  const listed = new Set(EXTENSION_GROUPS.flatMap((g) => g.extensions));
+  const listed = new Set(allExtensions());
   for (const e of available) assert.ok(listed.has(e), e);
 });
 
@@ -29,11 +29,16 @@ test('turning an extension on or off follows what it needs, and the base stays',
   assert.ok(toggled({ enabled: new Set(['I']), name: 'D', on: true, available }).has('Zicsr'), 'and F brings Zicsr');
   assert.ok(toggled({ enabled: all, name: 'I', on: false, available }).has('I'));
   assert.equal(isaString({ width: 32, enabled: all }), 'RV32GC_Zihintpause');
+  assert.equal(isaString({ width: 32, enabled: defaults }), 'RV32GC', 'it starts as RV32GC');
+  assert.equal(isaString({ width: 32, enabled: new Set(['I', 'M', 'Zba', 'Zbb', 'Zbs', 'Zbc']) }), 'RV32IMB_Zbc');
   assert.equal(isaString({ width: 32, enabled: new Set(['I', 'M', 'C', 'Zicsr']) }), 'RV32IMC_Zicsr');
 });
 
 test('the sheets of a set of extensions hold its rows only', () => {
   const full = names(rv32.codec);
+  assert.equal(codecFor({ enabled: defaults }).spec.name, 'RV32GC');
+  assert.ok(!names(codecFor({ enabled: defaults })).has('pause') && full.has('pause'), 'pause is Zihintpause');
+  assert.equal(codecFor({ enabled: new Set(available) }), rv32.codec);
   const imc = codecFor({ enabled: new Set(['I', 'M', 'C']) });
   assert.equal(imc.spec.name, 'RV32IMC');
   const shown = names(imc);

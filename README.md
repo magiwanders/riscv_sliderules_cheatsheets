@@ -10,12 +10,13 @@ pick an instruction and read its bits, or set bits and read the instruction.
 
 ## Using it
 
-Choose the instruction set in the title: a family (RISC-V, MIPS, Intel, ARM, Z80, 6502, Hack), then, for families with
-several members, the member next to it (32 / 64 bit; 8051, 8086, x86, x86-64; Thumb, A32, A64). RISC-V has a row of
-extension toggles under the title: **G** toggles all of I, M, A, F, D, Zicsr and Zifencei (each also toggles on its
-own), **C** the compressed instructions, and the other ratified extensions follow in the specification's groups, greyed
-out until the sheets have their instructions. The sheets show the instructions of the extensions turned on, and the
-ISA string they spell (RV32IMC, ...) leads the row; an extension that needs another (D needs F) brings it along.
+Choose the instruction set in the title: one list, divided by family (RISC-V, MIPS, Intel, Arm, Zilog, MOS Technology,
+nand2tetris). RISC-V has a line of extension toggles under the title: **G** frames I, M, A, F, D and toggles them all
+(with Zicsr and Zifencei), each letter also toggles on its own, then Q, C, B, Zk, V, H. The ratified Z extensions are
+folded under the letter closest to them (Zicsr and Zihintpause under I, Zfh under F, Zcb under C, ...): the small arrow
+next to a letter opens them, and the letter counts those turned on. Extensions the sheets have no instructions for yet
+are dashed. The sheets show the instructions of the extensions turned on, and the title names the result as the
+specification does (RV32GC, RV32IMC, RV32GC_Zihintpause); an extension that needs another (D needs F) brings it along.
 
 Switch between the two sheets with the **Encoder | Decoder** pill next to the title.
 
@@ -47,8 +48,8 @@ its bits.
 table open until you click elsewhere.
 
 **Both views**, top right: **Clear** goes back to the whole sheet, **⤓ PDF** downloads the sheet as you see it (A3;
-Clear first for the whole sheet), **⤓ Sail** and **⤓ TableGen** download the instruction set's Sail and TableGen
-descriptions (see below; hover them to read whether they are official), **Share** copies a link that reopens exactly
+Clear first for the whole sheet), the arrow on its right offers **⤓ Sail** and **⤓ TableGen**, the
+instruction set's Sail and TableGen descriptions (see below; hover them to read whether they are official), **Share** copies a link that reopens exactly
 this session: the sheet, selectors, operands, bits, extensions and a register table kept open are all in the link.
 
 ## Embedding

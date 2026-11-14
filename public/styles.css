@@ -114,30 +114,13 @@ table.sliderule {
 
 .mode-segment.selected { background: var(--section); color: #fff; cursor: default; }
 
-/* The family's members next to the title's selector (32 / 64 bit, 8051 ... x86-64); those without sheets yet in grey. */
-.isa-pickers { display: inline-flex; align-items: center; gap: 6px; }
-.variant-pill { display: inline-flex; padding: 2px; border: 2px solid var(--section); border-radius: 999px; background: var(--page); letter-spacing: 0; }
-.variant-segment {
-  padding: 2px 10px;
-  border: none;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text);
-  font: bold 12px Arial, Helvetica, sans-serif;
-  cursor: pointer;
-}
-.variant-segment.coming { color: #999; font-style: italic; font-weight: normal; }
-.variant-segment.selected { background: var(--section); color: #fff; cursor: default; }
-.variant-segment:not(.selected):hover, .variant-segment:not(.selected):focus-visible { background: #e3eef0; outline: none; }
-
-/* Extension toggles under the title (RISC-V): the ISA string, then the specification's groups of toggles. A bundle (G, B)
-   is a framed box whose label toggles all of it; greyed out toggles wait for their instructions. */
-.header-extensions { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin-top: 6px; font: 11px Arial, Helvetica, sans-serif; }
-.ext-isa { padding: 2px 8px; border-radius: 4px; background: var(--section); color: #fff; font: bold 12px ui-monospace, Menlo, Consolas, monospace; }
-.ext-group { display: inline-flex; align-items: center; gap: 2px; }
-.ext-bundle-group { padding: 1px; border: 2px solid var(--section); border-radius: 6px; }
-.ext-caption { margin-right: 2px; color: #777; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-.ext-toggle, .ext-bundle {
+/* Extension toggles under the title (RISC-V), in one line: G framing I M A F D, then Q C B Zk V H. A letter with Z
+   extensions folded under it has an arrow for them (a popover) and counts those on; dashed ones wait for their
+   instructions. */
+.header-extensions { display: flex; flex-wrap: nowrap; align-items: center; gap: 6px; margin-top: 6px; white-space: nowrap; }
+.ext-chip { display: inline-flex; }
+.ext-bundle-group { display: inline-flex; align-items: center; gap: 4px; padding: 1px 3px 1px 1px; border: 2px solid var(--section); border-radius: 6px; }
+.ext-toggle, .ext-bundle, .ext-more {
   padding: 1px 6px;
   border: 1px solid var(--grid);
   border-radius: 4px;
@@ -146,14 +129,42 @@ table.sliderule {
   font: bold 11px ui-monospace, Menlo, Consolas, monospace;
   cursor: pointer;
 }
+.ext-chip .ext-toggle:not(:last-child) { border-radius: 4px 0 0 4px; }
+.ext-more { padding: 1px 3px; border-left: none; border-radius: 0 4px 4px 0; color: #777; font-size: 9px; }
+.ext-more.open { background: var(--section); color: #fff; }
 .ext-toggle.on { border-color: var(--section); background: #d0e0e3; }
-.ext-toggle.base { cursor: default; }
+.ext-toggle.partial { background: linear-gradient(135deg, #d0e0e3 50%, var(--page) 50%); }
+.ext-toggle.base { cursor: default; color: var(--text); }
 .ext-toggle.unavailable { border-style: dashed; color: #bbb; font-weight: normal; cursor: default; }
+.ext-count { margin-left: 3px; color: var(--section); font-size: 9px; }
 .ext-bundle { border-color: var(--section); color: var(--section); font-size: 12px; }
 .ext-bundle.on { background: var(--section); color: #fff; }
 .ext-bundle.partial { background: linear-gradient(135deg, var(--section) 50%, var(--page) 50%); color: #333; }
-.ext-bundle:disabled { border-color: #ddd; color: #bbb; cursor: default; }
-.ext-toggle:not(:disabled):hover, .ext-bundle:not(:disabled):hover { outline: 2px solid #e3eef0; }
+.ext-toggle:not(:disabled):hover, .ext-bundle:not(:disabled):hover, .ext-more:hover { outline: 2px solid #e3eef0; }
+.ext-popover-list { display: flex; flex-wrap: wrap; gap: 4px; max-width: 420px; padding: 6px; }
+
+/* ⤓ PDF with its arrow: one button, the arrow opening the other downloads under it. */
+.split-button { position: relative; display: inline-flex; }
+.split-button .split-main { border-radius: 4px 0 0 4px; }
+.split-button .split-caret { padding: 6px 7px; border-left: none; border-radius: 0 4px 4px 0; }
+.split-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  min-width: 100%;
+  margin-top: 2px;
+  border: 1px solid var(--grid);
+  border-radius: 4px;
+  background: var(--page);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+.split-menu[hidden] { display: none; }
+.split-item { padding: 6px 12px; color: var(--text); font-size: 12px; font-weight: bold; text-decoration: none; white-space: nowrap; }
+.split-item:hover { background: #eef4f5; }
+.split-item.disabled { color: #bbb; pointer-events: none; }
 
 /* Register buttons next to the pill: one group per instruction set, each button showing its table in a popup. */
 .header-switches { display: inline-flex; align-items: center; gap: 10px; }
@@ -202,9 +213,6 @@ table.sliderule {
 }
 .register-popup-hint { font-weight: normal; opacity: 0.8; }
 
-/* Sail / TableGen downloads are links shaped as tool buttons; without a file for the set they are greyed out. */
-a.tool-button { display: inline-block; text-decoration: none; }
-a.tool-button.disabled { color: #bbb; background: #f5f5f5; border-color: #e3e3e3; cursor: default; pointer-events: none; }
 
 /* The registers' tables, sized by their content. */
 table.registers-sheet { table-layout: auto; }

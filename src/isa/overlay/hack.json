@@ -469,6 +469,48 @@
           "—",
           "Program counter (15 bit): the next instruction, or A after a jump that is taken"
         ]
+      ],
+      "group": "CPU Registers"
+    },
+    {
+      "group": "Memory Map",
+      "title": "Memory Map (RAM, 16 bit words)",
+      "columns": [
+        "Addresses",
+        "Name",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "0–15",
+          "R0–R15",
+          "Virtual registers; SP, LCL, ARG, THIS, THAT are R0–R4 for the VM"
+        ],
+        [
+          "16–255",
+          "static",
+          "Static variables of the VM"
+        ],
+        [
+          "256–2047",
+          "stack",
+          "The VM stack; SP starts at 256"
+        ],
+        [
+          "2048–16383",
+          "heap",
+          "Objects and arrays"
+        ],
+        [
+          "16384–24575",
+          "SCREEN",
+          "Screen memory map: 512 × 256 pixels, one bit each, 32 words per row"
+        ],
+        [
+          "24576",
+          "KBD",
+          "Keyboard: the code of the key held down, 0 if none"
+        ]
       ]
     }
   ]

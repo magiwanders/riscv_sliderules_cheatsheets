@@ -2954,7 +2954,8 @@
           "111",
           "Accumulator: arithmetic and logic results"
         ]
-      ]
+      ],
+      "group": "CPU Registers"
     },
     {
       "title": "Register Pairs",
@@ -3023,7 +3024,8 @@
           "10",
           "Index register Y, in ADD IY, rr"
         ]
-      ]
+      ],
+      "group": "CPU Registers"
     },
     {
       "title": "Index, Special and Shadow Registers",
@@ -3072,6 +3074,43 @@
           "IM",
           "IM 0 / 1 / 2",
           "Interrupt mode"
+        ]
+      ],
+      "group": "Special Registers"
+    },
+    {
+      "group": "Stack",
+      "title": "The Stack",
+      "columns": [
+        "Item",
+        "Value",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "Direction",
+          "down",
+          "SP points to the last byte pushed"
+        ],
+        [
+          "PUSH qq",
+          "SP -= 2 ; [ SP ] = low ; [ SP + 1 ] = high",
+          "16 bit values, the low byte at the lower address; POP takes them back"
+        ],
+        [
+          "CALL, RST",
+          "push the address of the next instruction",
+          "RET pops it into PC"
+        ],
+        [
+          "Interrupts",
+          "push PC",
+          "NMI calls $0066 (RETN returns); mode 1 calls $0038, mode 2 through the table at I (RETI returns)"
+        ],
+        [
+          "EX (SP), HL",
+          "swap with the top of the stack",
+          "also with IX and IY"
         ]
       ]
     },
@@ -3123,7 +3162,8 @@
           "C",
           "Carry: out of bit 7"
         ]
-      ]
+      ],
+      "group": "Flags"
     }
   ]
 }

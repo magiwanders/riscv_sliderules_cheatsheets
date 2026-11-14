@@ -491,7 +491,8 @@
           "8 bit",
           "Processor status: the flags below"
         ]
-      ]
+      ],
+      "group": "CPU Registers"
     },
     {
       "title": "Processor Status (P)",
@@ -541,6 +542,43 @@
           "C",
           "Carry: out of bit 7, borrow inverted for SBC and CMP"
         ]
+      ],
+      "group": "Status Flags"
+    },
+    {
+      "group": "Stack",
+      "title": "The Stack (page 1)",
+      "columns": [
+        "Item",
+        "Value",
+        "Meaning"
+      ],
+      "rows": [
+        [
+          "Page",
+          "$0100–$01FF",
+          "The stack is page 1, growing down; S is the low byte of the next free address"
+        ],
+        [
+          "Push",
+          "[ $0100 + S ] = value ; S -= 1",
+          "PHA, PHP"
+        ],
+        [
+          "Pull",
+          "S += 1 ; value = [ $0100 + S ]",
+          "PLA, PLP"
+        ],
+        [
+          "JSR",
+          "push PC + 2 (high, then low)",
+          "RTS pulls it and adds 1"
+        ],
+        [
+          "BRK, IRQ, NMI",
+          "push PC (high, low), then P",
+          "RTI pulls P, then PC"
+        ]
       ]
     },
     {
@@ -566,7 +604,8 @@
           "IRQ / BRK",
           "Interrupt request and BRK handler"
         ]
-      ]
+      ],
+      "group": "Vectors"
     }
   ]
 }

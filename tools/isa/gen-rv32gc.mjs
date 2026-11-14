@@ -371,7 +371,8 @@ export function generate() {
         if (sailBits !== bitsFromEnc({ enc: row.enc }).join('')) fail(`row ${row.enc} differs from Sail ${row.sail} (${sailBits})`);
         usedSail.add(row.sail);
       }
-      instructions.push({ group: groupKey, name: row.reserved ? 'reserved' : 'hint', ...(row.reserved ? { reserved: true } : { hint: true }), enc: row.enc, description: row.description });
+      instructions.push({ group: groupKey, name: row.reserved ? 'reserved' : 'hint', ...(row.reserved ? { reserved: true } : { hint: true }), enc: row.enc, description: row.description,
+        ...(row.requires ? { requires: row.requires } : {}) });
       continue;
     }
     const { name } = row;
@@ -480,10 +481,10 @@ function registers({ overlay, llvm }) {
     return [name, `0x${address.toString(16).padStart(3, '0')}`, access, meaning];
   });
   return [
-    { title: 'Integer Registers (x)', columns, rows: file({ prefix: 'x', about: x, compressedClass: 'GPRC' }) },
-    { title: 'Floating-Point Registers (f, F and D)', columns, rows: file({ prefix: 'f', about: f, compressedClass: 'FPR32C' }) },
+    { group: 'CPU Registers', title: 'Integer Registers (x)', columns, rows: file({ prefix: 'x', about: x, compressedClass: 'GPRC' }) },
+    { group: 'Float Registers', title: 'Floating-Point Registers (f, F and D)', columns, rows: file({ prefix: 'f', about: f, compressedClass: 'FPR32C' }) },
     ...sections,
-    { title: 'Control and Status Registers (Zicsr), the ones the encoder knows by name', columns: ['CSR', 'Address', 'Access', 'Meaning'], rows: csrs },
+    { group: 'CSRs', title: 'Control and Status Registers (Zicsr), the ones the encoder knows by name', columns: ['CSR', 'Address', 'Access', 'Meaning'], rows: csrs },
   ];
 }
 

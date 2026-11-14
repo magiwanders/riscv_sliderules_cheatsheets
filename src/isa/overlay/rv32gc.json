@@ -1315,7 +1315,8 @@
       "hint": true,
       "enc": "0000 0001 0000 00000 000 00000 0001111",
       "description": "PAUSE (Zihintpause) — fence w, 0: briefly pause instruction retirement",
-      "sail": "PAUSE"
+      "sail": "PAUSE",
+      "requires": "Zihintpause"
     },
     {
       "group": "misc-mem",
@@ -2522,7 +2523,8 @@
     {
       "name": "pause",
       "asm": "",
-      "description": "Pause Hint (Zihintpause)"
+      "description": "Pause Hint (Zihintpause)",
+      "requires": "Zihintpause"
     },
     {
       "name": "csrr",
@@ -3002,7 +3004,8 @@
             "32 bit",
             "Address of the current instruction; not an operand, read with auipc, changed by jumps and branches"
           ]
-        ]
+        ],
+        "group": "CPU Registers"
       },
       {
         "title": "fcsr Fields",
@@ -3042,7 +3045,8 @@
             "NX",
             "Inexact"
           ]
-        ]
+        ],
+        "group": "Float Registers"
       },
       {
         "title": "Rounding Modes (rm, frm)",
@@ -3091,6 +3095,48 @@
             "111",
             "dyn",
             "Dynamic: the rounding mode in frm (rm only)"
+          ]
+        ],
+        "group": "Float Registers"
+      },
+      {
+        "group": "Stack",
+        "title": "The Stack (ilp32d calling convention)",
+        "columns": [
+          "Item",
+          "Value",
+          "Meaning"
+        ],
+        "rows": [
+          [
+            "Direction",
+            "down",
+            "The stack grows towards lower addresses; sp points to the last word in use"
+          ],
+          [
+            "Alignment",
+            "16 bytes",
+            "sp stays a multiple of 16 at every call"
+          ],
+          [
+            "Return address",
+            "ra",
+            "A function that calls others saves ra in its frame"
+          ],
+          [
+            "Frame pointer",
+            "s0 / fp",
+            "Optional base of the frame, saved by the callee like every s register"
+          ],
+          [
+            "Arguments",
+            "a0–a7, fa0–fa7",
+            "Arguments that do not fit there are passed on the stack, at sp on entry"
+          ],
+          [
+            "Below sp",
+            "—",
+            "No red zone: memory below sp may be overwritten at any time"
           ]
         ]
       }

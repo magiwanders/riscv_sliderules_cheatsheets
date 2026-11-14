@@ -72,7 +72,9 @@ table.sliderule {
 /* Header above both sheets: one line of title, pill and tools, one small line of credits and the contribution
    link. It ends where the window or the shown sheet does (set by script) and stays in view when scrolling sideways. */
 .sliderules-app { width: max-content; min-width: 100%; }
-.sheet-header { position: sticky; left: 16px; box-sizing: border-box; margin-bottom: 8px; transition: width 0.65s cubic-bezier(0.65, 0, 0.35, 1); }
+/* Sticky makes the header a stacking context of its own: above the sheets' sticky rows, so its popups and dropdowns
+   (register tables, the instruction set list) open over the sheets. */
+.sheet-header { position: sticky; left: 16px; z-index: 10; box-sizing: border-box; margin-bottom: 8px; transition: width 0.65s cubic-bezier(0.65, 0, 0.35, 1); }
 .header-main { display: flex; align-items: center; gap: 14px; }
 .header-title { display: inline-flex; align-items: center; gap: 8px; font-size: 22px; font-weight: bold; letter-spacing: 1px; white-space: nowrap; }
 .header-tools { display: flex; gap: 4px; margin-left: auto; }
@@ -112,29 +114,99 @@ table.sliderule {
 
 .mode-segment.selected { background: var(--section); color: #fff; cursor: default; }
 
-/* Registers toggle next to the pill, the same shape; on, the registers sheet shows under the header. */
-.header-switches { display: inline-flex; align-items: center; gap: 8px; }
-.registers-toggle {
-  padding: 3px 14px;
-  border: 2px solid var(--section);
+/* The family's members next to the title's selector (32 / 64 bit, 8051 ... x86-64); those without sheets yet in grey. */
+.isa-pickers { display: inline-flex; align-items: center; gap: 6px; }
+.variant-pill { display: inline-flex; padding: 2px; border: 2px solid var(--section); border-radius: 999px; background: var(--page); letter-spacing: 0; }
+.variant-segment {
+  padding: 2px 10px;
+  border: none;
   border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font: bold 12px Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+.variant-segment.coming { color: #999; font-style: italic; font-weight: normal; }
+.variant-segment.selected { background: var(--section); color: #fff; cursor: default; }
+.variant-segment:not(.selected):hover, .variant-segment:not(.selected):focus-visible { background: #e3eef0; outline: none; }
+
+/* Extension toggles under the title (RISC-V): the ISA string, then the specification's groups of toggles. A bundle (G, B)
+   is a framed box whose label toggles all of it; greyed out toggles wait for their instructions. */
+.header-extensions { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin-top: 6px; font: 11px Arial, Helvetica, sans-serif; }
+.ext-isa { padding: 2px 8px; border-radius: 4px; background: var(--section); color: #fff; font: bold 12px ui-monospace, Menlo, Consolas, monospace; }
+.ext-group { display: inline-flex; align-items: center; gap: 2px; }
+.ext-bundle-group { padding: 1px; border: 2px solid var(--section); border-radius: 6px; }
+.ext-caption { margin-right: 2px; color: #777; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.ext-toggle, .ext-bundle {
+  padding: 1px 6px;
+  border: 1px solid var(--grid);
+  border-radius: 4px;
   background: var(--page);
   color: var(--text);
-  font: bold 13px Arial, Helvetica, sans-serif;
+  font: bold 11px ui-monospace, Menlo, Consolas, monospace;
   cursor: pointer;
-  transition: background 0.3s, color 0.3s;
 }
-.registers-toggle.selected { background: var(--section); color: #fff; }
-.registers-toggle:disabled { opacity: 0.5; cursor: default; }
-.registers-toggle:not(.selected):not(:disabled):hover,
-.registers-toggle:not(.selected):not(:disabled):focus-visible { background: #e3eef0; outline: none; }
+.ext-toggle.on { border-color: var(--section); background: #d0e0e3; }
+.ext-toggle.base { cursor: default; }
+.ext-toggle.unavailable { border-style: dashed; color: #bbb; font-weight: normal; cursor: default; }
+.ext-bundle { border-color: var(--section); color: var(--section); font-size: 12px; }
+.ext-bundle.on { background: var(--section); color: #fff; }
+.ext-bundle.partial { background: linear-gradient(135deg, var(--section) 50%, var(--page) 50%); color: #333; }
+.ext-bundle:disabled { border-color: #ddd; color: #bbb; cursor: default; }
+.ext-toggle:not(:disabled):hover, .ext-bundle:not(:disabled):hover { outline: 2px solid #e3eef0; }
+
+/* Register buttons next to the pill: one group per instruction set, each button showing its table in a popup. */
+.header-switches { display: inline-flex; align-items: center; gap: 10px; }
+.register-buttons {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--grid);
+  border-radius: 6px;
+  background: var(--page);
+}
+.register-button {
+  padding: 3px 10px;
+  border: none;
+  border-radius: 4px;
+  background: #f4cccc;
+  color: var(--text);
+  font: bold 11px Arial, Helvetica, sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.register-button.shown, .register-button:focus-visible { background: #e06666; outline: none; }
+.register-button.selected { background: var(--section); color: #fff; }
+
+/* The popup: in the header, so it scrolls with it; as wide as its table, and scrolling inside past 75 % of the window. */
+.register-popup {
+  position: absolute;
+  z-index: 50;
+  max-height: 75vh;
+  overflow: auto;
+  border: 2px solid var(--section);
+  background: var(--page);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+.register-popup-title {
+  position: sticky;
+  top: 0;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background: var(--section);
+  color: #fff;
+  font: bold 12px Arial, Helvetica, sans-serif;
+}
+.register-popup-hint { font-weight: normal; opacity: 0.8; }
 
 /* Sail / TableGen downloads are links shaped as tool buttons; without a file for the set they are greyed out. */
 a.tool-button { display: inline-block; text-decoration: none; }
 a.tool-button.disabled { color: #bbb; background: #f5f5f5; border-color: #e3e3e3; cursor: default; pointer-events: none; }
 
-/* The registers sheet: in view when scrolling sideways, like the header; sized by its content. */
-.registers-host { position: sticky; left: 16px; width: max-content; margin-bottom: 8px; }
+/* The registers' tables, sized by their content. */
 table.registers-sheet { table-layout: auto; }
 .registers-sheet .registers-head th { background: var(--strong); font-weight: bold; }
 .registers-sheet .registers-row .text { background: var(--light); }
@@ -162,6 +234,8 @@ table.registers-sheet { table-layout: auto; }
   background: var(--page);
   z-index: 2;
 }
+/* A cell whose dropdown is open rises above the sticky rows after it. */
+.sliderule th:has(.carousel.open), .sliderule td:has(.carousel.open) { z-index: 20; }
 
 .sliderule .number-row > * { height: 16px; }
 .sliderule .label-row > * { background: var(--section); }

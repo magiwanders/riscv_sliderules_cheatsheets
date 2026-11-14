@@ -1,11 +1,12 @@
-import { isas } from './isa/isas.mjs';
+import { isas, families, membersOf } from './isa/isas.mjs';
+import { EXTENSION_GROUPS, BASE, toggled, isaString } from './isa/riscv-extensions.mjs';
 import { decoderSheet, decoderRows } from './selector.mjs';
 import { encoderSheet, encoderRows, showEncodedBits, highlightEncodedBits, expandedColumns, setExpandedColumns } from './encoder.mjs';
 import { OperandPanel } from './builders.mjs';
 import { Carousel } from './carousel.mjs';
 import { downloadPdf } from './pdf.mjs';
 import { sheetHeader, contributeLink, flashChangedBits } from './cells.mjs';
-import { registersSheet } from './registers.mjs';
+import { registerGroups, registersTable } from './registers.mjs';
 
 // The sliderule app: the Encoder (bits on the right, the default) or the Decoder (bits on the left), one at a time;
 // switching slides one sheet out and the other in around the "spine" of bits (see _switchTo). The URL hash always
@@ -17,13 +18,15 @@ const SLIDE_MS = 650;
 const SLIDE_EASING = 'cubic-bezier(0.65, 0, 0.35, 1)';
 const RESIZE_MS = 220;
 const COPIED_MS = 1200;
-const URL_KEYS = ['isa', 'ext', 'type', 'm', 'open', 'bits', 'regs'];
+const URL_KEYS = ['isa', 'ext', 'type', 'm', 'open', 'bits', 'regs', 'exts'];
 const COMING_SOON = '<Coming soon>';
 const _sets = new Map(); // the sheets and state of each instruction set chosen so far
 let _app = null; // what all sets share: header, stage host, placeholder
 let _isa = isas[0];
 let _mode = 'encoder';
-let _showRegisters = false;
+const _enabled = new Map(); // the extensions turned on, per instruction set with toggles
+const _lastMember = new Map(); // the member last chosen, per family
+let _pinnedRegisters = null; // the register group whose popup stays open (clicked), by label
 let _switching = false;
 let state = null;
 let _elements = null;
@@ -106,7 +109,8 @@ function _copyButton({ label = 'Copy', title = '', classes = 'tool-button', text
 function _stateParams() {
   const params = new URLSearchParams();
   if (_isa !== isas[0]) params.set('isa', _isa.value);
-  if (_showRegisters) params.set('regs', '1');
+  if (_pinnedRegisters) params.set('regs', _pinnedRegisters);
+  if (_isa.extensions && !_isDefault({ isa: _isa })) params.set('exts', [..._enabledOf({ isa: _isa })].sort().join('_'));
   if (!_isa.codec) return params;
   if (state.ext !== '*') params.set('ext', state.ext);
   if (state.type !== '*') params.set('type', state.type);
@@ -185,28 +189,87 @@ function _updateExports() {
   }
 }
 
-// Registers toggle next to the pill: off by default; on, the registers sheet of the instruction set shows under the header.
-function _registersToggle() {
-  return _button({ classes: 'registers-toggle', label: 'Registers', onClick: () => _setRegisters({ on: !_showRegisters }) });
+// Register buttons next to the pill, one per group of the instruction set's registers ("CPU Registers", "Stack", ...).
+// Hovering (or focusing) a button shows its table in a popup under it; clicking pins the popup, which then stays until
+// a click outside it and the buttons (or Escape). While one is pinned, hovering another shows that one, and leaving
+// it brings the pinned one back. The popup lives in the header, so it stays put when the sheets scroll sideways.
+const HIDE_MS = 150;
+let _hideTimer = null;
+
+function _registerButtons() {
+  const buttons = registerGroups({ codec: _isa.codec }).map(({ label, sections }) => {
+    const button = _button({ classes: 'register-button', label, title: `${label}: hover to see, click to keep open`, onClick: () => _pinRegisters({ label }) });
+    button.dataset.label = label;
+    button.sections = sections;
+    button.addEventListener('mouseenter', () => _showRegisters({ label }));
+    button.addEventListener('focus', () => _showRegisters({ label }));
+    button.addEventListener('mouseleave', _leaveRegisters);
+    button.addEventListener('blur', _leaveRegisters);
+    return button;
+  });
+  _app.registerButtons.replaceChildren(...buttons);
+  _app.registerButtons.hidden = !buttons.length;
 }
 
-function _setRegisters({ on = false }) {
-  _showRegisters = on;
-  _app.registersToggle.classList.toggle('selected', on);
-  _app.registersToggle.setAttribute('aria-pressed', String(on));
-  _app.registersToggle.title = on ? 'Hide the registers' : 'Show every register of this instruction set';
-  _updateRegisters();
+function _registerButton({ label = '' }) {
+  return [..._app.registerButtons.children].find((b) => b.dataset.label === label) || null;
+}
+
+// Shows a group's table under its button (null hides the popup).
+function _showRegisters({ label = null }) {
+  clearTimeout(_hideTimer);
+  const button = label && _registerButton({ label });
+  const popup = _app.registerPopup;
+  for (const b of _app.registerButtons.children) b.classList.toggle('shown', b === button);
+  if (!button) {
+    popup.hidden = true;
+    popup.dataset.label = '';
+    return;
+  }
+  if (popup.dataset.label !== label) {
+    popup.replaceChildren(_div({ class: 'register-popup-title' }, [_span({}, `${_isa.label}: ${label}`),
+      _span({ class: 'register-popup-hint' }, _pinnedRegisters === label ? 'click outside to close' : 'click the button to keep open')]),
+    registersTable({ sections: button.sections }));
+    popup.dataset.label = label;
+  }
+  popup.hidden = false;
+  // under the button, moved left if it would leave the header
+  const header = _app.header.getBoundingClientRect();
+  const rect = button.getBoundingClientRect();
+  const left = Math.max(0, Math.min(rect.left - header.left, header.width - popup.offsetWidth));
+  popup.style.left = `${left}px`;
+  popup.style.top = `${rect.bottom - header.top + 6}px`;
+}
+
+// Leaving a button or the popup: after a moment, back to the pinned popup, if any.
+function _leaveRegisters() {
+  clearTimeout(_hideTimer);
+  _hideTimer = setTimeout(() => _showRegisters({ label: _pinnedRegisters }), HIDE_MS);
+}
+
+function _pinRegisters({ label = null }) {
+  _pinnedRegisters = label;
+  for (const b of _app.registerButtons.children) {
+    const pinned = b.dataset.label === label;
+    b.classList.toggle('selected', pinned);
+    b.setAttribute('aria-pressed', String(pinned));
+  }
+  _app.registerPopup.dataset.label = ''; // its hint changes
+  _showRegisters({ label });
   _writeUrl();
 }
 
-function _updateRegisters() {
-  const shown = _showRegisters && Boolean(_isa.codec);
-  _app.registers.hidden = !shown;
-  _app.registersToggle.disabled = !_isa.codec;
-  if (shown && _app.registers.dataset.isa !== _isa.value) {
-    _app.registers.replaceChildren(registersSheet({ codec: _isa.codec }));
-    _app.registers.dataset.isa = _isa.value;
-  }
+// A click outside the popup and the buttons closes a pinned popup; so does Escape.
+function _watchOutsideClicks() {
+  document.addEventListener('click', (event) => {
+    if (!_pinnedRegisters || _app.registerPopup.contains(event.target) || _app.registerButtons.contains(event.target)) return;
+    _pinRegisters({ label: null });
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && _pinnedRegisters) _pinRegisters({ label: null });
+  });
+  _app.registerPopup.addEventListener('mouseenter', () => clearTimeout(_hideTimer));
+  _app.registerPopup.addEventListener('mouseleave', _leaveRegisters);
 }
 
 function _shareButton() {
@@ -542,19 +605,102 @@ function _stickHeaderRows({ table = null }) {
 
 // ---------------------------------------------------------------- instruction set
 
+// The title's selector lists the families; choosing one brings back its member chosen last (or its first with sheets).
 function _isaPicker() {
-  const picker = Carousel({ label: 'instruction set', classes: 'title-carousel', value: _isa.value,
-    options: isas.map(({ value, label, short, codec }) => ({ value, label, short, hint: codec ? '' : 'Coming soon' })),
-    onChange: (value) => _selectIsa({ isa: isas.find((isa) => isa.value === value) }) });
+  const picker = Carousel({ label: 'instruction set', classes: 'title-carousel', value: _isa.family,
+    options: families.map(({ value, label, short }) => ({ value, label, short, hint: membersOf(value).some((m) => m.codec) ? '' : 'Coming soon' })),
+    onChange: (family) => {
+      const members = membersOf(family);
+      _selectIsa({ isa: _lastMember.get(family) || members.find((m) => m.codec) || members[0] });
+    } });
   picker.querySelectorAll('.carousel-step').forEach((step) => step.classList.add('no-print'));
   return picker;
 }
 
-// The sheets of an instruction set become the current ones. restore: the URL's params, for the first time they are made.
+// Next to it, for a family of several members, a pill to choose one (32 / 64 bit, 8051 ... x86-64); members without
+// sheets yet are there too, in grey.
+function _updateVariants() {
+  const members = membersOf(_isa.family);
+  _app.variants.hidden = members.length < 2;
+  _app.variants.replaceChildren(...(members.length < 2 ? [] : members.map((member) => {
+    const segment = _button({ classes: `variant-segment${member === _isa ? ' selected' : ''}${member.codec ? '' : ' coming'}`, label: member.variant,
+      title: `${member.label}${member.codec ? '' : ': coming soon'}`, onClick: () => member !== _isa && _selectIsa({ isa: member }) });
+    segment.setAttribute('aria-pressed', String(member === _isa));
+    return segment;
+  })));
+}
+
+// ---- extension toggles (RISC-V)
+
+const _keyOf = (set) => [...set].sort().join(',');
+const _enabledOf = ({ isa }) => _enabled.get(isa.value) || isa.extensions.defaults;
+const _isDefault = ({ isa }) => _keyOf(_enabledOf({ isa })) === _keyOf(isa.extensions.defaults);
+
+// The codec of a member as its toggles stand (the full one when they are as they start).
+function _codecOf({ isa }) {
+  if (!isa.extensions || _isDefault({ isa })) return isa.codec;
+  return isa.extensions.codecFor({ enabled: _enabledOf({ isa }) });
+}
+
+const _setsKey = ({ isa }) => (isa.extensions ? `${isa.value}|${_keyOf(_enabledOf({ isa }))}` : isa.value);
+
+// Under the title: the ISA string the toggles spell, then a toggle per extension, in the specification's groups. A
+// bundle (G, B) is a box whose label toggles all of its extensions; each stays a toggle of its own. Extensions the sheets
+// have no instructions for yet are greyed out; the base (I) cannot be turned off.
+function _updateExtensions() {
+  const shown = Boolean(_isa.extensions && _isa.codec);
+  _app.extensions.hidden = !shown;
+  if (!shown) return _app.extensions.replaceChildren();
+  const { available, width } = _isa.extensions;
+  const enabled = _enabledOf({ isa: _isa });
+  const toggle = (name) => {
+    const on = enabled.has(name);
+    const classes = `ext-toggle${on ? ' on' : ''}${available.has(name) ? '' : ' unavailable'}${name === BASE ? ' base' : ''}`;
+    const title = name === BASE ? 'The base integer ISA, always there'
+      : available.has(name) ? `${name}: click to turn ${on ? 'off' : 'on'}` : `${name}: not on the sheets yet`;
+    const button = _button({ classes, label: name, title, onClick: () => _setEnabled({ enabled: toggled({ enabled, name, on: !on, available }) }) });
+    button.disabled = !available.has(name) || name === BASE;
+    button.setAttribute('aria-pressed', String(on));
+    return button;
+  };
+  const groups = EXTENSION_GROUPS.map(({ label, bundle, title, extensions }) => {
+    const usable = extensions.filter((e) => available.has(e) && e !== BASE);
+    if (!bundle) return _div({ class: 'ext-group', title: title || '' }, [_span({ class: 'ext-caption' }, label), ...extensions.map(toggle)]);
+    const all = extensions.filter((e) => available.has(e)).every((e) => enabled.has(e));
+    const some = extensions.some((e) => enabled.has(e) && e !== BASE);
+    const head = _button({ classes: `ext-bundle${all && usable.length ? ' on' : some ? ' partial' : ''}`, label, title: title || label,
+      onClick: () => _setEnabled({ enabled: usable.reduce((set, name) => toggled({ enabled: set, name, on: !all, available }), enabled) }) });
+    head.disabled = !usable.length;
+    return _div({ class: 'ext-group ext-bundle-group', title: title || '' }, [head, ...extensions.map(toggle)]);
+  });
+  _app.extensions.replaceChildren(_span({ class: 'ext-isa', title: 'The ISA string of the extensions turned on' }, isaString({ width, enabled })), ...groups);
+}
+
+function _setEnabled({ enabled = new Set() }) {
+  if (_switching) return;
+  _enabled.set(_isa.value, enabled);
+  _use({ isa: _isa });
+  _updateExtensions();
+  refresh();
+  _writeUrl();
+  _app.fitHeader();
+}
+
+// The extensions of a link (exts=I_M_C_Zicsr), each turned on with what it needs.
+function _restoreExtensions({ isa = null, params = new URLSearchParams() }) {
+  if (!isa.extensions || !params.get('exts')) return;
+  const { available } = isa.extensions;
+  const names = params.get('exts').split('_').filter((n) => available.has(n));
+  _enabled.set(isa.value, names.reduce((set, name) => toggled({ enabled: set, name, on: true, available }), new Set([BASE])));
+}
+
+// The sheets of an instruction set (as its toggles stand) become the current ones. restore: the URL's params, for the
+// first time they are made.
 function _use({ isa = isas[0], restore = null }) {
-  const first = !_sets.has(isa.value);
-  if (first) _sets.set(isa.value, _createSets({ isa }));
-  ({ state, elements: _elements, codec: _codec } = _sets.get(isa.value));
+  const key = _setsKey({ isa });
+  const first = !_sets.has(key);
+  if (first) _sets.set(key, _createSets({ codec: _codecOf({ isa }) }));
+  ({ state, elements: _elements, codec: _codec } = _sets.get(key));
   _app.host.replaceChildren(_elements.stage);
   _activate({ mode: _mode });
   if (!first) return;
@@ -569,11 +715,14 @@ function _use({ isa = isas[0], restore = null }) {
 // follows them). Each set keeps its state for coming back. Not while the sheets are sliding: they belong to one set.
 function _selectIsa({ isa = isas[0], restore = null }) {
   if (_switching) {
-    _app.isa.setValue(_isa.value);
+    _app.isa.setValue(_isa.family);
     return;
   }
   _isa = isa;
-  _app.isa.setValue(isa.value);
+  _lastMember.set(isa.family, isa);
+  _app.isa.setValue(isa.family);
+  _updateVariants();
+  _updateExtensions();
   if (isa.codec) _use({ isa, restore });
   _elements.stage.classList.toggle('no-sheet', !isa.codec);
   _app.placeholder.hidden = Boolean(isa.codec);
@@ -583,7 +732,9 @@ function _selectIsa({ isa = isas[0], restore = null }) {
   for (const segment of _app.pill.children) segment.disabled = !isa.codec;
   _app.pdf.disabled = !isa.codec;
   _updateExports();
-  _updateRegisters();
+  _pinnedRegisters = null;
+  _registerButtons();
+  _showRegisters({ label: null });
   refresh();
   _app.fitHeader();
 }
@@ -607,8 +758,7 @@ function _fileName({ mode = 'encoder' }) {
 }
 
 // The sheets, and the state, of one instruction set.
-function _createSets({ isa = {} }) {
-  const { codec } = isa;
+function _createSets({ codec = null }) {
   const set = { codec, elements: null, state: { ext: '*', type: '*', entry: null, encoded: null, operands: null, decoded: null, word: null } };
   // The selectors look at the current set while they are built.
   const previous = { state, _elements, _codec };
@@ -663,20 +813,23 @@ export function Sliderule() {
   const version = _span({ class: 'header-version', title: 'Version of this sheet' }, '');
   const sail = _exportLink({ kind: 'sail' });
   const tablegen = _exportLink({ kind: 'tablegen' });
-  const registersToggle = _registersToggle();
-  const switcher = _div({ class: 'header-switches' }, [pill, registersToggle]);
-  const header = sheetHeader({ isaPicker: isa, version, switcher, tools: [clear, pdf, sail, tablegen, _shareButton()] });
-  const registers = _div({ class: 'registers-host' }, '');
-  registers.hidden = true;
+  const registerButtons = _div({ class: 'register-buttons', role: 'group', 'aria-label': 'Registers' }, '');
+  const switcher = _div({ class: 'header-switches' }, [pill, registerButtons]);
+  const variants = _div({ class: 'variant-pill no-print', role: 'group', 'aria-label': 'Variant' }, '');
+  const extensions = _div({ class: 'header-extensions', role: 'group', 'aria-label': 'Extensions' }, '');
+  const header = sheetHeader({ isaPicker: _span({ class: 'isa-pickers' }, [isa, variants]), version, switcher, below: extensions,
+    tools: [clear, pdf, sail, tablegen, _shareButton()] });
+  const registerPopup = _div({ class: 'register-popup no-print' }, '');
+  registerPopup.hidden = true;
+  header.append(registerPopup);
   const host = _div({ class: 'stage-host' }, '');
   const placeholder = _div({ class: 'sheet-placeholder' }, '');
-  const app = _div({ class: 'sliderules-app' }, [header, registers, placeholder, host]);
-  _app = { fitHeader: () => {}, header, placeholder, host, isa, version, pill, clear, pdf, sail, tablegen, registers, registersToggle };
+  const app = _div({ class: 'sliderules-app' }, [header, placeholder, host]);
+  _app = { fitHeader: () => {}, header, placeholder, host, isa, variants, extensions, version, pill, clear, pdf, sail, tablegen, registerButtons, registerPopup };
+  _watchOutsideClicks();
   const { mode, params } = _readUrl();
-  _showRegisters = params.get('regs') === '1';
-  registersToggle.classList.toggle('selected', _showRegisters);
-  registersToggle.setAttribute('aria-pressed', String(_showRegisters));
   const chosen = isas.find(({ value }) => value === params.get('isa')) || isas[0];
+  _restoreExtensions({ isa: chosen, params });
   _mode = mode;
   _selectPill({ mode });
   // The default set always has sheets: a placeholder chosen first keeps the page laid out around them.
@@ -684,6 +837,7 @@ export function Sliderule() {
   _selectIsa({ isa: chosen, restore: params });
   requestAnimationFrame(() => {
     _app.fitHeader = _fitHeader({ app, header, placeholder });
+    if (params.get('regs') && _registerButton({ label: params.get('regs') })) _pinRegisters({ label: params.get('regs') });
   });
   return app;
 }

@@ -14,6 +14,9 @@
 // Everything else (masks, decoding, encoding, table layout) is derived from these strings.
 
 export { formats, sections, groups, instructions, unusedOpcodes, pseudoInstructions, extensions, registers } from './generated/rv32gc.mjs';
+import { groups as _groups, instructions as _instructions, pseudoInstructions as _pseudos, extensions as _extensions } from './generated/rv32gc.mjs';
+import * as _self from './rv32gc.mjs';
+import { isaString } from './riscv-extensions.mjs';
 
 // ---------------------------------------------------------------- what the codec and the sheets need (see createCodec)
 
@@ -57,4 +60,32 @@ function _reservedRounding({ fields = {} }) {
 
 export function note({ inst = {}, fields = {}, word = 0 }) {
   return [_baseHint({ inst, fields, word }), _reservedRounding({ fields })].filter(Boolean).join(' ; ');
+}
+
+// ---------------------------------------------------------------- extension toggles
+
+// The extensions a row needs: its own or its group's ("C + F" needs both, "F / D" either), or what it `requires`.
+function _needs({ row = {} }) {
+  if (row.requires) return [[row.requires]];
+  const text = row.extension ?? _groups[row.group].extension;
+  return text.split(/\s*\+\s*/).map((part) => part.split(/\s*\/\s*/));
+}
+
+const _allowed = ({ row = {}, enabled = new Set() }) => _needs({ row }).every((anyOf) => anyOf.some((e) => enabled.has(e)));
+
+// Every extension the sheets have rows for: those the toggles can turn on and off.
+export const sheetExtensions = new Set([..._instructions, ..._pseudos].flatMap((row) => (row.requires || row.group ? _needs({ row }).flat() : [])));
+
+// The instruction set with only the given extensions: rows they allow, groups that keep a row, pseudo-instructions
+// whose base instructions all stay. Named by its ISA string (RV32IMC, RV32GC_Zihintpause, ...).
+export function withExtensions({ enabled = sheetExtensions }) {
+  const instructions = _instructions.filter((row) => _allowed({ row, enabled }));
+  const names = new Set(instructions.filter((i) => !i.reserved && !i.hint).map((i) => i.name));
+  const pseudoInstructions = _pseudos.filter((p) => (!p.requires || enabled.has(p.requires))
+    && [...p.expands, ...(Array.isArray(p.short) ? p.short : [])].every(([base]) => names.has(base)));
+  const used = new Set(instructions.map((i) => i.group));
+  const groups = Object.fromEntries(Object.entries(_groups).filter(([key]) => used.has(key)));
+  const shown = new Set(instructions.map((i) => i.extension ?? groups[i.group].extension));
+  const extensions = _extensions.filter((e) => e === 'PSEUDO' || shown.has(e));
+  return { ..._self, name: isaString({ width: 32, enabled }), instructions, groups, pseudoInstructions, extensions };
 }

@@ -166,16 +166,17 @@ export function contributeLink() {
   return _a({ class: 'contribute-link no-print', href: `${REPO}#contributing`, target: '_blank', rel: 'noopener' }, 'Contribute or report an issue ↗');
 }
 
-// The header above both sheets (it does not move when switching): the title, with the instruction set selector inside
-// it and its version after it, and the Encoder / Decoder pill on the left, the tools (PDF, Clear, Share) on the right; credits, the license and
+// The header above both sheets (it does not move when switching): the title, with the instruction set selectors inside
+// it and its version after it, what goes `below` the title line (the extension toggles), and the Encoder / Decoder pill on the left, the tools (PDF, Clear, Share) on the right; credits, the license and
 // the contribution link below. Tools and the contribution link are left out of the PDF (no-print).
-export function sheetHeader({ isaPicker = null, version = null, switcher = null, tools = [] }) {
+export function sheetHeader({ isaPicker = null, version = null, switcher = null, tools = [], below = null }) {
   return _div({ class: 'sheet-header' }, [
     _div({ class: 'header-main' }, [
       _span({ class: 'header-title' }, ['Sliderule', isaPicker, 'Cheatsheet', version]),
       switcher,
       _div({ class: 'header-tools no-print' }, tools),
     ]),
+    ...(below ? [below] : []),
     _div({ class: 'header-sub' }, [
       _credits(),
       _a({ class: 'license-note', href: 'https://creativecommons.org/licenses/by-sa/4.0/', target: '_blank', rel: 'noopener' }, 'Licensed under CC BY-SA 4.0'),

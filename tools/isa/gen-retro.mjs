@@ -113,7 +113,7 @@ export function generate({ set = 'z80' }) {
   if (unused.length) fail(`${set}: Sail / TableGen instructions no overlay row places: ${[...new Set(unused)].join(', ')}`);
   const pseudoInstructions = (overlay.symbols || []).map(({ name, value, description }) => ({ name, asm: '', expands: [['@', { imm: value }]], description }));
   // the assembler's predefined symbols are on the registers sheet too (R0-R15 are Hack's virtual registers)
-  const registers = [...overlay.registers, ...(overlay.symbols ? [{ title: 'Predefined Symbols', columns: ['Symbol', 'Value', 'Meaning'],
+  const registers = [...overlay.registers, ...(overlay.symbols ? [{ group: 'Symbols', title: 'Predefined Symbols', columns: ['Symbol', 'Value', 'Meaning'],
     rows: overlay.symbols.map(({ name, value, description }) => [name.slice(1), String(value), description]) }] : [])];
   return { ...overlay, instructions, pseudoInstructions, registers, source: config };
 }

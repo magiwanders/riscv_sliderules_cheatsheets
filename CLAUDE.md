@@ -13,7 +13,8 @@ the most common changes, adding a RISC-V extension or a whole instruction set, h
 | `src/isa/overlay/*.json` | What the sheets show that Sail and TableGen do not carry: sections, groups, titles, descriptions, pseudocode, flags, HINT / reserved rows, the order of rows, unused opcodes, pseudo-instructions, register meanings, and the few presentation overrides. Edit these. |
 | `spec/` | The sources. Official, pinned (do not edit): the Sail model's RV32GC files (`spec/sail-riscv/`), LLVM's RISC-V and llvm-mos's 6502 `.td` files and their TableGen extracts (`spec/llvm/`). Unofficial, this project's own (edit, then `npm run isa`): Sail and TableGen of the Z80 and Hack, Sail of the 6502 (`spec/unofficial/`). `spec/README.md` has the versions and how to update them. |
 | `tools/isa/` | The generators: `sail.mjs` reads Sail encodings, `tablegen.mjs` extracts TableGen (`npm run isa:tablegen`), `gen-rv32gc.mjs`, `gen-mos6502.mjs`, `gen-retro.mjs` (Z80, Hack) check Sail against TableGen and merge them with the overlay into `src/isa/generated/`. |
-| `src/isa/isas.mjs` | The instruction sets of the selector in the title. Those with a `codec` have sheets; the others show a `<Coming soon>` placeholder (`_selectIsa` in `src/sliderule.mjs`). |
+| `src/isa/isas.mjs` | The instruction sets: `families` for the title's selector, `isas` (each with its `family` and, in a family of several, its `variant` label for the pill next to it). Those with a `codec` have sheets; the others show a `<Coming soon>` placeholder (`_selectIsa` in `src/sliderule.mjs`). `extensions` gives a member the extension toggles. |
+| `src/isa/riscv-extensions.mjs` | The ratified RISC-V extensions the toggles show, in groups (bundles G and B), what each needs, the ISA string. `withExtensions` in `rv32gc.mjs` makes the sheets of a set of them. |
 | `src/isa/codec.mjs` | Everything derived from that data, per set (`createCodec`): parsing encodings into segments, masks, matching, decoding, encoding, pseudo-instruction expansion, operand descriptions for the UI, the spine. No DOM. Its named exports are RV32GC's. |
 | `src/isa/api-gen.js` | Writes `public/isa/*.json` (the data as an API) and the header's Sail / TableGen downloads (`public/isa/<set>.sail`, `.td`, git-ignored) during `npm run build`; run it once before `npm run dev` to have the downloads there. |
 | `src/sliderule.mjs` | The app: per set state and sheets (`_use`), encoder selectors, decoder output, header tools, URL state (share links), view switching animation. |
@@ -21,7 +22,7 @@ the most common changes, adding a RISC-V extension or a whole instruction set, h
 | `src/cells.mjs` | Table cells shared by both tables, the header above them (title, pill, tools, credits). |
 | `src/carousel.mjs`, `src/builders.mjs`, `src/tristate.mjs` | Carousel selector, encoder operand selectors, the 0/1/x switches of the spine with their hex digits. |
 | `src/pdf.mjs` | PDF download of the visible sheet (loads html-to-image and jsPDF from CDNs on demand). |
-| `src/registers.mjs` | The registers sheet the Registers toggle shows under the header (`codec.spec.registers`). |
+| `src/registers.mjs` | The register tables of the header's register buttons: `codec.spec.registers` grouped by each section's `group` (one button per group), the popups' tables. |
 | `public/` | Copied as is into the build: `styles.css`, `embed.js` (one-line embedding), `index.html` (the site, uses `embed.js`). |
 | `index.html`, `src/dev.mjs` | Development entry (`npm run dev`): mounts the sheets straight from `src/`. |
 | `docs/` | README screenshots: retake them when the UI changes visibly. |
@@ -138,7 +139,7 @@ readable sources when they exist (a Sail model, an LLVM TableGen description, as
 the 6502 in a hundred lines), with an overlay for the rest. When they do not, write both as `spec/unofficial/` does
 for the Z80 and Hack (marked UNOFFICIAL, encodings and assembly only) and generate from them with `gen-retro.mjs`;
 give the set `specs` in `isas.mjs` and its files in `EXPORTS` of `api-gen.js` for the header's downloads, and
-`registers` in its overlay for the registers sheet. To turn a placeholder in `isas.mjs` into real sheets:
+`registers` in its overlay (sections with a `group`, which names their button) for the register popups. To turn a placeholder in `isas.mjs` into real sheets:
 
 1. **The spine**, `spine = { width, title, bytes }`: as many switches as the longest instruction has bits, a multiple
    of 4. With `bytes` an instruction starts on the left in memory order, the bytes it does not have stay empty on the

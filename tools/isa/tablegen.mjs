@@ -20,10 +20,10 @@ import { allExtensions } from '../../src/isa/riscv-extensions.mjs';
 const HERE = dirname(fileURLToPath(import.meta.url));
 
 // The RISC-V predicates of ratified extensions: HasStdExtX for an extension the toggles know (or one of its parts),
-// HasStdExtXOrY when one of them is, the vector predicates, RV32. Not RV64-only, vendor or draft extensions.
+// HasStdExtXOrY when one of them is, the vector predicates, RV32 and RV64. Not vendor or draft extensions.
 const _RATIFIED = new Set([...allExtensions(), 'Zca', 'Zcf', 'Zcd', 'Zmmul', 'Zaamo', 'Zalrsc', 'Zve32x', 'Zve32f', 'Zve64x', 'Zve64f', 'Zve64d']);
 function _ratified(predicate) {
-  if (['IsRV32', 'HasVInstructions', 'HasVInstructionsAnyF', 'HasVInstructionsI64', 'HasHalfFPLoadStoreMove', 'HasStdExtFOrZfinx'].includes(predicate)) return true;
+  if (['IsRV32', 'IsRV64', 'HasVInstructions', 'HasVInstructionsAnyF', 'HasVInstructionsI64', 'HasHalfFPLoadStoreMove', 'HasStdExtFOrZfinx'].includes(predicate)) return true;
   const m = predicate.match(/^HasStdExt(\w+)$/);
   return Boolean(m) && m[1].split(/Or(?=[A-Z])/).some((e) => _RATIFIED.has(e));
 }
@@ -153,8 +153,8 @@ export function compactTarget({ records, keepInstruction = () => true, keepAlias
 // ---------------------------------------------------------------- targets
 
 const TARGETS = {
-  // RV32 with every ratified extension of the toggles (src/isa/riscv-extensions.mjs) and their parts, without the AQ / RL
-  // copies of the atomics (aq and rl are fields on the sheet), RV64-only and code generation pseudos.
+  // RV32 and RV64 with every ratified extension of the toggles (src/isa/riscv-extensions.mjs) and their parts, without the
+  // AQ / RL copies of the atomics (aq and rl are fields on the sheet) and code generation pseudos.
   RISCV: {
     keepInstruction: ({ name, record }) => {
       if (record.isPseudo || record.isCodeGenOnly || !record['!superclasses'].includes('RVInstCommon')) return false;
@@ -170,7 +170,9 @@ const TARGETS = {
         .sort((a, b) => a.name[0].localeCompare(b.name[0]) || a.encoding - b.encoding);
       const sysregs = Object.fromEntries(records['!instanceof'].SysReg.map((n) => records[n]).filter((r) => !r.isAltName && !r.isDeprecatedName)
         .map((r) => [r.Name, number(r.Encoding)]).sort(([, a], [, b]) => a - b));
-      return { registers, sysregs };
+      // the CSRs only RV32 has (the upper halves of 64 bit counters: cycleh, ...)
+      const sysregsRV32Only = records['!instanceof'].SysReg.map((n) => records[n]).filter((r) => !r.isAltName && !r.isDeprecatedName && r.isRV32Only).map((r) => r.Name).sort();
+      return { registers, sysregs, sysregsRV32Only };
     },
   },
   // The NMOS 6502 of llvm-mos: what its disassembler decodes on a plain 6502 (the MOS namespace, so not the 65816's

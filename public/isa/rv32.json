@@ -6294,7 +6294,7 @@
     {
       "group": "zimop-1110011-i",
       "name": "ssrdp",
-      "enc": "110011011100 00000 100 rd 1110011",
+      "enc": "110011011100 00000 100 rd!=0 1110011",
       "asm": "rd",
       "description": "Read Ssp into a Register",
       "pseudocode": "rd = ssp"
@@ -11679,7 +11679,11 @@
       "name": "cm.mvsa01",
       "enc": "101011 r1s 01 r2s 10",
       "asm": "r1s, r2s",
-      "description": "Move a0-a1 into Two Registers of s0-s7",
+      "distinct": [
+        "r1s",
+        "r2s"
+      ],
+      "description": "Move a0-a1 into Two Registers of s0-s7 (r1s' ≠ r2s')",
       "pseudocode": "r1s' = a0 ; r2s' = a1"
     },
     {

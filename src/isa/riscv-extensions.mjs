@@ -2,7 +2,7 @@
 // B and Zk), each with the ratified Z extensions closest to it folded under it (Zicsr under I, Zfh under F, Zcb under
 // C, ...), shown in a popover from the letter's arrow. G frames I, M, A, F, D: its label toggles them with Zicsr and
 // Zifencei. A bundle (B, Zk) is not an extension of its own: its letter toggles the Z extensions it stands for.
-// Only the extensions the sheets have instructions for can be toggled (sheetExtensions in rv32gc.mjs).
+// Only the extensions the sheets have instructions for can be toggled (sheetExtensions in riscv.mjs).
 
 export const EXTENSION_TREE = [
   { name: 'I', title: 'Base integer instructions', children: ['Zicsr', 'Zifencei', 'Zicond', 'Zimop', 'Zilsd', 'Zicntr', 'Zihpm', 'Zihintpause', 'Zihintntl', 'Zicbom', 'Zicbop', 'Zicboz', 'Zicfilp', 'Zicfiss'] },
@@ -26,6 +26,16 @@ export const WITHOUT_INSTRUCTIONS = {
   Zvkt: 'a data-independent timing guarantee, no instructions', Zvfhmin: 'conversions V lists already', Zvknhb: 'Zvknha\'s instructions, at SEW 64 too',
   Zalasr: 'not in LLVM 23 or the Sail model yet',
 };
+
+// Ratified extensions of one base only: their chips say it on the other.
+export const BASE_ONLY = { Zilsd: { width: 32, why: 'RV32 only: load / store pairs of registers, which RV64 does with ld / sd' },
+  Zclsd: { width: 32, why: 'RV32 only: compressed load / store pairs, which RV64 does with c.ld / c.sd' } };
+
+// Why an extension's chip cannot be turned on in a member of the given width.
+export function whyUnavailable({ name = '', width = 32 }) {
+  if (BASE_ONLY[name] && BASE_ONLY[name].width !== width) return BASE_ONLY[name].why;
+  return WITHOUT_INSTRUCTIONS[name] || 'not on the sheets yet';
+}
 
 // G, the general-purpose ISA: the letters it frames, and what its label turns on.
 export const G = { letters: ['I', 'M', 'A', 'F', 'D'], extensions: ['I', 'M', 'A', 'F', 'D', 'Zicsr', 'Zifencei'] };
@@ -68,7 +78,7 @@ export function toggled({ enabled = new Set(), name = '', on = true, available =
   return next;
 }
 
-// The ISA string the toggles spell, in the specification's naming: RV32, the single letters in canonical order (G for
+// The ISA string the toggles spell, in the specification's naming: RV32 / RV64, the single letters in canonical order (G for
 // all of IMAFD, Zicsr, Zifencei; B when Zba, Zbb, Zbs are all there), then the other extensions, each after an _.
 export function isaString({ width = 32, enabled = new Set() }) {
   const hasG = G.extensions.every((e) => enabled.has(e));

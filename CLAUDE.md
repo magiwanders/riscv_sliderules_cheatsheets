@@ -1,20 +1,20 @@
 # RISC-V Sliderules: notes for coding agents
 
-An instruction encoder / decoder rendered as two big HTML tables (the "sliderules"), for RV32GC, the Z80, the 6502 and
-the Hack computer. Plain ES modules, no framework, built as a library with Vite. Read this before changing anything;
+An instruction encoder / decoder rendered as two big HTML tables (the "sliderules"), for RV32 and RV64 (every ratified
+extension), the Z80, the 6502 and the Hack computer. Plain ES modules, no framework, built as a library with Vite. Read this before changing anything;
 the most common changes, adding a RISC-V extension or a whole instruction set, have their own checklists below.
 
 ## Layout
 
 | Path | What it is |
 | --- | --- |
-| `src/isa/rv32gc.mjs`, `hack.mjs`, `mos6502.mjs`, `z80.mjs` | One module per instruction set, what the codec reads: formats, decoder sections, groups, instructions, unused opcodes, pseudo-instructions, and the set's own settings (spine, immediates, decode order, ...). Encodings are strings in the spec's notation. Each re-exports its data, registers included, from `generated/`. |
+| `src/isa/rv32gc.mjs`, `rv64gc.mjs`, `hack.mjs`, `mos6502.mjs`, `z80.mjs` | One module per instruction set (RV32 and RV64 share `riscv.mjs`: `riscvSheets` makes their settings, extension subsets and CSR names), what the codec reads: formats, decoder sections, groups, instructions, unused opcodes, pseudo-instructions, and the set's own settings (spine, immediates, decode order, ...). Encodings are strings in the spec's notation. Each re-exports its data, registers included, from `generated/`. |
 | `src/isa/generated/` | **Generated, do not edit**: the instruction data and registers of every set, written by `npm run isa`. |
 | `src/isa/overlay/*.json` | What the sheets show that Sail and TableGen do not carry: sections, groups, titles, descriptions, pseudocode, flags, HINT / reserved rows, the order of rows, unused opcodes, pseudo-instructions, register meanings, and the few presentation overrides. Edit these. |
-| `spec/` | The sources. Official, pinned (do not edit): the Sail model's RV32 files (`spec/sail-riscv/`), LLVM's RISC-V and llvm-mos's 6502 `.td` files and their TableGen extracts (`spec/llvm/`), the RISC-V Unified Database's instructions (`spec/udb/`). Unofficial, this project's own (edit, then `npm run isa`): Sail and TableGen of the Z80 and Hack, Sail of the 6502 (`spec/unofficial/`). `spec/README.md` has the versions and how to update them. |
-| `tools/isa/` | The generators: `sail.mjs` reads Sail encodings, `tablegen.mjs` extracts TableGen (`npm run isa:tablegen`), `gen-rv32gc.mjs`, `gen-mos6502.mjs`, `gen-retro.mjs` (Z80, Hack) check Sail against TableGen and merge them with the overlay into `src/isa/generated/`. |
+| `spec/` | The sources. Official, pinned (do not edit): the Sail model's files (`spec/sail-riscv/`, RV32 and RV64 alike), LLVM's RISC-V and llvm-mos's 6502 `.td` files and their TableGen extracts (`spec/llvm/`), the RISC-V Unified Database's instructions (`spec/udb/`). Unofficial, this project's own (edit, then `npm run isa`): Sail and TableGen of the Z80 and Hack, Sail of the 6502 (`spec/unofficial/`). `spec/README.md` has the versions and how to update them. |
+| `tools/isa/` | The generators: `sail.mjs` reads Sail encodings, `tablegen.mjs` extracts TableGen (`npm run isa:tablegen`), `gen-riscv.mjs` (RV32 and RV64), `gen-mos6502.mjs`, `gen-retro.mjs` (Z80, Hack) check Sail against TableGen and merge them with the overlay into `src/isa/generated/`. |
 | `src/isa/isas.mjs` | The instruction sets of the title's selector: `isas`, listed under their `family` (`families` names them). Those with a `codec` have sheets; the others show a `<Coming soon>` placeholder (`_selectIsa` in `src/sliderule.mjs`). `extensions` gives a member the extension toggles. |
-| `src/isa/riscv-extensions.mjs` | The ratified RISC-V extensions the toggles show: the letters, the Z extensions folded under each, G and the bundles (B, Zk), what each needs, the ISA string. `withExtensions` in `rv32gc.mjs` makes the sheets of a set of them. |
+| `src/isa/riscv-extensions.mjs` | The ratified RISC-V extensions the toggles show: the letters, the Z extensions folded under each, G and the bundles (B, Zk), what each needs, the ISA string. `withExtensions` (from `riscvSheets` in `riscv.mjs`) makes the sheets of a set of them; `BASE_ONLY` marks those of one width (Zilsd, Zclsd). |
 | `src/isa/codec.mjs` | Everything derived from that data, per set (`createCodec`): parsing encodings into segments, masks, matching, decoding, encoding, pseudo-instruction expansion, operand descriptions for the UI, the spine. No DOM. Its named exports are RV32GC's. |
 | `src/isa/api-gen.js` | Writes `public/isa/*.json` (the data as an API) and the header's Sail / TableGen downloads (`public/isa/<set>.sail`, `.td`, git-ignored) during `npm run build`; run it once before `npm run dev` to have the downloads there. |
 | `src/sliderule.mjs` | The app: per set state and sheets (`_use`), encoder selectors, decoder output, header tools, URL state (share links), view switching animation. |
@@ -90,15 +90,18 @@ The colours come from the original spreadsheet sheets (Google Sheets' palette) a
 
 ## Adding an extension
 
-RV32 has every ratified extension the Sail model, LLVM and the Unified Database know; a new one (once ratified) goes in
-`EXTENSION_TREE` of `src/isa/riscv-extensions.mjs` (with `REQUIRES` / `CONFLICTS`), and its instructions follow these
-steps. RV32's data is generated (`npm run isa`, `tools/isa/gen-rv32gc.mjs`): encodings and assembly from the Sail model
-and LLVM's TableGen, checked against the Unified Database, everything else from `src/isa/overlay/rv32gc.json`. The generator stops with a message naming what is
+RV32 and RV64 have every ratified extension the Sail model, LLVM and the Unified Database know; a new one (once
+ratified) goes in `EXTENSION_TREE` of `src/isa/riscv-extensions.mjs` (with `REQUIRES` / `CONFLICTS`), and its
+instructions follow these steps. The data is generated (`npm run isa`, `tools/isa/gen-riscv.mjs`, once per width):
+encodings and assembly from the Sail model and LLVM's TableGen, checked against the Unified Database, everything else
+from `src/isa/overlay/rv32gc.json`; RV64 reads that overlay changed by `rv64gc.json` (rows of RV32-only instructions go,
+its rows come in by `replaces` / `after` / their group, see `loadOverlay`). An instruction both widths have needs a row
+in `rv32gc.json` only; one only RV64 has (IsRV64 in LLVM) a row in `rv64gc.json`. The generator stops with a message naming what is
 missing or disagrees, so the order below is the order its messages come in. Work through these in order.
 
 1. **Sail**: copy the extension's `*_insts.sail` (and the types / mappings it uses) from the pinned sail-riscv tag into
-   `spec/sail-riscv/model/`, add the files to `SAIL_FILES` and the extension to `CONFIG.extensions` in
-   `gen-rv32gc.mjs`. Guards calling a function the Sail reader does not know stop it: add the function to `_HELPERS`
+   `spec/sail-riscv/model/`, add the files to `SAIL_FILES` and the extension to `CONFIG` in
+   `gen-riscv.mjs` (`RV32_ONLY` if RV64 lacks it). Guards calling a function the Sail reader does not know stop it: add the function to `_HELPERS`
    in `tools/isa/sail.mjs`, mirroring its Sail definition.
 2. **TableGen**: allow the extension's predicate in `TARGETS.RISCV` of `tools/isa/tablegen.mjs` and extract again (see
    `spec/README.md`). Sail and TableGen must then agree on every bit: the generator pairs each Sail encoding with one
@@ -126,7 +129,7 @@ missing or disagrees, so the order below is the order its messages come in. Work
    `opcode`, `funct`, `reg`, `imm`; the layout also cuts cells) and give it a `.fmt-<NAME>` colour pair in
    `public/styles.css` following the palette rules above.
 6. **New operand kind?** (a field that is not a register, immediate, csr, rm, fence set or aq/rl, e.g. a vector mask.)
-   Teach `sail.mjs` and `gen-rv32gc.mjs` its bits, then extend `FIELDS` / `OPERAND` and `operandInfo` in `codec.mjs`,
+   Teach `sail.mjs` and `gen-riscv.mjs` its bits, then extend `FIELDS` / `OPERAND` and `operandInfo` in `codec.mjs`,
    `_controlFor` in `builders.mjs` (its selector), `assemblyParts` (how it prints) and `test/cases.mjs` (how tests pick
    values).
 7. **Ext selector**: add the extension name to `extensions` in the overlay. Entries whose extension is not listed there

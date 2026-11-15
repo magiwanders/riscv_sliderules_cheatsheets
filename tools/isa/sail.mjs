@@ -143,8 +143,8 @@ const _HELPERS = {
 
 // Names guards compare registers and configuration values with.
 const _REGISTERS = { zreg: 0, ra: 1, sp: 2, t0: 5 };
-// The configuration the sheets take: indices of indexed vector loads and stores up to 32 bits (64 bit ones are RV64's).
-const _CONSTANTS = { max_index_eew_exp: 5 };
+// The configuration the sheets take: indices of indexed vector loads and stores up to xlen bits (64 bit ones are RV64's).
+const _CONSTANTS = { max_index_eew_exp: ({ config }) => Math.log2(config.xlen) };
 const _VLEWIDTH_POW = { VLE8: 3, VLE16: 4, VLE32: 5, VLE64: 6 };
 
 function _unsupported(what) {
@@ -212,6 +212,8 @@ function _evaluate({ text = '', config, bindings = {} }) {
       if (op === '!=' && s.bit === undefined && typeof v === 'number') return [{ kind: 'exclude', name: s.sym, value: v }];
       if (op === '==' && s.bit !== undefined && typeof v === 'number') return [{ kind: 'fixed', name: s.sym, bit: s.bit, value: v }];
       if (op === '==' && s.bit === undefined && v in _REGISTERS) return [{ kind: 'oneOf', name: s.sym, values: [_REGISTERS[v]] }];
+      // rnum <_u 0xB: the values below a bound
+      if ((op === '<_u' || op === '<') && s.bit === undefined && s === a && typeof v === 'number') return [{ kind: 'below', name: s.sym, value: v }];
       return _unsupported(`"${text}"`);
     }
     switch (op) {
@@ -266,7 +268,7 @@ function _evaluate({ text = '', config, bindings = {} }) {
       return _HELPERS[t]({ config, args });
     }
     if (t === 'xlen') return config.xlen;
-    if (t in _CONSTANTS) return _CONSTANTS[t];
+    if (t in _CONSTANTS) return _CONSTANTS[t]({ config });
     if (t === 'xlen_bytes') return config.xlen / 8;
     if (t in bindings) {
       const v = bindings[t];

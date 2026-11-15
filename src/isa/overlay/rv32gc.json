@@ -1,5 +1,5 @@
 {
-  "$comment": "What the sheets show about RV32GC that the Sail model and LLVM TableGen do not carry: sections, groups and their titles, the order of rows, descriptions and pseudocode, HINT and reserved rows, unused opcodes, pseudo-instructions. tools/isa/gen-rv32gc.mjs merges it with them into src/isa/generated/rv32gc.mjs.",
+  "$comment": "What the sheets show about RV32GC that the Sail model and LLVM TableGen do not carry: sections, groups and their titles, the order of rows, descriptions and pseudocode, HINT and reserved rows, unused opcodes, pseudo-instructions. tools/isa/gen-riscv.mjs merges it with them into src/isa/generated/rv32gc.mjs (and, with the changes of rv64gc.json, rv64gc.mjs).",
   "formats": {
     "R": {
       "title": "Register",
@@ -8686,8 +8686,12 @@
     {
       "group": "c.zcmp-101-ca",
       "def": "CM_MVSA01",
-      "description": "Move a0-a1 into Two Registers of s0-s7",
-      "pseudocode": "r1s' = a0 ; r2s' = a1"
+      "description": "Move a0-a1 into Two Registers of s0-s7 (r1s' ≠ r2s')",
+      "pseudocode": "r1s' = a0 ; r2s' = a1",
+      "distinct": [
+        "r1s",
+        "r2s"
+      ]
     },
     {
       "group": "c.zcmp-101-cmpp",

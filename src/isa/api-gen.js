@@ -5,7 +5,7 @@ import fs from 'fs';
 import { formats, groups, instructions, registers } from './rv32gc.mjs';
 import { compiled, pseudos } from './codec.mjs';
 import { isas } from './isas.mjs';
-import { SAIL_FILES } from '../../tools/isa/gen-rv32gc.mjs';
+import { SAIL_FILES } from '../../tools/isa/gen-riscv.mjs';
 
 console.log("Generating of API .json files...")
 
@@ -31,10 +31,11 @@ fs.writeFileSync(
     }, null, 2)
 )
 
-// Every RV32 instruction of every extension (instructions.json above is RV32GC, the sheets' default).
-{
-    const all = await import('./generated/rv32gc.mjs');
-    fs.writeFileSync('public/isa/rv32.json', JSON.stringify({ formats: all.formats, groups: all.groups, instructions: all.instructions,
+// Every RV32 / RV64 instruction of every extension (instructions.json above is RV32GC, the sheets' default; rv64gc.json
+// below RV64GC).
+for (const xlen of [32, 64]) {
+    const all = await import(`./generated/rv${xlen}gc.mjs`);
+    fs.writeFileSync(`public/isa/rv${xlen}.json`, JSON.stringify({ formats: all.formats, groups: all.groups, instructions: all.instructions,
         pseudoInstructions: all.pseudoInstructions, registers: all.registers }, null, 2));
 }
 
@@ -85,6 +86,12 @@ const EXPORTS = {
             about: 'RV32 and its ratified extensions in the official RISC-V Sail model, riscv/sail-riscv tag 2026-11-09-8118453 (BSD 2-Clause)' },
         tablegen: { files: RISCV_TD.map((f) => `spec/llvm/RISCV/${f}`), licence: 'spec/llvm/LICENSE.TXT',
             about: 'RV32 and its ratified extensions in LLVM\'s RISC-V target, llvm/llvm-project llvmorg-23.1.5 (Apache 2.0 with LLVM exception); the target\'s other files (pseudos, vendor extensions, scheduling) are left out' },
+    },
+    rv64gc: {
+        sail: { files: SAIL_FILES.map((f) => f.slice(f.indexOf('spec/'))), licence: 'spec/sail-riscv/LICENCE',
+            about: 'RV64 and its ratified extensions in the official RISC-V Sail model, riscv/sail-riscv tag 2026-11-09-8118453 (BSD 2-Clause); the model describes RV32 and RV64 in the same files' },
+        tablegen: { files: RISCV_TD.map((f) => `spec/llvm/RISCV/${f}`), licence: 'spec/llvm/LICENSE.TXT',
+            about: 'RV64 and its ratified extensions in LLVM\'s RISC-V target, llvm/llvm-project llvmorg-23.1.5 (Apache 2.0 with LLVM exception); RV32 and RV64 share these files (IsRV32 / IsRV64 mark what only one has); the target\'s other files (pseudos, vendor extensions, scheduling) are left out' },
     },
     6502: {
         sail: { files: ['spec/unofficial/mos6502/mos6502.sail'] },

@@ -55,8 +55,8 @@ export function fenceText({ value = 0 }) {
   return ['i', 'o', 'r', 'w'].filter((_, i) => (value >> (3 - i)) & 1).join('') || '0';
 }
 
-function _csrText({ value = 0 }) {
-  return Object.keys(CSRS).find((name) => CSRS[name] === value) || `0x${value.toString(16)}`;
+function _csrText({ value = 0, csrs = CSRS }) {
+  return Object.keys(csrs).find((name) => csrs[name] === value) || `0x${value.toString(16)}`;
 }
 
 function _isFp({ inst = {}, key = 'rd' }) {
@@ -118,6 +118,7 @@ const _escaped = (text) => text.replace(/[()+$]/g, '\\$&');
 //   name, spine ({ width, title, bytes }), formats, sections, groups, instructions, extensions;
 //   immediates: { name: signed } of the encodings' immediate names (name[hi:lo]; all of them are the operand `imm`);
 //   operands: { token: { width, names, exclude, signed, text } }, operands that are not registers of the RISC-V kind;
+//   csrs: { name: address } of the CSRs known by name (default CSRS, RV32's);
 //   optional: pseudoInstructions, unusedOpcodes, labels and widths (of columns), separator, mnemonicGap, plainFormats,
 //   repeatedNames, listedOrder, alwaysImmediateRow, decodeOrder, operandPattern, widthOf, note, immText, arrange,
 //   parseAssembly.
@@ -125,6 +126,8 @@ const _escaped = (text) => text.replace(/[()+$]/g, '\\$&');
 // (memory order, unused bytes on the right), otherwise at the right (inst[0] is position 0).
 export function createCodec(spec) {
   const { formats, groups, instructions, spine } = spec;
+  // the CSRs known by name: the set's own (RV64 has no cycleh), or RV32's
+  const csrs = spec.csrs || CSRS;
   const SPINE = spine.width;
   const pseudoInstructions = spec.pseudoInstructions || [];
   const OPERANDS = spec.operands || {};
@@ -248,10 +251,18 @@ export function createCodec(spec) {
     return { min, max: inst.immSigned ? 2 ** msb - step : 2 ** (msb + 1) - step, step, nonZero: inst.immNonZero };
   }
 
+  // distinct: two fields that cannot hold the same value (cm.mvsa01's r1s and r2s); value of a field of a word
+  const _fieldValue = ({ inst = {}, key = '', word = 0 }) => {
+    const s = inst.segments.find((x) => x.key === key);
+    return _field({ word, hi: s.hi, lo: s.lo });
+  };
+  const _sameDistinct = ({ inst = {}, word = 0 }) => Boolean(inst.distinct) && _fieldValue({ inst, key: inst.distinct[0], word }) === _fieldValue({ inst, key: inst.distinct[1], word });
+
   function _satisfiesFieldConstraints({ inst = {}, word = 0 }) {
     for (const s of inst.segments) {
       if (s.exclude && s.exclude.includes(_field({ word, hi: s.hi, lo: s.lo }) + (s.compressed ? 8 : 0))) return false;
     }
+    if (_sameDistinct({ inst, word })) return false;
     return !(inst.immNonZero && _immValue({ inst, word }) === 0);
   }
 
@@ -272,6 +283,10 @@ export function createCodec(spec) {
     for (const s of inst.segments) {
       const fieldMask = ((2 ** s.width - 1) * 2 ** s.lo) >>> 0;
       if (s.exclude && (known & fieldMask) >>> 0 === fieldMask && s.exclude.includes(_field({ word: value, hi: s.hi, lo: s.lo }) + (s.compressed ? 8 : 0))) return false;
+    }
+    if (inst.distinct) {
+      const both = inst.segments.filter((s) => inst.distinct.includes(s.key)).reduce((m, s) => m | ((2 ** s.width - 1) * 2 ** s.lo), 0) >>> 0;
+      if ((known & both) >>> 0 === both && _sameDistinct({ inst, word: value })) return false;
     }
     if (inst.immNonZero) {
       const immMask = inst.segments.filter((s) => s.kind === 'imm').reduce((m, s) => m | ((2 ** s.width - 1) << s.lo), 0) >>> 0;
@@ -322,7 +337,7 @@ export function createCodec(spec) {
         if (OPERANDS[key]) text = operandText({ key, value, fields, inst });
         else if (key === 'imm' && spec.immText) text = spec.immText({ inst, value });
         else if (key === 'imm') text = String(inst.asmShift ? `0x${((value >>> inst.asmShift) & (2 ** (32 - inst.asmShift) - 1)).toString(16)}` : value);
-        else if (key === 'csr') text = _csrText({ value });
+        else if (key === 'csr') text = _csrText({ value, csrs });
         else if (key === 'rm') text = ROUNDING[value] || `rm${value}`;
         else if (key === 'pred' || key === 'succ') text = fenceText({ value });
         else text = registerName({ number: value, fp: _isFp({ inst, key }) });
@@ -469,7 +484,7 @@ export function createCodec(spec) {
       if (typeof m === 'string') return m;
       if (typeof m !== 'number') return token;
       if (key === 'imm') return String(m);
-      if (key === 'csr') return _csrText({ value: m });
+      if (key === 'csr') return _csrText({ value: m, csrs });
       if (key === 'pred' || key === 'succ') return fenceText({ value: m });
       return `x${m}`;
     });
@@ -505,7 +520,10 @@ export function createCodec(spec) {
       const segment = (entry.segments || []).find((s) => s.key === key);
       const excluded = [...new Set([...exclude, ...(segment ? segment.exclude || [] : [])])];
       if (names) return { kind: 'enum', key, names, exclude: excluded, omit };
-      const range = signed ? { min: -(2 ** (width - 1)), max: 2 ** (width - 1) - 1 } : { min: 0, max: 2 ** width - 1 };
+      // a number up to the largest value it is not excluded from (aes64ks1i's rnum: 0 to 0xA)
+      let top = 2 ** width - 1;
+      while (!signed && excluded.includes(top)) top--;
+      const range = signed ? { min: -(2 ** (width - 1)), max: 2 ** (width - 1) - 1 } : { min: 0, max: top };
       return { kind: 'imm', key, range: { ...range, step: 1, nonZero: false } };
     }
     if (key === 'sp') return { kind: 'sp' };
@@ -579,6 +597,7 @@ export function createCodec(spec) {
       word = _place({ inst, key, value: fields[key], word });
     }
     word >>>= 0;
+    if (_sameDistinct({ inst, word })) throw new Error(`${inst.name}: ${inst.distinct.join(' and ')} must differ`);
     const decoded = extractFields({ inst, word });
     return { inst, word, fields: decoded, assembly: formatAssembly({ inst, fields: decoded }) };
   }
@@ -617,7 +636,7 @@ export function createCodec(spec) {
           values[key] = info.names.findIndex((name) => name.toLowerCase() === text.toLowerCase());
           if (values[key] < 0) throw new Error(`"${text}" is not one of ${key}`);
         }
-        else if (info.kind === 'csr') values[key] = text.toLowerCase() in CSRS ? CSRS[text.toLowerCase()] : _parseNumber({ text });
+        else if (info.kind === 'csr') values[key] = text.toLowerCase() in csrs ? csrs[text.toLowerCase()] : _parseNumber({ text });
         else if (info.kind === 'rm') {
           values[key] = ROUNDING.indexOf(text.toLowerCase());
           if (values[key] < 0 || text === '') throw new Error(`"${text}" is not a rounding mode`);
@@ -750,7 +769,7 @@ export function createCodec(spec) {
   return {
     spec, compiled, pseudos, encodable, unusedOpcodeRows, parseEncoding, immRange, matchesConstraints, extractFields, assemblyParts, operandsText,
     operandText, isOmitted, formatAssembly, fieldMask, partialDecode, knownWidth, selectedWord, missingBits, decodeWord, unusedOpcode, operandInfo, templateParts,
-    tokenKey, encodeEntry, encodeAssembly, immediateView, hex, binary, bitName, bitNumber, byteStart, pasteStates, typeName, numericOperand,
+    tokenKey, encodeEntry, encodeAssembly, immediateView, hex, binary, bitName, bitNumber, byteStart, pasteStates, typeName, numericOperand, csrs,
   };
 }
 

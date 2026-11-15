@@ -1,4 +1,4 @@
-import { registerName, fenceText, ROUNDING, CSRS } from './isa/codec.mjs';
+import { registerName, fenceText, ROUNDING } from './isa/codec.mjs';
 
 // Table cells shared by the encoder and decoder sliderules.
 
@@ -21,7 +21,7 @@ function _fieldText({ codec = null, key = 'rm', value = 0, fields = {}, inst = {
   if (codec.spec.operands && codec.spec.operands[key]) return codec.operandText({ key, value, fields, inst });
   if (key === 'pred' || key === 'succ') return fenceText({ value });
   if (key === 'rm') return `rm = ${ROUNDING[value] || value}`;
-  if (key === 'csr') return `csr = ${Object.keys(CSRS).find((name) => CSRS[name] === value) || `0x${value.toString(16)}`}`;
+  if (key === 'csr') return `csr = ${Object.keys(codec.csrs).find((name) => codec.csrs[name] === value) || `0x${value.toString(16)}`}`;
   return String(value);
 }
 

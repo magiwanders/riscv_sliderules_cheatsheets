@@ -1,5 +1,5 @@
 import { isas, families } from './isa/isas.mjs';
-import { EXTENSION_TREE, G, BASE, WITHOUT_INSTRUCTIONS, toggled, isaString } from './isa/riscv-extensions.mjs';
+import { EXTENSION_TREE, G, BASE, whyUnavailable, toggled, isaString } from './isa/riscv-extensions.mjs';
 import { decoderSheet, decoderRows } from './selector.mjs';
 import { encoderSheet, encoderRows, showEncodedBits, highlightEncodedBits, expandedColumns, setExpandedColumns } from './encoder.mjs';
 import { OperandPanel } from './builders.mjs';
@@ -624,7 +624,7 @@ function _stickHeaderRows({ table = null }) {
 // ---------------------------------------------------------------- instruction set
 
 // The title's selector: every member in one list, under the name of its family; closed, it shows the member's name,
-// which for RISC-V is the ISA string its extension toggles spell (RV32GC, RV32IMC, ...).
+// which for RISC-V is the ISA string its extension toggles spell (RV32GC, RV64IMC, ...).
 const _familyLabel = (value) => families.find((f) => f.value === value).label;
 const _shortOf = (isa) => (isa.extensions ? isaString({ width: isa.extensions.width, enabled: _enabledOf({ isa }) }) : isa.short ?? isa.label);
 const _isaOptions = () => isas.map((isa) => ({ value: isa.value, label: isa.label, short: _shortOf(isa), group: _familyLabel(isa.family),
@@ -658,7 +658,8 @@ function _updateExtensions() {
     _app.extPopover.hidden = true;
     return _app.extensions.replaceChildren();
   }
-  const { available } = _isa.extensions;
+  const { available, width } = _isa.extensions;
+  const why = (name) => whyUnavailable({ name, width });
   const enabled = _enabledOf({ isa: _isa });
   const set = (next) => _setEnabled({ enabled: next });
   const flip = (names, on) => names.filter((n) => available.has(n)).reduce((acc, name) => toggled({ enabled: acc, name, on, available }), enabled);
@@ -670,7 +671,7 @@ function _updateExtensions() {
     const some = members.some((n) => enabled.has(n));
     const folded = children.filter((n) => enabled.has(n) && !(bundle || []).includes(n)).length;
     const button = _button({ classes: `ext-toggle${on ? ' on' : some ? ' partial' : ''}${usable.length || name === BASE ? '' : ' unavailable'}${name === BASE ? ' base' : ''}`,
-      label: name, title: `${name}: ${title}${name === BASE ? ' (always there)' : usable.length ? '' : ` (${WITHOUT_INSTRUCTIONS[name] || 'not on the sheets yet'})`}`,
+      label: name, title: `${name}: ${title}${name === BASE ? ' (always there)' : usable.length ? '' : ` (${why(name)})`}`,
       onClick: () => set(flip(members, !on)) });
     button.disabled = !usable.length;
     button.setAttribute('aria-pressed', String(on));
@@ -701,7 +702,7 @@ function _updateExtensions() {
     _div({ class: 'ext-popover-list' }, open.children.map((name) => {
       const on = enabled.has(name);
       const button = _button({ classes: `ext-toggle${on ? ' on' : ''}${available.has(name) ? '' : ' unavailable'}`, label: name,
-        title: available.has(name) ? `${name}: click to turn ${on ? 'off' : 'on'}` : `${name}: ${WITHOUT_INSTRUCTIONS[name] || 'not on the sheets yet'}`,
+        title: available.has(name) ? `${name}: click to turn ${on ? 'off' : 'on'}` : `${name}: ${why(name)}`,
         onClick: () => set(toggled({ enabled, name, on: !on, available })) });
       button.disabled = !available.has(name);
       return button;

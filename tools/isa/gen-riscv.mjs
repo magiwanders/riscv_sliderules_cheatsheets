@@ -1,17 +1,17 @@
-// Generates src/isa/generated/rv32gc.mjs, the instruction data of the RV32 sheets (every ratified extension; the sheets
-// start as RV32GC), from
+// Generates src/isa/generated/rv32gc.mjs and rv64gc.mjs, the instruction data of the RV32 and RV64 sheets (every
+// ratified extension; the sheets start as RV32GC / RV64GC), from
 //   - the official Sail model (spec/sail-riscv): which instructions RV32 has and their encodings, bit by bit;
 //   - LLVM's TableGen description (spec/llvm/RISCV.json): mnemonics, assembly syntax, register classes, how immediates
 //     are scaled, the formats, the aliases behind the pseudo-instructions;
 //   - the RISC-V Unified Database (spec/udb/instructions.json): a third check of every encoding it has, and the only
 //     second source of the extensions the Sail model does not have yet (LLVM_ONLY);
 //   - the overlay (src/isa/overlay/rv32gc.json): what none of them has (sections, groups, titles, descriptions, HINT and
-//     reserved rows, the order of rows, unused opcodes).
+//     reserved rows, the order of rows, unused opcodes); RV64's (rv64gc.json) is what changes from it (see loadOverlay).
 // The sources are checked against each other bit by bit; any disagreement, or an instruction one of them has and the
 // overlay does not place, stops the generator. The rules turning them into cells are in the README ("How the sheets
 // are drawn").
 //
-//   npm run isa          (node tools/isa/gen-rv32gc.mjs; --check only compares with the file on disk)
+//   npm run isa          (node tools/isa/gen-riscv.mjs; --check only compares with the files on disk)
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -19,7 +19,8 @@ import { readSail, sailInstructions } from './sail.mjs';
 import { ROOT, moduleText, writeOrCheck } from './common.mjs';
 import { allExtensions } from '../../src/isa/riscv-extensions.mjs';
 
-const OUT = join(ROOT, 'src', 'isa', 'generated', 'rv32gc.mjs');
+const OUT = (xlen) => join(ROOT, 'src', 'isa', 'generated', `rv${xlen}gc.mjs`);
+const OVERLAY = (name) => join(ROOT, 'src', 'isa', 'overlay', name);
 const SAIL_ROOT = join(ROOT, 'spec', 'sail-riscv', 'model');
 
 // Every vendored file of the model, in a stable order.
@@ -27,11 +28,15 @@ const _walk = (dir) => readdirSync(dir).sort().flatMap((f) => (statSync(join(dir
 export const SAIL_FILES = _walk(SAIL_ROOT);
 
 // The model configured with every ratified extension it has (conflicting ones too: their encodings do not depend on it).
-const CONFIG = { xlen: 32, extensions: new Set(['I', 'M', 'Zmmul', 'A', 'Zaamo', 'Zalrsc', 'F', 'D', 'Zca', 'Zcf', 'Zcd', 'Zicsr', 'Zifencei', 'Zihintpause',
+const CONFIG = (xlen) => ({ xlen, extensions: new Set(['I', 'M', 'Zmmul', 'A', 'Zaamo', 'Zalrsc', 'F', 'D', 'Zca', 'Zcf', 'Zcd', 'Zicsr', 'Zifencei', 'Zihintpause',
   'Zba', 'Zbb', 'Zbc', 'Zbs', 'Zbkb', 'Zbkc', 'Zbkx', 'Zknd', 'Zkne', 'Zknh', 'Zksed', 'Zksh', 'Zkr', 'Zicond', 'Zimop', 'Zcmop', 'Zcb', 'Zfh', 'Zfhmin', 'Zfa',
   'Zfinx', 'Zdinx', 'Zhinx', 'Zhinxmin', 'Zfbfmin', 'Zvfbfmin', 'Zvfbfwma', 'V', 'Zve32x', 'Zve32f', 'Zve64x', 'Zve64f', 'Zve64d', 'Zvfh', 'Zvfhmin', 'Zvbb',
   'Zvbc', 'Zvkb', 'Zvkg', 'Zvkned', 'Zvknha', 'Zvknhb', 'Zvksed', 'Zvksh', 'H', 'Svinval', 'Zicbom', 'Zicbop', 'Zicboz', 'Zawrs', 'Zacas', 'Zabha', 'Zicfilp',
-  'Zicfiss', 'Zihintntl', 'S', 'U']) };
+  'Zicfiss', 'Zihintntl', 'S', 'U'].filter((e) => xlen === 32 || !RV32_ONLY.includes(e))) });
+// Extensions only RV32 has: compressed single-precision loads and stores (RV64 has c.ld / c.sd there).
+const RV32_ONLY = ['Zcf'];
+// LLVM's predicate for the other base: its instructions are left out (RV32's C_FLW on RV64, RV64's LD on RV32).
+const OTHER_BASE = { 32: 'IsRV64', 64: 'IsRV32' };
 
 // Left out of the sheets: privileged instructions of the base machine (Sail and LLVM), LLVM's spellings of illegal
 // encodings and of HINTs the overlay shows as rows.
@@ -52,7 +57,7 @@ const UPPER = ['OPERAND_UIMM20_LUI', 'OPERAND_UIMM20_AUIPC', 'OPERAND_CLUI_IMM']
 const SPREAD_FIELDS = ['aq', 'rl'];
 // Register classes whose restrictions the sheets already write otherwise (compressed registers with ', sp in the
 // assembly, the HINT rows): every other class excludes the registers it lacks (even pairs, ra / t0, vector groups).
-const PLAIN_CLASSES = /^(GPR|GPRC|GPRNoX0|GPRNoX2|GPRNoX0X2|SP|BasePtr|BasePtrC|GPRMemZeroOffset|SPMem|FPR16|FPR32|FPR64|FPR128|FPR32C|FPR64C|FPR16INX|FPR32INX|VR)$/;
+const PLAIN_CLASSES = /^(GPR|GPRC|GPRNoX0|GPRNoX2|GPRNoX0X2|SP|BasePtr|BasePtrC|GPRMemZeroOffset|SPMem|FPR16|FPR32|FPR64|FPR128|FPR32C|FPR64C|FPR16INX|FPR32INX|FPR64INX|VR)$/;
 
 // The extension label of an LLVM predicate: the toggles' names, "X / Y" for either, nothing for RV32 itself.
 const PREDICATE_LABELS = { HasStdExtZca: 'C', HasStdExtZcf: 'C + F', HasStdExtZcd: 'C + D', HasStdExtZmmul: 'M', HasStdExtZaamo: 'A', HasStdExtZalrsc: 'A',
@@ -61,7 +66,7 @@ const PREDICATE_LABELS = { HasStdExtZca: 'C', HasStdExtZcf: 'C + F', HasStdExtZc
 const KNOWN = new Set([...allExtensions(), 'Zca', 'Zcf', 'Zcd', 'Zmmul', 'Zaamo', 'Zalrsc']);
 
 function fail(message) {
-  throw new Error(`gen-rv32gc: ${message}`);
+  throw new Error(`gen-riscv: ${message}`);
 }
 
 const encoderShift = ({ operand = {} }) => {
@@ -94,7 +99,7 @@ function bitsFromEnc({ enc = '' }) {
 }
 
 function labelOf({ def, sail = null }) {
-  const parts = def.predicates.filter((p) => p !== 'IsRV32').map((p) => {
+  const parts = def.predicates.filter((p) => p !== 'IsRV32' && p !== 'IsRV64').map((p) => {
     if (PREDICATE_LABELS[p]) return PREDICATE_LABELS[p];
     const m = p.match(/^HasStdExt(\w+)$/) || fail(`${def.asm}: predicate ${p}`);
     return m[1].split(/Or(?=[A-Z])/).filter((e) => KNOWN.has(e)).map((e) => PREDICATE_LABELS[`HasStdExt${e}`] || e).join(' / ');
@@ -109,8 +114,8 @@ function labelOf({ def, sail = null }) {
 // Each LLVM instruction takes the Sail encoding that agrees with it bit by bit and that it fixes the fewest operands
 // of (LLVM writes some operands of a Sail clause as instructions of their own: the 32 mop.r.N of one clause). A field
 // may sit at a constant offset in an LLVM operand (Sail's sew is bits 5:3 of LLVM's vtypei).
-function pair({ sail = [], llvm = {} }) {
-  const defs = Object.entries(llvm.instructions).filter(([name]) => !EXCLUDE_LLVM.includes(name));
+function pair({ sail = [], llvm = {}, xlen = 32 }) {
+  const defs = Object.entries(llvm.instructions).filter(([name, def]) => !EXCLUDE_LLVM.includes(name) && !def.predicates.includes(OTHER_BASE[xlen]));
   const pairs = [];
   const llvmOnly = [];
   const unmatched = [];
@@ -385,9 +390,9 @@ function assemblyOf({ name, def, bits, llvm }) {
 
 // ---------------------------------------------------------------- 6. pseudo-instructions
 
-function pseudoFromAlias({ pseudo, llvm, byLlvmName }) {
+function pseudoFromAlias({ pseudo, llvm, byLlvmName, xlen = 32 }) {
   const tokens = pseudo.asm ? pseudo.asm.split(/,\s*/) : [];
-  const aliases = llvm.aliases.filter((a) => a.asm.split(/\s+/)[0] === pseudo.name && byLlvmName[a.base]);
+  const aliases = llvm.aliases.filter((a) => a.asm.split(/\s+/)[0] === pseudo.name && byLlvmName[a.base] && !a.predicates.includes(OTHER_BASE[xlen]));
   for (const alias of aliases) {
     const names = (alias.asm.match(/\$\{?\w+\}?/g) || []).map((n) => n.replace(/[${}]/g, ''));
     const asImm = (n) => (n === 'offset' || /^imm\d*$/.test(n) ? 'imm' : n);
@@ -419,12 +424,14 @@ function pseudoFromAlias({ pseudo, llvm, byLlvmName }) {
 // ---------------------------------------------------------------- the Unified Database
 
 // The UDB's encoding of an instruction against ours: its match string (msb first, - for operands) must agree with our
-// literal bits, wherever it fixes a bit. Instructions it does not have, or has for RV64 only, are skipped.
-function checkUdb({ name, bits, udb }) {
+// literal bits, wherever it fixes a bit (its RV32 or RV64 encoding). Instructions it does not have, or has for the
+// other base only, are skipped.
+function checkUdb({ name, bits, udb, xlen = 32 }) {
   const entry = udb[name];
-  if (!entry || !entry.match || entry.match.length !== bits.length) return false;
+  const match = entry && (xlen === 64 ? entry.match64 : entry.match);
+  if (!match || match.length !== bits.length) return false;
   bits.forEach((b, i) => {
-    const m = entry.match[i];
+    const m = match[i];
     if (b.kind === 'lit' && m !== '-' && Number(m) !== b.value && b.origin !== 'llvm') fail(`${name}: bit ${bits.length - 1 - i} is ${b.value}, the Unified Database's ${m}`);
     // aq / rl: the UDB spells each of their values as an instruction of its own, as LLVM does
     if (b.kind !== 'lit' && b.kind !== 'any' && m !== '-' && !(b.kind === 'field' && SPREAD_FIELDS.includes(b.name))) fail(`${name}: bit ${bits.length - 1 - i} is an operand here, ${m} in the Unified Database`);
@@ -432,20 +439,102 @@ function checkUdb({ name, bits, udb }) {
   return true;
 }
 
+// ---------------------------------------------------------------- the overlay of a base
+
+// RV32's overlay as it is; RV64's is RV32's changed by rv64gc.json:
+//   - rows of instructions only RV32 has (LLVM's IsRV32: c.flw, zip, ...) go, and so do the rows `drop` lists (by group
+//     and enc: RV32's HINT and reserved rows that RV64 fills);
+//   - its rows come in: one with `replaces` takes the place of that RV32 row (c.ld where c.flw was; or restates a row
+//     both have, as slli without RV32's cells), one with `after`
+//     follows that row (a def, or the enc of a HINT / reserved row), any other one follows the last row of its group;
+//   - groups, formats, extensions (labels in their order) and register sections are added, by key; unusedOpcodes and
+//     what `replace` names replace RV32's;
+//   - pseudoInstructions: `dropPseudos` ({ name, asm }) go, the others come in after the one named by `after`
+//     ("name asm"), at the end without, or instead of the one with the same name and asm.
+function loadOverlay({ xlen = 32, llvm }) {
+  const base = JSON.parse(readFileSync(OVERLAY('rv32gc.json'), 'utf8'));
+  if (xlen === 32) return base;
+  const delta = JSON.parse(readFileSync(OVERLAY(`rv${xlen}gc.json`), 'utf8'));
+  const otherBase = (def) => (llvm.instructions[def] || { predicates: [] }).predicates.includes(OTHER_BASE[xlen]);
+  const rowKey = (r) => r.def || `${r.group} ${r.enc}`;
+  const dropped = new Set((delta.drop || []).map((d) => `${d.group} ${d.enc}`));
+  const found = new Set();
+  const replaced = {};
+  for (const r of delta.instructions) if (r.replaces) replaced[r.replaces] = r;
+  const rows = [];
+  for (const r of base.instructions) {
+    if (r.def && replaced[r.def]) {
+      // an instruction both have is replaced only by its own row, restated (RV64's slli without RV32's cells)
+      if (!otherBase(r.def) && replaced[r.def].def !== r.def) fail(`rv${xlen}gc.json: ${r.def} is replaced, but RV${xlen} has it`);
+      rows.push(replaced[r.def]);
+      continue;
+    }
+    if (dropped.has(rowKey(r))) {
+      found.add(rowKey(r));
+      continue;
+    }
+    if (r.def && otherBase(r.def)) continue;
+    rows.push(r);
+  }
+  const missing = [...dropped].filter((k) => !found.has(k));
+  if (missing.length) fail(`rv${xlen}gc.json: drop ${missing.join(', ')}: no such row`);
+  for (const r of delta.instructions.filter((x) => !x.replaces)) {
+    let at;
+    if (r.after) at = rows.findIndex((x) => rowKey(x) === r.after || rowKey(x) === `${r.group} ${r.after}`);
+    else at = rows.map((x) => x.group).lastIndexOf(r.group);
+    if (at < 0) fail(`rv${xlen}gc.json: row ${rowKey(r)}: ${r.after ? `no row ${r.after} to follow` : `group ${r.group} has no rows yet: give it after or replaces`}`);
+    rows.splice(at + 1, 0, r);
+  }
+  const strip = ({ replaces, after, ...row }) => row;
+  const pseudoKey = (p) => `${p.name} ${p.asm || ''}`.trim();
+  const dropPseudos = new Set((delta.dropPseudos || []).map(pseudoKey));
+  const pseudos = base.pseudoInstructions.filter((p) => !dropPseudos.has(pseudoKey(p)));
+  for (const p of delta.pseudoInstructions || []) {
+    const same = pseudos.findIndex((x) => pseudoKey(x) === pseudoKey(p));
+    if (same >= 0) pseudos[same] = p;
+    else if (p.after) {
+      const at = pseudos.findIndex((x) => pseudoKey(x) === p.after);
+      if (at < 0) fail(`rv${xlen}gc.json: pseudo-instruction ${pseudoKey(p)}: no ${p.after} to follow`);
+      pseudos.splice(at + 1, 0, p);
+    } else pseudos.push(p);
+  }
+  const extensions = [...base.extensions.filter((e) => e !== 'PSEUDO'), ...(delta.extensions || []).filter((e) => !base.extensions.includes(e)), 'PSEUDO'];
+  const sections = (delta.registers || {}).sections || [];
+  // a register section with `replaces` (a title of RV32's) takes its place, the others come at the end
+  for (const s of sections.filter((d) => d.replaces && !base.registers.sections.some((b) => b.title === d.replaces))) fail(`rv${xlen}gc.json: register section ${s.replaces}: no such section`);
+  const registerSections = base.registers.sections.map((s) => {
+    const d = sections.find((x) => x.replaces === s.title);
+    if (!d) return s;
+    const { replaces, ...rest } = d;
+    return rest;
+  });
+  for (const s of sections.filter((d) => !d.replaces)) registerSections.push(s);
+  return {
+    ...base,
+    formats: { ...base.formats, ...(delta.formats || {}) },
+    groups: { ...base.groups, ...(delta.groups || {}) },
+    extensions,
+    instructions: rows.map(strip),
+    unusedOpcodes: delta.unusedOpcodes || base.unusedOpcodes,
+    pseudoInstructions: pseudos.map(({ after, ...p }) => p),
+    registers: { ...base.registers, sections: registerSections },
+  };
+}
+
 // ---------------------------------------------------------------- generator
 
 // draft: return every instruction after pairing, before the overlay places them (for drafting the overlay's rows).
-export function generate({ draft = false } = {}) {
-  const overlay = JSON.parse(readFileSync(join(ROOT, 'src', 'isa', 'overlay', 'rv32gc.json'), 'utf8'));
+export function generate({ xlen = 32, draft = false } = {}) {
   const llvm = JSON.parse(readFileSync(join(ROOT, 'spec', 'llvm', 'RISCV.json'), 'utf8'));
+  const overlay = loadOverlay({ xlen, llvm });
   const udb = JSON.parse(readFileSync(join(ROOT, 'spec', 'udb', 'instructions.json'), 'utf8')).instructions;
   const sail = readSail({ files: SAIL_FILES });
-  const instances = sailInstructions({ sail, config: CONFIG, exclude: EXCLUDE_SAIL });
+  const instances = sailInstructions({ sail, config: CONFIG(xlen), exclude: EXCLUDE_SAIL });
   for (const s of instances) {
     const clause = sail.clauses.find((c) => c.ctor === s.ctor && (c.kind === 'encdec' || c.kind === 'encdec_compressed'));
     s.extensions = [...new Set([clause.when, clause.lhsGuard, clause.rhsGuard].filter(Boolean).join(' ').match(/Ext_\w+/g) || [])].map((e) => e.slice(4));
   }
-  const { pairs, llvmOnly, unpaired } = pair({ sail: instances, llvm });
+  const { pairs, llvmOnly, unpaired } = pair({ sail: instances, llvm, xlen });
 
   // 2. instructions by LLVM name
   const byDef = {};
@@ -462,12 +551,12 @@ export function generate({ draft = false } = {}) {
       if (!lv || b.kind === 'lit') return;
       entry.keyOf[lv.var] = b.kind === 'reg' ? b.name.split('/')[0] : b.kind === 'imm' ? 'imm' : b.name;
     });
-    if (checkUdb({ name: entry.mnemonic, bits: entry.bits, udb })) udbChecked++;
+    if (checkUdb({ name: entry.mnemonic, bits: entry.bits, udb, xlen })) udbChecked++;
     else if (!e.sail) fail(`${e.name}: only LLVM has it, and the Unified Database does not (a second source is needed)`);
     byDef[e.name] = entry;
   }
 
-  if (draft) return { byDef, unpaired, llvm };
+  if (draft) return { byDef, unpaired, llvm, overlay };
 
   // 3. the overlay's rows, in its order (the decoder breaks ties by it)
   const instructions = [];
@@ -511,6 +600,8 @@ export function generate({ draft = false } = {}) {
     let nonZero = false;
     for (const c of entry.sail ? entry.sail.constraints : []) {
       if (c.kind === 'oneOf') continue; // the register class says the same (sspush: ra or t0)
+      // a field's bound (aes64ks1i's rnum <= 0xA) is its operand's exclude in the module (src/isa/rv64gc.mjs operands)
+      if (c.kind === 'below' && entry.bits.some((x) => x.kind === 'field' && x.name === (FIELD_NAMES[c.name] || c.name))) continue;
       // an operand LLVM spells as instructions of their own (sh1add ... sh3add) is fixed already
       if (!entry.bits.some((x) => x.sail === c.name) && entry.bits.some((x) => x.kind === 'lit' && x.operand === c.name)) continue;
       const b = entry.bits.find((x) => x.sail === c.name) || fail(`${name}: constraint on ${c.name}`);
@@ -521,6 +612,13 @@ export function generate({ draft = false } = {}) {
       if (c.kind !== 'imm') (excludes[c.key] ||= new Set()).add(c.value);
       else if (c.value === 0) nonZero = true;
       else fail(`${name}: a row takes immediate ${c.value} away`);
+    }
+    // a plain class's restriction (GPRNoX0) that neither Sail nor a HINT / reserved row says: LLVM's (ssrdp's rd != 0)
+    for (const b of bits.filter((x) => x.kind === 'reg' && !x.compressed && x.llvmClass)) {
+      const regClass = regClassOf({ llvm, cls: b.llvmClass });
+      if (!regClass || !PLAIN_CLASSES.test(regClass) || !llvm.registerClasses[regClass]) continue;
+      const members = new Set(llvm.registerClasses[regClass]);
+      for (let n = 0; n < 32; n++) if (!members.has(n)) (excludes[b.name] ||= new Set()).add(n);
     }
     const ex = Object.fromEntries(Object.entries(excludes).map(([k, v]) => [k, [...v].sort((a, b) => a - b)]));
     // the immediate's name: shamt stays shamt; otherwise imm, u for unsigned, nz for non-zero
@@ -546,6 +644,8 @@ export function generate({ draft = false } = {}) {
     if (rmDefault !== null) inst.rmDefault = rmDefault;
     if (immName === 'shamt' && nonZero) inst.nonZeroImm = true;
     if (immMin !== null) inst.immMin = immMin;
+    // two fields that cannot be the same (cm.mvsa01's r1s and r2s: the spec reserves r1s' = r2s')
+    if (row.distinct) inst.distinct = row.distinct;
     if (row.expands) inst.expands = row.expands;
     inst.description = row.description;
     inst.pseudocode = row.pseudocode;
@@ -556,7 +656,7 @@ export function generate({ draft = false } = {}) {
   const leftover = unpaired.filter((u) => !usedSail.has(u));
   if (leftover.length) fail(`Sail encodings without an LLVM instruction or overlay row: ${leftover.map((u) => u.key).join(', ')}`);
 
-  // 4. unused major opcodes: what no 32 bit instruction of RV32GC uses (the sheets drop those other extensions take)
+  // 4. unused major opcodes: what no 32 bit instruction of RV32GC / RV64GC uses (the sheets drop those other extensions take)
   const gc = new Set(['I', 'M', 'A', 'F', 'D', 'Zicsr', 'Zifencei']);
   const usedOpcodes = new Set(Object.values(byDef).filter((e) => e.bits.length === 32 && e.extension.split(/\s*\+\s*/).every((part) => part.split(/\s*\/\s*/).some((x) => gc.has(x))))
     .map((e) => e.bits.slice(25).map((b) => (b.kind === 'lit' ? b.value : '?')).join('')));
@@ -566,12 +666,12 @@ export function generate({ draft = false } = {}) {
     if (!usedOpcodes.has(bits)) unused.push(bits);
   }
   const listed = overlay.unusedOpcodes.map((u) => u.opcode).sort();
-  if (JSON.stringify(listed) !== JSON.stringify(unused.sort())) fail(`unused opcodes: RV32GC leaves ${unused.join(' ')}, the overlay lists ${listed.join(' ')}`);
+  if (JSON.stringify(listed) !== JSON.stringify(unused.sort())) fail(`unused opcodes: RV${xlen}GC leaves ${unused.join(' ')}, the overlay lists ${listed.join(' ')}`);
 
   // 5. pseudo-instructions: LLVM's aliases where it has them, the overlay's expansion otherwise
   const byLlvmName = Object.fromEntries(Object.entries(byDef).map(([n, e]) => [n, { ...e, name: e.mnemonic }]));
   const pseudoInstructions = overlay.pseudoInstructions.map((p) => {
-    const fromAlias = pseudoFromAlias({ pseudo: p, llvm, byLlvmName });
+    const fromAlias = pseudoFromAlias({ pseudo: p, llvm, byLlvmName, xlen });
     const { description, ...rest } = p;
     // li: the overlay has the long expansion (lui + addi), LLVM's alias is the short one (`short: true`)
     if (p.short === true) {
@@ -586,14 +686,19 @@ export function generate({ draft = false } = {}) {
     return { ...rest, expands: fromAlias || p.expands, description };
   });
 
-  return { formats: overlay.formats, sections: overlay.sections, extensions: overlay.extensions, groups: overlay.groups, instructions, registers: registers({ overlay, llvm }),
+  // groups the other base's rows leave empty (RV32's c.flw on RV64) go
+  const usedGroups = new Set(instructions.map((i) => i.group));
+  const groups = Object.fromEntries(Object.entries(overlay.groups).filter(([key]) => usedGroups.has(key)));
+  const shownExtensions = new Set(instructions.map((i) => i.extension ?? groups[i.group].extension));
+  const extensions = overlay.extensions.filter((e) => e === 'PSEUDO' || shownExtensions.has(e));
+  return { xlen, formats: overlay.formats, sections: overlay.sections, extensions, groups, instructions, registers: registers({ overlay, llvm, xlen }),
     unusedOpcodes: overlay.unusedOpcodes, pseudoInstructions, llvm: llvm.source, udbChecked, byDef };
 }
 
 // The registers sheet: names, ABI names and encodings of the integer and floating-point registers, and the CSRs'
 // addresses, from TableGen; what they are for, and who saves them, from the overlay. A CSR's access follows from its
 // address: bits 11:10 = 11 is read-only, bits 9:8 the lowest privilege that reaches it (U, S, H, M).
-function registers({ overlay, llvm }) {
+function registers({ overlay, llvm, xlen = 32 }) {
   const { x, f, csr, sections } = overlay.registers;
   const file = ({ prefix, about, compressedClass }) => {
     const list = llvm.registers.filter((r) => r.name.startsWith(prefix));
@@ -605,7 +710,7 @@ function registers({ overlay, llvm }) {
       compressed.includes(r.encoding) ? (r.encoding - 8).toString(2).padStart(3, '0') : '—', about[r.name].saver, about[r.name].meaning]);
   };
   const columns = ['Register', 'ABI Name', 'Encoding', "Compressed (')", 'Saver', 'Meaning'];
-  const csrs = Object.entries(csr).map(([name, meaning]) => {
+  const csrs = Object.entries(csr).filter(([name]) => xlen === 32 || !llvm.sysregsRV32Only.includes(name)).map(([name, meaning]) => {
     const address = llvm.sysregs[name] ?? fail(`CSR ${name}: not in LLVM's system operands`);
     const access = `${'USHM'[(address >> 8) & 3]}${(address >> 10) === 3 ? 'RO' : 'RW'}`;
     return [name, `0x${address.toString(16).padStart(3, '0')}`, access, meaning];
@@ -618,14 +723,14 @@ function registers({ overlay, llvm }) {
   ];
 }
 
-export function rv32gcModule({ data = generate() } = {}) {
+export function riscvModule({ xlen = 32, data = generate({ xlen }) } = {}) {
   return moduleText({
-    header: ['Generated by tools/isa/gen-rv32gc.mjs from the Sail model (spec/sail-riscv), LLVM TableGen (spec/llvm/RISCV.json,',
-      `${data.llvm.project} ${data.llvm.revision}), the RISC-V Unified Database (spec/udb) and src/isa/overlay/rv32gc.json.`,
+    header: ['Generated by tools/isa/gen-riscv.mjs from the Sail model (spec/sail-riscv), LLVM TableGen (spec/llvm/RISCV.json,',
+      `${data.llvm.project} ${data.llvm.revision}), the RISC-V Unified Database (spec/udb) and src/isa/overlay/${xlen === 32 ? 'rv32gc.json' : 'rv32gc.json + rv64gc.json'}.`,
       'Do not edit: change those and run npm run isa.'],
     exports: { formats: data.formats, sections: data.sections, extensions: data.extensions, groups: data.groups, instructions: data.instructions,
       unusedOpcodes: data.unusedOpcodes, pseudoInstructions: data.pseudoInstructions, registers: data.registers },
   });
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) writeOrCheck({ out: OUT, text: rv32gcModule() });
+if (process.argv[1] === fileURLToPath(import.meta.url)) for (const xlen of [32, 64]) writeOrCheck({ out: OUT(xlen), text: riscvModule({ xlen }) });

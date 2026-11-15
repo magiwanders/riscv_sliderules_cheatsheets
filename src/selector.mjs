@@ -110,9 +110,9 @@ function _immediateSignature({ inst = {} }) {
   return inst.segments.filter((s) => s.kind === 'imm').map((s) => `${s.hi}:${s.immBits}`).join(' ');
 }
 
-// A major opcode that RV32GC does not use: the rest of the instruction is meaningless.
-function _unusedOpcodeRow({ unused = {} }) {
-  const cells = [cell({ width: 25, classes: 'bit any', text: '– not used in RV32GC –' })];
+// A major opcode that the instruction set (RV32GC, RV64GC_Zba, ...) does not use: the rest of the instruction is meaningless.
+function _unusedOpcodeRow({ codec = null, unused = {} }) {
+  const cells = [cell({ width: 25, classes: 'bit any', text: `– not used in ${codec.spec.name} –` })];
   for (const bit of unused.opcode) cells.push(cell({ classes: 'bit lit-opcode', text: bit }));
   cells.push(
     cell({ width: 4, classes: 'text unused-name', text: unused.name }),
@@ -147,7 +147,7 @@ export function decoderRows({ sheet = null, constraints = [], decoded = null, on
     const sectionRows = [];
     for (const { groupKey, unused } of _orderedItems({ codec, section })) {
       if (unused) {
-        if (_unusedMatches({ unused, constraints })) sectionRows.push(_unusedOpcodeRow({ unused }));
+        if (_unusedMatches({ unused, constraints })) sectionRows.push(_unusedOpcodeRow({ codec, unused }));
         continue;
       }
       const members = compiled.filter((i) => i.groupKey === groupKey && matchesConstraints({ inst: i, constraints }))

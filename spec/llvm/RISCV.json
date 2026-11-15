@@ -134,6 +134,204 @@
     "ALU_ri"
    ]
   },
+  "ADDIW": {
+   "asm": "addiw\t$rd, $rs1, $imm12",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI"
+   ]
+  },
+  "ADDW": {
+   "asm": "addw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
+   ]
+  },
+  "ADD_UW": {
+   "asm": "add.uw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZba",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
+   ]
+  },
   "AES32DSI": {
    "asm": "aes32dsi\t$rd, $rs1, $rs2, $bs",
    "outs": [
@@ -418,6 +616,470 @@
     "RVKByteSelect"
    ]
   },
+  "AES64DS": {
+   "asm": "aes64ds\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZknd",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "AES64DSM": {
+   "asm": "aes64dsm\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZknd",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "AES64ES": {
+   "asm": "aes64es\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZkne",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "AES64ESM": {
+   "asm": "aes64esm\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZkne",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
+  "AES64IM": {
+   "asm": "aes64im\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZknd",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIUnary",
+    "Unary_r"
+   ]
+  },
+  "AES64KS1I": {
+   "asm": "aes64ks1i\t$rd, $rs1, $rnum",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "rnum",
+     "rnum"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rnum{3}",
+    "rnum{2}",
+    "rnum{1}",
+    "rnum{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZkndOrZkne",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVKUnary_rnum"
+   ]
+  },
+  "AES64KS2": {
+   "asm": "aes64ks2\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZkndOrZkne",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALU_rr"
+   ]
+  },
   "AMOADD_B": {
    "asm": "amoadd.b\t$rd, $rs2, $rs1",
    "outs": [
@@ -472,6 +1134,73 @@
    ],
    "predicates": [
     "HasStdExtZabha"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOADD_D": {
+   "asm": "amoadd.d\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -670,6 +1399,73 @@
    ],
    "predicates": [
     "HasStdExtZabha"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOAND_D": {
+   "asm": "amoand.d\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -956,6 +1752,77 @@
     "AMO_cas"
    ]
   },
+  "AMOCAS_D_RV64": {
+   "asm": "amocas.d\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rd"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZacas",
+    "IsRV64"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_cas"
+   ]
+  },
   "AMOCAS_H": {
    "asm": "amocas.h\t$rd, $rs2, $rs1",
    "outs": [
@@ -1015,6 +1882,77 @@
    "predicates": [
     "HasStdExtZabha",
     "HasStdExtZacas"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_cas"
+   ]
+  },
+  "AMOCAS_Q": {
+   "asm": "amocas.q\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPRPairRV64",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRPairRV64",
+     "rd"
+    ],
+    [
+     "GPRPairRV64",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZacas",
+    "IsRV64"
    ],
    "constraints": "$rd = $rd_wb",
    "format": "InstFormatR",
@@ -1151,6 +2089,73 @@
    ],
    "predicates": [
     "HasStdExtZabha"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOMAXU_D": {
+   "asm": "amomaxu.d\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -1361,6 +2366,73 @@
     "AMO_rr"
    ]
   },
+  "AMOMAX_D": {
+   "asm": "amomax.d\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
   "AMOMAX_H": {
    "asm": "amomax.h\t$rd, $rs2, $rs1",
    "outs": [
@@ -1547,6 +2619,73 @@
    ],
    "predicates": [
     "HasStdExtZabha"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOMINU_D": {
+   "asm": "amominu.d\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -1757,6 +2896,73 @@
     "AMO_rr"
    ]
   },
+  "AMOMIN_D": {
+   "asm": "amomin.d\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
   "AMOMIN_H": {
    "asm": "amomin.h\t$rd, $rs2, $rs1",
    "outs": [
@@ -1943,6 +3149,73 @@
    ],
    "predicates": [
     "HasStdExtZabha"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOOR_D": {
+   "asm": "amoor.d\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -2153,6 +3426,73 @@
     "AMO_rr"
    ]
   },
+  "AMOSWAP_D": {
+   "asm": "amoswap.d\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
   "AMOSWAP_H": {
    "asm": "amoswap.h\t$rd, $rs2, $rs1",
    "outs": [
@@ -2339,6 +3679,73 @@
    ],
    "predicates": [
     "HasStdExtZabha"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
+   ]
+  },
+  "AMOXOR_D": {
+   "asm": "amoxor.d\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZaamo",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -4185,6 +5592,69 @@
     "Unary_r"
    ]
   },
+  "CLZW": {
+   "asm": "clzw\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZbb",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIUnary",
+    "UnaryW_r"
+   ]
+  },
   "CM_JALT": {
    "asm": "cm.jalt\t$index",
    "outs": [],
@@ -4581,6 +6051,69 @@
     "RVInstIBase",
     "RVInstIUnary",
     "Unary_r"
+   ]
+  },
+  "CPOPW": {
+   "asm": "cpopw\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZbb",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIUnary",
+    "UnaryW_r"
    ]
   },
   "CSRRC": {
@@ -5029,6 +6562,69 @@
     "Unary_r"
    ]
   },
+  "CTZW": {
+   "asm": "ctzw\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZbb",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIUnary",
+    "UnaryW_r"
+   ]
+  },
   "CZERO_EQZ": {
    "asm": "czero.eqz\t$rd, $rs1, $rs2",
    "outs": [
@@ -5351,6 +6947,105 @@
     "RVInstCommon",
     "RVInst16",
     "RVInst16CIW"
+   ]
+  },
+  "C_ADDIW": {
+   "asm": "c.addiw\t$rd, $imm",
+   "outs": [
+    [
+     "GPRNoX0",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRNoX0",
+     "rd"
+    ],
+    [
+     "simm6",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "imm{5}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "imm{4}",
+    "imm{3}",
+    "imm{2}",
+    "imm{1}",
+    "imm{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca",
+    "IsRV64"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatCI",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CI"
+   ]
+  },
+  "C_ADDW": {
+   "asm": "c.addw\t$rd, $rs2",
+   "outs": [
+    [
+     "GPRC",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRC",
+     "rd"
+    ],
+    [
+     "GPRC",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca",
+    "IsRV64"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatCA",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CA",
+    "CA_ALU"
    ]
   },
   "C_AND": {
@@ -6168,6 +7863,106 @@
     "RVInst16",
     "RVInst16CLB",
     "CLoadB_ri"
+   ]
+  },
+  "C_LD": {
+   "asm": "c.ld\t$rd, ${imm}(${rs1})",
+   "outs": [
+    [
+     "GPRC",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtrC",
+     "rs1"
+    ],
+    [
+     "uimm8_lsb000",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{7}",
+    "imm{6}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatCL",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CL",
+    "CLoad_ri"
+   ]
+  },
+  "C_LDSP": {
+   "asm": "c.ldsp\t$rd, ${imm}(${rs1})",
+   "outs": [
+    [
+     "GPRNoX0",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "SPMem",
+     "rs1"
+    ],
+    [
+     "uimm9_lsb000",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "imm{5}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "imm{4}",
+    "imm{3}",
+    "imm{8}",
+    "imm{7}",
+    "imm{6}",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatCI",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CI",
+    "CStackLoad"
    ]
   },
   "C_LDSP_RV32": {
@@ -7073,6 +8868,104 @@
     "CStoreB_rri"
    ]
   },
+  "C_SD": {
+   "asm": "c.sd\t$rs2, ${imm}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "GPRC",
+     "rs2"
+    ],
+    [
+     "BasePtrC",
+     "rs1"
+    ],
+    [
+     "uimm8_lsb000",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "imm{7}",
+    "imm{6}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatCS",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CS",
+    "CStore_rri"
+   ]
+  },
+  "C_SDSP": {
+   "asm": "c.sdsp\t$rs2, ${imm}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "SPMem",
+     "rs1"
+    ],
+    [
+     "uimm9_lsb000",
+     "imm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "imm{5}",
+    "imm{4}",
+    "imm{3}",
+    "imm{8}",
+    "imm{7}",
+    "imm{6}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdExtZca",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatCSS",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CSS",
+    "CStackStore"
+   ]
+  },
   "C_SDSP_RV32": {
    "asm": "c.sdsp\t$rs2, ${imm}(${rs1})",
    "outs": [],
@@ -7584,6 +9477,56 @@
     "CA_ALU"
    ]
   },
+  "C_SUBW": {
+   "asm": "c.subw\t$rd, $rs2",
+   "outs": [
+    [
+     "GPRC",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRC",
+     "rd"
+    ],
+    [
+     "GPRC",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZca",
+    "IsRV64"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatCA",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CA",
+    "CA_ALU"
+   ]
+  },
   "C_SW": {
    "asm": "c.sw\t$rs2, ${imm}(${rs1})",
    "outs": [],
@@ -7853,6 +9796,53 @@
     "RVZcArith_r"
    ]
   },
+  "C_ZEXT_W": {
+   "asm": "c.zext.w\t$rd",
+   "outs": [
+    [
+     "GPRC",
+     "rd_wb"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRC",
+     "rd"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZcb",
+    "HasStdExtZba",
+    "IsRV64"
+   ],
+   "constraints": "$rd = $rd_wb",
+   "format": "InstFormatCU",
+   "size": 2,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst16",
+    "RVInst16CU",
+    "RVZcArith_r"
+   ]
+  },
   "DIV": {
    "asm": "div\t$rd, $rs1, $rs2",
    "outs": [
@@ -7983,6 +9973,140 @@
     "RVInstRBase",
     "RVInstR",
     "ALU_rr"
+   ]
+  },
+  "DIVUW": {
+   "asm": "divuw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtM",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
+   ]
+  },
+  "DIVW": {
+   "asm": "divw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtM",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
    ]
   },
   "DRET": {
@@ -8261,6 +10385,76 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPALU_rr_frm"
+   ]
+  },
+  "FADD_D_INX": {
+   "asm": "fadd.d\t$rd, $rs1, $rs2$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -8730,6 +10924,69 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPUnaryOp_r"
+   ]
+  },
+  "FCLASS_D_INX": {
+   "asm": "fclass.d\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -9316,6 +11573,339 @@
     "FPUnaryOp_r_frmlegacy"
    ]
   },
+  "FCVT_D_H_INX": {
+   "asm": "fcvt.d.h\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR16INX",
+     "rs1"
+    ],
+    [
+     "frmarglegacy",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZhinxmin",
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frmlegacy"
+   ]
+  },
+  "FCVT_D_L": {
+   "asm": "fcvt.d.l\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_D_LU": {
+   "asm": "fcvt.d.lu\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_D_LU_INX": {
+   "asm": "fcvt.d.lu\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_D_L_INX": {
+   "asm": "fcvt.d.l\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
   "FCVT_D_Q": {
    "asm": "fcvt.d.q\t$rd, $rs1$frm",
    "outs": [
@@ -9501,6 +12091,72 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frmlegacy"
+   ]
+  },
+  "FCVT_D_S_INX": {
+   "asm": "fcvt.d.s\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32INX",
+     "rs1"
+    ],
+    [
+     "frmarglegacy",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -9708,6 +12364,72 @@
     "FPUnaryOp_r_frmlegacy"
    ]
   },
+  "FCVT_D_WU_INX": {
+   "asm": "fcvt.d.wu\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarglegacy",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frmlegacy"
+   ]
+  },
   "FCVT_D_W_IN32X": {
    "asm": "fcvt.d.w\t$rd, $rs1$frm",
    "outs": [
@@ -9763,6 +12485,72 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frmlegacy"
+   ]
+  },
+  "FCVT_D_W_INX": {
+   "asm": "fcvt.d.w\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarglegacy",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -9896,6 +12684,337 @@
     "HasStdExtZhinxmin",
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_H_D_INX": {
+   "asm": "fcvt.h.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR16INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZhinxmin",
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_H_L": {
+   "asm": "fcvt.h.l\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR16",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZfh",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_H_LU": {
+   "asm": "fcvt.h.lu\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR16",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZfh",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_H_LU_INX": {
+   "asm": "fcvt.h.lu\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR16INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZhinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_H_L_INX": {
+   "asm": "fcvt.h.l\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR16INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZhinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -10297,6 +13416,932 @@
     "FPUnaryOp_r_frm"
    ]
   },
+  "FCVT_LU_D": {
+   "asm": "fcvt.lu.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_LU_D_INX": {
+   "asm": "fcvt.lu.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_LU_H": {
+   "asm": "fcvt.lu.h\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR16",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZfh",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_LU_H_INX": {
+   "asm": "fcvt.lu.h\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR16INX",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZhinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_LU_Q": {
+   "asm": "fcvt.lu.q\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR128",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtQ",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_LU_S": {
+   "asm": "fcvt.lu.s\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_LU_S_INX": {
+   "asm": "fcvt.lu.s\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32INX",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZfinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_L_D": {
+   "asm": "fcvt.l.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_L_D_INX": {
+   "asm": "fcvt.l.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_L_H": {
+   "asm": "fcvt.l.h\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR16",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZfh",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_L_H_INX": {
+   "asm": "fcvt.l.h\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR16INX",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZhinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_L_Q": {
+   "asm": "fcvt.l.q\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR128",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtQ",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_L_S": {
+   "asm": "fcvt.l.s\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_L_S_INX": {
+   "asm": "fcvt.l.s\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR32INX",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZfinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
   "FCVT_Q_D": {
    "asm": "fcvt.q.d\t$rd, $rs1$frm",
    "outs": [
@@ -10351,6 +14396,138 @@
    ],
    "predicates": [
     "HasStdExtQ"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frmlegacy"
+   ]
+  },
+  "FCVT_Q_L": {
+   "asm": "fcvt.q.l\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR128",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarglegacy",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtQ",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frmlegacy"
+   ]
+  },
+  "FCVT_Q_LU": {
+   "asm": "fcvt.q.lu\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR128",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarglegacy",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtQ",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -10753,6 +14930,72 @@
     "FPUnaryOp_r_frm"
    ]
   },
+  "FCVT_S_D_INX": {
+   "asm": "fcvt.s.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR32INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
   "FCVT_S_H": {
    "asm": "fcvt.s.h\t$rd, $rs1$frm",
    "outs": [
@@ -10881,6 +15124,270 @@
     "RVInst",
     "RVInstRFrm",
     "FPUnaryOp_r_frmlegacy"
+   ]
+  },
+  "FCVT_S_L": {
+   "asm": "fcvt.s.l\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_S_LU": {
+   "asm": "fcvt.s.lu\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR32",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtF",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_S_LU_INX": {
+   "asm": "fcvt.s.lu\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR32INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZfinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_S_L_INX": {
+   "asm": "fcvt.s.l\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR32INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZfinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
    ]
   },
   "FCVT_S_Q": {
@@ -11328,6 +15835,72 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
+  "FCVT_WU_D_INX": {
+   "asm": "fcvt.wu.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -11795,6 +16368,72 @@
     "FPUnaryOp_r_frm"
    ]
   },
+  "FCVT_W_D_INX": {
+   "asm": "fcvt.w.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
   "FCVT_W_H": {
    "asm": "fcvt.w.h\t$rd, $rs1$frm",
    "outs": [
@@ -12248,6 +16887,76 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPALU_rr_frm"
+   ]
+  },
+  "FDIV_D_INX": {
+   "asm": "fdiv.d\t$rd, $rs1, $rs2$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -12881,6 +17590,73 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPCmp_rr"
+   ]
+  },
+  "FEQ_D_INX": {
+   "asm": "feq.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -13677,6 +18453,73 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPCmp_rr"
+   ]
+  },
+  "FLE_D_INX": {
+   "asm": "fle.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -14802,6 +19645,73 @@
     "FPCmp_rr"
    ]
   },
+  "FLT_D_INX": {
+   "asm": "flt.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPCmp_rr"
+   ]
+  },
   "FLT_H": {
    "asm": "flt.h\t$rd, $rs1, $rs2",
    "outs": [
@@ -15334,6 +20244,80 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR4",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstR4Frm",
+    "FPFMA_rrr_frm"
+   ]
+  },
+  "FMADD_D_INX": {
+   "asm": "fmadd.d\t$rd, $rs1, $rs2, $rs3$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ],
+    [
+     "FPR64INX",
+     "rs3"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "rs3{4}",
+    "rs3{3}",
+    "rs3{2}",
+    "rs3{1}",
+    "rs3{0}",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR4",
@@ -16110,6 +21094,73 @@
     "FPALU_rr"
    ]
   },
+  "FMAX_D_INX": {
+   "asm": "fmax.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
   "FMAX_H": {
    "asm": "fmax.h\t$rd, $rs1, $rs2",
    "outs": [
@@ -16840,6 +21891,73 @@
     "FPALU_rr"
    ]
   },
+  "FMIN_D_INX": {
+   "asm": "fmin.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
   "FMIN_H": {
    "asm": "fmin.h\t$rd, $rs1, $rs2",
    "outs": [
@@ -17306,6 +22424,80 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR4",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstR4Frm",
+    "FPFMA_rrr_frm"
+   ]
+  },
+  "FMSUB_D_INX": {
+   "asm": "fmsub.d\t$rd, $rs1, $rs2, $rs3$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ],
+    [
+     "FPR64INX",
+     "rs3"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "rs3{4}",
+    "rs3{3}",
+    "rs3{2}",
+    "rs3{1}",
+    "rs3{0}",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR4",
@@ -17821,6 +23013,76 @@
     "FPALU_rr_frm"
    ]
   },
+  "FMUL_D_INX": {
+   "asm": "fmul.d\t$rd, $rs1, $rs2$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPALU_rr_frm"
+   ]
+  },
   "FMUL_H": {
    "asm": "fmul.h\t$rd, $rs1, $rs2$frm",
    "outs": [
@@ -18230,6 +23492,70 @@
     "FPUnaryOp_r"
    ]
   },
+  "FMVH_X_Q": {
+   "asm": "fmvh.x.q\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR128",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZfa",
+    "HasStdExtQ",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPUnaryOp_r"
+   ]
+  },
   "FMVP_D_X": {
    "asm": "fmvp.d.x\t$rd, $rs1, $rs2",
    "outs": [
@@ -18296,6 +23622,137 @@
     "RVInstRBase",
     "RVInstR",
     "FPBinaryOp_rr"
+   ]
+  },
+  "FMVP_Q_X": {
+   "asm": "fmvp.q.x\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR128",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZfa",
+    "HasStdExtQ",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPBinaryOp_rr"
+   ]
+  },
+  "FMV_D_X": {
+   "asm": "fmv.d.x\t$rd, $rs1",
+   "outs": [
+    [
+     "FPR64",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPUnaryOp_r"
    ]
   },
   "FMV_H_X": {
@@ -18410,6 +23867,69 @@
    ],
    "predicates": [
     "HasStdExtF"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPUnaryOp_r"
+   ]
+  },
+  "FMV_X_D": {
+   "asm": "fmv.x.d\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtD",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -18682,6 +24202,80 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR4",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstR4Frm",
+    "FPFMA_rrr_frm"
+   ]
+  },
+  "FNMADD_D_INX": {
+   "asm": "fnmadd.d\t$rd, $rs1, $rs2, $rs3$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ],
+    [
+     "FPR64INX",
+     "rs3"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "rs3{4}",
+    "rs3{3}",
+    "rs3{2}",
+    "rs3{1}",
+    "rs3{0}",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR4",
@@ -19194,6 +24788,80 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR4",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstR4Frm",
+    "FPFMA_rrr_frm"
+   ]
+  },
+  "FNMSUB_D_INX": {
+   "asm": "fnmsub.d\t$rd, $rs1, $rs2, $rs3$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ],
+    [
+     "FPR64INX",
+     "rs3"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "rs3{4}",
+    "rs3{3}",
+    "rs3{2}",
+    "rs3{1}",
+    "rs3{0}",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR4",
@@ -20293,6 +25961,73 @@
     "FPALU_rr"
    ]
   },
+  "FSGNJN_D_INX": {
+   "asm": "fsgnjn.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
   "FSGNJN_H": {
    "asm": "fsgnjn.h\t$rd, $rs1, $rs2",
    "outs": [
@@ -20756,6 +26491,73 @@
     "FPALU_rr"
    ]
   },
+  "FSGNJX_D_INX": {
+   "asm": "fsgnjx.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
   "FSGNJX_H": {
    "asm": "fsgnjx.h\t$rd, $rs1, $rs2",
    "outs": [
@@ -21207,6 +27009,73 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "FPALU_rr"
+   ]
+  },
+  "FSGNJ_D_INX": {
+   "asm": "fsgnj.d\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -21808,6 +27677,72 @@
     "FPUnaryOp_r_frm"
    ]
   },
+  "FSQRT_D_INX": {
+   "asm": "fsqrt.d\t$rd, $rs1$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPUnaryOp_r_frm"
+   ]
+  },
   "FSQRT_H": {
    "asm": "fsqrt.h\t$rd, $rs1$frm",
    "outs": [
@@ -22261,6 +28196,76 @@
    "predicates": [
     "HasStdExtZdinx",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRFrm",
+    "FPALU_rr_frm"
+   ]
+  },
+  "FSUB_D_INX": {
+   "asm": "fsub.d\t$rd, $rs1, $rs2$frm",
+   "outs": [
+    [
+     "FPR64INX",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "FPR64INX",
+     "rs1"
+    ],
+    [
+     "FPR64INX",
+     "rs2"
+    ],
+    [
+     "frmarg",
+     "frm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "frm{2}",
+    "frm{1}",
+    "frm{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatR",
@@ -23173,6 +29178,69 @@
     "HLoad_r"
    ]
   },
+  "HLV_D": {
+   "asm": "hlv.d\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64",
+    "HasStdExtH"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "HLoad_r"
+   ]
+  },
   "HLV_H": {
    "asm": "hlv.h\t$rd, $rs1",
    "outs": [
@@ -23359,6 +29427,69 @@
     "HLoad_r"
    ]
   },
+  "HLV_WU": {
+   "asm": "hlv.wu\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64",
+    "HasStdExtH"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "HLoad_r"
+   ]
+  },
   "HSV_B": {
    "asm": "hsv.b\t$rs2, $rs1",
    "outs": [],
@@ -23407,6 +29538,68 @@
     "1"
    ],
    "predicates": [
+    "HasStdExtH"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "HStore_rr"
+   ]
+  },
+  "HSV_D": {
+   "asm": "hsv.d\t$rs2, $rs1",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64",
     "HasStdExtH"
    ],
    "constraints": "",
@@ -23791,6 +29984,72 @@
     "Load_ri"
    ]
   },
+  "LD": {
+   "asm": "ld\t$rd, ${imm12}(${rs1})",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "Load_ri"
+   ]
+  },
   "LD_RV32": {
    "asm": "ld\t$rd, ${imm12}(${rs1})",
    "outs": [
@@ -23986,6 +30245,69 @@
     "Load_ri"
    ]
   },
+  "LR_D": {
+   "asm": "lr.d\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZalrsc",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "LR_r"
+   ]
+  },
   "LR_W": {
    "asm": "lr.w\t$rd, $rs1",
    "outs": [
@@ -24159,6 +30481,72 @@
     "1"
    ],
    "predicates": [],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstI",
+    "Load_ri"
+   ]
+  },
+  "LWU": {
+   "asm": "lwu\t$rd, ${imm12}(${rs1})",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
    "constraints": "",
    "format": "InstFormatI",
    "size": 4,
@@ -27312,6 +33700,73 @@
     "ALU_rr"
    ]
   },
+  "MULW": {
+   "asm": "mulw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZmmul",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
+   ]
+  },
   "OR": {
    "asm": "or\t$rd, $rs1, $rs2",
    "outs": [
@@ -27700,6 +34155,73 @@
     "ALU_rr"
    ]
   },
+  "PACKW": {
+   "asm": "packw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZbkb",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
+   ]
+  },
   "PREFETCH_I": {
    "asm": "prefetch.i\t${imm12}(${rs1})",
    "outs": [],
@@ -28006,6 +34528,140 @@
     "ALU_rr"
    ]
   },
+  "REMUW": {
+   "asm": "remuw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtM",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
+   ]
+  },
+  "REMW": {
+   "asm": "remw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtM",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
+   ]
+  },
   "REV8_RV32": {
    "asm": "rev8\t$rd, $rs1",
    "outs": [
@@ -28057,6 +34713,69 @@
    "predicates": [
     "HasStdExtZbbOrZbkb",
     "IsRV32"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIUnary",
+    "Unary_r"
+   ]
+  },
+  "REV8_RV64": {
+   "asm": "rev8\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZbbOrZbkb",
+    "IsRV64"
    ],
    "constraints": "",
    "format": "InstFormatI",
@@ -28133,6 +34852,73 @@
     "RVInstRBase",
     "RVInstR",
     "ALU_rr"
+   ]
+  },
+  "ROLW": {
+   "asm": "rolw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZbbOrZbkb",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
    ]
   },
   "ROR": {
@@ -28267,6 +35053,140 @@
     "Shift_ri"
    ]
   },
+  "RORIW": {
+   "asm": "roriw\t$rd, $rs1, $shamt",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "uimm5",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZbbOrZbkb",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIShiftW",
+    "ShiftW_ri"
+   ]
+  },
+  "RORW": {
+   "asm": "rorw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZbbOrZbkb",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
+   ]
+  },
   "SB": {
    "asm": "sb\t$rs2, ${imm12}(${rs1})",
    "outs": [],
@@ -28327,6 +35247,73 @@
     "RVInst",
     "RVInstS",
     "Store_rri"
+   ]
+  },
+  "SC_D": {
+   "asm": "sc.d\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZalrsc",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "SC_r"
    ]
   },
   "SC_W": {
@@ -28393,6 +35380,70 @@
     "RVInstRBase",
     "RVInstRAtomic",
     "SC_r"
+   ]
+  },
+  "SD": {
+   "asm": "sd\t$rs2, ${imm12}(${rs1})",
+   "outs": [],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "BasePtr",
+     "rs1"
+    ],
+    [
+     "simm12_lo",
+     "imm12"
+    ]
+   ],
+   "inst": [
+    "imm12{11}",
+    "imm12{10}",
+    "imm12{9}",
+    "imm12{8}",
+    "imm12{7}",
+    "imm12{6}",
+    "imm12{5}",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "imm12{4}",
+    "imm12{3}",
+    "imm12{2}",
+    "imm12{1}",
+    "imm12{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatS",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstS",
+    "Store_rri"
    ]
   },
   "SD_RV32": {
@@ -28875,6 +35926,73 @@
     "ALU_rr"
    ]
   },
+  "SH1ADD_UW": {
+   "asm": "sh1add.uw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZba",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
+   ]
+  },
   "SH2ADD": {
    "asm": "sh2add\t$rd, $rs1, $rs2",
    "outs": [
@@ -28941,6 +36059,73 @@
     "ALU_rr"
    ]
   },
+  "SH2ADD_UW": {
+   "asm": "sh2add.uw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZba",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
+   ]
+  },
   "SH3ADD": {
    "asm": "sh3add\t$rd, $rs1, $rs2",
    "outs": [
@@ -29005,6 +36190,73 @@
     "RVInstRBase",
     "RVInstR",
     "ALU_rr"
+   ]
+  },
+  "SH3ADD_UW": {
+   "asm": "sh3add.uw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZba",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
    ]
   },
   "SHA256SIG0": {
@@ -29255,6 +36507,69 @@
     "Unary_r"
    ]
   },
+  "SHA512SIG0": {
+   "asm": "sha512sig0\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZknh",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIUnary",
+    "Unary_r"
+   ]
+  },
   "SHA512SIG0H": {
    "asm": "sha512sig0h\t$rd, $rs1, $rs2",
    "outs": [
@@ -29387,6 +36702,69 @@
     "RVInstRBase",
     "RVInstR",
     "ALU_rr"
+   ]
+  },
+  "SHA512SIG1": {
+   "asm": "sha512sig1\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZknh",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIUnary",
+    "Unary_r"
    ]
   },
   "SHA512SIG1H": {
@@ -29523,6 +36901,69 @@
     "ALU_rr"
    ]
   },
+  "SHA512SUM0": {
+   "asm": "sha512sum0\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZknh",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIUnary",
+    "Unary_r"
+   ]
+  },
   "SHA512SUM0R": {
    "asm": "sha512sum0r\t$rd, $rs1, $rs2",
    "outs": [
@@ -29588,6 +37029,69 @@
     "RVInstRBase",
     "RVInstR",
     "ALU_rr"
+   ]
+  },
+  "SHA512SUM1": {
+   "asm": "sha512sum1\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZknh",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIUnary",
+    "Unary_r"
    ]
   },
   "SHA512SUM1R": {
@@ -29844,6 +37348,205 @@
     "RVInstIBase",
     "RVInstIShift",
     "Shift_ri"
+   ]
+  },
+  "SLLIW": {
+   "asm": "slliw\t$rd, $rs1, $shamt",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "uimm5",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIShiftW",
+    "ShiftW_ri"
+   ]
+  },
+  "SLLI_UW": {
+   "asm": "slli.uw\t$rd, $rs1, $shamt",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "uimmlog2xlen",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "shamt{5}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZba",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIShift",
+    "RVBShift_ri"
+   ]
+  },
+  "SLLW": {
+   "asm": "sllw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
    ]
   },
   "SLT": {
@@ -30494,6 +38197,138 @@
     "Shift_ri"
    ]
   },
+  "SRAIW": {
+   "asm": "sraiw\t$rd, $rs1, $shamt",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "uimm5",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIShiftW",
+    "ShiftW_ri"
+   ]
+  },
+  "SRAW": {
+   "asm": "sraw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
+   ]
+  },
   "SRET": {
    "asm": "sret",
    "outs": [],
@@ -30670,6 +38505,205 @@
     "RVInstIBase",
     "RVInstIShift",
     "Shift_ri"
+   ]
+  },
+  "SRLIW": {
+   "asm": "srliw\t$rd, $rs1, $shamt",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "uimm5",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatI",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstIBase",
+    "RVInstIShiftW",
+    "ShiftW_ri"
+   ]
+  },
+  "SRLW": {
+   "asm": "srlw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
+   ]
+  },
+  "SSAMOSWAP_D": {
+   "asm": "ssamoswap.d\t$rd, $rs2, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs2"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "1",
+    "1",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZicfiss",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstRAtomic",
+    "AMO_rr"
    ]
   },
   "SSAMOSWAP_W": {
@@ -30968,6 +39002,72 @@
     "RVInstRBase",
     "RVInstR",
     "ALU_rr"
+   ]
+  },
+  "SUBW": {
+   "asm": "subw\t$rd, $rs1, $rs2",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ],
+    [
+     "GPR",
+     "rs2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs2{4}",
+    "rs2{3}",
+    "rs2{2}",
+    "rs2{1}",
+    "rs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "ALUW_rr"
    ]
   },
   "SW": {
@@ -43468,6 +51568,81 @@
     "VLXSchedMC"
    ]
   },
+  "VLOXEI64_V": {
+   "asm": "vloxei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64",
+    "HasVInstructionsI64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedLoad",
+    "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VLXSched",
+    "VLXSchedMC"
+   ]
+  },
   "VLOXEI8_V": {
    "asm": "vloxei8.v\t$vd, $rs1, $vs2$vm",
    "outs": [
@@ -43685,6 +51860,80 @@
     "RVInstVLX",
     "VIndexedSegmentLoad",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
+  "VLOXSEG2EI64_V": {
+   "asm": "vloxseg2ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
     "SchedCommon",
     "VLXSEGSched",
     "VLXSEGSchedMC"
@@ -43912,6 +52161,80 @@
     "VLXSEGSchedMC"
    ]
   },
+  "VLOXSEG3EI64_V": {
+   "asm": "vloxseg3ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
   "VLOXSEG3EI8_V": {
    "asm": "vloxseg3ei8.v\t$vd, $rs1, $vs2$vm",
    "outs": [
@@ -44129,6 +52452,80 @@
     "RVInstVLX",
     "VIndexedSegmentLoad",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
+  "VLOXSEG4EI64_V": {
+   "asm": "vloxseg4ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
     "SchedCommon",
     "VLXSEGSched",
     "VLXSEGSchedMC"
@@ -44356,6 +52753,80 @@
     "VLXSEGSchedMC"
    ]
   },
+  "VLOXSEG5EI64_V": {
+   "asm": "vloxseg5ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
   "VLOXSEG5EI8_V": {
    "asm": "vloxseg5ei8.v\t$vd, $rs1, $vs2$vm",
    "outs": [
@@ -44573,6 +53044,80 @@
     "RVInstVLX",
     "VIndexedSegmentLoad",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
+  "VLOXSEG6EI64_V": {
+   "asm": "vloxseg6ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
     "SchedCommon",
     "VLXSEGSched",
     "VLXSEGSchedMC"
@@ -44800,6 +53345,80 @@
     "VLXSEGSchedMC"
    ]
   },
+  "VLOXSEG7EI64_V": {
+   "asm": "vloxseg7ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
   "VLOXSEG7EI8_V": {
    "asm": "vloxseg7ei8.v\t$vd, $rs1, $vs2$vm",
    "outs": [
@@ -45017,6 +53636,80 @@
     "RVInstVLX",
     "VIndexedSegmentLoad",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
+  "VLOXSEG8EI64_V": {
+   "asm": "vloxseg8ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
     "SchedCommon",
     "VLXSEGSched",
     "VLXSEGSchedMC"
@@ -51444,6 +60137,81 @@
     "VLXSchedMC"
    ]
   },
+  "VLUXEI64_V": {
+   "asm": "vluxei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64",
+    "HasVInstructionsI64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedLoad",
+    "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VLXSched",
+    "VLXSchedMC"
+   ]
+  },
   "VLUXEI8_V": {
    "asm": "vluxei8.v\t$vd, $rs1, $vs2$vm",
    "outs": [
@@ -51661,6 +60429,80 @@
     "RVInstVLX",
     "VIndexedSegmentLoad",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
+  "VLUXSEG2EI64_V": {
+   "asm": "vluxseg2ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
     "SchedCommon",
     "VLXSEGSched",
     "VLXSEGSchedMC"
@@ -51888,6 +60730,80 @@
     "VLXSEGSchedMC"
    ]
   },
+  "VLUXSEG3EI64_V": {
+   "asm": "vluxseg3ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
   "VLUXSEG3EI8_V": {
    "asm": "vluxseg3ei8.v\t$vd, $rs1, $vs2$vm",
    "outs": [
@@ -52105,6 +61021,80 @@
     "RVInstVLX",
     "VIndexedSegmentLoad",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
+  "VLUXSEG4EI64_V": {
+   "asm": "vluxseg4ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
     "SchedCommon",
     "VLXSEGSched",
     "VLXSEGSchedMC"
@@ -52332,6 +61322,80 @@
     "VLXSEGSchedMC"
    ]
   },
+  "VLUXSEG5EI64_V": {
+   "asm": "vluxseg5ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
   "VLUXSEG5EI8_V": {
    "asm": "vluxseg5ei8.v\t$vd, $rs1, $vs2$vm",
    "outs": [
@@ -52549,6 +61613,80 @@
     "RVInstVLX",
     "VIndexedSegmentLoad",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
+  "VLUXSEG6EI64_V": {
+   "asm": "vluxseg6ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
     "SchedCommon",
     "VLXSEGSched",
     "VLXSEGSchedMC"
@@ -52776,6 +61914,80 @@
     "VLXSEGSchedMC"
    ]
   },
+  "VLUXSEG7EI64_V": {
+   "asm": "vluxseg7ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
   "VLUXSEG7EI8_V": {
    "asm": "vluxseg7ei8.v\t$vd, $rs1, $vs2$vm",
    "outs": [
@@ -52993,6 +62205,80 @@
     "RVInstVLX",
     "VIndexedSegmentLoad",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VLXSEGSched",
+    "VLXSEGSchedMC"
+   ]
+  },
+  "VLUXSEG8EI64_V": {
+   "asm": "vluxseg8ei64.v\t$vd, $rs1, $vs2$vm",
+   "outs": [
+    [
+     "VR",
+     "vd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vd{4}",
+    "vd{3}",
+    "vd{2}",
+    "vd{1}",
+    "vd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVLoadBase",
+    "RVInstVLX",
+    "VIndexedSegmentLoad",
     "SchedCommon",
     "VLXSEGSched",
     "VLXSEGSchedMC"
@@ -65353,6 +74639,80 @@
     "VSXSchedMC"
    ]
   },
+  "VSOXEI64_V": {
+   "asm": "vsoxei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64",
+    "HasVInstructionsI64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedStore",
+    "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VSXSched",
+    "VSXSchedMC"
+   ]
+  },
   "VSOXEI8_V": {
    "asm": "vsoxei8.v\t$vs3, $rs1, $vs2$vm",
    "outs": [],
@@ -65567,6 +74927,79 @@
     "RVInstVSX",
     "VIndexedSegmentStore",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
+  "VSOXSEG2EI64_V": {
+   "asm": "vsoxseg2ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
     "SchedCommon",
     "VSXSEGSched",
     "VSXSEGSchedMC"
@@ -65791,6 +75224,79 @@
     "VSXSEGSchedMC"
    ]
   },
+  "VSOXSEG3EI64_V": {
+   "asm": "vsoxseg3ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
   "VSOXSEG3EI8_V": {
    "asm": "vsoxseg3ei8.v\t$vs3, $rs1, $vs2$vm",
    "outs": [],
@@ -66005,6 +75511,79 @@
     "RVInstVSX",
     "VIndexedSegmentStore",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
+  "VSOXSEG4EI64_V": {
+   "asm": "vsoxseg4ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
     "SchedCommon",
     "VSXSEGSched",
     "VSXSEGSchedMC"
@@ -66229,6 +75808,79 @@
     "VSXSEGSchedMC"
    ]
   },
+  "VSOXSEG5EI64_V": {
+   "asm": "vsoxseg5ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
   "VSOXSEG5EI8_V": {
    "asm": "vsoxseg5ei8.v\t$vs3, $rs1, $vs2$vm",
    "outs": [],
@@ -66443,6 +76095,79 @@
     "RVInstVSX",
     "VIndexedSegmentStore",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
+  "VSOXSEG6EI64_V": {
+   "asm": "vsoxseg6ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
     "SchedCommon",
     "VSXSEGSched",
     "VSXSEGSchedMC"
@@ -66667,6 +76392,79 @@
     "VSXSEGSchedMC"
    ]
   },
+  "VSOXSEG7EI64_V": {
+   "asm": "vsoxseg7ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
   "VSOXSEG7EI8_V": {
    "asm": "vsoxseg7ei8.v\t$vs3, $rs1, $vs2$vm",
    "outs": [],
@@ -66881,6 +76679,79 @@
     "RVInstVSX",
     "VIndexedSegmentStore",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
+  "VSOXSEG8EI64_V": {
+   "asm": "vsoxseg8ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
     "SchedCommon",
     "VSXSEGSched",
     "VSXSEGSchedMC"
@@ -72645,6 +82516,80 @@
     "VSXSchedMC"
    ]
   },
+  "VSUXEI64_V": {
+   "asm": "vsuxei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "IsRV64",
+    "HasVInstructionsI64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedStore",
+    "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VSXSched",
+    "VSXSchedMC"
+   ]
+  },
   "VSUXEI8_V": {
    "asm": "vsuxei8.v\t$vs3, $rs1, $vs2$vm",
    "outs": [],
@@ -72859,6 +82804,79 @@
     "RVInstVSX",
     "VIndexedSegmentStore",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
+  "VSUXSEG2EI64_V": {
+   "asm": "vsuxseg2ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
     "SchedCommon",
     "VSXSEGSched",
     "VSXSEGSchedMC"
@@ -73083,6 +83101,79 @@
     "VSXSEGSchedMC"
    ]
   },
+  "VSUXSEG3EI64_V": {
+   "asm": "vsuxseg3ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
   "VSUXSEG3EI8_V": {
    "asm": "vsuxseg3ei8.v\t$vs3, $rs1, $vs2$vm",
    "outs": [],
@@ -73297,6 +83388,79 @@
     "RVInstVSX",
     "VIndexedSegmentStore",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
+  "VSUXSEG4EI64_V": {
+   "asm": "vsuxseg4ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
     "SchedCommon",
     "VSXSEGSched",
     "VSXSEGSchedMC"
@@ -73521,6 +83685,79 @@
     "VSXSEGSchedMC"
    ]
   },
+  "VSUXSEG5EI64_V": {
+   "asm": "vsuxseg5ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
   "VSUXSEG5EI8_V": {
    "asm": "vsuxseg5ei8.v\t$vs3, $rs1, $vs2$vm",
    "outs": [],
@@ -73735,6 +83972,79 @@
     "RVInstVSX",
     "VIndexedSegmentStore",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
+  "VSUXSEG6EI64_V": {
+   "asm": "vsuxseg6ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
     "SchedCommon",
     "VSXSEGSched",
     "VSXSEGSchedMC"
@@ -73959,6 +84269,79 @@
     "VSXSEGSchedMC"
    ]
   },
+  "VSUXSEG7EI64_V": {
+   "asm": "vsuxseg7ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
   "VSUXSEG7EI8_V": {
    "asm": "vsuxseg7ei8.v\t$vs3, $rs1, $vs2$vm",
    "outs": [],
@@ -74173,6 +84556,79 @@
     "RVInstVSX",
     "VIndexedSegmentStore",
     "RISCVVXMemOpMC",
+    "SchedCommon",
+    "VSXSEGSched",
+    "VSXSEGSchedMC"
+   ]
+  },
+  "VSUXSEG8EI64_V": {
+   "asm": "vsuxseg8ei64.v\t$vs3, $rs1, $vs2$vm",
+   "outs": [],
+   "ins": [
+    [
+     "VR",
+     "vs3"
+    ],
+    [
+     "GPRMemZeroOffset",
+     "rs1"
+    ],
+    [
+     "VR",
+     "vs2"
+    ],
+    [
+     "VMaskOp",
+     "vm"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "vm{0}",
+    "vs2{4}",
+    "vs2{3}",
+    "vs2{2}",
+    "vs2{1}",
+    "vs2{0}",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "1",
+    "1",
+    "vs3{4}",
+    "vs3{3}",
+    "vs3{2}",
+    "vs3{1}",
+    "vs3{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasVInstructionsI64",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstVStoreBase",
+    "RVInstVSX",
+    "VIndexedSegmentStore",
     "SchedCommon",
     "VSXSEGSched",
     "VSXSEGSchedMC"
@@ -77762,6 +88218,69 @@
     "RVBUnaryR"
    ]
   },
+  "ZEXT_H_RV64": {
+   "asm": "zext.h\t$rd, $rs1",
+   "outs": [
+    [
+     "GPR",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR",
+     "rs1"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs1{4}",
+    "rs1{3}",
+    "rs1{2}",
+    "rs1{1}",
+    "rs1{0}",
+    "1",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdExtZbbOrZbkb",
+    "IsRV64"
+   ],
+   "constraints": "",
+   "format": "InstFormatR",
+   "size": 4,
+   "superclasses": [
+    "RVInstCommon",
+    "RVInst",
+    "RVInstRBase",
+    "RVInstR",
+    "RVBUnaryR"
+   ]
+  },
   "ZIP_RV32": {
    "asm": "zip\t$rd, $rs1",
    "outs": [
@@ -77918,6 +88437,48 @@
     }
    ],
    "predicates": [],
+   "priority": 1
+  },
+  {
+   "asm": "negw $rd, $rs",
+   "base": "SUBW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "register": 0
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "sext.w $rd, $rs",
+   "base": "ADDIW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
    "priority": 1
   },
   {
@@ -79331,6 +89892,157 @@
    "priority": 0
   },
   {
+   "asm": "lwu $rd, (${rs1})",
+   "base": "LWU",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "ld $rd, (${rs1})",
+   "base": "LD",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "sd $rs2, (${rs1})",
+   "base": "SD",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rs2"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "addw $rd, $rs1, $imm12",
+   "base": "ADDIW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "simm12_lo",
+     "name": "imm12"
+    }
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "sllw $rd, $rs1, $shamt",
+   "base": "SLLIW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "uimm5",
+     "name": "shamt"
+    }
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "srlw $rd, $rs1, $shamt",
+   "base": "SRLIW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "uimm5",
+     "name": "shamt"
+    }
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "sraw $rd, $rs1, $shamt",
+   "base": "SRAIW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "uimm5",
+     "name": "shamt"
+    }
+   ],
+   "predicates": [
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
    "asm": "slt $rd, $rs1, $imm12",
    "base": "SLTI",
    "args": [
@@ -80129,6 +90841,121 @@
   },
   {
    "asm": "fmv.d $rd, $rs",
+   "base": "FSGNJ_D_INX",
+   "args": [
+    {
+     "cls": "FPR64INX",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR64INX",
+     "name": "rs"
+    },
+    {
+     "cls": "FPR64INX",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fabs.d $rd, $rs",
+   "base": "FSGNJX_D_INX",
+   "args": [
+    {
+     "cls": "FPR64INX",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR64INX",
+     "name": "rs"
+    },
+    {
+     "cls": "FPR64INX",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fneg.d $rd, $rs",
+   "base": "FSGNJN_D_INX",
+   "args": [
+    {
+     "cls": "FPR64INX",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR64INX",
+     "name": "rs"
+    },
+    {
+     "cls": "FPR64INX",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "priority": 1
+  },
+  {
+   "asm": "fgt.d $rd, $rs, $rt",
+   "base": "FLT_D_INX",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR64INX",
+     "name": "rt"
+    },
+    {
+     "cls": "FPR64INX",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "fge.d $rd, $rs, $rt",
+   "base": "FLE_D_INX",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "FPR64INX",
+     "name": "rt"
+    },
+    {
+     "cls": "FPR64INX",
+     "name": "rs"
+    }
+   ],
+   "predicates": [
+    "HasStdExtZdinx",
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "fmv.d $rd, $rs",
    "base": "FSGNJ_D_IN32X",
    "args": [
     {
@@ -80839,6 +91666,28 @@
    "priority": 0
   },
   {
+   "asm": "zext.w $rd, $rs",
+   "base": "ADD_UW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs"
+    },
+    {
+     "register": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZba",
+    "IsRV64"
+   ],
+   "priority": 1
+  },
+  {
    "asm": "ror $rd, $rs1, $shamt",
    "base": "RORI",
    "args": [
@@ -80857,6 +91706,29 @@
    ],
    "predicates": [
     "HasStdExtZbbOrZbkb"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "rorw $rd, $rs1, $shamt",
+   "base": "RORIW",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rd"
+    },
+    {
+     "cls": "GPR",
+     "name": "rs1"
+    },
+    {
+     "cls": "uimm5",
+     "name": "shamt"
+    }
+   ],
+   "predicates": [
+    "HasStdExtZbbOrZbkb",
+    "IsRV64"
    ],
    "priority": 0
   },
@@ -81818,6 +92690,94 @@
    "priority": 0
   },
   {
+   "asm": "c.ld $rd, (${rs1})",
+   "base": "C_LD",
+   "args": [
+    {
+     "cls": "GPRC",
+     "name": "rd"
+    },
+    {
+     "cls": "BasePtrC",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca",
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.sd $rs2, (${rs1})",
+   "base": "C_SD",
+   "args": [
+    {
+     "cls": "GPRC",
+     "name": "rs2"
+    },
+    {
+     "cls": "BasePtrC",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca",
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.ldsp $rd, (${rs1})",
+   "base": "C_LDSP",
+   "args": [
+    {
+     "cls": "GPRNoX0",
+     "name": "rd"
+    },
+    {
+     "cls": "SPMem",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca",
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
+   "asm": "c.sdsp $rs2, (${rs1})",
+   "base": "C_SDSP",
+   "args": [
+    {
+     "cls": "GPR",
+     "name": "rs2"
+    },
+    {
+     "cls": "SPMem",
+     "name": "rs1"
+    },
+    {
+     "value": 0
+    }
+   ],
+   "predicates": [
+    "HasStdExtZca",
+    "IsRV64"
+   ],
+   "priority": 0
+  },
+  {
    "asm": "c.flw $rd, (${rs1})",
    "base": "C_FLW",
    "args": [
@@ -82267,6 +93227,17 @@
     "RegisterOperand"
    ]
   },
+  "FPR64INX": {
+   "regClass": "GPR",
+   "operandType": "OPERAND_REGISTER",
+   "encoder": null,
+   "decoder": "DecodeGPRRegisterClass",
+   "printer": "printOperand",
+   "parser": "GPRF64AsFPR",
+   "superclasses": [
+    "RegisterOperand"
+   ]
+  },
   "GPRMemZeroOffset": {
    "regClass": "GPR",
    "operandType": "OPERAND_MEMORY",
@@ -82308,6 +93279,17 @@
    "decoder": null,
    "printer": "printOperand",
    "parser": "GPRPairRV32Operand",
+   "superclasses": [
+    "RegisterOperand"
+   ]
+  },
+  "GPRPairRV64": {
+   "regClass": "GPRPair",
+   "operandType": "OPERAND_REGISTER",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "GPRPairRV64Operand",
    "superclasses": [
     "RegisterOperand"
    ]
@@ -82518,6 +93500,22 @@
    "parser": "RegListAsmOperand",
    "superclasses": [
     "RISCVOp"
+   ]
+  },
+  "rnum": {
+   "regClass": null,
+   "operandType": "OPERAND_RVKRNUM",
+   "encoder": "getImmOpValue",
+   "decoder": "decodeUImmOperand<4>",
+   "printer": "printOperand",
+   "parser": "RnumArg",
+   "superclasses": [
+    "RISCVOp",
+    "SDPatternOperator",
+    "PatFrags",
+    "PatFrag",
+    "ImmLeaf",
+    "TImmLeaf"
    ]
   },
   "rtzarg": {
@@ -84424,5 +95422,202 @@
   "mconfigptr": 3861,
   "mtopi": 4016,
   "aif.dcache_debug": 4032
- }
+ },
+ "sysregsRV32Only": [
+  "cycleh",
+  "hedelegh",
+  "henvcfgh",
+  "hidelegh",
+  "hpmcounter10h",
+  "hpmcounter11h",
+  "hpmcounter12h",
+  "hpmcounter13h",
+  "hpmcounter14h",
+  "hpmcounter15h",
+  "hpmcounter16h",
+  "hpmcounter17h",
+  "hpmcounter18h",
+  "hpmcounter19h",
+  "hpmcounter20h",
+  "hpmcounter21h",
+  "hpmcounter22h",
+  "hpmcounter23h",
+  "hpmcounter24h",
+  "hpmcounter25h",
+  "hpmcounter26h",
+  "hpmcounter27h",
+  "hpmcounter28h",
+  "hpmcounter29h",
+  "hpmcounter30h",
+  "hpmcounter31h",
+  "hpmcounter3h",
+  "hpmcounter4h",
+  "hpmcounter5h",
+  "hpmcounter6h",
+  "hpmcounter7h",
+  "hpmcounter8h",
+  "hpmcounter9h",
+  "hstateen0h",
+  "hstateen1h",
+  "hstateen2h",
+  "hstateen3h",
+  "htimedeltah",
+  "hvienh",
+  "hviph",
+  "hviprio1h",
+  "hviprio2h",
+  "instreth",
+  "mcyclecfgh",
+  "mcycleh",
+  "medelegh",
+  "menvcfgh",
+  "mhpmcounter10h",
+  "mhpmcounter11h",
+  "mhpmcounter12h",
+  "mhpmcounter13h",
+  "mhpmcounter14h",
+  "mhpmcounter15h",
+  "mhpmcounter16h",
+  "mhpmcounter17h",
+  "mhpmcounter18h",
+  "mhpmcounter19h",
+  "mhpmcounter20h",
+  "mhpmcounter21h",
+  "mhpmcounter22h",
+  "mhpmcounter23h",
+  "mhpmcounter24h",
+  "mhpmcounter25h",
+  "mhpmcounter26h",
+  "mhpmcounter27h",
+  "mhpmcounter28h",
+  "mhpmcounter29h",
+  "mhpmcounter30h",
+  "mhpmcounter31h",
+  "mhpmcounter3h",
+  "mhpmcounter4h",
+  "mhpmcounter5h",
+  "mhpmcounter6h",
+  "mhpmcounter7h",
+  "mhpmcounter8h",
+  "mhpmcounter9h",
+  "mhpmevent10h",
+  "mhpmevent11h",
+  "mhpmevent12h",
+  "mhpmevent13h",
+  "mhpmevent14h",
+  "mhpmevent15h",
+  "mhpmevent16h",
+  "mhpmevent17h",
+  "mhpmevent18h",
+  "mhpmevent19h",
+  "mhpmevent20h",
+  "mhpmevent21h",
+  "mhpmevent22h",
+  "mhpmevent23h",
+  "mhpmevent24h",
+  "mhpmevent25h",
+  "mhpmevent26h",
+  "mhpmevent27h",
+  "mhpmevent28h",
+  "mhpmevent29h",
+  "mhpmevent30h",
+  "mhpmevent31h",
+  "mhpmevent3h",
+  "mhpmevent4h",
+  "mhpmevent5h",
+  "mhpmevent6h",
+  "mhpmevent7h",
+  "mhpmevent8h",
+  "mhpmevent9h",
+  "midelegh",
+  "mieh",
+  "minstretcfgh",
+  "minstreth",
+  "miph",
+  "mseccfgh",
+  "mstateen0h",
+  "mstateen1h",
+  "mstateen2h",
+  "mstateen3h",
+  "mstatush",
+  "mvienh",
+  "mviph",
+  "pmpcfg1",
+  "pmpcfg11",
+  "pmpcfg13",
+  "pmpcfg15",
+  "pmpcfg3",
+  "pmpcfg5",
+  "pmpcfg7",
+  "pmpcfg9",
+  "qc.mcause",
+  "qc.mclicie0",
+  "qc.mclicie1",
+  "qc.mclicie2",
+  "qc.mclicie3",
+  "qc.mclicie4",
+  "qc.mclicie5",
+  "qc.mclicie6",
+  "qc.mclicie7",
+  "qc.mclicilvl00",
+  "qc.mclicilvl01",
+  "qc.mclicilvl02",
+  "qc.mclicilvl03",
+  "qc.mclicilvl04",
+  "qc.mclicilvl05",
+  "qc.mclicilvl06",
+  "qc.mclicilvl07",
+  "qc.mclicilvl08",
+  "qc.mclicilvl09",
+  "qc.mclicilvl10",
+  "qc.mclicilvl11",
+  "qc.mclicilvl12",
+  "qc.mclicilvl13",
+  "qc.mclicilvl14",
+  "qc.mclicilvl15",
+  "qc.mclicilvl16",
+  "qc.mclicilvl17",
+  "qc.mclicilvl18",
+  "qc.mclicilvl19",
+  "qc.mclicilvl20",
+  "qc.mclicilvl21",
+  "qc.mclicilvl22",
+  "qc.mclicilvl23",
+  "qc.mclicilvl24",
+  "qc.mclicilvl25",
+  "qc.mclicilvl26",
+  "qc.mclicilvl27",
+  "qc.mclicilvl28",
+  "qc.mclicilvl29",
+  "qc.mclicilvl30",
+  "qc.mclicilvl31",
+  "qc.mclicip0",
+  "qc.mclicip1",
+  "qc.mclicip2",
+  "qc.mclicip3",
+  "qc.mclicip4",
+  "qc.mclicip5",
+  "qc.mclicip6",
+  "qc.mclicip7",
+  "qc.mmcr",
+  "qc.mntvec",
+  "qc.mstkbottomaddr",
+  "qc.mstktopaddr",
+  "qc.mthreadptr",
+  "qc.mwpendaddr0",
+  "qc.mwpendaddr1",
+  "qc.mwpendaddr2",
+  "qc.mwpendaddr3",
+  "qc.mwpstartaddr0",
+  "qc.mwpstartaddr1",
+  "qc.mwpstartaddr2",
+  "qc.mwpstartaddr3",
+  "sieh",
+  "siph",
+  "stimecmph",
+  "timeh",
+  "vsieh",
+  "vsiph",
+  "vstimecmph"
+ ]
 }

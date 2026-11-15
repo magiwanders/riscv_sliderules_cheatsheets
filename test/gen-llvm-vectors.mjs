@@ -23,13 +23,13 @@ function _bin(tool) {
   return existsSync(local) ? local : tool;
 }
 
-function _assemble({ lines = [], rvc = false, mattr = '' }) {
+function _assemble({ lines = [], rvc = false, mattr = '', triple = 'riscv32' }) {
   const dir = mkdtempSync(join(tmpdir(), 'sliderule-llvm-'));
   try {
     const source = join(dir, 'cases.s');
     const object = join(dir, 'cases.o');
     writeFileSync(source, [`.option ${rvc ? 'rvc' : 'norvc'}`, ...lines.flatMap((line, i) => [`case${i}:`, `  ${line}`]), ''].join('\n'));
-    execFileSync(_bin('llvm-mc'), ['-triple=riscv32', `-mattr=${mattr}`, '-filetype=obj', '-o', object, source], { stdio: ['ignore', 'ignore', 'inherit'] });
+    execFileSync(_bin('llvm-mc'), [`-triple=${triple}`, `-mattr=${mattr}`, '-filetype=obj', '-o', object, source], { stdio: ['ignore', 'ignore', 'inherit'] });
     const dump = execFileSync(_bin('llvm-objdump'), ['-d', '-M', 'no-aliases', `--mattr=${mattr}`, object], { encoding: 'utf8', maxBuffer: 2 ** 28 });
     const words = lines.map(() => []);
     let current = -1;
@@ -53,7 +53,7 @@ for (const profile of profiles) {
   for (const rvc of [false, true]) {
     const group = cases.filter(({ entry }) => (entry.width === 16) === rvc);
     const lines = group.map((c) => assemblerText({ ...c, dialect: 'llvm' }));
-    const words = _assemble({ lines, rvc, mattr: profile.mattr });
+    const words = _assemble({ lines, rvc, mattr: profile.mattr, triple: profile.triple });
     group.forEach((c, i) => vectors.push({ profile: profile.name, id: c.id, operands: c.operands, ordering: c.ordering, llvm: lines[i], words: words[i] }));
   }
 }

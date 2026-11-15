@@ -26,13 +26,13 @@ function _prefix() {
 
 const _gnuText = (c) => assemblerText({ ...c, dialect: 'gnu' });
 
-function _assemble({ prefix = '', lines = [], rvc = false, march = '' }) {
+function _assemble({ prefix = '', lines = [], rvc = false, march = '', mabi = 'ilp32' }) {
   const dir = mkdtempSync(join(tmpdir(), 'sliderule-vectors-'));
   try {
     const source = join(dir, 'cases.s');
     const object = join(dir, 'cases.o');
     writeFileSync(source, [`.option ${rvc ? 'rvc' : 'norvc'}`, '.option norelax', ...lines.flatMap((line, i) => [`case${i}:`, `  ${line}`]), ''].join('\n'));
-    execFileSync(`${prefix}as`, [`-march=${march}`, '-mabi=ilp32', '-mno-relax', '-o', object, source], { stdio: ['ignore', 'ignore', 'inherit'] });
+    execFileSync(`${prefix}as`, [`-march=${march}`, `-mabi=${mabi}`, '-mno-relax', '-o', object, source], { stdio: ['ignore', 'ignore', 'inherit'] });
     const dump = execFileSync(`${prefix}objdump`, ['-d', '-M', 'no-aliases,numeric', object], { encoding: 'utf8', maxBuffer: 2 ** 28 });
     const words = lines.map(() => []);
     let current = -1;
@@ -61,7 +61,7 @@ for (const profile of profiles) {
   for (const rvc of [false, true]) {
     const group = cases.filter(({ entry }) => (entry.width === 16) === rvc);
     const lines = group.map((c) => _gnuText(c));
-    const words = _assemble({ prefix, lines, rvc, march: profile.march });
+    const words = _assemble({ prefix, lines, rvc, march: profile.march, mabi: profile.mabi });
     group.forEach((c, i) => vectors.push({ profile: profile.name, id: c.id, operands: c.operands, ordering: c.ordering, gnu: lines[i], words: words[i] }));
   }
 }

@@ -1,4 +1,4 @@
-import { rv32, splitOperands, X_ABI, F_ABI, ROUNDING, CSRS, fenceText } from '../src/isa/codec.mjs';
+import { rv32, splitOperands, X_ABI, F_ABI, ROUNDING, fenceText } from '../src/isa/codec.mjs';
 
 // Operand sets for every encodable entry, shared by the tests and the GNU as vector generator.
 // Deterministic (seeded) so regenerated vectors line up with the cases the tests build.
@@ -58,7 +58,9 @@ export function operandSet({ codec = rv32, entry = {}, random, edge = null, safe
     const key = tokenKey(part.token);
     if (info.kind === 'sp') return 'sp';
     if (info.kind === 'enum') {
-      const allowed = info.names.map((_, n) => n).filter((n) => !info.exclude.includes(n));
+      // two operands that must differ (cm.mvsa01's r1s and r2s)
+      const other = entry.distinct && entry.distinct.includes(key) ? values[entry.distinct.find((k) => k !== key)] : undefined;
+      const allowed = info.names.map((_, n) => n).filter((n) => !info.exclude.includes(n) && n !== other);
       const taken = VECTOR.map((k) => values[k]);
       const safeList = safe && VECTOR.includes(key) ? VECTOR_SAFE.filter((n) => allowed.includes(n) && !taken.includes(n)) : [];
       values[key] = _pick({ random, list: safeList.length ? safeList : allowed });
@@ -78,7 +80,7 @@ export function operandSet({ codec = rv32, entry = {}, random, edge = null, safe
       return (info.fp ? F_ABI : X_ABI)[values[key]];
     }
     if (info.kind === 'imm') return String((values.imm = _immediate({ random, range: info.range, edge })));
-    if (info.kind === 'csr') return _pick({ random, list: Object.keys(CSRS) });
+    if (info.kind === 'csr') return _pick({ random, list: Object.keys(codec.csrs) });
     if (info.kind === 'rm') return _pick({ random, list: ROUNDING.filter(Boolean) });
     return fenceText({ value: 1 + Math.floor(random() * 15) });
   }).join('')).filter((_, i) => !omitted.has(template[i])).join(', ');

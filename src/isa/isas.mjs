@@ -2,6 +2,7 @@ import { createCodec, rv32 } from './codec.mjs';
 import * as hack from './hack.mjs';
 import * as mos6502 from './mos6502.mjs';
 import * as rv32gc from './rv32gc.mjs';
+import * as rv64gc from './rv64gc.mjs';
 import * as z80 from './z80.mjs';
 
 // The instruction sets, in the title's selector: one list, divided by family (`families`: the vendor, or the project
@@ -9,7 +10,9 @@ import * as z80 from './z80.mjs';
 // `codec` have sheets so far; `version` is shown next to the title (see Testing in the README for what a version stands
 // for). The first one is the default. `specs` says what the Sail and TableGen downloads are (src/isa/api-gen.js builds
 // them from spec/). `extensions` gives a member the extension toggles under the title (RISC-V): its name then follows
-// them (RV32GC, RV32IMC, ...).
+// them (RV32GC, RV64IMC, ...).
+
+const rv64 = createCodec(rv64gc);
 
 export const families = [
   { value: 'riscv', label: 'RISC-V' },
@@ -22,7 +25,7 @@ export const families = [
 ];
 
 // A RISC-V member's sheets for a set of enabled extensions, made once per set; with the extensions it starts with
-// (RV32GC), the member's own codec.
+// (RV32GC / RV64GC), the member's own codec.
 function _extensions({ module, width, base }) {
   const codecs = new Map();
   const key = (set) => [...set].sort().join(',');
@@ -41,7 +44,8 @@ function _extensions({ module, width, base }) {
 export const isas = [
   { value: 'rv32gc', family: 'riscv', label: 'RV32', version: 'v1.0', codec: rv32, extensions: _extensions({ module: rv32gc, width: 32, base: rv32 }),
     specs: { sail: 'the RV32 files of the official RISC-V Sail model (sail-riscv), every ratified extension', tablegen: 'the RV32 files of LLVM\'s RISC-V target (official), every ratified extension' } },
-  { value: 'rv64gc', family: 'riscv', label: 'RV64' },
+  { value: 'rv64gc', family: 'riscv', label: 'RV64', version: 'v1.0', codec: rv64, extensions: _extensions({ module: rv64gc, width: 64, base: rv64 }),
+    specs: { sail: 'the RV64 files of the official RISC-V Sail model (sail-riscv), every ratified extension', tablegen: 'the RV64 files of LLVM\'s RISC-V target (official), every ratified extension' } },
   { value: 'mips32', family: 'mips', label: 'MIPS32' },
   { value: 'mips64', family: 'mips', label: 'MIPS64' },
   { value: '8051', family: 'intel', label: '8051 (MCS-51)', short: '8051' },

@@ -1,4 +1,4 @@
-import { splitOperands, X_ABI, F_ABI, ROUNDING, CSRS, fenceText } from './isa/codec.mjs';
+import { splitOperands, X_ABI, F_ABI, ROUNDING, fenceText } from './isa/codec.mjs';
 import { Carousel } from './carousel.mjs';
 
 // Encoder operands: one selector per operand of the chosen instruction. Registers, CSRs, rounding modes and fence
@@ -111,8 +111,9 @@ function _controlFor({ codec = null, token = 'rd', info = {}, memory = {}, onCha
     return field;
   }
   if (info.kind === 'csr') {
-    const options = Object.keys(CSRS).map((name) => ({ value: name, label: name, hint: `0x${CSRS[name].toString(16).padStart(3, '0')}` }));
-    const value = memory.csr in CSRS ? memory.csr : 'mstatus';
+    const { csrs } = codec;
+    const options = Object.keys(csrs).map((name) => ({ value: name, label: name, hint: `0x${csrs[name].toString(16).padStart(3, '0')}` }));
+    const value = memory.csr in csrs ? memory.csr : 'mstatus';
     memory.csr = value;
     return Carousel({ options, value, label: 'csr', searchable: true, onChange: (v) => { memory.csr = v; onChange(); } });
   }

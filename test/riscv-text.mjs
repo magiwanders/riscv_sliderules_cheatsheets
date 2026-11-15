@@ -4,7 +4,7 @@
 // la, global loads and stores) are left out: their encoding depends on the linker.
 
 export const PC_RELATIVE = ['branch', 'jal', 'c.jal', 'c.j', 'c.branch'];
-export const RELOCATED = ['call', 'tail', 'la', 'lla', 'lb', 'lh', 'lw', 'sb', 'sh', 'sw', 'flw', 'fld', 'fsw', 'fsd'];
+export const RELOCATED = ['call', 'tail', 'la', 'lla', 'lb', 'lh', 'lw', 'ld', 'lwu', 'sb', 'sh', 'sw', 'sd', 'flw', 'fld', 'fsw', 'fsd'];
 
 // The base instruction a case's immediate ends up in (pseudo-instructions: the first expansion using it).
 function _immBase({ entry = {} }) {

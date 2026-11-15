@@ -1,0 +1,1482 @@
+{
+ "$comment": [
+  "What RV64 changes from RV32's overlay (rv32gc.json), read by tools/isa/gen-riscv.mjs (loadOverlay):",
+  "rows of RV32-only instructions go, `drop` lists RV32's HINT / reserved rows RV64 fills; a row with `replaces` takes the place of that RV32 row,",
+  "one with `after` follows that row (a def, or the enc of a HINT / reserved row), the others follow the last row of their group.",
+  "groups, formats and extension labels are added; unusedOpcodes replaces RV32's; a register section with `replaces` takes the place of that title.",
+  "pseudoInstructions: dropPseudos go, the others replace the one of the same name and asm, or follow `after` (\"name asm\")."
+ ],
+ "formats": {},
+ "groups": {
+  "c.ld": {
+   "section": "q0",
+   "format": "CL",
+   "extension": "C",
+   "title": "Load Double-Word",
+   "pseudocode": "rd' ← M[ rs1' + uimm ][63:0]"
+  },
+  "c.sd": {
+   "section": "q0",
+   "format": "CS",
+   "extension": "C",
+   "title": "Store Double-Word",
+   "pseudocode": "rs2' → M[ rs1' + uimm ][63:0]"
+  },
+  "c.addiw": {
+   "section": "q1",
+   "format": "CI",
+   "extension": "C",
+   "title": "Add Immediate Word",
+   "pseudocode": "rd = sext( ( rd + imm )[31:0] )"
+  },
+  "c.ldsp": {
+   "section": "q2",
+   "format": "CI",
+   "extension": "C",
+   "title": "Load Double-Word from SP",
+   "pseudocode": "rd ← M[ sp + uimm ][63:0]"
+  },
+  "c.sdsp": {
+   "section": "q2",
+   "format": "CSS",
+   "extension": "C",
+   "title": "Store Double-Word to SP",
+   "pseudocode": "rs2 → M[ sp + uimm ][63:0]"
+  },
+  "op-imm-32": {
+   "section": "q3",
+   "format": "I",
+   "extension": "I",
+   "title": "Operations with Immediate, Word",
+   "pseudocode": "rd = sext( ( rs1 (funct3) imm )[31:0] )"
+  },
+  "op-32": {
+   "section": "q3",
+   "format": "R",
+   "extension": "I",
+   "title": "Operations with Registers, Word",
+   "pseudocode": "rd = sext( ( rs1 (funct) rs2 )[31:0] )"
+  },
+  "op-m-32": {
+   "section": "q3",
+   "format": "R",
+   "extension": "M",
+   "title": "Multiplication and Division, Word",
+   "pseudocode": "rd = sext( ( rs1 (funct3) rs2 )[31:0] )"
+  },
+  "b-0111011-r": {
+   "section": "q3",
+   "format": "R",
+   "extension": "B",
+   "title": "Bit Manipulation: Operations with Registers, Word",
+   "pseudocode": ""
+  },
+  "b-0011011-i": {
+   "section": "q3",
+   "format": "I",
+   "extension": "B",
+   "title": "Bit Manipulation: Operations with Immediate, Word",
+   "pseudocode": ""
+  },
+  "k-0111011-r": {
+   "section": "q3",
+   "format": "R",
+   "extension": "K",
+   "title": "Scalar Cryptography: Operations with Registers, Word",
+   "pseudocode": ""
+  }
+ },
+ "extensions": [
+  "Zknd / Zkne",
+  "Zcb + Zba"
+ ],
+ "drop": [
+  {
+   "group": "c.cb-alu",
+   "enc": "100 1 0 - --- ----- 01"
+  },
+  {
+   "group": "c.ca",
+   "enc": "100111 --- -- --- 01"
+  },
+  {
+   "group": "c.slli",
+   "enc": "000 1 ----- ----- 10"
+  },
+  {
+   "group": "c.slli",
+   "enc": "000 0 00000 shamt[4:0] 10"
+  }
+ ],
+ "instructions": [
+  {
+   "group": "load",
+   "def": "LD",
+   "after": "LW",
+   "description": "Load Double-Word",
+   "pseudocode": "rd ← M[ rs1 + imm ][63:0]"
+  },
+  {
+   "group": "load",
+   "def": "LWU",
+   "after": "LHU",
+   "description": "Load Word Unsigned",
+   "pseudocode": "rd ← zext( M[ rs1 + imm ][31:0] )"
+  },
+  {
+   "group": "store",
+   "def": "SD",
+   "after": "SW",
+   "description": "Store Double-Word",
+   "pseudocode": "rs2[63:0] → M[ rs1 + imm ]"
+  },
+  {
+   "group": "op-imm",
+   "def": "SLLI",
+   "description": "Shift Left Logical Immediate",
+   "pseudocode": "rd = rs1 << shamt",
+   "replaces": "SLLI"
+  },
+  {
+   "group": "op-imm",
+   "def": "SRLI",
+   "description": "Shift Right Logical Immediate",
+   "pseudocode": "rd = rs1 >> shamt (zero extends)",
+   "replaces": "SRLI"
+  },
+  {
+   "group": "op-imm",
+   "def": "SRAI",
+   "description": "Shift Right Arithmetic Immediate",
+   "pseudocode": "rd = rs1 >> shamt (msb extends)",
+   "replaces": "SRAI"
+  },
+  {
+   "group": "op-imm-32",
+   "def": "ADDIW",
+   "after": "ANDI",
+   "description": "Add Immediate Word",
+   "pseudocode": "rd = sext( ( rs1 + imm )[31:0] )"
+  },
+  {
+   "group": "op-imm-32",
+   "def": "SLLIW",
+   "description": "Shift Left Logical Immediate Word",
+   "pseudocode": "rd = sext( ( rs1 << shamt )[31:0] )"
+  },
+  {
+   "group": "op-imm-32",
+   "def": "SRLIW",
+   "description": "Shift Right Logical Immediate Word",
+   "pseudocode": "rd = sext( rs1[31:0] >> shamt ) (zero extends)"
+  },
+  {
+   "group": "op-imm-32",
+   "def": "SRAIW",
+   "description": "Shift Right Arithmetic Immediate Word",
+   "pseudocode": "rd = sext( rs1[31:0] >> shamt ) (msb extends)"
+  },
+  {
+   "group": "op-32",
+   "def": "ADDW",
+   "after": "AND",
+   "description": "Add Word",
+   "pseudocode": "rd = sext( ( rs1 + rs2 )[31:0] )"
+  },
+  {
+   "group": "op-32",
+   "def": "SUBW",
+   "description": "Subtract Word",
+   "pseudocode": "rd = sext( ( rs1 - rs2 )[31:0] )"
+  },
+  {
+   "group": "op-32",
+   "def": "SLLW",
+   "description": "Shift Left Logical Word",
+   "pseudocode": "rd = sext( ( rs1 << rs2[4:0] )[31:0] )"
+  },
+  {
+   "group": "op-32",
+   "def": "SRLW",
+   "description": "Shift Right Logical Word",
+   "pseudocode": "rd = sext( rs1[31:0] >> rs2[4:0] ) (zero extends)"
+  },
+  {
+   "group": "op-32",
+   "def": "SRAW",
+   "description": "Shift Right Arithmetic Word",
+   "pseudocode": "rd = sext( rs1[31:0] >> rs2[4:0] ) (msb extends)"
+  },
+  {
+   "group": "op-m-32",
+   "def": "MULW",
+   "after": "REMU",
+   "description": "Multiply Word",
+   "pseudocode": "rd = sext( ( rs1 × rs2 )[31:0] )"
+  },
+  {
+   "group": "op-m-32",
+   "def": "DIVW",
+   "description": "Divide Word",
+   "pseudocode": "rd = sext( rs1[31:0] ÷ rs2[31:0] ) (signed)"
+  },
+  {
+   "group": "op-m-32",
+   "def": "DIVUW",
+   "description": "Divide Word Unsigned",
+   "pseudocode": "rd = sext( rs1[31:0] ÷ rs2[31:0] ) (unsigned)"
+  },
+  {
+   "group": "op-m-32",
+   "def": "REMW",
+   "description": "Remainder Word",
+   "pseudocode": "rd = sext( rs1[31:0] % rs2[31:0] ) (signed)"
+  },
+  {
+   "group": "op-m-32",
+   "def": "REMUW",
+   "description": "Remainder Word Unsigned",
+   "pseudocode": "rd = sext( rs1[31:0] % rs2[31:0] ) (unsigned)"
+  },
+  {
+   "group": "amo",
+   "def": "LR_D",
+   "after": "AMOMAXU_W",
+   "description": "Load Reserved Double-Word",
+   "pseudocode": "rd ← M[rs1] ; reserve M[rs1]"
+  },
+  {
+   "group": "amo",
+   "def": "SC_D",
+   "after": "LR_D",
+   "description": "Store Conditional Double-Word",
+   "pseudocode": "if reserved { M[rs1] = rs2 ; rd = 0 } else rd ≠ 0"
+  },
+  {
+   "group": "amo",
+   "def": "AMOSWAP_D",
+   "after": "SC_D",
+   "description": "Atomic Swap Double-Word",
+   "pseudocode": "t = M[rs1] ; M[rs1] = rs2 ; rd = t"
+  },
+  {
+   "group": "amo",
+   "def": "AMOADD_D",
+   "after": "AMOSWAP_D",
+   "description": "Atomic Add Double-Word",
+   "pseudocode": "t = M[rs1] ; M[rs1] = t + rs2 ; rd = t"
+  },
+  {
+   "group": "amo",
+   "def": "AMOXOR_D",
+   "after": "AMOADD_D",
+   "description": "Atomic Xor Double-Word",
+   "pseudocode": "t = M[rs1] ; M[rs1] = t ^ rs2 ; rd = t"
+  },
+  {
+   "group": "amo",
+   "def": "AMOAND_D",
+   "after": "AMOXOR_D",
+   "description": "Atomic And Double-Word",
+   "pseudocode": "t = M[rs1] ; M[rs1] = t & rs2 ; rd = t"
+  },
+  {
+   "group": "amo",
+   "def": "AMOOR_D",
+   "after": "AMOAND_D",
+   "description": "Atomic Or Double-Word",
+   "pseudocode": "t = M[rs1] ; M[rs1] = t | rs2 ; rd = t"
+  },
+  {
+   "group": "amo",
+   "def": "AMOMIN_D",
+   "after": "AMOOR_D",
+   "description": "Atomic Min Double-Word",
+   "pseudocode": "t = M[rs1] ; M[rs1] = min( t, rs2 ) (signed) ; rd = t"
+  },
+  {
+   "group": "amo",
+   "def": "AMOMAX_D",
+   "after": "AMOMIN_D",
+   "description": "Atomic Max Double-Word",
+   "pseudocode": "t = M[rs1] ; M[rs1] = max( t, rs2 ) (signed) ; rd = t"
+  },
+  {
+   "group": "amo",
+   "def": "AMOMINU_D",
+   "after": "AMOMAX_D",
+   "description": "Atomic Min Unsigned Double-Word",
+   "pseudocode": "t = M[rs1] ; M[rs1] = min( t, rs2 ) (unsigned) ; rd = t"
+  },
+  {
+   "group": "amo",
+   "def": "AMOMAXU_D",
+   "after": "AMOMINU_D",
+   "description": "Atomic Max Unsigned Double-Word",
+   "pseudocode": "t = M[rs1] ; M[rs1] = max( t, rs2 ) (unsigned) ; rd = t"
+  },
+  {
+   "group": "zabha-zacas-0101111-r",
+   "def": "AMOCAS_D_RV64",
+   "replaces": "AMOCAS_D_RV32",
+   "description": "Atomic Compare-and-swap Doubleword",
+   "pseudocode": "t = M[rs1] ; if ( t == rd ) M[rs1] = rs2 ; rd = t"
+  },
+  {
+   "group": "zabha-zacas-0101111-r",
+   "def": "AMOCAS_Q",
+   "after": "AMOCAS_D_RV64",
+   "description": "Atomic Compare-and-swap Quad-Word",
+   "pseudocode": "t = M[rs1] ; if ( t == rd ) M[rs1] = rs2 ; rd = t (register pairs)"
+  },
+  {
+   "group": "zicfiss-0101111-r",
+   "def": "SSAMOSWAP_D",
+   "after": "SSAMOSWAP_W",
+   "description": "ssamoswap.d",
+   "pseudocode": "t = M[rs1] ; M[rs1] = rs2 ; rd = t (shadow stack)"
+  },
+  {
+   "group": "op-fp",
+   "def": "FCVT_L_S",
+   "after": "FCVT_WU_S",
+   "description": "Convert Float to Long",
+   "pseudocode": "x[rd] = (int64) f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_L_S_INX",
+   "after": "FCVT_WU_S_INX",
+   "description": "Convert Float to Long",
+   "pseudocode": "x[rd] = (int64) f[rs1]"
+  },
+  {
+   "group": "op-fp",
+   "def": "FCVT_LU_S",
+   "after": "FCVT_L_S",
+   "description": "Convert Float to Unsigned Long",
+   "pseudocode": "x[rd] = (uint64) f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_LU_S_INX",
+   "after": "FCVT_L_S_INX",
+   "description": "Convert Float to Unsigned Long",
+   "pseudocode": "x[rd] = (uint64) f[rs1]"
+  },
+  {
+   "group": "op-fp",
+   "def": "FCVT_S_L",
+   "after": "FCVT_S_WU",
+   "description": "Convert Long to Float",
+   "pseudocode": "f[rd] = (float) (int64) x[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_S_L_INX",
+   "after": "FCVT_S_WU_INX",
+   "description": "Convert Long to Float",
+   "pseudocode": "f[rd] = (float) (int64) x[rs1]"
+  },
+  {
+   "group": "op-fp",
+   "def": "FCVT_S_LU",
+   "after": "FCVT_S_L",
+   "description": "Convert Unsigned Long to Float",
+   "pseudocode": "f[rd] = (float) (uint64) x[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_S_LU_INX",
+   "after": "FCVT_S_L_INX",
+   "description": "Convert Unsigned Long to Float",
+   "pseudocode": "f[rd] = (float) (uint64) x[rs1]"
+  },
+  {
+   "group": "op-fp-d",
+   "def": "FCVT_L_D",
+   "after": "FCVT_WU_D",
+   "description": "Convert Double to Long",
+   "pseudocode": "x[rd] = (int64) f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_L_D_INX",
+   "after": "FCVT_WU_D_INX",
+   "description": "Convert Double to Long",
+   "pseudocode": "x[rd] = (int64) f[rs1]"
+  },
+  {
+   "group": "op-fp-d",
+   "def": "FCVT_LU_D",
+   "after": "FCVT_L_D",
+   "description": "Convert Double to Unsigned Long",
+   "pseudocode": "x[rd] = (uint64) f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_LU_D_INX",
+   "after": "FCVT_L_D_INX",
+   "description": "Convert Double to Unsigned Long",
+   "pseudocode": "x[rd] = (uint64) f[rs1]"
+  },
+  {
+   "group": "op-fp-d",
+   "def": "FCVT_D_L",
+   "after": "FCVT_D_WU",
+   "description": "Convert Long to Double",
+   "pseudocode": "f[rd] = (double) (int64) x[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_D_L_INX",
+   "after": "FCVT_D_WU_INX",
+   "description": "Convert Long to Double",
+   "pseudocode": "f[rd] = (double) (int64) x[rs1]"
+  },
+  {
+   "group": "op-fp-d",
+   "def": "FCVT_D_LU",
+   "after": "FCVT_D_L",
+   "description": "Convert Unsigned Long to Double",
+   "pseudocode": "f[rd] = (double) (uint64) x[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_D_LU_INX",
+   "after": "FCVT_D_L_INX",
+   "description": "Convert Unsigned Long to Double",
+   "pseudocode": "f[rd] = (double) (uint64) x[rs1]"
+  },
+  {
+   "group": "zfh-zfhmin-1010011-r",
+   "def": "FCVT_L_H",
+   "after": "FCVT_WU_H",
+   "description": "Floating-point Convert Half-precision to Long",
+   "pseudocode": "x[rd] = (int64) f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_L_H_INX",
+   "after": "FCVT_WU_H_INX",
+   "description": "Floating-point Convert Half-precision to Long",
+   "pseudocode": "x[rd] = (int64) f[rs1]"
+  },
+  {
+   "group": "zfh-zfhmin-1010011-r",
+   "def": "FCVT_LU_H",
+   "after": "FCVT_L_H",
+   "description": "Floating-point Convert Half-precision to Long",
+   "pseudocode": "x[rd] = (uint64) f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_LU_H_INX",
+   "after": "FCVT_L_H_INX",
+   "description": "Floating-point Convert Half-precision to Long",
+   "pseudocode": "x[rd] = (uint64) f[rs1]"
+  },
+  {
+   "group": "zfh-zfhmin-1010011-r",
+   "def": "FCVT_H_L",
+   "after": "FCVT_H_WU",
+   "description": "Floating-point Convert Long to Half-precision",
+   "pseudocode": "f[rd] = (half) (int64) x[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_H_L_INX",
+   "after": "FCVT_H_WU_INX",
+   "description": "Floating-point Convert Long to Half-precision",
+   "pseudocode": "f[rd] = (half) (int64) x[rs1]"
+  },
+  {
+   "group": "zfh-zfhmin-1010011-r",
+   "def": "FCVT_H_LU",
+   "after": "FCVT_H_L",
+   "description": "Floating-point Convert Unsigned Long to Half-precision",
+   "pseudocode": "f[rd] = (half) (uint64) x[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_H_LU_INX",
+   "after": "FCVT_H_L_INX",
+   "description": "Floating-point Convert Unsigned Long to Half-precision",
+   "pseudocode": "f[rd] = (half) (uint64) x[rs1]"
+  },
+  {
+   "group": "q-1010011-r",
+   "def": "FCVT_L_Q",
+   "after": "FCVT_WU_Q",
+   "description": "Floating-point Convert Quad-precision to Long",
+   "pseudocode": "x[rd] = (int64) f[rs1]"
+  },
+  {
+   "group": "q-1010011-r",
+   "def": "FCVT_LU_Q",
+   "after": "FCVT_L_Q",
+   "description": "Floating-Point Convert Unsigned Quad-Precision to Long",
+   "pseudocode": "x[rd] = (uint64) f[rs1]"
+  },
+  {
+   "group": "q-1010011-r",
+   "def": "FCVT_Q_L",
+   "after": "FCVT_Q_WU",
+   "description": "Floating-Point Convert Long to Quad-Precision",
+   "pseudocode": "f[rd] = (quad) (int64) x[rs1]"
+  },
+  {
+   "group": "q-1010011-r",
+   "def": "FCVT_Q_LU",
+   "after": "FCVT_Q_L",
+   "description": "Floating-Point Convert Unsigned Long to Quad-Precision",
+   "pseudocode": "f[rd] = (quad) (uint64) x[rs1]"
+  },
+  {
+   "group": "op-fp-d",
+   "def": "FMV_X_D",
+   "after": "FCVT_LU_D",
+   "description": "Move Double bits to Integer",
+   "pseudocode": "x[rd] = f[rs1][63:0]"
+  },
+  {
+   "group": "op-fp-d",
+   "def": "FMV_D_X",
+   "after": "FCVT_D_LU",
+   "description": "Move Integer bits to Double",
+   "pseudocode": "f[rd] = x[rs1][63:0]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FADD_D_INX",
+   "replaces": "FADD_D_IN32X",
+   "description": "Floating-Point Add Double-Precision",
+   "pseudocode": "rd = rs1 + rs2"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCLASS_D_INX",
+   "replaces": "FCLASS_D_IN32X",
+   "description": "Floating-Point Classify Double-Precision",
+   "pseudocode": "x[rd] = class mask of f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_D_H_INX",
+   "replaces": "FCVT_D_H_IN32X",
+   "description": "Floating-Point Convert Half-Precision to Double-Precision",
+   "pseudocode": "f[rd] = (half) f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_D_S_INX",
+   "replaces": "FCVT_D_S_IN32X",
+   "description": "Floating-Point Convert Single-Precision to Double-Precision",
+   "pseudocode": "f[rd] = (double) f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_D_WU_INX",
+   "replaces": "FCVT_D_WU_IN32X",
+   "description": "Floating-Point Convert Unsigned Word to Double-Precision",
+   "pseudocode": "f[rd] = (double) (uint32) x[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_D_W_INX",
+   "replaces": "FCVT_D_W_IN32X",
+   "description": "Floating-Point Convert Word to Double-Precision",
+   "pseudocode": "f[rd] = (double) (int32) x[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_H_D_INX",
+   "replaces": "FCVT_H_D_IN32X",
+   "description": "Floating-point Convert Double-precision to Half-precision",
+   "pseudocode": "f[rd] = (half) f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_S_D_INX",
+   "replaces": "FCVT_S_D_IN32X",
+   "description": "Floating-Point Convert Double-Precision to Single-Precision",
+   "pseudocode": "f[rd] = (float) f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_WU_D_INX",
+   "replaces": "FCVT_WU_D_IN32X",
+   "description": "Floating-Point Convert Double-Precision to Unsigned Word",
+   "pseudocode": "x[rd] = (uint32) f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FCVT_W_D_INX",
+   "replaces": "FCVT_W_D_IN32X",
+   "description": "Floating-Point Convert Double-Precision to Word",
+   "pseudocode": "x[rd] = (int32) f[rs1]"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FDIV_D_INX",
+   "replaces": "FDIV_D_IN32X",
+   "description": "Floating-Point Divide Double-Precision",
+   "pseudocode": "rd = rs1 ÷ rs2"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FEQ_D_INX",
+   "replaces": "FEQ_D_IN32X",
+   "description": "Floating-Point Equal Double-Precision",
+   "pseudocode": "x[rd] = ( rs1 == rs2 )"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FLE_D_INX",
+   "replaces": "FLE_D_IN32X",
+   "description": "Floating-Point Less Than or Equal Double-Precision",
+   "pseudocode": "x[rd] = ( rs1 <= rs2 )"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FLT_D_INX",
+   "replaces": "FLT_D_IN32X",
+   "description": "Floating-Point Less Than Double-Precision",
+   "pseudocode": "x[rd] = ( rs1 < rs2 )"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1000011-r4",
+   "def": "FMADD_D_INX",
+   "replaces": "FMADD_D_IN32X",
+   "description": "Floating-Point Multiply-Add Double-Precision",
+   "pseudocode": "rd = rs1 × rs2 + rs3"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FMAX_D_INX",
+   "replaces": "FMAX_D_IN32X",
+   "description": "Floating-Point Maximum-Number Double-Precision",
+   "pseudocode": "rd = max( rs1, rs2 )"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FMIN_D_INX",
+   "replaces": "FMIN_D_IN32X",
+   "description": "Floating-Point Minimum-Number Double-Precision",
+   "pseudocode": "rd = min( rs1, rs2 )"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1000111-r4",
+   "def": "FMSUB_D_INX",
+   "replaces": "FMSUB_D_IN32X",
+   "description": "Floating-Point Multiply-Subtract Double-Precision",
+   "pseudocode": "rd = rs1 × rs2 − rs3"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FMUL_D_INX",
+   "replaces": "FMUL_D_IN32X",
+   "description": "Floating-Point Multiply Double-Precision",
+   "pseudocode": "rd = rs1 × rs2"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1001111-r4",
+   "def": "FNMADD_D_INX",
+   "replaces": "FNMADD_D_IN32X",
+   "description": "Floating-Point Negate-Multiply-Add Double-Precision",
+   "pseudocode": "rd = −(rs1 × rs2) − rs3"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1001011-r4",
+   "def": "FNMSUB_D_INX",
+   "replaces": "FNMSUB_D_IN32X",
+   "description": "Floating-Point Negate-Multiply-Subtract Double-Precision",
+   "pseudocode": "rd = −(rs1 × rs2) + rs3"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FSGNJN_D_INX",
+   "replaces": "FSGNJN_D_IN32X",
+   "description": "Floating-Point Sign-Inject Negate Double-Precision",
+   "pseudocode": "rd = { ~rs2[63], rs1[62:0] }"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FSGNJX_D_INX",
+   "replaces": "FSGNJX_D_IN32X",
+   "description": "Floating-Point Sign-Inject XOR Double-Precision",
+   "pseudocode": "rd = { rs1[63] ^ rs2[63], rs1[62:0] }"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FSGNJ_D_INX",
+   "replaces": "FSGNJ_D_IN32X",
+   "description": "Floating-Point Sign-Inject Double-Precision",
+   "pseudocode": "rd = { rs2[63], rs1[62:0] }"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FSQRT_D_INX",
+   "replaces": "FSQRT_D_IN32X",
+   "description": "Floating-Point Square Root Double-Precision",
+   "pseudocode": "rd = √rs1"
+  },
+  {
+   "group": "zfinx-zdinx-zhinx-1010011-r",
+   "def": "FSUB_D_INX",
+   "replaces": "FSUB_D_IN32X",
+   "description": "Floating-Point Subtract Double-Precision",
+   "pseudocode": "rd = rs1 − rs2"
+  },
+  {
+   "group": "q-1010011-r",
+   "def": "FMVH_X_Q",
+   "after": "FROUND_Q",
+   "description": "Floating-Point Move High Half from Quad-Precision Register to Integer Register",
+   "pseudocode": "x[rd] = f[rs1][127:64]"
+  },
+  {
+   "group": "q-1010011-r",
+   "def": "FMVP_Q_X",
+   "after": "FMVH_X_Q",
+   "description": "Floating-Point Move Pair from Integer Registers to Quad-Precision Register",
+   "pseudocode": "f[rd] = { x[rs2], x[rs1] }"
+  },
+  {
+   "group": "c.ld",
+   "def": "C_LD",
+   "replaces": "C_FLW",
+   "description": "Load Double-Word",
+   "pseudocode": "rd' ← M[ rs1' + uimm ][63:0]",
+   "expands": "ld rd', uimm(rs1')"
+  },
+  {
+   "group": "c.sd",
+   "def": "C_SD",
+   "replaces": "C_FSW",
+   "description": "Store Double-Word",
+   "pseudocode": "rs2' → M[ rs1' + uimm ][63:0]",
+   "expands": "sd rs2', uimm(rs1')"
+  },
+  {
+   "group": "c.addiw",
+   "def": "C_ADDIW",
+   "replaces": "C_JAL",
+   "description": "Add Immediate Word",
+   "pseudocode": "rd = sext( ( rd + imm )[31:0] )",
+   "expands": "addiw rd, rd, imm"
+  },
+  {
+   "group": "c.addiw",
+   "reserved": true,
+   "enc": "001 - 00000 ----- 01",
+   "description": "RESERVED (rd = 0)"
+  },
+  {
+   "group": "c.ldsp",
+   "reserved": true,
+   "enc": "011 - 00000 ----- 10",
+   "description": "RESERVED (rd = 0)",
+   "replaces": "C_FLWSP"
+  },
+  {
+   "group": "c.ldsp",
+   "def": "C_LDSP",
+   "description": "Load Double-Word from SP",
+   "pseudocode": "rd ← M[ sp + uimm ][63:0]",
+   "expands": "ld rd, uimm(sp)"
+  },
+  {
+   "group": "c.sdsp",
+   "def": "C_SDSP",
+   "replaces": "C_FSWSP",
+   "description": "Store Double-Word to SP",
+   "pseudocode": "rs2 → M[ sp + uimm ][63:0]",
+   "expands": "sd rs2, uimm(sp)"
+  },
+  {
+   "group": "c.ca",
+   "def": "C_SUBW",
+   "after": "C_AND",
+   "description": "Subtract Word",
+   "pseudocode": "rd' = sext( ( rd' - rs2' )[31:0] )",
+   "expands": "subw rd', rd', rs2'"
+  },
+  {
+   "group": "c.ca",
+   "def": "C_ADDW",
+   "after": "C_SUBW",
+   "description": "Add Word",
+   "pseudocode": "rd' = sext( ( rd' + rs2' )[31:0] )",
+   "expands": "addw rd', rd', rs2'"
+  },
+  {
+   "group": "c.ca",
+   "reserved": true,
+   "enc": "100111 --- 1 - --- 01",
+   "after": "C_ADDW",
+   "description": "RESERVED (Zcb puts c.mul and its unary operations here)"
+  },
+  {
+   "group": "c.slli",
+   "hint": true,
+   "enc": "000 shamt[5] 00000 shamt[4:0] 10",
+   "after": "000 0 rd/rs1!=0 00000 10",
+   "description": "HINT — c.slli with rd = x0 (custom use)"
+  },
+  {
+   "group": "c.b-100-cu",
+   "def": "C_ZEXT_W",
+   "after": "C_ZEXT_H",
+   "description": "Zero-Extend Word",
+   "pseudocode": "rd' = zext( rd'[31:0] )",
+   "expands": "add.uw rd', rd', zero"
+  },
+  {
+   "group": "b-0010011-i",
+   "def": "REV8_RV64",
+   "replaces": "REV8_RV32",
+   "description": "Byte-reverse Register",
+   "pseudocode": "rd = rs1 with its bytes reversed"
+  },
+  {
+   "group": "b-0111011-r",
+   "def": "ADD_UW",
+   "after": "XNOR",
+   "description": "Add Unsigned Word",
+   "pseudocode": "rd = rs2 + zext( rs1[31:0] )"
+  },
+  {
+   "group": "b-0111011-r",
+   "def": "SH1ADD_UW",
+   "description": "Shift Unsigned Word Left by 1 and Add",
+   "pseudocode": "rd = rs2 + ( zext( rs1[31:0] ) << 1 )"
+  },
+  {
+   "group": "b-0111011-r",
+   "def": "SH2ADD_UW",
+   "description": "Shift Unsigned Word Left by 2 and Add",
+   "pseudocode": "rd = rs2 + ( zext( rs1[31:0] ) << 2 )"
+  },
+  {
+   "group": "b-0111011-r",
+   "def": "SH3ADD_UW",
+   "description": "Shift Unsigned Word Left by 3 and Add",
+   "pseudocode": "rd = rs2 + ( zext( rs1[31:0] ) << 3 )"
+  },
+  {
+   "group": "b-0111011-r",
+   "def": "ROLW",
+   "description": "Rotate Left Word (Register)",
+   "pseudocode": "rd = sext( rs1[31:0] rotated left by rs2[4:0] )"
+  },
+  {
+   "group": "b-0111011-r",
+   "def": "RORW",
+   "description": "Rotate Right Word (Register)",
+   "pseudocode": "rd = sext( rs1[31:0] rotated right by rs2[4:0] )"
+  },
+  {
+   "group": "b-0111011-r",
+   "def": "ZEXT_H_RV64",
+   "description": "Zero-extend Halfword",
+   "pseudocode": "rd = zext( rs1[15:0] )"
+  },
+  {
+   "group": "b-0011011-i",
+   "def": "SLLI_UW",
+   "after": "SEXT_H",
+   "description": "Shift-left Unsigned Word (Immediate)",
+   "pseudocode": "rd = zext( rs1[31:0] ) << shamt"
+  },
+  {
+   "group": "b-0011011-i",
+   "def": "CLZW",
+   "description": "Count Leading Zero Bits in Word",
+   "pseudocode": "rd = leading zeros of rs1[31:0]"
+  },
+  {
+   "group": "b-0011011-i",
+   "def": "CTZW",
+   "description": "Count Trailing Zero Bits in Word",
+   "pseudocode": "rd = trailing zeros of rs1[31:0]"
+  },
+  {
+   "group": "b-0011011-i",
+   "def": "CPOPW",
+   "description": "Count Set Bits in Word",
+   "pseudocode": "rd = number of 1 bits in rs1[31:0]"
+  },
+  {
+   "group": "b-0011011-i",
+   "def": "RORIW",
+   "description": "Rotate Right Word (Immediate)",
+   "pseudocode": "rd = sext( rs1[31:0] rotated right by shamt )"
+  },
+  {
+   "group": "k-0110011-r",
+   "def": "AES64DS",
+   "replaces": "AES32DSI",
+   "description": "AES Final Round Decryption",
+   "pseudocode": "rd = AES InvShiftRows + InvSubBytes( rs1, rs2 ) (low half)"
+  },
+  {
+   "group": "k-0110011-r",
+   "def": "AES64DSM",
+   "replaces": "AES32DSMI",
+   "description": "AES Middle Round Decryption",
+   "pseudocode": "rd = AES InvShiftRows + InvSubBytes + InvMixColumns( rs1, rs2 ) (low half)"
+  },
+  {
+   "group": "k-0110011-r",
+   "def": "AES64ES",
+   "replaces": "AES32ESI",
+   "description": "AES Final Round Encryption",
+   "pseudocode": "rd = AES ShiftRows + SubBytes( rs1, rs2 ) (low half)"
+  },
+  {
+   "group": "k-0110011-r",
+   "def": "AES64ESM",
+   "replaces": "AES32ESMI",
+   "description": "AES Middle Round Encryption",
+   "pseudocode": "rd = AES ShiftRows + SubBytes + MixColumns( rs1, rs2 ) (low half)"
+  },
+  {
+   "group": "k-0110011-r",
+   "def": "AES64KS2",
+   "after": "AES64ESM",
+   "description": "AES Key Schedule Instruction 2",
+   "pseudocode": "rd = { w[1], w[0] } of the next round key, from rs1 and rs2"
+  },
+  {
+   "group": "k-0010011-i",
+   "def": "AES64IM",
+   "after": "SHA256SUM1",
+   "description": "AES Decryption KeySchedule Mix Columns",
+   "pseudocode": "rd = InvMixColumns( rs1 ) on both words"
+  },
+  {
+   "group": "k-0010011-i",
+   "def": "AES64KS1I",
+   "after": "AES64IM",
+   "description": "AES Key Schedule Instruction 1",
+   "pseudocode": "rd = SubWord( rotated rs1[63:32] ) ^ rcon[rnum], twice"
+  },
+  {
+   "group": "k-0010011-i",
+   "def": "SHA512SIG0",
+   "description": "sha512sig0",
+   "pseudocode": "rd = SHA-512 σ0( rs1 )"
+  },
+  {
+   "group": "k-0010011-i",
+   "def": "SHA512SIG1",
+   "description": "sha512sig1",
+   "pseudocode": "rd = SHA-512 σ1( rs1 )"
+  },
+  {
+   "group": "k-0010011-i",
+   "def": "SHA512SUM0",
+   "description": "sha512sum0",
+   "pseudocode": "rd = SHA-512 Σ0( rs1 )"
+  },
+  {
+   "group": "k-0010011-i",
+   "def": "SHA512SUM1",
+   "description": "sha512sum1",
+   "pseudocode": "rd = SHA-512 Σ1( rs1 )"
+  },
+  {
+   "group": "k-0111011-r",
+   "def": "PACKW",
+   "after": "PACKH",
+   "description": "Pack Low Halves of Words",
+   "pseudocode": "rd = sext( { rs2[15:0], rs1[15:0] } )"
+  },
+  {
+   "group": "h-1110011-r",
+   "def": "HLV_WU",
+   "after": "HLV_W",
+   "description": "Hypervisor Load Word Unsigned",
+   "pseudocode": "rd ← guest virtual memory at rs1 (as VS / VU)"
+  },
+  {
+   "group": "h-1110011-r",
+   "def": "HLV_D",
+   "after": "HLV_WU",
+   "description": "Hypervisor Load Double-Word",
+   "pseudocode": "rd ← guest virtual memory at rs1 (as VS / VU)"
+  },
+  {
+   "group": "h-1110011-r",
+   "def": "HSV_D",
+   "after": "HSV_W",
+   "description": "Hypervisor Store Double-Word",
+   "pseudocode": "rs2 → guest virtual memory at rs1 (as VS / VU)"
+  },
+  {
+   "group": "v-load",
+   "def": "VLOXEI64_V",
+   "after": "VLOXEI32_V",
+   "description": "Vector Ordered Load 1 Element of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLOXSEG2EI64_V",
+   "after": "VLOXSEG2EI32_V",
+   "description": "Vector Ordered Load 2 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLOXSEG3EI64_V",
+   "after": "VLOXSEG3EI32_V",
+   "description": "Vector Ordered Load 3 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLOXSEG4EI64_V",
+   "after": "VLOXSEG4EI32_V",
+   "description": "Vector Ordered Load 4 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLOXSEG5EI64_V",
+   "after": "VLOXSEG5EI32_V",
+   "description": "Vector Ordered Load 5 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLOXSEG6EI64_V",
+   "after": "VLOXSEG6EI32_V",
+   "description": "Vector Ordered Load 6 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLOXSEG7EI64_V",
+   "after": "VLOXSEG7EI32_V",
+   "description": "Vector Ordered Load 7 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLOXSEG8EI64_V",
+   "after": "VLOXSEG8EI32_V",
+   "description": "Vector Ordered Load 8 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLUXEI64_V",
+   "after": "VLUXEI32_V",
+   "description": "Vector Unordered Load 1 Element of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLUXSEG2EI64_V",
+   "after": "VLUXSEG2EI32_V",
+   "description": "vluxseg2ei32.v",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLUXSEG3EI64_V",
+   "after": "VLUXSEG3EI32_V",
+   "description": "Vector Unordered Load 3 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLUXSEG4EI64_V",
+   "after": "VLUXSEG4EI32_V",
+   "description": "Vector Unordered Load 4 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLUXSEG5EI64_V",
+   "after": "VLUXSEG5EI32_V",
+   "description": "Vector Unordered Load 5 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLUXSEG6EI64_V",
+   "after": "VLUXSEG6EI32_V",
+   "description": "Vector Unordered Load 6 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLUXSEG7EI64_V",
+   "after": "VLUXSEG7EI32_V",
+   "description": "Vector Unordered Load 7 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-load",
+   "def": "VLUXSEG8EI64_V",
+   "after": "VLUXSEG8EI32_V",
+   "description": "Vector Unordered Load 8 Elements of 64 Bits with Index",
+   "pseudocode": "vd ← M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSOXEI64_V",
+   "after": "VSOXEI32_V",
+   "description": "Vector Ordered Store 1 Element of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSOXSEG2EI64_V",
+   "after": "VSOXSEG2EI32_V",
+   "description": "Vector Ordered Store 2 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSOXSEG3EI64_V",
+   "after": "VSOXSEG3EI32_V",
+   "description": "Vector Ordered Store 3 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSOXSEG4EI64_V",
+   "after": "VSOXSEG4EI32_V",
+   "description": "Vector Ordered Store 4 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSOXSEG5EI64_V",
+   "after": "VSOXSEG5EI32_V",
+   "description": "Vector Ordered Store 5 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSOXSEG6EI64_V",
+   "after": "VSOXSEG6EI32_V",
+   "description": "Vector Ordered Store 6 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSOXSEG7EI64_V",
+   "after": "VSOXSEG7EI32_V",
+   "description": "Vector Ordered Store 7 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSOXSEG8EI64_V",
+   "after": "VSOXSEG8EI32_V",
+   "description": "Vector Ordered Store 8 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSUXEI64_V",
+   "after": "VSUXEI32_V",
+   "description": "Vector Unordered Store 1 Element of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSUXSEG2EI64_V",
+   "after": "VSUXSEG2EI32_V",
+   "description": "Vector Unordered Store 2 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSUXSEG3EI64_V",
+   "after": "VSUXSEG3EI32_V",
+   "description": "Vector Unordered Store 3 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSUXSEG4EI64_V",
+   "after": "VSUXSEG4EI32_V",
+   "description": "Vector Unordered Store 4 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSUXSEG5EI64_V",
+   "after": "VSUXSEG5EI32_V",
+   "description": "Vector Unordered Store 5 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSUXSEG6EI64_V",
+   "after": "VSUXSEG6EI32_V",
+   "description": "Vector Unordered Store 6 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSUXSEG7EI64_V",
+   "after": "VSUXSEG7EI32_V",
+   "description": "Vector Unordered Store 7 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  },
+  {
+   "group": "v-store",
+   "def": "VSUXSEG8EI64_V",
+   "after": "VSUXSEG8EI32_V",
+   "description": "Vector Unordered Store 8 Elements of 64 Bits with Index",
+   "pseudocode": "vs3 → M[ rs1 ... ]"
+  }
+ ],
+ "unusedOpcodes": [
+  {
+   "opcode": "0001011",
+   "name": "custom-0",
+   "note": "designated for custom extensions"
+  },
+  {
+   "opcode": "0011111",
+   "name": "reserved (>32b)",
+   "note": "reserved for instructions longer than 32 bit"
+  },
+  {
+   "opcode": "0101011",
+   "name": "custom-1",
+   "note": "designated for custom extensions"
+  },
+  {
+   "opcode": "0111111",
+   "name": "reserved (>32b)",
+   "note": "reserved for instructions longer than 32 bit"
+  },
+  {
+   "opcode": "1010111",
+   "name": "OP-V",
+   "note": "'V' vector extension"
+  },
+  {
+   "opcode": "1011011",
+   "name": "custom-2",
+   "note": "designated for custom extensions"
+  },
+  {
+   "opcode": "1011111",
+   "name": "reserved (>32b)",
+   "note": "reserved for instructions longer than 32 bit"
+  },
+  {
+   "opcode": "1101011",
+   "name": "reserved",
+   "note": "reserved for future standard extensions"
+  },
+  {
+   "opcode": "1110111",
+   "name": "OP-VE",
+   "note": "vector crypto extensions (Zvk*)"
+  },
+  {
+   "opcode": "1111011",
+   "name": "custom-3",
+   "note": "designated for custom extensions"
+  },
+  {
+   "opcode": "1111111",
+   "name": "reserved (>32b)",
+   "note": "reserved for instructions longer than 32 bit"
+  }
+ ],
+ "dropPseudos": [
+  {
+   "name": "rdcycleh",
+   "asm": "rd"
+  },
+  {
+   "name": "rdtimeh",
+   "asm": "rd"
+  },
+  {
+   "name": "rdinstreth",
+   "asm": "rd"
+  }
+ ],
+ "pseudoInstructions": [
+  {
+   "name": "li",
+   "asm": "rd, imm",
+   "expands": [
+    [
+     "lui",
+     {
+      "imm": "hi"
+     }
+    ],
+    [
+     "addiw",
+     {
+      "rs1": "rd",
+      "imm": "lo"
+     }
+    ]
+   ],
+   "short": true,
+   "dropZeroLo": true,
+   "description": "Load Immediate (just addi rd, x0, imm when imm fits in 12 bits; just lui when imm[11:0] = 0)"
+  },
+  {
+   "name": "negw",
+   "asm": "rd, rs",
+   "after": "neg rd, rs",
+   "description": "2's Complement Word"
+  },
+  {
+   "name": "sext.w",
+   "asm": "rd, rs",
+   "after": "negw rd, rs",
+   "description": "Sign-Extend Word"
+  },
+  {
+   "name": "zext.w",
+   "asm": "rd, rs",
+   "after": "sext.w rd, rs",
+   "description": "Zero-Extend Word"
+  },
+  {
+   "name": "ld",
+   "asm": "rd, imm",
+   "after": "lw rd, imm",
+   "expands": [
+    [
+     "auipc",
+     {
+      "imm": "hi"
+     }
+    ],
+    [
+     "ld",
+     {
+      "rs1": "rd",
+      "imm": "lo"
+     }
+    ]
+   ],
+   "description": "Load Global Double-Word"
+  },
+  {
+   "name": "lwu",
+   "asm": "rd, imm",
+   "after": "ld rd, imm",
+   "expands": [
+    [
+     "auipc",
+     {
+      "imm": "hi"
+     }
+    ],
+    [
+     "lwu",
+     {
+      "rs1": "rd",
+      "imm": "lo"
+     }
+    ]
+   ],
+   "description": "Load Global Word Unsigned"
+  },
+  {
+   "name": "sd",
+   "asm": "rs2, imm, rt",
+   "after": "sw rs2, imm, rt",
+   "expands": [
+    [
+     "auipc",
+     {
+      "rd": "rt",
+      "imm": "hi"
+     }
+    ],
+    [
+     "sd",
+     {
+      "rs1": "rt",
+      "imm": "lo"
+     }
+    ]
+   ],
+   "description": "Store Global Double-Word"
+  }
+ ],
+ "registers": {
+  "sections": [
+   {
+    "title": "Program Counter",
+    "columns": [
+     "Register",
+     "Width",
+     "Meaning"
+    ],
+    "rows": [
+     [
+      "pc",
+      "64 bit",
+      "Address of the current instruction; not an operand, read with auipc, changed by jumps and branches"
+     ]
+    ],
+    "group": "CPU Registers",
+    "replaces": "Program Counter"
+   },
+   {
+    "group": "Stack",
+    "title": "The Stack (lp64d calling convention)",
+    "columns": [
+     "Item",
+     "Value",
+     "Meaning"
+    ],
+    "rows": [
+     [
+      "Direction",
+      "down",
+      "The stack grows towards lower addresses; sp points to the last double-word in use"
+     ],
+     [
+      "Alignment",
+      "16 bytes",
+      "sp stays a multiple of 16 at every call"
+     ],
+     [
+      "Return address",
+      "ra",
+      "A function that calls others saves ra in its frame"
+     ],
+     [
+      "Frame pointer",
+      "s0 / fp",
+      "Optional base of the frame, saved by the callee like every s register"
+     ],
+     [
+      "Arguments",
+      "a0–a7, fa0–fa7",
+      "Arguments that do not fit there are passed on the stack, at sp on entry"
+     ],
+     [
+      "Below sp",
+      "—",
+      "No red zone: memory below sp may be overwritten at any time"
+     ]
+    ],
+    "replaces": "The Stack (ilp32d calling convention)"
+   }
+  ]
+ }
+}

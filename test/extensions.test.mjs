@@ -58,12 +58,32 @@ test('the sheets of a set of extensions hold its rows only', () => {
   assert.equal(imc.decodeWord({ word: 0x02b50533 }).inst.name, 'mul');
 });
 
+test('RV64 starts as RV64GC: RV32GC with its doubleword and word instructions, without RV32\'s own', () => {
+  const rv64 = isas.find((isa) => isa.value === 'rv64gc');
+  const ext = rv64.extensions;
+  assert.equal(ext.width, 64);
+  assert.equal(ext.codecFor({ enabled: ext.defaults }), rv64.codec);
+  assert.equal(rv64.codec.spec.name, 'RV64GC');
+  const shown = names(rv64.codec);
+  for (const n of ['ld', 'sd', 'lwu', 'addiw', 'sllw', 'mulw', 'lr.d', 'amoadd.d', 'fcvt.l.s', 'fmv.x.d', 'c.ld', 'c.sdsp', 'c.addiw', 'c.subw', 'sext.w', 'negw']) assert.ok(shown.has(n), n);
+  for (const n of ['c.flw', 'c.fsw', 'c.flwsp', 'c.fswsp', 'c.jal', 'rdcycleh']) assert.ok(!shown.has(n), n);
+  assert.ok(!ext.available.has('Zilsd') && !ext.available.has('Zclsd'), 'load / store pairs are RV32\'s');
+  assert.equal(isaString({ width: 64, enabled: ext.defaults }), 'RV64GC');
+  // 6 bit shift amounts, and c.ld where RV32 has c.flw
+  assert.deepEqual(rv64.codec.encodeAssembly({ assembly: 'slli a0, a1, 63' }).words.map((w) => w.word), [0x03f59513]);
+  assert.equal(rv64.codec.decodeWord({ word: 0x6522 }).inst.name, 'c.ldsp');
+  assert.equal(rv32.codec.decodeWord({ word: 0x6522 }).inst.name, 'c.flwsp');
+  assert.throws(() => rv32.codec.encodeAssembly({ assembly: 'slli a0, a1, 63' }));
+});
+
 test('the profiles the assemblers check hold every instruction of the sheets, and each decodes its own words', async () => {
   const { profiles } = await import('./riscv-profiles.mjs');
-  const { instructions } = await import('../src/isa/generated/rv32gc.mjs');
-  const covered = new Set(profiles.flatMap((p) => p.codec.compiled.filter((i) => !i.hint && !i.reserved).map((i) => `${i.name} ${i.enc}`)));
-  const missing = instructions.filter((i) => !i.hint && !i.reserved).map((i) => `${i.name} ${i.enc}`).filter((k) => !covered.has(k));
-  assert.deepEqual(missing, []);
+  for (const xlen of [32, 64]) {
+    const { instructions } = await import(`../src/isa/generated/rv${xlen}gc.mjs`);
+    const covered = new Set(profiles.filter((p) => p.xlen === xlen).flatMap((p) => p.codec.compiled.filter((i) => !i.hint && !i.reserved).map((i) => `${i.name} ${i.enc}`)));
+    const missing = instructions.filter((i) => !i.hint && !i.reserved).map((i) => `${i.name} ${i.enc}`).filter((k) => !covered.has(k));
+    assert.deepEqual(missing, [], `RV${xlen}`);
+  }
   // round trip in each profile: encode every instruction with valid operands, decode, same instruction and word
   const { allCases } = await import('./cases.mjs');
   const failures = [];
@@ -73,7 +93,9 @@ test('the profiles the assemblers check hold every instruction of the sheets, an
       try {
         const [{ word }] = p.codec.encodeEntry({ entry, operands, ordering }).words;
         const decoded = p.codec.decodeWord({ word });
-        if (!decoded || decoded.inst.id !== entry.id) failures.push(`${label} decodes as ${decoded ? decoded.inst.name : 'nothing'}`);
+        // a more specific instruction may take the word (Zicfiss's ssrdp is mop.r.28 with rs1 = zero)
+        const narrower = decoded && decoded.inst.id !== entry.id && (decoded.inst.mask & entry.mask) >>> 0 === entry.mask >>> 0 && decoded.inst.mask !== entry.mask;
+        if (!decoded || (decoded.inst.id !== entry.id && !narrower)) failures.push(`${label} decodes as ${decoded ? decoded.inst.name : 'nothing'}`);
         else if (p.codec.encodeAssembly({ assembly: decoded.assembly }).words[0].word !== word) failures.push(`${label}: ${decoded.assembly} does not encode back`);
       } catch (e) {
         failures.push(`${label}: ${e.message}`);

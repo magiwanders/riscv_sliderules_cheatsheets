@@ -6,12 +6,12 @@ of `unofficial/`, which are this project's own: edit those, then run `npm run is
 
 | Directory / file | Source | Version | Licence |
 | --- | --- | --- | --- |
-| `sail-riscv/` | The RISC-V Sail model, [riscv/sail-riscv](https://github.com/riscv/sail-riscv): the files with the encodings of RV32 and its ratified extensions (`model/...`) | tag `2026-11-09-8118453` (commit `8118453168a11439fd88318e7e1192eb938efcd1`) | BSD 2-Clause, `sail-riscv/LICENCE` |
-| `udb/instructions.json` | The RISC-V Unified Database, [riscv-software-src/riscv-unified-db](https://github.com/riscv-software-src/riscv-unified-db): each instruction's long name, RV32 encoding (match) and extensions, extracted from `spec/std/isa/inst` by `tools/isa/udb.py` | commit `d583fecd3d95841b9d6751f800337d1e2999c3fd` | BSD 3-Clause Clear, `udb/LICENSE` |
-| `llvm/RISCV.json` | LLVM's RISC-V TableGen description, [llvm/llvm-project](https://github.com/llvm/llvm-project) `llvm/lib/Target/RISCV`, extracted with `llvm-tblgen --dump-json` | `llvmorg-23.1.5` | Apache 2.0 with LLVM exception, `llvm/LICENSE.TXT` |
+| `sail-riscv/` | The RISC-V Sail model, [riscv/sail-riscv](https://github.com/riscv/sail-riscv): the files with the encodings of RV32, RV64 and their ratified extensions (`model/...`) | tag `2026-11-09-8118453` (commit `8118453168a11439fd88318e7e1192eb938efcd1`) | BSD 2-Clause, `sail-riscv/LICENCE` |
+| `udb/instructions.json` | The RISC-V Unified Database, [riscv-software-src/riscv-unified-db](https://github.com/riscv-software-src/riscv-unified-db): each instruction's long name, RV32 and RV64 encodings (match, match64), extensions and base (xlen, when only one has it), extracted from `spec/std/isa/inst` by `tools/isa/udb.py` | commit `d583fecd3d95841b9d6751f800337d1e2999c3fd` | BSD 3-Clause Clear, `udb/LICENSE` |
+| `llvm/RISCV.json` | LLVM's RISC-V TableGen description, [llvm/llvm-project](https://github.com/llvm/llvm-project) `llvm/lib/Target/RISCV` (RV32 and RV64: IsRV32 / IsRV64 mark what one has), extracted with `llvm-tblgen --dump-json` | `llvmorg-23.1.5` | Apache 2.0 with LLVM exception, `llvm/LICENSE.TXT` |
 | `llvm/MOS.json` | llvm-mos's 6502 TableGen description, [llvm-mos/llvm-mos](https://github.com/llvm-mos/llvm-mos) `llvm/lib/Target/MOS` (not part of upstream LLVM), same extraction | commit `ae72e49843c256272d89421942079cd623bedafb` | Apache 2.0 with LLVM exception |
 
-Also here, so the header's TableGen downloads are the real files: the RV32GC `.td` files of LLVM's RISC-V target
+Also here, so the header's TableGen downloads are the real files: the RV32 / RV64 `.td` files of LLVM's RISC-V target
 (`llvm/RISCV/`, including `RISCVRegisterInfo.td` and `RISCVSystemOperands.td`, where the registers sheet takes register
 names, ABI names, encodings and CSR addresses from) and llvm-mos's instruction files (`llvm/MOS/`), same versions.
 

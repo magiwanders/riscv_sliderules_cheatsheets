@@ -596,3 +596,25 @@ table.registers-sheet { table-layout: auto; }
 .text.hint { background: var(--muted); color: #555; font-style: italic; text-align: center; }
 .unused-row td { background: var(--muted); color: #777; }
 .unused-row .unused-name { font-weight: bold; text-align: center; }
+
+/* ---------- one line of a sheet (src/line.mjs): the encoder's or the decoder's, in a popup by the pointer ---------- */
+
+.sliderules-line-popup {
+  position: fixed;
+  z-index: 2147483000;
+  padding: 3px;
+  border-radius: 6px;
+  background: var(--page);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  pointer-events: none;
+}
+.sliderules-line-popup[hidden] { display: none; }
+.sliderule-line .line-title th { padding: 3px 6px; background: var(--section); color: #fff; font-size: 12px; text-align: left; }
+.sliderule-line .line-numbers th { height: 14px; padding: 0 2px; background: var(--section); color: #fff; font-size: 10px; font-weight: normal; }
+.sliderule-line .line-numbers .byte-start { border-left: 2px solid #fff; }
+.sliderule-line .line-bit { font: bold 11px ui-monospace, Menlo, Consolas, monospace; }
+.sliderule-line .line-assembly { background: var(--strong); font: bold 12px ui-monospace, Menlo, Consolas, monospace; vertical-align: middle; }
+.sliderule-line .line-description { vertical-align: middle; }
+.sliderule-line .line-error { background: var(--muted); color: var(--error); text-align: center; white-space: normal; }

@@ -65,6 +65,33 @@ One line in any page:
 
 The sheets appear where an element with `id="sliderules"` is, or at the end of the page if there is none.
 
+### One line of a sheet
+
+To show what one instruction looks like, in a popup or anywhere in your page, load the line API instead:
+
+```html
+<script type="module" src="https://sliderules.magiwanders.com/line.js"></script>
+```
+
+It sets `window.sliderulesLine` (and fires a `sliderules-line` event on `window` when ready):
+
+```js
+const line = window.sliderulesLine;
+// the encoder's line: the assembly, then its bits by field (a pseudo-instruction gives a line per word)
+line.encoderLine({ isa: 'rv32gc', assembly: 'addi a0, a0, -1' });          // → { element, words, error }
+// the decoder's line of the instruction starting at bytes[0] (memory order; RISC-V and Hack words little-endian)
+line.decoderLine({ isa: 'rv32gc', extensions: ['I', 'M', 'C'], bytes: [0x01, 0x45] }); // → { element, assembly, length, error }
+// either one in a popup by the pointer (client pixels); call it on every pointer move, hide() when the pointer leaves
+line.show({ isa: 'hack', bytes: [0x10, 0xec], x: event.clientX, y: event.clientY });
+line.hide();
+line.disassemble({ isa: 'rv32gc', bytes });   // → [{ offset, length, assembly }] (assembly null where no instruction)
+line.assemble({ isa: 'hack', assembly: '@17' }); // → { words: [{ word, width, hex, binary }] } or { error }
+```
+
+`isa` is `rv32gc`, `rv64gc`, `z80`, `6502` or `hack`; `extensions` (RISC-V only) picks the extensions to decode and
+encode with, the sheet's default (RV32GC / RV64GC) otherwise; `title` replaces the line's title. The popup lets the
+pointer through. [Ash](https://ash.magiwanders.com) uses it for the instructions of its programs and memory.
+
 ## Self-hosting
 
 ```sh

@@ -22,8 +22,9 @@ the most common changes, adding a RISC-V extension or a whole instruction set, h
 | `src/cells.mjs` | Table cells shared by both tables, the header above them (title, pill, tools, credits). |
 | `src/carousel.mjs`, `src/builders.mjs`, `src/tristate.mjs` | Carousel selector, encoder operand selectors, the 0/1/x switches of the spine with their hex digits. |
 | `src/pdf.mjs` | PDF download of the visible sheet (loads html-to-image and jsPDF from CDNs on demand). |
+| `src/line.mjs` | One line of a sheet for other pages (`sliderules.line`, `public/line.js`): `encoderLine` / `decoderLine` of an assembly instruction or of bytes of memory, `show` / `hide` them in a popup by the pointer, `disassemble`, `assemble`. Ash calls it; keep its names and arguments stable (`test/line.test.mjs`). |
 | `src/registers.mjs` | The register tables of the header's register buttons: `codec.spec.registers` grouped by each section's `group` (one button per group), the popups' tables. |
-| `public/` | Copied as is into the build: `styles.css`, `embed.js` (one-line embedding), `index.html` (the site, uses `embed.js`). |
+| `public/` | Copied as is into the build: `styles.css`, `embed.js` (one-line embedding), `line.js` (the line API on its own), `index.html` (the site, uses `embed.js`). |
 | `index.html`, `src/dev.mjs` | Development entry (`npm run dev`): mounts the sheets straight from `src/`. |
 | `docs/` | README screenshots: retake them when the UI changes visibly. |
 | `test/` | `node --test` suites, shared test cases, the vector generators (GNU as, llvm-mc, py65, skoolkit, ca65, sjasmplus) and their output. |

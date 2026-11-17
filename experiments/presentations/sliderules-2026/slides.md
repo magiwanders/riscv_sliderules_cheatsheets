@@ -2,7 +2,7 @@
 marp: true
 size: 16:9
 paginate: true
-title: ISA Sliderules
+title: Instruction Set Sliderules
 author: Simone Shawn Cazzaniga
 style: |
   section {
@@ -40,7 +40,7 @@ style: |
 <!-- _class: title -->
 <!-- _paginate: false -->
 
-# ISA Sliderules
+# Instruction Set Sliderules
 
 <p class="sub">An assembly encoder and decoder for the web</p>
 

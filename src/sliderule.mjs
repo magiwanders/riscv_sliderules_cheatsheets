@@ -4,7 +4,7 @@ import { decoderSheet, decoderRows } from './selector.mjs';
 import { encoderSheet, encoderRows, showEncodedBits, highlightEncodedBits, expandedColumns, setExpandedColumns } from './encoder.mjs';
 import { OperandPanel } from './builders.mjs';
 import { Carousel } from './carousel.mjs';
-import { downloadPdf } from './pdf.mjs';
+import { downloadPdf, PAGES } from './pdf.mjs';
 import { sheetHeader, contributeLink, flashChangedBits } from './cells.mjs';
 import { registerGroups, registersTable } from './registers.mjs';
 
@@ -157,21 +157,24 @@ function _currentTable() {
   return (_mode === 'encoder' ? _elements.encoder : _elements.decoder).table;
 }
 
-function _pdfButton() {
-  return _confirmingButton({ label: '⤓ PDF', classes: 'tool-button header-tool split-main', done: 'Saved ✓',
-    title: 'Download this sheet as you see it (A3 PDF). Clear first for the whole sheet.',
-    action: async () => downloadPdf({ header: _app.header, element: _currentTable(), fileName: _fileName({ mode: _mode }) }) });
+// The sheet as a PDF on `page` (a key of PAGES): the main button's A4 landscape, or a menu item's other size.
+function _pdfButton({ page = 'a4-landscape', label = '⤓ PDF', classes = 'tool-button header-tool split-main' }) {
+  return _confirmingButton({ label, classes, done: 'Saved ✓',
+    title: `Download this sheet as you see it (${PAGES[page].label} PDF). Clear first for the whole sheet.`,
+    action: async () => downloadPdf({ header: _app.header, element: _currentTable(), fileName: _fileName({ mode: _mode }), page }) });
 }
 
-// ⤓ PDF with an arrow on its right that opens the other downloads (Sail, TableGen) under it; the menu closes on a
-// choice, a click elsewhere or Escape.
+// ⤓ PDF with an arrow on its right that opens the other downloads (the PDF in A3 portrait, Sail, TableGen) under it;
+// the menu closes on a choice, a click elsewhere or Escape.
 function _downloads() {
-  const pdf = _pdfButton();
+  const pdf = _pdfButton({});
+  const pdfA3 = _pdfButton({ page: 'a3-portrait', label: '⤓ PDF A3 portrait', classes: 'split-item' });
+  pdfA3.setAttribute('role', 'menuitem');
   const sail = _exportLink({ kind: 'sail' });
   const tablegen = _exportLink({ kind: 'tablegen' });
-  const menu = _div({ class: 'split-menu', role: 'menu' }, [sail, tablegen]);
+  const menu = _div({ class: 'split-menu', role: 'menu' }, [pdfA3, sail, tablegen]);
   menu.hidden = true;
-  const caret = _button({ classes: 'tool-button header-tool split-caret', label: '▾', title: 'More downloads: Sail, TableGen',
+  const caret = _button({ classes: 'tool-button header-tool split-caret', label: '▾', title: 'More downloads: PDF in A3 portrait, Sail, TableGen',
     onClick: () => { menu.hidden = !menu.hidden; } });
   caret.setAttribute('aria-haspopup', 'menu');
   const root = _div({ class: 'split-button' }, [pdf, caret, menu]);

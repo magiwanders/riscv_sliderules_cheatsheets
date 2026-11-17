@@ -163,6 +163,7 @@ table.sliderule {
 }
 .split-menu[hidden] { display: none; }
 .split-item { padding: 6px 12px; color: var(--text); font-size: 12px; font-weight: bold; text-decoration: none; white-space: nowrap; }
+button.split-item { background: none; border: 0; text-align: left; font-family: inherit; cursor: pointer; }
 .split-item:hover { background: #eef4f5; }
 .split-item.disabled { color: #bbb; pointer-events: none; }
 

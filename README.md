@@ -50,8 +50,9 @@ its bits.
 *Float Registers*, *CSRs*, *Flags*, ...). Hover one to see its table (names, encodings, meaning), click it to keep the
 table open until you click elsewhere.
 
-**Both views**, top right: **Clear** goes back to the whole sheet, **⤓ PDF** downloads the sheet as you see it (A3;
-Clear first for the whole sheet), the arrow on its right offers **⤓ Sail** and **⤓ TableGen**, the
+**Both views**, top right: **Clear** goes back to the whole sheet, **⤓ PDF** downloads the sheet as you see it (A4
+landscape, pages break between rows; Clear first for the whole sheet), the arrow on its right offers **⤓ PDF A3 portrait**,
+**⤓ Sail** and **⤓ TableGen**, the
 instruction set's Sail and TableGen descriptions (see below; hover them to read whether they are official), **Share** copies a link that reopens exactly
 this session: the sheet, selectors, operands, bits, extensions and a register table kept open are all in the link.
 

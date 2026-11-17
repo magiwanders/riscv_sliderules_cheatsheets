@@ -43,6 +43,18 @@ style: |
   .vstrip { position: absolute; right: 56px; top: 36px; bottom: 36px; display: flex; gap: 8px; align-items: stretch; }
   .vstrip img { height: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
   .vstrip a { writing-mode: vertical-rl; font-size: 0.55em; text-align: center; }
+  .stack { display: flex; flex-direction: column; gap: 0; font-size: 0.85em; margin-top: 0.2em; }
+  .layer { display: grid; grid-template-columns: 210px 1fr; align-items: center; border-radius: 8px; padding: 10px 18px; border: 2px solid; }
+  .layer .name { font-weight: bold; }
+  .layer .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .layer .split > div { background: rgba(255,255,255,0.6); border-radius: 6px; padding: 4px 12px; text-align: center; }
+  .up { text-align: center; color: #74a4b0; font-size: 0.8em; line-height: 1.15; }
+  .viz { background: #74a4b0; border-color: #3f7280; color: #fff; }
+  .viz strong { color: #1f2a30; }
+  .viz .split > div { color: #1f2a30; }
+  .regs { background: #f8dede; border-color: #e3a3a3; }
+  .json { background: #dcecd3; border-color: #93c47d; }
+  .sail, .tblgen { background: #eef2f4; border-color: #b8c8ce; }
   .note { font-size: 0.7em; color: #6b7d84; }
   .todo { background: #fff3cd; border: 2px dashed #d9a400; padding: 2px 8px; border-radius: 4px; }
   img.wide { width: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
@@ -76,6 +88,7 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 ## Timeline
 
 <div class="timeline">
+  <div class="ev"><span class="when">2021</span>Involvment with RISC-V Foundation and Academia SIG</div>
   <div class="ev"><span class="when">2022</span>Music &amp; Acoustics MEng, thesis in low level audio hardware</div>
   <div class="ev"><span class="when">2023</span>Excel version of the sliderules</div>
   <div class="ev"><span class="when">2023</span>Hosted the mentorship <em>"Bringing the 'Sliderule' Cheat Sheets to the Web"</em> (Linux Foundation, RISC-V Foundation): mentees <strong>Jayaraj J</strong> and <strong>Siyu Chen</strong> built the first interactive version of sliderules</div>
@@ -86,6 +99,25 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 <div class="vstrip">
   <img src="img/faber-castell-vertical.png">
   <a href="https://sliderulemuseum.com/VirtualSR2/react/faber_castell_2_83n.shtml">https://sliderulemuseum.com/VirtualSR2/react/faber_castell_2_83n.shtml</a>
+</div>
+
+---
+
+## Structure
+
+<div class="stack">
+  <div class="layer viz">
+    <div class="name">Visualization</div>
+    <div class="split"><div><strong>Encoder</strong>: assembly → bits</div><div><strong>Decoder</strong>: bits → assembly</div></div>
+  </div>
+  <div class="up">▲</div>
+  <div class="layer regs"><div class="name">Registers</div><div class="what">Register tables (names, ABI roles, encodings, CSRs) behind the register buttons and operand selectors.</div></div>
+  <div class="up">▲</div>
+  <div class="layer json"><div class="name">JSON overlay</div><div class="what">What neither source carries: sections, groups, titles, descriptions, pseudocode, HINT and reserved rows, pseudo-instructions.</div></div>
+  <div class="up">▲</div>
+  <div class="layer sail"><div class="name">Sail</div><div class="what">The formal model of the ISA: the authoritative encoding of every instruction, checked bit by bit against TableGen.</div></div>
+  <div class="up">▲</div>
+  <div class="layer tblgen"><div class="name">LLVM TableGen</div><div class="what">The compiler's description of the ISA: mnemonics, operand syntax and encodings as the assembler reads and writes them.</div></div>
 </div>
 
 ---

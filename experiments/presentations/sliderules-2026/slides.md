@@ -34,6 +34,15 @@ style: |
   .corner img { width: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
   .corner p { margin: 0.2em 0; white-space: nowrap; font-size: 0.85em; }
   section.title { padding-bottom: 200px; }
+  section.tl h2 { margin-right: 250px; }
+  .timeline { position: relative; margin-right: 250px; margin-top: 0.4em; }
+  .timeline::before { content: ''; position: absolute; left: 96px; top: 0.5em; bottom: 0.9em; width: 4px; background: #74a4b0; border-radius: 2px; }
+  .ev { position: relative; padding: 0 0 0.75em 132px; line-height: 1.4; }
+  .ev::before { content: ''; position: absolute; left: 88px; top: 0.3em; width: 14px; height: 14px; border-radius: 50%; background: #3f7280; border: 3px solid #fff; box-shadow: 0 0 0 2px #74a4b0; }
+  .ev .when { position: absolute; left: 0; width: 72px; text-align: right; font-weight: bold; color: #3f7280; }
+  .vstrip { position: absolute; right: 56px; top: 36px; bottom: 36px; display: flex; gap: 8px; align-items: stretch; }
+  .vstrip img { height: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
+  .vstrip a { writing-mode: vertical-rl; font-size: 0.55em; text-align: center; }
   .note { font-size: 0.7em; color: #6b7d84; }
   .todo { background: #fff3cd; border: 2px dashed #d9a400; padding: 2px 8px; border-radius: 4px; }
   img.wide { width: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
@@ -62,31 +71,21 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 
 ---
 
-<!-- _class: dense -->
+<!-- _class: dense tl -->
 
-## Who am I · what are the Sliderules
+## Timeline
 
-<div class="cols">
-<div>
-
-### Simone Shawn Cazzaniga
-
-- Electroacoustics Design Engineer (R&D) at **BdSound SRL**, Milan, Italy
-- 2023: hosted the mentorship *"Bringing the 'Sliderule' Cheat Sheets to the Web"* (Linux Foundation, RISC-V Foundation): mentees **Jayaraj J** and **Siyu Chen** built the first interactive version of what began as an Excel spreadsheet
-- November 2026: UX/UI redesign, new features, ISAs beyond RISC-V
-
-</div>
-<div>
-
-</div>
+<div class="timeline">
+  <div class="ev"><span class="when">2022</span>Music &amp; Acoustics MEng, thesis in low level audio hardware</div>
+  <div class="ev"><span class="when">2023</span>Excel version of the sliderules</div>
+  <div class="ev"><span class="when">2023</span>Hosted the mentorship <em>"Bringing the 'Sliderule' Cheat Sheets to the Web"</em> (Linux Foundation, RISC-V Foundation): mentees <strong>Jayaraj J</strong> and <strong>Siyu Chen</strong> built the first interactive version of sliderules</div>
+  <div class="ev"><span class="when"></span>Electroacoustics Design Engineer (R&amp;D) at <strong>BdSound SRL</strong>, Milan, Italy</div>
+  <div class="ev"><span class="when">2026</span>UX/UI redesign, new features, ISAs beyond RISC-V</div>
 </div>
 
-<div class="corner">
-
-![](img/faber-castell.png)
-
-[https://sliderulemuseum.com/VirtualSR2/react/faber_castell_2_83n.shtml](https://sliderulemuseum.com/VirtualSR2/react/faber_castell_2_83n.shtml)
-
+<div class="vstrip">
+  <img src="img/faber-castell-vertical.png">
+  <a href="https://sliderulemuseum.com/VirtualSR2/react/faber_castell_2_83n.shtml">https://sliderulemuseum.com/VirtualSR2/react/faber_castell_2_83n.shtml</a>
 </div>
 
 ---

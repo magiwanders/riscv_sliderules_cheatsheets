@@ -32,9 +32,7 @@ style: |
   h3 { color: #3f7280; font-size: 1.1em; margin: 0.2em 0 0.3em; }
   .corner { position: absolute; right: 64px; bottom: 56px; width: 560px; font-size: 0.75em; text-align: right; }
   .corner img { width: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
-  .corner p { margin: 0.2em 0; }
-  section.title img.fade { position: absolute; left: 0; bottom: 0; width: 100%; height: 42%; object-fit: cover; object-position: center 35%; opacity: 0.55;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.9) 100%); mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.9) 100%); }
+  .corner p { margin: 0.2em 0; white-space: nowrap; font-size: 0.85em; }
   section.title { padding-bottom: 260px; }
   .note { font-size: 0.7em; color: #6b7d84; }
   .todo { background: #fff3cd; border: 2px dashed #d9a400; padding: 2px 8px; border-radius: 4px; }
@@ -60,7 +58,7 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 
 </div>
 
-<img class="fade" src="img/sheet.png">
+![bg](img/title-bg.png)
 
 ---
 
@@ -85,9 +83,9 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 
 <div class="corner">
 
-![](img/museum.png)
+![](img/faber-castell.png)
 
-[https://sliderulemuseum.com/VirtualSR.shtml](https://sliderulemuseum.com/VirtualSR.shtml)
+[https://sliderulemuseum.com/VirtualSR2/react/faber_castell_2_83n.shtml](https://sliderulemuseum.com/VirtualSR2/react/faber_castell_2_83n.shtml)
 
 </div>
 

@@ -44,6 +44,7 @@ style: |
   .vstrip img { height: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
   .vstrip a { writing-mode: vertical-rl; font-size: 0.55em; text-align: center; }
   svg.schema { display: block; width: 100%; height: 540px; margin-top: 0.3em; }
+  section.ui svg.ui { display: block; width: 100%; margin-top: 0.4em; }
   .note { font-size: 0.7em; color: #6b7d84; }
   .todo { background: #fff3cd; border: 2px dashed #d9a400; padding: 2px 8px; border-radius: 4px; }
   img.wide { width: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
@@ -89,6 +90,131 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
   <img src="img/faber-castell-vertical.png">
   <a href="https://sliderulemuseum.com/VirtualSR2/react/faber_castell_2_83n.shtml">https://sliderulemuseum.com/VirtualSR2/react/faber_castell_2_83n.shtml</a>
 </div>
+
+---
+
+<!-- _class: ui -->
+
+## Encoder: assembly → bits
+
+<svg class="ui" viewBox="-10 -125 1580 450" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+<defs><marker id="ua" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker></defs>
+<image href="img/ui-encoder.png" x="0" y="0" width="1562" height="170"/>
+<rect x="4" y="35" width="218" height="72" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="274" y="35" width="156" height="72" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="278" y="7" width="164" height="29" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="424" y="35" width="366" height="72" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="784" y="35" width="774" height="29" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<ellipse cx="1520.0" cy="21.5" rx="39.0" ry="12.5" fill="none" stroke="#e8590c" stroke-width="3"/>
+<rect x="216" y="101" width="64" height="27" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="4" y="122" width="786" height="42" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="784" y="122" width="774" height="24" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="784" y="140" width="774" height="24" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<line x1="110" y1="-70" x2="113.0" y2="32" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="110" y1="-70" x2="113.0" y2="32" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="110" y="-100" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Ext · Type</text>
+<text x="110" y="-78" text-anchor="middle" font-size="17" fill="#1f2a30">narrow the table</text>
+<line x1="350" y1="-70" x2="352.0" y2="32" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="350" y1="-70" x2="352.0" y2="32" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="350" y="-100" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Mnemonic</text>
+<text x="350" y="-78" text-anchor="middle" font-size="17" fill="#1f2a30">searchable list</text>
+<line x1="560" y1="-70" x2="360" y2="4" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="560" y1="-70" x2="360" y2="4" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="560" y="-100" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Assembly</text>
+<text x="560" y="-78" text-anchor="middle" font-size="17" fill="#1f2a30">built as you choose</text>
+<line x1="790" y1="-70" x2="700" y2="32" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="790" y1="-70" x2="700" y2="32" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="790" y="-100" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Operands</text>
+<text x="790" y="-78" text-anchor="middle" font-size="17" fill="#1f2a30">slider + dec / 0x / 0b field</text>
+<line x1="1090" y1="-70" x2="1100" y2="32" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="1090" y1="-70" x2="1100" y2="32" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="1090" y="-100" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Encoding</text>
+<text x="1090" y="-78" text-anchor="middle" font-size="17" fill="#1f2a30">hex digits over the bits</text>
+<line x1="1420" y1="-70" x2="1520.0" y2="8" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="1420" y1="-70" x2="1520.0" y2="8" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="1420" y="-100" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Copy</text>
+<text x="1420" y="-78" text-anchor="middle" font-size="17" fill="#1f2a30">assembly · bin · hex</text>
+<line x1="150" y1="208" x2="248.0" y2="131" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="150" y1="208" x2="248.0" y2="131" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="150" y="230" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Descr. ›</text>
+<text x="150" y="252" text-anchor="middle" font-size="17" fill="#1f2a30">unfolds description + explanation</text>
+<line x1="520" y1="208" x2="560" y2="167" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="520" y1="208" x2="560" y2="167" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="520" y="230" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">The chosen instruction</text>
+<text x="520" y="252" text-anchor="middle" font-size="17" fill="#1f2a30">click any mnemonic to pick it</text>
+<line x1="930" y1="208" x2="900" y2="149" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="930" y1="208" x2="900" y2="149" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="930" y="230" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Fields</text>
+<text x="930" y="252" text-anchor="middle" font-size="17" fill="#1f2a30">registers white, immediates in colour</text>
+<line x1="1340" y1="208" x2="1300" y2="167" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="1340" y1="208" x2="1300" y2="167" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="1340" y="230" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Immediate row</text>
+<text x="1340" y="252" text-anchor="middle" font-size="17" fill="#1f2a30">the value, bit by bit</text>
+<ellipse cx="737.0" cy="21.5" rx="54.0" ry="12.5" fill="none" stroke="#e8590c" stroke-width="3"/><ellipse cx="819.5" cy="21.5" rx="37.5" ry="12.5" fill="none" stroke="#e8590c" stroke-width="3"/>
+</svg>
+
+---
+
+<!-- _class: ui -->
+
+## Decoder: bits → assembly
+
+<svg class="ui" viewBox="-40 -125 1800 470" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+<defs><marker id="ua" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker></defs>
+<svg x="0" y="0" width="1760" height="216" viewBox="0 0 1760 216"><image href="img/ui-decoder.png" x="0" y="0" width="1760" height="260"/></svg>
+<rect x="4" y="27" width="774" height="29" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="4" y="50" width="774" height="49" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<ellipse cx="740.0" cy="17.5" rx="39.0" ry="12.5" fill="none" stroke="#e8590c" stroke-width="3"/>
+<rect x="877" y="29" width="866" height="68" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<ellipse cx="43.0" cy="193.0" rx="21.0" ry="23.0" fill="none" stroke="#e8590c" stroke-width="3"/>
+<rect x="1562" y="136" width="186" height="78" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<line x1="180" y1="-70" x2="200" y2="24" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="180" y1="-70" x2="200" y2="24" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="180" y="-100" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Hex digits</text>
+<text x="180" y="-78" text-anchor="middle" font-size="17" fill="#1f2a30">scroll or pick, 4 bits at once</text>
+<line x1="560" y1="-70" x2="560" y2="47" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="560" y1="-70" x2="560" y2="47" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="560" y="-100" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Bits</text>
+<text x="560" y="-78" text-anchor="middle" font-size="17" fill="#1f2a30">click 1 / 0 (again: x), type, paste</text>
+<line x1="900" y1="-70" x2="740.0" y2="4" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="900" y1="-70" x2="740.0" y2="4" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="900" y="-100" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Copy bin · hex</text>
+<text x="900" y="-78" text-anchor="middle" font-size="17" fill="#1f2a30">once the word is complete</text>
+<line x1="1360" y1="-70" x2="1310.0" y2="26" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="1360" y1="-70" x2="1310.0" y2="26" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="1360" y="-100" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Meaning</text>
+<text x="1360" y="-78" text-anchor="middle" font-size="17" fill="#1f2a30">the instruction builds up as bits are set</text>
+<line x1="130" y1="243" x2="43.0" y2="217" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="130" y1="243" x2="43.0" y2="217" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="130" y="265" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Members</text>
+<text x="130" y="287" text-anchor="middle" font-size="17" fill="#1f2a30">only what differs: bit 30</text>
+<line x1="1620" y1="243" x2="1655.0" y2="217" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="1620" y1="243" x2="1655.0" y2="217" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="1620" y="265" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Type · Ext</text>
+<text x="1620" y="287" text-anchor="middle" font-size="17" fill="#1f2a30">format and extension</text>
+<text x="500" y="265" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">① Section</text>
+<text x="500" y="287" text-anchor="middle" font-size="17" fill="#1f2a30">by the lowest bits</text>
+<text x="860" y="265" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">② Group header</text>
+<text x="860" y="287" text-anchor="middle" font-size="17" fill="#1f2a30">the bits all members share</text>
+<text x="1240" y="265" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">③ Shared immediate row</text>
+<text x="1240" y="287" text-anchor="middle" font-size="17" fill="#1f2a30">one for the whole group</text>
+<ellipse cx="39.5" cy="17.5" rx="37.5" ry="12.5" fill="none" stroke="#e8590c" stroke-width="3"/><rect x="7" y="117" width="1738" height="22" fill="none" stroke="#e8590c" stroke-width="2"/><rect x="7" y="139" width="1738" height="18" fill="none" stroke="#e8590c" stroke-width="2"/><rect x="7" y="157" width="1738" height="18" fill="none" stroke="#e8590c" stroke-width="2"/><line x1="-12" y1="128" x2="5" y2="128" stroke="#e8590c" stroke-width="2.5"/><circle cx="-22" cy="128" r="8.5" fill="#e8590c"/><text x="-22" y="132" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#fff">1</text><line x1="-12" y1="148" x2="5" y2="148" stroke="#e8590c" stroke-width="2.5"/><circle cx="-22" cy="148" r="8.5" fill="#e8590c"/><text x="-22" y="152" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#fff">2</text><line x1="-12" y1="166" x2="5" y2="166" stroke="#e8590c" stroke-width="2.5"/><circle cx="-22" cy="166" r="8.5" fill="#e8590c"/><text x="-22" y="170" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#fff">3</text>
+</svg>
+
+---
+
+<!-- _class: ui -->
+
+## Header: instruction set, sheets, tools
+
+<svg class="ui" viewBox="-10 -150 1510 410" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+<defs><marker id="ua" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker></defs>
+<svg x="0" y="0" width="1090" height="92" viewBox="0 0 1090 92"><image href="img/ui-header.png" width="1566" height="92"/></svg><svg x="1150" y="0" width="330" height="92" viewBox="1236 0 330 92"><image href="img/ui-header.png" width="1566" height="92"/></svg><path d="M1108,0 l12,15 l-12,15 l12,15 l-12,15 l12,15 l-12,15" fill="none" stroke="#b8c8ce" stroke-width="2"/><path d="M1128,0 l12,15 l-12,15 l12,15 l-12,15 l12,15 l-12,15" fill="none" stroke="#b8c8ce" stroke-width="2"/>
+<rect x="133" y="5" width="202" height="36" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="496" y="13" width="38" height="20" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="542" y="6" width="190" height="35" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="736" y="8" width="346" height="31" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="1310" y="6" width="94" height="34" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="1402" y="6" width="72" height="34" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="8" y="44" width="27" height="24" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="33" y="45" width="61" height="23" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="158" y="44" width="285" height="24" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="5" y="68" width="761" height="20" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="1245" y="6" width="67" height="34" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<rect x="1156" y="70" width="318" height="17" rx="6" fill="#e8590c" fill-opacity="0.06" stroke="#e8590c" stroke-width="3"/>
+<line x1="175" y1="-95" x2="234" y2="2" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="175" y1="-95" x2="234" y2="2" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="175" y="-125" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Instruction set</text>
+<text x="175" y="-103" text-anchor="middle" font-size="17" fill="#1f2a30">‹ › or click: list by family</text>
+<line x1="420" y1="-30" x2="515.0" y2="10" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="420" y1="-30" x2="515.0" y2="10" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="420" y="-60" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Version</text>
+<text x="420" y="-38" text-anchor="middle" font-size="17" fill="#1f2a30">of this sheet</text>
+<line x1="650" y1="-95" x2="637.0" y2="3" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="650" y1="-95" x2="637.0" y2="3" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="650" y="-125" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Encoder | Decoder</text>
+<text x="650" y="-103" text-anchor="middle" font-size="17" fill="#1f2a30">switch the sheet</text>
+<line x1="900" y1="-30" x2="909.0" y2="5" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="900" y1="-30" x2="909.0" y2="5" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="900" y="-60" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Register tables</text>
+<text x="900" y="-38" text-anchor="middle" font-size="17" fill="#1f2a30">hover; click to keep open</text>
+<line x1="1190" y1="-95" x2="1357.0" y2="3" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="1190" y1="-95" x2="1357.0" y2="3" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="1190" y="-125" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">⤓ PDF  A4 landscape</text>
+<text x="1190" y="-103" text-anchor="middle" font-size="17" fill="#1f2a30">▾ A3 portrait · Sail · TableGen</text>
+<line x1="1395" y1="-30" x2="1438.0" y2="3" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="1395" y1="-30" x2="1438.0" y2="3" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="1395" y="-60" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Share</text>
+<text x="1395" y="-38" text-anchor="middle" font-size="17" fill="#1f2a30">link to this session</text>
+<line x1="140" y1="148" x2="21" y2="71" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="140" y1="148" x2="21" y2="71" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="140" y="170" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">G</text>
+<text x="140" y="192" text-anchor="middle" font-size="17" fill="#1f2a30">= I M A F D + Zicsr, Zifencei</text>
+<line x1="425" y1="148" x2="64" y2="71" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="425" y1="148" x2="64" y2="71" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="425" y="170" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">▾ Z extensions</text>
+<text x="425" y="192" text-anchor="middle" font-size="17" fill="#1f2a30">folded under a letter, +2 on</text>
+<line x1="700" y1="208" x2="380" y2="71" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="700" y1="208" x2="380" y2="71" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="700" y="230" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Extensions</text>
+<text x="700" y="252" text-anchor="middle" font-size="17" fill="#1f2a30">toggle; the title follows (RV32GC)</text>
+<line x1="880" y1="148" x2="640" y2="91" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="880" y1="148" x2="640" y2="91" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="880" y="170" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Credits</text>
+<text x="880" y="192" text-anchor="middle" font-size="17" fill="#1f2a30">author and contributors</text>
+<line x1="1165" y1="148" x2="1278.5" y2="43" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="1165" y1="148" x2="1278.5" y2="43" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="1165" y="170" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">Clear</text>
+<text x="1165" y="192" text-anchor="middle" font-size="17" fill="#1f2a30">back to the whole sheet</text>
+<line x1="1370" y1="208" x2="1400" y2="90" stroke="#fff" stroke-width="7" stroke-linecap="round"/><line x1="1370" y1="208" x2="1400" y2="90" stroke="#e8590c" stroke-width="2.5" marker-end="url(#ua)"/><text x="1370" y="230" text-anchor="middle" font-size="20" font-weight="bold" fill="#c2410c">License · issues</text>
+<text x="1370" y="252" text-anchor="middle" font-size="17" fill="#1f2a30">CC BY-SA 4.0, contribute</text>
+</svg>
 
 ---
 
@@ -144,30 +270,6 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
   <text x="670" y="504" text-anchor="middle" font-size="16" fill="#1f2a30">operand fields</text>
   <text x="670" y="525" text-anchor="middle" font-size="16" fill="#1f2a30">immediate bit order</text>
 </svg>
-
----
-
-## Encoder: pick an instruction, read its bits
-
-![](img/encoder-crop.png)
-
-- Pick **extension**, **type**, **mnemonic**, then each **operand**: sliders and `0x…` / `0b…` fields that only take valid values
-- The bits update live, grouped by field, hex digits on top; copy assembly, binary or hex
-- **RV32 / RV64** with every ratified extension (1,142 / 1,245 instructions), **Z80**, **6502**, **Hack**
-- Generated from the official **Sail** model, **LLVM TableGen** and the **Unified Database**; **bit-perfect against GNU as and llvm-mc**
-
----
-
-## Decoder: set bits, read the instruction
-
-![](img/decoder-crop.png)
-
-![](img/decoder-full.png)
-
-- Click or type bits (`0`, `1`, `x` = don't care), or **paste a word** (`0xfff50513`)
-- The table **narrows as you go**: 10 bits set and only `addi` is left; 32 and it reads `addi a0, a0, -1`
-- Sorted as hardware decodes: quadrant, opcode, funct3, funct7
-- **Share** puts the session in a link; **⤓ PDF** prints the sheet as shown
 
 ---
 

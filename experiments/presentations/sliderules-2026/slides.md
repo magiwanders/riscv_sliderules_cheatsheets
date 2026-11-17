@@ -33,7 +33,7 @@ style: |
   .corner { position: absolute; right: 64px; bottom: 56px; width: 560px; font-size: 0.75em; text-align: right; }
   .corner img { width: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
   .corner p { margin: 0.2em 0; white-space: nowrap; font-size: 0.85em; }
-  section.title { padding-bottom: 260px; }
+  section.title { padding-bottom: 200px; }
   .note { font-size: 0.7em; color: #6b7d84; }
   .todo { background: #fff3cd; border: 2px dashed #d9a400; padding: 2px 8px; border-radius: 4px; }
   img.wide { width: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }

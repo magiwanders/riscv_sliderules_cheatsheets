@@ -2,7 +2,7 @@
 marp: true
 size: 16:9
 paginate: true
-title: RISC-V Sliderules
+title: ISA Sliderules
 author: Simone Shawn Cazzaniga
 style: |
   section {
@@ -24,8 +24,12 @@ style: |
   section.title strong { color: #fff; }
   section.title a { color: #e6f0f2; }
   .sub { font-size: 1.15em; opacity: 0.95; margin-top: 0; }
-  .people { margin-top: 1.4em; font-size: 0.95em; line-height: 1.6; }
+  .live { font-size: 1em; margin-top: 0.4em; }
+  .people { margin-top: 2.2em; font-size: 0.95em; line-height: 1.6; }
   .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: start; }
+  .wide-left { grid-template-columns: 1.5fr 1fr; gap: 28px; }
+  section.dense { font-size: 23px; }
+  h3 { color: #3f7280; font-size: 1.1em; margin: 0.2em 0 0.3em; }
   .note { font-size: 0.7em; color: #6b7d84; }
   .todo { background: #fff3cd; border: 2px dashed #d9a400; padding: 2px 8px; border-radius: 4px; }
   img.wide { width: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
@@ -36,43 +40,44 @@ style: |
 <!-- _class: title -->
 <!-- _paginate: false -->
 
-# RISC-V Sliderules
+# ISA Sliderules
 
-<p class="sub">An instruction encoder and decoder for the web,<br>laid out like the paper "sliderule" cheatsheets</p>
+<p class="sub">An assembly encoder and decoder for the web</p>
+
+<p class="live">Live @ <a href="https://sliderules.magiwanders.com">https://sliderules.magiwanders.com</a></p>
 
 <div class="people">
 
-**Simone Shawn Cazzaniga** ([@magiwanders](https://github.com/magiwanders))
+**Simone Shawn Cazzaniga** ([@magiwanders](https://github.com/magiwanders)) · [shawn@magiwanders.com](mailto:shawn@magiwanders.com)
 
-Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Karbon Chen** ([@CSY-tvgo](https://github.com/CSY-tvgo))
-
-[sliderules.magiwanders.com](https://sliderules.magiwanders.com)
+Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** ([@CSY-tvgo](https://github.com/CSY-tvgo))
 
 </div>
 
 ---
+
+<!-- _class: dense -->
 
 ## Who am I · what are the Sliderules
 
 <div class="cols">
 <div>
 
-**Simone Shawn Cazzaniga**
+### Simone Shawn Cazzaniga
 
-- <span class="todo">TODO: role / affiliation</span>
-- <span class="todo">TODO: background</span>
-- <span class="todo">TODO: link to RISC-V / teaching</span>
-
-**The Sliderules**
-
-- Cheatsheets where every instruction's bits line up in columns: read across to **encode**, read down to **decode**
-- <span class="todo">TODO: origin of the paper sheets</span>
-- 2023: RISC-V / LFX Mentorship *"Bringing the Sliderules Cheatsheets to the Web"*
+- Electroacoustics Design Engineer (R&D) at **BdSound SRL**, Milan, Italy
+- 2023: hosted the mentorship *"Bringing the 'Sliderule' Cheat Sheets to the Web"* (Linux Foundation, RISC-V Foundation): mentees **Jayaraj J** and **Siyu Chen** built the first interactive version of what began as an Excel spreadsheet
+- November 2026: UX/UI redesign, new features, ISAs beyond RISC-V
 
 </div>
 <div>
 
-![w:540](img/sheet.png)
+### The Sliderules
+
+- A dense, structured, interactive model of an instruction set: RISC-V, but in principle any
+- For the classroom and for quick reference
+- How bits are built from assembly (**Encoder**) and how assembly emerges from bits (**Decoder**): from opcodes to immediate encoding, in one view
+- Shows the quirks and compromises of assembly syntax made for human readability, which textbooks skip and specifications spread over hundreds of pages
 
 </div>
 </div>

@@ -30,6 +30,12 @@ style: |
   .wide-left { grid-template-columns: 1.5fr 1fr; gap: 28px; }
   section.dense { font-size: 23px; }
   h3 { color: #3f7280; font-size: 1.1em; margin: 0.2em 0 0.3em; }
+  .corner { position: absolute; right: 64px; bottom: 56px; width: 560px; font-size: 0.75em; text-align: right; }
+  .corner img { width: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
+  .corner p { margin: 0.2em 0; }
+  section.title img.fade { position: absolute; left: 0; bottom: 0; width: 100%; height: 42%; object-fit: cover; object-position: center 35%; opacity: 0.55;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.9) 100%); mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.9) 100%); }
+  section.title { padding-bottom: 260px; }
   .note { font-size: 0.7em; color: #6b7d84; }
   .todo { background: #fff3cd; border: 2px dashed #d9a400; padding: 2px 8px; border-radius: 4px; }
   img.wide { width: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
@@ -54,6 +60,8 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 
 </div>
 
+<img class="fade" src="img/sheet.png">
+
 ---
 
 <!-- _class: dense -->
@@ -72,14 +80,15 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 </div>
 <div>
 
-### The Sliderules
-
-- A dense, structured, interactive model of an instruction set: RISC-V, but in principle any
-- For the classroom and for quick reference
-- How bits are built from assembly (**Encoder**) and how assembly emerges from bits (**Decoder**): from opcodes to immediate encoding, in one view
-- Shows the quirks and compromises of assembly syntax made for human readability, which textbooks skip and specifications spread over hundreds of pages
-
 </div>
+</div>
+
+<div class="corner">
+
+![](img/museum.png)
+
+[https://sliderulemuseum.com/VirtualSR.shtml](https://sliderulemuseum.com/VirtualSR.shtml)
+
 </div>
 
 ---

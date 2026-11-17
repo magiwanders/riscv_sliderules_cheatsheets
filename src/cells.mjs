@@ -188,9 +188,9 @@ export function sheetHeader({ isaPicker = null, version = null, switcher = null,
 // A section title in the top header row, with optional content before / after it (values, copy buttons).
 export function sectionHeader({ colspan = 1, title = '', before = null, after = null, classes = '' }) {
   return _th({ colspan: String(colspan), class: classes }, [_div({ class: 'section-title' }, [
-    _div({ class: 'section-side before' }, before ? [before] : ''),
+    _div({ class: 'section-side before' }, before ? [].concat(before) : ''),
     _span({ class: 'section-name' }, title),
-    _div({ class: 'section-side after' }, after ? [after] : ''),
+    _div({ class: 'section-side after' }, after ? [].concat(after) : ''),
   ])]);
 }
 

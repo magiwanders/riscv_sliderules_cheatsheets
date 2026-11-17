@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { encodable, compiled, encodeAssembly, encodeEntry, decodeWord, partialDecode, formatAssembly } from '../src/isa/codec.mjs';
+import { encodable, compiled, encodeAssembly, encodeEntry, decodeWord, partialDecode, formatAssembly, assemblyChoice } from '../src/isa/codec.mjs';
 import { allCases } from './cases.mjs';
 
 const hex = (word) => `0x${(word >>> 0).toString(16).padStart(8, '0')}`;
@@ -124,4 +124,14 @@ test('every RV32GC instruction and pseudo-instruction is encodable', () => {
   const real = compiled.filter((i) => !i.reserved && !i.hint);
   assert.equal(encodable.filter((e) => !e.pseudo).length, real.length);
   assert.ok(encodable.length > 220);
+});
+
+test('assemblyChoice: the entry and operand values the encoder is set to by pasted assembly', () => {
+  const choice = (assembly) => { const { entry, values } = assemblyChoice({ assembly }); return [entry.id, values]; };
+  assert.deepEqual(choice('beq a0, a1, -8'), ['beq', { rs1: 10, rs2: 11, imm: -8 }]);
+  assert.deepEqual(choice('  c.lw a0, 4(a1)  '), ['c.lw', { rd: 10, imm: 4, rs1: 11 }]);
+  assert.deepEqual(choice('lr.w.aq a0, (a1)'), ['lr.w', { rd: 10, rs1: 11, ordering: 'aq' }]);
+  assert.deepEqual(choice('csrrw t0, mstatus, t1'), ['csrrw', { rd: 5, csr: 0x300, rs1: 6 }]);
+  assert.throws(() => assemblyChoice({ assembly: 'nosuch a0' }), /unknown instruction/);
+  assert.throws(() => assemblyChoice({ assembly: 'addi a0, a0' }), /expects/);
 });

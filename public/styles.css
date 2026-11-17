@@ -478,9 +478,11 @@ table.registers-sheet { table-layout: auto; }
 
 /* Values next to the section titles: assembly by "Assembly", binary and hex either side of "Bitwise Encoding". */
 .section-title { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; }
-.section-side { display: flex; min-width: 0; }
+.section-side { display: flex; align-items: center; gap: 4px; min-width: 0; }
 .section-side.before { justify-content: flex-start; }
 .section-side.after { justify-content: flex-end; }
+/* the assembly header: Paste Assembly and the assembly on the left take what the title and Copy Assembly leave */
+.section-assembly .section-title { grid-template-columns: minmax(0, 1fr) auto auto; }
 .section-group { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .section-value { font: bold 11px ui-monospace, Menlo, Consolas, monospace; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* Assembly section: the title stays centred, the instruction(s) on its left, one per line, spaced like normal

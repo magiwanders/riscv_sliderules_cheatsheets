@@ -154,7 +154,7 @@ function _columnTitle({ sheet = null, column = {} }) {
 }
 
 // controls: { ext, type, mnemonic, operands } selectors;
-// labels: what sits in the section headers next to their titles ({ meaning, assembly, assemblyCopy, binary, hex });
+// labels: what sits in the section headers next to their titles ({ meaning, assemblyPaste, assembly, assemblyCopy, binary, hex });
 // onLayout: called when the description / explanation columns are folded or unfolded.
 // Header rows: section titles, the controls (hex digits over the switches; the selectors span both rows), then the
 // column titles and bit numbers right above the sheet's rows. Returns the sheet the other functions here take.
@@ -169,7 +169,7 @@ export function encoderSheet({ codec = null, controls = {}, labels = {}, onLayou
     _thead({}, [
       _tr({ class: 'label-row' }, [
         sectionHeader({ colspan: 4, title: 'Meaning', after: labels.meaning }),
-        sectionHeader({ colspan: 2, title: 'Assembly', before: labels.assembly, after: labels.assemblyCopy, classes: 'section-assembly' }),
+        sectionHeader({ colspan: 2, title: 'Assembly', before: [labels.assemblyPaste, labels.assembly].filter(Boolean), after: labels.assemblyCopy, classes: 'section-assembly' }),
         sectionHeader({ colspan: spine.width, title: `Bitwise Encoding — ${spine.title}`, before: labels.binary, after: labels.hex, classes: 'spine' }),
       ]),
       _tr({ class: 'hex-row' }, [...controlCells, ...bits.hexCells]),

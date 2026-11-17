@@ -181,7 +181,7 @@ export function decoderRows({ sheet = null, constraints = [], decoded = null, on
 }
 
 // io: what goes next to the bit switches (the decoded result).
-// copies: { binary, hex } copy buttons by the bits' section title.
+// copies: { binary, hex, pasteBinary, pasteHex } copy and paste buttons by the bits' section title.
 // Header rows: section titles, the controls (hex digits over the switches, the decoded instruction beside both),
 // then the bit numbers and column titles right above the sheet's rows. Returns the sheet decoderRows takes; its `bits`
 // are the switches (read, write, paste, highlight, dim).
@@ -194,7 +194,8 @@ export function decoderSheet({ codec = null, onBits = () => {}, copies = {}, io 
     columns({ widths }),
     _thead({}, [
       _tr({ class: 'label-row' }, [
-        sectionHeader({ colspan: spine.width, title: `Bitwise Breakdown — ${spine.title}`, before: copies.binary, after: copies.hex, classes: 'spine' }),
+        sectionHeader({ colspan: spine.width, title: `Bitwise Breakdown — ${spine.title}`, before: [copies.binary, copies.pasteBinary].filter(Boolean),
+          after: [copies.pasteHex, copies.hex].filter(Boolean), classes: 'spine' }),
         sectionHeader({ colspan: textColumns.length, title: 'Meaning' }),
       ]),
       _tr({ class: 'hex-row' }, [...bits.hexCells, _td({ class: 'io-cell', colspan: String(textColumns.length), rowspan: '2' }, [io])]),

@@ -675,6 +675,18 @@ export function createCodec(spec) {
 
   // Encodes an assembly string such as "addi a0, a0, -1", "c.lw a0, 4(a1)" or "call 0x1234".
   function encodeAssembly({ assembly = '' }) {
+    const { entry, words } = _readAssembly({ assembly });
+    return { entry, words };
+  }
+
+  // What an assembly string stands for, as the encoder's selectors hold it: the entry encodeAssembly encodes it with and
+  // the operand values by key (ordering: 'aq', 'rl' or 'aqrl' for an atomic's .aq / .rl). Throws as encodeAssembly does.
+  function assemblyChoice({ assembly = '' }) {
+    const { entry, values, ordering } = _readAssembly({ assembly });
+    return { entry, values: ordering ? { ...values, ordering } : values };
+  }
+
+  function _readAssembly({ assembly = '' }) {
     const [, mnemonicText = '', rest = ''] = spec.parseAssembly ? spec.parseAssembly({ assembly }) : assembly.trim().match(/^(\S+)\s*(.*)$/) || [];
     let mnemonic = mnemonicText.toLowerCase();
     let ordering = '';
@@ -689,7 +701,7 @@ export function createCodec(spec) {
     let error;
     for (const entry of candidates) {
       try {
-        return encodeEntry({ entry, operands: rest, ordering });
+        return { ...encodeEntry({ entry, operands: rest, ordering }), values: _parseOperands({ entry, text: rest }), ordering };
       } catch (e) {
         error = error || e;
       }
@@ -769,11 +781,12 @@ export function createCodec(spec) {
   return {
     spec, compiled, pseudos, encodable, unusedOpcodeRows, parseEncoding, immRange, matchesConstraints, extractFields, assemblyParts, operandsText,
     operandText, isOmitted, formatAssembly, fieldMask, partialDecode, knownWidth, selectedWord, missingBits, decodeWord, unusedOpcode, operandInfo, templateParts,
-    tokenKey, encodeEntry, encodeAssembly, immediateView, hex, binary, bitName, bitNumber, byteStart, pasteStates, typeName, numericOperand, csrs,
+    tokenKey, encodeEntry, encodeAssembly, assemblyChoice, immediateView, hex, binary, bitName, bitNumber, byteStart, pasteStates, typeName, numericOperand, csrs,
   };
 }
 
 // The instruction set everything started with: the tests, the API generator and the GNU as vectors use it directly.
 export const rv32 = createCodec(rv32gc);
 export const { compiled, pseudos, encodable, unusedOpcodeRows, parseEncoding, immRange, matchesConstraints, extractFields, assemblyParts,
-  formatAssembly, fieldMask, partialDecode, decodeWord, unusedOpcode, operandInfo, templateParts, encodeEntry, encodeAssembly, immediateView } = rv32;
+  formatAssembly, fieldMask, partialDecode, decodeWord, unusedOpcode, operandInfo, templateParts, encodeEntry, encodeAssembly, assemblyChoice,
+  immediateView } = rv32;

@@ -32,6 +32,8 @@ through its options, or click it for a list (the mnemonic list has a search box)
   only accepts valid values.
 - The bits, with their hex digits above, show the encoding. Copy the assembly next to *Assembly*, the binary
   and hex with the buttons either side of *Bitwise Encoding*.
+- **Paste Assembly**, on the other side of *Assembly*, chooses the instruction on the clipboard (its first line, e.g.
+  `addi a0, a0, -1` or a pseudo-instruction such as `li a0, 0x12345`) with its operands, as if picked by hand.
 - *Description* and *Explanation* are folded into the narrow **Descr. ›** column: click it to unfold both.
 
 ![Decoder](docs/decoder.png)
@@ -43,6 +45,9 @@ its bits.
   and moves to the next one, so you can type a whole pattern. `x`, Delete and Backspace clear bits.
 - Or set four bits at once with the hex digit above them (scroll it, or click it for a list).
 - Paste into a focused bit: a hex word (`0x00a50513`) or a bit pattern (`0101…`, `x` for don't care) fills the row.
+- Or use **Paste bin** / **Paste hex**, next to Copy bin / Copy hex: they read a bit pattern (`0101…`, `x` for don't
+  care) or a hex word (`0x` optional) from the clipboard into the bits. The browser may ask to allow reading the
+  clipboard the first time.
 - Copy bin / Copy hex (by *Bitwise Breakdown*) and Copy (by the instruction) work once the instruction is complete.
 - Click a mnemonic in the table to load its encoding.
 

@@ -103,6 +103,38 @@ function _copyButton({ label = 'Copy', title = '', classes = 'tool-button', text
   return _confirmingButton({ label, title, classes, action: () => navigator.clipboard.writeText(text()) });
 }
 
+// A button by a section title that reads the clipboard and does something with it (Pasted ✓, or Failed and why).
+function _pasteButton({ label = 'Paste', title = '', action = async () => {} }) {
+  return _confirmingButton({ label, title, classes: 'tool-button on-section', done: 'Pasted ✓', action });
+}
+
+// The clipboard's text; the browser may ask the first time.
+async function _clipboardText() {
+  if (!navigator.clipboard || !navigator.clipboard.readText) throw new Error('this browser does not let pages read the clipboard');
+  return navigator.clipboard.readText();
+}
+
+// Encoder: the instruction on the clipboard's first line, chosen with its operands as if picked by hand.
+async function _pasteAssembly() {
+  const line = (await _clipboardText()).split(/\r?\n/).map((l) => l.trim()).find(Boolean);
+  if (!line) throw new Error('the clipboard is empty');
+  const { entry, values } = _codec.assemblyChoice({ assembly: line });
+  _elements.operands.restore({ values });
+  _selectEntry({ entry });
+}
+
+// Decoder: the clipboard's bit pattern (format 'bin': 0101..., x for don't care) or hex word ('hex', 0x optional) into
+// the bits, as pasting into a bit does.
+async function _pasteWord({ format = 'hex' }) {
+  const text = (await _clipboardText()).trim();
+  const plain = text.replace(/[_\s]/g, '');
+  const fits = format === 'hex' ? /^(0x)?[0-9a-f]+$/i.test(plain) : /^(0b)?[01x-]+$/i.test(plain);
+  const word = format === 'hex' && !/^0x/i.test(plain) ? `0x${plain}` : plain;
+  if (!fits || !_elements.decoder.bits.paste({ text: word })) {
+    throw new Error(`the clipboard holds no ${format === 'hex' ? 'hex word' : 'bit pattern'} that fits: ${text.slice(0, 40)}`);
+  }
+}
+
 // ---------------------------------------------------------------- state in the URL
 
 function _stateParams() {
@@ -812,8 +844,12 @@ function _createSets({ codec = null }) {
     _copyButton({ label: 'Copy bin', title: 'Copy the bits as binary (once every bit of the instruction is set)', classes: 'tool-button on-section', text: decodedWord('bin') }),
     _copyButton({ label: 'Copy hex', title: 'Copy the bits as hex (once every bit of the instruction is set)', classes: 'tool-button on-section', text: decodedWord('hex') }),
   ];
+  const decoderWordPastes = [
+    _pasteButton({ label: 'Paste bin', title: "Paste a bit pattern into the bits (0101..., x for don't care)", action: () => _pasteWord({ format: 'bin' }) }),
+    _pasteButton({ label: 'Paste hex', title: 'Paste a hex word into the bits (0x optional)', action: () => _pasteWord({ format: 'hex' }) }),
+  ];
   const decoder = decoderSheet({ codec, onBits: refresh,
-    copies: { binary: decoderWordCopies[0], hex: decoderWordCopies[1] },
+    copies: { binary: decoderWordCopies[0], hex: decoderWordCopies[1], pasteBinary: decoderWordPastes[0], pasteHex: decoderWordPastes[1] },
     io: _div({ class: 'io' }, [decoderResult, _div({ class: 'io-tools' }, [decoderCopy])]) });
 
   const selectors = _encoderControls({ codec });
@@ -827,11 +863,13 @@ function _createSets({ codec = null }) {
     _copyButton({ label: 'Copy bin', title: 'Copy the encoding as binary (one word per line)', classes: 'tool-button on-section', text: words('bin') }),
     _copyButton({ label: 'Copy hex', title: 'Copy the encoding as hex (one word per line)', classes: 'tool-button on-section', text: words('hex') }),
   ];
+  const encoderPaste = _pasteButton({ label: 'Paste Assembly', title: "Choose the instruction on the clipboard (its first line), with its operands", action: _pasteAssembly });
   const encoder = encoderSheet({
     codec,
     controls: selectors,
     labels: {
       meaning: encoderLabels.count,
+      assemblyPaste: encoderPaste,
       assembly: encoderLabels.assembly,
       assemblyCopy: encoderCopies[0],
       binary: encoderCopies[1],

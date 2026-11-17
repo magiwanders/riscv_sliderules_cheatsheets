@@ -43,18 +43,7 @@ style: |
   .vstrip { position: absolute; right: 56px; top: 36px; bottom: 36px; display: flex; gap: 8px; align-items: stretch; }
   .vstrip img { height: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
   .vstrip a { writing-mode: vertical-rl; font-size: 0.55em; text-align: center; }
-  .stack { display: flex; flex-direction: column; gap: 0; font-size: 0.85em; margin-top: 0.2em; }
-  .layer { display: grid; grid-template-columns: 210px 1fr; align-items: center; border-radius: 8px; padding: 10px 18px; border: 2px solid; }
-  .layer .name { font-weight: bold; }
-  .layer .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .layer .split > div { background: rgba(255,255,255,0.6); border-radius: 6px; padding: 4px 12px; text-align: center; }
-  .up { text-align: center; color: #74a4b0; font-size: 0.8em; line-height: 1.15; }
-  .viz { background: #74a4b0; border-color: #3f7280; color: #fff; }
-  .viz strong { color: #1f2a30; }
-  .viz .split > div { color: #1f2a30; }
-  .regs { background: #f8dede; border-color: #e3a3a3; }
-  .json { background: #dcecd3; border-color: #93c47d; }
-  .sail, .tblgen { background: #eef2f4; border-color: #b8c8ce; }
+  svg.schema { display: block; width: 100%; height: 540px; margin-top: 0.3em; }
   .note { font-size: 0.7em; color: #6b7d84; }
   .todo { background: #fff3cd; border: 2px dashed #d9a400; padding: 2px 8px; border-radius: 4px; }
   img.wide { width: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
@@ -105,20 +94,41 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 
 ## Structure
 
-<div class="stack">
-  <div class="layer viz">
-    <div class="name">Visualization</div>
-    <div class="split"><div><strong>Encoder</strong>: assembly → bits</div><div><strong>Decoder</strong>: bits → assembly</div></div>
-  </div>
-  <div class="up">▲</div>
-  <div class="layer regs"><div class="name">Registers</div><div class="what">Register tables (names, ABI roles, encodings, CSRs) behind the register buttons and operand selectors.</div></div>
-  <div class="up">▲</div>
-  <div class="layer json"><div class="name">JSON overlay</div><div class="what">What neither source carries: sections, groups, titles, descriptions, pseudocode, HINT and reserved rows, pseudo-instructions.</div></div>
-  <div class="up">▲</div>
-  <div class="layer sail"><div class="name">Sail</div><div class="what">The formal model of the ISA: the authoritative encoding of every instruction, checked bit by bit against TableGen.</div></div>
-  <div class="up">▲</div>
-  <div class="layer tblgen"><div class="name">LLVM TableGen</div><div class="what">The compiler's description of the ISA: mnemonics, operand syntax and encodings as the assembler reads and writes them.</div></div>
-</div>
+<svg class="schema" viewBox="0 0 1150 560" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3f7280"/></marker>
+  </defs>
+  <g stroke="#3f7280" stroke-width="3" fill="none" marker-end="url(#ah)">
+    <line x1="575" y1="58" x2="575" y2="98"/>
+    <line x1="575" y1="292" x2="575" y2="214"/>
+    <line x1="928" y1="252" x2="580" y2="252"/>
+    <line x1="405" y1="440" x2="405" y2="358"/>
+    <line x1="745" y1="440" x2="745" y2="358"/>
+  </g>
+  <rect x="425" y="2" width="300" height="56" rx="8" fill="#f8dede" stroke="#e3a3a3" stroke-width="2"/>
+  <text x="575" y="28" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Registers</text>
+  <text x="575" y="49" text-anchor="middle" font-size="15" fill="#4a5a60">names · ABI roles · CSRs</text>
+  <rect x="250" y="100" width="650" height="112" rx="10" fill="#74a4b0" stroke="#3f7280" stroke-width="2"/>
+  <text x="575" y="128" text-anchor="middle" font-size="19" font-weight="bold" fill="#fff">Visualization</text>
+  <rect x="270" y="142" width="300" height="54" rx="6" fill="#fff" fill-opacity="0.85"/>
+  <text x="420" y="170" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Encoder</text>
+  <text x="420" y="189" text-anchor="middle" font-size="14" fill="#4a5a60">assembly → bits</text>
+  <rect x="580" y="142" width="300" height="54" rx="6" fill="#fff" fill-opacity="0.85"/>
+  <text x="730" y="170" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Decoder</text>
+  <text x="730" y="189" text-anchor="middle" font-size="14" fill="#4a5a60">bits → assembly</text>
+  <rect x="930" y="216" width="210" height="72" rx="8" fill="#dcecd3" stroke="#93c47d" stroke-width="2"/>
+  <text x="1035" y="244" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">JSON</text>
+  <text x="1035" y="266" text-anchor="middle" font-size="14" fill="#4a5a60">descriptions · groups</text>
+  <text x="1035" y="282" text-anchor="middle" font-size="14" fill="#4a5a60">pseudocode · HINTs</text>
+  <rect x="250" y="294" width="650" height="64" rx="8" fill="#d5e4e8" stroke="#3f7280" stroke-width="2"/>
+  <text x="575" y="334" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Functional instruction set model</text>
+  <rect x="250" y="442" width="310" height="86" rx="8" fill="#eef2f4" stroke="#b8c8ce" stroke-width="2"/>
+  <text x="405" y="478" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">LLVM TableGen</text>
+  <text x="405" y="506" text-anchor="middle" font-size="18" fill="#3f7280">behaviour</text>
+  <rect x="590" y="442" width="310" height="86" rx="8" fill="#eef2f4" stroke="#b8c8ce" stroke-width="2"/>
+  <text x="745" y="478" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Sail</text>
+  <text x="745" y="506" text-anchor="middle" font-size="18" fill="#3f7280">encoding</text>
+</svg>
 
 ---
 

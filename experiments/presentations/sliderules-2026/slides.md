@@ -99,35 +99,50 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
     <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3f7280"/></marker>
   </defs>
   <g stroke="#3f7280" stroke-width="3" fill="none" marker-end="url(#ah)">
-    <line x1="575" y1="58" x2="575" y2="98"/>
-    <line x1="575" y1="292" x2="575" y2="214"/>
-    <line x1="928" y1="252" x2="580" y2="252"/>
-    <line x1="405" y1="440" x2="405" y2="358"/>
-    <line x1="745" y1="440" x2="745" y2="358"/>
+    <line x1="500" y1="198" x2="500" y2="116"/>
+    <line x1="868" y1="157" x2="505" y2="157"/>
+    <line x1="330" y1="330" x2="330" y2="266"/>
+    <line x1="670" y1="330" x2="670" y2="266"/>
   </g>
-  <rect x="425" y="2" width="300" height="56" rx="8" fill="#f8dede" stroke="#e3a3a3" stroke-width="2"/>
-  <text x="575" y="28" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Registers</text>
-  <text x="575" y="49" text-anchor="middle" font-size="15" fill="#4a5a60">names · ABI roles · CSRs</text>
-  <rect x="250" y="100" width="650" height="112" rx="10" fill="#74a4b0" stroke="#3f7280" stroke-width="2"/>
-  <text x="575" y="128" text-anchor="middle" font-size="19" font-weight="bold" fill="#fff">Visualization</text>
-  <rect x="270" y="142" width="300" height="54" rx="6" fill="#fff" fill-opacity="0.85"/>
-  <text x="420" y="170" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Encoder</text>
-  <text x="420" y="189" text-anchor="middle" font-size="14" fill="#4a5a60">assembly → bits</text>
-  <rect x="580" y="142" width="300" height="54" rx="6" fill="#fff" fill-opacity="0.85"/>
-  <text x="730" y="170" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Decoder</text>
-  <text x="730" y="189" text-anchor="middle" font-size="14" fill="#4a5a60">bits → assembly</text>
-  <rect x="930" y="216" width="210" height="72" rx="8" fill="#dcecd3" stroke="#93c47d" stroke-width="2"/>
-  <text x="1035" y="244" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">JSON</text>
-  <text x="1035" y="266" text-anchor="middle" font-size="14" fill="#4a5a60">descriptions · groups</text>
-  <text x="1035" y="282" text-anchor="middle" font-size="14" fill="#4a5a60">pseudocode · HINTs</text>
-  <rect x="250" y="294" width="650" height="64" rx="8" fill="#d5e4e8" stroke="#3f7280" stroke-width="2"/>
-  <text x="575" y="334" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Functional instruction set model</text>
-  <rect x="250" y="442" width="310" height="86" rx="8" fill="#eef2f4" stroke="#b8c8ce" stroke-width="2"/>
-  <text x="405" y="478" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">LLVM TableGen</text>
-  <text x="405" y="506" text-anchor="middle" font-size="18" fill="#3f7280">behaviour</text>
-  <rect x="590" y="442" width="310" height="86" rx="8" fill="#eef2f4" stroke="#b8c8ce" stroke-width="2"/>
-  <text x="745" y="478" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Sail</text>
-  <text x="745" y="506" text-anchor="middle" font-size="18" fill="#3f7280">encoding</text>
+  <rect x="170" y="2" width="660" height="112" rx="10" fill="#74a4b0" stroke="#3f7280" stroke-width="2"/>
+  <text x="500" y="30" text-anchor="middle" font-size="19" font-weight="bold" fill="#fff">Visualization</text>
+  <rect x="190" y="44" width="300" height="54" rx="6" fill="#fff" fill-opacity="0.85"/>
+  <text x="340" y="72" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Encoder</text>
+  <text x="340" y="91" text-anchor="middle" font-size="14" fill="#4a5a60">assembly → bits</text>
+  <rect x="510" y="44" width="300" height="54" rx="6" fill="#fff" fill-opacity="0.85"/>
+  <text x="660" y="72" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Decoder</text>
+  <text x="660" y="91" text-anchor="middle" font-size="14" fill="#4a5a60">bits → assembly</text>
+  <rect x="870" y="30" width="278" height="254" rx="8" fill="#dcecd3" stroke="#93c47d" stroke-width="2"/>
+  <text x="1009" y="60" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">JSON</text>
+  <text x="1009" y="84" text-anchor="middle" font-size="13" font-weight="bold" letter-spacing="1.5" fill="#7a8d94">COLUMNS</text>
+  <text x="1009" y="108" text-anchor="middle" font-size="16" fill="#1f2a30">Ext · Instruction</text>
+  <text x="1009" y="132" text-anchor="middle" font-size="16" fill="#1f2a30">Description · Explanation</text>
+  <text x="1009" y="156" text-anchor="middle" font-size="16" fill="#1f2a30">Pseudocode</text>
+  <text x="1009" y="180" text-anchor="middle" font-size="16" fill="#1f2a30">section and group rows</text>
+  <text x="1009" y="204" text-anchor="middle" font-size="16" fill="#1f2a30">HINT / reserved rows</text>
+  <text x="1009" y="228" text-anchor="middle" font-size="13" font-weight="bold" letter-spacing="1.5" fill="#7a8d94">REGISTERS</text>
+  <text x="1009" y="252" text-anchor="middle" font-size="16" fill="#1f2a30">Meaning · Saver</text>
+  <rect x="170" y="200" width="660" height="64" rx="8" fill="#d5e4e8" stroke="#3f7280" stroke-width="2"/>
+  <text x="500" y="240" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Functional instruction set model</text>
+  <rect x="170" y="332" width="320" height="224" rx="8" fill="#eef2f4" stroke="#b8c8ce" stroke-width="2"/>
+  <text x="330" y="364" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">LLVM TableGen</text>
+  <text x="330" y="388" text-anchor="middle" font-size="17" fill="#3f7280">behaviour</text>
+  <text x="330" y="420" text-anchor="middle" font-size="13" font-weight="bold" letter-spacing="1.5" fill="#7a8d94">COLUMNS</text>
+  <text x="330" y="441" text-anchor="middle" font-size="16" fill="#1f2a30">Mnemonic · Operands</text>
+  <text x="330" y="462" text-anchor="middle" font-size="16" fill="#1f2a30">Type · Expansion</text>
+  <text x="330" y="483" text-anchor="middle" font-size="13" font-weight="bold" letter-spacing="1.5" fill="#7a8d94">REGISTERS</text>
+  <text x="330" y="504" text-anchor="middle" font-size="16" fill="#1f2a30">Register · ABI Name</text>
+  <text x="330" y="525" text-anchor="middle" font-size="16" fill="#1f2a30">Encoding · Compressed (')</text>
+  <text x="330" y="546" text-anchor="middle" font-size="16" fill="#1f2a30">CSR Address · Access</text>
+  <rect x="510" y="332" width="320" height="224" rx="8" fill="#eef2f4" stroke="#b8c8ce" stroke-width="2"/>
+  <text x="670" y="364" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2a30">Sail</text>
+  <text x="670" y="388" text-anchor="middle" font-size="17" fill="#3f7280">encoding</text>
+  <text x="670" y="420" text-anchor="middle" font-size="13" font-weight="bold" letter-spacing="1.5" fill="#7a8d94">COLUMNS</text>
+  <text x="670" y="441" text-anchor="middle" font-size="16" fill="#1f2a30">Bitwise Encoding (encoder)</text>
+  <text x="670" y="462" text-anchor="middle" font-size="16" fill="#1f2a30">Bitwise Breakdown (decoder)</text>
+  <text x="670" y="483" text-anchor="middle" font-size="16" fill="#1f2a30">opcode · funct bits</text>
+  <text x="670" y="504" text-anchor="middle" font-size="16" fill="#1f2a30">operand fields</text>
+  <text x="670" y="525" text-anchor="middle" font-size="16" fill="#1f2a30">immediate bit order</text>
 </svg>
 
 ---

@@ -292,11 +292,13 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 
 ```js
 const line = window.sliderulesLine;
-// the pointer over the byte at rom@0x0:
-// the decoder's line of the word 0x0100
-line.show({ isa: 'hack', bytes: [0x00, 0x01], x, y });
-// over its assembly: the encoder's line of @256
-line.show({ isa: 'hack', assembly: '@256', x, y });
+// the pointer over the byte at address 0x4 of a RISC-V
+// computer's memory: the decoder's line of e7 80 c0 22
+line.show({ isa: 'rv32gc', extensions: ['I', 'M', 'C'],
+            bytes: [0xe7, 0x80, 0xc0, 0x22], x, y });
+// over its assembly: the encoder's line of the same
+line.show({ isa: 'rv32gc', extensions: ['I', 'M', 'C'],
+            assembly: 'jalr ra, 556(ra)', x, y });
 line.hide();                  // the pointer left
 ```
 

@@ -279,7 +279,7 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 
 <!-- _class: ash -->
 
-## Embedding the sliderules: the example of the Ash simulator
+## Embedding the sliderules: the example of Ash logic simulator
 
 <div class="cols ash-cols">
 <div>
@@ -292,11 +292,11 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 
 ```js
 const line = window.sliderulesLine;
-// the pointer over the byte at rom@0xe:
-// the decoder's line of the word 0xe308
-line.show({ isa: 'hack', bytes: [0x08, 0xe3], x, y });
-// over its assembly: the encoder's line of M=D
-line.show({ isa: 'hack', assembly: 'M=D', x, y });
+// the pointer over the byte at rom@0x0:
+// the decoder's line of the word 0x0100
+line.show({ isa: 'hack', bytes: [0x00, 0x01], x, y });
+// over its assembly: the encoder's line of @256
+line.show({ isa: 'hack', assembly: '@256', x, y });
 line.hide();                  // the pointer left
 ```
 
@@ -308,4 +308,4 @@ line.hide();                  // the pointer left
 </div>
 </div>
 
-**[Ash](https://ash.magiwanders.com)** is a logic and circuit simulator built from two blocks, NAND and EML, up to the Hack and RISC-V computers running their programs: hovering an instruction, its bits or a byte of memory shows its line of the sliderules.
+**[Ash (https://ash.magiwanders.com)](https://ash.magiwanders.com)** is a simulator capable of full down-to-fundamental-block zoom inspection of circuits (Nand synthesis for logic circuits and EML Exp-Minus-Log synthesis for analog circuits) without compromising fast implementation (which runs when block is *not* instpected). Hovering an instruction shows its line of the sliderules in a popup.

@@ -224,7 +224,7 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 
 ## Structure
 
-<svg class="schema" viewBox="0 0 1150 560" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+<svg class="schema" viewBox="-185 0 1335 560" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
   <defs>
     <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3f7280"/></marker>
   </defs>
@@ -233,7 +233,19 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
     <line x1="868" y1="157" x2="505" y2="157"/>
     <line x1="330" y1="330" x2="330" y2="266"/>
     <line x1="670" y1="330" x2="670" y2="266"/>
+    <line x1="142" y1="58" x2="166" y2="58"/>
   </g>
+  <rect x="-180" y="2" width="320" height="274" rx="8" fill="#f6ead3" stroke="#d09a3c" stroke-width="2"/>
+  <text x="-20" y="32" text-anchor="middle" font-size="21" font-weight="bold" fill="#1f2a30">Validation via compiler</text>
+  <text x="-20" y="54" text-anchor="middle" font-size="14" fill="#8a6420">each case assembled, bits compared</text>
+  <text x="-20" y="86" text-anchor="middle" font-size="13" font-weight="bold" letter-spacing="1.5" fill="#7a8d94">RV32GC · RV64GC</text>
+  <text x="-20" y="107" text-anchor="middle" font-size="16" fill="#1f2a30">GNU as · LLVM llvm-mc</text>
+  <text x="-20" y="138" text-anchor="middle" font-size="13" font-weight="bold" letter-spacing="1.5" fill="#7a8d94">6502</text>
+  <text x="-20" y="159" text-anchor="middle" font-size="16" fill="#1f2a30">ca65 (cc65) · py65</text>
+  <text x="-20" y="190" text-anchor="middle" font-size="13" font-weight="bold" letter-spacing="1.5" fill="#7a8d94">Z80</text>
+  <text x="-20" y="211" text-anchor="middle" font-size="16" fill="#1f2a30">sjasmplus · skoolkit</text>
+  <text x="-20" y="242" text-anchor="middle" font-size="13" font-weight="bold" letter-spacing="1.5" fill="#7a8d94">HACK</text>
+  <text x="-20" y="263" text-anchor="middle" font-size="16" fill="#1f2a30">the nand2tetris book</text>
   <rect x="170" y="2" width="660" height="112" rx="10" fill="#74a4b0" stroke="#3f7280" stroke-width="2"/>
   <text x="500" y="30" text-anchor="middle" font-size="19" font-weight="bold" fill="#fff">Visualization</text>
   <rect x="190" y="44" width="300" height="54" rx="6" fill="#fff" fill-opacity="0.85"/>

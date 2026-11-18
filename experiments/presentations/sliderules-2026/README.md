@@ -7,7 +7,7 @@ Seven slides in [Marp](https://marp.app) Markdown: `slides.md` is the source, `s
 3. Encoder: an annotated screenshot (`beq a0, a1, -8`)
 4. Decoder: two annotated screenshots, `srli` / `srai` still open, then `srai a0, a0, 4` decoded
 5. Header: an annotated screenshot of the title, the extension toggles and the tools
-6. Structure: where the sheets' columns come from (TableGen, Sail, the JSON overlay)
+6. Structure: where the sheets' columns come from (TableGen, Sail, the JSON overlay), and the assemblers each set's encoder is checked against
 7. Embedding the sliderules: the line API, as Ash uses it (a screenshot of a RISC-V computer's memory tray with a popup)
 
 ## Rendering

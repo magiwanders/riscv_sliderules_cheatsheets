@@ -46,6 +46,9 @@ style: |
   svg.schema { display: block; width: 100%; height: 540px; margin-top: 0.3em; }
   section.ui h2 { font-size: 1.35em; }
   section.ui svg.ui { display: block; width: 100%; margin-top: 0.4em; }
+  .ash-cols { grid-template-columns: 0.85fr 1.15fr; gap: 28px; align-items: center; }
+  .ash-cols img { width: 100%; border: 1px solid #c9d8dc; border-radius: 6px; }
+  section.ash h2 { font-size: 1.35em; }
   .note { font-size: 0.7em; color: #6b7d84; }
   .todo { background: #fff3cd; border: 2px dashed #d9a400; padding: 2px 8px; border-radius: 4px; }
   img.wide { width: 100%; border: 1px solid #c9d8dc; border-radius: 4px; }
@@ -274,9 +277,11 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 
 ---
 
-## Ash integration: one line of the sheet, anywhere
+<!-- _class: ash -->
 
-<div class="cols">
+## Embedding the sliderules: the example of the Ash simulator
+
+<div class="cols ash-cols">
 <div>
 
 ```html
@@ -287,20 +292,20 @@ Contributors: **Jayaraj J** ([@jyrj](https://github.com/jyrj)) · **Siyu Chen** 
 
 ```js
 const line = window.sliderulesLine;
-line.encoderLine({ isa: 'rv32gc',
-                   assembly: 'addi a0, a0, -1' });
-line.decoderLine({ isa: 'rv32gc', bytes: [0x01, 0x45] });
-line.show({ isa, bytes, x, y });   // popup by the pointer
+// the pointer over the byte at rom@0xe:
+// the decoder's line of the word 0xe308
+line.show({ isa: 'hack', bytes: [0x08, 0xe3], x, y });
+// over its assembly: the encoder's line of M=D
+line.show({ isa: 'hack', assembly: 'M=D', x, y });
+line.hide();                  // the pointer left
 ```
 
 </div>
 <div>
 
-![w:500](img/ash.png)
+![](img/ash-popup.png)
 
 </div>
 </div>
 
-**[Ash](https://ash.magiwanders.com)**, a simulator from NAND gates up to the Hack and RISC-V computers: hover an instruction, its bits or a byte of memory and its sliderules line pops up.
-
-![w:1000](img/line.png)
+**[Ash](https://ash.magiwanders.com)** is a logic and circuit simulator built from two blocks, NAND and EML, up to the Hack and RISC-V computers running their programs: hovering an instruction, its bits or a byte of memory shows its line of the sliderules.

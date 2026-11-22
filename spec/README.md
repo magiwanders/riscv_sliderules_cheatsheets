@@ -11,11 +11,12 @@ of `unofficial/`, which are this project's own: edit those, then run `npm run is
 | `llvm/RISCV.json` | LLVM's RISC-V TableGen description, [llvm/llvm-project](https://github.com/llvm/llvm-project) `llvm/lib/Target/RISCV` (RV32 and RV64: IsRV32 / IsRV64 mark what one has), extracted with `llvm-tblgen --dump-json` | `llvmorg-23.1.5` | Apache 2.0 with LLVM exception, `llvm/LICENSE.TXT` |
 | `llvm/Mips.json` | LLVM's Mips TableGen description, same repository and version as `llvm/RISCV.json`, `llvm/lib/Target/Mips`: the MIPS32 / MIPS64 Release 2 CPU instructions in the standard encoding (filter in `tools/isa/tablegen.mjs`), same extraction | `llvmorg-23.1.5` | Apache 2.0 with LLVM exception |
 | `llvm/AArch64.json` | LLVM's AArch64 TableGen description, same repository and version, `llvm/lib/Target/AArch64`: the ARMv8.0 A64 instructions (no predicate, HasFPARMv8, HasEL3; filter in `tools/isa/tablegen.mjs`), same extraction | `llvmorg-23.1.5` | Apache 2.0 with LLVM exception |
+| `llvm/ARM.json` | LLVM's ARM TableGen description, same repository and version, `llvm/lib/Target/ARM`: the ARMv7-A ARM state instructions (decoder namespaces ARM and CoProc, no ARMv8, VFP or NEON predicate; filter in `tools/isa/tablegen.mjs`), same extraction | `llvmorg-23.1.5` | Apache 2.0 with LLVM exception |
 | `llvm/MOS.json` | llvm-mos's 6502 TableGen description, [llvm-mos/llvm-mos](https://github.com/llvm-mos/llvm-mos) `llvm/lib/Target/MOS` (not part of upstream LLVM), same extraction | commit `ae72e49843c256272d89421942079cd623bedafb` | Apache 2.0 with LLVM exception |
 
 Also here, so the header's TableGen downloads are the real files: the RV32 / RV64 `.td` files of LLVM's RISC-V target
 (`llvm/RISCV/`, including `RISCVRegisterInfo.td` and `RISCVSystemOperands.td`, where the registers sheet takes register
-names, ABI names, encodings and CSR addresses from) llvm-mos's instruction files (`llvm/MOS/`) the Mips files the MIPS sheets take instructions from (`llvm/Mips/`) and the AArch64 ones of the A64 sheets (`llvm/AArch64/`), same versions.
+names, ABI names, encodings and CSR addresses from) llvm-mos's instruction files (`llvm/MOS/`) the Mips files the MIPS sheets take instructions from (`llvm/Mips/`) the AArch64 ones of the A64 sheets (`llvm/AArch64/`) and the ARM ones of the A32 sheets (`llvm/ARM/`), same versions.
 
 ## Unofficial descriptions
 
@@ -31,6 +32,7 @@ headers:
 | `unofficial/i8080/i8080.sail`, `I8080.td` | The 8080's documented instructions: the Sail from the bit fields of Intel's 8080 Microcomputer Systems User's Manual, the TableGen from the opcode table of the 8080 Assembly Language Programming Manual (opcode bytes and field positions, a separate reading) |
 | `unofficial/mcs51/mcs51.sail`, `MCS51.td` | The 8051's instructions: the Sail from the encodings of the instruction definitions in Intel's MCS-51 Microcontroller Family User's Manual, the TableGen from its opcode map in hexadecimal order (a separate reading) |
 | `unofficial/a64/a64.sail` | A64 of ARMv8.0 (integer, loads and stores, branches and system, scalar floating point), written by hand from the encoding diagrams of the Arm Architecture Reference Manual; clauses named as LLVM's instructions, checked against them bit by bit. Not derived from Arm's machine-readable XML, which may not be copied (CLAUDE.md); `test/arm-xml.test.mjs` compares the sheet with it where it is installed |
+| `unofficial/a32/a32.sail` | A32 of ARMv7-A (integer, loads and stores, branches, coprocessor, system, with the Security, Virtualization and Multiprocessing Extensions), written by hand from the Arm ARM (ARMv7-A and ARMv7-R edition); clauses named as LLVM's instructions (NAME_i / NAME_r where one LLVM record is two forms), checked against them bit by bit; compared locally with Arm's AArch32 XML, never copied from it |
 | `unofficial/mips/mips.sail` | MIPS32 and MIPS64 Release 2, the CPU instructions, from MIPS Technologies' MIPS32 / MIPS64 Architecture For Programmers Volume II-A; clauses named as LLVM's instructions, checked against them bit by bit (up to the fields' names and the low bits LLVM leaves out of offsets) |
 | `unofficial/hack/hack.sail`, `Hack.td` | The Hack machine language, from chapter 4 of The Elements of Computing Systems |
 | `unofficial/mos6502/mos6502.sail` | The 6502's official opcodes, from MOS Technology's programming manual; checked against llvm-mos |
@@ -58,6 +60,7 @@ TableGen: build `llvm-tblgen` from the release (only it is needed: `ninja llvm-t
 npm run isa:tablegen -- --llvm ~/llvm-project --tblgen ~/llvm-project/build/bin/llvm-tblgen --target RISCV
 npm run isa:tablegen -- --llvm ~/llvm-project --tblgen ~/llvm-project/build/bin/llvm-tblgen --target Mips
 npm run isa:tablegen -- --llvm ~/llvm-project --tblgen ~/llvm-project/build/bin/llvm-tblgen --target AArch64
+npm run isa:tablegen -- --llvm ~/llvm-project --tblgen ~/llvm-project/build/bin/llvm-tblgen --target ARM
 npm run isa:tablegen -- --llvm ~/llvm-mos --project llvm-mos/llvm-mos --tblgen ~/llvm-project/build/bin/llvm-tblgen --target MOS
 npm run isa:tablegen -- --llvm ~/llvm-project --tblgen ~/llvm-project/build/bin/llvm-tblgen --target Z80 --td spec/unofficial/z80/Z80.td --out spec/unofficial/z80/Z80.json --project unofficial
 npm run isa:tablegen -- --llvm ~/llvm-project --tblgen ~/llvm-project/build/bin/llvm-tblgen --target I8080 --td spec/unofficial/i8080/I8080.td --out spec/unofficial/i8080/I8080.json --project unofficial

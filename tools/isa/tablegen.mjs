@@ -157,6 +157,8 @@ const _MIPS_BASE = new Set(['HasStdEnc', 'NotInMicroMips', 'NotInMips16Mode', 'N
   'HasMips32', 'HasMips32r2', 'HasMips64', 'HasMips64r2', 'HasMips4_32', 'HasMips3_32', 'HasMips3_32r2', 'HasMips4_32r2', 'HasMips5_32r2',
   'IsGP64bit', 'IsGP32bit', 'IsPTR64bit', 'IsPTR32bit', 'RelocNotPIC', 'NoIndirectJumpGuards']);
 const _A64_LATER = /^(AUTI|PACI|XPACLRI|CHKFEAT|PACM|MRRS|MSRR|SYSP|RPRFM|MSRpstatesvcrImm1|MSRpstateImm1)/;
+const _ARMV7 = new Set(['IsARM', 'HasV4T', 'HasV5T', 'HasV5TE', 'HasV6', 'HasV6K', 'HasV6T2', 'HasV7', 'PreV8', 'UseMulOps', 'HasDivideInARM', 'HasMP',
+  'HasVirtualization', 'HasTrustZone', 'HasV7Clrex', 'HasDB', 'IsNotMClass']);
 const _MIPS_COPIES = new Set(['JALR64', 'JALR_HB64', 'JR64', 'JR_HB64', 'LL64', 'SC64']);
 
 const TARGETS = {
@@ -203,6 +205,13 @@ const TARGETS = {
   AArch64: {
     keepInstruction: ({ name, record }) => record.Namespace === 'AArch64' && !record.isPseudo && !record.isCodeGenOnly && !record.isAsmParserOnly &&
       (record.Predicates || []).every((p) => ['HasFPARMv8', 'HasEL3'].includes(_def(p))) && !_A64_LATER.test(name),
+    keepAlias: () => false,
+  },
+  // A32 of ARMv7-A: the ARM state integer, load / store, branch, coprocessor and system instructions (decoder namespaces ARM
+  // and CoProc) up to ARMv7 with the Security, Virtualization and Multiprocessing Extensions; not ARMv8's, VFP or NEON.
+  ARM: {
+    keepInstruction: ({ record }) => record.Namespace === 'ARM' && !record.isPseudo && !record.isCodeGenOnly && !record.isAsmParserOnly &&
+      ['ARM', 'CoProc'].includes(record.DecoderNamespace) && (record.Predicates || []).every((p) => _ARMV7.has(_def(p))),
     keepAlias: () => false,
   },
   // The unofficial descriptions of spec/unofficial (--td spec/unofficial/z80/Z80.td, .../hack/Hack.td).

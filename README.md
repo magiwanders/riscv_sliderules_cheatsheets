@@ -2,8 +2,8 @@
 
 An instruction **encoder** and **decoder** in the browser, laid out like the paper "sliderule" cheatsheets, for
 RISC-V RV32 and RV64 with every ratified extension (1,142 and 1,245 instructions; they start as RV32GC / RV64GC), MIPS32
-and MIPS64 (Release 2, the CPU instructions), Arm A64 (ARMv8.0: integer, loads and stores, system, scalar floating point), the
-Intel 8080 and 8051, the Zilog Z80, the MOS 6502 and the
+and MIPS64 (Release 2, the CPU instructions), Arm A64 (ARMv8.0: integer, loads and stores, system, scalar floating point) and A32 (ARMv7-A: integer, coprocessor,
+system), the Intel 8080 and 8051, the Zilog Z80, the MOS 6502 and the
 Hack computer of nand2tetris (choose one in the title):
 pick an instruction and read its bits, or set bits and read the instruction.
 
@@ -86,7 +86,7 @@ It sets `window.sliderulesLine` (and fires a `sliderules-line` event on `window`
 const line = window.sliderulesLine;
 // the encoder's line: the assembly, then its bits by field (a pseudo-instruction gives a line per word)
 line.encoderLine({ isa: 'rv32gc', assembly: 'addi a0, a0, -1' });          // → { element, words, error }
-// the decoder's line of the instruction starting at bytes[0] (memory order; RISC-V, A64, MIPS and Hack words little-endian)
+// the decoder's line of the instruction starting at bytes[0] (memory order; RISC-V, A64, A32, MIPS and Hack words little-endian)
 line.decoderLine({ isa: 'rv32gc', extensions: ['I', 'M', 'C'], bytes: [0x01, 0x45] }); // → { element, assembly, length, error }
 // either one in a popup by the pointer (client pixels); call it on every pointer move, hide() when the pointer leaves
 line.show({ isa: 'hack', bytes: [0x10, 0xec], x: event.clientX, y: event.clientY });
@@ -95,7 +95,7 @@ line.disassemble({ isa: 'rv32gc', bytes });   // → [{ offset, length, assembly
 line.assemble({ isa: 'hack', assembly: '@17' }); // → { words: [{ word, width, hex, binary }] } or { error }
 ```
 
-`isa` is `rv32gc`, `rv64gc`, `arm64`, `mips32`, `mips64`, `8080`, `8051`, `z80`, `6502` or `hack`; `extensions` (RISC-V only) picks the extensions to decode and
+`isa` is `rv32gc`, `rv64gc`, `arm64`, `arm32`, `mips32`, `mips64`, `8080`, `8051`, `z80`, `6502` or `hack`; `extensions` (RISC-V only) picks the extensions to decode and
 encode with, the sheet's default (RV32GC / RV64GC) otherwise; `title` replaces the line's title. The popup lets the
 pointer through. [Ash](https://ash.magiwanders.com) uses it for the instructions of its programs and memory.
 
@@ -122,6 +122,7 @@ descriptions, pseudocode, flags, HINT and reserved rows, register meanings.
 | RV32, RV64 | The official [RISC-V Sail model](https://github.com/riscv/sail-riscv) | [LLVM](https://github.com/llvm/llvm-project)'s RISC-V target |
 | 6502 | **Unofficial**, written for these sheets: no Sail model of the 6502 exists | [llvm-mos](https://github.com/llvm-mos/llvm-mos) (LLVM for the 6502, not upstream LLVM) |
 | A64 | **Unofficial**, written by hand for these sheets from the Arm Architecture Reference Manual (Arm's Sail model decodes differently, and Arm's machine-readable specification may not be copied) | [LLVM](https://github.com/llvm/llvm-project)'s AArch64 target |
+| A32 | **Unofficial**, written by hand for these sheets from the Arm Architecture Reference Manual (ARMv7-A and ARMv7-R edition) | [LLVM](https://github.com/llvm/llvm-project)'s ARM target |
 | MIPS32, MIPS64 | **Unofficial**, written for these sheets from MIPS Technologies' manuals: no Sail model of MIPS exists | [LLVM](https://github.com/llvm/llvm-project)'s Mips target |
 | 8080 | **Unofficial**, written for these sheets from Intel's manuals | **Unofficial**, likewise |
 | 8051 | **Unofficial**, written for these sheets from Intel's MCS-51 manual | **Unofficial**, likewise |
@@ -184,13 +185,14 @@ bits grey, the unused upper half of a compressed instruction black.
 | RV64 | v1.0 | GNU as 2.45, LLVM llvm-mc 23.1.5 | 7,495 vectors each, in the same three profiles for RV64 (RV64GC; every extension that can be on with the others; floats in integer registers with Zcmp, Zcmt), over 1,750 of the 1,797 instructions and pseudo-instructions they hold; round trips of all of them in each profile |
 | 6502 | v0.1 | py65 1.2.0, ca65 2.19 | 725 vectors (724 for ca65) over the 151 official opcodes; the opcode table equals py65's across all 256 opcodes |
 | A64 | v0.1 | GNU as 2.45, LLVM llvm-mc 23.1.5 | 2,621 vectors over the 555 rows (538 instructions; b.cond and msr of PSTATE fields a row per condition / field), 2,615 for GNU as, which leaves ADRP to the linker; the two assemblers agree; round trips of all of them; on a developer's machine also every row against Arm's machine-readable specification (`test/arm-xml.test.mjs`, skipped without it) |
+| A32 | v0.1 | GNU as 2.45, LLVM llvm-mc 23.1.5 | 1,584 vectors from llvm-mc and 1,586 from GNU as over the 374 rows (372 LLVM instructions; 7 LLVM records are duplicates the sheet leaves out, listed in its overlay), every row assembled by at least one (GNU as knows hints by name only, llvm-mc refuses a user-registers store with writeback); the two agree; pc and repeated registers excluded where the Arm ARM calls them UNPREDICTABLE; on a developer's machine every row against Arm's AArch32 XML (`test/arm-xml.test.mjs`; SWP, the generic coprocessor instructions and ARMv7's user-register LDM / STM forms are listed apart there, as ARMv8's AArch32 changed them) |
 | MIPS32 | v0.1 | GNU as 2.45, LLVM llvm-mc 23.1.5 | 598 vectors each over the 125 instructions and 7 pseudo-instructions of Release 2 (every one at least once); the two assemblers agree on every word; round trips of all of them |
 | MIPS64 | v0.1 | GNU as 2.45, LLVM llvm-mc 23.1.5 | 791 vectors each over the 170 instructions and 7 pseudo-instructions, n64 register names; likewise |
 | 8080 | v0.1 | asl 1.42 (Macro Assembler AS), as8085 6.10 (ASxxxx) | 611 vectors each over the 93 instructions, every register and condition combination included: the 244 documented opcodes, each assembled by both; the 12 others (undocumented) decode to nothing |
 | 8051 | v0.1 | asl 1.42 (Macro Assembler AS), as8051 6.10 (ASxxxx) | 732 vectors each over the 111 instructions, every register combination and every AJMP / ACALL page included: the 255 defined opcodes, each assembled by both; A5 (undefined) decodes to nothing |
 | Z80 | v0.1 | skoolkit 10.2, sjasmplus 1.24.0 | 617 vectors each over the 166 documented forms; all 1,786 opcodes behind every prefix agree with skoolkit, apart from the undocumented ones left out on purpose and `ED 63` / `ED 6B`, which skoolkit only knows as an option |
 | Hack | v0.1 | Known encodings | The assembly of the nand2tetris examples, and round trips of every instruction; every word of `Pong.hack` was once checked to decode and reassemble to itself (not part of `npm test`) |
-| 8086, x86, x86_64, ARM Thumb, ARM32 | — | — | Coming soon |
+| 8086, x86, x86_64, ARM Thumb | — | — | Coming soon |
 
 **Every sheet with assemblers is bit-perfect against two of them:** every encodable instruction and pseudo-instruction
 is encoded by the sheet with random operands and the edges of its immediate's range, the same lines are assembled by
@@ -205,7 +207,7 @@ refuses `JMP ($xxFF)` (the NMOS page bug), so those cases are left out for it. `
 from its sources and fails if the committed files differ, which re-checks Sail against TableGen bit by bit.
 
 The references are stored in `test/vectors/` and regenerated with `npm run vectors` (GNU as), `npm run vectors:llvm`
-(llvm-mc), `npm run vectors:retro` (py65, skoolkit) and `npm run vectors:retro-asm` (ca65, sjasmplus, asl, as8085, as8051) `npm run vectors:mips` and `npm run vectors:a64` (GNU as, llvm-mc). These tests cover
+(llvm-mc), `npm run vectors:retro` (py65, skoolkit) and `npm run vectors:retro-asm` (ca65, sjasmplus, asl, as8085, as8051) `npm run vectors:mips`, `npm run vectors:a64` and `npm run vectors:a32` (GNU as, llvm-mc). These tests cover
 bits, mnemonics and instruction lengths: the flags, pseudocode and descriptions of the v0.1 sheets are not checked
 against a reference yet.
 

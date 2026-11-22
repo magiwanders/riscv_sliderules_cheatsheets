@@ -5,7 +5,7 @@ import { segmentCells, typeCell, bitNumbers } from './cells.mjs';
 // of an assembly instruction (its assembly, then its bits by field) or the decoder's line of some bytes of memory
 // (the bits by field, then the instruction they are). `show` puts either in a popup that follows the pointer.
 //
-//   isa: an instruction set's value in isas.mjs ('rv32gc', 'rv64gc', 'arm64', 'mips32', 'mips64', '8080', '8051', 'z80', '6502', 'hack');
+//   isa: an instruction set's value in isas.mjs ('rv32gc', 'rv64gc', 'arm64', 'arm32', 'mips32', 'mips64', '8080', '8051', 'z80', '6502', 'hack');
 //   extensions: RISC-V only, the extensions to decode and encode with (['I', 'M', 'C']); the sheet's default otherwise;
 //   bytes: in memory order. A word instruction set reads them little-endian (RISC-V, and Hack as Ash lays it out).
 

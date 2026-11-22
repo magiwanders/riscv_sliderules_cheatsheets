@@ -164,6 +164,7 @@ export function OperandPanel({ codec = null, onChange = () => {} }) {
   const memory = {};
   let _entry = null;
   let _template = [];
+  let _tail = null;
   let _keys = [];
   const panel = _div({ class: 'operand-panel' }, '');
 
@@ -171,14 +172,17 @@ export function OperandPanel({ codec = null, onChange = () => {} }) {
 
   panel.show = ({ entry = null }) => {
     _entry = entry;
-    _template = entry ? splitOperands({ text: entry.asm }) : [];
+    // the mnemonic's tail ({s}{cond}) first, then the operands
+    const { tail, ops } = entry ? codec.templateOperands({ entry }) : { tail: null, ops: [] };
+    _tail = tail;
+    _template = ops;
     _keys = [];
     const columns = [];
-    for (const op of _template) {
+    for (const op of [...(tail !== null ? [tail] : []), ..._template]) {
       for (const part of templateParts({ op })) {
         if (!part.token) continue;
         const info = operandInfo({ entry, token: part.token });
-        if (info.kind === 'sp') continue;
+        if (info.kind === 'sp' || info.kind === 'derived') continue;
         _keys.push(codec.tokenKey(part.token));
         columns.push(_operandColumn({ name: part.token, kind: info.kind, control: _controlFor({ codec, token: part.token, info, memory, onChange: emit }) }));
       }
@@ -201,9 +205,16 @@ export function OperandPanel({ codec = null, onChange = () => {} }) {
     if (!_entry) return { entry: null, operands: null, ordering: '' };
     // an operand at the value that leaves it out (an unmasked vm) is not written at all
     // and an optional part ({?...}) whose operands are all at their omit values neither
-    const operands = _template.filter((op) => !codec.isOmitted({ key: op, value: memory[op] })).map((op) => templateParts({ op, values: memory })
-      .map((part) => (part.token ? _valueText({ codec, token: part.token, info: operandInfo({ entry: _entry, token: part.token }), memory, entry: _entry }) : part.text))
-      .join('')).filter((text) => text !== '').join(', ');
+    const textOf = (op) => templateParts({ op, values: memory }).map((part) => {
+      if (!part.token) return part.text;
+      const info = operandInfo({ entry: _entry, token: part.token });
+      const key = codec.tokenKey(part.token);
+      if (info.kind === 'derived') return codec.operandText({ key, value: codec.spec.operands[key].derive({ fields: memory }), fields: memory, inst: _entry });
+      return _valueText({ codec, token: part.token, info, memory, entry: _entry });
+    }).join('');
+    const list = _template.filter((op) => !codec.isOmitted({ key: op, value: memory[op] })).map(textOf).filter((text) => text !== '').join(', ');
+    // an entry with a mnemonic tail: the tail, a space, the operands (what encodeEntry parses)
+    const operands = _tail !== null ? `${textOf(_tail)} ${list}` : list;
     return { entry: _entry, operands, ordering: _hasOrdering({ entry: _entry }) ? memory.ordering || '' : '' };
   };
 

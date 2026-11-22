@@ -49,17 +49,25 @@ const VECTOR_SAFE = [8, 16, 24];
 // that assemblers accept together (see VECTOR_SAFE); otherwise any the encoding allows.
 export function operandSet({ codec = rv32, entry = {}, random, edge = null, safe = false }) {
   const { operandInfo, templateParts, tokenKey, operandText } = codec;
-  const template = splitOperands({ text: entry.asm });
+  const { tail, ops } = codec.templateOperands({ entry });
+  const template = [...(tail !== null ? [tail] : []), ...ops];
   const values = {};
   const omitted = new Set();
   // the text of each token as chosen; an optional part ({?...}) is written as the codec would, from the values
   const tokenText = {};
   const choose = (part, op) => (part.token ? (tokenText[part.token] = chooseToken(part, op)) : part.text);
-  const render = (op, texts) => (op.includes('{?') ? templateParts({ op, values }).map((p) => (p.token ? tokenText[p.token] : p.text)).join('') : texts.join(''));
+  // operands whose text depends on others (A32's ror #0 is rrx) are written again once every value is chosen
+  const finalText = (token) => {
+    const key = tokenKey(token);
+    const operand = (codec.spec.operands || {})[key];
+    return operand && operand.text && values[key] !== undefined ? operandText({ key, value: values[key], fields: values, inst: entry }) : tokenText[token];
+  };
+  const render = (op) => templateParts({ op, values: op.includes('{?') ? values : null }).map((p) => (p.token ? finalText(p.token) : p.text)).join('');
   const chooseToken = (part, op) => {
     const info = operandInfo({ entry, token: part.token });
     const key = tokenKey(part.token);
     if (info.kind === 'sp') return 'sp';
+    if (info.kind === 'derived') return operandText({ key, value: codec.spec.operands[key].derive({ fields: values }), fields: values, inst: entry });
     if (info.kind === 'enum') {
       // two operands that must differ (cm.mvsa01's r1s and r2s)
       const other = entry.distinct && entry.distinct.includes(key) ? values[entry.distinct.find((k) => k !== key)] : undefined;
@@ -88,7 +96,10 @@ export function operandSet({ codec = rv32, entry = {}, random, edge = null, safe
     return fenceText({ value: 1 + Math.floor(random() * 15) });
   };
   const chosen = template.map((op) => templateParts({ op }).map((part) => choose(part, op)));
-  const operands = template.map((op, i) => render(op, chosen[i])).filter((text, i) => !omitted.has(template[i]) && text !== '').join(', ');
+  const rendered = template.map((op) => render(op));
+  const list = rendered.slice(tail !== null ? 1 : 0).filter((text, i) => !omitted.has(template[i + (tail !== null ? 1 : 0)]) && text !== '').join(', ');
+  // an entry with a mnemonic tail: the tail, a space, the operands
+  const operands = tail !== null ? `${rendered[0]} ${list}` : list;
   const hasOrdering = !entry.pseudo && entry.segments.some((s) => s.key === 'aq');
   const ordering = hasOrdering ? _pick({ random, list: ['', 'aq', 'rl', 'aqrl'] }) : '';
   return { operands, ordering, values };
@@ -117,7 +128,7 @@ export function everyEncoding({ codec, seed = 2026 }) {
   const cases = [];
   for (const entry of codec.encodable.filter((e) => !e.pseudo)) {
     let texts = [{ parts: [] }];
-    for (const op of splitOperands({ text: entry.asm })) {
+    for (const op of codec.templateOperands({ entry }).ops) {
       let options = [''];
       for (const part of codec.templateParts({ op })) {
         if (!part.token) {

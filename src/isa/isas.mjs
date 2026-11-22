@@ -5,6 +5,7 @@ import * as mcs51 from './mcs51.mjs';
 import mips32 from './mips32.mjs';
 import mips64 from './mips64.mjs';
 import * as a64 from './a64.mjs';
+import * as a32 from './a32.mjs';
 import * as mos6502 from './mos6502.mjs';
 import * as rv32gc from './rv32gc.mjs';
 import * as rv64gc from './rv64gc.mjs';
@@ -63,7 +64,8 @@ export const isas = [
   { value: 'x86', family: 'intel', label: 'x86 (IA-32)', short: 'x86' },
   { value: 'x86_64', family: 'intel', label: 'x86-64' },
   { value: 'arm-thumb', family: 'arm', label: 'Thumb' },
-  { value: 'arm32', family: 'arm', label: 'A32 (ARM32)', short: 'A32' },
+  { value: 'arm32', family: 'arm', label: 'A32 (ARM32)', short: 'A32', version: 'v0.1', codec: createCodec(a32),
+    specs: { sail: 'unofficial, written for these sheets from the Arm Architecture Reference Manual and checked against LLVM', tablegen: 'the A32 files of LLVM\'s ARM target (official), ARMv7-A integer, coprocessor and system instructions' } },
   { value: 'arm64', family: 'arm', label: 'A64 (ARM64)', short: 'A64', version: 'v0.1', codec: createCodec(a64),
     specs: { sail: 'unofficial, written for these sheets from the Arm Architecture Reference Manual and checked against LLVM', tablegen: 'the A64 files of LLVM\'s AArch64 target (official), ARMv8.0 integer and floating-point instructions' } },
   { value: 'z80', family: 'z80', label: 'Z80', version: 'v0.1', codec: createCodec(z80),

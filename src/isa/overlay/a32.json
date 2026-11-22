@@ -1,0 +1,5071 @@
+{
+  "$comment": "What the A32 sheets show that LLVM's ARM TableGen and the unofficial Sail do not carry: sections, groups, formats, each row's mnemonic and assembly (a template starting with ~ glues its first part to the mnemonic: {s}{cond}), description and pseudocode, register names, in the decoder's order. sail names the Sail clause of a row when one LLVM record is two rows (LDRH's immediate and register forms), fix fixes a field (cpsie / cpsid), llvmFixed names LLVM operands covering bits the Sail writes as literals, excludeLLVM the LLVM records the sheet leaves out and why.",
+  "sections": {
+    "dp": "Data Processing (op1 00x)",
+    "mul": "Multiplies (op1 000, bits 7:4 1001)",
+    "misc": "Miscellaneous (op1 0001 0xx0)",
+    "sync": "Synchronization Primitives",
+    "media": "Media (op1 011, bit 4 = 1)",
+    "ldst": "Load / Store Word and Byte (op1 01x)",
+    "ldm": "Load / Store Multiple (op1 100)",
+    "branch": "Branch (op1 101)",
+    "coproc": "Coprocessor (op1 11x)",
+    "uncond": "Unconditional (cond 1111)"
+  },
+  "formats": {
+    "REG": {
+      "title": "Register",
+      "width": 32
+    },
+    "IMM": {
+      "title": "Immediate",
+      "width": 32
+    },
+    "BR": {
+      "title": "Branch",
+      "width": 32
+    },
+    "LD": {
+      "title": "Load",
+      "width": 32
+    },
+    "ST": {
+      "title": "Store",
+      "width": 32
+    },
+    "SYS": {
+      "title": "System",
+      "width": 32
+    }
+  },
+  "extensions": [
+    "ARMv4",
+    "ARMv4T",
+    "ARMv5T",
+    "ARMv5TE",
+    "ARMv6",
+    "ARMv6K",
+    "ARMv6T2",
+    "ARMv7",
+    "Security",
+    "Virtualization",
+    "MP"
+  ],
+  "excludeLLVM": {
+    "ADR": "ADD / SUB (immediate) with rn = pc: the sheet lists those",
+    "ANDrr": "ANDrsi with lsl #0",
+    "EORrr": "EORrsi with lsl #0",
+    "SUBrr": "SUBrsi with lsl #0",
+    "RSBrr": "RSBrsi with lsl #0",
+    "ADDrr": "ADDrsi with lsl #0",
+    "ADCrr": "ADCrsi with lsl #0",
+    "SBCrr": "SBCrsi with lsl #0",
+    "RSCrr": "RSCrsi with lsl #0",
+    "TSTrr": "TSTrsi with lsl #0",
+    "TEQrr": "TEQrsi with lsl #0",
+    "CMPrr": "CMPrsi with lsl #0",
+    "CMNrr": "CMNrsi with lsl #0",
+    "ORRrr": "ORRrsi with lsl #0",
+    "MOVr": "MOVsi with lsl #0",
+    "BICrr": "BICrsi with lsl #0",
+    "MVNr": "MVNsi with lsl #0",
+    "MOVr_TC": "a copy of MOVr for tail calls (same encoding)",
+    "BL": "BL_pred with the condition al",
+    "BX": "BX_pred with the condition al",
+    "BLX": "BLX_pred with the condition al",
+    "BX_RET": "BX_pred with rm = lr",
+    "TRAP": "LLVM's name for one UDF value",
+    "MRSbanked": "banked registers (Virtualization Extensions) not on the sheet yet",
+    "MSRbanked": "banked registers (Virtualization Extensions) not on the sheet yet"
+  },
+  "groups": {
+    "dp-imm": {
+      "section": "dp",
+      "format": "IMM",
+      "title": "Data Processing (modified immediate)",
+      "pseudocode": "rd = rn (op) mimm"
+    },
+    "dp-reg": {
+      "section": "dp",
+      "format": "REG",
+      "title": "Data Processing (register)",
+      "pseudocode": "rd = rn (op) shifted rm"
+    },
+    "dp-rsr": {
+      "section": "dp",
+      "format": "REG",
+      "title": "Data Processing (register-shifted register)",
+      "pseudocode": "rd = rn (op) ( rm shifted by rs )"
+    },
+    "mul": {
+      "section": "mul",
+      "format": "REG",
+      "title": "Multiply and Multiply Accumulate",
+      "pseudocode": ""
+    },
+    "mul-half": {
+      "section": "mul",
+      "format": "REG",
+      "title": "Halfword Multiply and Multiply Accumulate",
+      "pseudocode": ""
+    },
+    "mul-dual": {
+      "section": "media",
+      "format": "REG",
+      "title": "Signed Multiplies (dual, most significant word)",
+      "pseudocode": ""
+    },
+    "div": {
+      "section": "media",
+      "format": "REG",
+      "title": "Divide",
+      "pseudocode": "rd = rn / rm"
+    },
+    "sat": {
+      "section": "misc",
+      "format": "REG",
+      "title": "Saturating Add and Subtract",
+      "pseudocode": ""
+    },
+    "parallel": {
+      "section": "media",
+      "format": "REG",
+      "title": "Parallel Add and Subtract",
+      "pseudocode": "rd = lanes of rn (op) rm"
+    },
+    "pack": {
+      "section": "media",
+      "format": "REG",
+      "title": "Packing, Selection, Sum of Differences",
+      "pseudocode": ""
+    },
+    "saturate": {
+      "section": "media",
+      "format": "REG",
+      "title": "Saturate",
+      "pseudocode": ""
+    },
+    "reverse": {
+      "section": "media",
+      "format": "REG",
+      "title": "Reverse and Count",
+      "pseudocode": "rd = f ( rm )"
+    },
+    "extend": {
+      "section": "media",
+      "format": "REG",
+      "title": "Extend (and Add)",
+      "pseudocode": "rd = (rn +) extend ( rm rotated )"
+    },
+    "bitfield": {
+      "section": "media",
+      "format": "REG",
+      "title": "Bit Field",
+      "pseudocode": ""
+    },
+    "movw": {
+      "section": "dp",
+      "format": "IMM",
+      "title": "Move Wide / Top (16 bit immediate)",
+      "pseudocode": ""
+    },
+    "branch": {
+      "section": "branch",
+      "format": "BR",
+      "title": "Branch (immediate)",
+      "pseudocode": "PC = PC + 8 + label"
+    },
+    "branch-reg": {
+      "section": "misc",
+      "format": "BR",
+      "title": "Branch and Exchange (register)",
+      "pseudocode": "PC = rm"
+    },
+    "exception": {
+      "section": "misc",
+      "format": "SYS",
+      "title": "Exception Generating",
+      "pseudocode": ""
+    },
+    "load": {
+      "section": "ldst",
+      "format": "LD",
+      "title": "Load Register",
+      "pseudocode": "rt = [ address ]"
+    },
+    "store": {
+      "section": "ldst",
+      "format": "ST",
+      "title": "Store Register",
+      "pseudocode": "[ address ] = rt"
+    },
+    "excl": {
+      "section": "sync",
+      "format": "LD",
+      "title": "Exclusive Load / Store and Swap",
+      "pseudocode": ""
+    },
+    "ldm": {
+      "section": "ldm",
+      "format": "LD",
+      "title": "Load Multiple",
+      "pseudocode": "reglist = [ rn ... ]"
+    },
+    "stm": {
+      "section": "ldm",
+      "format": "ST",
+      "title": "Store Multiple",
+      "pseudocode": "[ rn ... ] = reglist"
+    },
+    "srs": {
+      "section": "uncond",
+      "format": "SYS",
+      "title": "Store Return State / Return From Exception",
+      "pseudocode": ""
+    },
+    "coproc": {
+      "section": "coproc",
+      "format": "SYS",
+      "title": "Coprocessor Register Transfer and Data Processing",
+      "pseudocode": ""
+    },
+    "coproc-mem": {
+      "section": "coproc",
+      "format": "SYS",
+      "title": "Coprocessor Load / Store",
+      "pseudocode": ""
+    },
+    "status": {
+      "section": "misc",
+      "format": "SYS",
+      "title": "Special Register Moves",
+      "pseudocode": ""
+    },
+    "cps": {
+      "section": "uncond",
+      "format": "SYS",
+      "title": "Processor State",
+      "pseudocode": ""
+    },
+    "hint": {
+      "section": "misc",
+      "format": "SYS",
+      "title": "Hints",
+      "pseudocode": ""
+    },
+    "barrier": {
+      "section": "uncond",
+      "format": "SYS",
+      "title": "Barriers and Clear-Exclusive",
+      "pseudocode": ""
+    },
+    "preload": {
+      "section": "uncond",
+      "format": "LD",
+      "title": "Preload",
+      "pseudocode": "preload [ address ]"
+    }
+  },
+  "instructions": [
+    {
+      "group": "dp-imm",
+      "def": "ANDri",
+      "name": "and",
+      "asm": "~sflagcond rd, rn, #mimm",
+      "description": "Bitwise AND (immediate)",
+      "pseudocode": "rd = rn & mimm"
+    },
+    {
+      "group": "dp-reg",
+      "def": "ANDrsi",
+      "name": "and",
+      "asm": "~sflagcond rd, rn, rm{?, shiftamount}",
+      "description": "Bitwise AND (register)",
+      "pseudocode": "rd = rn & shifted rm"
+    },
+    {
+      "group": "dp-rsr",
+      "def": "ANDrsr",
+      "name": "and",
+      "asm": "~sflagcond rd, rn, rm, shiftr rs",
+      "description": "Bitwise AND (register-shifted register)",
+      "pseudocode": "rd = rn & rm shifted by rs",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "EORri",
+      "name": "eor",
+      "asm": "~sflagcond rd, rn, #mimm",
+      "description": "Bitwise Exclusive OR (immediate)",
+      "pseudocode": "rd = rn ^ mimm"
+    },
+    {
+      "group": "dp-reg",
+      "def": "EORrsi",
+      "name": "eor",
+      "asm": "~sflagcond rd, rn, rm{?, shiftamount}",
+      "description": "Bitwise Exclusive OR (register)",
+      "pseudocode": "rd = rn ^ shifted rm"
+    },
+    {
+      "group": "dp-rsr",
+      "def": "EORrsr",
+      "name": "eor",
+      "asm": "~sflagcond rd, rn, rm, shiftr rs",
+      "description": "Bitwise Exclusive OR (register-shifted register)",
+      "pseudocode": "rd = rn ^ rm shifted by rs",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "SUBri",
+      "name": "sub",
+      "asm": "~sflagcond rd, rn, #mimm",
+      "description": "Subtract (immediate)",
+      "pseudocode": "rd = rn - mimm"
+    },
+    {
+      "group": "dp-reg",
+      "def": "SUBrsi",
+      "name": "sub",
+      "asm": "~sflagcond rd, rn, rm{?, shiftamount}",
+      "description": "Subtract (register)",
+      "pseudocode": "rd = rn - shifted rm"
+    },
+    {
+      "group": "dp-rsr",
+      "def": "SUBrsr",
+      "name": "sub",
+      "asm": "~sflagcond rd, rn, rm, shiftr rs",
+      "description": "Subtract (register-shifted register)",
+      "pseudocode": "rd = rn - rm shifted by rs",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "RSBri",
+      "name": "rsb",
+      "asm": "~sflagcond rd, rn, #mimm",
+      "description": "Reverse Subtract (immediate)",
+      "pseudocode": "rd = mimm - rn"
+    },
+    {
+      "group": "dp-reg",
+      "def": "RSBrsi",
+      "name": "rsb",
+      "asm": "~sflagcond rd, rn, rm{?, shiftamount}",
+      "description": "Reverse Subtract (register)",
+      "pseudocode": "rd = shifted rm - rn"
+    },
+    {
+      "group": "dp-rsr",
+      "def": "RSBrsr",
+      "name": "rsb",
+      "asm": "~sflagcond rd, rn, rm, shiftr rs",
+      "description": "Reverse Subtract (register-shifted register)",
+      "pseudocode": "rd = rm shifted by rs - rn",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "ADDri",
+      "name": "add",
+      "asm": "~sflagcond rd, rn, #mimm",
+      "description": "Add (immediate)",
+      "pseudocode": "rd = rn + mimm"
+    },
+    {
+      "group": "dp-reg",
+      "def": "ADDrsi",
+      "name": "add",
+      "asm": "~sflagcond rd, rn, rm{?, shiftamount}",
+      "description": "Add (register)",
+      "pseudocode": "rd = rn + shifted rm"
+    },
+    {
+      "group": "dp-rsr",
+      "def": "ADDrsr",
+      "name": "add",
+      "asm": "~sflagcond rd, rn, rm, shiftr rs",
+      "description": "Add (register-shifted register)",
+      "pseudocode": "rd = rn + rm shifted by rs",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "ADCri",
+      "name": "adc",
+      "asm": "~sflagcond rd, rn, #mimm",
+      "description": "Add with Carry (immediate)",
+      "pseudocode": "rd = rn + mimm + C"
+    },
+    {
+      "group": "dp-reg",
+      "def": "ADCrsi",
+      "name": "adc",
+      "asm": "~sflagcond rd, rn, rm{?, shiftamount}",
+      "description": "Add with Carry (register)",
+      "pseudocode": "rd = rn + shifted rm + C"
+    },
+    {
+      "group": "dp-rsr",
+      "def": "ADCrsr",
+      "name": "adc",
+      "asm": "~sflagcond rd, rn, rm, shiftr rs",
+      "description": "Add with Carry (register-shifted register)",
+      "pseudocode": "rd = rn + rm shifted by rs + C",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "SBCri",
+      "name": "sbc",
+      "asm": "~sflagcond rd, rn, #mimm",
+      "description": "Subtract with Carry (immediate)",
+      "pseudocode": "rd = rn - mimm - !C"
+    },
+    {
+      "group": "dp-reg",
+      "def": "SBCrsi",
+      "name": "sbc",
+      "asm": "~sflagcond rd, rn, rm{?, shiftamount}",
+      "description": "Subtract with Carry (register)",
+      "pseudocode": "rd = rn - shifted rm - !C"
+    },
+    {
+      "group": "dp-rsr",
+      "def": "SBCrsr",
+      "name": "sbc",
+      "asm": "~sflagcond rd, rn, rm, shiftr rs",
+      "description": "Subtract with Carry (register-shifted register)",
+      "pseudocode": "rd = rn - rm shifted by rs - !C",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "RSCri",
+      "name": "rsc",
+      "asm": "~sflagcond rd, rn, #mimm",
+      "description": "Reverse Subtract with Carry (immediate)",
+      "pseudocode": "rd = mimm - rn - !C"
+    },
+    {
+      "group": "dp-reg",
+      "def": "RSCrsi",
+      "name": "rsc",
+      "asm": "~sflagcond rd, rn, rm{?, shiftamount}",
+      "description": "Reverse Subtract with Carry (register)",
+      "pseudocode": "rd = shifted rm - rn - !C"
+    },
+    {
+      "group": "dp-rsr",
+      "def": "RSCrsr",
+      "name": "rsc",
+      "asm": "~sflagcond rd, rn, rm, shiftr rs",
+      "description": "Reverse Subtract with Carry (register-shifted register)",
+      "pseudocode": "rd = rm shifted by rs - rn - !C",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "TSTri",
+      "name": "tst",
+      "asm": "~cond rn, #mimm",
+      "description": "Test (immediate)",
+      "pseudocode": "flags of rn & mimm",
+      "llvmFixed": [
+        "Rd"
+      ]
+    },
+    {
+      "group": "dp-reg",
+      "def": "TSTrsi",
+      "name": "tst",
+      "asm": "~cond rn, rm{?, shiftamount}",
+      "description": "Test (register)",
+      "pseudocode": "flags of rn & shifted rm",
+      "llvmFixed": [
+        "Rd"
+      ]
+    },
+    {
+      "group": "dp-rsr",
+      "def": "TSTrsr",
+      "name": "tst",
+      "asm": "~cond rn, rm, shiftr rs",
+      "description": "Test (register-shifted register)",
+      "pseudocode": "flags of rn & rm shifted by rs",
+      "llvmFixed": [
+        "Rd"
+      ],
+      "nopc": [
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "TEQri",
+      "name": "teq",
+      "asm": "~cond rn, #mimm",
+      "description": "Test Equivalence (immediate)",
+      "pseudocode": "flags of rn ^ mimm",
+      "llvmFixed": [
+        "Rd"
+      ]
+    },
+    {
+      "group": "dp-reg",
+      "def": "TEQrsi",
+      "name": "teq",
+      "asm": "~cond rn, rm{?, shiftamount}",
+      "description": "Test Equivalence (register)",
+      "pseudocode": "flags of rn ^ shifted rm",
+      "llvmFixed": [
+        "Rd"
+      ]
+    },
+    {
+      "group": "dp-rsr",
+      "def": "TEQrsr",
+      "name": "teq",
+      "asm": "~cond rn, rm, shiftr rs",
+      "description": "Test Equivalence (register-shifted register)",
+      "pseudocode": "flags of rn ^ rm shifted by rs",
+      "llvmFixed": [
+        "Rd"
+      ],
+      "nopc": [
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "CMPri",
+      "name": "cmp",
+      "asm": "~cond rn, #mimm",
+      "description": "Compare (immediate)",
+      "pseudocode": "flags of rn - mimm",
+      "llvmFixed": [
+        "Rd"
+      ]
+    },
+    {
+      "group": "dp-reg",
+      "def": "CMPrsi",
+      "name": "cmp",
+      "asm": "~cond rn, rm{?, shiftamount}",
+      "description": "Compare (register)",
+      "pseudocode": "flags of rn - shifted rm",
+      "llvmFixed": [
+        "Rd"
+      ]
+    },
+    {
+      "group": "dp-rsr",
+      "def": "CMPrsr",
+      "name": "cmp",
+      "asm": "~cond rn, rm, shiftr rs",
+      "description": "Compare (register-shifted register)",
+      "pseudocode": "flags of rn - rm shifted by rs",
+      "llvmFixed": [
+        "Rd"
+      ],
+      "nopc": [
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "CMNri",
+      "name": "cmn",
+      "asm": "~cond rn, #mimm",
+      "description": "Compare Negative (immediate)",
+      "pseudocode": "flags of rn + mimm",
+      "llvmFixed": [
+        "Rd"
+      ]
+    },
+    {
+      "group": "dp-reg",
+      "def": "CMNrsi",
+      "name": "cmn",
+      "asm": "~cond rn, rm{?, shiftamount}",
+      "description": "Compare Negative (register)",
+      "pseudocode": "flags of rn + shifted rm",
+      "llvmFixed": [
+        "Rd"
+      ]
+    },
+    {
+      "group": "dp-rsr",
+      "def": "CMNrsr",
+      "name": "cmn",
+      "asm": "~cond rn, rm, shiftr rs",
+      "description": "Compare Negative (register-shifted register)",
+      "pseudocode": "flags of rn + rm shifted by rs",
+      "llvmFixed": [
+        "Rd"
+      ],
+      "nopc": [
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "ORRri",
+      "name": "orr",
+      "asm": "~sflagcond rd, rn, #mimm",
+      "description": "Bitwise OR (immediate)",
+      "pseudocode": "rd = rn | mimm"
+    },
+    {
+      "group": "dp-reg",
+      "def": "ORRrsi",
+      "name": "orr",
+      "asm": "~sflagcond rd, rn, rm{?, shiftamount}",
+      "description": "Bitwise OR (register)",
+      "pseudocode": "rd = rn | shifted rm"
+    },
+    {
+      "group": "dp-rsr",
+      "def": "ORRrsr",
+      "name": "orr",
+      "asm": "~sflagcond rd, rn, rm, shiftr rs",
+      "description": "Bitwise OR (register-shifted register)",
+      "pseudocode": "rd = rn | rm shifted by rs",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "MOVi",
+      "name": "mov",
+      "asm": "~sflagcond rd, #mimm",
+      "description": "Move (immediate)",
+      "pseudocode": "rd = mimm",
+      "llvmFixed": [
+        "Rn"
+      ]
+    },
+    {
+      "group": "dp-reg",
+      "def": "MOVsi",
+      "name": "mov",
+      "asm": "~sflagcond rd, rm{?, shiftamount}",
+      "description": "Move (register)",
+      "pseudocode": "rd = shifted rm",
+      "llvmFixed": [
+        "Rn"
+      ]
+    },
+    {
+      "group": "dp-rsr",
+      "def": "MOVsr",
+      "name": "mov",
+      "asm": "~sflagcond rd, rm, shiftr rs",
+      "description": "Move (register-shifted register)",
+      "pseudocode": "rd = rm shifted by rs",
+      "llvmFixed": [
+        "Rn"
+      ],
+      "nopc": [
+        "rd",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "BICri",
+      "name": "bic",
+      "asm": "~sflagcond rd, rn, #mimm",
+      "description": "Bitwise Bit Clear (immediate)",
+      "pseudocode": "rd = rn & ~mimm"
+    },
+    {
+      "group": "dp-reg",
+      "def": "BICrsi",
+      "name": "bic",
+      "asm": "~sflagcond rd, rn, rm{?, shiftamount}",
+      "description": "Bitwise Bit Clear (register)",
+      "pseudocode": "rd = rn & ~shifted rm"
+    },
+    {
+      "group": "dp-rsr",
+      "def": "BICrsr",
+      "name": "bic",
+      "asm": "~sflagcond rd, rn, rm, shiftr rs",
+      "description": "Bitwise Bit Clear (register-shifted register)",
+      "pseudocode": "rd = rn & ~rm shifted by rs",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "dp-imm",
+      "def": "MVNi",
+      "name": "mvn",
+      "asm": "~sflagcond rd, #mimm",
+      "description": "Bitwise NOT (immediate)",
+      "pseudocode": "rd = ~mimm",
+      "llvmFixed": [
+        "Rn"
+      ]
+    },
+    {
+      "group": "dp-reg",
+      "def": "MVNsi",
+      "name": "mvn",
+      "asm": "~sflagcond rd, rm{?, shiftamount}",
+      "description": "Bitwise NOT (register)",
+      "pseudocode": "rd = ~shifted rm",
+      "llvmFixed": [
+        "Rn"
+      ]
+    },
+    {
+      "group": "dp-rsr",
+      "def": "MVNsr",
+      "name": "mvn",
+      "asm": "~sflagcond rd, rm, shiftr rs",
+      "description": "Bitwise NOT (register-shifted register)",
+      "pseudocode": "rd = ~rm shifted by rs",
+      "llvmFixed": [
+        "Rn"
+      ],
+      "nopc": [
+        "rd",
+        "rm",
+        "rs"
+      ]
+    },
+    {
+      "group": "mul",
+      "def": "MUL",
+      "name": "mul",
+      "asm": "~sflagcond rd, rn, rm",
+      "description": "Multiply",
+      "pseudocode": "rd = rn × rm",
+      "llvmFixed": [
+        "Ra"
+      ],
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul",
+      "def": "MLA",
+      "name": "mla",
+      "asm": "~sflagcond rd, rn, rm, ra",
+      "description": "Multiply Accumulate",
+      "pseudocode": "rd = ra + rn × rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul",
+      "def": "UMAAL",
+      "name": "umaal",
+      "asm": "~cond rdlo, rdhi, rn, rm",
+      "description": "Unsigned Multiply Accumulate Accumulate Long",
+      "pseudocode": "rdhi : rdlo = rn × rm + rdlo + rdhi",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul",
+      "def": "MLS",
+      "name": "mls",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Multiply and Subtract",
+      "pseudocode": "rd = ra - rn × rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul",
+      "def": "UMULL",
+      "name": "umull",
+      "asm": "~sflagcond rdlo, rdhi, rn, rm",
+      "description": "Unsigned Multiply Long",
+      "pseudocode": "rdhi : rdlo = rn × rm (unsigned)",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul",
+      "def": "UMLAL",
+      "name": "umlal",
+      "asm": "~sflagcond rdlo, rdhi, rn, rm",
+      "description": "Unsigned Multiply Accumulate Long",
+      "pseudocode": "rdhi : rdlo += rn × rm (unsigned)",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul",
+      "def": "SMULL",
+      "name": "smull",
+      "asm": "~sflagcond rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Long",
+      "pseudocode": "rdhi : rdlo = rn × rm (signed)",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul",
+      "def": "SMLAL",
+      "name": "smlal",
+      "asm": "~sflagcond rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long",
+      "pseudocode": "rdhi : rdlo += rn × rm (signed)",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMLABB",
+      "name": "smlabb",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate (halfwords BB)",
+      "pseudocode": "rd = ra + rn.x × rm.y",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMLALBB",
+      "name": "smlalbb",
+      "asm": "~cond rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long (halfwords BB)",
+      "pseudocode": "rdhi : rdlo += rn.x × rm.y",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMULBB",
+      "name": "smulbb",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Multiply (halfwords BB)",
+      "pseudocode": "rd = rn.x × rm.y",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMLAWB",
+      "name": "smlawb",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate Word by Halfword (B)",
+      "pseudocode": "rd = ra + ( rn × rm.y ) >> 16",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMULWB",
+      "name": "smulwb",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Multiply Word by Halfword (B)",
+      "pseudocode": "rd = ( rn × rm.y ) >> 16",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMLABT",
+      "name": "smlabt",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate (halfwords BT)",
+      "pseudocode": "rd = ra + rn.x × rm.y",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMLALBT",
+      "name": "smlalbt",
+      "asm": "~cond rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long (halfwords BT)",
+      "pseudocode": "rdhi : rdlo += rn.x × rm.y",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMULBT",
+      "name": "smulbt",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Multiply (halfwords BT)",
+      "pseudocode": "rd = rn.x × rm.y",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMLAWT",
+      "name": "smlawt",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate Word by Halfword (T)",
+      "pseudocode": "rd = ra + ( rn × rm.y ) >> 16",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMULWT",
+      "name": "smulwt",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Multiply Word by Halfword (T)",
+      "pseudocode": "rd = ( rn × rm.y ) >> 16",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMLATB",
+      "name": "smlatb",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate (halfwords TB)",
+      "pseudocode": "rd = ra + rn.x × rm.y",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMLALTB",
+      "name": "smlaltb",
+      "asm": "~cond rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long (halfwords TB)",
+      "pseudocode": "rdhi : rdlo += rn.x × rm.y",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMULTB",
+      "name": "smultb",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Multiply (halfwords TB)",
+      "pseudocode": "rd = rn.x × rm.y",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMLATT",
+      "name": "smlatt",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate (halfwords TT)",
+      "pseudocode": "rd = ra + rn.x × rm.y",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMLALTT",
+      "name": "smlaltt",
+      "asm": "~cond rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long (halfwords TT)",
+      "pseudocode": "rdhi : rdlo += rn.x × rm.y",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul-half",
+      "def": "SMULTT",
+      "name": "smultt",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Multiply (halfwords TT)",
+      "pseudocode": "rd = rn.x × rm.y",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMLAD",
+      "name": "smlad",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate Dual",
+      "pseudocode": "rd = ra ± products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMLADX",
+      "name": "smladx",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate Dual, exchanged",
+      "pseudocode": "rd = ra ± products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMLSD",
+      "name": "smlsd",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Multiply Subtract Dual",
+      "pseudocode": "rd = ra ± products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMLSDX",
+      "name": "smlsdx",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Multiply Subtract Dual, exchanged",
+      "pseudocode": "rd = ra ± products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMUAD",
+      "name": "smuad",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Dual Multiply Add",
+      "pseudocode": "rd = products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMUADX",
+      "name": "smuadx",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Dual Multiply Add, exchanged",
+      "pseudocode": "rd = products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMUSD",
+      "name": "smusd",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Dual Multiply Subtract",
+      "pseudocode": "rd = products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMUSDX",
+      "name": "smusdx",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Dual Multiply Subtract, exchanged",
+      "pseudocode": "rd = products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMLALD",
+      "name": "smlald",
+      "asm": "~cond rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long Dual",
+      "pseudocode": "rdhi : rdlo ± dual products",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMLALDX",
+      "name": "smlaldx",
+      "asm": "~cond rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long Dual, exchanged",
+      "pseudocode": "rdhi : rdlo ± dual products",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMLSLD",
+      "name": "smlsld",
+      "asm": "~cond rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Subtract Long Dual",
+      "pseudocode": "rdhi : rdlo ± dual products",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMLSLDX",
+      "name": "smlsldx",
+      "asm": "~cond rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Subtract Long Dual, exchanged",
+      "pseudocode": "rdhi : rdlo ± dual products",
+      "nopc": [
+        "rn",
+        "rm",
+        "rdlo",
+        "rdhi"
+      ],
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMMLA",
+      "name": "smmla",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Most Significant Word Multiply Accumulate",
+      "pseudocode": "rd = ra ± products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMMLAR",
+      "name": "smmlar",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Most Significant Word Multiply Accumulate, rounded",
+      "pseudocode": "rd = ra ± products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMMUL",
+      "name": "smmul",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Most Significant Word Multiply",
+      "pseudocode": "rd = products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMMULR",
+      "name": "smmulr",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Most Significant Word Multiply, rounded",
+      "pseudocode": "rd = products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMMLS",
+      "name": "smmls",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Most Significant Word Multiply Subtract",
+      "pseudocode": "rd = ra ± products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "mul-dual",
+      "def": "SMMLSR",
+      "name": "smmlsr",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Signed Most Significant Word Multiply Subtract, rounded",
+      "pseudocode": "rd = ra ± products",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "div",
+      "def": "SDIV",
+      "name": "sdiv",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Divide",
+      "pseudocode": "rd = rn / rm (signed)",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "div",
+      "def": "UDIV",
+      "name": "udiv",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Divide",
+      "pseudocode": "rd = rn / rm (unsigned)",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "sat",
+      "def": "QADD",
+      "name": "qadd",
+      "asm": "~cond rd, rm, rn",
+      "description": "Saturating Add",
+      "pseudocode": "rd = sat ( rm + rn )",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "sat",
+      "def": "QSUB",
+      "name": "qsub",
+      "asm": "~cond rd, rm, rn",
+      "description": "Saturating Subtract",
+      "pseudocode": "rd = sat ( rm - rn )",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "sat",
+      "def": "QDADD",
+      "name": "qdadd",
+      "asm": "~cond rd, rm, rn",
+      "description": "Saturating Double and Add",
+      "pseudocode": "rd = sat ( rm + sat ( 2 × rn ) )",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "sat",
+      "def": "QDSUB",
+      "name": "qdsub",
+      "asm": "~cond rd, rm, rn",
+      "description": "Saturating Double and Subtract",
+      "pseudocode": "rd = sat ( rm - sat ( 2 × rn ) )",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "SADD16",
+      "name": "sadd16",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Add 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "SASX",
+      "name": "sasx",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Add and Subtract with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "SSAX",
+      "name": "ssax",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Subtract and Add with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "SSUB16",
+      "name": "ssub16",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Subtract 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "SADD8",
+      "name": "sadd8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Add 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "SSUB8",
+      "name": "ssub8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Subtract 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "QADD16",
+      "name": "qadd16",
+      "asm": "~cond rd, rn, rm",
+      "description": "Saturating Add 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "QASX",
+      "name": "qasx",
+      "asm": "~cond rd, rn, rm",
+      "description": "Saturating Add and Subtract with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "QSAX",
+      "name": "qsax",
+      "asm": "~cond rd, rn, rm",
+      "description": "Saturating Subtract and Add with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "QSUB16",
+      "name": "qsub16",
+      "asm": "~cond rd, rn, rm",
+      "description": "Saturating Subtract 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "QADD8",
+      "name": "qadd8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Saturating Add 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "QSUB8",
+      "name": "qsub8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Saturating Subtract 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "SHADD16",
+      "name": "shadd16",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Halving Add 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "SHASX",
+      "name": "shasx",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Halving Add and Subtract with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "SHSAX",
+      "name": "shsax",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Halving Subtract and Add with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "SHSUB16",
+      "name": "shsub16",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Halving Subtract 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "SHADD8",
+      "name": "shadd8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Halving Add 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "SHSUB8",
+      "name": "shsub8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Signed Halving Subtract 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UADD16",
+      "name": "uadd16",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Add 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UASX",
+      "name": "uasx",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Add and Subtract with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "USAX",
+      "name": "usax",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Subtract and Add with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "USUB16",
+      "name": "usub16",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Subtract 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UADD8",
+      "name": "uadd8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Add 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "USUB8",
+      "name": "usub8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Subtract 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UQADD16",
+      "name": "uqadd16",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Saturating Add 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UQASX",
+      "name": "uqasx",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Saturating Add and Subtract with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UQSAX",
+      "name": "uqsax",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Saturating Subtract and Add with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UQSUB16",
+      "name": "uqsub16",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Saturating Subtract 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UQADD8",
+      "name": "uqadd8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Saturating Add 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UQSUB8",
+      "name": "uqsub8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Saturating Subtract 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UHADD16",
+      "name": "uhadd16",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Halving Add 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UHASX",
+      "name": "uhasx",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Halving Add and Subtract with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UHSAX",
+      "name": "uhsax",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Halving Subtract and Add with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UHSUB16",
+      "name": "uhsub16",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Halving Subtract 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UHADD8",
+      "name": "uhadd8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Halving Add 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "parallel",
+      "def": "UHSUB8",
+      "name": "uhsub8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Halving Subtract 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "pack",
+      "def": "PKHBT",
+      "name": "pkhbt",
+      "asm": "~cond rd, rn, rm{?, lsl #pkhsh}",
+      "description": "Pack Halfword Bottom Top",
+      "pseudocode": "rd = ( rm << sh )[31:16] : rn[15:0]",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "pack",
+      "def": "PKHTB",
+      "name": "pkhtb",
+      "asm": "~cond rd, rn, rm, asr #pkha",
+      "description": "Pack Halfword Top Bottom",
+      "pseudocode": "rd = rn[31:16] : ( rm >> sh )[15:0]",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "saturate",
+      "def": "SSAT",
+      "name": "ssat",
+      "asm": "~cond rd, #ssat, rn{?, shsat #samt}",
+      "description": "Signed Saturate",
+      "pseudocode": "rd = saturate ( shifted rn, ssat bits signed )",
+      "nopc": [
+        "rd",
+        "rn"
+      ]
+    },
+    {
+      "group": "saturate",
+      "def": "USAT",
+      "name": "usat",
+      "asm": "~cond rd, #usat, rn{?, shsat #samt}",
+      "description": "Unsigned Saturate",
+      "pseudocode": "rd = saturate ( shifted rn, usat bits unsigned )",
+      "nopc": [
+        "rd",
+        "rn"
+      ]
+    },
+    {
+      "group": "saturate",
+      "def": "SSAT16",
+      "name": "ssat16",
+      "asm": "~cond rd, #ssat4, rn",
+      "description": "Signed Saturate 16",
+      "pseudocode": "each halfword of rd = saturate ( rn half, signed )",
+      "nopc": [
+        "rd",
+        "rn"
+      ]
+    },
+    {
+      "group": "saturate",
+      "def": "USAT16",
+      "name": "usat16",
+      "asm": "~cond rd, #usat4, rn",
+      "description": "Unsigned Saturate 16",
+      "pseudocode": "each halfword of rd = saturate ( rn half, unsigned )",
+      "nopc": [
+        "rd",
+        "rn"
+      ]
+    },
+    {
+      "group": "pack",
+      "def": "SEL",
+      "name": "sel",
+      "asm": "~cond rd, rn, rm",
+      "description": "Select Bytes",
+      "pseudocode": "each byte of rd = GE ? rn : rm",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "reverse",
+      "def": "REV",
+      "name": "rev",
+      "asm": "~cond rd, rm",
+      "description": "Byte-Reverse Word",
+      "pseudocode": "rd = bytes of rm reversed",
+      "nopc": [
+        "rd",
+        "rm"
+      ]
+    },
+    {
+      "group": "reverse",
+      "def": "REV16",
+      "name": "rev16",
+      "asm": "~cond rd, rm",
+      "description": "Byte-Reverse Packed Halfword",
+      "pseudocode": "rd = the bytes of each halfword of rm swapped",
+      "nopc": [
+        "rd",
+        "rm"
+      ]
+    },
+    {
+      "group": "reverse",
+      "def": "RBIT",
+      "name": "rbit",
+      "asm": "~cond rd, rm",
+      "description": "Reverse Bits",
+      "pseudocode": "rd = bits of rm reversed",
+      "nopc": [
+        "rd",
+        "rm"
+      ]
+    },
+    {
+      "group": "reverse",
+      "def": "REVSH",
+      "name": "revsh",
+      "asm": "~cond rd, rm",
+      "description": "Byte-Reverse Signed Halfword",
+      "pseudocode": "rd = sign extend ( rm[7:0] : rm[15:8] )",
+      "nopc": [
+        "rd",
+        "rm"
+      ]
+    },
+    {
+      "group": "reverse",
+      "def": "CLZ",
+      "name": "clz",
+      "asm": "~cond rd, rm",
+      "description": "Count Leading Zeros",
+      "pseudocode": "rd = leading zeros of rm",
+      "nopc": [
+        "rd",
+        "rm"
+      ]
+    },
+    {
+      "group": "extend",
+      "def": "SXTAB16",
+      "name": "sxtab16",
+      "asm": "~cond rd, rn, rm{?, rot}",
+      "description": "Signed Extend and Add Byte 16",
+      "pseudocode": "rd = rn + extend ( rm rotated )",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "extend",
+      "def": "SXTB16",
+      "name": "sxtb16",
+      "asm": "~cond rd, rm{?, rot}",
+      "description": "Signed Extend Byte 16",
+      "pseudocode": "rd = extend ( rm rotated )",
+      "nopc": [
+        "rd",
+        "rm"
+      ]
+    },
+    {
+      "group": "extend",
+      "def": "SXTAB",
+      "name": "sxtab",
+      "asm": "~cond rd, rn, rm{?, rot}",
+      "description": "Signed Extend and Add Byte",
+      "pseudocode": "rd = rn + extend ( rm rotated )",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "extend",
+      "def": "SXTB",
+      "name": "sxtb",
+      "asm": "~cond rd, rm{?, rot}",
+      "description": "Signed Extend Byte",
+      "pseudocode": "rd = extend ( rm rotated )",
+      "nopc": [
+        "rd",
+        "rm"
+      ]
+    },
+    {
+      "group": "extend",
+      "def": "SXTAH",
+      "name": "sxtah",
+      "asm": "~cond rd, rn, rm{?, rot}",
+      "description": "Signed Extend and Add Halfword",
+      "pseudocode": "rd = rn + extend ( rm rotated )",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "extend",
+      "def": "SXTH",
+      "name": "sxth",
+      "asm": "~cond rd, rm{?, rot}",
+      "description": "Signed Extend Halfword",
+      "pseudocode": "rd = extend ( rm rotated )",
+      "nopc": [
+        "rd",
+        "rm"
+      ]
+    },
+    {
+      "group": "extend",
+      "def": "UXTAB16",
+      "name": "uxtab16",
+      "asm": "~cond rd, rn, rm{?, rot}",
+      "description": "Unsigned Extend and Add Byte 16",
+      "pseudocode": "rd = rn + extend ( rm rotated )",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "extend",
+      "def": "UXTB16",
+      "name": "uxtb16",
+      "asm": "~cond rd, rm{?, rot}",
+      "description": "Unsigned Extend Byte 16",
+      "pseudocode": "rd = extend ( rm rotated )",
+      "nopc": [
+        "rd",
+        "rm"
+      ]
+    },
+    {
+      "group": "extend",
+      "def": "UXTAB",
+      "name": "uxtab",
+      "asm": "~cond rd, rn, rm{?, rot}",
+      "description": "Unsigned Extend and Add Byte",
+      "pseudocode": "rd = rn + extend ( rm rotated )",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "extend",
+      "def": "UXTB",
+      "name": "uxtb",
+      "asm": "~cond rd, rm{?, rot}",
+      "description": "Unsigned Extend Byte",
+      "pseudocode": "rd = extend ( rm rotated )",
+      "nopc": [
+        "rd",
+        "rm"
+      ]
+    },
+    {
+      "group": "extend",
+      "def": "UXTAH",
+      "name": "uxtah",
+      "asm": "~cond rd, rn, rm{?, rot}",
+      "description": "Unsigned Extend and Add Halfword",
+      "pseudocode": "rd = rn + extend ( rm rotated )",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "extend",
+      "def": "UXTH",
+      "name": "uxth",
+      "asm": "~cond rd, rm{?, rot}",
+      "description": "Unsigned Extend Halfword",
+      "pseudocode": "rd = extend ( rm rotated )",
+      "nopc": [
+        "rd",
+        "rm"
+      ]
+    },
+    {
+      "group": "bitfield",
+      "def": "SBFX",
+      "name": "sbfx",
+      "asm": "~cond rd, rn, #lsb, #widthm1",
+      "description": "Signed Bit Field Extract",
+      "pseudocode": "rd = sign extend ( rn[lsb + width - 1 : lsb] )",
+      "nopc": [
+        "rd",
+        "rn"
+      ]
+    },
+    {
+      "group": "bitfield",
+      "def": "UBFX",
+      "name": "ubfx",
+      "asm": "~cond rd, rn, #lsb, #widthm1",
+      "description": "Unsigned Bit Field Extract",
+      "pseudocode": "rd = rn[lsb + width - 1 : lsb]",
+      "nopc": [
+        "rd",
+        "rn"
+      ]
+    },
+    {
+      "group": "bitfield",
+      "def": "BFI",
+      "name": "bfi",
+      "asm": "~cond rd, rn, #lsb, #msb",
+      "description": "Bit Field Insert",
+      "pseudocode": "rd[msb:lsb] = rn",
+      "nopc": [
+        "rd",
+        "rn"
+      ]
+    },
+    {
+      "group": "bitfield",
+      "def": "BFC",
+      "name": "bfc",
+      "asm": "~cond rd, #lsb, #msb",
+      "description": "Bit Field Clear",
+      "pseudocode": "rd[msb:lsb] = 0",
+      "nopc": [
+        "rd"
+      ]
+    },
+    {
+      "group": "pack",
+      "def": "USAD8",
+      "name": "usad8",
+      "asm": "~cond rd, rn, rm",
+      "description": "Unsigned Sum of Absolute Differences",
+      "pseudocode": "rd = Σ | rn byte - rm byte |",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm"
+      ]
+    },
+    {
+      "group": "pack",
+      "def": "USADA8",
+      "name": "usada8",
+      "asm": "~cond rd, rn, rm, ra",
+      "description": "Unsigned Sum of Absolute Differences and Accumulate",
+      "pseudocode": "rd = ra + Σ | rn byte - rm byte |",
+      "nopc": [
+        "rd",
+        "rn",
+        "rm",
+        "ra"
+      ]
+    },
+    {
+      "group": "movw",
+      "def": "MOVi16",
+      "name": "movw",
+      "asm": "~cond rd, #imm",
+      "description": "Move Wide (16 bit immediate)",
+      "pseudocode": "rd = imm",
+      "nopc": [
+        "rd"
+      ]
+    },
+    {
+      "group": "movw",
+      "def": "MOVTi16",
+      "name": "movt",
+      "asm": "~cond rd, #imm",
+      "description": "Move Top",
+      "pseudocode": "rd[31:16] = imm",
+      "nopc": [
+        "rd"
+      ]
+    },
+    {
+      "group": "branch",
+      "def": "Bcc",
+      "name": "b",
+      "asm": "~cond label",
+      "description": "Branch",
+      "pseudocode": "PC = PC + 8 + label"
+    },
+    {
+      "group": "branch",
+      "def": "BL_pred",
+      "name": "bl",
+      "asm": "~cond label",
+      "description": "Branch with Link",
+      "pseudocode": "lr = PC + 4 ; PC = PC + 8 + label"
+    },
+    {
+      "group": "branch",
+      "def": "BLXi",
+      "name": "blx",
+      "asm": "label",
+      "description": "Branch with Link and Exchange to Thumb",
+      "pseudocode": "lr = PC + 4 ; PC = PC + 8 + label ; Thumb"
+    },
+    {
+      "group": "branch-reg",
+      "def": "BX_pred",
+      "name": "bx",
+      "asm": "~cond rm",
+      "description": "Branch and Exchange",
+      "pseudocode": "PC = rm ; Thumb if rm[0]"
+    },
+    {
+      "group": "branch-reg",
+      "def": "BLX_pred",
+      "name": "blx",
+      "asm": "~cond rm",
+      "description": "Branch with Link and Exchange",
+      "pseudocode": "lr = PC + 4 ; PC = rm ; Thumb if rm[0]",
+      "nopc": [
+        "rm"
+      ]
+    },
+    {
+      "group": "branch-reg",
+      "def": "BXJ",
+      "name": "bxj",
+      "asm": "~cond rm",
+      "description": "Branch and Exchange Jazelle",
+      "pseudocode": "as bx (no Jazelle)"
+    },
+    {
+      "group": "exception",
+      "def": "SVC",
+      "name": "svc",
+      "asm": "~cond #imm",
+      "description": "Supervisor Call",
+      "pseudocode": "Supervisor Call exception"
+    },
+    {
+      "group": "exception",
+      "def": "BKPT",
+      "name": "bkpt",
+      "asm": "#imm",
+      "description": "Breakpoint",
+      "pseudocode": "Prefetch Abort (debug)"
+    },
+    {
+      "group": "exception",
+      "def": "UDF",
+      "name": "udf",
+      "asm": "#imm",
+      "description": "Permanently Undefined",
+      "pseudocode": "Undefined Instruction exception"
+    },
+    {
+      "group": "exception",
+      "def": "HVC",
+      "name": "hvc",
+      "asm": "#imm",
+      "description": "Hypervisor Call",
+      "pseudocode": "Hyp trap"
+    },
+    {
+      "group": "exception",
+      "def": "SMC",
+      "name": "smc",
+      "asm": "~cond #imm",
+      "description": "Secure Monitor Call",
+      "pseudocode": "Secure Monitor Call exception"
+    },
+    {
+      "group": "exception",
+      "def": "ERET",
+      "name": "eret",
+      "asm": "~cond",
+      "description": "Exception Return",
+      "pseudocode": "PC = ELR_hyp ; CPSR = SPSR"
+    },
+    {
+      "group": "store",
+      "def": "STRi12",
+      "name": "str",
+      "asm": "~cond rt, [rn, #signimm]",
+      "description": "Store Register (immediate offset)",
+      "pseudocode": "[ rn ± imm ] = rt"
+    },
+    {
+      "group": "store",
+      "def": "STRrs",
+      "name": "str",
+      "asm": "~cond rt, [rn, signrm{?, shiftamount}]",
+      "description": "Store Register (register offset)",
+      "pseudocode": "[ rn ± shifted rm ] = rt",
+      "nopc": [
+        "rm"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STR_PRE_IMM",
+      "name": "str",
+      "asm": "~cond rt, [rn, #signimm]!",
+      "description": "Store Register (immediate, pre-indexed)",
+      "pseudocode": "rn ±= imm ; [ rn ] = rt",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STR_PRE_REG",
+      "name": "str",
+      "asm": "~cond rt, [rn, signrm{?, shiftamount}]!",
+      "description": "Store Register (register, pre-indexed)",
+      "pseudocode": "rn ±= shifted rm ; [ rn ] = rt",
+      "nopc": [
+        "rm",
+        "rn"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STR_POST_IMM",
+      "name": "str",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Store Register (immediate, post-indexed)",
+      "pseudocode": "[ rn ] = rt ; rn ±= imm",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STR_POST_REG",
+      "name": "str",
+      "asm": "~cond rt, [rn], signrm{?, shiftamount}",
+      "description": "Store Register (register, post-indexed)",
+      "pseudocode": "[ rn ] = rt ; rn ±= shifted rm",
+      "nopc": [
+        "rm",
+        "rn"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRT_POST_IMM",
+      "name": "strt",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Store Register Unprivileged (immediate)",
+      "pseudocode": "[ rn ] = rt as at PL0 ; rn ±= imm",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRT_POST_REG",
+      "name": "strt",
+      "asm": "~cond rt, [rn], signrm{?, shiftamount}",
+      "description": "Store Register Unprivileged (register)",
+      "pseudocode": "[ rn ] = rt as at PL0 ; rn ±= shifted rm",
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRi12",
+      "name": "ldr",
+      "asm": "~cond rt, [rn, #signimm]",
+      "description": "Load Register (immediate offset)",
+      "pseudocode": "rt = [ rn ± imm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRrs",
+      "name": "ldr",
+      "asm": "~cond rt, [rn, signrm{?, shiftamount}]",
+      "description": "Load Register (register offset)",
+      "pseudocode": "rt = [ rn ± shifted rm ]",
+      "nopc": [
+        "rm"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDR_PRE_IMM",
+      "name": "ldr",
+      "asm": "~cond rt, [rn, #signimm]!",
+      "description": "Load Register (immediate, pre-indexed)",
+      "pseudocode": "rn ±= imm ; rt = [ rn ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDR_PRE_REG",
+      "name": "ldr",
+      "asm": "~cond rt, [rn, signrm{?, shiftamount}]!",
+      "description": "Load Register (register, pre-indexed)",
+      "pseudocode": "rn ±= shifted rm ; rt = [ rn ]",
+      "nopc": [
+        "rm",
+        "rn"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDR_POST_IMM",
+      "name": "ldr",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Load Register (immediate, post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= imm",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDR_POST_REG",
+      "name": "ldr",
+      "asm": "~cond rt, [rn], signrm{?, shiftamount}",
+      "description": "Load Register (register, post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= shifted rm",
+      "nopc": [
+        "rm",
+        "rn"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRT_POST_IMM",
+      "name": "ldrt",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Load Register Unprivileged (immediate)",
+      "pseudocode": "rt = [ rn ] as at PL0 ; rn ±= imm",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRT_POST_REG",
+      "name": "ldrt",
+      "asm": "~cond rt, [rn], signrm{?, shiftamount}",
+      "description": "Load Register Unprivileged (register)",
+      "pseudocode": "rt = [ rn ] as at PL0 ; rn ±= shifted rm",
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRBi12",
+      "name": "strb",
+      "asm": "~cond rt, [rn, #signimm]",
+      "description": "Store Register Byte (immediate offset)",
+      "pseudocode": "[ rn ± imm ] = rt",
+      "nopc": [
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRBrs",
+      "name": "strb",
+      "asm": "~cond rt, [rn, signrm{?, shiftamount}]",
+      "description": "Store Register Byte (register offset)",
+      "pseudocode": "[ rn ± shifted rm ] = rt",
+      "nopc": [
+        "rm",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRB_PRE_IMM",
+      "name": "strb",
+      "asm": "~cond rt, [rn, #signimm]!",
+      "description": "Store Register Byte (immediate, pre-indexed)",
+      "pseudocode": "rn ±= imm ; [ rn ] = rt",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRB_PRE_REG",
+      "name": "strb",
+      "asm": "~cond rt, [rn, signrm{?, shiftamount}]!",
+      "description": "Store Register Byte (register, pre-indexed)",
+      "pseudocode": "rn ±= shifted rm ; [ rn ] = rt",
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRB_POST_IMM",
+      "name": "strb",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Store Register Byte (immediate, post-indexed)",
+      "pseudocode": "[ rn ] = rt ; rn ±= imm",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRB_POST_REG",
+      "name": "strb",
+      "asm": "~cond rt, [rn], signrm{?, shiftamount}",
+      "description": "Store Register Byte (register, post-indexed)",
+      "pseudocode": "[ rn ] = rt ; rn ±= shifted rm",
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRBT_POST_IMM",
+      "name": "strbt",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Store Register Byte Unprivileged (immediate)",
+      "pseudocode": "[ rn ] = rt as at PL0 ; rn ±= imm",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRBT_POST_REG",
+      "name": "strbt",
+      "asm": "~cond rt, [rn], signrm{?, shiftamount}",
+      "description": "Store Register Byte Unprivileged (register)",
+      "pseudocode": "[ rn ] = rt as at PL0 ; rn ±= shifted rm",
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRBi12",
+      "name": "ldrb",
+      "asm": "~cond rt, [rn, #signimm]",
+      "description": "Load Register Byte (immediate offset)",
+      "pseudocode": "rt = [ rn ± imm ]",
+      "nopc": [
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRBrs",
+      "name": "ldrb",
+      "asm": "~cond rt, [rn, signrm{?, shiftamount}]",
+      "description": "Load Register Byte (register offset)",
+      "pseudocode": "rt = [ rn ± shifted rm ]",
+      "nopc": [
+        "rm",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRB_PRE_IMM",
+      "name": "ldrb",
+      "asm": "~cond rt, [rn, #signimm]!",
+      "description": "Load Register Byte (immediate, pre-indexed)",
+      "pseudocode": "rn ±= imm ; rt = [ rn ]",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRB_PRE_REG",
+      "name": "ldrb",
+      "asm": "~cond rt, [rn, signrm{?, shiftamount}]!",
+      "description": "Load Register Byte (register, pre-indexed)",
+      "pseudocode": "rn ±= shifted rm ; rt = [ rn ]",
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRB_POST_IMM",
+      "name": "ldrb",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Load Register Byte (immediate, post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= imm",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRB_POST_REG",
+      "name": "ldrb",
+      "asm": "~cond rt, [rn], signrm{?, shiftamount}",
+      "description": "Load Register Byte (register, post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= shifted rm",
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRBT_POST_IMM",
+      "name": "ldrbt",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Load Register Byte Unprivileged (immediate)",
+      "pseudocode": "rt = [ rn ] as at PL0 ; rn ±= imm",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRBT_POST_REG",
+      "name": "ldrbt",
+      "asm": "~cond rt, [rn], signrm{?, shiftamount}",
+      "description": "Load Register Byte Unprivileged (register)",
+      "pseudocode": "rt = [ rn ] as at PL0 ; rn ±= shifted rm",
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRH",
+      "name": "strh",
+      "asm": "~cond rt, [rn, #signimm]",
+      "description": "Store Register Halfword (immediate, offset)",
+      "pseudocode": "[ rn ± imm ] = rt",
+      "sail": "STRH_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRH",
+      "name": "strh",
+      "asm": "~cond rt, [rn, signrm]",
+      "description": "Store Register Halfword (register, offset)",
+      "pseudocode": "[ rn ± rm ] = rt",
+      "sail": "STRH_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRH_PRE",
+      "name": "strh",
+      "asm": "~cond rt, [rn, #signimm]!",
+      "description": "Store Register Halfword (immediate, pre-indexed)",
+      "pseudocode": "rn ±= imm ; [ rn ] = rt",
+      "sail": "STRH_PRE_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRH_PRE",
+      "name": "strh",
+      "asm": "~cond rt, [rn, signrm]!",
+      "description": "Store Register Halfword (register, pre-indexed)",
+      "pseudocode": "rn ±= rm ; [ rn ] = rt",
+      "sail": "STRH_PRE_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRH_POST",
+      "name": "strh",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Store Register Halfword (immediate, post-indexed)",
+      "pseudocode": "[ rn ] = rt ; rn ±= imm",
+      "sail": "STRH_POST_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRH_POST",
+      "name": "strh",
+      "asm": "~cond rt, [rn], signrm",
+      "description": "Store Register Halfword (register, post-indexed)",
+      "pseudocode": "[ rn ] = rt ; rn ±= rm",
+      "sail": "STRH_POST_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRH",
+      "name": "ldrh",
+      "asm": "~cond rt, [rn, #signimm]",
+      "description": "Load Register Halfword (immediate, offset)",
+      "pseudocode": "rt = [ rn ± imm ]",
+      "sail": "LDRH_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRH",
+      "name": "ldrh",
+      "asm": "~cond rt, [rn, signrm]",
+      "description": "Load Register Halfword (register, offset)",
+      "pseudocode": "rt = [ rn ± rm ]",
+      "sail": "LDRH_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRH_PRE",
+      "name": "ldrh",
+      "asm": "~cond rt, [rn, #signimm]!",
+      "description": "Load Register Halfword (immediate, pre-indexed)",
+      "pseudocode": "rn ±= imm ; rt = [ rn ]",
+      "sail": "LDRH_PRE_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRH_PRE",
+      "name": "ldrh",
+      "asm": "~cond rt, [rn, signrm]!",
+      "description": "Load Register Halfword (register, pre-indexed)",
+      "pseudocode": "rn ±= rm ; rt = [ rn ]",
+      "sail": "LDRH_PRE_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRH_POST",
+      "name": "ldrh",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Load Register Halfword (immediate, post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= imm",
+      "sail": "LDRH_POST_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRH_POST",
+      "name": "ldrh",
+      "asm": "~cond rt, [rn], signrm",
+      "description": "Load Register Halfword (register, post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= rm",
+      "sail": "LDRH_POST_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSB",
+      "name": "ldrsb",
+      "asm": "~cond rt, [rn, #signimm]",
+      "description": "Load Register Signed Byte (immediate, offset)",
+      "pseudocode": "rt = [ rn ± imm ]",
+      "sail": "LDRSB_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSB",
+      "name": "ldrsb",
+      "asm": "~cond rt, [rn, signrm]",
+      "description": "Load Register Signed Byte (register, offset)",
+      "pseudocode": "rt = [ rn ± rm ]",
+      "sail": "LDRSB_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSB_PRE",
+      "name": "ldrsb",
+      "asm": "~cond rt, [rn, #signimm]!",
+      "description": "Load Register Signed Byte (immediate, pre-indexed)",
+      "pseudocode": "rn ±= imm ; rt = [ rn ]",
+      "sail": "LDRSB_PRE_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSB_PRE",
+      "name": "ldrsb",
+      "asm": "~cond rt, [rn, signrm]!",
+      "description": "Load Register Signed Byte (register, pre-indexed)",
+      "pseudocode": "rn ±= rm ; rt = [ rn ]",
+      "sail": "LDRSB_PRE_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSB_POST",
+      "name": "ldrsb",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Load Register Signed Byte (immediate, post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= imm",
+      "sail": "LDRSB_POST_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSB_POST",
+      "name": "ldrsb",
+      "asm": "~cond rt, [rn], signrm",
+      "description": "Load Register Signed Byte (register, post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= rm",
+      "sail": "LDRSB_POST_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSH",
+      "name": "ldrsh",
+      "asm": "~cond rt, [rn, #signimm]",
+      "description": "Load Register Signed Halfword (immediate, offset)",
+      "pseudocode": "rt = [ rn ± imm ]",
+      "sail": "LDRSH_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSH",
+      "name": "ldrsh",
+      "asm": "~cond rt, [rn, signrm]",
+      "description": "Load Register Signed Halfword (register, offset)",
+      "pseudocode": "rt = [ rn ± rm ]",
+      "sail": "LDRSH_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSH_PRE",
+      "name": "ldrsh",
+      "asm": "~cond rt, [rn, #signimm]!",
+      "description": "Load Register Signed Halfword (immediate, pre-indexed)",
+      "pseudocode": "rn ±= imm ; rt = [ rn ]",
+      "sail": "LDRSH_PRE_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSH_PRE",
+      "name": "ldrsh",
+      "asm": "~cond rt, [rn, signrm]!",
+      "description": "Load Register Signed Halfword (register, pre-indexed)",
+      "pseudocode": "rn ±= rm ; rt = [ rn ]",
+      "sail": "LDRSH_PRE_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSH_POST",
+      "name": "ldrsh",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Load Register Signed Halfword (immediate, post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= imm",
+      "sail": "LDRSH_POST_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSH_POST",
+      "name": "ldrsh",
+      "asm": "~cond rt, [rn], signrm",
+      "description": "Load Register Signed Halfword (register, post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= rm",
+      "sail": "LDRSH_POST_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRD",
+      "name": "ldrd",
+      "asm": "~cond rtd, rtd2, [rn, #signimm]",
+      "description": "Load Register Dual (immediate, offset)",
+      "pseudocode": "rtd, rtd2 = [ rn ± imm ]",
+      "sail": "LDRD_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRD",
+      "name": "ldrd",
+      "asm": "~cond rtd, rtd2, [rn, signrm]",
+      "description": "Load Register Dual (register, offset)",
+      "pseudocode": "rtd, rtd2 = [ rn ± rm ]",
+      "sail": "LDRD_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRD_PRE",
+      "name": "ldrd",
+      "asm": "~cond rtd, rtd2, [rn, #signimm]!",
+      "description": "Load Register Dual (immediate, pre-indexed)",
+      "pseudocode": "rn ±= imm ; rtd, rtd2 = [ rn ]",
+      "sail": "LDRD_PRE_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRD_PRE",
+      "name": "ldrd",
+      "asm": "~cond rtd, rtd2, [rn, signrm]!",
+      "description": "Load Register Dual (register, pre-indexed)",
+      "pseudocode": "rn ±= rm ; rtd, rtd2 = [ rn ]",
+      "sail": "LDRD_PRE_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rn"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRD_POST",
+      "name": "ldrd",
+      "asm": "~cond rtd, rtd2, [rn], #signimm",
+      "description": "Load Register Dual (immediate, post-indexed)",
+      "pseudocode": "rtd, rtd2 = [ rn ] ; rn ±= imm",
+      "sail": "LDRD_POST_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRD_POST",
+      "name": "ldrd",
+      "asm": "~cond rtd, rtd2, [rn], signrm",
+      "description": "Load Register Dual (register, post-indexed)",
+      "pseudocode": "rtd, rtd2 = [ rn ] ; rn ±= rm",
+      "sail": "LDRD_POST_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rn"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRD",
+      "name": "strd",
+      "asm": "~cond rtd, rtd2, [rn, #signimm]",
+      "description": "Store Register Dual (immediate, offset)",
+      "pseudocode": "[ rn ± imm ] = rtd, rtd2",
+      "sail": "STRD_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRD",
+      "name": "strd",
+      "asm": "~cond rtd, rtd2, [rn, signrm]",
+      "description": "Store Register Dual (register, offset)",
+      "pseudocode": "[ rn ± rm ] = rtd, rtd2",
+      "sail": "STRD_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRD_PRE",
+      "name": "strd",
+      "asm": "~cond rtd, rtd2, [rn, #signimm]!",
+      "description": "Store Register Dual (immediate, pre-indexed)",
+      "pseudocode": "rn ±= imm ; [ rn ] = rtd, rtd2",
+      "sail": "STRD_PRE_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRD_PRE",
+      "name": "strd",
+      "asm": "~cond rtd, rtd2, [rn, signrm]!",
+      "description": "Store Register Dual (register, pre-indexed)",
+      "pseudocode": "rn ±= rm ; [ rn ] = rtd, rtd2",
+      "sail": "STRD_PRE_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rn"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRD_POST",
+      "name": "strd",
+      "asm": "~cond rtd, rtd2, [rn], #signimm",
+      "description": "Store Register Dual (immediate, post-indexed)",
+      "pseudocode": "[ rn ] = rtd, rtd2 ; rn ±= imm",
+      "sail": "STRD_POST_i",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRD_POST",
+      "name": "strd",
+      "asm": "~cond rtd, rtd2, [rn], signrm",
+      "description": "Store Register Dual (register, post-indexed)",
+      "pseudocode": "[ rn ] = rtd, rtd2 ; rn ±= rm",
+      "sail": "STRD_POST_r",
+      "llvmFixed": [
+        "addr",
+        "offset"
+      ],
+      "nopc": [
+        "rm",
+        "rn"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRHTi",
+      "name": "strht",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Store Register Halfword Unprivileged (immediate)",
+      "pseudocode": "[ rn ] = rt as at PL0 ; rn ±= imm",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "store",
+      "def": "STRHTr",
+      "name": "strht",
+      "asm": "~cond rt, [rn], signrm",
+      "description": "Store Register Halfword Unprivileged (register)",
+      "pseudocode": "[ rn ] = rt as at PL0 ; rn ±= rm",
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRHTi",
+      "name": "ldrht",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Load Register Halfword Unprivileged (immediate)",
+      "pseudocode": "rt = [ rn ] as at PL0 ; rn ±= imm",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRHTr",
+      "name": "ldrht",
+      "asm": "~cond rt, [rn], signrm",
+      "description": "Load Register Halfword Unprivileged (register)",
+      "pseudocode": "rt = [ rn ] as at PL0 ; rn ±= rm",
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSBTi",
+      "name": "ldrsbt",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Load Register Signed Byte Unprivileged (immediate)",
+      "pseudocode": "rt = [ rn ] as at PL0 ; rn ±= imm",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSBTr",
+      "name": "ldrsbt",
+      "asm": "~cond rt, [rn], signrm",
+      "description": "Load Register Signed Byte Unprivileged (register)",
+      "pseudocode": "rt = [ rn ] as at PL0 ; rn ±= rm",
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSHTi",
+      "name": "ldrsht",
+      "asm": "~cond rt, [rn], #signimm",
+      "description": "Load Register Signed Halfword Unprivileged (immediate)",
+      "pseudocode": "rt = [ rn ] as at PL0 ; rn ±= imm",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "load",
+      "def": "LDRSHTr",
+      "name": "ldrsht",
+      "asm": "~cond rt, [rn], signrm",
+      "description": "Load Register Signed Halfword Unprivileged (register)",
+      "pseudocode": "rt = [ rn ] as at PL0 ; rn ±= rm",
+      "nopc": [
+        "rm",
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "excl",
+      "def": "LDREX",
+      "name": "ldrex",
+      "asm": "~cond rt, [rn]",
+      "description": "Load Register Exclusive",
+      "pseudocode": "rt = [ rn ] ; mark exclusive",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "excl",
+      "def": "LDREXD",
+      "name": "ldrexd",
+      "asm": "~cond rtd, rtd2, [rn]",
+      "description": "Load Register Exclusive Doubleword",
+      "pseudocode": "rtd, rtd2 = [ rn ] ; mark exclusive",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "excl",
+      "def": "LDREXB",
+      "name": "ldrexb",
+      "asm": "~cond rt, [rn]",
+      "description": "Load Register Exclusive Byte",
+      "pseudocode": "rt = [ rn ] ; mark exclusive",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "excl",
+      "def": "LDREXH",
+      "name": "ldrexh",
+      "asm": "~cond rt, [rn]",
+      "description": "Load Register Exclusive Halfword",
+      "pseudocode": "rt = [ rn ] ; mark exclusive",
+      "nopc": [
+        "rn",
+        "rt"
+      ]
+    },
+    {
+      "group": "excl",
+      "def": "STREX",
+      "name": "strex",
+      "asm": "~cond rd, rt, [rn]",
+      "description": "Store Register Exclusive",
+      "pseudocode": "if ( exclusive ) [ rn ] = rt ; rd = 0 / 1",
+      "nopc": [
+        "rd",
+        "rn",
+        "rt"
+      ],
+      "distinct": [
+        "rd",
+        "rt"
+      ]
+    },
+    {
+      "group": "excl",
+      "def": "STREXD",
+      "name": "strexd",
+      "asm": "~cond rd, rtd, rtd2, [rn]",
+      "description": "Store Register Exclusive Doubleword",
+      "pseudocode": "if ( exclusive ) [ rn ] = rtd, rtd2 ; rd = 0 / 1",
+      "nopc": [
+        "rd",
+        "rn"
+      ],
+      "distinct": [
+        "rd",
+        "rtd"
+      ]
+    },
+    {
+      "group": "excl",
+      "def": "STREXB",
+      "name": "strexb",
+      "asm": "~cond rd, rt, [rn]",
+      "description": "Store Register Exclusive Byte",
+      "pseudocode": "if ( exclusive ) [ rn ] = rt ; rd = 0 / 1",
+      "nopc": [
+        "rd",
+        "rn",
+        "rt"
+      ],
+      "distinct": [
+        "rd",
+        "rt"
+      ]
+    },
+    {
+      "group": "excl",
+      "def": "STREXH",
+      "name": "strexh",
+      "asm": "~cond rd, rt, [rn]",
+      "description": "Store Register Exclusive Halfword",
+      "pseudocode": "if ( exclusive ) [ rn ] = rt ; rd = 0 / 1",
+      "nopc": [
+        "rd",
+        "rn",
+        "rt"
+      ],
+      "distinct": [
+        "rd",
+        "rt"
+      ]
+    },
+    {
+      "group": "excl",
+      "def": "SWP",
+      "name": "swp",
+      "asm": "~cond rt, rt2, [rn]",
+      "description": "Swap Word (deprecated)",
+      "pseudocode": "rt = [ rn ] ; [ rn ] = rt2",
+      "nopc": [
+        "rn",
+        "rt",
+        "rt2"
+      ]
+    },
+    {
+      "group": "excl",
+      "def": "SWPB",
+      "name": "swpb",
+      "asm": "~cond rt, rt2, [rn]",
+      "description": "Swap Byte (deprecated)",
+      "pseudocode": "rt = [ rn ] ; [ rn ] = rt2[7:0]",
+      "nopc": [
+        "rn",
+        "rt",
+        "rt2"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "STMDA",
+      "name": "stmda",
+      "asm": "~cond rn, reglist",
+      "description": "Store Multiple (Decrement After)",
+      "pseudocode": "[ rn ... ] = reglist",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "STMDA_UPD",
+      "name": "stmda",
+      "asm": "~cond rn!, reglist",
+      "description": "Store Multiple (Decrement After), with writeback",
+      "pseudocode": "[ rn ... ] = reglist ; rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "sysSTMDA",
+      "name": "stmda",
+      "asm": "~cond rn, reglist^",
+      "description": "Store Multiple (Decrement After), user registers / exception return",
+      "pseudocode": "as above with the User mode registers",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "sysSTMDA_UPD",
+      "name": "stmda",
+      "asm": "~cond rn!, reglist^",
+      "description": "Store Multiple (Decrement After), user registers / exception return, with writeback",
+      "pseudocode": "as above, rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "LDMDA",
+      "name": "ldmda",
+      "asm": "~cond rn, reglist",
+      "description": "Load Multiple (Decrement After)",
+      "pseudocode": "reglist = [ rn ... ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "LDMDA_UPD",
+      "name": "ldmda",
+      "asm": "~cond rn!, reglist",
+      "description": "Load Multiple (Decrement After), with writeback",
+      "pseudocode": "reglist = [ rn ... ] ; rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "sysLDMDA",
+      "name": "ldmda",
+      "asm": "~cond rn, reglist^",
+      "description": "Load Multiple (Decrement After), user registers / exception return",
+      "pseudocode": "as above with the User mode registers",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "sysLDMDA_UPD",
+      "name": "ldmda",
+      "asm": "~cond rn!, reglist^",
+      "description": "Load Multiple (Decrement After), user registers / exception return, with writeback",
+      "pseudocode": "as above, rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "srs",
+      "def": "SRSDA",
+      "name": "srsda",
+      "asm": "sp, #mode",
+      "description": "Store Return State (Decrement After)",
+      "pseudocode": "[ SP_mode ... ] = LR, SPSR"
+    },
+    {
+      "group": "srs",
+      "def": "SRSDA_UPD",
+      "name": "srsda",
+      "asm": "sp!, #mode",
+      "description": "Store Return State (Decrement After), with writeback",
+      "pseudocode": "[ SP_mode ... ] = LR, SPSR ; SP_mode updated"
+    },
+    {
+      "group": "srs",
+      "def": "RFEDA",
+      "name": "rfeda",
+      "asm": "rn",
+      "description": "Return From Exception (Decrement After)",
+      "pseudocode": "PC, CPSR = [ rn ... ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "srs",
+      "def": "RFEDA_UPD",
+      "name": "rfeda",
+      "asm": "rn!",
+      "description": "Return From Exception (Decrement After), with writeback",
+      "pseudocode": "PC, CPSR = [ rn ... ] ; rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "STMIA",
+      "name": "stm",
+      "asm": "~cond rn, reglist",
+      "description": "Store Multiple (Increment After)",
+      "pseudocode": "[ rn ... ] = reglist",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "STMIA_UPD",
+      "name": "stm",
+      "asm": "~cond rn!, reglist",
+      "description": "Store Multiple (Increment After), with writeback",
+      "pseudocode": "[ rn ... ] = reglist ; rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "sysSTMIA",
+      "name": "stm",
+      "asm": "~cond rn, reglist^",
+      "description": "Store Multiple (Increment After), user registers / exception return",
+      "pseudocode": "as above with the User mode registers",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "sysSTMIA_UPD",
+      "name": "stm",
+      "asm": "~cond rn!, reglist^",
+      "description": "Store Multiple (Increment After), user registers / exception return, with writeback",
+      "pseudocode": "as above, rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "LDMIA",
+      "name": "ldm",
+      "asm": "~cond rn, reglist",
+      "description": "Load Multiple (Increment After)",
+      "pseudocode": "reglist = [ rn ... ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "LDMIA_UPD",
+      "name": "ldm",
+      "asm": "~cond rn!, reglist",
+      "description": "Load Multiple (Increment After), with writeback",
+      "pseudocode": "reglist = [ rn ... ] ; rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "sysLDMIA",
+      "name": "ldm",
+      "asm": "~cond rn, reglist^",
+      "description": "Load Multiple (Increment After), user registers / exception return",
+      "pseudocode": "as above with the User mode registers",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "sysLDMIA_UPD",
+      "name": "ldm",
+      "asm": "~cond rn!, reglist^",
+      "description": "Load Multiple (Increment After), user registers / exception return, with writeback",
+      "pseudocode": "as above, rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "srs",
+      "def": "SRSIA",
+      "name": "srsia",
+      "asm": "sp, #mode",
+      "description": "Store Return State (Increment After)",
+      "pseudocode": "[ SP_mode ... ] = LR, SPSR"
+    },
+    {
+      "group": "srs",
+      "def": "SRSIA_UPD",
+      "name": "srsia",
+      "asm": "sp!, #mode",
+      "description": "Store Return State (Increment After), with writeback",
+      "pseudocode": "[ SP_mode ... ] = LR, SPSR ; SP_mode updated"
+    },
+    {
+      "group": "srs",
+      "def": "RFEIA",
+      "name": "rfeia",
+      "asm": "rn",
+      "description": "Return From Exception (Increment After)",
+      "pseudocode": "PC, CPSR = [ rn ... ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "srs",
+      "def": "RFEIA_UPD",
+      "name": "rfeia",
+      "asm": "rn!",
+      "description": "Return From Exception (Increment After), with writeback",
+      "pseudocode": "PC, CPSR = [ rn ... ] ; rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "STMDB",
+      "name": "stmdb",
+      "asm": "~cond rn, reglist",
+      "description": "Store Multiple (Decrement Before)",
+      "pseudocode": "[ rn ... ] = reglist",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "STMDB_UPD",
+      "name": "stmdb",
+      "asm": "~cond rn!, reglist",
+      "description": "Store Multiple (Decrement Before), with writeback",
+      "pseudocode": "[ rn ... ] = reglist ; rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "sysSTMDB",
+      "name": "stmdb",
+      "asm": "~cond rn, reglist^",
+      "description": "Store Multiple (Decrement Before), user registers / exception return",
+      "pseudocode": "as above with the User mode registers",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "sysSTMDB_UPD",
+      "name": "stmdb",
+      "asm": "~cond rn!, reglist^",
+      "description": "Store Multiple (Decrement Before), user registers / exception return, with writeback",
+      "pseudocode": "as above, rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "LDMDB",
+      "name": "ldmdb",
+      "asm": "~cond rn, reglist",
+      "description": "Load Multiple (Decrement Before)",
+      "pseudocode": "reglist = [ rn ... ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "LDMDB_UPD",
+      "name": "ldmdb",
+      "asm": "~cond rn!, reglist",
+      "description": "Load Multiple (Decrement Before), with writeback",
+      "pseudocode": "reglist = [ rn ... ] ; rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "sysLDMDB",
+      "name": "ldmdb",
+      "asm": "~cond rn, reglist^",
+      "description": "Load Multiple (Decrement Before), user registers / exception return",
+      "pseudocode": "as above with the User mode registers",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "sysLDMDB_UPD",
+      "name": "ldmdb",
+      "asm": "~cond rn!, reglist^",
+      "description": "Load Multiple (Decrement Before), user registers / exception return, with writeback",
+      "pseudocode": "as above, rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "srs",
+      "def": "SRSDB",
+      "name": "srsdb",
+      "asm": "sp, #mode",
+      "description": "Store Return State (Decrement Before)",
+      "pseudocode": "[ SP_mode ... ] = LR, SPSR"
+    },
+    {
+      "group": "srs",
+      "def": "SRSDB_UPD",
+      "name": "srsdb",
+      "asm": "sp!, #mode",
+      "description": "Store Return State (Decrement Before), with writeback",
+      "pseudocode": "[ SP_mode ... ] = LR, SPSR ; SP_mode updated"
+    },
+    {
+      "group": "srs",
+      "def": "RFEDB",
+      "name": "rfedb",
+      "asm": "rn",
+      "description": "Return From Exception (Decrement Before)",
+      "pseudocode": "PC, CPSR = [ rn ... ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "srs",
+      "def": "RFEDB_UPD",
+      "name": "rfedb",
+      "asm": "rn!",
+      "description": "Return From Exception (Decrement Before), with writeback",
+      "pseudocode": "PC, CPSR = [ rn ... ] ; rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "STMIB",
+      "name": "stmib",
+      "asm": "~cond rn, reglist",
+      "description": "Store Multiple (Increment Before)",
+      "pseudocode": "[ rn ... ] = reglist",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "STMIB_UPD",
+      "name": "stmib",
+      "asm": "~cond rn!, reglist",
+      "description": "Store Multiple (Increment Before), with writeback",
+      "pseudocode": "[ rn ... ] = reglist ; rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "sysSTMIB",
+      "name": "stmib",
+      "asm": "~cond rn, reglist^",
+      "description": "Store Multiple (Increment Before), user registers / exception return",
+      "pseudocode": "as above with the User mode registers",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "stm",
+      "def": "sysSTMIB_UPD",
+      "name": "stmib",
+      "asm": "~cond rn!, reglist^",
+      "description": "Store Multiple (Increment Before), user registers / exception return, with writeback",
+      "pseudocode": "as above, rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "LDMIB",
+      "name": "ldmib",
+      "asm": "~cond rn, reglist",
+      "description": "Load Multiple (Increment Before)",
+      "pseudocode": "reglist = [ rn ... ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "LDMIB_UPD",
+      "name": "ldmib",
+      "asm": "~cond rn!, reglist",
+      "description": "Load Multiple (Increment Before), with writeback",
+      "pseudocode": "reglist = [ rn ... ] ; rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "sysLDMIB",
+      "name": "ldmib",
+      "asm": "~cond rn, reglist^",
+      "description": "Load Multiple (Increment Before), user registers / exception return",
+      "pseudocode": "as above with the User mode registers",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "ldm",
+      "def": "sysLDMIB_UPD",
+      "name": "ldmib",
+      "asm": "~cond rn!, reglist^",
+      "description": "Load Multiple (Increment Before), user registers / exception return, with writeback",
+      "pseudocode": "as above, rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "srs",
+      "def": "SRSIB",
+      "name": "srsib",
+      "asm": "sp, #mode",
+      "description": "Store Return State (Increment Before)",
+      "pseudocode": "[ SP_mode ... ] = LR, SPSR"
+    },
+    {
+      "group": "srs",
+      "def": "SRSIB_UPD",
+      "name": "srsib",
+      "asm": "sp!, #mode",
+      "description": "Store Return State (Increment Before), with writeback",
+      "pseudocode": "[ SP_mode ... ] = LR, SPSR ; SP_mode updated"
+    },
+    {
+      "group": "srs",
+      "def": "RFEIB",
+      "name": "rfeib",
+      "asm": "rn",
+      "description": "Return From Exception (Increment Before)",
+      "pseudocode": "PC, CPSR = [ rn ... ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "srs",
+      "def": "RFEIB_UPD",
+      "name": "rfeib",
+      "asm": "rn!",
+      "description": "Return From Exception (Increment Before), with writeback",
+      "pseudocode": "PC, CPSR = [ rn ... ] ; rn updated",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc",
+      "def": "CDP",
+      "name": "cdp",
+      "asm": "~cond cp, #opc1, cd, cn, cm, #opc2",
+      "description": "Coprocessor Data Processing",
+      "pseudocode": "coprocessor cp operation"
+    },
+    {
+      "group": "coproc",
+      "def": "MCR",
+      "name": "mcr",
+      "asm": "~cond cp, #copc1, rt, cn, cm, #opc2",
+      "description": "Move to Coprocessor from Register",
+      "pseudocode": "coprocessor register = rt",
+      "nopc": [
+        "rt"
+      ]
+    },
+    {
+      "group": "coproc",
+      "def": "MRC",
+      "name": "mrc",
+      "asm": "~cond cp, #copc1, rt, cn, cm, #opc2",
+      "description": "Move to Register from Coprocessor",
+      "pseudocode": "rt = coprocessor register",
+      "nopc": [
+        "rt"
+      ]
+    },
+    {
+      "group": "coproc",
+      "def": "MCRR",
+      "name": "mcrr",
+      "asm": "~cond cp, #opc4, rt, rt2, cm",
+      "description": "Move to Coprocessor from two Registers",
+      "pseudocode": "coprocessor register = rt2 : rt",
+      "nopc": [
+        "rt",
+        "rt2"
+      ]
+    },
+    {
+      "group": "coproc",
+      "def": "MRRC",
+      "name": "mrrc",
+      "asm": "~cond cp, #opc4, rt, rt2, cm",
+      "description": "Move to two Registers from Coprocessor",
+      "pseudocode": "rt2 : rt = coprocessor register",
+      "nopc": [
+        "rt",
+        "rt2"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STC_OFFSET",
+      "name": "stc",
+      "asm": "~cond cp, cd, [rn, #signcimm]",
+      "description": "Store Coprocessor (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STC_PRE",
+      "name": "stc",
+      "asm": "~cond cp, cd, [rn, #signcimm]!",
+      "description": "Store Coprocessor (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STC_POST",
+      "name": "stc",
+      "asm": "~cond cp, cd, [rn], #signcimm",
+      "description": "Store Coprocessor (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STC_OPTION",
+      "name": "stc",
+      "asm": "~cond cp, cd, [rn], {coption}",
+      "description": "Store Coprocessor (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STCL_OFFSET",
+      "name": "stcl",
+      "asm": "~cond cp, cd, [rn, #signcimm]",
+      "description": "Store Coprocessor (long) (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STCL_PRE",
+      "name": "stcl",
+      "asm": "~cond cp, cd, [rn, #signcimm]!",
+      "description": "Store Coprocessor (long) (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STCL_POST",
+      "name": "stcl",
+      "asm": "~cond cp, cd, [rn], #signcimm",
+      "description": "Store Coprocessor (long) (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STCL_OPTION",
+      "name": "stcl",
+      "asm": "~cond cp, cd, [rn], {coption}",
+      "description": "Store Coprocessor (long) (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDC_OFFSET",
+      "name": "ldc",
+      "asm": "~cond cp, cd, [rn, #signcimm]",
+      "description": "Load Coprocessor (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDC_PRE",
+      "name": "ldc",
+      "asm": "~cond cp, cd, [rn, #signcimm]!",
+      "description": "Load Coprocessor (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDC_POST",
+      "name": "ldc",
+      "asm": "~cond cp, cd, [rn], #signcimm",
+      "description": "Load Coprocessor (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDC_OPTION",
+      "name": "ldc",
+      "asm": "~cond cp, cd, [rn], {coption}",
+      "description": "Load Coprocessor (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDCL_OFFSET",
+      "name": "ldcl",
+      "asm": "~cond cp, cd, [rn, #signcimm]",
+      "description": "Load Coprocessor (long) (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDCL_PRE",
+      "name": "ldcl",
+      "asm": "~cond cp, cd, [rn, #signcimm]!",
+      "description": "Load Coprocessor (long) (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDCL_POST",
+      "name": "ldcl",
+      "asm": "~cond cp, cd, [rn], #signcimm",
+      "description": "Load Coprocessor (long) (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDCL_OPTION",
+      "name": "ldcl",
+      "asm": "~cond cp, cd, [rn], {coption}",
+      "description": "Load Coprocessor (long) (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc",
+      "def": "CDP2",
+      "name": "cdp2",
+      "asm": "cp, #opc1, cd, cn, cm, #opc2",
+      "description": "Coprocessor Data Processing",
+      "pseudocode": "coprocessor cp operation"
+    },
+    {
+      "group": "coproc",
+      "def": "MCR2",
+      "name": "mcr2",
+      "asm": "cp, #copc1, rt, cn, cm, #opc2",
+      "description": "Move to Coprocessor from Register",
+      "pseudocode": "coprocessor register = rt",
+      "nopc": [
+        "rt"
+      ]
+    },
+    {
+      "group": "coproc",
+      "def": "MRC2",
+      "name": "mrc2",
+      "asm": "cp, #copc1, rt, cn, cm, #opc2",
+      "description": "Move to Register from Coprocessor",
+      "pseudocode": "rt = coprocessor register",
+      "nopc": [
+        "rt"
+      ]
+    },
+    {
+      "group": "coproc",
+      "def": "MCRR2",
+      "name": "mcrr2",
+      "asm": "cp, #opc4, rt, rt2, cm",
+      "description": "Move to Coprocessor from two Registers",
+      "pseudocode": "coprocessor register = rt2 : rt",
+      "nopc": [
+        "rt",
+        "rt2"
+      ]
+    },
+    {
+      "group": "coproc",
+      "def": "MRRC2",
+      "name": "mrrc2",
+      "asm": "cp, #opc4, rt, rt2, cm",
+      "description": "Move to two Registers from Coprocessor",
+      "pseudocode": "rt2 : rt = coprocessor register",
+      "nopc": [
+        "rt",
+        "rt2"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STC2_OFFSET",
+      "name": "stc2",
+      "asm": "cp, cd, [rn, #signcimm]",
+      "description": "Store Coprocessor (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STC2_PRE",
+      "name": "stc2",
+      "asm": "cp, cd, [rn, #signcimm]!",
+      "description": "Store Coprocessor (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STC2_POST",
+      "name": "stc2",
+      "asm": "cp, cd, [rn], #signcimm",
+      "description": "Store Coprocessor (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STC2_OPTION",
+      "name": "stc2",
+      "asm": "cp, cd, [rn], {coption}",
+      "description": "Store Coprocessor (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STC2L_OFFSET",
+      "name": "stc2l",
+      "asm": "cp, cd, [rn, #signcimm]",
+      "description": "Store Coprocessor (long) (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STC2L_PRE",
+      "name": "stc2l",
+      "asm": "cp, cd, [rn, #signcimm]!",
+      "description": "Store Coprocessor (long) (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STC2L_POST",
+      "name": "stc2l",
+      "asm": "cp, cd, [rn], #signcimm",
+      "description": "Store Coprocessor (long) (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "STC2L_OPTION",
+      "name": "stc2l",
+      "asm": "cp, cd, [rn], {coption}",
+      "description": "Store Coprocessor (long) (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDC2_OFFSET",
+      "name": "ldc2",
+      "asm": "cp, cd, [rn, #signcimm]",
+      "description": "Load Coprocessor (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDC2_PRE",
+      "name": "ldc2",
+      "asm": "cp, cd, [rn, #signcimm]!",
+      "description": "Load Coprocessor (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDC2_POST",
+      "name": "ldc2",
+      "asm": "cp, cd, [rn], #signcimm",
+      "description": "Load Coprocessor (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDC2_OPTION",
+      "name": "ldc2",
+      "asm": "cp, cd, [rn], {coption}",
+      "description": "Load Coprocessor (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDC2L_OFFSET",
+      "name": "ldc2l",
+      "asm": "cp, cd, [rn, #signcimm]",
+      "description": "Load Coprocessor (long) (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDC2L_PRE",
+      "name": "ldc2l",
+      "asm": "cp, cd, [rn, #signcimm]!",
+      "description": "Load Coprocessor (long) (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDC2L_POST",
+      "name": "ldc2l",
+      "asm": "cp, cd, [rn], #signcimm",
+      "description": "Load Coprocessor (long) (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "coproc-mem",
+      "def": "LDC2L_OPTION",
+      "name": "ldc2l",
+      "asm": "cp, cd, [rn], {coption}",
+      "description": "Load Coprocessor (long) (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "status",
+      "def": "MRS",
+      "name": "mrs",
+      "asm": "~cond rd, APSR",
+      "description": "Move to Register from APSR / CPSR",
+      "pseudocode": "rd = APSR",
+      "nopc": [
+        "rd"
+      ]
+    },
+    {
+      "group": "status",
+      "def": "MRSsys",
+      "name": "mrs",
+      "asm": "~cond rd, SPSR",
+      "description": "Move to Register from SPSR",
+      "pseudocode": "rd = SPSR",
+      "nopc": [
+        "rd"
+      ]
+    },
+    {
+      "group": "status",
+      "def": "MSR",
+      "name": "msr",
+      "asm": "~cond psrmsk, rn",
+      "description": "Move to Special Register from Register",
+      "pseudocode": "CPSR / SPSR fields = rn",
+      "nopc": [
+        "rn"
+      ]
+    },
+    {
+      "group": "status",
+      "def": "MSRi",
+      "name": "msr",
+      "asm": "~cond psrmsk, #mimm",
+      "description": "Move to Special Register (immediate)",
+      "pseudocode": "CPSR / SPSR fields = mimm"
+    },
+    {
+      "group": "cps",
+      "def": "CPS2p",
+      "name": "cpsie",
+      "asm": "iflags",
+      "description": "Change Processor State: Enable Interrupts",
+      "pseudocode": "enable the interrupts iflags",
+      "fix": {
+        "imod": 2
+      }
+    },
+    {
+      "group": "cps",
+      "def": "CPS3p",
+      "name": "cpsie",
+      "asm": "iflags, #mode",
+      "description": "Change Processor State: Enable Interrupts and Change Mode",
+      "pseudocode": "enable iflags ; CPSR.M = mode",
+      "fix": {
+        "imod": 2
+      }
+    },
+    {
+      "group": "cps",
+      "def": "CPS2p",
+      "name": "cpsid",
+      "asm": "iflags",
+      "description": "Change Processor State: Disable Interrupts",
+      "pseudocode": "disable the interrupts iflags",
+      "fix": {
+        "imod": 3
+      }
+    },
+    {
+      "group": "cps",
+      "def": "CPS3p",
+      "name": "cpsid",
+      "asm": "iflags, #mode",
+      "description": "Change Processor State: Disable Interrupts and Change Mode",
+      "pseudocode": "disable iflags ; CPSR.M = mode",
+      "fix": {
+        "imod": 3
+      }
+    },
+    {
+      "group": "cps",
+      "def": "CPS1p",
+      "name": "cps",
+      "asm": "#mode",
+      "description": "Change Processor State: Change Mode",
+      "pseudocode": "CPSR.M = mode"
+    },
+    {
+      "group": "cps",
+      "def": "SETEND",
+      "name": "setend",
+      "asm": "endian",
+      "description": "Set Endianness",
+      "pseudocode": "CPSR.E = endian"
+    },
+    {
+      "group": "hint",
+      "def": "HINT",
+      "name": "hint",
+      "asm": "~cond #imm",
+      "description": "Hint (nop, yield, wfe, wfi, sev by number)",
+      "pseudocode": "imm 0 nop, 1 yield, 2 wfe, 3 wfi, 4 sev",
+      "immMax": 239
+    },
+    {
+      "group": "hint",
+      "def": "DBG",
+      "name": "dbg",
+      "asm": "~cond #imm",
+      "description": "Debug Hint",
+      "pseudocode": "hint to the debug system"
+    },
+    {
+      "group": "barrier",
+      "def": "CLREX",
+      "name": "clrex",
+      "asm": "",
+      "description": "Clear-Exclusive",
+      "pseudocode": "clear the local monitor"
+    },
+    {
+      "group": "barrier",
+      "def": "DSB",
+      "name": "dsb",
+      "asm": "barrier",
+      "description": "Data Synchronization Barrier",
+      "pseudocode": "complete memory accesses"
+    },
+    {
+      "group": "barrier",
+      "def": "DMB",
+      "name": "dmb",
+      "asm": "barrier",
+      "description": "Data Memory Barrier",
+      "pseudocode": "order memory accesses"
+    },
+    {
+      "group": "barrier",
+      "def": "ISB",
+      "name": "isb",
+      "asm": "{?isbopt}",
+      "description": "Instruction Synchronization Barrier",
+      "pseudocode": "refetch the following instructions"
+    },
+    {
+      "group": "preload",
+      "def": "PLDi12",
+      "name": "pld",
+      "asm": "[rn, #signimm]",
+      "description": "Preload Data (immediate)",
+      "pseudocode": "preload [ rn ± imm ]"
+    },
+    {
+      "group": "preload",
+      "def": "PLDrs",
+      "name": "pld",
+      "asm": "[rn, signrm{?, shiftamount}]",
+      "description": "Preload Data (register)",
+      "pseudocode": "preload [ rn ± shifted rm ]",
+      "nopc": [
+        "rm"
+      ]
+    },
+    {
+      "group": "preload",
+      "def": "PLDWi12",
+      "name": "pldw",
+      "asm": "[rn, #signimm]",
+      "description": "Preload Data for Write (immediate)",
+      "pseudocode": "preload [ rn ± imm ]"
+    },
+    {
+      "group": "preload",
+      "def": "PLDWrs",
+      "name": "pldw",
+      "asm": "[rn, signrm{?, shiftamount}]",
+      "description": "Preload Data for Write (register)",
+      "pseudocode": "preload [ rn ± shifted rm ]",
+      "nopc": [
+        "rm"
+      ]
+    },
+    {
+      "group": "preload",
+      "def": "PLIi12",
+      "name": "pli",
+      "asm": "[rn, #signimm]",
+      "description": "Preload Instruction (immediate)",
+      "pseudocode": "preload [ rn ± imm ]"
+    },
+    {
+      "group": "preload",
+      "def": "PLIrs",
+      "name": "pli",
+      "asm": "[rn, signrm{?, shiftamount}]",
+      "description": "Preload Instruction (register)",
+      "pseudocode": "preload [ rn ± shifted rm ]",
+      "nopc": [
+        "rm"
+      ]
+    }
+  ],
+  "registers": [
+    {
+      "title": "Registers",
+      "columns": [
+        "Register",
+        "Name",
+        "Encoding",
+        "Meaning"
+      ],
+      "group": "CPU Registers",
+      "rows": [
+        [
+          "r0",
+          "r0",
+          "0000",
+          "Argument / result"
+        ],
+        [
+          "r1",
+          "r1",
+          "0001",
+          "Argument / result"
+        ],
+        [
+          "r2",
+          "r2",
+          "0010",
+          "Argument"
+        ],
+        [
+          "r3",
+          "r3",
+          "0011",
+          "Argument"
+        ],
+        [
+          "r4",
+          "r4",
+          "0100",
+          "Saved (callee)"
+        ],
+        [
+          "r5",
+          "r5",
+          "0101",
+          "Saved (callee)"
+        ],
+        [
+          "r6",
+          "r6",
+          "0110",
+          "Saved (callee)"
+        ],
+        [
+          "r7",
+          "r7",
+          "0111",
+          "Saved (callee)"
+        ],
+        [
+          "r8",
+          "r8",
+          "1000",
+          "Saved (callee)"
+        ],
+        [
+          "r9",
+          "r9",
+          "1001",
+          "Platform register / static base (sb)"
+        ],
+        [
+          "r10",
+          "r10",
+          "1010",
+          "Saved (callee)"
+        ],
+        [
+          "r11",
+          "r11",
+          "1011",
+          "Frame pointer (fp)"
+        ],
+        [
+          "r12",
+          "r12",
+          "1100",
+          "Intra-procedure-call scratch (ip)"
+        ],
+        [
+          "r13",
+          "sp",
+          "1101",
+          "Stack pointer"
+        ],
+        [
+          "r14",
+          "lr",
+          "1110",
+          "Link register: the return address of bl / blx"
+        ],
+        [
+          "r15",
+          "pc",
+          "1111",
+          "Program counter: reads as the instruction's address + 8"
+        ]
+      ]
+    },
+    {
+      "title": "Program Status Registers",
+      "columns": [
+        "Register",
+        "Bits",
+        "Meaning"
+      ],
+      "group": "CPU Registers",
+      "rows": [
+        [
+          "CPSR / APSR",
+          "N Z C V (31:28), Q (27), GE (19:16)",
+          "Flags of the current program status; mode, interrupt masks, Thumb and endian bits (CPSR)"
+        ],
+        [
+          "SPSR",
+          "as CPSR",
+          "The CPSR saved by an exception"
+        ]
+      ]
+    },
+    {
+      "title": "Conditions (cond)",
+      "columns": [
+        "cond",
+        "Encoding",
+        "Meaning",
+        "Flags"
+      ],
+      "group": "Conditions",
+      "rows": [
+        [
+          "eq",
+          "0000",
+          "Equal",
+          "Z = 1"
+        ],
+        [
+          "ne",
+          "0001",
+          "Not equal",
+          "Z = 0"
+        ],
+        [
+          "cs / hs",
+          "0010",
+          "Carry set (unsigned ≥)",
+          "C = 1"
+        ],
+        [
+          "cc / lo",
+          "0011",
+          "Carry clear (unsigned <)",
+          "C = 0"
+        ],
+        [
+          "mi",
+          "0100",
+          "Minus",
+          "N = 1"
+        ],
+        [
+          "pl",
+          "0101",
+          "Plus or zero",
+          "N = 0"
+        ],
+        [
+          "vs",
+          "0110",
+          "Overflow",
+          "V = 1"
+        ],
+        [
+          "vc",
+          "0111",
+          "No overflow",
+          "V = 0"
+        ],
+        [
+          "hi",
+          "1000",
+          "Unsigned higher",
+          "C = 1 and Z = 0"
+        ],
+        [
+          "ls",
+          "1001",
+          "Unsigned lower or same",
+          "C = 0 or Z = 1"
+        ],
+        [
+          "ge",
+          "1010",
+          "Signed ≥",
+          "N = V"
+        ],
+        [
+          "lt",
+          "1011",
+          "Signed <",
+          "N ≠ V"
+        ],
+        [
+          "gt",
+          "1100",
+          "Signed >",
+          "Z = 0 and N = V"
+        ],
+        [
+          "le",
+          "1101",
+          "Signed ≤",
+          "Z = 1 or N ≠ V"
+        ],
+        [
+          "(al)",
+          "1110",
+          "Always: not written",
+          ""
+        ],
+        [
+          "—",
+          "1111",
+          "The unconditional instructions",
+          ""
+        ]
+      ]
+    }
+  ]
+}

@@ -318,13 +318,17 @@ export function createCodec(spec) {
     const parts = [{ kind: 'mnemonic', text: mnemonic, known: true }];
     // an optional part ({?...}) whose operands are all at their omit value is not written; unknown ones (null) are
     const known = Object.fromEntries(Object.entries(fields).filter(([, v]) => v !== null && v !== undefined));
-    const operands = splitOperands({ text: inst.asm }).filter((op) => !(op === 'rm' && fields.rm === 7) && !isOmitted({ key: op, value: fields[op] }))
+    const { tail, ops } = templateOperands({ entry: inst });
+    const operands = ops.filter((op) => !(op === 'rm' && fields.rm === 7) && !isOmitted({ key: op, value: fields[op] }))
       .map((op) => templateParts({ op, values: known })).filter((opParts) => opParts.length);
-    operands.forEach((opParts, i) => {
-      parts.push({ kind: 'punct', text: i === 0 ? ' ' : spec.separator ?? ', ' });
+    // the mnemonic's tail (A32's {s}{cond}) glued to it
+    const groups = [...(tail !== null ? [{ tail: true, opParts: templateParts({ op: tail, values: known }) }] : []), ...operands.map((opParts) => ({ opParts }))];
+    let index = 0;
+    for (const { tail: isTail, opParts } of groups) {
+      if (!isTail) parts.push({ kind: 'punct', text: index++ === 0 ? ' ' : spec.separator ?? ', ' });
       for (const part of opParts) {
         if (!part.token) {
-          parts.push({ kind: 'punct', text: part.text });
+          parts.push({ kind: 'punct', text: part.text, tail: isTail });
           continue;
         }
         const key = tokenKey(part.token);
@@ -332,9 +336,10 @@ export function createCodec(spec) {
           parts.push({ kind: 'reg', key, text: 'sp', known: true });
           continue;
         }
-        const value = fields[key];
+        // a derived operand (ldrd's second register) follows from the others
+        const value = OPERANDS[key] && OPERANDS[key].derive ? OPERANDS[key].derive({ fields: known }) : fields[key];
         if (value === null || value === undefined) {
-          parts.push({ kind: _tokenKind({ key }), key, text: part.token, known: false });
+          parts.push({ kind: _tokenKind({ key }), key, text: part.token, known: false, tail: isTail });
           continue;
         }
         let text;
@@ -345,23 +350,24 @@ export function createCodec(spec) {
         else if (key === 'rm') text = ROUNDING[value] || `rm${value}`;
         else if (key === 'pred' || key === 'succ') text = fenceText({ value });
         else text = registerName({ number: value, fp: _isFp({ inst, key }) });
-        parts.push({ kind: _tokenKind({ key }), key, text, known: true });
+        parts.push({ kind: _tokenKind({ key }), key, text, known: true, tail: isTail });
       }
-    });
+    }
     return arranged && spec.arrange ? spec.arrange({ parts }) : parts;
   }
 
   // The operands alone, as the Operands columns show them.
   function operandsText({ inst = {}, fields = {} }) {
-    return assemblyParts({ inst, fields, arranged: false }).slice(1).map((p) => p.text).join('').trim();
+    return assemblyParts({ inst, fields, arranged: false }).slice(1).filter((p) => !p.tail).map((p) => p.text).join('').trim();
   }
 
   // An operand of the instruction set's own (not a RISC-V register, csr, ...) as assembly text.
   // fields, inst: the instruction's other operands, for an operand whose text depends on them (Zcmp's stack adjustment).
   function operandText({ key = '', value = 0, fields = {}, inst = {} }) {
     const operand = OPERANDS[key];
-    if (operand.names) return operand.names[value];
-    return operand.text ? operand.text({ value, fields, inst }) : String(value);
+    // a text of its own first (A32's ror #0 is rrx), then the names
+    if (operand.text) return operand.text({ value, fields, inst });
+    return operand.names ? operand.names[value] : String(value);
   }
 
   // An operand left out of the assembly at this value (vm: an unmasked instruction has no mask operand).
@@ -518,6 +524,7 @@ export function createCodec(spec) {
   // What a template operand token of an entry accepts (used by the dropdown builder and the parser).
   function operandInfo({ entry = {}, token = 'rd' }) {
     const key = tokenKey(token);
+    if (OPERANDS[key] && OPERANDS[key].derive) return { kind: 'derived', key };
     if (OPERANDS[key]) {
       const { names, exclude = [], width, signed = false, omit } = OPERANDS[key];
       // the instruction's own constraint on the operand too (vd!={...})
@@ -590,7 +597,16 @@ export function createCodec(spec) {
   }
 
   // An entry's assembly template as the sheets show it: optional parts in braces, as Arm writes them ("{, sh}").
-  const templateText = ({ entry = {} }) => (entry.asm || '').replace(/\{\?/g, '{');
+  const templateText = ({ entry = {} }) => (entry.asm || '').replace(/^~\S*\s?/, '').replace(/\{\?/g, '{');
+
+  // An entry's template: the mnemonic's tail ("~sflagcond rd, rn, #mimm": {s}{cond} glued to the mnemonic, null when there
+  // is none) and the operands.
+  function templateOperands({ entry = {} }) {
+    const asm = entry.asm || '';
+    if (!asm.startsWith('~')) return { tail: null, ops: splitOperands({ text: asm }) };
+    const space = asm.indexOf(' ');
+    return { tail: space < 0 ? asm.slice(1) : asm.slice(1, space), ops: space < 0 ? [] : splitOperands({ text: asm.slice(space + 1) }) };
+  }
 
   // A template operand can be left out entirely: all of it optional.
   const _optionalOperand = (op) => /^\{\?.*\}$/.test(op) && templateParts({ op, markers: true }).filter((p) => p.close).length === 1;
@@ -645,13 +661,17 @@ export function createCodec(spec) {
   // What a token matches in operand text; only names are told apart from what follows them, as in "(IX+5)".
   function _tokenPattern(token) {
     const operand = OPERANDS[tokenKey(token)];
+    if (operand && operand.pattern) return `(${operand.pattern})`;
     return operand && operand.names ? `(${[...new Set(operand.names)].sort((a, b) => b.length - a.length).map(_escaped).join('|')})` : '(.+?)';
   }
 
   // Parses the operand text of a given entry (instruction or pseudo-instruction) into values by token.
+  // For an entry with a mnemonic tail, text is the tail, a space, then the operands ("seq r0, r1, r2" of addseq).
   function _parseOperands({ entry = {}, text = '' }) {
-    const template = splitOperands({ text: entry.asm });
-    const given = splitOperands({ text });
+    const { tail, ops: template } = templateOperands({ entry });
+    const space = tail !== null ? (text.indexOf(' ') < 0 ? text.length : text.indexOf(' ')) : 0;
+    const given = splitOperands({ text: tail !== null ? text.slice(space + 1) : text });
+    const derived = [];
     const expects = () => new Error(`${entry.name} expects: ${entry.name} ${entry.asm}`);
     const values = {};
     const omitAll = (op) => templateParts({ op }).filter((p) => p.token).forEach((p) => {
@@ -667,6 +687,12 @@ export function createCodec(spec) {
     // takes "#1, lsl #12"). Operands at the end may be left out: a rounding mode (dyn), a mask (unmasked), operands all
     // optional ({?xn}).
     let g = 0;
+    if (tail !== null) {
+      const { tokens, pattern } = patternOf(tail);
+      const m = text.slice(0, space).match(pattern);
+      if (!m) throw new Error(`"${entry.name}${text.slice(0, space)}" is not ${entry.name} with ${tail}`);
+      tokens.forEach((token, k) => assign({ token, text: m[k + 1] }));
+    }
     template.forEach((op, i) => {
       const inner = (op.match(/\{\?[^}]*\}/g) || []).reduce((n, span) => n + (span.match(/,/g) || []).length, 0);
       const { tokens, pattern } = patternOf(op);
@@ -685,12 +711,27 @@ export function createCodec(spec) {
         return;
       }
       g += used;
-      tokens.forEach((token, k) => {
+      tokens.forEach((token, k) => assign({ token, text: m[k + 1] }));
+    });
+    if (g < given.length) throw expects();
+    // derived operands must be what the others give
+    for (const { key, text: written } of derived) {
+      const value = OPERANDS[key].derive({ fields: values });
+      if (value === null || value === undefined || operandText({ key, value, fields: values, inst: entry }).toLowerCase() !== written.toLowerCase()) {
+        throw new Error(`${entry.name}: "${written}" is not the ${key} the other operands give`);
+      }
+    }
+    return values;
+
+    function assign({ token, text }) {
         const key = tokenKey(token);
-        const text = m[k + 1];
         // an optional part not written: its operands at their omit values
         if (text === undefined) {
           if (OPERANDS[key] && OPERANDS[key].omit !== undefined) values[key] = OPERANDS[key].omit;
+          return;
+        }
+        if (OPERANDS[key] && OPERANDS[key].derive) {
+          derived.push({ key, text });
           return;
         }
         const info = operandInfo({ entry, token: key });
@@ -708,10 +749,7 @@ export function createCodec(spec) {
           if (values[key] < 0 || text === '') throw new Error(`"${text}" is not a rounding mode`);
         } else if (info.kind === 'fence') values[key] = _parseFence({ text });
         else values[key] = _parseRegister({ text, fp: info.fp });
-      });
-    });
-    if (g < given.length) throw expects();
-    return values;
+    }
   }
 
   // Encodes one entry: returns one word per (expanded) instruction.
@@ -757,7 +795,10 @@ export function createCodec(spec) {
     let mnemonic = mnemonicText.toLowerCase();
     let ordering = '';
     // A repeated mnemonic takes the shortest encoding its operands fit, as assemblers do.
-    let candidates = encodable.filter((e) => e.name.toLowerCase() === mnemonic).sort((a, b) => a.width - b.width);
+    // an entry with a mnemonic tail takes the rest of the mnemonic (addseq: add, then seq)
+    const operandsOf = (e) => (e.asm && e.asm.startsWith('~') ? `${mnemonic.slice(e.name.length)} ${rest}` : rest);
+    let candidates = encodable.filter((e) => e.name.toLowerCase() === mnemonic || (e.asm && e.asm.startsWith('~') && mnemonic.startsWith(e.name.toLowerCase())))
+      .sort((a, b) => a.width - b.width);
     if (!candidates.length) {
       const m = mnemonic.match(/^(.*)\.(aq|rl|aqrl)$/);
       candidates = m ? encodable.filter((e) => e.name === m[1] && e.segments && e.segments.some((s) => s.key === 'aq')) : [];
@@ -767,7 +808,8 @@ export function createCodec(spec) {
     let error;
     for (const entry of candidates) {
       try {
-        return { ...encodeEntry({ entry, operands: rest, ordering }), values: _parseOperands({ entry, text: rest }), ordering };
+        const operands = operandsOf(entry);
+        return { ...encodeEntry({ entry, operands, ordering }), values: _parseOperands({ entry, text: operands }), ordering };
       } catch (e) {
         error = error || e;
       }
@@ -846,7 +888,7 @@ export function createCodec(spec) {
 
   return {
     spec, compiled, pseudos, encodable, unusedOpcodeRows, parseEncoding, immRange, matchesConstraints, extractFields, assemblyParts, operandsText,
-    operandText, isOmitted, templateText, formatAssembly, fieldMask, partialDecode, knownWidth, selectedWord, missingBits, decodeWord, unusedOpcode, operandInfo, templateParts,
+    operandText, isOmitted, templateText, templateOperands, formatAssembly, fieldMask, partialDecode, knownWidth, selectedWord, missingBits, decodeWord, unusedOpcode, operandInfo, templateParts,
     tokenKey, encodeEntry, encodeAssembly, assemblyChoice, immediateView, hex, binary, bitName, bitNumber, byteStart, pasteStates, typeName, numericOperand, csrs,
   };
 }

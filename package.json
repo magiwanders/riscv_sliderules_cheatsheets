@@ -2,7 +2,7 @@
   "name": "@magiwanders/riscv-sliderules-cheatsheets",
   "private": false,
   "version": "0.4.0",
-  "description": "Instruction encoder / decoder sliderules for the web: RISC-V (RV32, RV64), A64, MIPS32, MIPS64, 8080, 8051, Z80, 6502, Hack",
+  "description": "Instruction encoder / decoder sliderules for the web: RISC-V (RV32, RV64), A64, A32, MIPS32, MIPS64, 8080, 8051, Z80, 6502, Hack",
   "license": "CC-BY-SA-4.0",
   "author": "Simone Shawn Cazzaniga <shawn@magiwanders.com> (https://www.magiwanders.com)",
   "repository": {
@@ -17,12 +17,13 @@
     "test": "node --test test/*.test.mjs",
     "vectors": "node test/gen-gnu-vectors.mjs",
     "vectors:retro": "node test/gen-retro-vectors.mjs",
-    "isa": "node tools/isa/gen-riscv.mjs && node tools/isa/gen-mos6502.mjs && node tools/isa/gen-retro.mjs && node tools/isa/gen-mips.mjs && node tools/isa/gen-a64.mjs",
+    "isa": "node tools/isa/gen-riscv.mjs && node tools/isa/gen-mos6502.mjs && node tools/isa/gen-retro.mjs && node tools/isa/gen-mips.mjs && node tools/isa/gen-a64.mjs && node tools/isa/gen-a32.mjs",
     "isa:tablegen": "node tools/isa/tablegen.mjs",
     "vectors:llvm": "node test/gen-llvm-vectors.mjs",
     "vectors:retro-asm": "node test/gen-retro-assembler-vectors.mjs",
     "vectors:mips": "node test/gen-mips-vectors.mjs",
-    "vectors:a64": "node test/gen-a64-vectors.mjs"
+    "vectors:a64": "node test/gen-a64-vectors.mjs",
+    "vectors:a32": "node test/gen-a32-vectors.mjs"
   },
   "devDependencies": {
     "vite": "^8.3.5"

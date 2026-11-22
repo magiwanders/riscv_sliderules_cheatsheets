@@ -1,18 +1,18 @@
 # RISC-V Sliderules: notes for coding agents
 
 An instruction encoder / decoder rendered as two big HTML tables (the "sliderules"), for RV32 and RV64 (every ratified
-extension), A64, MIPS32 and MIPS64, the 8080, the 8051, the Z80, the 6502 and the Hack computer. Plain ES modules, no framework, built as a library with Vite. Read this before changing anything;
+extension), A64, A32, MIPS32 and MIPS64, the 8080, the 8051, the Z80, the 6502 and the Hack computer. Plain ES modules, no framework, built as a library with Vite. Read this before changing anything;
 the most common changes, adding a RISC-V extension or a whole instruction set, have their own checklists below.
 
 ## Layout
 
 | Path | What it is |
 | --- | --- |
-| `src/isa/rv32gc.mjs`, `rv64gc.mjs`, `hack.mjs`, `mos6502.mjs`, `z80.mjs`, `i8080.mjs`, `mcs51.mjs`, `mips32.mjs`, `mips64.mjs`, `a64.mjs` | One module per instruction set (RV32 and RV64 share `riscv.mjs`: `riscvSheets` makes their settings, extension subsets and CSR names; MIPS32 and MIPS64 `mips.mjs`), what the codec reads: formats, decoder sections, groups, instructions, unused opcodes, pseudo-instructions, and the set's own settings (spine, immediates, decode order, ...). Encodings are strings in the spec's notation. Each re-exports its data, registers included, from `generated/`. |
+| `src/isa/rv32gc.mjs`, `rv64gc.mjs`, `hack.mjs`, `mos6502.mjs`, `z80.mjs`, `i8080.mjs`, `mcs51.mjs`, `mips32.mjs`, `mips64.mjs`, `a64.mjs`, `a32.mjs` | One module per instruction set (RV32 and RV64 share `riscv.mjs`: `riscvSheets` makes their settings, extension subsets and CSR names; MIPS32 and MIPS64 `mips.mjs`), what the codec reads: formats, decoder sections, groups, instructions, unused opcodes, pseudo-instructions, and the set's own settings (spine, immediates, decode order, ...). Encodings are strings in the spec's notation. Each re-exports its data, registers included, from `generated/`. |
 | `src/isa/generated/` | **Generated, do not edit**: the instruction data and registers of every set, written by `npm run isa`. |
 | `src/isa/overlay/*.json` | What the sheets show that Sail and TableGen do not carry: sections, groups, titles, descriptions, pseudocode, flags, HINT / reserved rows, the order of rows, unused opcodes, pseudo-instructions, register meanings, and the few presentation overrides. Edit these. |
 | `spec/` | The sources. Official, pinned (do not edit): the Sail model's files (`spec/sail-riscv/`, RV32 and RV64 alike), LLVM's RISC-V and llvm-mos's 6502 `.td` files and their TableGen extracts (`spec/llvm/`), the RISC-V Unified Database's instructions (`spec/udb/`). Unofficial, this project's own (edit, then `npm run isa`): Sail and TableGen of the 8080, the 8051, the Z80 and Hack, Sail of the 6502 (`spec/unofficial/`). `spec/README.md` has the versions and how to update them. |
-| `tools/isa/` | The generators: `sail.mjs` reads Sail encodings, `tablegen.mjs` extracts TableGen (`npm run isa:tablegen`), `gen-riscv.mjs` (RV32 and RV64), `gen-mos6502.mjs`, `gen-mips.mjs` (MIPS32, MIPS64), `gen-a64.mjs` (A64; both LLVM's TableGen against the unofficial Sail, through `llvm-sail.mjs`), `gen-retro.mjs` (Z80, 8080, 8051, Hack) check Sail against TableGen and merge them with the overlay into `src/isa/generated/`. |
+| `tools/isa/` | The generators: `sail.mjs` reads Sail encodings, `tablegen.mjs` extracts TableGen (`npm run isa:tablegen`), `gen-riscv.mjs` (RV32 and RV64), `gen-mos6502.mjs`, `gen-mips.mjs` (MIPS32, MIPS64), `gen-a64.mjs` (A64), `gen-a32.mjs` (A32; all three LLVM's TableGen against the unofficial Sail, through `llvm-sail.mjs`), `gen-retro.mjs` (Z80, 8080, 8051, Hack) check Sail against TableGen and merge them with the overlay into `src/isa/generated/`. |
 | `src/isa/isas.mjs` | The instruction sets of the title's selector: `isas`, listed under their `family` (`families` names them). Those with a `codec` have sheets; the others show a `<Coming soon>` placeholder (`_selectIsa` in `src/sliderule.mjs`). `extensions` gives a member the extension toggles. |
 | `src/isa/riscv-extensions.mjs` | The ratified RISC-V extensions the toggles show: the letters, the Z extensions folded under each, G and the bundles (B, Zk), what each needs, the ISA string. `withExtensions` (from `riscvSheets` in `riscv.mjs`) makes the sheets of a set of them; `BASE_ONLY` marks those of one width (Zilsd, Zclsd). |
 | `src/isa/codec.mjs` | Everything derived from that data, per set (`createCodec`): parsing encodings into segments, masks, matching, decoding, encoding (`encodeAssembly`; `assemblyChoice` gives the entry and operand values the encoder's Paste Assembly sets), pseudo-instruction expansion, operand descriptions for the UI, the spine. No DOM. Its named exports are RV32GC's. |
@@ -179,7 +179,11 @@ give the set `specs` in `isas.mjs` and its files in `EXPORTS` of `api-gen.js` fo
    positions, so a word of a shorter byte instruction has its bits at the top: use `codec.hex` / `codec.binary`.
 2. **Data**: `formats`, `sections`, `groups`, `instructions`, `extensions` as in the extension checklist. Assembly
    templates may mark an optional part `{?...}`: it is left out when every operand in it is at its `omit` value (A64's
-   `xm{?, shift #amount}`, `{?xr}`), and parsing takes it with its commas. A format needs
+   `xm{?, shift #amount}`, `{?xr}`), and parsing takes it with its commas. A template starting with `~` glues its first
+   part to the mnemonic (A32's `~sflagcond rd, rn, #mimm`: `addseq`); the operand text the codec parses then starts with
+   that part and a space. An operand may `derive` its value from others (ldrd's second register), set its own `pattern`
+   for parsing, and give a `text` that wins over its `names`. Write literal words of a template in upper case (`APSR`):
+   lower case ones can contain an operand's name. A format needs
    a `width` and `layout` only for instruction sets with fixed fields; without them the decoder's group headers come
    from the members' encodings, and a group's members must have the same width. Keep `sections` keys in the decoder's
    order. Encoding `name[7:0|15:8]` is a little-endian immediate.
@@ -210,6 +214,7 @@ npm run vectors:retro  # the 6502 and the Z80 with py65 and skoolkit (PYTHON=...
 npm run vectors:retro-asm  # the 6502 and the Z80 with ca65 and sjasmplus, the 8080 / 8051 with asl and as8085 / as8051 (CC65_BIN=..., SJASMPLUS=..., ASL=..., ASXXXX_BIN=...)
 npm run vectors:mips   # MIPS32 and MIPS64 with GNU as and llvm-mc (MIPS_PREFIX=..., LLVM_MC_BIN=...)
 npm run vectors:a64    # A64 with GNU as and llvm-mc (AARCH64_PREFIX=..., LLVM_MC_BIN=...)
+npm run vectors:a32    # A32 with GNU as and llvm-mc (ARM_PREFIX=..., LLVM_MC_BIN=...)
 npm run dev        # look at both sheets: http://localhost:5173
 ```
 

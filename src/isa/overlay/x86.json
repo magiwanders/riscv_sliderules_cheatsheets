@@ -1,0 +1,4037 @@
+{
+  "$comment": "The x86 sheets' typed opcode table: each line as Intel's opcode tables write it (opcode bytes, /r or /n for ModRM, +rb / +rw / +cc, ib / iw / cb / cw / cp), its Intel assembly, the LLVM X86 records it is (checked by tools/isa/gen-x86.mjs against their opcode, form and immediate), the instruction sets it belongs to, its group, class, description, pseudocode and flags. The generator makes a row per addressing form of a ModRM operand.",
+  "sections": {
+    "s0": "Opcodes 00–3F: Arithmetic and Logic, Segment Prefixes",
+    "s1": "Opcodes 40–7F: Increment, Decrement, Push, Pop, Short Jumps",
+    "s2": "Opcodes 80–BF: Immediates, Moves, Strings",
+    "s3": "Opcodes C0–FF: Control Transfer, Shifts, Groups"
+  },
+  "formats": {
+    "REG": {
+      "title": "Register"
+    },
+    "IMM": {
+      "title": "Immediate"
+    },
+    "IND": {
+      "title": "Memory"
+    },
+    "IDX": {
+      "title": "Memory + disp"
+    },
+    "EXT": {
+      "title": "Direct"
+    },
+    "REL": {
+      "title": "Relative"
+    },
+    "IMP": {
+      "title": "Implied"
+    }
+  },
+  "extensions": [
+    "Data Transfer",
+    "Arithmetic",
+    "Logic",
+    "String",
+    "Control Transfer",
+    "Processor Control",
+    "Prefix"
+  ],
+  "groups": {
+    "alu-rm": {
+      "format": "REG",
+      "title": "Arithmetic and Logic, register to r/m",
+      "pseudocode": "r/m = r/m (op) reg"
+    },
+    "alu-r": {
+      "format": "REG",
+      "title": "Arithmetic and Logic, r/m to register",
+      "pseudocode": "reg = reg (op) r/m"
+    },
+    "alu-acc": {
+      "format": "IMM",
+      "title": "Arithmetic and Logic with the Accumulator",
+      "pseudocode": "AL / AX = AL / AX (op) imm"
+    },
+    "alu-imm": {
+      "format": "IMM",
+      "title": "Arithmetic and Logic, immediate to r/m",
+      "pseudocode": "r/m = r/m (op) imm"
+    },
+    "alu-simm": {
+      "format": "IMM",
+      "title": "Arithmetic and Logic, sign-extended immediate to word r/m",
+      "pseudocode": "r/m16 = r/m16 (op) imm8"
+    },
+    "incdec": {
+      "format": "REG",
+      "title": "Increment / Decrement r/m",
+      "pseudocode": "r/m ±= 1"
+    },
+    "incdec-r": {
+      "format": "REG",
+      "title": "Increment / Decrement Word Register",
+      "pseudocode": "r16 ±= 1"
+    },
+    "unary": {
+      "format": "REG",
+      "title": "NOT, NEG, MUL, IMUL, DIV, IDIV",
+      "pseudocode": ""
+    },
+    "test-rm": {
+      "format": "REG",
+      "title": "Test, register with r/m",
+      "pseudocode": "flags of r/m & reg"
+    },
+    "mov-rm": {
+      "format": "REG",
+      "title": "Move, register to r/m",
+      "pseudocode": "r/m = reg"
+    },
+    "mov-r": {
+      "format": "REG",
+      "title": "Move, r/m to register",
+      "pseudocode": "reg = r/m"
+    },
+    "mov-seg": {
+      "format": "REG",
+      "title": "Move to / from a Segment Register",
+      "pseudocode": ""
+    },
+    "mov-moffs": {
+      "format": "EXT",
+      "title": "Move between the Accumulator and Memory",
+      "pseudocode": ""
+    },
+    "mov-ri": {
+      "format": "IMM",
+      "title": "Move Immediate to Register",
+      "pseudocode": "reg = imm"
+    },
+    "mov-imm": {
+      "format": "IMM",
+      "title": "Move Immediate to r/m",
+      "pseudocode": "r/m = imm"
+    },
+    "xchg": {
+      "format": "REG",
+      "title": "Exchange",
+      "pseudocode": "r/m ↔ reg"
+    },
+    "xchg-ax": {
+      "format": "REG",
+      "title": "Exchange with AX",
+      "pseudocode": "AX ↔ r16"
+    },
+    "lea": {
+      "format": "IND",
+      "title": "Load Address / Pointer",
+      "pseudocode": ""
+    },
+    "stack-r": {
+      "format": "REG",
+      "title": "Push / Pop Word Register",
+      "pseudocode": ""
+    },
+    "stack-rm": {
+      "format": "REG",
+      "title": "Push / Pop r/m",
+      "pseudocode": ""
+    },
+    "stack-seg": {
+      "format": "IMP",
+      "title": "Push / Pop Segment Register",
+      "pseudocode": ""
+    },
+    "flags": {
+      "format": "IMP",
+      "title": "Flags and Translate",
+      "pseudocode": ""
+    },
+    "io": {
+      "format": "IMM",
+      "title": "Input / Output (fixed port)",
+      "pseudocode": ""
+    },
+    "io-dx": {
+      "format": "IMP",
+      "title": "Input / Output (port in DX)",
+      "pseudocode": ""
+    },
+    "bcd": {
+      "format": "IMP",
+      "title": "Conversions and Decimal Adjust",
+      "pseudocode": ""
+    },
+    "bcd-imm": {
+      "format": "IMM",
+      "title": "ASCII Adjust for Multiply / Divide",
+      "pseudocode": ""
+    },
+    "shift-1": {
+      "format": "REG",
+      "title": "Shift / Rotate by 1",
+      "pseudocode": ""
+    },
+    "shift-cl": {
+      "format": "REG",
+      "title": "Shift / Rotate by CL",
+      "pseudocode": ""
+    },
+    "string": {
+      "format": "IMP",
+      "title": "String",
+      "pseudocode": ""
+    },
+    "call": {
+      "format": "REL",
+      "title": "Call / Jump (near, relative)",
+      "pseudocode": "IP += rel16"
+    },
+    "call-rm": {
+      "format": "REG",
+      "title": "Call / Jump (indirect)",
+      "pseudocode": ""
+    },
+    "call-far": {
+      "format": "EXT",
+      "title": "Call / Jump (far, direct)",
+      "pseudocode": "CS:IP = seg:imm"
+    },
+    "jcc": {
+      "format": "REL",
+      "title": "Short Jumps and Loops",
+      "pseudocode": "IP += rel8"
+    },
+    "ret": {
+      "format": "IMP",
+      "title": "Return and Interrupts",
+      "pseudocode": ""
+    },
+    "ret-imm": {
+      "format": "IMM",
+      "title": "Return and Pop",
+      "pseudocode": ""
+    },
+    "int": {
+      "format": "IMM",
+      "title": "Interrupt",
+      "pseudocode": ""
+    },
+    "control": {
+      "format": "IMP",
+      "title": "Processor Control",
+      "pseudocode": ""
+    },
+    "prefix": {
+      "format": "IMP",
+      "title": "Prefixes",
+      "pseudocode": ""
+    }
+  },
+  "instructions": [
+    {
+      "op": "00 /r",
+      "asm": "add r/m8, r8",
+      "llvm": [
+        "ADD8rr",
+        "ADD8mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Arithmetic",
+      "description": "Add (byte register to r/m)",
+      "pseudocode": "r/m8 = r/m8 + r8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "01 /r",
+      "asm": "add r/m16, r16",
+      "llvm": [
+        "ADD16rr",
+        "ADD16mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Arithmetic",
+      "description": "Add (word register to r/m)",
+      "pseudocode": "r/m16 = r/m16 + r16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "02 /r",
+      "asm": "add r8, r/m8",
+      "llvm": [
+        "ADD8rr_REV",
+        "ADD8rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Arithmetic",
+      "description": "Add (byte r/m to register)",
+      "pseudocode": "r8 = r8 + r/m8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "03 /r",
+      "asm": "add r16, r/m16",
+      "llvm": [
+        "ADD16rr_REV",
+        "ADD16rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Arithmetic",
+      "description": "Add (word r/m to register)",
+      "pseudocode": "r16 = r16 + r/m16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "04 ib",
+      "asm": "add al, imm8",
+      "llvm": [
+        "ADD8i8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Arithmetic",
+      "description": "Add (immediate to AL)",
+      "pseudocode": "AL = AL + imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "05 iw",
+      "asm": "add ax, imm16",
+      "llvm": [
+        "ADD16i16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Arithmetic",
+      "description": "Add (immediate to AX)",
+      "pseudocode": "AX = AX + imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "80 /0 ib",
+      "asm": "add r/m8, imm8",
+      "llvm": [
+        "ADD8ri",
+        "ADD8mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Arithmetic",
+      "description": "Add (immediate to byte r/m)",
+      "pseudocode": "r/m8 = r/m8 + imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "81 /0 iw",
+      "asm": "add r/m16, imm16",
+      "llvm": [
+        "ADD16ri",
+        "ADD16mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Arithmetic",
+      "description": "Add (immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 + imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "83 /0 ib",
+      "asm": "add r/m16, simm8",
+      "llvm": [
+        "ADD16ri8",
+        "ADD16mi8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-simm",
+      "class": "Arithmetic",
+      "description": "Add (sign-extended immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 + simm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "08 /r",
+      "asm": "or r/m8, r8",
+      "llvm": [
+        "OR8rr",
+        "OR8mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Logic",
+      "description": "Logical OR (byte register to r/m)",
+      "pseudocode": "r/m8 = r/m8 | r8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "09 /r",
+      "asm": "or r/m16, r16",
+      "llvm": [
+        "OR16rr",
+        "OR16mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Logic",
+      "description": "Logical OR (word register to r/m)",
+      "pseudocode": "r/m16 = r/m16 | r16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "0A /r",
+      "asm": "or r8, r/m8",
+      "llvm": [
+        "OR8rr_REV",
+        "OR8rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Logic",
+      "description": "Logical OR (byte r/m to register)",
+      "pseudocode": "r8 = r8 | r/m8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "0B /r",
+      "asm": "or r16, r/m16",
+      "llvm": [
+        "OR16rr_REV",
+        "OR16rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Logic",
+      "description": "Logical OR (word r/m to register)",
+      "pseudocode": "r16 = r16 | r/m16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "0C ib",
+      "asm": "or al, imm8",
+      "llvm": [
+        "OR8i8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Logic",
+      "description": "Logical OR (immediate to AL)",
+      "pseudocode": "AL = AL | imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "0D iw",
+      "asm": "or ax, imm16",
+      "llvm": [
+        "OR16i16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Logic",
+      "description": "Logical OR (immediate to AX)",
+      "pseudocode": "AX = AX | imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "80 /1 ib",
+      "asm": "or r/m8, imm8",
+      "llvm": [
+        "OR8ri",
+        "OR8mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Logic",
+      "description": "Logical OR (immediate to byte r/m)",
+      "pseudocode": "r/m8 = r/m8 | imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "81 /1 iw",
+      "asm": "or r/m16, imm16",
+      "llvm": [
+        "OR16ri",
+        "OR16mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Logic",
+      "description": "Logical OR (immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 | imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "83 /1 ib",
+      "asm": "or r/m16, simm8",
+      "llvm": [
+        "OR16ri8",
+        "OR16mi8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-simm",
+      "class": "Logic",
+      "description": "Logical OR (sign-extended immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 | simm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "10 /r",
+      "asm": "adc r/m8, r8",
+      "llvm": [
+        "ADC8rr",
+        "ADC8mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Arithmetic",
+      "description": "Add with Carry (byte register to r/m)",
+      "pseudocode": "r/m8 = r/m8 + CF + r8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "11 /r",
+      "asm": "adc r/m16, r16",
+      "llvm": [
+        "ADC16rr",
+        "ADC16mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Arithmetic",
+      "description": "Add with Carry (word register to r/m)",
+      "pseudocode": "r/m16 = r/m16 + CF + r16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "12 /r",
+      "asm": "adc r8, r/m8",
+      "llvm": [
+        "ADC8rr_REV",
+        "ADC8rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Arithmetic",
+      "description": "Add with Carry (byte r/m to register)",
+      "pseudocode": "r8 = r8 + CF + r/m8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "13 /r",
+      "asm": "adc r16, r/m16",
+      "llvm": [
+        "ADC16rr_REV",
+        "ADC16rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Arithmetic",
+      "description": "Add with Carry (word r/m to register)",
+      "pseudocode": "r16 = r16 + CF + r/m16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "14 ib",
+      "asm": "adc al, imm8",
+      "llvm": [
+        "ADC8i8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Arithmetic",
+      "description": "Add with Carry (immediate to AL)",
+      "pseudocode": "AL = AL + CF + imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "15 iw",
+      "asm": "adc ax, imm16",
+      "llvm": [
+        "ADC16i16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Arithmetic",
+      "description": "Add with Carry (immediate to AX)",
+      "pseudocode": "AX = AX + CF + imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "80 /2 ib",
+      "asm": "adc r/m8, imm8",
+      "llvm": [
+        "ADC8ri",
+        "ADC8mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Arithmetic",
+      "description": "Add with Carry (immediate to byte r/m)",
+      "pseudocode": "r/m8 = r/m8 + CF + imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "81 /2 iw",
+      "asm": "adc r/m16, imm16",
+      "llvm": [
+        "ADC16ri",
+        "ADC16mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Arithmetic",
+      "description": "Add with Carry (immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 + CF + imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "83 /2 ib",
+      "asm": "adc r/m16, simm8",
+      "llvm": [
+        "ADC16ri8",
+        "ADC16mi8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-simm",
+      "class": "Arithmetic",
+      "description": "Add with Carry (sign-extended immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 + CF + simm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "18 /r",
+      "asm": "sbb r/m8, r8",
+      "llvm": [
+        "SBB8rr",
+        "SBB8mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Arithmetic",
+      "description": "Subtract with Borrow (byte register to r/m)",
+      "pseudocode": "r/m8 = r/m8 - CF - r8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "19 /r",
+      "asm": "sbb r/m16, r16",
+      "llvm": [
+        "SBB16rr",
+        "SBB16mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Arithmetic",
+      "description": "Subtract with Borrow (word register to r/m)",
+      "pseudocode": "r/m16 = r/m16 - CF - r16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "1A /r",
+      "asm": "sbb r8, r/m8",
+      "llvm": [
+        "SBB8rr_REV",
+        "SBB8rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Arithmetic",
+      "description": "Subtract with Borrow (byte r/m to register)",
+      "pseudocode": "r8 = r8 - CF - r/m8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "1B /r",
+      "asm": "sbb r16, r/m16",
+      "llvm": [
+        "SBB16rr_REV",
+        "SBB16rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Arithmetic",
+      "description": "Subtract with Borrow (word r/m to register)",
+      "pseudocode": "r16 = r16 - CF - r/m16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "1C ib",
+      "asm": "sbb al, imm8",
+      "llvm": [
+        "SBB8i8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Arithmetic",
+      "description": "Subtract with Borrow (immediate to AL)",
+      "pseudocode": "AL = AL - CF - imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "1D iw",
+      "asm": "sbb ax, imm16",
+      "llvm": [
+        "SBB16i16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Arithmetic",
+      "description": "Subtract with Borrow (immediate to AX)",
+      "pseudocode": "AX = AX - CF - imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "80 /3 ib",
+      "asm": "sbb r/m8, imm8",
+      "llvm": [
+        "SBB8ri",
+        "SBB8mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Arithmetic",
+      "description": "Subtract with Borrow (immediate to byte r/m)",
+      "pseudocode": "r/m8 = r/m8 - CF - imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "81 /3 iw",
+      "asm": "sbb r/m16, imm16",
+      "llvm": [
+        "SBB16ri",
+        "SBB16mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Arithmetic",
+      "description": "Subtract with Borrow (immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 - CF - imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "83 /3 ib",
+      "asm": "sbb r/m16, simm8",
+      "llvm": [
+        "SBB16ri8",
+        "SBB16mi8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-simm",
+      "class": "Arithmetic",
+      "description": "Subtract with Borrow (sign-extended immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 - CF - simm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "20 /r",
+      "asm": "and r/m8, r8",
+      "llvm": [
+        "AND8rr",
+        "AND8mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Logic",
+      "description": "Logical AND (byte register to r/m)",
+      "pseudocode": "r/m8 = r/m8 & r8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "21 /r",
+      "asm": "and r/m16, r16",
+      "llvm": [
+        "AND16rr",
+        "AND16mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Logic",
+      "description": "Logical AND (word register to r/m)",
+      "pseudocode": "r/m16 = r/m16 & r16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "22 /r",
+      "asm": "and r8, r/m8",
+      "llvm": [
+        "AND8rr_REV",
+        "AND8rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Logic",
+      "description": "Logical AND (byte r/m to register)",
+      "pseudocode": "r8 = r8 & r/m8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "23 /r",
+      "asm": "and r16, r/m16",
+      "llvm": [
+        "AND16rr_REV",
+        "AND16rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Logic",
+      "description": "Logical AND (word r/m to register)",
+      "pseudocode": "r16 = r16 & r/m16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "24 ib",
+      "asm": "and al, imm8",
+      "llvm": [
+        "AND8i8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Logic",
+      "description": "Logical AND (immediate to AL)",
+      "pseudocode": "AL = AL & imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "25 iw",
+      "asm": "and ax, imm16",
+      "llvm": [
+        "AND16i16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Logic",
+      "description": "Logical AND (immediate to AX)",
+      "pseudocode": "AX = AX & imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "80 /4 ib",
+      "asm": "and r/m8, imm8",
+      "llvm": [
+        "AND8ri",
+        "AND8mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Logic",
+      "description": "Logical AND (immediate to byte r/m)",
+      "pseudocode": "r/m8 = r/m8 & imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "81 /4 iw",
+      "asm": "and r/m16, imm16",
+      "llvm": [
+        "AND16ri",
+        "AND16mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Logic",
+      "description": "Logical AND (immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 & imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "83 /4 ib",
+      "asm": "and r/m16, simm8",
+      "llvm": [
+        "AND16ri8",
+        "AND16mi8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-simm",
+      "class": "Logic",
+      "description": "Logical AND (sign-extended immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 & simm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "28 /r",
+      "asm": "sub r/m8, r8",
+      "llvm": [
+        "SUB8rr",
+        "SUB8mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Arithmetic",
+      "description": "Subtract (byte register to r/m)",
+      "pseudocode": "r/m8 = r/m8 - r8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "29 /r",
+      "asm": "sub r/m16, r16",
+      "llvm": [
+        "SUB16rr",
+        "SUB16mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Arithmetic",
+      "description": "Subtract (word register to r/m)",
+      "pseudocode": "r/m16 = r/m16 - r16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "2A /r",
+      "asm": "sub r8, r/m8",
+      "llvm": [
+        "SUB8rr_REV",
+        "SUB8rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Arithmetic",
+      "description": "Subtract (byte r/m to register)",
+      "pseudocode": "r8 = r8 - r/m8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "2B /r",
+      "asm": "sub r16, r/m16",
+      "llvm": [
+        "SUB16rr_REV",
+        "SUB16rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Arithmetic",
+      "description": "Subtract (word r/m to register)",
+      "pseudocode": "r16 = r16 - r/m16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "2C ib",
+      "asm": "sub al, imm8",
+      "llvm": [
+        "SUB8i8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Arithmetic",
+      "description": "Subtract (immediate to AL)",
+      "pseudocode": "AL = AL - imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "2D iw",
+      "asm": "sub ax, imm16",
+      "llvm": [
+        "SUB16i16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Arithmetic",
+      "description": "Subtract (immediate to AX)",
+      "pseudocode": "AX = AX - imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "80 /5 ib",
+      "asm": "sub r/m8, imm8",
+      "llvm": [
+        "SUB8ri",
+        "SUB8mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Arithmetic",
+      "description": "Subtract (immediate to byte r/m)",
+      "pseudocode": "r/m8 = r/m8 - imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "81 /5 iw",
+      "asm": "sub r/m16, imm16",
+      "llvm": [
+        "SUB16ri",
+        "SUB16mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Arithmetic",
+      "description": "Subtract (immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 - imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "83 /5 ib",
+      "asm": "sub r/m16, simm8",
+      "llvm": [
+        "SUB16ri8",
+        "SUB16mi8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-simm",
+      "class": "Arithmetic",
+      "description": "Subtract (sign-extended immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 - simm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "30 /r",
+      "asm": "xor r/m8, r8",
+      "llvm": [
+        "XOR8rr",
+        "XOR8mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Logic",
+      "description": "Exclusive OR (byte register to r/m)",
+      "pseudocode": "r/m8 = r/m8 ^ r8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "31 /r",
+      "asm": "xor r/m16, r16",
+      "llvm": [
+        "XOR16rr",
+        "XOR16mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Logic",
+      "description": "Exclusive OR (word register to r/m)",
+      "pseudocode": "r/m16 = r/m16 ^ r16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "32 /r",
+      "asm": "xor r8, r/m8",
+      "llvm": [
+        "XOR8rr_REV",
+        "XOR8rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Logic",
+      "description": "Exclusive OR (byte r/m to register)",
+      "pseudocode": "r8 = r8 ^ r/m8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "33 /r",
+      "asm": "xor r16, r/m16",
+      "llvm": [
+        "XOR16rr_REV",
+        "XOR16rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Logic",
+      "description": "Exclusive OR (word r/m to register)",
+      "pseudocode": "r16 = r16 ^ r/m16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "34 ib",
+      "asm": "xor al, imm8",
+      "llvm": [
+        "XOR8i8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Logic",
+      "description": "Exclusive OR (immediate to AL)",
+      "pseudocode": "AL = AL ^ imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "35 iw",
+      "asm": "xor ax, imm16",
+      "llvm": [
+        "XOR16i16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Logic",
+      "description": "Exclusive OR (immediate to AX)",
+      "pseudocode": "AX = AX ^ imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "80 /6 ib",
+      "asm": "xor r/m8, imm8",
+      "llvm": [
+        "XOR8ri",
+        "XOR8mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Logic",
+      "description": "Exclusive OR (immediate to byte r/m)",
+      "pseudocode": "r/m8 = r/m8 ^ imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "81 /6 iw",
+      "asm": "xor r/m16, imm16",
+      "llvm": [
+        "XOR16ri",
+        "XOR16mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Logic",
+      "description": "Exclusive OR (immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 ^ imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "83 /6 ib",
+      "asm": "xor r/m16, simm8",
+      "llvm": [
+        "XOR16ri8",
+        "XOR16mi8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-simm",
+      "class": "Logic",
+      "description": "Exclusive OR (sign-extended immediate to word r/m)",
+      "pseudocode": "r/m16 = r/m16 ^ simm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "38 /r",
+      "asm": "cmp r/m8, r8",
+      "llvm": [
+        "CMP8rr",
+        "CMP8mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Arithmetic",
+      "description": "Compare (byte register to r/m)",
+      "pseudocode": "flags of r/m8 - r8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "39 /r",
+      "asm": "cmp r/m16, r16",
+      "llvm": [
+        "CMP16rr",
+        "CMP16mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-rm",
+      "class": "Arithmetic",
+      "description": "Compare (word register to r/m)",
+      "pseudocode": "flags of r/m16 - r16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "3A /r",
+      "asm": "cmp r8, r/m8",
+      "llvm": [
+        "CMP8rr_REV",
+        "CMP8rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Arithmetic",
+      "description": "Compare (byte r/m to register)",
+      "pseudocode": "flags of r8 - r/m8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "3B /r",
+      "asm": "cmp r16, r/m16",
+      "llvm": [
+        "CMP16rr_REV",
+        "CMP16rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-r",
+      "class": "Arithmetic",
+      "description": "Compare (word r/m to register)",
+      "pseudocode": "flags of r16 - r/m16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "3C ib",
+      "asm": "cmp al, imm8",
+      "llvm": [
+        "CMP8i8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Arithmetic",
+      "description": "Compare (immediate to AL)",
+      "pseudocode": "flags of AL - imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "3D iw",
+      "asm": "cmp ax, imm16",
+      "llvm": [
+        "CMP16i16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Arithmetic",
+      "description": "Compare (immediate to AX)",
+      "pseudocode": "flags of AX - imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "80 /7 ib",
+      "asm": "cmp r/m8, imm8",
+      "llvm": [
+        "CMP8ri",
+        "CMP8mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Arithmetic",
+      "description": "Compare (immediate to byte r/m)",
+      "pseudocode": "flags of r/m8 - imm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "81 /7 iw",
+      "asm": "cmp r/m16, imm16",
+      "llvm": [
+        "CMP16ri",
+        "CMP16mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Arithmetic",
+      "description": "Compare (immediate to word r/m)",
+      "pseudocode": "flags of r/m16 - imm16",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "83 /7 ib",
+      "asm": "cmp r/m16, simm8",
+      "llvm": [
+        "CMP16ri8",
+        "CMP16mi8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-simm",
+      "class": "Arithmetic",
+      "description": "Compare (sign-extended immediate to word r/m)",
+      "pseudocode": "flags of r/m16 - simm8",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "FE /0",
+      "asm": "inc r/m8",
+      "llvm": [
+        "INC8r",
+        "INC8m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "incdec",
+      "class": "Arithmetic",
+      "description": "Increment (byte r/m)",
+      "pseudocode": "r/m8 += 1",
+      "flags": "O S Z A P"
+    },
+    {
+      "op": "FF /0",
+      "asm": "inc r/m16",
+      "llvm": [
+        "INC16r",
+        "INC16m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "incdec",
+      "class": "Arithmetic",
+      "description": "Increment (word r/m)",
+      "pseudocode": "r/m16 += 1",
+      "flags": "O S Z A P"
+    },
+    {
+      "op": "40+rw",
+      "asm": "inc r16",
+      "llvm": [
+        "INC16r_alt"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "incdec-r",
+      "class": "Arithmetic",
+      "description": "Increment (word register)",
+      "pseudocode": "r16 += 1",
+      "flags": "O S Z A P"
+    },
+    {
+      "op": "FE /1",
+      "asm": "dec r/m8",
+      "llvm": [
+        "DEC8r",
+        "DEC8m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "incdec",
+      "class": "Arithmetic",
+      "description": "Decrement (byte r/m)",
+      "pseudocode": "r/m8 -= 1",
+      "flags": "O S Z A P"
+    },
+    {
+      "op": "FF /1",
+      "asm": "dec r/m16",
+      "llvm": [
+        "DEC16r",
+        "DEC16m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "incdec",
+      "class": "Arithmetic",
+      "description": "Decrement (word r/m)",
+      "pseudocode": "r/m16 -= 1",
+      "flags": "O S Z A P"
+    },
+    {
+      "op": "48+rw",
+      "asm": "dec r16",
+      "llvm": [
+        "DEC16r_alt"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "incdec-r",
+      "class": "Arithmetic",
+      "description": "Decrement (word register)",
+      "pseudocode": "r16 -= 1",
+      "flags": "O S Z A P"
+    },
+    {
+      "op": "F6 /2",
+      "asm": "not r/m8",
+      "llvm": [
+        "NOT8r",
+        "NOT8m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "unary",
+      "class": "Logic",
+      "description": "Logical NOT (byte)",
+      "pseudocode": "r/m = ~r/m",
+      "flags": ""
+    },
+    {
+      "op": "F7 /2",
+      "asm": "not r/m16",
+      "llvm": [
+        "NOT16r",
+        "NOT16m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "unary",
+      "class": "Logic",
+      "description": "Logical NOT (word)",
+      "pseudocode": "r/m = ~r/m",
+      "flags": ""
+    },
+    {
+      "op": "F6 /3",
+      "asm": "neg r/m8",
+      "llvm": [
+        "NEG8r",
+        "NEG8m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "unary",
+      "class": "Arithmetic",
+      "description": "Negate (byte)",
+      "pseudocode": "r/m = 0 - r/m",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "F7 /3",
+      "asm": "neg r/m16",
+      "llvm": [
+        "NEG16r",
+        "NEG16m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "unary",
+      "class": "Arithmetic",
+      "description": "Negate (word)",
+      "pseudocode": "r/m = 0 - r/m",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "F6 /4",
+      "asm": "mul r/m8",
+      "llvm": [
+        "MUL8r",
+        "MUL8m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "unary",
+      "class": "Arithmetic",
+      "description": "Unsigned Multiply (byte)",
+      "pseudocode": "AX = AL × r/m8 | DX:AX = AX × r/m16",
+      "flags": "O C"
+    },
+    {
+      "op": "F7 /4",
+      "asm": "mul r/m16",
+      "llvm": [
+        "MUL16r",
+        "MUL16m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "unary",
+      "class": "Arithmetic",
+      "description": "Unsigned Multiply (word)",
+      "pseudocode": "AX = AL × r/m8 | DX:AX = AX × r/m16",
+      "flags": "O C"
+    },
+    {
+      "op": "F6 /5",
+      "asm": "imul r/m8",
+      "llvm": [
+        "IMUL8r",
+        "IMUL8m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "unary",
+      "class": "Arithmetic",
+      "description": "Signed Multiply (byte)",
+      "pseudocode": "AX = AL × r/m8 | DX:AX = AX × r/m16",
+      "flags": "O C"
+    },
+    {
+      "op": "F7 /5",
+      "asm": "imul r/m16",
+      "llvm": [
+        "IMUL16r",
+        "IMUL16m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "unary",
+      "class": "Arithmetic",
+      "description": "Signed Multiply (word)",
+      "pseudocode": "AX = AL × r/m8 | DX:AX = AX × r/m16",
+      "flags": "O C"
+    },
+    {
+      "op": "F6 /6",
+      "asm": "div r/m8",
+      "llvm": [
+        "DIV8r",
+        "DIV8m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "unary",
+      "class": "Arithmetic",
+      "description": "Unsigned Divide (byte)",
+      "pseudocode": "AL, AH = AX / r/m8 | AX, DX = DX:AX / r/m16",
+      "flags": ""
+    },
+    {
+      "op": "F7 /6",
+      "asm": "div r/m16",
+      "llvm": [
+        "DIV16r",
+        "DIV16m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "unary",
+      "class": "Arithmetic",
+      "description": "Unsigned Divide (word)",
+      "pseudocode": "AL, AH = AX / r/m8 | AX, DX = DX:AX / r/m16",
+      "flags": ""
+    },
+    {
+      "op": "F6 /7",
+      "asm": "idiv r/m8",
+      "llvm": [
+        "IDIV8r",
+        "IDIV8m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "unary",
+      "class": "Arithmetic",
+      "description": "Signed Divide (byte)",
+      "pseudocode": "AL, AH = AX / r/m8 | AX, DX = DX:AX / r/m16",
+      "flags": ""
+    },
+    {
+      "op": "F7 /7",
+      "asm": "idiv r/m16",
+      "llvm": [
+        "IDIV16r",
+        "IDIV16m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "unary",
+      "class": "Arithmetic",
+      "description": "Signed Divide (word)",
+      "pseudocode": "AL, AH = AX / r/m8 | AX, DX = DX:AX / r/m16",
+      "flags": ""
+    },
+    {
+      "op": "84 /r",
+      "asm": "test r/m8, r8",
+      "llvm": [
+        "TEST8rr",
+        "TEST8mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "test-rm",
+      "class": "Logic",
+      "description": "Test (byte)",
+      "pseudocode": "flags of r/m8 & r8",
+      "flags": "O S Z P C"
+    },
+    {
+      "op": "85 /r",
+      "asm": "test r/m16, r16",
+      "llvm": [
+        "TEST16rr",
+        "TEST16mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "test-rm",
+      "class": "Logic",
+      "description": "Test (word)",
+      "pseudocode": "flags of r/m16 & r16",
+      "flags": "O S Z P C"
+    },
+    {
+      "op": "A8 ib",
+      "asm": "test al, imm8",
+      "llvm": [
+        "TEST8i8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Logic",
+      "description": "Test (immediate with AL)",
+      "pseudocode": "flags of AL & imm8",
+      "flags": "O S Z P C"
+    },
+    {
+      "op": "A9 iw",
+      "asm": "test ax, imm16",
+      "llvm": [
+        "TEST16i16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-acc",
+      "class": "Logic",
+      "description": "Test (immediate with AX)",
+      "pseudocode": "flags of AX & imm16",
+      "flags": "O S Z P C"
+    },
+    {
+      "op": "F6 /0 ib",
+      "asm": "test r/m8, imm8",
+      "llvm": [
+        "TEST8ri",
+        "TEST8mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Logic",
+      "description": "Test (immediate with byte r/m)",
+      "pseudocode": "flags of r/m8 & imm8",
+      "flags": "O S Z P C"
+    },
+    {
+      "op": "F7 /0 iw",
+      "asm": "test r/m16, imm16",
+      "llvm": [
+        "TEST16ri",
+        "TEST16mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "alu-imm",
+      "class": "Logic",
+      "description": "Test (immediate with word r/m)",
+      "pseudocode": "flags of r/m16 & imm16",
+      "flags": "O S Z P C"
+    },
+    {
+      "op": "88 /r",
+      "asm": "mov r/m8, r8",
+      "llvm": [
+        "MOV8rr",
+        "MOV8mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-rm",
+      "class": "Data Transfer",
+      "description": "Move (byte register to r/m)",
+      "pseudocode": "r/m8 = r8",
+      "flags": ""
+    },
+    {
+      "op": "89 /r",
+      "asm": "mov r/m16, r16",
+      "llvm": [
+        "MOV16rr",
+        "MOV16mr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-rm",
+      "class": "Data Transfer",
+      "description": "Move (word register to r/m)",
+      "pseudocode": "r/m16 = r16",
+      "flags": ""
+    },
+    {
+      "op": "8A /r",
+      "asm": "mov r8, r/m8",
+      "llvm": [
+        "MOV8rr_REV",
+        "MOV8rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-r",
+      "class": "Data Transfer",
+      "description": "Move (byte r/m to register)",
+      "pseudocode": "r8 = r/m8",
+      "flags": ""
+    },
+    {
+      "op": "8B /r",
+      "asm": "mov r16, r/m16",
+      "llvm": [
+        "MOV16rr_REV",
+        "MOV16rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-r",
+      "class": "Data Transfer",
+      "description": "Move (word r/m to register)",
+      "pseudocode": "r16 = r/m16",
+      "flags": ""
+    },
+    {
+      "op": "8C /r",
+      "asm": "mov r/m16, Sreg",
+      "llvm": [
+        "MOV16rs",
+        "MOV16ms"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-seg",
+      "class": "Data Transfer",
+      "description": "Move (segment register to r/m)",
+      "pseudocode": "r/m16 = Sreg",
+      "flags": ""
+    },
+    {
+      "op": "8E /r",
+      "asm": "mov Sreg, r/m16",
+      "llvm": [
+        "MOV16sr",
+        "MOV16sm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-seg",
+      "class": "Data Transfer",
+      "description": "Move (r/m to segment register)",
+      "pseudocode": "Sreg = r/m16",
+      "flags": ""
+    },
+    {
+      "op": "A0",
+      "asm": "mov al, [moffs8]",
+      "llvm": [
+        "MOV8ao16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-moffs",
+      "class": "Data Transfer",
+      "description": "Move (memory to AL)",
+      "pseudocode": "AL = [ addr ]",
+      "flags": ""
+    },
+    {
+      "op": "A1",
+      "asm": "mov ax, [moffs16]",
+      "llvm": [
+        "MOV16ao16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-moffs",
+      "class": "Data Transfer",
+      "description": "Move (memory to AX)",
+      "pseudocode": "AX = [ addr ]",
+      "flags": ""
+    },
+    {
+      "op": "A2",
+      "asm": "mov [moffs8], al",
+      "llvm": [
+        "MOV8o16a"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-moffs",
+      "class": "Data Transfer",
+      "description": "Move (AL to memory)",
+      "pseudocode": "[ addr ] = AL",
+      "flags": ""
+    },
+    {
+      "op": "A3",
+      "asm": "mov [moffs16], ax",
+      "llvm": [
+        "MOV16o16a"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-moffs",
+      "class": "Data Transfer",
+      "description": "Move (AX to memory)",
+      "pseudocode": "[ addr ] = AX",
+      "flags": ""
+    },
+    {
+      "op": "B0+rb ib",
+      "asm": "mov r8, imm8",
+      "llvm": [
+        "MOV8ri"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-ri",
+      "class": "Data Transfer",
+      "description": "Move (immediate to byte register)",
+      "pseudocode": "r8 = imm8",
+      "flags": ""
+    },
+    {
+      "op": "B8+rw iw",
+      "asm": "mov r16, imm16",
+      "llvm": [
+        "MOV16ri"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-ri",
+      "class": "Data Transfer",
+      "description": "Move (immediate to word register)",
+      "pseudocode": "r16 = imm16",
+      "flags": ""
+    },
+    {
+      "op": "C6 /0 ib",
+      "asm": "mov r/m8, imm8",
+      "llvm": [
+        "MOV8ri_alt",
+        "MOV8mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-imm",
+      "class": "Data Transfer",
+      "description": "Move (immediate to byte r/m)",
+      "pseudocode": "r/m8 = imm8",
+      "flags": ""
+    },
+    {
+      "op": "C7 /0 iw",
+      "asm": "mov r/m16, imm16",
+      "llvm": [
+        "MOV16ri_alt",
+        "MOV16mi"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "mov-imm",
+      "class": "Data Transfer",
+      "description": "Move (immediate to word r/m)",
+      "pseudocode": "r/m16 = imm16",
+      "flags": ""
+    },
+    {
+      "op": "86 /r",
+      "asm": "xchg r/m8, r8",
+      "llvm": [
+        "XCHG8rr",
+        "XCHG8rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "xchg",
+      "class": "Data Transfer",
+      "description": "Exchange (byte)",
+      "pseudocode": "r/m8 ↔ r8",
+      "flags": ""
+    },
+    {
+      "op": "87 /r",
+      "asm": "xchg r/m16, r16",
+      "llvm": [
+        "XCHG16rr",
+        "XCHG16rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "xchg",
+      "class": "Data Transfer",
+      "description": "Exchange (word)",
+      "pseudocode": "r/m16 ↔ r16",
+      "flags": ""
+    },
+    {
+      "op": "90+rw",
+      "asm": "xchg ax, r16",
+      "llvm": [
+        "XCHG16ar"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "xchg-ax",
+      "class": "Data Transfer",
+      "description": "Exchange with AX",
+      "pseudocode": "AX ↔ r16",
+      "flags": ""
+    },
+    {
+      "op": "8D /r",
+      "asm": "lea r16, m",
+      "llvm": [
+        "LEA16r"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "lea",
+      "class": "Data Transfer",
+      "description": "Load Effective Address",
+      "pseudocode": "r16 = the address of m",
+      "flags": ""
+    },
+    {
+      "op": "C5 /r",
+      "asm": "lds r16, m16:16",
+      "llvm": [
+        "LDS16rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "lea",
+      "class": "Data Transfer",
+      "description": "Load Pointer with DS",
+      "pseudocode": "r16 = [ m ] ; DS = [ m + 2 ]",
+      "flags": ""
+    },
+    {
+      "op": "C4 /r",
+      "asm": "les r16, m16:16",
+      "llvm": [
+        "LES16rm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "lea",
+      "class": "Data Transfer",
+      "description": "Load Pointer with ES",
+      "pseudocode": "r16 = [ m ] ; ES = [ m + 2 ]",
+      "flags": ""
+    },
+    {
+      "op": "50+rw",
+      "asm": "push r16",
+      "llvm": [
+        "PUSH16r"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "stack-r",
+      "class": "Data Transfer",
+      "description": "Push (word register)",
+      "pseudocode": "SP -= 2 ; [ SS:SP ] = r16",
+      "flags": ""
+    },
+    {
+      "op": "58+rw",
+      "asm": "pop r16",
+      "llvm": [
+        "POP16r"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "stack-r",
+      "class": "Data Transfer",
+      "description": "Pop (word register)",
+      "pseudocode": "r16 = [ SS:SP ] ; SP += 2",
+      "flags": ""
+    },
+    {
+      "op": "FF /6",
+      "asm": "push r/m16",
+      "llvm": [
+        "PUSH16rmr",
+        "PUSH16rmm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "stack-rm",
+      "class": "Data Transfer",
+      "description": "Push (r/m)",
+      "pseudocode": "SP -= 2 ; [ SS:SP ] = r/m16",
+      "flags": ""
+    },
+    {
+      "op": "8F /0",
+      "asm": "pop r/m16",
+      "llvm": [
+        "POP16rmr",
+        "POP16rmm"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "stack-rm",
+      "class": "Data Transfer",
+      "description": "Pop (r/m)",
+      "pseudocode": "r/m16 = [ SS:SP ] ; SP += 2",
+      "flags": ""
+    },
+    {
+      "op": "06",
+      "asm": "push es",
+      "llvm": [
+        "PUSHES16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "stack-seg",
+      "class": "Data Transfer",
+      "description": "Push ES",
+      "pseudocode": "SP -= 2 ; [ SS:SP ] = ES",
+      "flags": ""
+    },
+    {
+      "op": "07",
+      "asm": "pop es",
+      "llvm": [
+        "POPES16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "stack-seg",
+      "class": "Data Transfer",
+      "description": "Pop ES",
+      "pseudocode": "ES = [ SS:SP ] ; SP += 2",
+      "flags": ""
+    },
+    {
+      "op": "0E",
+      "asm": "push cs",
+      "llvm": [
+        "PUSHCS16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "stack-seg",
+      "class": "Data Transfer",
+      "description": "Push CS",
+      "pseudocode": "SP -= 2 ; [ SS:SP ] = CS",
+      "flags": ""
+    },
+    {
+      "op": "16",
+      "asm": "push ss",
+      "llvm": [
+        "PUSHSS16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "stack-seg",
+      "class": "Data Transfer",
+      "description": "Push SS",
+      "pseudocode": "SP -= 2 ; [ SS:SP ] = SS",
+      "flags": ""
+    },
+    {
+      "op": "17",
+      "asm": "pop ss",
+      "llvm": [
+        "POPSS16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "stack-seg",
+      "class": "Data Transfer",
+      "description": "Pop SS",
+      "pseudocode": "SS = [ SS:SP ] ; SP += 2",
+      "flags": ""
+    },
+    {
+      "op": "1E",
+      "asm": "push ds",
+      "llvm": [
+        "PUSHDS16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "stack-seg",
+      "class": "Data Transfer",
+      "description": "Push DS",
+      "pseudocode": "SP -= 2 ; [ SS:SP ] = DS",
+      "flags": ""
+    },
+    {
+      "op": "1F",
+      "asm": "pop ds",
+      "llvm": [
+        "POPDS16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "stack-seg",
+      "class": "Data Transfer",
+      "description": "Pop DS",
+      "pseudocode": "DS = [ SS:SP ] ; SP += 2",
+      "flags": ""
+    },
+    {
+      "op": "9C",
+      "asm": "pushf",
+      "llvm": [
+        "PUSHF16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "flags",
+      "class": "Data Transfer",
+      "description": "Push Flags",
+      "pseudocode": "SP -= 2 ; [ SS:SP ] = FLAGS",
+      "flags": ""
+    },
+    {
+      "op": "9D",
+      "asm": "popf",
+      "llvm": [
+        "POPF16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "flags",
+      "class": "Data Transfer",
+      "description": "Pop Flags",
+      "pseudocode": "FLAGS = [ SS:SP ] ; SP += 2",
+      "flags": "all"
+    },
+    {
+      "op": "9F",
+      "asm": "lahf",
+      "llvm": [
+        "LAHF"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "flags",
+      "class": "Data Transfer",
+      "description": "Load AH from Flags",
+      "pseudocode": "AH = SF ZF - AF - PF - CF",
+      "flags": ""
+    },
+    {
+      "op": "9E",
+      "asm": "sahf",
+      "llvm": [
+        "SAHF"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "flags",
+      "class": "Data Transfer",
+      "description": "Store AH into Flags",
+      "pseudocode": "SF ZF AF PF CF = AH",
+      "flags": "S Z A P C"
+    },
+    {
+      "op": "E4 ib",
+      "asm": "in al, imm8",
+      "llvm": [
+        "IN8ri"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "io",
+      "class": "Data Transfer",
+      "description": "Input Byte (fixed port)",
+      "pseudocode": "AL = port imm8",
+      "flags": ""
+    },
+    {
+      "op": "E5 ib",
+      "asm": "in ax, imm8",
+      "llvm": [
+        "IN16ri"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "io",
+      "class": "Data Transfer",
+      "description": "Input Word (fixed port)",
+      "pseudocode": "AX = port imm8",
+      "flags": ""
+    },
+    {
+      "op": "E6 ib",
+      "asm": "out imm8, al",
+      "llvm": [
+        "OUT8ir"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "io",
+      "class": "Data Transfer",
+      "description": "Output Byte (fixed port)",
+      "pseudocode": "port imm8 = AL",
+      "flags": ""
+    },
+    {
+      "op": "E7 ib",
+      "asm": "out imm8, ax",
+      "llvm": [
+        "OUT16ir"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "io",
+      "class": "Data Transfer",
+      "description": "Output Word (fixed port)",
+      "pseudocode": "port imm8 = AX",
+      "flags": ""
+    },
+    {
+      "op": "EC",
+      "asm": "in al, dx",
+      "llvm": [
+        "IN8rr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "io-dx",
+      "class": "Data Transfer",
+      "description": "Input Byte (port in DX)",
+      "pseudocode": "AL = port DX",
+      "flags": ""
+    },
+    {
+      "op": "ED",
+      "asm": "in ax, dx",
+      "llvm": [
+        "IN16rr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "io-dx",
+      "class": "Data Transfer",
+      "description": "Input Word (port in DX)",
+      "pseudocode": "AX = port DX",
+      "flags": ""
+    },
+    {
+      "op": "EE",
+      "asm": "out dx, al",
+      "llvm": [
+        "OUT8rr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "io-dx",
+      "class": "Data Transfer",
+      "description": "Output Byte (port in DX)",
+      "pseudocode": "port DX = AL",
+      "flags": ""
+    },
+    {
+      "op": "EF",
+      "asm": "out dx, ax",
+      "llvm": [
+        "OUT16rr"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "io-dx",
+      "class": "Data Transfer",
+      "description": "Output Word (port in DX)",
+      "pseudocode": "port DX = AX",
+      "flags": ""
+    },
+    {
+      "op": "D7",
+      "asm": "xlatb",
+      "llvm": [
+        "XLAT"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "flags",
+      "class": "Data Transfer",
+      "description": "Translate Byte",
+      "pseudocode": "AL = [ DS:BX + AL ]",
+      "flags": ""
+    },
+    {
+      "op": "98",
+      "asm": "cbw",
+      "llvm": [
+        "CBW"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "bcd",
+      "class": "Arithmetic",
+      "description": "Convert Byte to Word",
+      "pseudocode": "AX = sign extend ( AL )",
+      "flags": ""
+    },
+    {
+      "op": "99",
+      "asm": "cwd",
+      "llvm": [
+        "CWD"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "bcd",
+      "class": "Arithmetic",
+      "description": "Convert Word to Doubleword",
+      "pseudocode": "DX:AX = sign extend ( AX )",
+      "flags": ""
+    },
+    {
+      "op": "37",
+      "asm": "aaa",
+      "llvm": [
+        "AAA"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "bcd",
+      "class": "Arithmetic",
+      "description": "ASCII Adjust for Addition",
+      "pseudocode": "AL adjusted",
+      "flags": "A C ..."
+    },
+    {
+      "op": "3F",
+      "asm": "aas",
+      "llvm": [
+        "AAS"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "bcd",
+      "class": "Arithmetic",
+      "description": "ASCII Adjust for Subtraction",
+      "pseudocode": "AL adjusted",
+      "flags": "A C ..."
+    },
+    {
+      "op": "27",
+      "asm": "daa",
+      "llvm": [
+        "DAA"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "bcd",
+      "class": "Arithmetic",
+      "description": "Decimal Adjust for Addition",
+      "pseudocode": "AL adjusted",
+      "flags": "A C ..."
+    },
+    {
+      "op": "2F",
+      "asm": "das",
+      "llvm": [
+        "DAS"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "bcd",
+      "class": "Arithmetic",
+      "description": "Decimal Adjust for Subtraction",
+      "pseudocode": "AL adjusted",
+      "flags": "A C ..."
+    },
+    {
+      "op": "D4 ib",
+      "asm": "aam imm8",
+      "llvm": [
+        "AAM8i8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "bcd-imm",
+      "class": "Arithmetic",
+      "description": "ASCII Adjust for Multiply (base imm8, 10 as aam)",
+      "pseudocode": "AH = AL / imm8 ; AL = AL % imm8",
+      "flags": "S Z P"
+    },
+    {
+      "op": "D5 ib",
+      "asm": "aad imm8",
+      "llvm": [
+        "AAD8i8"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "bcd-imm",
+      "class": "Arithmetic",
+      "description": "ASCII Adjust for Division (base imm8, 10 as aad)",
+      "pseudocode": "AL = AH × imm8 + AL ; AH = 0",
+      "flags": "S Z P"
+    },
+    {
+      "op": "D0 /0",
+      "asm": "rol r/m8, 1",
+      "llvm": [
+        "ROL8r1",
+        "ROL8m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Rotate Left by 1 (byte)",
+      "pseudocode": "r/m8 = r/m8 (rol) 1",
+      "flags": "O C"
+    },
+    {
+      "op": "D1 /0",
+      "asm": "rol r/m16, 1",
+      "llvm": [
+        "ROL16r1",
+        "ROL16m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Rotate Left by 1 (word)",
+      "pseudocode": "r/m16 = r/m16 (rol) 1",
+      "flags": "O C"
+    },
+    {
+      "op": "D2 /0",
+      "asm": "rol r/m8, cl",
+      "llvm": [
+        "ROL8rCL",
+        "ROL8mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Rotate Left by CL (byte)",
+      "pseudocode": "r/m8 = r/m8 (rol) CL",
+      "flags": "O C"
+    },
+    {
+      "op": "D3 /0",
+      "asm": "rol r/m16, cl",
+      "llvm": [
+        "ROL16rCL",
+        "ROL16mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Rotate Left by CL (word)",
+      "pseudocode": "r/m16 = r/m16 (rol) CL",
+      "flags": "O C"
+    },
+    {
+      "op": "D0 /1",
+      "asm": "ror r/m8, 1",
+      "llvm": [
+        "ROR8r1",
+        "ROR8m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Rotate Right by 1 (byte)",
+      "pseudocode": "r/m8 = r/m8 (ror) 1",
+      "flags": "O C"
+    },
+    {
+      "op": "D1 /1",
+      "asm": "ror r/m16, 1",
+      "llvm": [
+        "ROR16r1",
+        "ROR16m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Rotate Right by 1 (word)",
+      "pseudocode": "r/m16 = r/m16 (ror) 1",
+      "flags": "O C"
+    },
+    {
+      "op": "D2 /1",
+      "asm": "ror r/m8, cl",
+      "llvm": [
+        "ROR8rCL",
+        "ROR8mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Rotate Right by CL (byte)",
+      "pseudocode": "r/m8 = r/m8 (ror) CL",
+      "flags": "O C"
+    },
+    {
+      "op": "D3 /1",
+      "asm": "ror r/m16, cl",
+      "llvm": [
+        "ROR16rCL",
+        "ROR16mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Rotate Right by CL (word)",
+      "pseudocode": "r/m16 = r/m16 (ror) CL",
+      "flags": "O C"
+    },
+    {
+      "op": "D0 /2",
+      "asm": "rcl r/m8, 1",
+      "llvm": [
+        "RCL8r1",
+        "RCL8m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Rotate through Carry Left by 1 (byte)",
+      "pseudocode": "r/m8 = r/m8 (rcl) 1",
+      "flags": "O C"
+    },
+    {
+      "op": "D1 /2",
+      "asm": "rcl r/m16, 1",
+      "llvm": [
+        "RCL16r1",
+        "RCL16m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Rotate through Carry Left by 1 (word)",
+      "pseudocode": "r/m16 = r/m16 (rcl) 1",
+      "flags": "O C"
+    },
+    {
+      "op": "D2 /2",
+      "asm": "rcl r/m8, cl",
+      "llvm": [
+        "RCL8rCL",
+        "RCL8mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Rotate through Carry Left by CL (byte)",
+      "pseudocode": "r/m8 = r/m8 (rcl) CL",
+      "flags": "O C"
+    },
+    {
+      "op": "D3 /2",
+      "asm": "rcl r/m16, cl",
+      "llvm": [
+        "RCL16rCL",
+        "RCL16mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Rotate through Carry Left by CL (word)",
+      "pseudocode": "r/m16 = r/m16 (rcl) CL",
+      "flags": "O C"
+    },
+    {
+      "op": "D0 /3",
+      "asm": "rcr r/m8, 1",
+      "llvm": [
+        "RCR8r1",
+        "RCR8m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Rotate through Carry Right by 1 (byte)",
+      "pseudocode": "r/m8 = r/m8 (rcr) 1",
+      "flags": "O C"
+    },
+    {
+      "op": "D1 /3",
+      "asm": "rcr r/m16, 1",
+      "llvm": [
+        "RCR16r1",
+        "RCR16m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Rotate through Carry Right by 1 (word)",
+      "pseudocode": "r/m16 = r/m16 (rcr) 1",
+      "flags": "O C"
+    },
+    {
+      "op": "D2 /3",
+      "asm": "rcr r/m8, cl",
+      "llvm": [
+        "RCR8rCL",
+        "RCR8mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Rotate through Carry Right by CL (byte)",
+      "pseudocode": "r/m8 = r/m8 (rcr) CL",
+      "flags": "O C"
+    },
+    {
+      "op": "D3 /3",
+      "asm": "rcr r/m16, cl",
+      "llvm": [
+        "RCR16rCL",
+        "RCR16mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Rotate through Carry Right by CL (word)",
+      "pseudocode": "r/m16 = r/m16 (rcr) CL",
+      "flags": "O C"
+    },
+    {
+      "op": "D0 /4",
+      "asm": "shl r/m8, 1",
+      "llvm": [
+        "SHL8r1",
+        "SHL8m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Shift Left by 1 (byte)",
+      "pseudocode": "r/m8 = r/m8 (shl) 1",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "D1 /4",
+      "asm": "shl r/m16, 1",
+      "llvm": [
+        "SHL16r1",
+        "SHL16m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Shift Left by 1 (word)",
+      "pseudocode": "r/m16 = r/m16 (shl) 1",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "D2 /4",
+      "asm": "shl r/m8, cl",
+      "llvm": [
+        "SHL8rCL",
+        "SHL8mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Shift Left by CL (byte)",
+      "pseudocode": "r/m8 = r/m8 (shl) CL",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "D3 /4",
+      "asm": "shl r/m16, cl",
+      "llvm": [
+        "SHL16rCL",
+        "SHL16mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Shift Left by CL (word)",
+      "pseudocode": "r/m16 = r/m16 (shl) CL",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "D0 /5",
+      "asm": "shr r/m8, 1",
+      "llvm": [
+        "SHR8r1",
+        "SHR8m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Shift Right by 1 (byte)",
+      "pseudocode": "r/m8 = r/m8 (shr) 1",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "D1 /5",
+      "asm": "shr r/m16, 1",
+      "llvm": [
+        "SHR16r1",
+        "SHR16m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Shift Right by 1 (word)",
+      "pseudocode": "r/m16 = r/m16 (shr) 1",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "D2 /5",
+      "asm": "shr r/m8, cl",
+      "llvm": [
+        "SHR8rCL",
+        "SHR8mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Shift Right by CL (byte)",
+      "pseudocode": "r/m8 = r/m8 (shr) CL",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "D3 /5",
+      "asm": "shr r/m16, cl",
+      "llvm": [
+        "SHR16rCL",
+        "SHR16mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Shift Right by CL (word)",
+      "pseudocode": "r/m16 = r/m16 (shr) CL",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "D0 /7",
+      "asm": "sar r/m8, 1",
+      "llvm": [
+        "SAR8r1",
+        "SAR8m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Shift Arithmetic Right by 1 (byte)",
+      "pseudocode": "r/m8 = r/m8 (sar) 1",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "D1 /7",
+      "asm": "sar r/m16, 1",
+      "llvm": [
+        "SAR16r1",
+        "SAR16m1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-1",
+      "class": "Logic",
+      "description": "Shift Arithmetic Right by 1 (word)",
+      "pseudocode": "r/m16 = r/m16 (sar) 1",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "D2 /7",
+      "asm": "sar r/m8, cl",
+      "llvm": [
+        "SAR8rCL",
+        "SAR8mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Shift Arithmetic Right by CL (byte)",
+      "pseudocode": "r/m8 = r/m8 (sar) CL",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "D3 /7",
+      "asm": "sar r/m16, cl",
+      "llvm": [
+        "SAR16rCL",
+        "SAR16mCL"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "shift-cl",
+      "class": "Logic",
+      "description": "Shift Arithmetic Right by CL (word)",
+      "pseudocode": "r/m16 = r/m16 (sar) CL",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "A4",
+      "asm": "movsb",
+      "llvm": [
+        "MOVSB"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "string",
+      "class": "String",
+      "description": "Move String Byte",
+      "pseudocode": "[ ES:DI ] = [ DS:SI ] ; SI, DI ±= size",
+      "flags": ""
+    },
+    {
+      "op": "A5",
+      "asm": "movsw",
+      "llvm": [
+        "MOVSW"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "string",
+      "class": "String",
+      "description": "Move String Word",
+      "pseudocode": "[ ES:DI ] = [ DS:SI ] ; SI, DI ±= size",
+      "flags": ""
+    },
+    {
+      "op": "A6",
+      "asm": "cmpsb",
+      "llvm": [
+        "CMPSB"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "string",
+      "class": "String",
+      "description": "Compare String Byte",
+      "pseudocode": "flags of [ DS:SI ] - [ ES:DI ] ; SI, DI ±= size",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "A7",
+      "asm": "cmpsw",
+      "llvm": [
+        "CMPSW"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "string",
+      "class": "String",
+      "description": "Compare String Word",
+      "pseudocode": "flags of [ DS:SI ] - [ ES:DI ] ; SI, DI ±= size",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "AA",
+      "asm": "stosb",
+      "llvm": [
+        "STOSB"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "string",
+      "class": "String",
+      "description": "Store String Byte",
+      "pseudocode": "[ ES:DI ] = AL ; SI, DI ±= size",
+      "flags": ""
+    },
+    {
+      "op": "AB",
+      "asm": "stosw",
+      "llvm": [
+        "STOSW"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "string",
+      "class": "String",
+      "description": "Store String Word",
+      "pseudocode": "[ ES:DI ] = AX ; SI, DI ±= size",
+      "flags": ""
+    },
+    {
+      "op": "AC",
+      "asm": "lodsb",
+      "llvm": [
+        "LODSB"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "string",
+      "class": "String",
+      "description": "Load String Byte",
+      "pseudocode": "AL = [ DS:SI ] ; SI, DI ±= size",
+      "flags": ""
+    },
+    {
+      "op": "AD",
+      "asm": "lodsw",
+      "llvm": [
+        "LODSW"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "string",
+      "class": "String",
+      "description": "Load String Word",
+      "pseudocode": "AX = [ DS:SI ] ; SI, DI ±= size",
+      "flags": ""
+    },
+    {
+      "op": "AE",
+      "asm": "scasb",
+      "llvm": [
+        "SCASB"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "string",
+      "class": "String",
+      "description": "Scan String Byte",
+      "pseudocode": "flags of AL - [ ES:DI ] ; SI, DI ±= size",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "AF",
+      "asm": "scasw",
+      "llvm": [
+        "SCASW"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "string",
+      "class": "String",
+      "description": "Scan String Word",
+      "pseudocode": "flags of AX - [ ES:DI ] ; SI, DI ±= size",
+      "flags": "O S Z A P C"
+    },
+    {
+      "op": "E8 cw",
+      "asm": "call rel16",
+      "llvm": [
+        "CALLpcrel16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "call",
+      "class": "Control Transfer",
+      "description": "Call (near, relative)",
+      "pseudocode": "push IP ; IP += rel16",
+      "flags": ""
+    },
+    {
+      "op": "FF /2",
+      "asm": "call r/m16",
+      "llvm": [
+        "CALL16r",
+        "CALL16m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "call-rm",
+      "class": "Control Transfer",
+      "description": "Call (near, indirect)",
+      "pseudocode": "push IP ; IP = r/m16",
+      "flags": ""
+    },
+    {
+      "op": "9A cp",
+      "asm": "call ptr16:16",
+      "llvm": [
+        "FARCALL16i"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "call-far",
+      "class": "Control Transfer",
+      "description": "Call (far, direct)",
+      "pseudocode": "push CS, IP ; CS:IP = seg:imm",
+      "flags": ""
+    },
+    {
+      "op": "FF /3",
+      "asm": "call FAR m16:16",
+      "llvm": [
+        "FARCALL16m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "call-rm",
+      "class": "Control Transfer",
+      "description": "Call (far, indirect)",
+      "pseudocode": "push CS, IP ; CS:IP = [ m ]",
+      "flags": ""
+    },
+    {
+      "op": "E9 cw",
+      "asm": "jmp rel16",
+      "llvm": [
+        "JMP_2"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "call",
+      "class": "Control Transfer",
+      "description": "Jump (near, relative)",
+      "pseudocode": "IP += rel16",
+      "flags": ""
+    },
+    {
+      "op": "EB cb",
+      "asm": "jmp rel8",
+      "llvm": [
+        "JMP_1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "jcc",
+      "class": "Control Transfer",
+      "description": "Jump (short)",
+      "pseudocode": "IP += rel8",
+      "flags": ""
+    },
+    {
+      "op": "FF /4",
+      "asm": "jmp r/m16",
+      "llvm": [
+        "JMP16r",
+        "JMP16m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "call-rm",
+      "class": "Control Transfer",
+      "description": "Jump (near, indirect)",
+      "pseudocode": "IP = r/m16",
+      "flags": ""
+    },
+    {
+      "op": "EA cp",
+      "asm": "jmp ptr16:16",
+      "llvm": [
+        "FARJMP16i"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "call-far",
+      "class": "Control Transfer",
+      "description": "Jump (far, direct)",
+      "pseudocode": "CS:IP = seg:imm",
+      "flags": ""
+    },
+    {
+      "op": "FF /5",
+      "asm": "jmp FAR m16:16",
+      "llvm": [
+        "FARJMP16m"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "call-rm",
+      "class": "Control Transfer",
+      "description": "Jump (far, indirect)",
+      "pseudocode": "CS:IP = [ m ]",
+      "flags": ""
+    },
+    {
+      "op": "70+cc cb",
+      "asm": "j~cc rel8",
+      "llvm": [
+        "JCC_1"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "jcc",
+      "class": "Control Transfer",
+      "description": "Jump if Condition (short)",
+      "pseudocode": "if ( cc ) IP += rel8",
+      "flags": ""
+    },
+    {
+      "op": "E2 cb",
+      "asm": "loop rel8",
+      "llvm": [
+        "LOOP"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "jcc",
+      "class": "Control Transfer",
+      "description": "Loop",
+      "pseudocode": "CX -= 1 ; if ( CX != 0 ) IP += rel8",
+      "flags": ""
+    },
+    {
+      "op": "E1 cb",
+      "asm": "loope rel8",
+      "llvm": [
+        "LOOPE"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "jcc",
+      "class": "Control Transfer",
+      "description": "Loop while Equal",
+      "pseudocode": "CX -= 1 ; if ( CX != 0 and ZF ) IP += rel8",
+      "flags": ""
+    },
+    {
+      "op": "E0 cb",
+      "asm": "loopne rel8",
+      "llvm": [
+        "LOOPNE"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "jcc",
+      "class": "Control Transfer",
+      "description": "Loop while Not Equal",
+      "pseudocode": "CX -= 1 ; if ( CX != 0 and !ZF ) IP += rel8",
+      "flags": ""
+    },
+    {
+      "op": "E3 cb",
+      "asm": "jcxz rel8",
+      "llvm": [
+        "JCXZ"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "jcc",
+      "class": "Control Transfer",
+      "description": "Jump if CX is Zero",
+      "pseudocode": "if ( CX == 0 ) IP += rel8",
+      "flags": ""
+    },
+    {
+      "op": "C3",
+      "asm": "ret",
+      "llvm": [
+        "RET16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "ret",
+      "class": "Control Transfer",
+      "description": "Return (near)",
+      "pseudocode": "pop IP",
+      "flags": ""
+    },
+    {
+      "op": "C2 iw",
+      "asm": "ret imm16",
+      "llvm": [
+        "RETI16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "ret-imm",
+      "class": "Control Transfer",
+      "description": "Return (near) and Pop",
+      "pseudocode": "pop IP ; SP += imm16",
+      "flags": ""
+    },
+    {
+      "op": "CB",
+      "asm": "retf",
+      "llvm": [
+        "LRET16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "ret",
+      "class": "Control Transfer",
+      "description": "Return (far)",
+      "pseudocode": "pop IP, CS",
+      "flags": ""
+    },
+    {
+      "op": "CA iw",
+      "asm": "retf imm16",
+      "llvm": [
+        "LRETI16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "ret-imm",
+      "class": "Control Transfer",
+      "description": "Return (far) and Pop",
+      "pseudocode": "pop IP, CS ; SP += imm16",
+      "flags": ""
+    },
+    {
+      "op": "CD ib",
+      "asm": "int imm8",
+      "llvm": [
+        "INT"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "int",
+      "class": "Control Transfer",
+      "description": "Interrupt",
+      "pseudocode": "push FLAGS, CS, IP ; CS:IP = vector imm8",
+      "flags": ""
+    },
+    {
+      "op": "CC",
+      "asm": "int3",
+      "llvm": [
+        "INT3"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "ret",
+      "class": "Control Transfer",
+      "description": "Breakpoint (interrupt 3)",
+      "pseudocode": "interrupt 3",
+      "flags": ""
+    },
+    {
+      "op": "CE",
+      "asm": "into",
+      "llvm": [
+        "INTO"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "ret",
+      "class": "Control Transfer",
+      "description": "Interrupt on Overflow",
+      "pseudocode": "if ( OF ) interrupt 4",
+      "flags": ""
+    },
+    {
+      "op": "CF",
+      "asm": "iret",
+      "llvm": [
+        "IRET16"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "ret",
+      "class": "Control Transfer",
+      "description": "Interrupt Return",
+      "pseudocode": "pop IP, CS, FLAGS",
+      "flags": "all"
+    },
+    {
+      "op": "F8",
+      "asm": "clc",
+      "llvm": [
+        "CLC"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "control",
+      "class": "Processor Control",
+      "description": "Clear Carry",
+      "pseudocode": "CF = 0",
+      "flags": "C"
+    },
+    {
+      "op": "F9",
+      "asm": "stc",
+      "llvm": [
+        "STC"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "control",
+      "class": "Processor Control",
+      "description": "Set Carry",
+      "pseudocode": "CF = 1",
+      "flags": "C"
+    },
+    {
+      "op": "F5",
+      "asm": "cmc",
+      "llvm": [
+        "CMC"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "control",
+      "class": "Processor Control",
+      "description": "Complement Carry",
+      "pseudocode": "CF = !CF",
+      "flags": "C"
+    },
+    {
+      "op": "FC",
+      "asm": "cld",
+      "llvm": [
+        "CLD"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "control",
+      "class": "Processor Control",
+      "description": "Clear Direction",
+      "pseudocode": "DF = 0",
+      "flags": "D"
+    },
+    {
+      "op": "FD",
+      "asm": "std",
+      "llvm": [
+        "STD"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "control",
+      "class": "Processor Control",
+      "description": "Set Direction",
+      "pseudocode": "DF = 1",
+      "flags": "D"
+    },
+    {
+      "op": "FA",
+      "asm": "cli",
+      "llvm": [
+        "CLI"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "control",
+      "class": "Processor Control",
+      "description": "Clear Interrupt",
+      "pseudocode": "IF = 0",
+      "flags": "I"
+    },
+    {
+      "op": "FB",
+      "asm": "sti",
+      "llvm": [
+        "STI"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "control",
+      "class": "Processor Control",
+      "description": "Set Interrupt",
+      "pseudocode": "IF = 1",
+      "flags": "I"
+    },
+    {
+      "op": "F4",
+      "asm": "hlt",
+      "llvm": [
+        "HLT"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "control",
+      "class": "Processor Control",
+      "description": "Halt",
+      "pseudocode": "stop until an interrupt",
+      "flags": ""
+    },
+    {
+      "op": "9B",
+      "asm": "wait",
+      "llvm": [
+        "WAIT"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "control",
+      "class": "Processor Control",
+      "description": "Wait for TEST",
+      "pseudocode": "wait for the TEST pin",
+      "flags": ""
+    },
+    {
+      "op": "90",
+      "asm": "nop",
+      "llvm": [
+        "NOOP"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "control",
+      "class": "Processor Control",
+      "description": "No Operation (xchg ax, ax)",
+      "pseudocode": "",
+      "flags": ""
+    },
+    {
+      "op": "F0",
+      "asm": "lock",
+      "llvm": [
+        "LOCK_PREFIX"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "prefix",
+      "class": "Prefix",
+      "description": "Lock Bus (prefix)",
+      "pseudocode": "applies to the next instruction",
+      "flags": ""
+    },
+    {
+      "op": "F3",
+      "asm": "rep",
+      "llvm": [
+        "REP_PREFIX"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "prefix",
+      "class": "Prefix",
+      "description": "Repeat (prefix; repe / repz for cmps, scas)",
+      "pseudocode": "applies to the next instruction",
+      "flags": ""
+    },
+    {
+      "op": "F2",
+      "asm": "repne",
+      "llvm": [
+        "REPNE_PREFIX"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "prefix",
+      "class": "Prefix",
+      "description": "Repeat while Not Equal (prefix)",
+      "pseudocode": "applies to the next instruction",
+      "flags": ""
+    },
+    {
+      "op": "26",
+      "asm": "es",
+      "llvm": [
+        "ES_PREFIX"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "prefix",
+      "class": "Prefix",
+      "description": "ES Segment Override (prefix)",
+      "pseudocode": "applies to the next instruction",
+      "flags": ""
+    },
+    {
+      "op": "2E",
+      "asm": "cs",
+      "llvm": [
+        "CS_PREFIX"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "prefix",
+      "class": "Prefix",
+      "description": "CS Segment Override (prefix)",
+      "pseudocode": "applies to the next instruction",
+      "flags": ""
+    },
+    {
+      "op": "36",
+      "asm": "ss",
+      "llvm": [
+        "SS_PREFIX"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "prefix",
+      "class": "Prefix",
+      "description": "SS Segment Override (prefix)",
+      "pseudocode": "applies to the next instruction",
+      "flags": ""
+    },
+    {
+      "op": "3E",
+      "asm": "ds",
+      "llvm": [
+        "DS_PREFIX"
+      ],
+      "sets": [
+        "i8086"
+      ],
+      "group": "prefix",
+      "class": "Prefix",
+      "description": "DS Segment Override (prefix)",
+      "pseudocode": "applies to the next instruction",
+      "flags": ""
+    }
+  ],
+  "registers": [
+    {
+      "title": "General Registers",
+      "columns": [
+        "Word",
+        "Byte (high, low)",
+        "r16 / rm16",
+        "r8 / rm8",
+        "Meaning"
+      ],
+      "group": "CPU Registers",
+      "rows": [
+        [
+          "AX",
+          "AH, AL",
+          "000",
+          "000 (al), 100 (ah)",
+          "Accumulator: multiply, divide, I/O, string data"
+        ],
+        [
+          "CX",
+          "CH, CL",
+          "001",
+          "001 (cl), 101 (ch)",
+          "Count: loops, string repeats, shift counts (CL)"
+        ],
+        [
+          "DX",
+          "DH, DL",
+          "010",
+          "010 (dl), 110 (dh)",
+          "Data: the high word of multiply / divide, the I/O port"
+        ],
+        [
+          "BX",
+          "BH, BL",
+          "011",
+          "011 (bl), 111 (bh)",
+          "Base: an address register ([bx], xlat)"
+        ],
+        [
+          "SP",
+          "—",
+          "100",
+          "—",
+          "Stack pointer"
+        ],
+        [
+          "BP",
+          "—",
+          "101",
+          "—",
+          "Base pointer: [bp] addresses the stack segment"
+        ],
+        [
+          "SI",
+          "—",
+          "110",
+          "—",
+          "Source index: strings, [si]"
+        ],
+        [
+          "DI",
+          "—",
+          "111",
+          "—",
+          "Destination index: strings, [di]"
+        ]
+      ]
+    },
+    {
+      "title": "Segment Registers (sreg)",
+      "columns": [
+        "Register",
+        "sreg",
+        "Meaning"
+      ],
+      "group": "CPU Registers",
+      "rows": [
+        [
+          "ES",
+          "00",
+          "Extra segment: string destinations"
+        ],
+        [
+          "CS",
+          "01",
+          "Code segment, with IP"
+        ],
+        [
+          "SS",
+          "10",
+          "Stack segment, with SP and BP"
+        ],
+        [
+          "DS",
+          "11",
+          "Data segment: the default for memory"
+        ]
+      ]
+    },
+    {
+      "title": "Addressing (ModRM r/m)",
+      "columns": [
+        "r/m",
+        "mod 00",
+        "mod 01 / 10",
+        "Segment"
+      ],
+      "group": "Addressing",
+      "rows": [
+        [
+          "000",
+          "[bx+si]",
+          "[bx+si+disp]",
+          "DS"
+        ],
+        [
+          "001",
+          "[bx+di]",
+          "[bx+di+disp]",
+          "DS"
+        ],
+        [
+          "010",
+          "[bp+si]",
+          "[bp+si+disp]",
+          "SS"
+        ],
+        [
+          "011",
+          "[bp+di]",
+          "[bp+di+disp]",
+          "SS"
+        ],
+        [
+          "100",
+          "[si]",
+          "[si+disp]",
+          "DS"
+        ],
+        [
+          "101",
+          "[di]",
+          "[di+disp]",
+          "DS"
+        ],
+        [
+          "110",
+          "[disp16]",
+          "[bp+disp]",
+          "DS / SS"
+        ],
+        [
+          "111",
+          "[bx]",
+          "[bx+disp]",
+          "DS"
+        ]
+      ]
+    },
+    {
+      "title": "Flags",
+      "columns": [
+        "Flag",
+        "Bit",
+        "Meaning"
+      ],
+      "group": "Flags",
+      "rows": [
+        [
+          "OF",
+          "11",
+          "Overflow"
+        ],
+        [
+          "DF",
+          "10",
+          "Direction: strings decrement"
+        ],
+        [
+          "IF",
+          "9",
+          "Interrupts enabled"
+        ],
+        [
+          "TF",
+          "8",
+          "Trap: single step"
+        ],
+        [
+          "SF",
+          "7",
+          "Sign"
+        ],
+        [
+          "ZF",
+          "6",
+          "Zero"
+        ],
+        [
+          "AF",
+          "4",
+          "Auxiliary carry (BCD)"
+        ],
+        [
+          "PF",
+          "2",
+          "Parity of the low byte"
+        ],
+        [
+          "CF",
+          "0",
+          "Carry"
+        ]
+      ]
+    },
+    {
+      "title": "Conditions (cc)",
+      "columns": [
+        "cc",
+        "Encoding",
+        "True when"
+      ],
+      "group": "Flags",
+      "rows": [
+        [
+          "o",
+          "0000",
+          "OF"
+        ],
+        [
+          "no",
+          "0001",
+          "!OF"
+        ],
+        [
+          "b / c / nae",
+          "0010",
+          "CF"
+        ],
+        [
+          "ae / nc / nb",
+          "0011",
+          "!CF"
+        ],
+        [
+          "e / z",
+          "0100",
+          "ZF"
+        ],
+        [
+          "ne / nz",
+          "0101",
+          "!ZF"
+        ],
+        [
+          "be / na",
+          "0110",
+          "CF or ZF"
+        ],
+        [
+          "a / nbe",
+          "0111",
+          "!CF and !ZF"
+        ],
+        [
+          "s",
+          "1000",
+          "SF"
+        ],
+        [
+          "ns",
+          "1001",
+          "!SF"
+        ],
+        [
+          "p / pe",
+          "1010",
+          "PF"
+        ],
+        [
+          "np / po",
+          "1011",
+          "!PF"
+        ],
+        [
+          "l / nge",
+          "1100",
+          "SF != OF"
+        ],
+        [
+          "ge / nl",
+          "1101",
+          "SF = OF"
+        ],
+        [
+          "le / ng",
+          "1110",
+          "ZF or SF != OF"
+        ],
+        [
+          "g / nle",
+          "1111",
+          "!ZF and SF = OF"
+        ]
+      ]
+    }
+  ]
+}

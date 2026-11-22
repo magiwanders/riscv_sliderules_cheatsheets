@@ -116,6 +116,9 @@ const EXPORTS = {
     mips32: { sail: { files: ['spec/unofficial/mips/mips.sail'] }, tablegen: mipsTablegen(32) },
     mips64: { sail: { files: ['spec/unofficial/mips/mips.sail'] }, tablegen: mipsTablegen(64) },
     8051: { sail: { files: ['spec/unofficial/mcs51/mcs51.sail'] }, tablegen: { files: ['spec/unofficial/mcs51/MCS51.td'] } },
+    8086: { sail: { files: ['spec/unofficial/x86/i8086.sail'] },
+        tablegen: { files: ['X86RegisterInfo.td', 'X86InstrFormats.td', 'X86InstrUtils.td', 'X86InstrOperands.td', 'X86InstrArithmetic.td', 'X86InstrMisc.td', 'X86InstrControl.td', 'X86InstrShiftRotate.td', 'X86InstrSystem.td', 'X86InstrExtension.td', 'X86InstrFPStack.td'].map((f) => `spec/llvm/X86/${f}`), licence: 'spec/llvm/LICENSE.TXT',
+            about: 'The 8086 in LLVM\'s X86 target, llvm/llvm-project llvmorg-23.1.5 (Apache 2.0 with LLVM exception): the sheet takes the 8086 instructions of these files, which describe x86 by opcode, form and operand size rather than bit by bit; the target\'s other files (SSE, AVX, scheduling) are left out' } },
     8080: { sail: { files: ['spec/unofficial/i8080/i8080.sail'] }, tablegen: { files: ['spec/unofficial/i8080/I8080.td'] } },
     hack: { sail: { files: ['spec/unofficial/hack/hack.sail'] }, tablegen: { files: ['spec/unofficial/hack/Hack.td'] } },
 };

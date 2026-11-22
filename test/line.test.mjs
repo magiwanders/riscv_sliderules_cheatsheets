@@ -48,3 +48,11 @@ test('disassembles a program, stepping over what is no instruction', () => {
   const lines = disassemble({ isa: 'rv32gc', extensions: ['I', 'M', 'C'], bytes });
   assert.deepEqual(lines.map((l) => [l.offset, l.length, l.assembly]), [[0, 2, 'c.li a0, 0'], [2, 4, 'addi a0, a0, -1'], [6, 2, null]]);
 });
+
+test('the byte machines take each instruction\'s own length', () => {
+  const z80 = disassemble({ isa: 'z80', bytes: [0x00, 0x3e, 0x05] });
+  assert.deepEqual(z80.map((l) => [l.offset, l.length, l.assembly]), [[0, 1, 'NOP'], [1, 2, 'LD A, $05']]);
+  const i8086 = disassemble({ isa: '8086', bytes: [0x01, 0x82, 0xcc, 0xed, 0xcd, 0x21, 0x9a, 0x78, 0x56, 0x34, 0x12, 0x90, 0x05] });
+  assert.deepEqual(i8086.map((l) => [l.offset, l.length, l.assembly]),
+    [[0, 4, 'add [bp+si-0x1234], ax'], [4, 2, 'int 0x21'], [6, 5, 'call 0x1234:0x5678'], [11, 1, 'nop'], [12, 1, null]]);
+});

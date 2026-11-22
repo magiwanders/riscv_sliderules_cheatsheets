@@ -78,7 +78,7 @@ test('the Z80 opcode table is skoolkit\'s, documented instructions only', () => 
 test('the default instruction set is RV32GC, at the versions the sheets show', () => {
   assert.equal(isas[0].value, 'rv32gc');
   assert.deepEqual(isas.filter((isa) => isa.codec).map(({ value, version }) => [value, version]),
-    [['rv32gc', 'v1.0'], ['rv64gc', 'v1.0'], ['mips32', 'v0.1'], ['mips64', 'v0.1'], ['8080', 'v0.1'], ['8051', 'v0.1'], ['arm-thumb', 'v0.1'], ['arm32', 'v0.1'], ['arm64', 'v0.1'], ['z80', 'v0.1'], ['6502', 'v0.1'], ['hack', 'v0.1']]);
+    [['rv32gc', 'v1.0'], ['rv64gc', 'v1.0'], ['mips32', 'v0.1'], ['mips64', 'v0.1'], ['8080', 'v0.1'], ['8051', 'v0.1'], ['8086', 'v0.1'], ['arm-thumb', 'v0.1'], ['arm32', 'v0.1'], ['arm64', 'v0.1'], ['z80', 'v0.1'], ['6502', 'v0.1'], ['hack', 'v0.1']]);
   assert.ok(isas.filter((isa) => !isa.codec).every((isa) => !isa.version));
 });
 

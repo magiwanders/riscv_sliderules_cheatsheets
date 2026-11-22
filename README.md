@@ -3,7 +3,7 @@
 An instruction **encoder** and **decoder** in the browser, laid out like the paper "sliderule" cheatsheets, for
 RISC-V RV32 and RV64 with every ratified extension (1,142 and 1,245 instructions; they start as RV32GC / RV64GC), MIPS32
 and MIPS64 (Release 2, the CPU instructions), Arm A64 (ARMv8.0: integer, loads and stores, system, scalar floating point) A32 and Thumb (ARMv7-A: integer,
-coprocessor, system), the Intel 8080 and 8051, the Zilog Z80, the MOS 6502 and the
+coprocessor, system), the Intel 8080, 8051 and 8086, the Zilog Z80, the MOS 6502 and the
 Hack computer of nand2tetris (choose one in the title):
 pick an instruction and read its bits, or set bits and read the instruction.
 
@@ -86,7 +86,7 @@ It sets `window.sliderulesLine` (and fires a `sliderules-line` event on `window`
 const line = window.sliderulesLine;
 // the encoder's line: the assembly, then its bits by field (a pseudo-instruction gives a line per word)
 line.encoderLine({ isa: 'rv32gc', assembly: 'addi a0, a0, -1' });          // → { element, words, error }
-// the decoder's line of the instruction starting at bytes[0] (memory order; RISC-V, A64, A32, MIPS and Hack words little-endian, Thumb halfwords too)
+// the decoder's line of the instruction starting at bytes[0] (memory order; RISC-V, A64, A32, MIPS and Hack words little-endian, Thumb halfwords too; the byte machines take each instruction's own length)
 line.decoderLine({ isa: 'rv32gc', extensions: ['I', 'M', 'C'], bytes: [0x01, 0x45] }); // → { element, assembly, length, error }
 // either one in a popup by the pointer (client pixels); call it on every pointer move, hide() when the pointer leaves
 line.show({ isa: 'hack', bytes: [0x10, 0xec], x: event.clientX, y: event.clientY });
@@ -127,6 +127,7 @@ descriptions, pseudocode, flags, HINT and reserved rows, register meanings.
 | MIPS32, MIPS64 | **Unofficial**, written for these sheets from MIPS Technologies' manuals: no Sail model of MIPS exists | [LLVM](https://github.com/llvm/llvm-project)'s Mips target |
 | 8080 | **Unofficial**, written for these sheets from Intel's manuals | **Unofficial**, likewise |
 | 8051 | **Unofficial**, written for these sheets from Intel's MCS-51 manual | **Unofficial**, likewise |
+| 8086 | **Unofficial**, generated from a typed table of Intel's opcode notation (`00 /r  add r/m8, r8`) written for these sheets from Intel's 8086 manual | [LLVM](https://github.com/llvm/llvm-project)'s X86 target, which has no bit patterns: each row is checked against its records' opcode, form, operand size and immediates |
 | Z80 | **Unofficial**, written for these sheets from Zilog's manual | **Unofficial**, likewise |
 | Hack | **Unofficial**, written for these sheets from the nand2tetris book | **Unofficial**, likewise |
 
@@ -194,7 +195,8 @@ bits grey, the unused upper half of a compressed instruction black.
 | 8051 | v0.1 | asl 1.42 (Macro Assembler AS), as8051 6.10 (ASxxxx) | 732 vectors each over the 111 instructions, every register combination and every AJMP / ACALL page included: the 255 defined opcodes, each assembled by both; A5 (undefined) decodes to nothing |
 | Z80 | v0.1 | skoolkit 10.2, sjasmplus 1.24.0 | 617 vectors each over the 166 documented forms; all 1,786 opcodes behind every prefix agree with skoolkit, apart from the undocumented ones left out on purpose and `ED 63` / `ED 6B`, which skoolkit only knows as an option |
 | Hack | v0.1 | Known encodings | The assembly of the nand2tetris examples, and round trips of every instruction; every word of `Pong.hack` was once checked to decode and reassemble to itself (not part of `npm test`) |
-| 8086, x86, x86_64 | — | — | Coming soon |
+| 8086 | v0.1 | GNU as 2.42, LLVM llvm-mc 23.1.5 | 2,937 vectors each over the 712 rows (each ModRM instruction a row per addressing form), the two agree; every row assembled but the six register forms no assembler writes (`inc ax` is 40, not FF C0; `mov al, imm` is B0), which round trip; llvm-mc chooses the direction of a register to register line itself, so there it is checked to decode to the same line |
+| x86, x86_64 | — | — | Coming soon |
 
 **Every sheet with assemblers is bit-perfect against two of them:** every encodable instruction and pseudo-instruction
 is encoded by the sheet with random operands and the edges of its immediate's range, the same lines are assembled by
@@ -209,7 +211,7 @@ refuses `JMP ($xxFF)` (the NMOS page bug), so those cases are left out for it. `
 from its sources and fails if the committed files differ, which re-checks Sail against TableGen bit by bit.
 
 The references are stored in `test/vectors/` and regenerated with `npm run vectors` (GNU as), `npm run vectors:llvm`
-(llvm-mc), `npm run vectors:retro` (py65, skoolkit) and `npm run vectors:retro-asm` (ca65, sjasmplus, asl, as8085, as8051) `npm run vectors:mips`, `npm run vectors:a64`, `npm run vectors:a32` and `npm run vectors:t32` (GNU as, llvm-mc). These tests cover
+(llvm-mc), `npm run vectors:retro` (py65, skoolkit) and `npm run vectors:retro-asm` (ca65, sjasmplus, asl, as8085, as8051) `npm run vectors:mips`, `npm run vectors:a64`, `npm run vectors:a32`, `npm run vectors:t32` and `npm run vectors:x86` (GNU as, llvm-mc). These tests cover
 bits, mnemonics and instruction lengths: the flags, pseudocode and descriptions of the v0.1 sheets are not checked
 against a reference yet.
 

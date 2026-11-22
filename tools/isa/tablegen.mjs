@@ -225,6 +225,21 @@ const TARGETS = {
       ['Thumb', 'ThumbSBit', 'Thumb2', 'Thumb2CoProc'].includes(record.DecoderNamespace) && (record.Predicates || []).every((p) => _THUMBV7.has(_def(p))),
     keepAlias: () => false,
   },
+  // x86: the records the typed table of src/isa/overlay/x86.json names. LLVM's X86 records have no Inst bits: what is kept
+  // is what the bytes follow from (opcode, map, form, operand and address size, prefix, immediate, REX.W, predicates).
+  X86: {
+    compact: ({ records }) => {
+      const names = new Set(JSON.parse(readFileSync(join(ROOT, 'src', 'isa', 'overlay', 'x86.json'), 'utf8')).instructions.flatMap((row) => row.llvm));
+      const number = (bits) => (Array.isArray(bits) ? bits.reduce((v, bit, i) => v + bit * 2 ** i, 0) : bits);
+      const instructions = Object.fromEntries([...names].sort().map((name) => {
+        const r = records[name];
+        if (!r) throw new Error(`no X86 record ${name}`);
+        return [name, { asm: r.AsmString, op: number(r.Opcode), map: _def(r.OpMap), form: _def(r.Form), opsz: _def(r.OpSize), adsz: _def(r.AdSize), pfx: _def(r.OpPrefix),
+          imm: _def(r.ImmT), rexw: number(r.hasREX_W) || 0, predicates: (r.Predicates || []).map(_def) }];
+      }));
+      return { instructions };
+    },
+  },
   // The unofficial descriptions of spec/unofficial (--td spec/unofficial/z80/Z80.td, .../hack/Hack.td).
   Z80: { keepInstruction: ({ record }) => record.Namespace === 'Z80', keepAlias: () => false },
   Hack: { keepInstruction: ({ record }) => record.Namespace === 'Hack', keepAlias: () => false },
@@ -252,8 +267,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   })();
   // a target may be a part of LLVM's (Thumb is in ARM's directory)
   const records = dumpRecords({ tblgen, llvm, target: TARGETS[target].dir || target, td: _arg('td') });
-  const compact = compactTarget({ records, ...TARGETS[target] });
+  const compact = TARGETS[target].compact ? TARGETS[target].compact({ records }) : compactTarget({ records, ...TARGETS[target] });
   const out = _arg('out') || join(ROOT, 'spec', 'llvm', `${target}.json`);
   writeFileSync(out, `${JSON.stringify({ source: { project: _arg('project') || 'llvm/llvm-project', revision, tblgen: version, target }, ...compact }, null, 1)}\n`);
-  console.log(`${out}: ${Object.keys(compact.instructions).length} instructions, ${compact.aliases.length} aliases`);
+  console.log(`${out}: ${Object.keys(compact.instructions).length} instructions, ${(compact.aliases || []).length} aliases`);
 }

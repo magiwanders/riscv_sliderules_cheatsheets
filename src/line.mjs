@@ -6,7 +6,7 @@ import { bitOf } from './isa/codec.mjs';
 // of an assembly instruction (its assembly, then its bits by field) or the decoder's line of some bytes of memory
 // (the bits by field, then the instruction they are). `show` puts either in a popup that follows the pointer.
 //
-//   isa: an instruction set's value in isas.mjs ('rv32gc', 'rv64gc', 'arm64', 'arm32', 'arm-thumb', 'mips32', 'mips64', '8080', '8051', 'z80', '6502', 'hack');
+//   isa: an instruction set's value in isas.mjs ('rv32gc', 'rv64gc', 'arm64', 'arm32', 'arm-thumb', 'mips32', 'mips64', '8080', '8051', '8086', 'z80', '6502', 'hack');
 //   extensions: RISC-V only, the extensions to decode and encode with (['I', 'M', 'C']); the sheet's default otherwise;
 //   bytes: in memory order. A word instruction set reads them little-endian (RISC-V, and Hack as Ash lays it out).
 
@@ -46,7 +46,10 @@ function _wordAt({ codec = null, bytes = [] }) {
   else if (spine.bytes) for (let i = 0; i < size; i++) bits += at(i).toString(2).padStart(8, '0');
   else for (let i = size - 1; i >= 0; i--) bits += at(i).toString(2).padStart(8, '0');
   let word = spine.width > 32 ? BigInt(`0b${bits}`) : parseInt(bits, 2);
-  const width = codec.spec.widthOf ? codec.spec.widthOf({ bit: (b) => bits[spine.width - 1 - b] }) : spine.width;
+  // the byte machines (Z80, 6502, 8086, ...) tell an instruction's length by what it is: the instruction the bytes
+  // decode to, the missing ones read as zeros
+  const decoded = !codec.spec.widthOf && spine.bytes ? codec.decodeWord({ word }) : null;
+  const width = codec.spec.widthOf ? codec.spec.widthOf({ bit: (b) => bits[spine.width - 1 - b] }) : decoded ? decoded.inst.width : spine.width;
   const length = (width || spine.width) / 8;
   if (!spine.bytes && width && width < 32) word = (word & (2 ** width - 1)) >>> 0;
   return { word, length, complete: bytes.length >= length };

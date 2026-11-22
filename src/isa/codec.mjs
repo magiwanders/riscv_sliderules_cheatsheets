@@ -257,6 +257,8 @@ export function createCodec(spec) {
       immSigned: imm.length > 0 && immediates[imm[0].name], immNonZero: imm.length > 0 && (imm[0].name.startsWith('nz') || Boolean(inst.nonZeroImm)),
     };
   });
+  // the same line in two lengths (x86 jmp rel8 / rel16): the longer one's id says its width
+  for (const inst of compiled) if (compiled.some((o) => o !== inst && o.id === inst.id && o.width < inst.width)) inst.id = `${inst.id}@${inst.width}`;
 
   // Most specific encodings first, so reserved/special patterns win over generic ones.
   const _byPriority = [...compiled].sort((a, b) => b.literalCount - a.literalCount);

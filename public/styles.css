@@ -458,6 +458,9 @@ table.registers-sheet { table-layout: auto; }
 .carousel-list { overflow-y: auto; padding: 2px 0; }
 .carousel-group { padding: 6px 8px 2px; color: #777; font: bold 10px Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
 .carousel-option { display: flex; justify-content: space-between; gap: 16px; padding: 3px 8px; cursor: pointer; white-space: nowrap; }
+/* The instruction sets under their vendors: indented a tab further. */
+.title-carousel-popup .carousel-option { position: relative; padding-left: calc(8px + 4ch); }
+.title-carousel-popup .carousel-option.selected::before { position: absolute; left: 10px; margin: 0; }
 .carousel-option.active { background: #e3eef0; }
 .carousel-option.selected .carousel-option-label { font-weight: bold; }
 .carousel-option.selected::before { content: '✓'; margin-left: -4px; color: var(--focus); }

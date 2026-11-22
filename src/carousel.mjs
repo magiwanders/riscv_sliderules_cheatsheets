@@ -75,7 +75,8 @@ export function Carousel({ options = [], value = null, onChange = () => {}, labe
     _closePopup();
     const list = _div({ class: 'carousel-list', role: 'listbox', 'aria-label': label }, '');
     const filter = searchable ? _input({ class: 'carousel-filter', type: 'search', placeholder: `Filter ${label}…`, 'aria-label': `Filter ${label}` }) : null;
-    const popup = _div({ class: 'carousel-popup' }, filter ? [filter, list] : [list]);
+    // its carousel's classes as <class>-popup, for styling one carousel's list
+    const popup = _div({ class: ['carousel-popup', ...classes.split(/\s+/).filter(Boolean).map((c) => `${c}-popup`)].join(' ') }, filter ? [filter, list] : [list]);
     // The options are made in batches as the list scrolls (x86-64 has thousands of mnemonics): the first BATCH, and as
     // far as the selected one or the keyboard goes.
     const BATCH = 300;

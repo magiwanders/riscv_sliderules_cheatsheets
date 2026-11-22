@@ -76,13 +76,50 @@ export function Carousel({ options = [], value = null, onChange = () => {}, labe
     const list = _div({ class: 'carousel-list', role: 'listbox', 'aria-label': label }, '');
     const filter = searchable ? _input({ class: 'carousel-filter', type: 'search', placeholder: `Filter ${label}…`, 'aria-label': `Filter ${label}` }) : null;
     const popup = _div({ class: 'carousel-popup' }, filter ? [filter, list] : [list]);
+    // The options are made in batches as the list scrolls (x86-64 has thousands of mnemonics): the first BATCH, and as
+    // far as the selected one or the keyboard goes.
+    const BATCH = 300;
     let items = [];
+    let shown = [];
+    let query = '';
+    let group = null;
     let active = 0;
+    let sentinel = null;
+    let more = null;
 
+    const make = (option) => {
+      const el = _div({ class: 'carousel-option' + (option.value === _value ? ' selected' : '') + (option.classes ? ` ${option.classes}` : ''),
+        role: 'option', 'aria-selected': String(option.value === _value) },
+        [_span({ class: 'carousel-option-label' }, option.label),
+          ...(option.hint || (query && option.group) ? [_span({ class: 'carousel-option-hint' }, [option.hint || '', query && option.group ? `  ${option.group}` : ''].join(''))] : [])]);
+      el.addEventListener('pointerdown', (event) => event.preventDefault());
+      el.addEventListener('click', () => choose(option));
+      return el;
+    };
+    const renderUpTo = (n) => {
+      const children = [];
+      while (items.length < Math.min(n, shown.length)) {
+        const option = shown[items.length];
+        if (!query && option.group && option.group !== group) {
+          group = option.group;
+          children.push(_div({ class: 'carousel-group' }, group));
+        }
+        const el = make(option);
+        items.push({ el, option });
+        children.push(el);
+      }
+      if (children.length) sentinel.before(...children);
+      if (items.length >= shown.length) {
+        sentinel.remove();
+        if (more) more.disconnect();
+      }
+    };
     const highlight = (i) => {
-      if (!items.length) return;
-      active = (i + items.length) % items.length;
-      items.forEach((item, k) => item.el.classList.toggle('active', k === active));
+      if (!shown.length) return;
+      if (items[active]) items[active].el.classList.remove('active');
+      active = (i + shown.length) % shown.length;
+      renderUpTo(active + 1);
+      items[active].el.classList.add('active');
       items[active].el.scrollIntoView({ block: 'nearest' });
     };
     const choose = (option) => {
@@ -91,7 +128,7 @@ export function Carousel({ options = [], value = null, onChange = () => {}, labe
       current.focus();
     };
     const fill = () => {
-      const query = filter ? filter.value.trim().toLowerCase() : '';
+      query = filter ? filter.value.trim().toLowerCase() : '';
       const pool = query && searchAll ? searchAll() : _options;
       // With a query: exact names first, then names starting with it, then names / hints containing it.
       const score = (o) => {
@@ -101,29 +138,22 @@ export function Carousel({ options = [], value = null, onChange = () => {}, labe
         if (name.includes(query)) return 2;
         return `${o.hint || ''} ${o.group || ''}`.toLowerCase().includes(query) ? 3 : -1;
       };
-      const shown = query
+      shown = query
         ? pool.map((o) => ({ o, rank: score(o) })).filter(({ rank }) => rank >= 0).sort((a, b) => a.rank - b.rank).map(({ o }) => o)
         : pool;
-      const children = [];
       items = [];
-      let group = null;
-      for (const option of shown) {
-        if (!query && option.group && option.group !== group) {
-          group = option.group;
-          children.push(_div({ class: 'carousel-group' }, group));
-        }
-        const el = _div({ class: 'carousel-option' + (option.value === _value ? ' selected' : '') + (option.classes ? ` ${option.classes}` : ''),
-          role: 'option', 'aria-selected': String(option.value === _value) },
-          [_span({ class: 'carousel-option-label' }, option.label),
-            ...(option.hint || (query && option.group) ? [_span({ class: 'carousel-option-hint' }, [option.hint || '', query && option.group ? `  ${option.group}` : ''].join(''))] : [])]);
-        el.addEventListener('pointerdown', (event) => event.preventDefault());
-        el.addEventListener('click', () => choose(option));
-        items.push({ el, option });
-        children.push(el);
+      group = null;
+      active = 0;
+      if (more) more.disconnect();
+      sentinel = _div({ class: 'carousel-more' }, '');
+      list.replaceChildren(shown.length ? sentinel : _div({ class: 'carousel-empty' }, 'No match'));
+      if (!shown.length) return;
+      const selected = shown.findIndex((option) => option.value === _value);
+      renderUpTo(Math.max(BATCH, selected + 1));
+      if (items.length < shown.length) {
+        more = new IntersectionObserver((entries) => { if (entries.some((e) => e.isIntersecting)) renderUpTo(items.length + BATCH); }, { root: list, rootMargin: '400px 0px' });
+        more.observe(sentinel);
       }
-      if (!children.length) children.push(_div({ class: 'carousel-empty' }, 'No match'));
-      list.replaceChildren(...children);
-      const selected = items.findIndex((item) => item.option.value === _value);
       highlight(query || selected < 0 ? 0 : selected);
     };
     const onKey = (event) => {

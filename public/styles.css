@@ -621,3 +621,41 @@ table.registers-sheet { table-layout: auto; }
 .sliderule-line .line-assembly { background: var(--strong); font: bold 12px ui-monospace, Menlo, Consolas, monospace; vertical-align: middle; }
 .sliderule-line .line-description { vertical-align: middle; }
 .sliderule-line .line-error { background: var(--muted); color: var(--error); text-align: center; white-space: normal; }
+
+/* Rows not built yet (src/lazyrows.mjs): one empty row as high as they will be. */
+.lazy-row td.lazy-spacer { padding: 0; border: none; background: transparent; }
+
+/* The spinner over the page while something takes a second or more (the first x86 sheets, a PDF of a long sheet). */
+.busy-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(255 255 255 / 0.55);
+  cursor: progress;
+}
+.busy-overlay[hidden] { display: none; }
+.busy-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.18);
+  font-weight: bold;
+}
+.busy-spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid var(--section, #76a5af);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: busy-turn 0.8s linear infinite;
+}
+@keyframes busy-turn { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .busy-spinner { animation-duration: 2.4s; }
+}

@@ -128,57 +128,90 @@ function _unusedMatches({ unused = {}, constraints = [] }) {
   return [...unused.opcode].every((bit, i) => [bit, '-'].includes(constraints[25 + i]));
 }
 
-// Groups (and unused opcodes) of a section, in the decoder's order of their most significant member.
-function _orderedItems({ codec = null, section = 'q3' }) {
-  const { compiled, unusedOpcodeRows, spec: { groups } } = codec;
-  const first = (g) => compiled.filter((i) => i.groupKey === g).map((i) => i.sortKey).sort()[0];
-  const items = Object.keys(groups).filter((g) => groups[g].section === section).map((groupKey) => ({ groupKey, sortKey: first(groupKey) }));
-  if (section === 'q3') items.push(...unusedOpcodeRows.map((unused) => ({ unused, sortKey: unused.sortKey })));
-  return items.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+// What the decoder lays out of a codec, worked out once: each group's members in the decoder's order, and the groups
+// (and unused opcodes) of each section in the order of their most significant member.
+const _layouts = new WeakMap();
+function _layout({ codec = null }) {
+  if (_layouts.has(codec)) return _layouts.get(codec);
+  const { compiled, unusedOpcodeRows, spec: { groups, sections } } = codec;
+  const members = new Map(Object.keys(groups).map((g) => [g, []]));
+  for (const inst of compiled) if (members.has(inst.groupKey)) members.get(inst.groupKey).push(inst);
+  for (const list of members.values()) list.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+  const order = {};
+  for (const section of Object.keys(sections)) {
+    const items = Object.keys(groups).filter((g) => groups[g].section === section && members.get(g).length).map((groupKey) => ({ groupKey, sortKey: members.get(groupKey)[0].sortKey }));
+    if (section === 'q3') items.push(...unusedOpcodeRows.map((unused) => ({ unused, sortKey: unused.sortKey })));
+    order[section] = items.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+  }
+  const layout = { members, order };
+  _layouts.set(codec, layout);
+  return layout;
 }
 
+// One group's rows.
+function _groupRows({ codec = null, groupKey = '', members = [], decoded = null, bitAt = null, onPattern = () => {} }) {
+  const { groups } = codec.spec;
+  // Only one instruction left: its own row (placeholders, with the bits set so far behind them) takes the place of the
+  // group header, which would only repeat it; the immediate row follows.
+  if (members.length === 1 && !members[0].reserved && !members[0].hint) {
+    const inst = members[0];
+    const rowspan = inst.immRow ? 2 : 1;
+    const rows = [_instructionRow({ codec, inst, decoded, bitAt, onPattern,
+      extra: [typeCell({ codec, format: inst.format, rowspan }), cell({ rowspan, classes: 'text ext', text: `'${inst.extension}'` })] })];
+    if (inst.immRow) rows.push(_immediateRow({ codec, inst, decoded, bitAt }));
+    return rows;
+  }
+  // Shared immediate layout: one immediate view under the group header, otherwise one per instruction.
+  const withImm = members.filter((m) => m.immRow);
+  const shared = withImm.length > 0 && withImm.every((m) => _immediateSignature({ inst: m }) === _immediateSignature({ inst: withImm[0] }));
+  const body = [];
+  if (shared) body.push(_immediateRow({ codec, inst: decoded && withImm.includes(decoded.inst) ? decoded.inst : withImm[0], decoded, bitAt }));
+  for (const inst of members) {
+    body.push(_instructionRow({ codec, inst, decoded, bitAt, onPattern }));
+    if (inst.immRow && !shared) body.push(_immediateRow({ codec, inst, decoded, bitAt }));
+  }
+  return [_groupRow({ codec, group: groups[groupKey], members, rowspan: body.length + 1 }), ...body];
+}
+
+// How many rows a group makes, without making them.
+function _groupCount({ members = [] }) {
+  if (members.length === 1 && !members[0].reserved && !members[0].hint) return members[0].immRow ? 2 : 1;
+  const withImm = members.filter((m) => m.immRow);
+  return 1 + members.length + withImm.length;
+}
+
+// The rows as units for lazyRows (src/lazyrows.mjs): a section title, each group with its members. With no bit set the
+// rows are the same every time: made once per sheet and kept.
 export function decoderRows({ sheet = null, constraints = [], decoded = null, onPattern = () => {} }) {
   const { codec } = sheet;
-  const { compiled, matchesConstraints, spec: { sections, groups, spine } } = codec;
+  const { matchesConstraints, spec: { sections, spine } } = codec;
+  const { members: byGroup, order } = _layout({ codec });
+  const blank = constraints.every((c) => c === '-');
   // The bits set so far, shown faintly behind every matching instruction's placeholders (best effort).
   const top = spine.width - 1;
-  const bitAt = constraints.some((c) => c !== '-') ? (bit) => (constraints[top - bit] === '-' ? null : constraints[top - bit]) : null;
-  const rows = [];
+  const bitAt = blank ? null : (bit) => (constraints[top - bit] === '-' ? null : constraints[top - bit]);
+  sheet.rowCache ??= new Map();
+  const cached = (key, make) => {
+    if (!blank) return make();
+    if (!sheet.rowCache.has(key)) sheet.rowCache.set(key, make());
+    return sheet.rowCache.get(key);
+  };
+  const units = [];
   for (const section of Object.keys(sections)) {
-    const sectionRows = [];
-    for (const { groupKey, unused } of _orderedItems({ codec, section })) {
+    const sectionUnits = [];
+    for (const { groupKey, unused } of order[section]) {
       if (unused) {
-        if (_unusedMatches({ unused, constraints })) sectionRows.push(_unusedOpcodeRow({ codec, unused }));
+        if (_unusedMatches({ unused, constraints })) sectionUnits.push({ count: 1, rows: () => [_unusedOpcodeRow({ codec, unused })] });
         continue;
       }
-      const members = compiled.filter((i) => i.groupKey === groupKey && matchesConstraints({ inst: i, constraints }))
-        .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+      const members = blank ? byGroup.get(groupKey) : byGroup.get(groupKey).filter((inst) => matchesConstraints({ inst, constraints }));
       if (!members.length) continue;
-      // Only one instruction left: its own row (placeholders, with the bits set so far behind them) takes the place
-      // of the group header, which would only repeat it; the immediate row follows.
-      if (members.length === 1 && !members[0].reserved && !members[0].hint) {
-        const inst = members[0];
-        const rowspan = inst.immRow ? 2 : 1;
-        sectionRows.push(_instructionRow({ codec, inst, decoded, bitAt, onPattern,
-          extra: [typeCell({ codec, format: inst.format, rowspan }), cell({ rowspan, classes: 'text ext', text: `'${inst.extension}'` })] }));
-        if (inst.immRow) sectionRows.push(_immediateRow({ codec, inst, decoded, bitAt }));
-        continue;
-      }
-      // Shared immediate layout: one immediate view under the group header, otherwise one per instruction.
-      const withImm = members.filter((m) => m.immRow);
-      const shared = withImm.length > 0 && withImm.every((m) => _immediateSignature({ inst: m }) === _immediateSignature({ inst: withImm[0] }));
-      const body = [];
-      if (shared) body.push(_immediateRow({ codec, inst: decoded && withImm.includes(decoded.inst) ? decoded.inst : withImm[0], decoded, bitAt }));
-      for (const inst of members) {
-        body.push(_instructionRow({ codec, inst, decoded, bitAt, onPattern }));
-        if (inst.immRow && !shared) body.push(_immediateRow({ codec, inst, decoded, bitAt }));
-      }
-      sectionRows.push(_groupRow({ codec, group: groups[groupKey], members, rowspan: body.length + 1 }), ...body);
+      sectionUnits.push({ count: _groupCount({ members }), rows: () => cached(groupKey, () => _groupRows({ codec, groupKey, members, decoded, bitAt, onPattern })) });
     }
-    if (sectionRows.length) rows.push(_sectionRow({ codec, title: sections[section] }), ...sectionRows);
+    if (sectionUnits.length) units.push({ count: 1, rows: () => cached(`section:${section}`, () => [_sectionRow({ codec, title: sections[section] })]) }, ...sectionUnits);
   }
-  if (!rows.length) rows.push(_tr({}, [cell({ width: _allColumns({ codec }), classes: 'text empty', text: 'No instruction matches the selected bits.' })]));
-  return rows;
+  if (!units.length) units.push({ count: 1, rows: () => [_tr({}, [cell({ width: _allColumns({ codec }), classes: 'text empty', text: 'No instruction matches the selected bits.' })])] });
+  return units;
 }
 
 // io: what goes next to the bit switches (the decoded result).

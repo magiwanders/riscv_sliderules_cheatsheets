@@ -5,6 +5,7 @@ import { encoderSheet, encoderRows, showEncodedBits, highlightEncodedBits, expan
 import { OperandPanel } from './builders.mjs';
 import { Carousel } from './carousel.mjs';
 import { downloadPdf, PAGES } from './pdf.mjs';
+import { lazyRows, buildAllRows, builtRows } from './lazyrows.mjs';
 import { sheetHeader, contributeLink, flashChangedBits } from './cells.mjs';
 import { registerGroups, registersTable } from './registers.mjs';
 
@@ -97,6 +98,22 @@ function _confirmingButton({ label = '', title = '', classes = 'tool-button', do
     setTimeout(() => { button.textContent = label; }, COPIED_MS);
   });
   return button;
+}
+
+// A spinner over the page while work that takes a second or more runs (the first x86 sheets, a PDF of a long sheet):
+// it is drawn before the work starts, which may block the page.
+let _busyCount = 0;
+async function _busy({ message = 'Working…', work = async () => {} }) {
+  _busyCount += 1;
+  _app.busyText.textContent = message;
+  _app.busy.hidden = false;
+  await new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
+  try {
+    return await work();
+  } finally {
+    _busyCount -= 1;
+    if (!_busyCount) _app.busy.hidden = true;
+  }
 }
 
 function _copyButton({ label = 'Copy', title = '', classes = 'tool-button', text = () => '' }) {
@@ -193,7 +210,16 @@ function _currentTable() {
 function _pdfButton({ page = 'a4-landscape', label = '⤓ PDF', classes = 'tool-button header-tool split-main' }) {
   return _confirmingButton({ label, classes, done: 'Saved ✓',
     title: `Download this sheet as you see it (${PAGES[page].label} PDF). Clear first for the whole sheet.`,
-    action: async () => downloadPdf({ header: _app.header, element: _currentTable(), fileName: _fileName({ mode: _mode }), page }) });
+    action: async () => {
+      const element = _currentTable();
+      // the rows not built yet (lazyrows.mjs) first; a long sheet takes a while
+      const long = element.querySelector('tbody.lazy-chunk-pending');
+      const make = async () => {
+        await buildAllRows({ table: element });
+        await downloadPdf({ header: _app.header, element, fileName: _fileName({ mode: _mode }), page });
+      };
+      return long ? _busy({ message: 'Laying out the whole sheet for the PDF…', work: make }) : make();
+    } });
 }
 
 // ⤓ PDF with an arrow on its right that opens the other downloads (the PDF in A3 portrait, Sail, TableGen) under it;
@@ -353,11 +379,11 @@ function _nothingToClear() {
 // ---------------------------------------------------------------- decoder
 
 // A sheet's rows are only rebuilt when what they show changed (key): the whole encoder is thousands of cells, and
-// switching re-renders the incoming sheet.
-function _replaceRows({ table = null, key = '', rows = () => [] }) {
+// switching re-renders the incoming sheet. units: what lazyRows takes (rows made as they come near the screen).
+function _replaceRows({ table = null, key = '', units = () => [] }) {
   if (table.dataset.rowsKey === key) return false;
   table.dataset.rowsKey = key;
-  table.tBodies[0].replaceChildren(...rows());
+  lazyRows({ table, units: units() });
   return true;
 }
 
@@ -418,7 +444,7 @@ function _renderDecoder() {
     refresh();
   };
   const sheet = _elements.decoder;
-  if (_replaceRows({ table: sheet.table, key: constraints.join(''), rows: () => decoderRows({ sheet, constraints, decoded, onPattern }) })) {
+  if (_replaceRows({ table: sheet.table, key: constraints.join(''), units: () => decoderRows({ sheet, constraints, decoded, onPattern }) })) {
     flashChangedBits({ table: sheet.table, id: state.decoded ? state.decoded.inst.id : null });
   }
 }
@@ -511,8 +537,8 @@ function _renderEncoder() {
   highlight({ mask: 0 });
   _elements.encoderCopies.forEach((button) => { button.disabled = !encoded; });
   showEncodedBits({ sheet, entry: state.entry, encoded });
-  const key = JSON.stringify([state.ext, state.type, state.entry && state.entry.id, state.operands, encoded && encoded.words.map((w) => w.word)]);
-  const replaced = _replaceRows({ table: sheet.table, key, rows: () => encoderRows({
+  const key = JSON.stringify([state.ext, state.type, state.entry && state.entry.id, state.operands, encoded && encoded.words.map((w) => String(w.word))]);
+  const replaced = _replaceRows({ table: sheet.table, key, units: () => encoderRows({
     sheet, entries: _filtered(), entry: state.entry, encoded, operands: encoded ? state.operands : null, onPick: _selectEntry,
   }) });
   if (replaced) flashChangedBits({ table: sheet.table, id: encoded ? state.entry.id : null });
@@ -555,7 +581,7 @@ function _scrollAlong({ to = 0 }) {
 // The new sheet's bit cells that are on screen (header and rows): only these cross-fade, however long the sheet.
 function _visibleSpineCells({ table = null }) {
   const cells = [...table.tHead.querySelectorAll('.spine')];
-  for (const row of table.tBodies[0].rows) {
+  for (const row of builtRows({ table })) {
     const box = row.getBoundingClientRect();
     if (box.top > window.innerHeight) break;
     if (box.bottom >= 0) cells.push(...row.querySelectorAll('td.bit'));
@@ -667,7 +693,7 @@ const _isaOptions = () => isas.map((isa) => ({ value: isa.value, label: isa.labe
 
 function _isaPicker() {
   const picker = Carousel({ label: 'instruction set', classes: 'title-carousel', value: _isa.value, options: _isaOptions(),
-    onChange: (value) => _selectIsa({ isa: isas.find((isa) => isa.value === value) }) });
+    onChange: (value) => _selectIsaSoon({ isa: isas.find((isa) => isa.value === value) }) });
   picker.querySelectorAll('.carousel-step').forEach((step) => step.classList.add('no-print'));
   return picker;
 }
@@ -812,6 +838,13 @@ function _selectIsa({ isa = isas[0], restore = null }) {
   _app.fitHeader();
 }
 
+// An instruction set whose sheets take a second or more to make the first time (x86: thousands of rows) is chosen
+// under the spinner; the others at once.
+function _selectIsaSoon({ isa = isas[0], restore = null }) {
+  if (!isa.heavy || _switching || _sets.has(_setsKey({ isa }))) return _selectIsa({ isa, restore });
+  return _busy({ message: `Making the ${isa.label} sheets…`, work: () => _selectIsa({ isa, restore }) });
+}
+
 // ---------------------------------------------------------------- app
 
 function _encoderControls({ codec = null }) {
@@ -910,8 +943,11 @@ export function Sliderule() {
   header.append(registerPopup);
   const host = _div({ class: 'stage-host' }, '');
   const placeholder = _div({ class: 'sheet-placeholder' }, '');
-  const app = _div({ class: 'sliderules-app' }, [header, placeholder, host]);
-  _app = { fitHeader: () => {}, header, placeholder, host, isa, extensions, extPopover, version, pill, clear, pdf: downloads.pdf, caret: downloads.caret,
+  const busyText = _span({ class: 'busy-text' }, '');
+  const busy = _div({ class: 'busy-overlay no-print', role: 'status', 'aria-live': 'polite' }, [_div({ class: 'busy-card' }, [_span({ class: 'busy-spinner' }, ''), busyText])]);
+  busy.hidden = true;
+  const app = _div({ class: 'sliderules-app' }, [header, placeholder, host, busy]);
+  _app = { fitHeader: () => {}, header, placeholder, host, busy, busyText, isa, extensions, extPopover, version, pill, clear, pdf: downloads.pdf, caret: downloads.caret,
     sail: downloads.sail, tablegen: downloads.tablegen, registerButtons, registerPopup };
   _watchOutsideClicks();
   const { mode, params } = _readUrl();
@@ -920,8 +956,12 @@ export function Sliderule() {
   _mode = mode;
   _selectPill({ mode });
   // The default set always has sheets: a placeholder chosen first keeps the page laid out around them.
-  if (!chosen.codec) _use({ isa: isas[0] });
-  _selectIsa({ isa: chosen, restore: params });
+  if (!('codec' in chosen) || chosen.heavy) _use({ isa: isas[0] });
+  if (chosen.heavy) {
+    // the default sheets under the spinner meanwhile (a link to a heavy set); its own restore once they are made
+    _selectIsa({ isa: isas[0] });
+    _selectIsaSoon({ isa: chosen, restore: params });
+  } else _selectIsa({ isa: chosen, restore: params });
   requestAnimationFrame(() => {
     _app.fitHeader = _fitHeader({ app, header, placeholder });
     if (params.get('regs') && _registerButton({ label: params.get('regs') })) _pinRegisters({ label: params.get('regs') });

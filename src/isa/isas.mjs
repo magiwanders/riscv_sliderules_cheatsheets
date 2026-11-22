@@ -64,11 +64,11 @@ export const isas = [
     specs: { sail: 'unofficial, written for these sheets from Intel\'s 8080 manuals', tablegen: 'unofficial, written for these sheets from Intel\'s 8080 manuals' } },
   { value: '8051', family: 'intel', label: '8051 (MCS-51)', short: '8051', version: 'v0.1', make: () => createCodec(mcs51),
     specs: { sail: 'unofficial, written for these sheets from Intel\'s MCS-51 manual', tablegen: 'unofficial, written for these sheets from Intel\'s MCS-51 manual' } },
-  { value: '8086', family: 'intel', label: '8086', version: 'v0.1', make: () => createCodec(i8086),
+  { value: '8086', family: 'intel', label: '8086', version: 'v0.1', make: () => createCodec(i8086.sheet()),
     specs: { sail: 'unofficial, written for these sheets from Intel\'s 8086 manual (its opcode table, checked against LLVM)', tablegen: 'the records of LLVM\'s X86 target (official) the sheets\' 8086 instructions are' } },
-  { value: 'x86', family: 'intel', label: 'x86 (IA-32)', short: 'x86', version: 'v0.1', make: () => createCodec(ia32),
+  { value: 'x86', family: 'intel', label: 'x86 (IA-32)', short: 'x86', version: 'v0.1', heavy: true, make: () => createCodec(ia32.sheet()),
     specs: { sail: 'unofficial, generated for these sheets from their opcode table of Intel\'s manuals (checked against LLVM)', tablegen: 'the records of LLVM\'s X86 target (official) the sheets\' IA-32 instructions are' } },
-  { value: 'x86_64', family: 'intel', label: 'x86-64', version: 'v0.1', make: () => createCodec(x86_64),
+  { value: 'x86_64', family: 'intel', label: 'x86-64', version: 'v0.1', heavy: true, make: () => createCodec(x86_64.sheet()),
     specs: { sail: 'unofficial, generated for these sheets from their opcode table of Intel\'s manuals (checked against LLVM)', tablegen: 'the records of LLVM\'s X86 target (official) the sheets\' x86-64 instructions are' } },
   { value: 'arm-thumb', family: 'arm', label: 'Thumb', version: 'v0.1', make: () => createCodec(t32),
     specs: { sail: 'unofficial, written for these sheets from the Arm Architecture Reference Manual and checked against LLVM', tablegen: 'the Thumb files of LLVM\'s ARM target (official), ARMv7-A Thumb and Thumb-2 instructions' } },
@@ -85,7 +85,7 @@ export const isas = [
 ];
 
 // A member's codec is made the first time it is asked for (x86's sheets have thousands of rows): `'codec' in isa`
-// says whether it has sheets without making it.
+// says whether it has sheets without making it. `heavy`: its sheets take a second or more to make (a spinner shows).
 for (const isa of isas) {
   if (!isa.make) continue;
   let codec = null;

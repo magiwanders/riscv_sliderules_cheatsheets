@@ -88,7 +88,7 @@ export function immediateBits({ inst = {}, wordBitAt = () => null }) {
 const _shownBits = new WeakMap();
 export function flashChangedBits({ table = null, id = null }) {
   const bits = new Map();
-  table.tBodies[0].querySelectorAll('tr').forEach((row, r) => row.querySelectorAll('[data-bit]').forEach((el) => bits.set(`${r}:${el.dataset.bit}`, el)));
+  [...table.tBodies].flatMap((body) => [...body.rows]).forEach((row, r) => row.querySelectorAll('[data-bit]').forEach((el) => bits.set(`${r}:${el.dataset.bit}`, el)));
   const shown = _shownBits.get(table);
   if (id !== null && shown && shown.id === id && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     for (const [key, td] of bits) {

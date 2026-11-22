@@ -293,6 +293,16 @@ export function x86Operands({ mode }) {
 }
 
 export const x86Immediates = { imm: false, simm: true, rel: true };
+
+// A sheet's settings, rows and operands from its generated lines (data: src/isa/generated/<set>.mjs).
+export function x86Sheet({ data, mode, name, spine }) {
+  const { formats, sections, extensions, families, lines, registers } = data;
+  return {
+    formats, sections, extensions, registers, immText, name, spine, ...x86Rows({ lines, families, mode }),
+    operands: x86Operands({ mode }), immediates: x86Immediates, repeatedNames: true, plainFormats: true,
+    labels: { ext: 'Class', type: 'Mode', expansion: 'Flags' }, widths: { ext: 130, instruction: 250, pseudocode: 280, type: 120 },
+  };
+}
 // values and addresses in hex, signed immediates and offsets in decimal
 export const immText = ({ inst = {}, value = 0 }) => (inst.immSigned ? String(value) : `0x${value.toString(16)}`);
 export const accumulator = ACC;

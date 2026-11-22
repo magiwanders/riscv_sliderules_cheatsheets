@@ -6,16 +6,9 @@
 // The lines are generated (src/isa/generated/ia32.mjs, `npm run isa`) from the typed opcode table of
 // src/isa/overlay/x86.json, checked against LLVM's X86 records (tools/isa/gen-x86.mjs); src/isa/x86.mjs makes the rows.
 
-import { formats, sections, extensions, families, lines, registers } from './generated/ia32.mjs';
-import { x86Rows, x86Operands, x86Immediates, immText } from './x86.mjs';
+import * as data from './generated/ia32.mjs';
+import { x86Sheet } from './x86.mjs';
 
-export { formats, sections, extensions, registers, immText };
-export const { groups, instructions } = x86Rows({ lines, families, mode: 32 });
-export const operands = x86Operands({ mode: 32 });
-export const name = 'x86';
-export const spine = { width: 88, bytes: true, title: 'bytes 0-10, in memory order' };
-export const immediates = x86Immediates;
-export const labels = { ext: 'Class', type: 'Mode', expansion: 'Flags' };
-export const widths = { ext: 130, instruction: 250, pseudocode: 280, type: 120 };
-export const plainFormats = true;
-export const repeatedNames = true;
+// The sheet's settings and rows, made the first time its codec is asked for (src/isa/isas.mjs): the rows are many.
+let _sheet = null;
+export const sheet = () => (_sheet ??= x86Sheet({ data, mode: 32, name: 'x86', spine: { width: 88, bytes: true, title: 'bytes 0-10, in memory order' } }));

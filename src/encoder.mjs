@@ -70,13 +70,30 @@ function _entryRows({ codec = null, entry = {}, encoded = null, operands = null,
   return rows;
 }
 
-// entries: what the Ext / Type filters let through; with a chosen entry only that one is listed.
+// How many rows an entry makes (its expansions, its immediate row), without making them.
+function _rowCount({ entry = {} }) {
+  if (entry.pseudo) return entry.expansions.length;
+  return 1 + (entry.immRow && entry.segments.some((s) => s.kind === 'imm') ? 1 : 0);
+}
+
+// The rows as units for lazyRows (src/lazyrows.mjs): one per entry. entries: what the Ext / Type filters let through;
+// with a chosen entry only that one is listed. An entry's rows without operands are made once per sheet and kept, so
+// changing a filter or scrolling back reuses them.
 export function encoderRows({ sheet = null, entries = [], entry = null, encoded = null, operands = null, onPick = () => {} }) {
   const { codec } = sheet;
-  if (entry) return _entryRows({ codec, entry, encoded, operands, onPick });
-  const rows = entries.flatMap((e) => _entryRows({ codec, entry: e, onPick }));
-  if (!rows.length) rows.push(_tr({}, [cell({ width: COLUMNS.length + codec.spec.spine.width, classes: 'text empty', text: 'No instruction has this extension and type.' })]));
-  return rows;
+  if (entry) {
+    const rows = _entryRows({ codec, entry, encoded, operands, onPick });
+    return [{ count: rows.length, rows: () => rows }];
+  }
+  if (!entries.length) {
+    return [{ count: 1, rows: () => [_tr({}, [cell({ width: COLUMNS.length + codec.spec.spine.width, classes: 'text empty', text: 'No instruction has this extension and type.' })])] }];
+  }
+  sheet.rowCache ??= new Map();
+  const cache = sheet.rowCache;
+  return entries.map((e) => ({ count: _rowCount({ entry: e }), rows: () => {
+    if (!cache.has(e)) cache.set(e, _entryRows({ codec, entry: e, onPick }));
+    return cache.get(e);
+  } }));
 }
 
 // Marks the bits of an operand in the (read-only) switches while its token in the assembly is hovered.

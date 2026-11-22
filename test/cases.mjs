@@ -60,6 +60,7 @@ export function operandSet({ codec = rv32, entry = {}, random, edge = null, safe
   const finalText = (token) => {
     const key = tokenKey(token);
     const operand = (codec.spec.operands || {})[key];
+    if (operand && operand.derive) return operandText({ key, value: operand.derive({ fields: values }), fields: values, inst: entry });
     return operand && operand.text && values[key] !== undefined ? operandText({ key, value: values[key], fields: values, inst: entry }) : tokenText[token];
   };
   const render = (op) => templateParts({ op, values: op.includes('{?') ? values : null }).map((p) => (p.token ? finalText(p.token) : p.text)).join('');

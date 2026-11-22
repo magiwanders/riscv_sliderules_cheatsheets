@@ -546,7 +546,7 @@ export function createCodec(spec) {
     const key = tokenKey(token);
     if (OPERANDS[key] && OPERANDS[key].derive) return { kind: 'derived', key };
     if (OPERANDS[key]) {
-      const { names, exclude = [], width, signed = false, omit } = OPERANDS[key];
+      const { names, exclude = [], width, signed = false, omit, step = 1 } = OPERANDS[key];
       // the instruction's own constraint on the operand too (vd!={...})
       const segment = (entry.segments || []).find((s) => s.key === key);
       const excluded = [...new Set([...exclude, ...(segment ? segment.exclude || [] : [])])];
@@ -555,7 +555,8 @@ export function createCodec(spec) {
       let top = 2 ** width - 1;
       while (!signed && excluded.includes(top)) top--;
       const range = signed ? { min: -(2 ** (width - 1)), max: 2 ** (width - 1) - 1 } : { min: 0, max: top };
-      return { kind: 'imm', key, range: { ...range, step: 1, nonZero: false } };
+      // step: values a field takes (Thumb's blx offsets are a multiple of 4, its raw field even)
+      return { kind: 'imm', key, range: { ...range, step, nonZero: false } };
     }
     if (key === 'sp') return { kind: 'sp' };
     const targets = entry.pseudo

@@ -7,6 +7,7 @@ import { retroModule } from '../tools/isa/gen-retro.mjs';
 import { mipsModule } from '../tools/isa/gen-mips.mjs';
 import { a64Module } from '../tools/isa/gen-a64.mjs';
 import { a32Module } from '../tools/isa/gen-a32.mjs';
+import { t32Module } from '../tools/isa/gen-t32.mjs';
 
 // The instruction data is generated: RV32 and RV64 from the Sail model and LLVM's TableGen (tools/isa/gen-riscv.mjs), the
 // 6502 from llvm-mos's TableGen (tools/isa/gen-mos6502.mjs), the Z80, 8080, 8051 and Hack from their unofficial Sail and TableGen
@@ -42,6 +43,10 @@ test('src/isa/generated/a64.mjs is what LLVM\'s AArch64 TableGen, the unofficial
 
 test('src/isa/generated/a32.mjs is what LLVM\'s ARM TableGen, the unofficial Sail and the overlay give (npm run isa)', () => {
   assert.equal(a32Module(), committed('a32'));
+});
+
+test('src/isa/generated/t32.mjs is what LLVM\'s ARM TableGen (Thumb), the unofficial Sail and the overlay give (npm run isa)', () => {
+  assert.equal(t32Module(), committed('t32'));
 });
 
 test('the CSRs the encoder knows by name have the addresses LLVM gives them, and the registers sheet lists them all', async () => {

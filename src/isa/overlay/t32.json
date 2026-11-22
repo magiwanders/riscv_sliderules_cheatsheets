@@ -1,0 +1,5719 @@
+{
+  "$comment": "What the Thumb sheets show that LLVM's ARM TableGen and the unofficial Sail do not carry: sections, groups, formats, each row's mnemonic and assembly (outside IT blocks: the 16 bit data processing instructions set the flags, so they are adds, movs, ...; .w where LLVM writes it, so that assemblers take the same width), description and pseudocode, register names, in the decoder's order. constraints are the register values the Arm ARM calls UNPREDICTABLE or gives another instruction, fix fixes a field (cpsie / cpsid, addw / subw of adr), excludeLLVM the LLVM records the sheet leaves out and why.",
+  "sections": {
+    "t16": "16 bit Instructions (hw1[15:11] not 111xx)",
+    "t32dp": "32 bit: Data Processing and Media",
+    "t32mul": "32 bit: Multiply and Divide",
+    "t32ls": "32 bit: Loads and Stores",
+    "t32br": "32 bit: Branches and Miscellaneous Control",
+    "t32cp": "32 bit: Coprocessor"
+  },
+  "formats": {
+    "REG": {
+      "title": "Register"
+    },
+    "IMM": {
+      "title": "Immediate"
+    },
+    "BR": {
+      "title": "Branch"
+    },
+    "LD": {
+      "title": "Load"
+    },
+    "ST": {
+      "title": "Store"
+    },
+    "SYS": {
+      "title": "System"
+    }
+  },
+  "extensions": [
+    "ARMv4T",
+    "ARMv5T",
+    "ARMv6",
+    "ARMv6K",
+    "ARMv6T2",
+    "ARMv7",
+    "Security",
+    "Virtualization",
+    "MP"
+  ],
+  "excludeLLVM": {
+    "tTRAP": "LLVM's name for one UDF value",
+    "t2MRS_M": "M profile",
+    "t2MSR_M": "M profile",
+    "t2AUT": "ARMv8.1-M (PACBTI)",
+    "t2PAC": "ARMv8.1-M (PACBTI)",
+    "t2PACBTI": "ARMv8.1-M (PACBTI)",
+    "t2BTI": "ARMv8.1-M (PACBTI)",
+    "t2MRSbanked": "banked registers (Virtualization Extensions) not on the sheet yet",
+    "t2MSRbanked": "banked registers (Virtualization Extensions) not on the sheet yet",
+    "t2ANDrr": "t2ANDrs with lsl #0",
+    "t2BICrr": "t2BICrs with lsl #0",
+    "t2ORRrr": "t2ORRrs with lsl #0",
+    "t2ORNrr": "t2ORNrs with lsl #0",
+    "t2EORrr": "t2EORrs with lsl #0",
+    "t2ADDrr": "t2ADDrs with lsl #0",
+    "t2ADCrr": "t2ADCrs with lsl #0",
+    "t2SBCrr": "t2SBCrs with lsl #0",
+    "t2SUBrr": "t2SUBrs with lsl #0",
+    "t2RSBrr": "t2RSBrs with lsl #0",
+    "t2TSTrr": "t2TSTrs with lsl #0",
+    "t2TEQrr": "t2TEQrs with lsl #0",
+    "t2CMNrr": "t2CMNrs with lsl #0",
+    "t2CMPrr": "t2CMPrs with lsl #0",
+    "t2MVNr": "t2MVNs with lsl #0"
+  },
+  "groups": {
+    "t16-shift": {
+      "section": "t16",
+      "format": "REG",
+      "title": "Shift (immediate), Move",
+      "pseudocode": ""
+    },
+    "t16-addsub": {
+      "section": "t16",
+      "format": "REG",
+      "title": "Add / Subtract (register, 3 bit immediate)",
+      "pseudocode": ""
+    },
+    "t16-imm8": {
+      "section": "t16",
+      "format": "IMM",
+      "title": "Move, Compare, Add, Subtract (8 bit immediate)",
+      "pseudocode": ""
+    },
+    "t16-dp": {
+      "section": "t16",
+      "format": "REG",
+      "title": "Data Processing (low registers)",
+      "pseudocode": "rdl = rdl (op) rml"
+    },
+    "t16-special": {
+      "section": "t16",
+      "format": "REG",
+      "title": "Special Data Processing, Branch and Exchange",
+      "pseudocode": ""
+    },
+    "t16-ldst": {
+      "section": "t16",
+      "format": "LD",
+      "title": "Load / Store",
+      "pseudocode": ""
+    },
+    "t16-addsp": {
+      "section": "t16",
+      "format": "IMM",
+      "title": "PC and SP Relative Addresses",
+      "pseudocode": ""
+    },
+    "t16-misc": {
+      "section": "t16",
+      "format": "SYS",
+      "title": "Miscellaneous",
+      "pseudocode": ""
+    },
+    "t16-ldm": {
+      "section": "t16",
+      "format": "LD",
+      "title": "Load / Store Multiple",
+      "pseudocode": ""
+    },
+    "t16-branch": {
+      "section": "t16",
+      "format": "BR",
+      "title": "Branch, Supervisor Call, Undefined",
+      "pseudocode": ""
+    },
+    "t32-dpimm": {
+      "section": "t32dp",
+      "format": "IMM",
+      "title": "Data Processing (modified immediate)",
+      "pseudocode": "rd = rn (op) tmimm"
+    },
+    "t32-dpbin": {
+      "section": "t32dp",
+      "format": "IMM",
+      "title": "Data Processing (plain binary immediate)",
+      "pseudocode": ""
+    },
+    "t32-dpreg": {
+      "section": "t32dp",
+      "format": "REG",
+      "title": "Data Processing (shifted register)",
+      "pseudocode": "rd = rn (op) shifted rm"
+    },
+    "t32-media": {
+      "section": "t32dp",
+      "format": "REG",
+      "title": "Media: Extend, Parallel, Saturating, Reverse",
+      "pseudocode": ""
+    },
+    "t32-mul": {
+      "section": "t32mul",
+      "format": "REG",
+      "title": "Multiply, Multiply Accumulate, Divide",
+      "pseudocode": ""
+    },
+    "t32-branch": {
+      "section": "t32br",
+      "format": "BR",
+      "title": "Branches",
+      "pseudocode": ""
+    },
+    "t32-misc": {
+      "section": "t32br",
+      "format": "SYS",
+      "title": "Miscellaneous Control: Special Registers, Hints, Barriers",
+      "pseudocode": ""
+    },
+    "t32-sys": {
+      "section": "t32ls",
+      "format": "SYS",
+      "title": "Store Return State / Return From Exception",
+      "pseudocode": ""
+    },
+    "t32-load": {
+      "section": "t32ls",
+      "format": "LD",
+      "title": "Load Register",
+      "pseudocode": "rt = [ address ]"
+    },
+    "t32-store": {
+      "section": "t32ls",
+      "format": "ST",
+      "title": "Store Register",
+      "pseudocode": "[ address ] = rt"
+    },
+    "t32-excl": {
+      "section": "t32ls",
+      "format": "LD",
+      "title": "Exclusive Load / Store",
+      "pseudocode": ""
+    },
+    "t32-ldm": {
+      "section": "t32ls",
+      "format": "LD",
+      "title": "Load Multiple",
+      "pseudocode": ""
+    },
+    "t32-stm": {
+      "section": "t32ls",
+      "format": "ST",
+      "title": "Store Multiple",
+      "pseudocode": ""
+    },
+    "t32-preload": {
+      "section": "t32ls",
+      "format": "LD",
+      "title": "Preload",
+      "pseudocode": "preload [ address ]"
+    },
+    "t32-coproc": {
+      "section": "t32cp",
+      "format": "SYS",
+      "title": "Coprocessor",
+      "pseudocode": ""
+    }
+  },
+  "instructions": [
+    {
+      "group": "t16-shift",
+      "def": "tLSLri",
+      "name": "lsls",
+      "asm": "rdl, rml, #imm5l",
+      "description": "Logical Shift Left (immediate)",
+      "pseudocode": "rdl = rml (shift) imm"
+    },
+    {
+      "group": "t16-shift",
+      "def": "tLSRri",
+      "name": "lsrs",
+      "asm": "rdl, rml, #imm5r",
+      "description": "Logical Shift Right (immediate)",
+      "pseudocode": "rdl = rml (shift) imm"
+    },
+    {
+      "group": "t16-shift",
+      "def": "tASRri",
+      "name": "asrs",
+      "asm": "rdl, rml, #imm5r",
+      "description": "Arithmetic Shift Right (immediate)",
+      "pseudocode": "rdl = rml (shift) imm"
+    },
+    {
+      "group": "t16-shift",
+      "def": "tMOVSr",
+      "name": "movs",
+      "asm": "rdl, rml",
+      "description": "Move, setting flags (lsls #0)",
+      "pseudocode": "rdl = rml"
+    },
+    {
+      "group": "t16-addsub",
+      "def": "tADDrr",
+      "name": "adds",
+      "asm": "rdl, rnl, rml",
+      "description": "Add (register)",
+      "pseudocode": "rdl = rnl + rml"
+    },
+    {
+      "group": "t16-addsub",
+      "def": "tSUBrr",
+      "name": "subs",
+      "asm": "rdl, rnl, rml",
+      "description": "Subtract (register)",
+      "pseudocode": "rdl = rnl - rml"
+    },
+    {
+      "group": "t16-addsub",
+      "def": "tADDi3",
+      "name": "adds",
+      "asm": "rdl, rnl, #imm",
+      "description": "Add (3 bit immediate)",
+      "pseudocode": "rdl = rnl + imm"
+    },
+    {
+      "group": "t16-addsub",
+      "def": "tSUBi3",
+      "name": "subs",
+      "asm": "rdl, rnl, #imm",
+      "description": "Subtract (3 bit immediate)",
+      "pseudocode": "rdl = rnl - imm"
+    },
+    {
+      "group": "t16-imm8",
+      "def": "tMOVi8",
+      "name": "movs",
+      "asm": "rdl, #imm",
+      "description": "Move (immediate)",
+      "pseudocode": "rdl = imm"
+    },
+    {
+      "group": "t16-imm8",
+      "def": "tCMPi8",
+      "name": "cmp",
+      "asm": "rnl, #imm",
+      "description": "Compare (immediate)",
+      "pseudocode": "flags of rnl - imm"
+    },
+    {
+      "group": "t16-imm8",
+      "def": "tADDi8",
+      "name": "adds",
+      "asm": "rdl, #imm",
+      "description": "Add (8 bit immediate)",
+      "pseudocode": "rdl += imm"
+    },
+    {
+      "group": "t16-imm8",
+      "def": "tSUBi8",
+      "name": "subs",
+      "asm": "rdl, #imm",
+      "description": "Subtract (8 bit immediate)",
+      "pseudocode": "rdl -= imm"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tAND",
+      "name": "ands",
+      "asm": "rdl, rml",
+      "description": "Bitwise AND",
+      "pseudocode": "rdl = rdl & rml"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tEOR",
+      "name": "eors",
+      "asm": "rdl, rml",
+      "description": "Bitwise Exclusive OR",
+      "pseudocode": "rdl = rdl ^ rml"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tLSLrr",
+      "name": "lsls",
+      "asm": "rdl, rml",
+      "description": "Logical Shift Left (register)",
+      "pseudocode": "rdl = rdl << rml"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tLSRrr",
+      "name": "lsrs",
+      "asm": "rdl, rml",
+      "description": "Logical Shift Right (register)",
+      "pseudocode": "rdl = rdl >>> rml"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tASRrr",
+      "name": "asrs",
+      "asm": "rdl, rml",
+      "description": "Arithmetic Shift Right (register)",
+      "pseudocode": "rdl = rdl >> rml"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tADC",
+      "name": "adcs",
+      "asm": "rdl, rml",
+      "description": "Add with Carry",
+      "pseudocode": "rdl = rdl + rml + C"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tSBC",
+      "name": "sbcs",
+      "asm": "rdl, rml",
+      "description": "Subtract with Carry",
+      "pseudocode": "rdl = rdl - rml - !C"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tROR",
+      "name": "rors",
+      "asm": "rdl, rml",
+      "description": "Rotate Right (register)",
+      "pseudocode": "rdl = rdl rotated right by rml"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tTST",
+      "name": "tst",
+      "asm": "rdl, rml",
+      "description": "Test",
+      "pseudocode": "flags of rdl & rml"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tCMPr",
+      "name": "cmp",
+      "asm": "rdl, rml",
+      "description": "Compare (register)",
+      "pseudocode": "flags of rdl - rml"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tCMN",
+      "name": "cmn",
+      "asm": "rdl, rml",
+      "description": "Compare Negative",
+      "pseudocode": "flags of rdl + rml"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tORR",
+      "name": "orrs",
+      "asm": "rdl, rml",
+      "description": "Bitwise OR",
+      "pseudocode": "rdl = rdl | rml"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tBIC",
+      "name": "bics",
+      "asm": "rdl, rml",
+      "description": "Bitwise Bit Clear",
+      "pseudocode": "rdl = rdl & ~rml"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tMVN",
+      "name": "mvns",
+      "asm": "rdl, rml",
+      "description": "Bitwise NOT",
+      "pseudocode": "rdl = ~rml"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tRSB",
+      "name": "rsbs",
+      "asm": "rdl, rnl, #0",
+      "description": "Reverse Subtract from 0",
+      "pseudocode": "rdl = 0 - rnl"
+    },
+    {
+      "group": "t16-dp",
+      "def": "tMUL",
+      "name": "muls",
+      "asm": "rdl, rnl, rdl2",
+      "description": "Multiply",
+      "pseudocode": "rdl = rnl × rdl"
+    },
+    {
+      "group": "t16-special",
+      "def": "tADDhirr",
+      "name": "add",
+      "asm": "rdn, rm",
+      "description": "Add (register, any)",
+      "pseudocode": "rdn += rm",
+      "constraints": {
+        "rdn": "!=13",
+        "rm": "!=13"
+      }
+    },
+    {
+      "group": "t16-special",
+      "def": "tADDrSP",
+      "name": "add",
+      "asm": "rdn, SP, rdn2",
+      "description": "Add SP to a Register",
+      "pseudocode": "rdn = SP + rdn",
+      "constraints": {
+        "rdn": "!=13"
+      }
+    },
+    {
+      "group": "t16-special",
+      "def": "tADDspr",
+      "name": "add",
+      "asm": "SP, rm",
+      "description": "Add a Register to SP",
+      "pseudocode": "SP += rm",
+      "constraints": {
+        "rm": "!=13"
+      }
+    },
+    {
+      "group": "t16-special",
+      "def": "tCMPhir",
+      "name": "cmp",
+      "asm": "rn, rm",
+      "description": "Compare (register, any)",
+      "pseudocode": "flags of rn - rm",
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!=15"
+      }
+    },
+    {
+      "group": "t16-special",
+      "def": "tMOVr",
+      "name": "mov",
+      "asm": "rd, rm",
+      "description": "Move (register, any)",
+      "pseudocode": "rd = rm"
+    },
+    {
+      "group": "t16-special",
+      "def": "tBX",
+      "name": "bx",
+      "asm": "rm",
+      "description": "Branch and Exchange",
+      "pseudocode": "PC = rm ; ARM if rm[0] = 0"
+    },
+    {
+      "group": "t16-special",
+      "def": "tBLXr",
+      "name": "blx",
+      "asm": "rm",
+      "description": "Branch with Link and Exchange",
+      "pseudocode": "lr = PC + 2 | 1 ; PC = rm",
+      "constraints": {
+        "rm": "!=15"
+      }
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tLDRpci",
+      "name": "ldr",
+      "asm": "rtl, [PC, #uoff]",
+      "description": "Load Register (literal)",
+      "pseudocode": "rtl = [ Align ( PC, 4 ) + uoff ]"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tSTRr",
+      "name": "str",
+      "asm": "rtl, [rnl, rml]",
+      "description": "Store Register (register)",
+      "pseudocode": "[ rnl + rml ] = rtl"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tSTRHr",
+      "name": "strh",
+      "asm": "rtl, [rnl, rml]",
+      "description": "Store Register Halfword (register)",
+      "pseudocode": "[ rnl + rml ] = rtl"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tSTRBr",
+      "name": "strb",
+      "asm": "rtl, [rnl, rml]",
+      "description": "Store Register Byte (register)",
+      "pseudocode": "[ rnl + rml ] = rtl"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tLDRSB",
+      "name": "ldrsb",
+      "asm": "rtl, [rnl, rml]",
+      "description": "Load Register Signed Byte (register)",
+      "pseudocode": "rtl = [ rnl + rml ]"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tLDRr",
+      "name": "ldr",
+      "asm": "rtl, [rnl, rml]",
+      "description": "Load Register (register)",
+      "pseudocode": "rtl = [ rnl + rml ]"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tLDRHr",
+      "name": "ldrh",
+      "asm": "rtl, [rnl, rml]",
+      "description": "Load Register Halfword (register)",
+      "pseudocode": "rtl = [ rnl + rml ]"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tLDRBr",
+      "name": "ldrb",
+      "asm": "rtl, [rnl, rml]",
+      "description": "Load Register Byte (register)",
+      "pseudocode": "rtl = [ rnl + rml ]"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tLDRSH",
+      "name": "ldrsh",
+      "asm": "rtl, [rnl, rml]",
+      "description": "Load Register Signed Halfword (register)",
+      "pseudocode": "rtl = [ rnl + rml ]"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tSTRi",
+      "name": "str",
+      "asm": "rtl, [rnl, #uoff]",
+      "description": "Store Register (immediate)",
+      "pseudocode": "[ rnl + uoff ] = rtl"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tLDRi",
+      "name": "ldr",
+      "asm": "rtl, [rnl, #uoff]",
+      "description": "Load Register (immediate)",
+      "pseudocode": "rtl = [ rnl + uoff ]"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tSTRBi",
+      "name": "strb",
+      "asm": "rtl, [rnl, #uoff]",
+      "description": "Store Register Byte (immediate)",
+      "pseudocode": "[ rnl + uoff ] = rtl"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tLDRBi",
+      "name": "ldrb",
+      "asm": "rtl, [rnl, #uoff]",
+      "description": "Load Register Byte (immediate)",
+      "pseudocode": "rtl = [ rnl + uoff ]"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tSTRHi",
+      "name": "strh",
+      "asm": "rtl, [rnl, #uoff]",
+      "description": "Store Register Halfword (immediate)",
+      "pseudocode": "[ rnl + uoff ] = rtl"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tLDRHi",
+      "name": "ldrh",
+      "asm": "rtl, [rnl, #uoff]",
+      "description": "Load Register Halfword (immediate)",
+      "pseudocode": "rtl = [ rnl + uoff ]"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tSTRspi",
+      "name": "str",
+      "asm": "rtl, [SP, #uoff]",
+      "description": "Store Register (SP relative)",
+      "pseudocode": "[ SP + uoff ] = rtl"
+    },
+    {
+      "group": "t16-ldst",
+      "def": "tLDRspi",
+      "name": "ldr",
+      "asm": "rtl, [SP, #uoff]",
+      "description": "Load Register (SP relative)",
+      "pseudocode": "rtl = [ SP + uoff ]"
+    },
+    {
+      "group": "t16-addsp",
+      "def": "tADR",
+      "name": "adr",
+      "asm": "rdl, #uoff",
+      "description": "Form PC-relative Address (adr)",
+      "pseudocode": "rdl = Align ( PC, 4 ) + uoff"
+    },
+    {
+      "group": "t16-addsp",
+      "def": "tADDrSPi",
+      "name": "add",
+      "asm": "rdl, SP, #uoff",
+      "description": "Add SP and Immediate",
+      "pseudocode": "rdl = SP + uoff"
+    },
+    {
+      "group": "t16-addsp",
+      "def": "tADDspi",
+      "name": "add",
+      "asm": "SP, SP, #uoff",
+      "description": "Add Immediate to SP",
+      "pseudocode": "SP += uoff"
+    },
+    {
+      "group": "t16-addsp",
+      "def": "tSUBspi",
+      "name": "sub",
+      "asm": "SP, SP, #uoff",
+      "description": "Subtract Immediate from SP",
+      "pseudocode": "SP -= uoff"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tCBZ",
+      "name": "cbz",
+      "asm": "rnl, cbl",
+      "description": "Compare and Branch on Zero",
+      "pseudocode": "if ( rnl == 0 ) PC = PC + 4 + label"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tCBNZ",
+      "name": "cbnz",
+      "asm": "rnl, cbl",
+      "description": "Compare and Branch on Nonzero",
+      "pseudocode": "if ( rnl != 0 ) PC = PC + 4 + label"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tSXTH",
+      "name": "sxth",
+      "asm": "rdl, rml",
+      "description": "Signed Extend Halfword",
+      "pseudocode": "rdl = extend ( rml )"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tSXTB",
+      "name": "sxtb",
+      "asm": "rdl, rml",
+      "description": "Signed Extend Byte",
+      "pseudocode": "rdl = extend ( rml )"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tUXTH",
+      "name": "uxth",
+      "asm": "rdl, rml",
+      "description": "Unsigned Extend Halfword",
+      "pseudocode": "rdl = extend ( rml )"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tUXTB",
+      "name": "uxtb",
+      "asm": "rdl, rml",
+      "description": "Unsigned Extend Byte",
+      "pseudocode": "rdl = extend ( rml )"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tPUSH",
+      "name": "push",
+      "asm": "reglist",
+      "description": "Push Multiple Registers (r0-r7, lr)",
+      "pseudocode": "SP -= 4 × n ; [ SP ... ] = reglist"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tPOP",
+      "name": "pop",
+      "asm": "reglist",
+      "description": "Pop Multiple Registers (r0-r7, pc)",
+      "pseudocode": "reglist = [ SP ... ] ; SP += 4 × n"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tSETEND",
+      "name": "setend",
+      "asm": "endian",
+      "description": "Set Endianness",
+      "pseudocode": "CPSR.E = endian"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tCPS",
+      "name": "cpsie",
+      "asm": "iflags",
+      "description": "Change Processor State: Enable Interrupts",
+      "pseudocode": "enable iflags",
+      "fix": {
+        "imod1": 0
+      }
+    },
+    {
+      "group": "t16-misc",
+      "def": "tCPS",
+      "name": "cpsid",
+      "asm": "iflags",
+      "description": "Change Processor State: Disable Interrupts",
+      "pseudocode": "disable iflags",
+      "fix": {
+        "imod1": 1
+      }
+    },
+    {
+      "group": "t16-misc",
+      "def": "tREV",
+      "name": "rev",
+      "asm": "rdl, rml",
+      "description": "Byte-Reverse Word",
+      "pseudocode": "rdl = bytes of rml reversed"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tREV16",
+      "name": "rev16",
+      "asm": "rdl, rml",
+      "description": "Byte-Reverse Packed Halfword",
+      "pseudocode": "rdl = bytes of rml reversed"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tREVSH",
+      "name": "revsh",
+      "asm": "rdl, rml",
+      "description": "Byte-Reverse Signed Halfword",
+      "pseudocode": "rdl = bytes of rml reversed"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tBKPT",
+      "name": "bkpt",
+      "asm": "#imm",
+      "description": "Breakpoint",
+      "pseudocode": "Prefetch Abort (debug)"
+    },
+    {
+      "group": "t16-misc",
+      "def": "tHINT",
+      "name": "hint",
+      "asm": "#imm",
+      "description": "Hint (nop, yield, wfe, wfi, sev by number)",
+      "pseudocode": "imm 0 nop, 1 yield, 2 wfe, 3 wfi, 4 sev",
+      "immMax": 4
+    },
+    {
+      "group": "t16-ldm",
+      "def": "tSTMIA_UPD",
+      "name": "stm",
+      "asm": "rnl!, reglist8",
+      "description": "Store Multiple (increment after), with writeback",
+      "pseudocode": "[ rnl ... ] = reglist ; rnl updated"
+    },
+    {
+      "group": "t16-ldm",
+      "def": "tLDMIA",
+      "name": "ldm",
+      "asm": "rnlwbang, reglist8",
+      "description": "Load Multiple (increment after); writeback when rnl is not loaded",
+      "pseudocode": "reglist = [ rnl ... ]"
+    },
+    {
+      "group": "t16-branch",
+      "def": "tBcc",
+      "name": "b",
+      "asm": "~cond label",
+      "description": "Branch (conditional)",
+      "pseudocode": "if ( cond ) PC = PC + 4 + label",
+      "constraints": {
+        "cond": "!={14,15}"
+      }
+    },
+    {
+      "group": "t16-branch",
+      "def": "tUDF",
+      "name": "udf",
+      "asm": "#imm",
+      "description": "Permanently Undefined",
+      "pseudocode": "Undefined Instruction exception"
+    },
+    {
+      "group": "t16-branch",
+      "def": "tSVC",
+      "name": "svc",
+      "asm": "#imm",
+      "description": "Supervisor Call",
+      "pseudocode": "Supervisor Call exception"
+    },
+    {
+      "group": "t16-branch",
+      "def": "tB",
+      "name": "b",
+      "asm": "label",
+      "description": "Branch",
+      "pseudocode": "PC = PC + 4 + label"
+    },
+    {
+      "group": "t32-branch",
+      "def": "tBL",
+      "name": "bl",
+      "asm": "bllabel",
+      "description": "Branch with Link",
+      "pseudocode": "lr = PC | 1 ; PC = PC + 4 + label"
+    },
+    {
+      "group": "t32-branch",
+      "def": "tBLXi",
+      "name": "blx",
+      "asm": "blxlabel",
+      "description": "Branch with Link and Exchange to ARM",
+      "pseudocode": "lr = PC | 1 ; PC = Align ( PC, 4 ) + label ; ARM",
+      "llvmFixed": [
+        "func"
+      ]
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2ANDri",
+      "name": "and",
+      "asm": "~sflag rd, rn, #tmimm",
+      "description": "Bitwise AND (modified immediate)",
+      "pseudocode": "rd = rn (and) tmimm",
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2ANDrs",
+      "name": "and",
+      "asm": "~sflag.w rd, rn, rm{?, shiftamount}",
+      "description": "Bitwise AND (shifted register)",
+      "pseudocode": "rd = rn (and) shifted rm",
+      "llvmFixed": [
+        "ShiftedRm"
+      ],
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2BICri",
+      "name": "bic",
+      "asm": "~sflag rd, rn, #tmimm",
+      "description": "Bitwise Bit Clear (modified immediate)",
+      "pseudocode": "rd = rn (bic) tmimm",
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2BICrs",
+      "name": "bic",
+      "asm": "~sflag.w rd, rn, rm{?, shiftamount}",
+      "description": "Bitwise Bit Clear (shifted register)",
+      "pseudocode": "rd = rn (bic) shifted rm",
+      "llvmFixed": [
+        "ShiftedRm"
+      ],
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2ORRri",
+      "name": "orr",
+      "asm": "~sflag rd, rn, #tmimm",
+      "description": "Bitwise OR (modified immediate)",
+      "pseudocode": "rd = rn (orr) tmimm",
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2ORRrs",
+      "name": "orr",
+      "asm": "~sflag.w rd, rn, rm{?, shiftamount}",
+      "description": "Bitwise OR (shifted register)",
+      "pseudocode": "rd = rn (orr) shifted rm",
+      "llvmFixed": [
+        "ShiftedRm"
+      ],
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2ORNri",
+      "name": "orn",
+      "asm": "~sflag rd, rn, #tmimm",
+      "description": "Bitwise OR NOT (modified immediate)",
+      "pseudocode": "rd = rn (orn) tmimm",
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2ORNrs",
+      "name": "orn",
+      "asm": "~sflag rd, rn, rm{?, shiftamount}",
+      "description": "Bitwise OR NOT (shifted register)",
+      "pseudocode": "rd = rn (orn) shifted rm",
+      "llvmFixed": [
+        "ShiftedRm"
+      ],
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2EORri",
+      "name": "eor",
+      "asm": "~sflag rd, rn, #tmimm",
+      "description": "Bitwise Exclusive OR (modified immediate)",
+      "pseudocode": "rd = rn (eor) tmimm",
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2EORrs",
+      "name": "eor",
+      "asm": "~sflag.w rd, rn, rm{?, shiftamount}",
+      "description": "Bitwise Exclusive OR (shifted register)",
+      "pseudocode": "rd = rn (eor) shifted rm",
+      "llvmFixed": [
+        "ShiftedRm"
+      ],
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2ADDri",
+      "name": "add",
+      "asm": "~sflag.w rd, rn, #tmimm",
+      "description": "Add (modified immediate)",
+      "pseudocode": "rd = rn (add) tmimm",
+      "constraints": {
+        "rn": "!=15",
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2ADDrs",
+      "name": "add",
+      "asm": "~sflag.w rd, rn, rm{?, shiftamount}",
+      "description": "Add (shifted register)",
+      "pseudocode": "rd = rn (add) shifted rm",
+      "llvmFixed": [
+        "ShiftedRm"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2ADCri",
+      "name": "adc",
+      "asm": "~sflag rd, rn, #tmimm",
+      "description": "Add with Carry (modified immediate)",
+      "pseudocode": "rd = rn (adc) tmimm",
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2ADCrs",
+      "name": "adc",
+      "asm": "~sflag.w rd, rn, rm{?, shiftamount}",
+      "description": "Add with Carry (shifted register)",
+      "pseudocode": "rd = rn (adc) shifted rm",
+      "llvmFixed": [
+        "ShiftedRm"
+      ],
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2SBCri",
+      "name": "sbc",
+      "asm": "~sflag rd, rn, #tmimm",
+      "description": "Subtract with Carry (modified immediate)",
+      "pseudocode": "rd = rn (sbc) tmimm",
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2SBCrs",
+      "name": "sbc",
+      "asm": "~sflag.w rd, rn, rm{?, shiftamount}",
+      "description": "Subtract with Carry (shifted register)",
+      "pseudocode": "rd = rn (sbc) shifted rm",
+      "llvmFixed": [
+        "ShiftedRm"
+      ],
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2SUBri",
+      "name": "sub",
+      "asm": "~sflag.w rd, rn, #tmimm",
+      "description": "Subtract (modified immediate)",
+      "pseudocode": "rd = rn (sub) tmimm",
+      "constraints": {
+        "rn": "!=15",
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2SUBrs",
+      "name": "sub",
+      "asm": "~sflag.w rd, rn, rm{?, shiftamount}",
+      "description": "Subtract (shifted register)",
+      "pseudocode": "rd = rn (sub) shifted rm",
+      "llvmFixed": [
+        "ShiftedRm"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2RSBri",
+      "name": "rsb",
+      "asm": "~sflag.w rd, rn, #tmimm",
+      "description": "Reverse Subtract (modified immediate)",
+      "pseudocode": "rd = rn (rsb) tmimm",
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2RSBrs",
+      "name": "rsb",
+      "asm": "~sflag rd, rn, rm{?, shiftamount}",
+      "description": "Reverse Subtract (shifted register)",
+      "pseudocode": "rd = rn (rsb) shifted rm",
+      "llvmFixed": [
+        "ShiftedRm"
+      ],
+      "constraints": {
+        "rn": "!={13,15}",
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2TSTri",
+      "name": "tst.w",
+      "asm": "rn, #tmimm",
+      "description": "Test (modified immediate)",
+      "pseudocode": "flags of rn (tst) tmimm",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2TSTrs",
+      "name": "tst.w",
+      "asm": "rn, rm{?, shiftamount}",
+      "description": "Test (shifted register)",
+      "pseudocode": "flags of rn (tst) shifted rm",
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2TEQri",
+      "name": "teq.w",
+      "asm": "rn, #tmimm",
+      "description": "Test Equivalence (modified immediate)",
+      "pseudocode": "flags of rn (teq) tmimm",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2TEQrs",
+      "name": "teq.w",
+      "asm": "rn, rm{?, shiftamount}",
+      "description": "Test Equivalence (shifted register)",
+      "pseudocode": "flags of rn (teq) shifted rm",
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2CMNri",
+      "name": "cmn.w",
+      "asm": "rn, #tmimm",
+      "description": "Compare Negative (modified immediate)",
+      "pseudocode": "flags of rn (cmn) tmimm",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2CMNrs",
+      "name": "cmn.w",
+      "asm": "rn, rm{?, shiftamount}",
+      "description": "Compare Negative (shifted register)",
+      "pseudocode": "flags of rn (cmn) shifted rm",
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2CMPri",
+      "name": "cmp.w",
+      "asm": "rn, #tmimm",
+      "description": "Compare (modified immediate)",
+      "pseudocode": "flags of rn (cmp) tmimm",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2CMPrs",
+      "name": "cmp.w",
+      "asm": "rn, rm{?, shiftamount}",
+      "description": "Compare (shifted register)",
+      "pseudocode": "flags of rn (cmp) shifted rm",
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2MOVi",
+      "name": "mov",
+      "asm": "~sflag.w rd, #tmimm",
+      "description": "Move (modified immediate)",
+      "pseudocode": "rd = tmimm",
+      "constraints": {
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2MVNi",
+      "name": "mvn",
+      "asm": "~sflag rd, #tmimm",
+      "description": "Bitwise NOT (modified immediate)",
+      "pseudocode": "rd = ~tmimm",
+      "constraints": {
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2MVNs",
+      "name": "mvn",
+      "asm": "~sflag.w rd, rm{?, shiftamount}",
+      "description": "Bitwise NOT (shifted register)",
+      "pseudocode": "rd = ~shifted rm",
+      "llvmFixed": [
+        "ShiftedRm"
+      ],
+      "constraints": {
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2MOVr",
+      "name": "mov",
+      "asm": "~sflag.w rd, rm",
+      "description": "Move (register)",
+      "pseudocode": "rd = rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2LSLri",
+      "name": "lsl",
+      "asm": "~sflag.w rd, rm, #tlsli",
+      "description": "Logical Shift Left (immediate)",
+      "pseudocode": "rd = rm (lsl) amount",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2LSRri",
+      "name": "lsr",
+      "asm": "~sflag.w rd, rm, #tshr",
+      "description": "Logical Shift Right (immediate)",
+      "pseudocode": "rd = rm (lsr) amount",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2ASRri",
+      "name": "asr",
+      "asm": "~sflag.w rd, rm, #tshr",
+      "description": "Arithmetic Shift Right (immediate)",
+      "pseudocode": "rd = rm (asr) amount",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2RORri",
+      "name": "ror",
+      "asm": "~sflag.w rd, rm, #tlsli",
+      "description": "Rotate Right (immediate)",
+      "pseudocode": "rd = rm (ror) amount",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2RRX",
+      "name": "rrx",
+      "asm": "~sflag rd, rm",
+      "description": "Rotate Right with Extend",
+      "pseudocode": "rd = C : rm[31:1]",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2LSLrr",
+      "name": "lsl",
+      "asm": "~sflag.w rd, rn, rm",
+      "description": "Logical Shift Left (register)",
+      "pseudocode": "rd = rn (lsl) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2LSRrr",
+      "name": "lsr",
+      "asm": "~sflag.w rd, rn, rm",
+      "description": "Logical Shift Right (register)",
+      "pseudocode": "rd = rn (lsr) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2ASRrr",
+      "name": "asr",
+      "asm": "~sflag.w rd, rn, rm",
+      "description": "Arithmetic Shift Right (register)",
+      "pseudocode": "rd = rn (asr) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpreg",
+      "def": "t2RORrr",
+      "name": "ror",
+      "asm": "~sflag.w rd, rn, rm",
+      "description": "Rotate Right (register)",
+      "pseudocode": "rd = rn (ror) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2ADDspImm",
+      "name": "add",
+      "asm": "~sflag.w SP, SP, #tmimm",
+      "description": "Add (SP and modified immediate, to SP)",
+      "pseudocode": "SP = SP + tmimm"
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2ADDri12",
+      "name": "addw",
+      "asm": "rd, rn, #imm",
+      "description": "Add Wide (12 bit immediate)",
+      "pseudocode": "rd = rn + imm",
+      "constraints": {
+        "rn": "!=15",
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2ADDspImm12",
+      "name": "addw",
+      "asm": "SP, SP, #imm",
+      "description": "Add Wide (SP and 12 bit immediate, to SP)",
+      "pseudocode": "SP = SP + imm"
+    },
+    {
+      "group": "t32-dpimm",
+      "def": "t2SUBspImm",
+      "name": "sub",
+      "asm": "~sflag.w SP, SP, #tmimm",
+      "description": "Subtract (SP and modified immediate, to SP)",
+      "pseudocode": "SP = SP - tmimm"
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2SUBri12",
+      "name": "subw",
+      "asm": "rd, rn, #imm",
+      "description": "Subtract Wide (12 bit immediate)",
+      "pseudocode": "rd = rn - imm",
+      "constraints": {
+        "rn": "!=15",
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2SUBspImm12",
+      "name": "subw",
+      "asm": "SP, SP, #imm",
+      "description": "Subtract Wide (SP and 12 bit immediate, to SP)",
+      "pseudocode": "SP = SP - imm"
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2ADR",
+      "name": "addw",
+      "asm": "rd, PC, #imm",
+      "description": "Form PC-relative Address (adr, forward)",
+      "pseudocode": "rd = Align ( PC, 4 ) + imm",
+      "fix": {
+        "adrsub": 0
+      },
+      "constraints": {
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2ADR",
+      "name": "subw",
+      "asm": "rd, PC, #imm",
+      "description": "Form PC-relative Address (adr, backward)",
+      "pseudocode": "rd = Align ( PC, 4 ) - imm",
+      "fix": {
+        "adrsub": 1
+      },
+      "constraints": {
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2MOVi16",
+      "name": "movw",
+      "asm": "rd, #imm",
+      "description": "Move Wide (16 bit immediate)",
+      "pseudocode": "rd = imm",
+      "constraints": {
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2MOVTi16",
+      "name": "movt",
+      "asm": "rd, #imm",
+      "description": "Move Top",
+      "pseudocode": "rd[31:16] = imm",
+      "constraints": {
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2SSAT",
+      "name": "ssat",
+      "asm": "rd, #ssat, rn{?, shsat #samt}",
+      "description": "Signed Saturate",
+      "pseudocode": "rd = saturate ( shifted rn, ssat bits signed )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2USAT",
+      "name": "usat",
+      "asm": "rd, #usat, rn{?, shsat #samt}",
+      "description": "Unsigned Saturate",
+      "pseudocode": "rd = saturate ( shifted rn, usat bits unsigned )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2SSAT16",
+      "name": "ssat16",
+      "asm": "rd, #ssat4, rn",
+      "description": "Signed Saturate 16",
+      "pseudocode": "each halfword of rd = saturate ( rn half, signed )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2USAT16",
+      "name": "usat16",
+      "asm": "rd, #usat4, rn",
+      "description": "Unsigned Saturate 16",
+      "pseudocode": "each halfword of rd = saturate ( rn half, unsigned )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2SBFX",
+      "name": "sbfx",
+      "asm": "rd, rn, #lsb, #widthm1",
+      "description": "Signed Bit Field Extract",
+      "pseudocode": "rd = sign extend ( rn[lsb + width - 1 : lsb] )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2UBFX",
+      "name": "ubfx",
+      "asm": "rd, rn, #lsb, #widthm1",
+      "description": "Unsigned Bit Field Extract",
+      "pseudocode": "rd = rn[lsb + width - 1 : lsb]",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2BFI",
+      "name": "bfi",
+      "asm": "rd, rn, #lsb, #msb",
+      "description": "Bit Field Insert",
+      "pseudocode": "rd[msb:lsb] = rn",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-dpbin",
+      "def": "t2BFC",
+      "name": "bfc",
+      "asm": "rd, #lsb, #msb",
+      "description": "Bit Field Clear",
+      "pseudocode": "rd[msb:lsb] = 0",
+      "constraints": {
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2PKHBT",
+      "name": "pkhbt",
+      "asm": "rd, rn, rm{?, lsl #pkhsh}",
+      "description": "Pack Halfword Bottom Top",
+      "pseudocode": "rd = ( rm << sh )[31:16] : rn[15:0]",
+      "llvmFixed": [
+        "sh"
+      ],
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2PKHTB",
+      "name": "pkhtb",
+      "asm": "rd, rn, rm, asr #pkha",
+      "description": "Pack Halfword Top Bottom",
+      "pseudocode": "rd = rn[31:16] : ( rm >> sh )[15:0]",
+      "llvmFixed": [
+        "sh"
+      ],
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SXTAH",
+      "name": "sxtah",
+      "asm": "rd, rn, rm{?, rot}",
+      "description": "Signed Extend and Add Halfword",
+      "pseudocode": "rd = rn + extend ( rm rotated )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SXTH",
+      "name": "sxth.w",
+      "asm": "rd, rm{?, rot}",
+      "description": "Signed Extend Halfword",
+      "pseudocode": "rd = extend ( rm rotated )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UXTAH",
+      "name": "uxtah",
+      "asm": "rd, rn, rm{?, rot}",
+      "description": "Unsigned Extend and Add Halfword",
+      "pseudocode": "rd = rn + extend ( rm rotated )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UXTH",
+      "name": "uxth.w",
+      "asm": "rd, rm{?, rot}",
+      "description": "Unsigned Extend Halfword",
+      "pseudocode": "rd = extend ( rm rotated )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SXTAB16",
+      "name": "sxtab16",
+      "asm": "rd, rn, rm{?, rot}",
+      "description": "Signed Extend and Add Byte 16",
+      "pseudocode": "rd = rn + extend ( rm rotated )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SXTB16",
+      "name": "sxtb16",
+      "asm": "rd, rm{?, rot}",
+      "description": "Signed Extend Byte 16",
+      "pseudocode": "rd = extend ( rm rotated )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UXTAB16",
+      "name": "uxtab16",
+      "asm": "rd, rn, rm{?, rot}",
+      "description": "Unsigned Extend and Add Byte 16",
+      "pseudocode": "rd = rn + extend ( rm rotated )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UXTB16",
+      "name": "uxtb16",
+      "asm": "rd, rm{?, rot}",
+      "description": "Unsigned Extend Byte 16",
+      "pseudocode": "rd = extend ( rm rotated )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SXTAB",
+      "name": "sxtab",
+      "asm": "rd, rn, rm{?, rot}",
+      "description": "Signed Extend and Add Byte",
+      "pseudocode": "rd = rn + extend ( rm rotated )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SXTB",
+      "name": "sxtb.w",
+      "asm": "rd, rm{?, rot}",
+      "description": "Signed Extend Byte",
+      "pseudocode": "rd = extend ( rm rotated )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UXTAB",
+      "name": "uxtab",
+      "asm": "rd, rn, rm{?, rot}",
+      "description": "Unsigned Extend and Add Byte",
+      "pseudocode": "rd = rn + extend ( rm rotated )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UXTB",
+      "name": "uxtb.w",
+      "asm": "rd, rm{?, rot}",
+      "description": "Unsigned Extend Byte",
+      "pseudocode": "rd = extend ( rm rotated )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SADD8",
+      "name": "sadd8",
+      "asm": "rd, rn, rm",
+      "description": "Signed Add 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SADD16",
+      "name": "sadd16",
+      "asm": "rd, rn, rm",
+      "description": "Signed Add 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SASX",
+      "name": "sasx",
+      "asm": "rd, rn, rm",
+      "description": "Signed Add and Subtract with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SSUB8",
+      "name": "ssub8",
+      "asm": "rd, rn, rm",
+      "description": "Signed Subtract 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SSUB16",
+      "name": "ssub16",
+      "asm": "rd, rn, rm",
+      "description": "Signed Subtract 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SSAX",
+      "name": "ssax",
+      "asm": "rd, rn, rm",
+      "description": "Signed Subtract and Add with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2QADD8",
+      "name": "qadd8",
+      "asm": "rd, rn, rm",
+      "description": "Saturating Add 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2QADD16",
+      "name": "qadd16",
+      "asm": "rd, rn, rm",
+      "description": "Saturating Add 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2QASX",
+      "name": "qasx",
+      "asm": "rd, rn, rm",
+      "description": "Saturating Add and Subtract with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2QSUB8",
+      "name": "qsub8",
+      "asm": "rd, rn, rm",
+      "description": "Saturating Subtract 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2QSUB16",
+      "name": "qsub16",
+      "asm": "rd, rn, rm",
+      "description": "Saturating Subtract 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2QSAX",
+      "name": "qsax",
+      "asm": "rd, rn, rm",
+      "description": "Saturating Subtract and Add with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SHADD8",
+      "name": "shadd8",
+      "asm": "rd, rn, rm",
+      "description": "Signed Halving Add 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SHADD16",
+      "name": "shadd16",
+      "asm": "rd, rn, rm",
+      "description": "Signed Halving Add 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SHASX",
+      "name": "shasx",
+      "asm": "rd, rn, rm",
+      "description": "Signed Halving Add and Subtract with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SHSUB8",
+      "name": "shsub8",
+      "asm": "rd, rn, rm",
+      "description": "Signed Halving Subtract 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SHSUB16",
+      "name": "shsub16",
+      "asm": "rd, rn, rm",
+      "description": "Signed Halving Subtract 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SHSAX",
+      "name": "shsax",
+      "asm": "rd, rn, rm",
+      "description": "Signed Halving Subtract and Add with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UADD8",
+      "name": "uadd8",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Add 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UADD16",
+      "name": "uadd16",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Add 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UASX",
+      "name": "uasx",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Add and Subtract with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2USUB8",
+      "name": "usub8",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Subtract 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2USUB16",
+      "name": "usub16",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Subtract 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2USAX",
+      "name": "usax",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Subtract and Add with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UQADD8",
+      "name": "uqadd8",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Saturating Add 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UQADD16",
+      "name": "uqadd16",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Saturating Add 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UQASX",
+      "name": "uqasx",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Saturating Add and Subtract with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UQSUB8",
+      "name": "uqsub8",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Saturating Subtract 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UQSUB16",
+      "name": "uqsub16",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Saturating Subtract 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UQSAX",
+      "name": "uqsax",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Saturating Subtract and Add with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UHADD8",
+      "name": "uhadd8",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Halving Add 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UHADD16",
+      "name": "uhadd16",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Halving Add 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UHASX",
+      "name": "uhasx",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Halving Add and Subtract with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UHSUB8",
+      "name": "uhsub8",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Halving Subtract 8",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UHSUB16",
+      "name": "uhsub16",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Halving Subtract 16",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2UHSAX",
+      "name": "uhsax",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Halving Subtract and Add with Exchange",
+      "pseudocode": "rd = lanes of rn (op) rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2QADD",
+      "name": "qadd",
+      "asm": "rd, rm, rn",
+      "description": "Saturating Add",
+      "pseudocode": "rd = sat ( rm + rn )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2QDADD",
+      "name": "qdadd",
+      "asm": "rd, rm, rn",
+      "description": "Saturating Double and Add",
+      "pseudocode": "rd = sat ( rm + sat ( 2 × rn ) )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2QSUB",
+      "name": "qsub",
+      "asm": "rd, rm, rn",
+      "description": "Saturating Subtract",
+      "pseudocode": "rd = sat ( rm - rn )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2QDSUB",
+      "name": "qdsub",
+      "asm": "rd, rm, rn",
+      "description": "Saturating Double and Subtract",
+      "pseudocode": "rd = sat ( rm - sat ( 2 × rn ) )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2REV",
+      "name": "rev.w",
+      "asm": "rd, rm",
+      "description": "Byte-Reverse Word",
+      "pseudocode": "rd = f ( rm )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2REV16",
+      "name": "rev16.w",
+      "asm": "rd, rm",
+      "description": "Byte-Reverse Packed Halfword",
+      "pseudocode": "rd = f ( rm )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2RBIT",
+      "name": "rbit",
+      "asm": "rd, rm",
+      "description": "Reverse Bits",
+      "pseudocode": "rd = f ( rm )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2REVSH",
+      "name": "revsh.w",
+      "asm": "rd, rm",
+      "description": "Byte-Reverse Signed Halfword",
+      "pseudocode": "rd = f ( rm )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2CLZ",
+      "name": "clz",
+      "asm": "rd, rm",
+      "description": "Count Leading Zeros",
+      "pseudocode": "rd = f ( rm )",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-media",
+      "def": "t2SEL",
+      "name": "sel",
+      "asm": "rd, rn, rm",
+      "description": "Select Bytes",
+      "pseudocode": "each byte of rd = GE ? rn : rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2MUL",
+      "name": "mul",
+      "asm": "rd, rn, rm",
+      "description": "Multiply",
+      "pseudocode": "rd = rn × rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2MLA",
+      "name": "mla",
+      "asm": "rd, rn, rm, ra",
+      "description": "Multiply Accumulate",
+      "pseudocode": "rd = ra + rn × rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2MLS",
+      "name": "mls",
+      "asm": "rd, rn, rm, ra",
+      "description": "Multiply and Subtract",
+      "pseudocode": "rd = ra - rn × rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLABB",
+      "name": "smlabb",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate (halfwords BB)",
+      "pseudocode": "rd = ra + rn.x × rm.y",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMULBB",
+      "name": "smulbb",
+      "asm": "rd, rn, rm",
+      "description": "Signed Multiply (halfwords BB)",
+      "pseudocode": "rd = rn.x × rm.y",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLALBB",
+      "name": "smlalbb",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long (halfwords BB)",
+      "pseudocode": "rdhi : rdlo += rn.x × rm.y",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLABT",
+      "name": "smlabt",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate (halfwords BT)",
+      "pseudocode": "rd = ra + rn.x × rm.y",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMULBT",
+      "name": "smulbt",
+      "asm": "rd, rn, rm",
+      "description": "Signed Multiply (halfwords BT)",
+      "pseudocode": "rd = rn.x × rm.y",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLALBT",
+      "name": "smlalbt",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long (halfwords BT)",
+      "pseudocode": "rdhi : rdlo += rn.x × rm.y",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLATB",
+      "name": "smlatb",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate (halfwords TB)",
+      "pseudocode": "rd = ra + rn.x × rm.y",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMULTB",
+      "name": "smultb",
+      "asm": "rd, rn, rm",
+      "description": "Signed Multiply (halfwords TB)",
+      "pseudocode": "rd = rn.x × rm.y",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLALTB",
+      "name": "smlaltb",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long (halfwords TB)",
+      "pseudocode": "rdhi : rdlo += rn.x × rm.y",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLATT",
+      "name": "smlatt",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate (halfwords TT)",
+      "pseudocode": "rd = ra + rn.x × rm.y",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMULTT",
+      "name": "smultt",
+      "asm": "rd, rn, rm",
+      "description": "Signed Multiply (halfwords TT)",
+      "pseudocode": "rd = rn.x × rm.y",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLALTT",
+      "name": "smlaltt",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long (halfwords TT)",
+      "pseudocode": "rdhi : rdlo += rn.x × rm.y",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLAD",
+      "name": "smlad",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate Dual",
+      "pseudocode": "rd = ra ± products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLADX",
+      "name": "smladx",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate Dual, exchanged",
+      "pseudocode": "rd = ra ± products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMUAD",
+      "name": "smuad",
+      "asm": "rd, rn, rm",
+      "description": "Signed Dual Multiply Add",
+      "pseudocode": "rd = products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMUADX",
+      "name": "smuadx",
+      "asm": "rd, rn, rm",
+      "description": "Signed Dual Multiply Add, exchanged",
+      "pseudocode": "rd = products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLAWB",
+      "name": "smlawb",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate Word by Halfword (B)",
+      "pseudocode": "rd = ra ± products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLAWT",
+      "name": "smlawt",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Multiply Accumulate Word by Halfword (T)",
+      "pseudocode": "rd = ra ± products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMULWB",
+      "name": "smulwb",
+      "asm": "rd, rn, rm",
+      "description": "Signed Multiply Word by Halfword (B)",
+      "pseudocode": "rd = products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMULWT",
+      "name": "smulwt",
+      "asm": "rd, rn, rm",
+      "description": "Signed Multiply Word by Halfword (T)",
+      "pseudocode": "rd = products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLSD",
+      "name": "smlsd",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Multiply Subtract Dual",
+      "pseudocode": "rd = ra ± products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLSDX",
+      "name": "smlsdx",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Multiply Subtract Dual, exchanged",
+      "pseudocode": "rd = ra ± products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMUSD",
+      "name": "smusd",
+      "asm": "rd, rn, rm",
+      "description": "Signed Dual Multiply Subtract",
+      "pseudocode": "rd = products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMUSDX",
+      "name": "smusdx",
+      "asm": "rd, rn, rm",
+      "description": "Signed Dual Multiply Subtract, exchanged",
+      "pseudocode": "rd = products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMMLA",
+      "name": "smmla",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Most Significant Word Multiply Accumulate",
+      "pseudocode": "rd = ra ± products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMMLAR",
+      "name": "smmlar",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Most Significant Word Multiply Accumulate, rounded",
+      "pseudocode": "rd = ra ± products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMMUL",
+      "name": "smmul",
+      "asm": "rd, rn, rm",
+      "description": "Signed Most Significant Word Multiply",
+      "pseudocode": "rd = products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMMULR",
+      "name": "smmulr",
+      "asm": "rd, rn, rm",
+      "description": "Signed Most Significant Word Multiply, rounded",
+      "pseudocode": "rd = products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMMLS",
+      "name": "smmls",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Most Significant Word Multiply Subtract",
+      "pseudocode": "rd = ra ± products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMMLSR",
+      "name": "smmlsr",
+      "asm": "rd, rn, rm, ra",
+      "description": "Signed Most Significant Word Multiply Subtract, rounded",
+      "pseudocode": "rd = ra ± products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2USAD8",
+      "name": "usad8",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Sum of Absolute Differences",
+      "pseudocode": "rd = products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2USADA8",
+      "name": "usada8",
+      "asm": "rd, rn, rm, ra",
+      "description": "Unsigned Sum of Absolute Differences and Accumulate",
+      "pseudocode": "rd = ra ± products",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMULL",
+      "name": "smull",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Long",
+      "pseudocode": "rdhi : rdlo (op)= rn × rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2UMULL",
+      "name": "umull",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Unsigned Multiply Long",
+      "pseudocode": "rdhi : rdlo (op)= rn × rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLAL",
+      "name": "smlal",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long",
+      "pseudocode": "rdhi : rdlo (op)= rn × rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2UMLAL",
+      "name": "umlal",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Unsigned Multiply Accumulate Long",
+      "pseudocode": "rdhi : rdlo (op)= rn × rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2UMAAL",
+      "name": "umaal",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Unsigned Multiply Accumulate Accumulate Long",
+      "pseudocode": "rdhi : rdlo (op)= rn × rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLALD",
+      "name": "smlald",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long Dual",
+      "pseudocode": "rdhi : rdlo (op)= rn × rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLALDX",
+      "name": "smlaldx",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Accumulate Long Dual, exchanged",
+      "pseudocode": "rdhi : rdlo (op)= rn × rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLSLD",
+      "name": "smlsld",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Subtract Long Dual",
+      "pseudocode": "rdhi : rdlo (op)= rn × rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SMLSLDX",
+      "name": "smlsldx",
+      "asm": "rdlo, rdhi, rn, rm",
+      "description": "Signed Multiply Subtract Long Dual, exchanged",
+      "pseudocode": "rdhi : rdlo (op)= rn × rm",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      },
+      "distinct": [
+        "rdlo",
+        "rdhi"
+      ]
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2SDIV",
+      "name": "sdiv",
+      "asm": "rd, rn, rm",
+      "description": "Signed Divide",
+      "pseudocode": "rd = rn / rm (signed)",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-mul",
+      "def": "t2UDIV",
+      "name": "udiv",
+      "asm": "rd, rn, rm",
+      "description": "Unsigned Divide",
+      "pseudocode": "rd = rn / rm (unsigned)",
+      "constraints": {
+        "rd": "!={13,15}",
+        "rn": "!={13,15}",
+        "rm": "!={13,15}",
+        "ra": "!={13,15}",
+        "rdlo": "!={13,15}",
+        "rdhi": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-branch",
+      "def": "t2B",
+      "name": "b.w",
+      "asm": "bllabel",
+      "description": "Branch (wide)",
+      "pseudocode": "PC = PC + 4 + label",
+      "llvmFixed": [
+        "target"
+      ]
+    },
+    {
+      "group": "t32-branch",
+      "def": "t2Bcc",
+      "name": "b",
+      "asm": "~cond.w label",
+      "description": "Branch (conditional, wide)",
+      "pseudocode": "if ( cond ) PC = PC + 4 + label",
+      "constraints": {
+        "cond": "!={14,15}"
+      }
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2MSR_AR",
+      "name": "msr",
+      "asm": "psrmsk, rn",
+      "description": "Move to Special Register",
+      "pseudocode": "CPSR / SPSR fields = rn",
+      "constraints": {
+        "rn": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2MRS_AR",
+      "name": "mrs",
+      "asm": "rd, APSR",
+      "description": "Move from APSR / CPSR",
+      "pseudocode": "rd = APSR",
+      "constraints": {
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2MRSsys_AR",
+      "name": "mrs",
+      "asm": "rd, SPSR",
+      "description": "Move from SPSR",
+      "pseudocode": "rd = SPSR",
+      "constraints": {
+        "rd": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2CPS2p",
+      "name": "cpsie.w",
+      "asm": "iflags",
+      "description": "Change Processor State: Enable Interrupts (wide)",
+      "pseudocode": "enable iflags",
+      "fix": {
+        "imod": 2
+      }
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2CPS3p",
+      "name": "cpsie.w",
+      "asm": "iflags, #mode",
+      "description": "Change Processor State: Enable Interrupts and Change Mode",
+      "pseudocode": "enable iflags ; mode",
+      "fix": {
+        "imod": 2
+      }
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2CPS2p",
+      "name": "cpsid.w",
+      "asm": "iflags",
+      "description": "Change Processor State: Disable Interrupts (wide)",
+      "pseudocode": "disable iflags",
+      "fix": {
+        "imod": 3
+      }
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2CPS3p",
+      "name": "cpsid.w",
+      "asm": "iflags, #mode",
+      "description": "Change Processor State: Disable Interrupts and Change Mode",
+      "pseudocode": "disable iflags ; mode",
+      "fix": {
+        "imod": 3
+      }
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2CPS1p",
+      "name": "cps",
+      "asm": "#mode",
+      "description": "Change Processor State: Change Mode",
+      "pseudocode": "CPSR.M = mode"
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2HINT",
+      "name": "hint.w",
+      "asm": "#imm",
+      "description": "Hint (wide)",
+      "pseudocode": "imm 0 nop, 1 yield, 2 wfe, 3 wfi, 4 sev",
+      "immMax": 239
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2DBG",
+      "name": "dbg",
+      "asm": "#imm",
+      "description": "Debug Hint",
+      "pseudocode": "hint to the debug system"
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2CLREX",
+      "name": "clrex",
+      "asm": "",
+      "description": "Clear-Exclusive",
+      "pseudocode": "clear the local monitor"
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2DSB",
+      "name": "dsb",
+      "asm": "barrier",
+      "description": "Data Synchronization Barrier",
+      "pseudocode": "complete memory accesses"
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2DMB",
+      "name": "dmb",
+      "asm": "barrier",
+      "description": "Data Memory Barrier",
+      "pseudocode": "order memory accesses"
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2ISB",
+      "name": "isb",
+      "asm": "{?isbopt}",
+      "description": "Instruction Synchronization Barrier",
+      "pseudocode": "refetch the following instructions"
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2BXJ",
+      "name": "bxj",
+      "asm": "rm",
+      "description": "Branch and Exchange Jazelle",
+      "pseudocode": "as bx (no Jazelle)",
+      "constraints": {
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2SUBS_PC_LR",
+      "name": "subs",
+      "asm": "PC, LR, #imm",
+      "description": "Exception Return (subs pc, lr; eret is #0)",
+      "pseudocode": "PC = LR - imm ; CPSR = SPSR"
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2SMC",
+      "name": "smc",
+      "asm": "#imm",
+      "description": "Secure Monitor Call",
+      "pseudocode": "Secure Monitor Call exception"
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2HVC",
+      "name": "hvc",
+      "asm": "#imm",
+      "description": "Hypervisor Call",
+      "pseudocode": "Hyp trap"
+    },
+    {
+      "group": "t32-misc",
+      "def": "t2UDF",
+      "name": "udf.w",
+      "asm": "#imm",
+      "description": "Permanently Undefined (wide)",
+      "pseudocode": "Undefined Instruction exception"
+    },
+    {
+      "group": "t16-misc",
+      "def": "t2IT",
+      "name": "it",
+      "asm": "~itmask firstcond",
+      "description": "If-Then: the next 1 to 4 instructions run if firstcond (t) or not (e)",
+      "pseudocode": "condition the instructions that follow"
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRi12",
+      "name": "ldr.w",
+      "asm": "rt, [rn, #imm]",
+      "description": "Load Register Word (12 bit offset)",
+      "pseudocode": "rt = [ rn + imm ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRi8",
+      "name": "ldr",
+      "asm": "rt, [rn, #-imm]",
+      "description": "Load Register Word (negative 8 bit offset)",
+      "pseudocode": "rt = [ rn - imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDR_PRE",
+      "name": "ldr",
+      "asm": "rt, [rn, #signimm]!",
+      "description": "Load Register Word (pre-indexed)",
+      "pseudocode": "rn ±= imm ; rt = [ rn ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDR_POST",
+      "name": "ldr",
+      "asm": "rt, [rn], #signimm",
+      "description": "Load Register Word (post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= imm",
+      "llvmFixed": [
+        "offset"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRT",
+      "name": "ldrt",
+      "asm": "rt, [rn, #imm]",
+      "description": "Load Register Word Unprivileged",
+      "pseudocode": "rt = [ rn + imm ] as at PL0",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRs",
+      "name": "ldr.w",
+      "asm": "rt, [rn, rm{?, LSL #lsl2}]",
+      "description": "Load Register Word (register)",
+      "pseudocode": "rt = [ rn + ( rm << imm2 ) ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRpci",
+      "name": "ldr.w",
+      "asm": "rt, [PC, #signimm]",
+      "description": "Load Register Word (literal)",
+      "pseudocode": "rt = [ Align ( PC, 4 ) ± imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRi12",
+      "name": "str.w",
+      "asm": "rt, [rn, #imm]",
+      "description": "Store Register Word (12 bit offset)",
+      "pseudocode": "[ rn + imm ] = rt",
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRi8",
+      "name": "str",
+      "asm": "rt, [rn, #-imm]",
+      "description": "Store Register Word (negative 8 bit offset)",
+      "pseudocode": "[ rn - imm ] = rt",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STR_PRE",
+      "name": "str",
+      "asm": "rt, [rn, #signimm]!",
+      "description": "Store Register Word (pre-indexed)",
+      "pseudocode": "rn ±= imm ; [ rn ] = rt",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STR_POST",
+      "name": "str",
+      "asm": "rt, [rn], #signimm",
+      "description": "Store Register Word (post-indexed)",
+      "pseudocode": "[ rn ] = rt ; rn ±= imm",
+      "llvmFixed": [
+        "offset"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRT",
+      "name": "strt",
+      "asm": "rt, [rn, #imm]",
+      "description": "Store Register Word Unprivileged",
+      "pseudocode": "[ rn + imm ] = rt as at PL0",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRs",
+      "name": "str.w",
+      "asm": "rt, [rn, rm{?, LSL #lsl2}]",
+      "description": "Store Register Word (register)",
+      "pseudocode": "[ rn + ( rm << imm2 ) ] = rt",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRBi12",
+      "name": "ldrb.w",
+      "asm": "rt, [rn, #imm]",
+      "description": "Load Register Byte (12 bit offset)",
+      "pseudocode": "rt = [ rn + imm ]",
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRBi8",
+      "name": "ldrb",
+      "asm": "rt, [rn, #-imm]",
+      "description": "Load Register Byte (negative 8 bit offset)",
+      "pseudocode": "rt = [ rn - imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRB_PRE",
+      "name": "ldrb",
+      "asm": "rt, [rn, #signimm]!",
+      "description": "Load Register Byte (pre-indexed)",
+      "pseudocode": "rn ±= imm ; rt = [ rn ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRB_POST",
+      "name": "ldrb",
+      "asm": "rt, [rn], #signimm",
+      "description": "Load Register Byte (post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= imm",
+      "llvmFixed": [
+        "offset"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRBT",
+      "name": "ldrbt",
+      "asm": "rt, [rn, #imm]",
+      "description": "Load Register Byte Unprivileged",
+      "pseudocode": "rt = [ rn + imm ] as at PL0",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRBs",
+      "name": "ldrb.w",
+      "asm": "rt, [rn, rm{?, LSL #lsl2}]",
+      "description": "Load Register Byte (register)",
+      "pseudocode": "rt = [ rn + ( rm << imm2 ) ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRBpci",
+      "name": "ldrb.w",
+      "asm": "rt, [PC, #signimm]",
+      "description": "Load Register Byte (literal)",
+      "pseudocode": "rt = [ Align ( PC, 4 ) ± imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRBi12",
+      "name": "strb.w",
+      "asm": "rt, [rn, #imm]",
+      "description": "Store Register Byte (12 bit offset)",
+      "pseudocode": "[ rn + imm ] = rt",
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRBi8",
+      "name": "strb",
+      "asm": "rt, [rn, #-imm]",
+      "description": "Store Register Byte (negative 8 bit offset)",
+      "pseudocode": "[ rn - imm ] = rt",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRB_PRE",
+      "name": "strb",
+      "asm": "rt, [rn, #signimm]!",
+      "description": "Store Register Byte (pre-indexed)",
+      "pseudocode": "rn ±= imm ; [ rn ] = rt",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRB_POST",
+      "name": "strb",
+      "asm": "rt, [rn], #signimm",
+      "description": "Store Register Byte (post-indexed)",
+      "pseudocode": "[ rn ] = rt ; rn ±= imm",
+      "llvmFixed": [
+        "offset"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRBT",
+      "name": "strbt",
+      "asm": "rt, [rn, #imm]",
+      "description": "Store Register Byte Unprivileged",
+      "pseudocode": "[ rn + imm ] = rt as at PL0",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRBs",
+      "name": "strb.w",
+      "asm": "rt, [rn, rm{?, LSL #lsl2}]",
+      "description": "Store Register Byte (register)",
+      "pseudocode": "[ rn + ( rm << imm2 ) ] = rt",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSBi12",
+      "name": "ldrsb.w",
+      "asm": "rt, [rn, #imm]",
+      "description": "Load Register Signed Byte (12 bit offset)",
+      "pseudocode": "rt = [ rn + imm ]",
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSBi8",
+      "name": "ldrsb",
+      "asm": "rt, [rn, #-imm]",
+      "description": "Load Register Signed Byte (negative 8 bit offset)",
+      "pseudocode": "rt = [ rn - imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSB_PRE",
+      "name": "ldrsb",
+      "asm": "rt, [rn, #signimm]!",
+      "description": "Load Register Signed Byte (pre-indexed)",
+      "pseudocode": "rn ±= imm ; rt = [ rn ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSB_POST",
+      "name": "ldrsb",
+      "asm": "rt, [rn], #signimm",
+      "description": "Load Register Signed Byte (post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= imm",
+      "llvmFixed": [
+        "offset"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSBT",
+      "name": "ldrsbt",
+      "asm": "rt, [rn, #imm]",
+      "description": "Load Register Signed Byte Unprivileged",
+      "pseudocode": "rt = [ rn + imm ] as at PL0",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSBs",
+      "name": "ldrsb.w",
+      "asm": "rt, [rn, rm{?, LSL #lsl2}]",
+      "description": "Load Register Signed Byte (register)",
+      "pseudocode": "rt = [ rn + ( rm << imm2 ) ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSBpci",
+      "name": "ldrsb.w",
+      "asm": "rt, [PC, #signimm]",
+      "description": "Load Register Signed Byte (literal)",
+      "pseudocode": "rt = [ Align ( PC, 4 ) ± imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRHi12",
+      "name": "ldrh.w",
+      "asm": "rt, [rn, #imm]",
+      "description": "Load Register Halfword (12 bit offset)",
+      "pseudocode": "rt = [ rn + imm ]",
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRHi8",
+      "name": "ldrh",
+      "asm": "rt, [rn, #-imm]",
+      "description": "Load Register Halfword (negative 8 bit offset)",
+      "pseudocode": "rt = [ rn - imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRH_PRE",
+      "name": "ldrh",
+      "asm": "rt, [rn, #signimm]!",
+      "description": "Load Register Halfword (pre-indexed)",
+      "pseudocode": "rn ±= imm ; rt = [ rn ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRH_POST",
+      "name": "ldrh",
+      "asm": "rt, [rn], #signimm",
+      "description": "Load Register Halfword (post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= imm",
+      "llvmFixed": [
+        "offset"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRHT",
+      "name": "ldrht",
+      "asm": "rt, [rn, #imm]",
+      "description": "Load Register Halfword Unprivileged",
+      "pseudocode": "rt = [ rn + imm ] as at PL0",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRHs",
+      "name": "ldrh.w",
+      "asm": "rt, [rn, rm{?, LSL #lsl2}]",
+      "description": "Load Register Halfword (register)",
+      "pseudocode": "rt = [ rn + ( rm << imm2 ) ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRHpci",
+      "name": "ldrh.w",
+      "asm": "rt, [PC, #signimm]",
+      "description": "Load Register Halfword (literal)",
+      "pseudocode": "rt = [ Align ( PC, 4 ) ± imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRHi12",
+      "name": "strh.w",
+      "asm": "rt, [rn, #imm]",
+      "description": "Store Register Halfword (12 bit offset)",
+      "pseudocode": "[ rn + imm ] = rt",
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRHi8",
+      "name": "strh",
+      "asm": "rt, [rn, #-imm]",
+      "description": "Store Register Halfword (negative 8 bit offset)",
+      "pseudocode": "[ rn - imm ] = rt",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRH_PRE",
+      "name": "strh",
+      "asm": "rt, [rn, #signimm]!",
+      "description": "Store Register Halfword (pre-indexed)",
+      "pseudocode": "rn ±= imm ; [ rn ] = rt",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRH_POST",
+      "name": "strh",
+      "asm": "rt, [rn], #signimm",
+      "description": "Store Register Halfword (post-indexed)",
+      "pseudocode": "[ rn ] = rt ; rn ±= imm",
+      "llvmFixed": [
+        "offset"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRHT",
+      "name": "strht",
+      "asm": "rt, [rn, #imm]",
+      "description": "Store Register Halfword Unprivileged",
+      "pseudocode": "[ rn + imm ] = rt as at PL0",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRHs",
+      "name": "strh.w",
+      "asm": "rt, [rn, rm{?, LSL #lsl2}]",
+      "description": "Store Register Halfword (register)",
+      "pseudocode": "[ rn + ( rm << imm2 ) ] = rt",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}",
+        "rt": "!=15"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSHi12",
+      "name": "ldrsh.w",
+      "asm": "rt, [rn, #imm]",
+      "description": "Load Register Signed Halfword (12 bit offset)",
+      "pseudocode": "rt = [ rn + imm ]",
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSHi8",
+      "name": "ldrsh",
+      "asm": "rt, [rn, #-imm]",
+      "description": "Load Register Signed Halfword (negative 8 bit offset)",
+      "pseudocode": "rt = [ rn - imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSH_PRE",
+      "name": "ldrsh",
+      "asm": "rt, [rn, #signimm]!",
+      "description": "Load Register Signed Halfword (pre-indexed)",
+      "pseudocode": "rn ±= imm ; rt = [ rn ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSH_POST",
+      "name": "ldrsh",
+      "asm": "rt, [rn], #signimm",
+      "description": "Load Register Signed Halfword (post-indexed)",
+      "pseudocode": "rt = [ rn ] ; rn ±= imm",
+      "llvmFixed": [
+        "offset"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSHT",
+      "name": "ldrsht",
+      "asm": "rt, [rn, #imm]",
+      "description": "Load Register Signed Halfword Unprivileged",
+      "pseudocode": "rt = [ rn + imm ] as at PL0",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSHs",
+      "name": "ldrsh.w",
+      "asm": "rt, [rn, rm{?, LSL #lsl2}]",
+      "description": "Load Register Signed Halfword (register)",
+      "pseudocode": "rt = [ rn + ( rm << imm2 ) ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}",
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRSHpci",
+      "name": "ldrsh.w",
+      "asm": "rt, [PC, #signimm]",
+      "description": "Load Register Signed Halfword (literal)",
+      "pseudocode": "rt = [ Align ( PC, 4 ) ± imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRDi8",
+      "name": "ldrd",
+      "asm": "rt, rt2, [rn, #signdoff]",
+      "description": "Load Register Dual (offset)",
+      "pseudocode": "rt, rt2 = [ address ]",
+      "llvmFixed": [
+        "addr",
+        "imm"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rt2": "!={13,15}"
+      },
+      "distinct": [
+        "rt",
+        "rt2"
+      ]
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRDi8",
+      "name": "strd",
+      "asm": "rt, rt2, [rn, #signdoff]",
+      "description": "Store Register Dual (offset)",
+      "pseudocode": "[ address ] = rt, rt2",
+      "llvmFixed": [
+        "addr",
+        "imm"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rt2": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRD_PRE",
+      "name": "ldrd",
+      "asm": "rt, rt2, [rn, #signdoff]!",
+      "description": "Load Register Dual (pre-indexed)",
+      "pseudocode": "rt, rt2 = [ address ]",
+      "llvmFixed": [
+        "addr",
+        "imm"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rt2": "!={13,15}",
+        "rn": "!=15"
+      },
+      "distinct": [
+        "rt",
+        "rt2"
+      ]
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRD_PRE",
+      "name": "strd",
+      "asm": "rt, rt2, [rn, #signdoff]!",
+      "description": "Store Register Dual (pre-indexed)",
+      "pseudocode": "[ address ] = rt, rt2",
+      "llvmFixed": [
+        "addr",
+        "imm"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rt2": "!={13,15}",
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-load",
+      "def": "t2LDRD_POST",
+      "name": "ldrd",
+      "asm": "rt, rt2, [rn], #signdoff",
+      "description": "Load Register Dual (post-indexed)",
+      "pseudocode": "rt, rt2 = [ address ]",
+      "llvmFixed": [
+        "addr",
+        "imm"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rt2": "!={13,15}",
+        "rn": "!=15"
+      },
+      "distinct": [
+        "rt",
+        "rt2"
+      ]
+    },
+    {
+      "group": "t32-store",
+      "def": "t2STRD_POST",
+      "name": "strd",
+      "asm": "rt, rt2, [rn], #signdoff",
+      "description": "Store Register Dual (post-indexed)",
+      "pseudocode": "[ address ] = rt, rt2",
+      "llvmFixed": [
+        "addr",
+        "imm"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rt2": "!={13,15}",
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-excl",
+      "def": "t2LDREX",
+      "name": "ldrex",
+      "asm": "rt, [rn, #doff]",
+      "description": "Load Register Exclusive",
+      "pseudocode": "rt = [ rn + imm ] ; mark exclusive",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-excl",
+      "def": "t2STREX",
+      "name": "strex",
+      "asm": "rd, rt, [rn, #doff]",
+      "description": "Store Register Exclusive",
+      "pseudocode": "if ( exclusive ) [ rn + imm ] = rt ; rd = 0 / 1",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rd": "!={13,15}",
+        "rt": "!={13,15}",
+        "rn": "!=15"
+      },
+      "distinct": [
+        "rd",
+        "rt"
+      ]
+    },
+    {
+      "group": "t32-excl",
+      "def": "t2LDREXB",
+      "name": "ldrexb",
+      "asm": "rt, [rn]",
+      "description": "Load Register Exclusive Byte",
+      "pseudocode": "rt = [ rn ] ; mark exclusive",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-excl",
+      "def": "t2LDREXH",
+      "name": "ldrexh",
+      "asm": "rt, [rn]",
+      "description": "Load Register Exclusive Halfword",
+      "pseudocode": "rt = [ rn ] ; mark exclusive",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-excl",
+      "def": "t2LDREXD",
+      "name": "ldrexd",
+      "asm": "rt, rt2, [rn]",
+      "description": "Load Register Exclusive Doubleword",
+      "pseudocode": "rt = [ rn ] ; mark exclusive",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rn": "!=15",
+        "rt2": "!={13,15}"
+      },
+      "distinct": [
+        "rt",
+        "rt2"
+      ]
+    },
+    {
+      "group": "t32-excl",
+      "def": "t2STREXB",
+      "name": "strexb",
+      "asm": "rd, rt, [rn]",
+      "description": "Store Register Exclusive Byte",
+      "pseudocode": "if ( exclusive ) [ rn ] = rt ; rd = 0 / 1",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rn": "!=15",
+        "rd": "!={13,15}"
+      },
+      "distinct": [
+        "rd",
+        "rt"
+      ]
+    },
+    {
+      "group": "t32-excl",
+      "def": "t2STREXH",
+      "name": "strexh",
+      "asm": "rd, rt, [rn]",
+      "description": "Store Register Exclusive Halfword",
+      "pseudocode": "if ( exclusive ) [ rn ] = rt ; rd = 0 / 1",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rn": "!=15",
+        "rd": "!={13,15}"
+      },
+      "distinct": [
+        "rd",
+        "rt"
+      ]
+    },
+    {
+      "group": "t32-excl",
+      "def": "t2STREXD",
+      "name": "strexd",
+      "asm": "rd, rt, rt2, [rn]",
+      "description": "Store Register Exclusive Doubleword",
+      "pseudocode": "if ( exclusive ) [ rn ] = rt ; rd = 0 / 1",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rt": "!={13,15}",
+        "rn": "!=15",
+        "rt2": "!={13,15}",
+        "rd": "!={13,15}"
+      },
+      "distinct": [
+        "rd",
+        "rt"
+      ]
+    },
+    {
+      "group": "t32-branch",
+      "def": "t2TBB",
+      "name": "tbb",
+      "asm": "[rn, rm]",
+      "description": "Table Branch Byte",
+      "pseudocode": "PC = PC + 4 + 2 × [ rn + rm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=13",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-branch",
+      "def": "t2TBH",
+      "name": "tbh",
+      "asm": "[rn, rm, LSL #1]",
+      "description": "Table Branch Halfword",
+      "pseudocode": "PC = PC + 4 + 2 × [ rn + 2 × rm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=13",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-stm",
+      "def": "t2STMIA",
+      "name": "stm.w",
+      "asm": "rn, tlists",
+      "description": "Store Multiple (increment after)",
+      "pseudocode": "[ rn ... ] = reglist",
+      "llvmFixed": [
+        "regs"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-stm",
+      "def": "t2STMIA_UPD",
+      "name": "stm.w",
+      "asm": "rn!, tlists",
+      "description": "Store Multiple (increment after), with writeback",
+      "pseudocode": "[ rn ... ] = reglist",
+      "llvmFixed": [
+        "regs"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-ldm",
+      "def": "t2LDMIA",
+      "name": "ldm.w",
+      "asm": "rn, tlistl",
+      "description": "Load Multiple (increment after)",
+      "pseudocode": "reglist = [ rn ... ]",
+      "llvmFixed": [
+        "regs"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-ldm",
+      "def": "t2LDMIA_UPD",
+      "name": "ldm.w",
+      "asm": "rn!, tlistl",
+      "description": "Load Multiple (increment after), with writeback",
+      "pseudocode": "reglist = [ rn ... ]",
+      "llvmFixed": [
+        "regs"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-stm",
+      "def": "t2STMDB",
+      "name": "stmdb",
+      "asm": "rn, tlists",
+      "description": "Store Multiple (decrement before)",
+      "pseudocode": "[ rn ... ] = reglist",
+      "llvmFixed": [
+        "regs"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-stm",
+      "def": "t2STMDB_UPD",
+      "name": "stmdb",
+      "asm": "rn!, tlists",
+      "description": "Store Multiple (decrement before), with writeback",
+      "pseudocode": "[ rn ... ] = reglist",
+      "llvmFixed": [
+        "regs"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-ldm",
+      "def": "t2LDMDB",
+      "name": "ldmdb",
+      "asm": "rn, tlistl",
+      "description": "Load Multiple (decrement before)",
+      "pseudocode": "reglist = [ rn ... ]",
+      "llvmFixed": [
+        "regs"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-ldm",
+      "def": "t2LDMDB_UPD",
+      "name": "ldmdb",
+      "asm": "rn!, tlistl",
+      "description": "Load Multiple (decrement before), with writeback",
+      "pseudocode": "reglist = [ rn ... ]",
+      "llvmFixed": [
+        "regs"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-sys",
+      "def": "t2SRSDB",
+      "name": "srsdb",
+      "asm": "SP, #mode",
+      "description": "Store Return State (decrement before)",
+      "pseudocode": "[ SP_mode ... ] = LR, SPSR"
+    },
+    {
+      "group": "t32-sys",
+      "def": "t2SRSDB_UPD",
+      "name": "srsdb",
+      "asm": "SP!, #mode",
+      "description": "Store Return State (decrement before), with writeback",
+      "pseudocode": "[ SP_mode ... ] = LR, SPSR"
+    },
+    {
+      "group": "t32-sys",
+      "def": "t2SRSIA",
+      "name": "srsia",
+      "asm": "SP, #mode",
+      "description": "Store Return State (increment after)",
+      "pseudocode": "[ SP_mode ... ] = LR, SPSR"
+    },
+    {
+      "group": "t32-sys",
+      "def": "t2SRSIA_UPD",
+      "name": "srsia",
+      "asm": "SP!, #mode",
+      "description": "Store Return State (increment after), with writeback",
+      "pseudocode": "[ SP_mode ... ] = LR, SPSR"
+    },
+    {
+      "group": "t32-sys",
+      "def": "t2RFEDB",
+      "name": "rfedb",
+      "asm": "rn",
+      "description": "Return From Exception (decrement before)",
+      "pseudocode": "PC, CPSR = [ rn ... ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-sys",
+      "def": "t2RFEDBW",
+      "name": "rfedb",
+      "asm": "rn!",
+      "description": "Return From Exception (decrement before), with writeback",
+      "pseudocode": "PC, CPSR = [ rn ... ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-sys",
+      "def": "t2RFEIA",
+      "name": "rfeia",
+      "asm": "rn",
+      "description": "Return From Exception (increment after)",
+      "pseudocode": "PC, CPSR = [ rn ... ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-sys",
+      "def": "t2RFEIAW",
+      "name": "rfeia",
+      "asm": "rn!",
+      "description": "Return From Exception (increment after), with writeback",
+      "pseudocode": "PC, CPSR = [ rn ... ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-preload",
+      "def": "t2PLDi12",
+      "name": "pld",
+      "asm": "[rn, #imm]",
+      "description": "Preload Data (12 bit offset)",
+      "pseudocode": "preload [ rn + imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-preload",
+      "def": "t2PLDi8",
+      "name": "pld",
+      "asm": "[rn, #-imm]",
+      "description": "Preload Data (negative 8 bit offset)",
+      "pseudocode": "preload [ rn - imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-preload",
+      "def": "t2PLDs",
+      "name": "pld",
+      "asm": "[rn, rm{?, LSL #lsl2}]",
+      "description": "Preload Data (register)",
+      "pseudocode": "preload [ rn + ( rm << imm2 ) ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-preload",
+      "def": "t2PLDpci",
+      "name": "pld",
+      "asm": "[PC, #signimm]",
+      "description": "Preload Data (literal)",
+      "pseudocode": "preload [ Align ( PC, 4 ) ± imm ]",
+      "llvmFixed": [
+        "addr"
+      ]
+    },
+    {
+      "group": "t32-preload",
+      "def": "t2PLDWi12",
+      "name": "pldw",
+      "asm": "[rn, #imm]",
+      "description": "Preload Data for Write (12 bit offset)",
+      "pseudocode": "preload [ rn + imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-preload",
+      "def": "t2PLDWi8",
+      "name": "pldw",
+      "asm": "[rn, #-imm]",
+      "description": "Preload Data for Write (negative 8 bit offset)",
+      "pseudocode": "preload [ rn - imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-preload",
+      "def": "t2PLDWs",
+      "name": "pldw",
+      "asm": "[rn, rm{?, LSL #lsl2}]",
+      "description": "Preload Data for Write (register)",
+      "pseudocode": "preload [ rn + ( rm << imm2 ) ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-preload",
+      "def": "t2PLIi12",
+      "name": "pli",
+      "asm": "[rn, #imm]",
+      "description": "Preload Instruction (12 bit offset)",
+      "pseudocode": "preload [ rn + imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-preload",
+      "def": "t2PLIi8",
+      "name": "pli",
+      "asm": "[rn, #-imm]",
+      "description": "Preload Instruction (negative 8 bit offset)",
+      "pseudocode": "preload [ rn - imm ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-preload",
+      "def": "t2PLIs",
+      "name": "pli",
+      "asm": "[rn, rm{?, LSL #lsl2}]",
+      "description": "Preload Instruction (register)",
+      "pseudocode": "preload [ rn + ( rm << imm2 ) ]",
+      "llvmFixed": [
+        "addr"
+      ],
+      "constraints": {
+        "rn": "!=15",
+        "rm": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-preload",
+      "def": "t2PLIpci",
+      "name": "pli",
+      "asm": "[PC, #signimm]",
+      "description": "Preload Instruction (literal)",
+      "pseudocode": "preload [ Align ( PC, 4 ) ± imm ]",
+      "llvmFixed": [
+        "addr"
+      ]
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2CDP",
+      "name": "cdp",
+      "asm": "cp, #opc1, cd, cn, cm, #opc2",
+      "description": "Coprocessor Data Processing",
+      "pseudocode": "coprocessor cp operation"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2MCR",
+      "name": "mcr",
+      "asm": "cp, #copc1, rt, cn, cm, #opc2",
+      "description": "Move to Coprocessor from Register",
+      "pseudocode": "coprocessor register = rt",
+      "constraints": {
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2MRC",
+      "name": "mrc",
+      "asm": "cp, #copc1, rt, cn, cm, #opc2",
+      "description": "Move to Register from Coprocessor",
+      "pseudocode": "rt = coprocessor register",
+      "constraints": {
+        "rt": "!=13"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2MCRR",
+      "name": "mcrr",
+      "asm": "cp, #opc4, rt, rt2, cm",
+      "description": "Move to Coprocessor from two Registers",
+      "pseudocode": "coprocessor register = rt2 : rt",
+      "constraints": {
+        "rt": "!={13,15}",
+        "rt2": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2MRRC",
+      "name": "mrrc",
+      "asm": "cp, #opc4, rt, rt2, cm",
+      "description": "Move to two Registers from Coprocessor",
+      "pseudocode": "rt2 : rt = coprocessor register",
+      "constraints": {
+        "rt": "!={13,15}",
+        "rt2": "!={13,15}"
+      },
+      "distinct": [
+        "rt",
+        "rt2"
+      ]
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STC_OFFSET",
+      "name": "stc",
+      "asm": "cp, cd, [rn, #signcimm]",
+      "description": "Store Coprocessor (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STC_PRE",
+      "name": "stc",
+      "asm": "cp, cd, [rn, #signcimm]!",
+      "description": "Store Coprocessor (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STC_POST",
+      "name": "stc",
+      "asm": "cp, cd, [rn], #signcimm",
+      "description": "Store Coprocessor (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STC_OPTION",
+      "name": "stc",
+      "asm": "cp, cd, [rn], {coption}",
+      "description": "Store Coprocessor (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STCL_OFFSET",
+      "name": "stcl",
+      "asm": "cp, cd, [rn, #signcimm]",
+      "description": "Store Coprocessor (long) (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STCL_PRE",
+      "name": "stcl",
+      "asm": "cp, cd, [rn, #signcimm]!",
+      "description": "Store Coprocessor (long) (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STCL_POST",
+      "name": "stcl",
+      "asm": "cp, cd, [rn], #signcimm",
+      "description": "Store Coprocessor (long) (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STCL_OPTION",
+      "name": "stcl",
+      "asm": "cp, cd, [rn], {coption}",
+      "description": "Store Coprocessor (long) (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDC_OFFSET",
+      "name": "ldc",
+      "asm": "cp, cd, [rn, #signcimm]",
+      "description": "Load Coprocessor (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDC_PRE",
+      "name": "ldc",
+      "asm": "cp, cd, [rn, #signcimm]!",
+      "description": "Load Coprocessor (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDC_POST",
+      "name": "ldc",
+      "asm": "cp, cd, [rn], #signcimm",
+      "description": "Load Coprocessor (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDC_OPTION",
+      "name": "ldc",
+      "asm": "cp, cd, [rn], {coption}",
+      "description": "Load Coprocessor (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDCL_OFFSET",
+      "name": "ldcl",
+      "asm": "cp, cd, [rn, #signcimm]",
+      "description": "Load Coprocessor (long) (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDCL_PRE",
+      "name": "ldcl",
+      "asm": "cp, cd, [rn, #signcimm]!",
+      "description": "Load Coprocessor (long) (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDCL_POST",
+      "name": "ldcl",
+      "asm": "cp, cd, [rn], #signcimm",
+      "description": "Load Coprocessor (long) (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDCL_OPTION",
+      "name": "ldcl",
+      "asm": "cp, cd, [rn], {coption}",
+      "description": "Load Coprocessor (long) (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2CDP2",
+      "name": "cdp2",
+      "asm": "cp, #opc1, cd, cn, cm, #opc2",
+      "description": "Coprocessor Data Processing",
+      "pseudocode": "coprocessor cp operation"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2MCR2",
+      "name": "mcr2",
+      "asm": "cp, #copc1, rt, cn, cm, #opc2",
+      "description": "Move to Coprocessor from Register",
+      "pseudocode": "coprocessor register = rt",
+      "constraints": {
+        "rt": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2MRC2",
+      "name": "mrc2",
+      "asm": "cp, #copc1, rt, cn, cm, #opc2",
+      "description": "Move to Register from Coprocessor",
+      "pseudocode": "rt = coprocessor register",
+      "constraints": {
+        "rt": "!=13"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2MCRR2",
+      "name": "mcrr2",
+      "asm": "cp, #opc4, rt, rt2, cm",
+      "description": "Move to Coprocessor from two Registers",
+      "pseudocode": "coprocessor register = rt2 : rt",
+      "constraints": {
+        "rt": "!={13,15}",
+        "rt2": "!={13,15}"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2MRRC2",
+      "name": "mrrc2",
+      "asm": "cp, #opc4, rt, rt2, cm",
+      "description": "Move to two Registers from Coprocessor",
+      "pseudocode": "rt2 : rt = coprocessor register",
+      "constraints": {
+        "rt": "!={13,15}",
+        "rt2": "!={13,15}"
+      },
+      "distinct": [
+        "rt",
+        "rt2"
+      ]
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STC2_OFFSET",
+      "name": "stc2",
+      "asm": "cp, cd, [rn, #signcimm]",
+      "description": "Store Coprocessor (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STC2_PRE",
+      "name": "stc2",
+      "asm": "cp, cd, [rn, #signcimm]!",
+      "description": "Store Coprocessor (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STC2_POST",
+      "name": "stc2",
+      "asm": "cp, cd, [rn], #signcimm",
+      "description": "Store Coprocessor (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STC2_OPTION",
+      "name": "stc2",
+      "asm": "cp, cd, [rn], {coption}",
+      "description": "Store Coprocessor (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STC2L_OFFSET",
+      "name": "stc2l",
+      "asm": "cp, cd, [rn, #signcimm]",
+      "description": "Store Coprocessor (long) (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STC2L_PRE",
+      "name": "stc2l",
+      "asm": "cp, cd, [rn, #signcimm]!",
+      "description": "Store Coprocessor (long) (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STC2L_POST",
+      "name": "stc2l",
+      "asm": "cp, cd, [rn], #signcimm",
+      "description": "Store Coprocessor (long) (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2STC2L_OPTION",
+      "name": "stc2l",
+      "asm": "cp, cd, [rn], {coption}",
+      "description": "Store Coprocessor (long) (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDC2_OFFSET",
+      "name": "ldc2",
+      "asm": "cp, cd, [rn, #signcimm]",
+      "description": "Load Coprocessor (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDC2_PRE",
+      "name": "ldc2",
+      "asm": "cp, cd, [rn, #signcimm]!",
+      "description": "Load Coprocessor (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDC2_POST",
+      "name": "ldc2",
+      "asm": "cp, cd, [rn], #signcimm",
+      "description": "Load Coprocessor (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDC2_OPTION",
+      "name": "ldc2",
+      "asm": "cp, cd, [rn], {coption}",
+      "description": "Load Coprocessor (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDC2L_OFFSET",
+      "name": "ldc2l",
+      "asm": "cp, cd, [rn, #signcimm]",
+      "description": "Load Coprocessor (long) (offset)",
+      "pseudocode": "cd ↔ [ rn ± imm ]"
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDC2L_PRE",
+      "name": "ldc2l",
+      "asm": "cp, cd, [rn, #signcimm]!",
+      "description": "Load Coprocessor (long) (pre-indexed)",
+      "pseudocode": "rn ±= imm ; cd ↔ [ rn ]",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDC2L_POST",
+      "name": "ldc2l",
+      "asm": "cp, cd, [rn], #signcimm",
+      "description": "Load Coprocessor (long) (post-indexed)",
+      "pseudocode": "cd ↔ [ rn ] ; rn ±= imm",
+      "constraints": {
+        "rn": "!=15"
+      }
+    },
+    {
+      "group": "t32-coproc",
+      "def": "t2LDC2L_OPTION",
+      "name": "ldc2l",
+      "asm": "cp, cd, [rn], {coption}",
+      "description": "Load Coprocessor (long) (unindexed, option)",
+      "pseudocode": "cd ↔ [ rn ] ; option for the coprocessor"
+    }
+  ],
+  "registers": [
+    {
+      "title": "Registers",
+      "columns": [
+        "Register",
+        "Name",
+        "Encoding",
+        "Meaning"
+      ],
+      "group": "CPU Registers",
+      "rows": [
+        [
+          "r0",
+          "r0",
+          "0000",
+          "Argument / result"
+        ],
+        [
+          "r1",
+          "r1",
+          "0001",
+          "Argument / result"
+        ],
+        [
+          "r2",
+          "r2",
+          "0010",
+          "Argument"
+        ],
+        [
+          "r3",
+          "r3",
+          "0011",
+          "Argument"
+        ],
+        [
+          "r4",
+          "r4",
+          "0100",
+          "Saved (callee)"
+        ],
+        [
+          "r5",
+          "r5",
+          "0101",
+          "Saved (callee)"
+        ],
+        [
+          "r6",
+          "r6",
+          "0110",
+          "Saved (callee)"
+        ],
+        [
+          "r7",
+          "r7",
+          "0111",
+          "Saved (callee)"
+        ],
+        [
+          "r8",
+          "r8",
+          "1000",
+          "Saved (callee)"
+        ],
+        [
+          "r9",
+          "r9",
+          "1001",
+          "Platform register / static base (sb)"
+        ],
+        [
+          "r10",
+          "r10",
+          "1010",
+          "Saved (callee)"
+        ],
+        [
+          "r11",
+          "r11",
+          "1011",
+          "Frame pointer (fp)"
+        ],
+        [
+          "r12",
+          "r12",
+          "1100",
+          "Intra-procedure-call scratch (ip)"
+        ],
+        [
+          "r13",
+          "sp",
+          "1101",
+          "Stack pointer"
+        ],
+        [
+          "r14",
+          "lr",
+          "1110",
+          "Link register: the return address of bl / blx"
+        ],
+        [
+          "r15",
+          "pc",
+          "1111",
+          "Program counter: reads as the instruction's address + 8"
+        ]
+      ]
+    },
+    {
+      "title": "Program Status Registers",
+      "columns": [
+        "Register",
+        "Bits",
+        "Meaning"
+      ],
+      "group": "CPU Registers",
+      "rows": [
+        [
+          "CPSR / APSR",
+          "N Z C V (31:28), Q (27), GE (19:16)",
+          "Flags of the current program status; mode, interrupt masks, Thumb and endian bits (CPSR)"
+        ],
+        [
+          "SPSR",
+          "as CPSR",
+          "The CPSR saved by an exception"
+        ]
+      ]
+    },
+    {
+      "title": "Conditions (cond, firstcond)",
+      "columns": [
+        "cond",
+        "Encoding",
+        "Meaning",
+        "Flags"
+      ],
+      "group": "Conditions",
+      "rows": [
+        [
+          "eq",
+          "0000",
+          "Equal",
+          "Z = 1"
+        ],
+        [
+          "ne",
+          "0001",
+          "Not equal",
+          "Z = 0"
+        ],
+        [
+          "cs / hs",
+          "0010",
+          "Carry set (unsigned ≥)",
+          "C = 1"
+        ],
+        [
+          "cc / lo",
+          "0011",
+          "Carry clear (unsigned <)",
+          "C = 0"
+        ],
+        [
+          "mi",
+          "0100",
+          "Minus",
+          "N = 1"
+        ],
+        [
+          "pl",
+          "0101",
+          "Plus or zero",
+          "N = 0"
+        ],
+        [
+          "vs",
+          "0110",
+          "Overflow",
+          "V = 1"
+        ],
+        [
+          "vc",
+          "0111",
+          "No overflow",
+          "V = 0"
+        ],
+        [
+          "hi",
+          "1000",
+          "Unsigned higher",
+          "C = 1 and Z = 0"
+        ],
+        [
+          "ls",
+          "1001",
+          "Unsigned lower or same",
+          "C = 0 or Z = 1"
+        ],
+        [
+          "ge",
+          "1010",
+          "Signed ≥",
+          "N = V"
+        ],
+        [
+          "lt",
+          "1011",
+          "Signed <",
+          "N ≠ V"
+        ],
+        [
+          "gt",
+          "1100",
+          "Signed >",
+          "Z = 0 and N = V"
+        ],
+        [
+          "le",
+          "1101",
+          "Signed ≤",
+          "Z = 1 or N ≠ V"
+        ],
+        [
+          "al",
+          "1110",
+          "Always (written out in IT, left out in b)",
+          ""
+        ],
+        [
+          "—",
+          "1111",
+          "The unconditional instructions",
+          ""
+        ]
+      ]
+    },
+    {
+      "title": "Low Registers (rdl, rnl, rml, rtl)",
+      "columns": [
+        "Register",
+        "Encoding",
+        "Meaning"
+      ],
+      "group": "CPU Registers",
+      "rows": [
+        [
+          "r0",
+          "000",
+          "The registers most 16 bit instructions reach"
+        ],
+        [
+          "r1",
+          "001",
+          "The registers most 16 bit instructions reach"
+        ],
+        [
+          "r2",
+          "010",
+          "The registers most 16 bit instructions reach"
+        ],
+        [
+          "r3",
+          "011",
+          "The registers most 16 bit instructions reach"
+        ],
+        [
+          "r4",
+          "100",
+          "The registers most 16 bit instructions reach"
+        ],
+        [
+          "r5",
+          "101",
+          "The registers most 16 bit instructions reach"
+        ],
+        [
+          "r6",
+          "110",
+          "The registers most 16 bit instructions reach"
+        ],
+        [
+          "r7",
+          "111",
+          "The registers most 16 bit instructions reach"
+        ]
+      ]
+    }
+  ]
+}

@@ -13,7 +13,8 @@ import { fail } from './common.mjs';
 // may cover bits the Sail writes as literals (A64's ADD imm{13} over the reserved shift bit, MIPS's RDHWR sel). Returns
 // the LLVM operand each Sail field comes from.
 export function compare({ name, s, def, llvmFixed = [], width = 32 }) {
-  const llvm = def.inst;
+  // a 16 bit instruction in a 32 bit Inst field (Thumb): its low bits
+  const llvm = def.inst.length > def.size * 8 ? def.inst.slice(def.inst.length - def.size * 8) : def.inst;
   if (llvm.length !== width || s.width !== width) fail(`${name}: ${s.width} bits in Sail, ${llvm.length} in LLVM`);
   const from = {};
   const shift = {};

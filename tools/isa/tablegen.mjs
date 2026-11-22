@@ -159,6 +159,8 @@ const _MIPS_BASE = new Set(['HasStdEnc', 'NotInMicroMips', 'NotInMips16Mode', 'N
 const _A64_LATER = /^(AUTI|PACI|XPACLRI|CHKFEAT|PACM|MRRS|MSRR|SYSP|RPRFM|MSRpstatesvcrImm1|MSRpstateImm1)/;
 const _ARMV7 = new Set(['IsARM', 'HasV4T', 'HasV5T', 'HasV5TE', 'HasV6', 'HasV6K', 'HasV6T2', 'HasV7', 'PreV8', 'UseMulOps', 'HasDivideInARM', 'HasMP',
   'HasVirtualization', 'HasTrustZone', 'HasV7Clrex', 'HasDB', 'IsNotMClass']);
+const _THUMBV7 = new Set(['IsThumb', 'IsThumb1Only', 'IsThumb2', 'HasV4T', 'HasV5T', 'HasV5TE', 'HasV6', 'HasV6K', 'HasV6T2', 'HasV7', 'HasDSP', 'UseMulOps',
+  'HasDivideInThumb', 'HasMP', 'HasVirtualization', 'HasTrustZone', 'HasV7Clrex', 'HasDB', 'IsNotMClass', 'HasV6M', 'HasV8MBaseline', 'IsMClass', 'PreV8']);
 const _MIPS_COPIES = new Set(['JALR64', 'JALR_HB64', 'JR64', 'JR_HB64', 'LL64', 'SC64']);
 
 const TARGETS = {
@@ -214,6 +216,15 @@ const TARGETS = {
       ['ARM', 'CoProc'].includes(record.DecoderNamespace) && (record.Predicates || []).every((p) => _ARMV7.has(_def(p))),
     keepAlias: () => false,
   },
+  // Thumb of ARMv7-A: the 16 bit Thumb and 32 bit Thumb-2 integer, load / store, branch, coprocessor and system
+  // instructions (decoder namespaces Thumb, ThumbSBit, Thumb2, Thumb2CoProc) with the Security, Virtualization and
+  // Multiprocessing Extensions; not ARMv8's, VFP, NEON, MVE or the M profile's later additions.
+  Thumb: {
+    dir: 'ARM',
+    keepInstruction: ({ record }) => record.Namespace === 'ARM' && !record.isPseudo && !record.isCodeGenOnly && !record.isAsmParserOnly &&
+      ['Thumb', 'ThumbSBit', 'Thumb2', 'Thumb2CoProc'].includes(record.DecoderNamespace) && (record.Predicates || []).every((p) => _THUMBV7.has(_def(p))),
+    keepAlias: () => false,
+  },
   // The unofficial descriptions of spec/unofficial (--td spec/unofficial/z80/Z80.td, .../hack/Hack.td).
   Z80: { keepInstruction: ({ record }) => record.Namespace === 'Z80', keepAlias: () => false },
   Hack: { keepInstruction: ({ record }) => record.Namespace === 'Hack', keepAlias: () => false },
@@ -239,7 +250,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       return 'unknown';
     }
   })();
-  const records = dumpRecords({ tblgen, llvm, target, td: _arg('td') });
+  // a target may be a part of LLVM's (Thumb is in ARM's directory)
+  const records = dumpRecords({ tblgen, llvm, target: TARGETS[target].dir || target, td: _arg('td') });
   const compact = compactTarget({ records, ...TARGETS[target] });
   const out = _arg('out') || join(ROOT, 'spec', 'llvm', `${target}.json`);
   writeFileSync(out, `${JSON.stringify({ source: { project: _arg('project') || 'llvm/llvm-project', revision, tblgen: version, target }, ...compact }, null, 1)}\n`);

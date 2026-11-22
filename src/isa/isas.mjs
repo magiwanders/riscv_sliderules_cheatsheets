@@ -2,6 +2,8 @@ import { createCodec, rv32 } from './codec.mjs';
 import * as hack from './hack.mjs';
 import * as i8080 from './i8080.mjs';
 import * as mcs51 from './mcs51.mjs';
+import mips32 from './mips32.mjs';
+import mips64 from './mips64.mjs';
 import * as mos6502 from './mos6502.mjs';
 import * as rv32gc from './rv32gc.mjs';
 import * as rv64gc from './rv64gc.mjs';
@@ -48,8 +50,10 @@ export const isas = [
     specs: { sail: 'the RV32 files of the official RISC-V Sail model (sail-riscv), every ratified extension', tablegen: 'the RV32 files of LLVM\'s RISC-V target (official), every ratified extension' } },
   { value: 'rv64gc', family: 'riscv', label: 'RV64', version: 'v1.0', codec: rv64, extensions: _extensions({ module: rv64gc, width: 64, base: rv64 }),
     specs: { sail: 'the RV64 files of the official RISC-V Sail model (sail-riscv), every ratified extension', tablegen: 'the RV64 files of LLVM\'s RISC-V target (official), every ratified extension' } },
-  { value: 'mips32', family: 'mips', label: 'MIPS32' },
-  { value: 'mips64', family: 'mips', label: 'MIPS64' },
+  { value: 'mips32', family: 'mips', label: 'MIPS32', version: 'v0.1', codec: createCodec(mips32),
+    specs: { sail: 'unofficial, written for these sheets from MIPS Technologies\' manuals and checked against LLVM', tablegen: 'the MIPS32 files of LLVM\'s Mips target (official), Release 2 CPU instructions' } },
+  { value: 'mips64', family: 'mips', label: 'MIPS64', version: 'v0.1', codec: createCodec(mips64),
+    specs: { sail: 'unofficial, written for these sheets from MIPS Technologies\' manuals and checked against LLVM', tablegen: 'the MIPS64 files of LLVM\'s Mips target (official), Release 2 CPU instructions' } },
   { value: '8080', family: 'intel', label: '8080', version: 'v0.1', codec: createCodec(i8080),
     specs: { sail: 'unofficial, written for these sheets from Intel\'s 8080 manuals', tablegen: 'unofficial, written for these sheets from Intel\'s 8080 manuals' } },
   { value: '8051', family: 'intel', label: '8051 (MCS-51)', short: '8051', version: 'v0.1', codec: createCodec(mcs51),

@@ -1,0 +1,12050 @@
+{
+ "source": {
+  "project": "llvm/llvm-project",
+  "revision": "llvmorg-23.1.5",
+  "tblgen": "23.1.5",
+  "target": "Mips"
+ },
+ "instructions": {
+  "ADD": {
+   "asm": "add\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "ADDi": {
+   "asm": "addi\t$rt, $rs, $imm16",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "simm16_relaxed",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicI",
+    "StdArch",
+    "ADDI_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "ADDiu": {
+   "asm": "addiu\t$rt, $rs, $imm16",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "simm16_relaxed",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicI",
+    "StdArch",
+    "ADDI_FM",
+    "IsAsCheapAsAMove",
+    "ISA_MIPS1"
+   ]
+  },
+  "ADDu": {
+   "asm": "addu\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "AND": {
+   "asm": "and\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "ANDi": {
+   "asm": "andi\t$rt, $rs, $imm16",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "uimm16",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicI",
+    "StdArch",
+    "ADDI_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "BEQ": {
+   "asm": "beq\t$rs, $rt, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CBranch",
+    "StdArch",
+    "BEQ_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "BEQL": {
+   "asm": "beql\t$rs, $rt, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CBranchLikely",
+    "StdArch",
+    "BEQ_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "BGEZ": {
+   "asm": "bgez\t$rs, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CBranchZero",
+    "StdArch",
+    "BGEZ_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "BGEZAL": {
+   "asm": "bgezal\t$rs, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "BGEZAL_FT",
+    "StdArch",
+    "BGEZAL_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "BGEZALL": {
+   "asm": "bgezall\t$rs, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "BGEZAL_FT",
+    "StdArch",
+    "BGEZAL_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "BGEZL": {
+   "asm": "bgezl\t$rs, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CBranchZeroLikely",
+    "StdArch",
+    "BGEZ_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "BGTZ": {
+   "asm": "bgtz\t$rs, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CBranchZero",
+    "StdArch",
+    "BGEZ_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "BGTZL": {
+   "asm": "bgtzl\t$rs, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CBranchZeroLikely",
+    "StdArch",
+    "BGEZ_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "BLEZ": {
+   "asm": "blez\t$rs, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CBranchZero",
+    "StdArch",
+    "BGEZ_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "BLEZL": {
+   "asm": "blezl\t$rs, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CBranchZeroLikely",
+    "StdArch",
+    "BGEZ_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "BLTZ": {
+   "asm": "bltz\t$rs, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CBranchZero",
+    "StdArch",
+    "BGEZ_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "BLTZAL": {
+   "asm": "bltzal\t$rs, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "BGEZAL_FT",
+    "StdArch",
+    "BGEZAL_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "BLTZALL": {
+   "asm": "bltzall\t$rs, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "BGEZAL_FT",
+    "StdArch",
+    "BGEZAL_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "BLTZL": {
+   "asm": "bltzl\t$rs, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CBranchZeroLikely",
+    "StdArch",
+    "BGEZ_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "BNE": {
+   "asm": "bne\t$rs, $rt, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CBranch",
+    "StdArch",
+    "BEQ_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "BNEL": {
+   "asm": "bnel\t$rs, $rt, $offset",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "brtarget",
+     "offset"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "offset{15}",
+    "offset{14}",
+    "offset{13}",
+    "offset{12}",
+    "offset{11}",
+    "offset{10}",
+    "offset{9}",
+    "offset{8}",
+    "offset{7}",
+    "offset{6}",
+    "offset{5}",
+    "offset{4}",
+    "offset{3}",
+    "offset{2}",
+    "offset{1}",
+    "offset{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CBranchLikely",
+    "StdArch",
+    "BEQ_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "BREAK": {
+   "asm": "break\t$code_1, $code_2",
+   "outs": [],
+   "ins": [
+    [
+     "uimm10",
+     "code_1"
+    ],
+    [
+     "uimm10",
+     "code_2"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "code_1{9}",
+    "code_1{8}",
+    "code_1{7}",
+    "code_1{6}",
+    "code_1{5}",
+    "code_1{4}",
+    "code_1{3}",
+    "code_1{2}",
+    "code_1{1}",
+    "code_1{0}",
+    "code_2{9}",
+    "code_2{8}",
+    "code_2{7}",
+    "code_2{6}",
+    "code_2{5}",
+    "code_2{4}",
+    "code_2{3}",
+    "code_2{2}",
+    "code_2{1}",
+    "code_2{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "BRK_FT",
+    "StdArch",
+    "BRK_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "CACHE": {
+   "asm": "cache\t$hint, $addr",
+   "outs": [],
+   "ins": [
+    [
+     "mem",
+     "addr"
+    ],
+    [
+     "uimm5",
+     "hint"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "hint{4}",
+    "hint{3}",
+    "hint{2}",
+    "hint{1}",
+    "hint{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3_32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CacheOp",
+    "StdArch",
+    "CACHEOP_FM",
+    "INSN_MIPS3_32_NOT_32R6_64R6"
+   ]
+  },
+  "CLO": {
+   "asm": "clo\t$rd, $rs",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CountLeading1",
+    "StdArch",
+    "CLO_FM",
+    "ISA_MIPS32_NOT_32R6_64R6"
+   ]
+  },
+  "CLZ": {
+   "asm": "clz\t$rd, $rs",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CountLeading0",
+    "StdArch",
+    "CLO_FM",
+    "ISA_MIPS32_NOT_32R6_64R6"
+   ]
+  },
+  "DADD": {
+   "asm": "dadd\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DADDi": {
+   "asm": "daddi\t$rt, $rs, $imm16",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "simm16_64",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotMips32r6",
+    "NotMips64r6"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicI",
+    "StdArch",
+    "ADDI_FM",
+    "ISA_MIPS3_NOT_32R6_64R6"
+   ]
+  },
+  "DADDiu": {
+   "asm": "daddiu\t$rt, $rs, $imm16",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "simm16_64",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicI",
+    "StdArch",
+    "ADDI_FM",
+    "IsAsCheapAsAMove",
+    "ISA_MIPS3"
+   ]
+  },
+  "DADDu": {
+   "asm": "daddu\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DCLO": {
+   "asm": "dclo\t$rd, $rs",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "IsGP64bit",
+    "HasMips64",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CountLeading1",
+    "StdArch",
+    "CLO_FM",
+    "ISA_MIPS64_NOT_64R6",
+    "GPR_64"
+   ]
+  },
+  "DCLZ": {
+   "asm": "dclz\t$rd, $rs",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "IsGP64bit",
+    "HasMips64",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CountLeading0",
+    "StdArch",
+    "CLO_FM",
+    "ISA_MIPS64_NOT_64R6",
+    "GPR_64"
+   ]
+  },
+  "DERET": {
+   "asm": "deret",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ER_FT",
+    "StdArch",
+    "ER_FM",
+    "ISA_MIPS32"
+   ]
+  },
+  "DEXT": {
+   "asm": "dext\t$rt, $rs, $pos, $size",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "uimm5_report_uimm6",
+     "pos"
+    ],
+    [
+     "uimm5_plus1_report_uimm6",
+     "size"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "size{4}",
+    "size{3}",
+    "size{2}",
+    "size{1}",
+    "size{0}",
+    "pos{4}",
+    "pos{3}",
+    "pos{2}",
+    "pos{1}",
+    "pos{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips64r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ExtBase",
+    "StdArch",
+    "EXT_FM",
+    "ISA_MIPS64R2"
+   ]
+  },
+  "DEXTM": {
+   "asm": "dextm\t$rt, $rs, $pos, $size",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "uimm5",
+     "pos"
+    ],
+    [
+     "uimm5_plus33",
+     "size"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "size{4}",
+    "size{3}",
+    "size{2}",
+    "size{1}",
+    "size{0}",
+    "pos{4}",
+    "pos{3}",
+    "pos{2}",
+    "pos{1}",
+    "pos{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips64r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ExtBase",
+    "StdArch",
+    "EXT_FM",
+    "ISA_MIPS64R2"
+   ]
+  },
+  "DEXTU": {
+   "asm": "dextu\t$rt, $rs, $pos, $size",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "uimm5_plus32",
+     "pos"
+    ],
+    [
+     "uimm5_plus1",
+     "size"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "size{4}",
+    "size{3}",
+    "size{2}",
+    "size{1}",
+    "size{0}",
+    "pos{4}",
+    "pos{3}",
+    "pos{2}",
+    "pos{1}",
+    "pos{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips64r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ExtBase",
+    "StdArch",
+    "EXT_FM",
+    "ISA_MIPS64R2"
+   ]
+  },
+  "DI": {
+   "asm": "di\t$rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "DEI_FT",
+    "StdArch",
+    "EI_FM",
+    "ISA_MIPS32R2"
+   ]
+  },
+  "DINS": {
+   "asm": "dins\t$rt, $rs, $pos, $size",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "uimm6",
+     "pos"
+    ],
+    [
+     "uimm5_inssize_plus1",
+     "size"
+    ],
+    [
+     "GPR64Opnd",
+     "src"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "size{4}",
+    "size{3}",
+    "size{2}",
+    "size{1}",
+    "size{0}",
+    "pos{4}",
+    "pos{3}",
+    "pos{2}",
+    "pos{1}",
+    "pos{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips64r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "$src = $rt",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "InsBase",
+    "StdArch",
+    "EXT_FM",
+    "ISA_MIPS64R2"
+   ]
+  },
+  "DINSM": {
+   "asm": "dinsm\t$rt, $rs, $pos, $size",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "uimm5",
+     "pos"
+    ],
+    [
+     "uimm_range_2_64",
+     "size"
+    ],
+    [
+     "GPR64Opnd",
+     "src"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "size{4}",
+    "size{3}",
+    "size{2}",
+    "size{1}",
+    "size{0}",
+    "pos{4}",
+    "pos{3}",
+    "pos{2}",
+    "pos{1}",
+    "pos{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips64r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "$src = $rt",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "InsBase",
+    "StdArch",
+    "EXT_FM",
+    "ISA_MIPS64R2"
+   ]
+  },
+  "DINSU": {
+   "asm": "dinsu\t$rt, $rs, $pos, $size",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "uimm5_plus32",
+     "pos"
+    ],
+    [
+     "uimm5_inssize_plus1",
+     "size"
+    ],
+    [
+     "GPR64Opnd",
+     "src"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "size{4}",
+    "size{3}",
+    "size{2}",
+    "size{1}",
+    "size{0}",
+    "pos{4}",
+    "pos{3}",
+    "pos{2}",
+    "pos{1}",
+    "pos{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips64r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "$src = $rt",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "InsBase",
+    "StdArch",
+    "EXT_FM",
+    "ISA_MIPS64R2"
+   ]
+  },
+  "DMFC0": {
+   "asm": "dmfc0\t$rt, $rd, $sel",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "COP0Opnd",
+     "rd"
+    ],
+    [
+     "uimm3",
+     "sel"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "sel{2}",
+    "sel{1}",
+    "sel{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "IsGP64bit",
+    "HasMips3"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MFC3OP",
+    "StdArch",
+    "MFC3OP_FM",
+    "ISA_MIPS3",
+    "GPR_64"
+   ]
+  },
+  "DMFC2": {
+   "asm": "dmfc2\t$rt, $rd, $sel",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "COP2Opnd",
+     "rd"
+    ],
+    [
+     "uimm3",
+     "sel"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "sel{2}",
+    "sel{1}",
+    "sel{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "IsGP64bit",
+    "HasMips3"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MFC3OP",
+    "StdArch",
+    "MFC3OP_FM",
+    "ISA_MIPS3",
+    "GPR_64"
+   ]
+  },
+  "DMTC0": {
+   "asm": "dmtc0\t$rt, $rd, $sel",
+   "outs": [
+    [
+     "COP0Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "uimm3",
+     "sel"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "sel{2}",
+    "sel{1}",
+    "sel{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "IsGP64bit",
+    "HasMips3"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MTC3OP",
+    "StdArch",
+    "MFC3OP_FM",
+    "ISA_MIPS3",
+    "GPR_64"
+   ]
+  },
+  "DMTC2": {
+   "asm": "dmtc2\t$rt, $rd, $sel",
+   "outs": [
+    [
+     "COP2Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "uimm3",
+     "sel"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "sel{2}",
+    "sel{1}",
+    "sel{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "IsGP64bit",
+    "HasMips3"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MTC3OP",
+    "StdArch",
+    "MFC3OP_FM",
+    "ISA_MIPS3",
+    "GPR_64"
+   ]
+  },
+  "DMULT": {
+   "asm": "dmult\t$rs, $rt",
+   "outs": [],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotR5900",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "Mult",
+    "StdArch",
+    "MULT_FM",
+    "ISA_MIPS3_NOT_32R6_64R6_R5900"
+   ]
+  },
+  "DMULTu": {
+   "asm": "dmultu\t$rs, $rt",
+   "outs": [],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotR5900",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "Mult",
+    "StdArch",
+    "MULT_FM",
+    "ISA_MIPS3_NOT_32R6_64R6_R5900"
+   ]
+  },
+  "DROTR": {
+   "asm": "drotr\t$rd, $rt, $shamt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "uimm6",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips64r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_imm",
+    "StdArch",
+    "SRA_FM",
+    "ISA_MIPS64R2"
+   ]
+  },
+  "DROTR32": {
+   "asm": "drotr32\t$rd, $rt, $shamt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "uimm5",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips64r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_imm",
+    "StdArch",
+    "SRA_FM",
+    "ISA_MIPS64R2"
+   ]
+  },
+  "DROTRV": {
+   "asm": "drotrv\t$rd, $rt, $rs",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips64r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_reg",
+    "StdArch",
+    "SRLV_FM",
+    "ISA_MIPS64R2"
+   ]
+  },
+  "DSBH": {
+   "asm": "dsbh\t$rd, $rt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips64r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SubwordSwap",
+    "StdArch",
+    "SEB_FM",
+    "ISA_MIPS64R2"
+   ]
+  },
+  "DSDIV": {
+   "asm": "ddiv\t$$zero, $rs, $rt",
+   "outs": [],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotR5900",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "Div",
+    "StdArch",
+    "MULT_FM",
+    "ISA_MIPS3_NOT_32R6_64R6_R5900"
+   ]
+  },
+  "DSHD": {
+   "asm": "dshd\t$rd, $rt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips64r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SubwordSwap",
+    "StdArch",
+    "SEB_FM",
+    "ISA_MIPS64R2"
+   ]
+  },
+  "DSLL": {
+   "asm": "dsll\t$rd, $rt, $shamt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "uimm6",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_imm",
+    "StdArch",
+    "SRA_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DSLL32": {
+   "asm": "dsll32\t$rd, $rt, $shamt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "uimm5",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_imm",
+    "StdArch",
+    "SRA_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DSLLV": {
+   "asm": "dsllv\t$rd, $rt, $rs",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_reg",
+    "StdArch",
+    "SRLV_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DSRA": {
+   "asm": "dsra\t$rd, $rt, $shamt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "uimm6",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_imm",
+    "StdArch",
+    "SRA_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DSRA32": {
+   "asm": "dsra32\t$rd, $rt, $shamt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "uimm5",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_imm",
+    "StdArch",
+    "SRA_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DSRAV": {
+   "asm": "dsrav\t$rd, $rt, $rs",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_reg",
+    "StdArch",
+    "SRLV_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DSRL": {
+   "asm": "dsrl\t$rd, $rt, $shamt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "uimm6",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_imm",
+    "StdArch",
+    "SRA_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DSRL32": {
+   "asm": "dsrl32\t$rd, $rt, $shamt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "uimm5",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_imm",
+    "StdArch",
+    "SRA_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DSRLV": {
+   "asm": "dsrlv\t$rd, $rt, $rs",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_reg",
+    "StdArch",
+    "SRLV_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DSUB": {
+   "asm": "dsub\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DSUBu": {
+   "asm": "dsubu\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "DUDIV": {
+   "asm": "ddivu\t$$zero, $rs, $rt",
+   "outs": [],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rs"
+    ],
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotR5900",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "Div",
+    "StdArch",
+    "MULT_FM",
+    "ISA_MIPS3_NOT_32R6_64R6_R5900"
+   ]
+  },
+  "EHB": {
+   "asm": "ehb",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "Barrier",
+    "StdArch",
+    "BARRIER_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "EI": {
+   "asm": "ei\t$rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "DEI_FT",
+    "StdArch",
+    "EI_FM",
+    "ISA_MIPS32R2"
+   ]
+  },
+  "ERET": {
+   "asm": "eret",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3_32",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ER_FT",
+    "StdArch",
+    "ER_FM",
+    "INSN_MIPS3_32"
+   ]
+  },
+  "EXT": {
+   "asm": "ext\t$rt, $rs, $pos, $size",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "uimm5",
+     "pos"
+    ],
+    [
+     "uimm5_plus1",
+     "size"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "size{4}",
+    "size{3}",
+    "size{2}",
+    "size{1}",
+    "size{0}",
+    "pos{4}",
+    "pos{3}",
+    "pos{2}",
+    "pos{1}",
+    "pos{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ExtBase",
+    "StdArch",
+    "EXT_FM",
+    "ISA_MIPS32R2"
+   ]
+  },
+  "INS": {
+   "asm": "ins\t$rt, $rs, $pos, $size",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "uimm5",
+     "pos"
+    ],
+    [
+     "uimm5_inssize_plus1",
+     "size"
+    ],
+    [
+     "GPR32Opnd",
+     "src"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "size{4}",
+    "size{3}",
+    "size{2}",
+    "size{1}",
+    "size{0}",
+    "pos{4}",
+    "pos{3}",
+    "pos{2}",
+    "pos{1}",
+    "pos{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "$src = $rt",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "InsBase",
+    "StdArch",
+    "EXT_FM",
+    "ISA_MIPS32R2"
+   ]
+  },
+  "J": {
+   "asm": "j\t$target",
+   "outs": [],
+   "ins": [
+    [
+     "jmptarget",
+     "target"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "target{25}",
+    "target{24}",
+    "target{23}",
+    "target{22}",
+    "target{21}",
+    "target{20}",
+    "target{19}",
+    "target{18}",
+    "target{17}",
+    "target{16}",
+    "target{15}",
+    "target{14}",
+    "target{13}",
+    "target{12}",
+    "target{11}",
+    "target{10}",
+    "target{9}",
+    "target{8}",
+    "target{7}",
+    "target{6}",
+    "target{5}",
+    "target{4}",
+    "target{3}",
+    "target{2}",
+    "target{1}",
+    "target{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips",
+    "RelocNotPIC"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "JumpFJ",
+    "StdArch",
+    "FJ",
+    "IsBranch",
+    "ISA_MIPS1"
+   ]
+  },
+  "JAL": {
+   "asm": "jal\t$target",
+   "outs": [],
+   "ins": [
+    [
+     "calltarget",
+     "target"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "target{25}",
+    "target{24}",
+    "target{23}",
+    "target{22}",
+    "target{21}",
+    "target{20}",
+    "target{19}",
+    "target{18}",
+    "target{17}",
+    "target{16}",
+    "target{15}",
+    "target{14}",
+    "target{13}",
+    "target{12}",
+    "target{11}",
+    "target{10}",
+    "target{9}",
+    "target{8}",
+    "target{7}",
+    "target{6}",
+    "target{5}",
+    "target{4}",
+    "target{3}",
+    "target{2}",
+    "target{1}",
+    "target{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "JumpLink",
+    "StdArch",
+    "FJ",
+    "ISA_MIPS1"
+   ]
+  },
+  "JALR": {
+   "asm": "jalr\t$rd, $rs",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips",
+    "NoIndirectJumpGuards"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "JumpLinkReg",
+    "JALR_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "JALR_HB": {
+   "asm": "jalr.hb\t$rd, $rs",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "JALR_HB_DESC_BASE",
+    "JALR_HB_DESC",
+    "StdArch",
+    "JALR_HB_FM",
+    "JALR_HB_ENC",
+    "ISA_MIPS32"
+   ]
+  },
+  "JALX": {
+   "asm": "jalx\t$target",
+   "outs": [],
+   "ins": [
+    [
+     "calltarget",
+     "target"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "target{25}",
+    "target{24}",
+    "target{23}",
+    "target{22}",
+    "target{21}",
+    "target{20}",
+    "target{19}",
+    "target{18}",
+    "target{17}",
+    "target{16}",
+    "target{15}",
+    "target{14}",
+    "target{13}",
+    "target{12}",
+    "target{11}",
+    "target{10}",
+    "target{9}",
+    "target{8}",
+    "target{7}",
+    "target{6}",
+    "target{5}",
+    "target{4}",
+    "target{3}",
+    "target{2}",
+    "target{1}",
+    "target{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "JumpLink",
+    "StdArch",
+    "FJ",
+    "ISA_MIPS32_NOT_32R6_64R6"
+   ]
+  },
+  "JR": {
+   "asm": "jr\t$rs",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "JumpFR",
+    "IndirectBranch",
+    "StdArch",
+    "MTLO_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "JR_HB": {
+   "asm": "jr.hb\t$rs",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32r2",
+    "NotMips32r6",
+    "NotMips64r6"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "JR_HB_DESC_BASE",
+    "JR_HB_DESC",
+    "StdArch",
+    "JR_HB_FM",
+    "JR_HB_ENC",
+    "ISA_MIPS32R2_NOT_32R6_64R6"
+   ]
+  },
+  "LB": {
+   "asm": "lb\t$rt, $addr",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem_simmptr",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LoadMemory",
+    "MMRel",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "LBu": {
+   "asm": "lbu\t$rt, $addr",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem_simmptr",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LoadMemory",
+    "MMRel",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "LD": {
+   "asm": "ld\t$rt, $addr",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem_simmptr",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LoadMemory",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "LDC2": {
+   "asm": "ldc2\t$rt, $addr",
+   "outs": [
+    [
+     "COP2Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem_simm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LW_FT2",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "LDL": {
+   "asm": "ldl\t$rt, $addr",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem",
+     "addr"
+    ],
+    [
+     "GPR64Opnd",
+     "src"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotMips32r6",
+    "NotMips64r6"
+   ],
+   "constraints": "$src = $rt",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LoadLeftRight",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS3_NOT_32R6_64R6"
+   ]
+  },
+  "LDR": {
+   "asm": "ldr\t$rt, $addr",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem",
+     "addr"
+    ],
+    [
+     "GPR64Opnd",
+     "src"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotMips32r6",
+    "NotMips64r6"
+   ],
+   "constraints": "$src = $rt",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LoadLeftRight",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS3_NOT_32R6_64R6"
+   ]
+  },
+  "LH": {
+   "asm": "lh\t$rt, $addr",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem_simmptr",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LoadMemory",
+    "MMRel",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "LHu": {
+   "asm": "lhu\t$rt, $addr",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem_simmptr",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LoadMemory",
+    "MMRel",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "LL": {
+   "asm": "ll\t$rt, $addr",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "IsPTR32bit",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotR5900",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LLBase",
+    "StdArch",
+    "LW_FM",
+    "PTR_32",
+    "ISA_MIPS2_NOT_32R6_64R6_R5900"
+   ]
+  },
+  "LLD": {
+   "asm": "lld\t$rt, $addr",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem_simmptr",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotR5900",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LLBase",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS3_NOT_32R6_64R6_R5900"
+   ]
+  },
+  "LUi": {
+   "asm": "lui\t$rt, $imm16",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "uimm16_relaxed",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "IsAsCheapAsAMove",
+    "LoadUpper",
+    "StdArch",
+    "LUI_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "LW": {
+   "asm": "lw\t$rt, $addr",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LoadMemory",
+    "Load",
+    "MMRel",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "LWC2": {
+   "asm": "lwc2\t$rt, $addr",
+   "outs": [
+    [
+     "COP2Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem_simm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LW_FT2",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "LWL": {
+   "asm": "lwl\t$rt, $addr",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem",
+     "addr"
+    ],
+    [
+     "GPR32Opnd",
+     "src"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "$src = $rt",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LoadLeftRight",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "LWR": {
+   "asm": "lwr\t$rt, $addr",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem",
+     "addr"
+    ],
+    [
+     "GPR32Opnd",
+     "src"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "$src = $rt",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LoadLeftRight",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "LWu": {
+   "asm": "lwu\t$rt, $addr",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "mem",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LoadMemory",
+    "Load",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "MADD": {
+   "asm": "madd\t$rs, $rt",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MArithR",
+    "StdArch",
+    "MULT_FM",
+    "ISA_MIPS32_NOT_32R6_64R6"
+   ]
+  },
+  "MADDU": {
+   "asm": "maddu\t$rs, $rt",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MArithR",
+    "StdArch",
+    "MULT_FM",
+    "ISA_MIPS32_NOT_32R6_64R6"
+   ]
+  },
+  "MFC0": {
+   "asm": "mfc0\t$rt, $rd, $sel",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "COP0Opnd",
+     "rd"
+    ],
+    [
+     "uimm3",
+     "sel"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "sel{2}",
+    "sel{1}",
+    "sel{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MFC3OP",
+    "StdArch",
+    "MFC3OP_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "MFC2": {
+   "asm": "mfc2\t$rt, $rd, $sel",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "COP2Opnd",
+     "rd"
+    ],
+    [
+     "uimm3",
+     "sel"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "sel{2}",
+    "sel{1}",
+    "sel{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MFC3OP",
+    "StdArch",
+    "MFC3OP_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "MFHI": {
+   "asm": "mfhi\t$rd",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MoveFromLOHI",
+    "StdArch",
+    "MFLO_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "MFLO": {
+   "asm": "mflo\t$rd",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MoveFromLOHI",
+    "StdArch",
+    "MFLO_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "MOVN_I_I": {
+   "asm": "movn\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "GPR32Opnd",
+     "F"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips4_32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "$F = $rd",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CMov_I_I_FT",
+    "StdArch",
+    "ADD_FM",
+    "INSN_MIPS4_32_NOT_32R6_64R6"
+   ]
+  },
+  "MOVZ_I_I": {
+   "asm": "movz\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "GPR32Opnd",
+     "F"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips4_32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "$F = $rd",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CMov_I_I_FT",
+    "StdArch",
+    "ADD_FM",
+    "INSN_MIPS4_32_NOT_32R6_64R6"
+   ]
+  },
+  "MSUB": {
+   "asm": "msub\t$rs, $rt",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MArithR",
+    "StdArch",
+    "MULT_FM",
+    "ISA_MIPS32_NOT_32R6_64R6"
+   ]
+  },
+  "MSUBU": {
+   "asm": "msubu\t$rs, $rt",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MArithR",
+    "StdArch",
+    "MULT_FM",
+    "ISA_MIPS32_NOT_32R6_64R6"
+   ]
+  },
+  "MTC0": {
+   "asm": "mtc0\t$rt, $rd, $sel",
+   "outs": [
+    [
+     "COP0Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "uimm3",
+     "sel"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "sel{2}",
+    "sel{1}",
+    "sel{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MTC3OP",
+    "StdArch",
+    "MFC3OP_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "MTC2": {
+   "asm": "mtc2\t$rt, $rd, $sel",
+   "outs": [
+    [
+     "COP2Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "uimm3",
+     "sel"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "sel{2}",
+    "sel{1}",
+    "sel{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MTC3OP",
+    "StdArch",
+    "MFC3OP_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "MTHI": {
+   "asm": "mthi\t$rs",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MoveToLOHI",
+    "StdArch",
+    "MTLO_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "MTLO": {
+   "asm": "mtlo\t$rs",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "MoveToLOHI",
+    "StdArch",
+    "MTLO_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "MUL": {
+   "asm": "mul\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS32_NOT_32R6_64R6"
+   ]
+  },
+  "MULT": {
+   "asm": "mult\t$rs, $rt",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "Mult",
+    "StdArch",
+    "MULT_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "MULTu": {
+   "asm": "multu\t$rs, $rt",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "Mult",
+    "StdArch",
+    "MULT_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "NOR": {
+   "asm": "nor\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "LogicNOR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "OR": {
+   "asm": "or\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "ORi": {
+   "asm": "ori\t$rt, $rs, $imm16",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "uimm16",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicI",
+    "StdArch",
+    "ADDI_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "PAUSE": {
+   "asm": "pause",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "Barrier",
+    "StdArch",
+    "BARRIER_FM",
+    "ISA_MIPS32R2"
+   ]
+  },
+  "PREF": {
+   "asm": "pref\t$hint, $addr",
+   "outs": [],
+   "ins": [
+    [
+     "mem",
+     "addr"
+    ],
+    [
+     "uimm5",
+     "hint"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "hint{4}",
+    "hint{3}",
+    "hint{2}",
+    "hint{1}",
+    "hint{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3_32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "CacheOp",
+    "StdArch",
+    "CACHEOP_FM",
+    "INSN_MIPS3_32_NOT_32R6_64R6"
+   ]
+  },
+  "RDHWR": {
+   "asm": "rdhwr\t$rt, $rd, $sel",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "HWRegsOpnd",
+     "rd"
+    ],
+    [
+     "uimm8",
+     "sel"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "sel{2}",
+    "sel{1}",
+    "sel{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ReadHardware",
+    "StdArch",
+    "RDHWR_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "ROTR": {
+   "asm": "rotr\t$rd, $rt, $shamt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "uimm5",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_imm",
+    "StdArch",
+    "SRA_FM",
+    "ISA_MIPS32R2"
+   ]
+  },
+  "ROTRV": {
+   "asm": "rotrv\t$rd, $rt, $rs",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_reg",
+    "StdArch",
+    "SRLV_FM",
+    "ISA_MIPS32R2"
+   ]
+  },
+  "SB": {
+   "asm": "sb\t$rt, $addr",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "mem",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "StoreMemory",
+    "Store",
+    "MMRel",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SC": {
+   "asm": "sc\t$rt, $addr",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "dst"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "mem",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "IsPTR32bit",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotR5900",
+    "NotInMicroMips"
+   ],
+   "constraints": "$rt = $dst",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SCBase",
+    "StdArch",
+    "LW_FM",
+    "PTR_32",
+    "ISA_MIPS2_NOT_32R6_64R6_R5900"
+   ]
+  },
+  "SCD": {
+   "asm": "scd\t$rt, $addr",
+   "outs": [
+    [
+     "GPR64Opnd",
+     "dst"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "mem",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotR5900"
+   ],
+   "constraints": "$rt = $dst",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SCBase",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS3_NOT_32R6_64R6_R5900"
+   ]
+  },
+  "SD": {
+   "asm": "sd\t$rt, $addr",
+   "outs": [],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "mem_simmptr",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "StoreMemory",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS3"
+   ]
+  },
+  "SDBBP": {
+   "asm": "sdbbp\t$code_",
+   "outs": [],
+   "ins": [
+    [
+     "uimm20",
+     "code_"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "code_{19}",
+    "code_{18}",
+    "code_{17}",
+    "code_{16}",
+    "code_{15}",
+    "code_{14}",
+    "code_{13}",
+    "code_{12}",
+    "code_{11}",
+    "code_{10}",
+    "code_{9}",
+    "code_{8}",
+    "code_{7}",
+    "code_{6}",
+    "code_{5}",
+    "code_{4}",
+    "code_{3}",
+    "code_{2}",
+    "code_{1}",
+    "code_{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SYS_FT",
+    "StdArch",
+    "SDBBP_FM",
+    "ISA_MIPS32_NOT_32R6_64R6"
+   ]
+  },
+  "SDC2": {
+   "asm": "sdc2\t$rt, $addr",
+   "outs": [],
+   "ins": [
+    [
+     "COP2Opnd",
+     "rt"
+    ],
+    [
+     "mem_simm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SW_FT2",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "SDIV": {
+   "asm": "div\t$$zero, $rs, $rt",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "Div",
+    "StdArch",
+    "MULT_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "SDL": {
+   "asm": "sdl\t$rt, $addr",
+   "outs": [],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "mem",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotMips32r6",
+    "NotMips64r6"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "StoreLeftRight",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS3_NOT_32R6_64R6"
+   ]
+  },
+  "SDR": {
+   "asm": "sdr\t$rt, $addr",
+   "outs": [],
+   "ins": [
+    [
+     "GPR64Opnd",
+     "rt"
+    ],
+    [
+     "mem",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3",
+    "NotMips32r6",
+    "NotMips64r6"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "StoreLeftRight",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS3_NOT_32R6_64R6"
+   ]
+  },
+  "SEB": {
+   "asm": "seb\t$rd, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SignExtInReg",
+    "StdArch",
+    "SEB_FM",
+    "ISA_MIPS32R2"
+   ]
+  },
+  "SEH": {
+   "asm": "seh\t$rd, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SignExtInReg",
+    "StdArch",
+    "SEB_FM",
+    "ISA_MIPS32R2"
+   ]
+  },
+  "SH": {
+   "asm": "sh\t$rt, $addr",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "mem",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "StoreMemory",
+    "Store",
+    "MMRel",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SLL": {
+   "asm": "sll\t$rd, $rt, $shamt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "uimm5",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_imm",
+    "StdArch",
+    "SRA_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SLLV": {
+   "asm": "sllv\t$rd, $rt, $rs",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_reg",
+    "StdArch",
+    "SRLV_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SLT": {
+   "asm": "slt\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SetCC_R",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SLTi": {
+   "asm": "slti\t$rt, $rs, $imm16",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "simm16",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SetCC_I",
+    "StdArch",
+    "SLTI_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SLTiu": {
+   "asm": "sltiu\t$rt, $rs, $imm16",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "simm16",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SetCC_I",
+    "StdArch",
+    "SLTI_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SLTu": {
+   "asm": "sltu\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SetCC_R",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SRA": {
+   "asm": "sra\t$rd, $rt, $shamt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "uimm5",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_imm",
+    "StdArch",
+    "SRA_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SRAV": {
+   "asm": "srav\t$rd, $rt, $rs",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_reg",
+    "StdArch",
+    "SRLV_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SRL": {
+   "asm": "srl\t$rd, $rt, $shamt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "uimm5",
+     "shamt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "shamt{4}",
+    "shamt{3}",
+    "shamt{2}",
+    "shamt{1}",
+    "shamt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_imm",
+    "StdArch",
+    "SRA_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SRLV": {
+   "asm": "srlv\t$rd, $rt, $rs",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "GPR32Opnd",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "shift_rotate_reg",
+    "StdArch",
+    "SRLV_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SSNOP": {
+   "asm": "ssnop",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "Barrier",
+    "StdArch",
+    "BARRIER_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SUB": {
+   "asm": "sub\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SUBu": {
+   "asm": "subu\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SW": {
+   "asm": "sw\t$rt, $addr",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "mem",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "StoreMemory",
+    "Store",
+    "MMRel",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "SWC2": {
+   "asm": "swc2\t$rt, $addr",
+   "outs": [],
+   "ins": [
+    [
+     "COP2Opnd",
+     "rt"
+    ],
+    [
+     "mem_simm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SW_FT2",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "SWL": {
+   "asm": "swl\t$rt, $addr",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "mem",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "StoreLeftRight",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "SWR": {
+   "asm": "swr\t$rt, $addr",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "mem",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "StoreLeftRight",
+    "StdArch",
+    "LW_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "SYNC": {
+   "asm": "sync $stype",
+   "outs": [],
+   "ins": [
+    [
+     "uimm5",
+     "stype"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "stype{4}",
+    "stype{3}",
+    "stype{2}",
+    "stype{1}",
+    "stype{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SYNC_FT",
+    "StdArch",
+    "SYNC_FM",
+    "ISA_MIPS2"
+   ]
+  },
+  "SYNCI": {
+   "asm": "synci\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "mem_simm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "addr{20}",
+    "addr{19}",
+    "addr{18}",
+    "addr{17}",
+    "addr{16}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SYNCI_FT",
+    "StdArch",
+    "SYNCI_FM",
+    "ISA_MIPS32R2"
+   ]
+  },
+  "SYSCALL": {
+   "asm": "syscall\t$code_",
+   "outs": [],
+   "ins": [
+    [
+     "uimm20",
+     "code_"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "code_{19}",
+    "code_{18}",
+    "code_{17}",
+    "code_{16}",
+    "code_{15}",
+    "code_{14}",
+    "code_{13}",
+    "code_{12}",
+    "code_{11}",
+    "code_{10}",
+    "code_{9}",
+    "code_{8}",
+    "code_{7}",
+    "code_{6}",
+    "code_{5}",
+    "code_{4}",
+    "code_{3}",
+    "code_{2}",
+    "code_{1}",
+    "code_{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SYS_FT",
+    "StdArch",
+    "SYS_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "TEQ": {
+   "asm": "teq\t$rs, $rt, $code_",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "uimm10",
+     "code_"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "code_{9}",
+    "code_{8}",
+    "code_{7}",
+    "code_{6}",
+    "code_{5}",
+    "code_{4}",
+    "code_{3}",
+    "code_{2}",
+    "code_{1}",
+    "code_{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TEQ_FT",
+    "StdArch",
+    "TEQ_FM",
+    "ISA_MIPS2"
+   ]
+  },
+  "TEQI": {
+   "asm": "teqi\t$rs, $imm16",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "simm16",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TEQI_FT",
+    "StdArch",
+    "TEQI_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "TGE": {
+   "asm": "tge\t$rs, $rt, $code_",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "uimm10",
+     "code_"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "code_{9}",
+    "code_{8}",
+    "code_{7}",
+    "code_{6}",
+    "code_{5}",
+    "code_{4}",
+    "code_{3}",
+    "code_{2}",
+    "code_{1}",
+    "code_{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TEQ_FT",
+    "StdArch",
+    "TEQ_FM",
+    "ISA_MIPS2"
+   ]
+  },
+  "TGEI": {
+   "asm": "tgei\t$rs, $imm16",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "simm16",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TEQI_FT",
+    "StdArch",
+    "TEQI_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "TGEIU": {
+   "asm": "tgeiu\t$rs, $imm16",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "simm16",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TEQI_FT",
+    "StdArch",
+    "TEQI_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "TGEU": {
+   "asm": "tgeu\t$rs, $rt, $code_",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "uimm10",
+     "code_"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "code_{9}",
+    "code_{8}",
+    "code_{7}",
+    "code_{6}",
+    "code_{5}",
+    "code_{4}",
+    "code_{3}",
+    "code_{2}",
+    "code_{1}",
+    "code_{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TEQ_FT",
+    "StdArch",
+    "TEQ_FM",
+    "ISA_MIPS2"
+   ]
+  },
+  "TLBP": {
+   "asm": "tlbp",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TLB",
+    "StdArch",
+    "COP0_TLB_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "TLBR": {
+   "asm": "tlbr",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TLB",
+    "StdArch",
+    "COP0_TLB_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "TLBWI": {
+   "asm": "tlbwi",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TLB",
+    "StdArch",
+    "COP0_TLB_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "TLBWR": {
+   "asm": "tlbwr",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TLB",
+    "StdArch",
+    "COP0_TLB_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "TLT": {
+   "asm": "tlt\t$rs, $rt, $code_",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "uimm10",
+     "code_"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "code_{9}",
+    "code_{8}",
+    "code_{7}",
+    "code_{6}",
+    "code_{5}",
+    "code_{4}",
+    "code_{3}",
+    "code_{2}",
+    "code_{1}",
+    "code_{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TEQ_FT",
+    "StdArch",
+    "TEQ_FM",
+    "ISA_MIPS2"
+   ]
+  },
+  "TLTI": {
+   "asm": "tlti\t$rs, $imm16",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "simm16",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TEQI_FT",
+    "StdArch",
+    "TEQI_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "TLTU": {
+   "asm": "tltu\t$rs, $rt, $code_",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "uimm10",
+     "code_"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "code_{9}",
+    "code_{8}",
+    "code_{7}",
+    "code_{6}",
+    "code_{5}",
+    "code_{4}",
+    "code_{3}",
+    "code_{2}",
+    "code_{1}",
+    "code_{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TEQ_FT",
+    "StdArch",
+    "TEQ_FM",
+    "ISA_MIPS2"
+   ]
+  },
+  "TNE": {
+   "asm": "tne\t$rs, $rt, $code_",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ],
+    [
+     "uimm10",
+     "code_"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "code_{9}",
+    "code_{8}",
+    "code_{7}",
+    "code_{6}",
+    "code_{5}",
+    "code_{4}",
+    "code_{3}",
+    "code_{2}",
+    "code_{1}",
+    "code_{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TEQ_FT",
+    "StdArch",
+    "TEQ_FM",
+    "ISA_MIPS2"
+   ]
+  },
+  "TNEI": {
+   "asm": "tnei\t$rs, $imm16",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "simm16",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TEQI_FT",
+    "StdArch",
+    "TEQI_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "TTLTIU": {
+   "asm": "tltiu\t$rs, $imm16",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "simm16",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips2",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "TEQI_FT",
+    "StdArch",
+    "TEQI_FM",
+    "ISA_MIPS2_NOT_32R6_64R6"
+   ]
+  },
+  "UDIV": {
+   "asm": "divu\t$$zero, $rs, $rt",
+   "outs": [],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotMips32r6",
+    "NotMips64r6",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "Div",
+    "StdArch",
+    "MULT_FM",
+    "ISA_MIPS1_NOT_32R6_64R6"
+   ]
+  },
+  "WAIT": {
+   "asm": "wait",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips3_32",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "WAIT_FT",
+    "StdArch",
+    "WAIT_FM",
+    "INSN_MIPS3_32"
+   ]
+  },
+  "WSBH": {
+   "asm": "wsbh\t$rd, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "HasMips32r2",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "SubwordSwap",
+    "StdArch",
+    "SEB_FM",
+    "ISA_MIPS32R2"
+   ]
+  },
+  "XOR": {
+   "asm": "xor\t$rd, $rs, $rt",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rd"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "rd{4}",
+    "rd{3}",
+    "rd{2}",
+    "rd{1}",
+    "rd{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicR",
+    "StdArch",
+    "ADD_FM",
+    "ISA_MIPS1"
+   ]
+  },
+  "XORi": {
+   "asm": "xori\t$rt, $rs, $imm16",
+   "outs": [
+    [
+     "GPR32Opnd",
+     "rt"
+    ]
+   ],
+   "ins": [
+    [
+     "GPR32Opnd",
+     "rs"
+    ],
+    [
+     "uimm16",
+     "imm16"
+    ]
+   ],
+   "inst": [
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "rs{4}",
+    "rs{3}",
+    "rs{2}",
+    "rs{1}",
+    "rs{0}",
+    "rt{4}",
+    "rt{3}",
+    "rt{2}",
+    "rt{1}",
+    "rt{0}",
+    "imm16{15}",
+    "imm16{14}",
+    "imm16{13}",
+    "imm16{12}",
+    "imm16{11}",
+    "imm16{10}",
+    "imm16{9}",
+    "imm16{8}",
+    "imm16{7}",
+    "imm16{6}",
+    "imm16{5}",
+    "imm16{4}",
+    "imm16{3}",
+    "imm16{2}",
+    "imm16{1}",
+    "imm16{0}"
+   ],
+   "predicates": [
+    "HasStdEnc",
+    "NotInMicroMips"
+   ],
+   "constraints": "",
+   "format": null,
+   "size": 4,
+   "superclasses": [
+    "MMRel",
+    "StdMMR6Rel",
+    "PredicateControl",
+    "MipsInst",
+    "InstSE",
+    "ArithLogicI",
+    "StdArch",
+    "ADDI_FM",
+    "ISA_MIPS1"
+   ]
+  }
+ },
+ "aliases": [],
+ "operands": {
+  "COP0Opnd": {
+   "regClass": "COP0",
+   "operandType": "OPERAND_REGISTER",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "COP0AsmOperand",
+   "superclasses": [
+    "RegisterOperand"
+   ]
+  },
+  "COP2Opnd": {
+   "regClass": "COP2",
+   "operandType": "OPERAND_REGISTER",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "COP2AsmOperand",
+   "superclasses": [
+    "RegisterOperand"
+   ]
+  },
+  "GPR32Opnd": {
+   "regClass": "GPR32",
+   "operandType": "OPERAND_REGISTER",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "GPR32AsmOperand",
+   "superclasses": [
+    "RegisterOperand"
+   ]
+  },
+  "GPR64Opnd": {
+   "regClass": "GPR64",
+   "operandType": "OPERAND_REGISTER",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "GPR64AsmOperand",
+   "superclasses": [
+    "RegisterOperand"
+   ]
+  },
+  "HWRegsOpnd": {
+   "regClass": "HWRegs",
+   "operandType": "OPERAND_REGISTER",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "HWRegsAsmOperand",
+   "superclasses": [
+    "RegisterOperand"
+   ]
+  },
+  "brtarget": {
+   "regClass": null,
+   "operandType": "OPERAND_PCREL",
+   "encoder": "getBranchTargetOpValue",
+   "decoder": "DecodeBranchTarget",
+   "printer": "printBranchOperand",
+   "parser": "MipsJumpTargetAsmOperand",
+   "superclasses": []
+  },
+  "calltarget": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": "getJumpTargetOpValue",
+   "decoder": null,
+   "printer": "printJumpOperand",
+   "parser": "MipsJumpTargetAsmOperand",
+   "superclasses": []
+  },
+  "jmptarget": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": "getJumpTargetOpValue",
+   "decoder": null,
+   "printer": "printJumpOperand",
+   "parser": "MipsJumpTargetAsmOperand",
+   "superclasses": []
+  },
+  "mem": {
+   "regClass": null,
+   "operandType": "OPERAND_MEMORY",
+   "encoder": "getMemEncoding",
+   "decoder": null,
+   "printer": "printMemOperand",
+   "parser": "MipsMemAsmOperand",
+   "superclasses": [
+    "mem_generic"
+   ]
+  },
+  "mem_simm16": {
+   "regClass": null,
+   "operandType": "OPERAND_MEMORY",
+   "encoder": "getMemEncoding",
+   "decoder": null,
+   "printer": "printMemOperand",
+   "parser": "anonymous_13861",
+   "superclasses": [
+    "mem_generic"
+   ]
+  },
+  "mem_simmptr": {
+   "regClass": null,
+   "operandType": "OPERAND_MEMORY",
+   "encoder": "getMemEncoding",
+   "decoder": null,
+   "printer": "printMemOperand",
+   "parser": "MipsMemSimmPtrAsmOperand",
+   "superclasses": [
+    "mem_generic"
+   ]
+  },
+  "simm16": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": "DecodeSImmWithOffsetAndScale<16>",
+   "printer": "printOperand",
+   "parser": "SImm16AsmOperandClass",
+   "superclasses": []
+  },
+  "simm16_64": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": "DecodeSImmWithOffsetAndScale<16>",
+   "printer": "printOperand",
+   "parser": "SImm16AsmOperandClass",
+   "superclasses": []
+  },
+  "simm16_relaxed": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": "DecodeSImmWithOffsetAndScale<16>",
+   "printer": "printOperand",
+   "parser": "SImm16RelaxedAsmOperandClass",
+   "superclasses": []
+  },
+  "uimm10": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printUImm<10>",
+   "parser": "ConstantUImm10AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm16": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printUImm<16>",
+   "parser": "UImm16AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm16_relaxed": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printUImm<16>",
+   "parser": "UImm16RelaxedAsmOperandClass",
+   "superclasses": []
+  },
+  "uimm20": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printUImm<20>",
+   "parser": "ConstantUImm20AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm3": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printUImm<3>",
+   "parser": "ConstantUImm3AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm5": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printUImm<5>",
+   "parser": "ConstantUImm5AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm5_inssize_plus1": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": "getSizeInsEncoding",
+   "decoder": "DecodeInsSize",
+   "printer": "printUImm<6>",
+   "parser": "ConstantUImm5Plus1AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm5_plus1": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": "getUImmWithOffsetEncoding<5, 1>",
+   "decoder": "DecodeUImmWithOffset<5, 1>",
+   "printer": "printUImm<5, 1>",
+   "parser": "ConstantUImm5Plus1AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm5_plus1_report_uimm6": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": "getUImmWithOffsetEncoding<5, 1>",
+   "decoder": "DecodeUImmWithOffset<5, 1>",
+   "printer": "printUImm<6, 1>",
+   "parser": "ConstantUImm5Plus1ReportUImm6AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm5_plus32": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printUImm<5, 32>",
+   "parser": "ConstantUImm5Plus32AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm5_plus33": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": "getUImmWithOffsetEncoding<5, 1>",
+   "decoder": "DecodeUImmWithOffset<5, 1>",
+   "printer": "printUImm<5, 33>",
+   "parser": "ConstantUImm5Plus33AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm5_report_uimm6": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printUImm<6>",
+   "parser": "ConstantUImm5ReportUImm6AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm6": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printUImm<6>",
+   "parser": "ConstantUImm6AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm8": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printUImm<8>",
+   "parser": "ConstantUImm8AsmOperandClass",
+   "superclasses": []
+  },
+  "uimm_range_2_64": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": "getSizeInsEncoding",
+   "decoder": "DecodeInsSize",
+   "printer": "printUImm<6, 2>",
+   "parser": "ConstantUImm5_Range2_64AsmOperandClass",
+   "superclasses": []
+  }
+ },
+ "registerClasses": {
+  "COP0": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31
+  ],
+  "COP2": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31
+  ],
+  "GPR32": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31
+  ],
+  "GPR64": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31
+  ],
+  "HWRegs": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31
+  ]
+ }
+}

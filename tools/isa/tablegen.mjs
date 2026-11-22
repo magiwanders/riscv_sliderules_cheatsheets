@@ -152,6 +152,12 @@ export function compactTarget({ records, keepInstruction = () => true, keepAlias
 
 // ---------------------------------------------------------------- targets
 
+// The Mips predicates of the MIPS I to MIPS32 / MIPS64 Release 2 CPU instructions in the standard encoding.
+const _MIPS_BASE = new Set(['HasStdEnc', 'NotInMicroMips', 'NotInMips16Mode', 'NotMips32r6', 'NotMips64r6', 'NotR5900', 'HasMips2', 'HasMips3',
+  'HasMips32', 'HasMips32r2', 'HasMips64', 'HasMips64r2', 'HasMips4_32', 'HasMips3_32', 'HasMips3_32r2', 'HasMips4_32r2', 'HasMips5_32r2',
+  'IsGP64bit', 'IsGP32bit', 'IsPTR64bit', 'IsPTR32bit', 'RelocNotPIC', 'NoIndirectJumpGuards']);
+const _MIPS_COPIES = new Set(['JALR64', 'JALR_HB64', 'JR64', 'JR_HB64', 'LL64', 'SC64']);
+
 const TARGETS = {
   // RV32 and RV64 with every ratified extension of the toggles (src/isa/riscv-extensions.mjs) and their parts, without the
   // AQ / RL copies of the atomics (aq and rl are fields on the sheet) and code generation pseudos.
@@ -180,6 +186,14 @@ const TARGETS = {
   MOS: {
     keepInstruction: ({ record }) => record.Namespace === 'MOS' && !record.isPseudo && !record.isCodeGenOnly && !record.isAsmParserOnly &&
       record.DecoderNamespace === 'MOS' && (record.Predicates || []).map(_def).join() === 'Has6502',
+    keepAlias: () => false,
+  },
+  // MIPS32 and MIPS64 up to Release 2, the CPU instructions in the standard encoding: not microMIPS, MIPS16, Release 6,
+  // the FPU, MSA, DSP, MT, EVA, virtualisation or vendor extensions; nor the copies for 64 bit pointers and registers
+  // (JALR64, LL64, ...), which have the same encodings.
+  Mips: {
+    keepInstruction: ({ name, record }) => record.Namespace === 'Mips' && !record.isPseudo && !record.isCodeGenOnly && !record.isAsmParserOnly &&
+      (record.Predicates || []).every((p) => _MIPS_BASE.has(_def(p))) && !_MIPS_COPIES.has(name),
     keepAlias: () => false,
   },
   // The unofficial descriptions of spec/unofficial (--td spec/unofficial/z80/Z80.td, .../hack/Hack.td).

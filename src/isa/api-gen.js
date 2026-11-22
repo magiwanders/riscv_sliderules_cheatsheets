@@ -67,7 +67,8 @@ for (const { value, codec } of isas.filter((isa) => isa.codec && isa.value !== '
             })),
             pseudoInstructions: codec.pseudos.map(({ name, description, expansions }) => ({ name, description, expands: expansions.map(({ text }) => text) })),
             registers,
-        }, null, 2)
+        // the x86 sheets have thousands of rows: their files are not indented
+        }, null, codec.spec.spine.width > 32 ? 0 : 2)
     )
 }
 
@@ -84,6 +85,11 @@ const A32_TD = ['ARMRegisterInfo.td', 'ARMSystemRegister.td', 'ARMInstrFormats.t
 const MIPS_TD = ['MipsRegisterInfo.td', 'MipsInstrFormats.td', 'MipsInstrInfo.td', 'Mips64InstrInfo.td'];
 const mipsTablegen = (xlen) => ({ files: MIPS_TD.map((f) => `spec/llvm/Mips/${f}`), licence: 'spec/llvm/LICENSE.TXT',
     about: `MIPS${xlen} in LLVM's Mips target, llvm/llvm-project llvmorg-23.1.5 (Apache 2.0 with LLVM exception): the sheets take the Release 2 CPU instructions of these files${xlen === 32 ? ', not those of Mips64InstrInfo.td' : ''}; the target's other files (microMIPS, MIPS16, Release 6, FPU, MSA, DSP, ...) are left out` });
+
+// The X86 target's files the x86 sheets take their instructions from (LLVM's X86 records describe x86 by opcode, form
+// and operand size rather than bit by bit).
+const x86Tablegen = (set) => ({ files: ['X86RegisterInfo.td', 'X86InstrFormats.td', 'X86InstrUtils.td', 'X86InstrOperands.td', 'X86InstrArithmetic.td', 'X86InstrMisc.td', 'X86InstrControl.td', 'X86InstrShiftRotate.td', 'X86InstrSystem.td', 'X86InstrExtension.td', 'X86InstrFPStack.td'].map((f) => `spec/llvm/X86/${f}`), licence: 'spec/llvm/LICENSE.TXT',
+    about: `${set} in LLVM's X86 target, llvm/llvm-project llvmorg-23.1.5 (Apache 2.0 with LLVM exception): the sheet takes the instructions of these files its typed opcode table names; the target's other files (x87 beyond wait, SSE, AVX, scheduling) are left out` });
 
 const EXPORTS = {
     rv32gc: {
@@ -116,9 +122,9 @@ const EXPORTS = {
     mips32: { sail: { files: ['spec/unofficial/mips/mips.sail'] }, tablegen: mipsTablegen(32) },
     mips64: { sail: { files: ['spec/unofficial/mips/mips.sail'] }, tablegen: mipsTablegen(64) },
     8051: { sail: { files: ['spec/unofficial/mcs51/mcs51.sail'] }, tablegen: { files: ['spec/unofficial/mcs51/MCS51.td'] } },
-    8086: { sail: { files: ['spec/unofficial/x86/i8086.sail'] },
-        tablegen: { files: ['X86RegisterInfo.td', 'X86InstrFormats.td', 'X86InstrUtils.td', 'X86InstrOperands.td', 'X86InstrArithmetic.td', 'X86InstrMisc.td', 'X86InstrControl.td', 'X86InstrShiftRotate.td', 'X86InstrSystem.td', 'X86InstrExtension.td', 'X86InstrFPStack.td'].map((f) => `spec/llvm/X86/${f}`), licence: 'spec/llvm/LICENSE.TXT',
-            about: 'The 8086 in LLVM\'s X86 target, llvm/llvm-project llvmorg-23.1.5 (Apache 2.0 with LLVM exception): the sheet takes the 8086 instructions of these files, which describe x86 by opcode, form and operand size rather than bit by bit; the target\'s other files (SSE, AVX, scheduling) are left out' } },
+    8086: { sail: { files: ['spec/unofficial/x86/i8086.sail'] }, tablegen: x86Tablegen('the 8086') },
+    x86: { sail: { files: ['spec/unofficial/x86/ia32.sail'] }, tablegen: x86Tablegen('IA-32') },
+    x86_64: { sail: { files: ['spec/unofficial/x86/x86_64.sail'] }, tablegen: x86Tablegen('x86-64') },
     8080: { sail: { files: ['spec/unofficial/i8080/i8080.sail'] }, tablegen: { files: ['spec/unofficial/i8080/I8080.td'] } },
     hack: { sail: { files: ['spec/unofficial/hack/hack.sail'] }, tablegen: { files: ['spec/unofficial/hack/Hack.td'] } },
 };

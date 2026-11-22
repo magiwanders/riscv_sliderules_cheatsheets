@@ -178,6 +178,242 @@
    "rexw": 0,
    "predicates": []
   },
+  "ADC32i32": {
+   "asm": "adc{l}\t{$src, %eax|eax, $src}",
+   "op": 21,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ADC32mi": {
+   "asm": "adc{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ADC32mi8": {
+   "asm": "adc{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ADC32mr": {
+   "asm": "adc{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 17,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ADC32ri": {
+   "asm": "adc{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADC32ri8": {
+   "asm": "adc{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADC32rm": {
+   "asm": "adc{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 19,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADC32rr": {
+   "asm": "adc{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 17,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADC32rr_REV": {
+   "asm": "adc{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 19,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ADC64i32": {
+   "asm": "adc{q}\t{$src, %rax|rax, $src}",
+   "op": 21,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "ADC64mi32": {
+   "asm": "adc{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "ADC64mi8": {
+   "asm": "adc{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "ADC64mr": {
+   "asm": "adc{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 17,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "ADC64ri32": {
+   "asm": "adc{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADC64ri8": {
+   "asm": "adc{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADC64rm": {
+   "asm": "adc{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 19,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADC64rr": {
+   "asm": "adc{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 17,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADC64rr_REV": {
+   "asm": "adc{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 19,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
   "ADC8i8": {
    "asm": "adc{b}\t{$src, %al|al, $src}",
    "op": 20,
@@ -384,6 +620,242 @@
    "rexw": 0,
    "predicates": []
   },
+  "ADD32i32": {
+   "asm": "add{l}\t{$src, %eax|eax, $src}",
+   "op": 5,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ADD32mi": {
+   "asm": "add{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ADD32mi8": {
+   "asm": "add{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ADD32mr": {
+   "asm": "add{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 1,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ADD32ri": {
+   "asm": "add{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADD32ri8": {
+   "asm": "add{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADD32rm": {
+   "asm": "add{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 3,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADD32rr": {
+   "asm": "add{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 1,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADD32rr_REV": {
+   "asm": "add{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 3,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ADD64i32": {
+   "asm": "add{q}\t{$src, %rax|rax, $src}",
+   "op": 5,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "ADD64mi32": {
+   "asm": "add{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "ADD64mi8": {
+   "asm": "add{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "ADD64mr": {
+   "asm": "add{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 1,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "ADD64ri32": {
+   "asm": "add{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADD64ri8": {
+   "asm": "add{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADD64rm": {
+   "asm": "add{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 3,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADD64rr": {
+   "asm": "add{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 1,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ADD64rr_REV": {
+   "asm": "add{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 3,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
   "ADD8i8": {
    "asm": "add{b}\t{$src, %al|al, $src}",
    "op": 4,
@@ -473,6 +945,34 @@
    "imm": "NoImm",
    "rexw": 0,
    "predicates": []
+  },
+  "ADDR16_PREFIX": {
+   "asm": "addr16",
+   "op": 103,
+   "map": "OB",
+   "form": "PrefixByte",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In32BitMode"
+   ]
+  },
+  "ADDR32_PREFIX": {
+   "asm": "addr32",
+   "op": 103,
+   "map": "OB",
+   "form": "PrefixByte",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
   },
   "AND16i16": {
    "asm": "and{w}\t{$src, %ax|ax, $src}",
@@ -590,6 +1090,242 @@
    "rexw": 0,
    "predicates": []
   },
+  "AND32i32": {
+   "asm": "and{l}\t{$src, %eax|eax, $src}",
+   "op": 37,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "AND32mi": {
+   "asm": "and{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "AND32mi8": {
+   "asm": "and{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "AND32mr": {
+   "asm": "and{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 33,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "AND32ri": {
+   "asm": "and{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "AND32ri8": {
+   "asm": "and{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "AND32rm": {
+   "asm": "and{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 35,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "AND32rr": {
+   "asm": "and{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 33,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "AND32rr_REV": {
+   "asm": "and{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 35,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "AND64i32": {
+   "asm": "and{q}\t{$src, %rax|rax, $src}",
+   "op": 37,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "AND64mi32": {
+   "asm": "and{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "AND64mi8": {
+   "asm": "and{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "AND64mr": {
+   "asm": "and{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 33,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "AND64ri32": {
+   "asm": "and{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "AND64ri8": {
+   "asm": "and{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "AND64rm": {
+   "asm": "and{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 35,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "AND64rr": {
+   "asm": "and{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 33,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "AND64rr_REV": {
+   "asm": "and{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 35,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
   "AND8i8": {
    "asm": "and{b}\t{$src, %al|al, $src}",
    "op": 36,
@@ -680,6 +1416,818 @@
    "rexw": 0,
    "predicates": []
   },
+  "ARPL16mr": {
+   "asm": "arpl\t{$src, $dst|$dst, $src}",
+   "op": 99,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "ARPL16rr": {
+   "asm": "arpl\t{$src, $dst|$dst, $src}",
+   "op": 99,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "BOUNDS16rm": {
+   "asm": "bound\t$dst, $src",
+   "op": 98,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "BOUNDS32rm": {
+   "asm": "bound\t$dst, $src",
+   "op": 98,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "BSF16rm": {
+   "asm": "bsf{w}\t{$src, $dst|$dst, $src}",
+   "op": 188,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BSF16rr": {
+   "asm": "bsf{w}\t{$src, $dst|$dst, $src}",
+   "op": 188,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BSF32rm": {
+   "asm": "bsf{l}\t{$src, $dst|$dst, $src}",
+   "op": 188,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BSF32rr": {
+   "asm": "bsf{l}\t{$src, $dst|$dst, $src}",
+   "op": 188,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BSF64rm": {
+   "asm": "bsf{q}\t{$src, $dst|$dst, $src}",
+   "op": 188,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BSF64rr": {
+   "asm": "bsf{q}\t{$src, $dst|$dst, $src}",
+   "op": 188,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BSR16rm": {
+   "asm": "bsr{w}\t{$src, $dst|$dst, $src}",
+   "op": 189,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BSR16rr": {
+   "asm": "bsr{w}\t{$src, $dst|$dst, $src}",
+   "op": 189,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BSR32rm": {
+   "asm": "bsr{l}\t{$src, $dst|$dst, $src}",
+   "op": 189,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BSR32rr": {
+   "asm": "bsr{l}\t{$src, $dst|$dst, $src}",
+   "op": 189,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BSR64rm": {
+   "asm": "bsr{q}\t{$src, $dst|$dst, $src}",
+   "op": 189,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BSR64rr": {
+   "asm": "bsr{q}\t{$src, $dst|$dst, $src}",
+   "op": 189,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BSWAP32r": {
+   "asm": "bswap{l}\t$dst",
+   "op": 200,
+   "map": "TB",
+   "form": "AddRegFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD_Or_NoMOVBE"
+   ]
+  },
+  "BSWAP64r": {
+   "asm": "bswap{q}\t$dst",
+   "op": 200,
+   "map": "TB",
+   "form": "AddRegFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD_Or_NoMOVBE"
+   ]
+  },
+  "BT16mi8": {
+   "asm": "bt{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM4m",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BT16mr": {
+   "asm": "bt{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 163,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BT16ri8": {
+   "asm": "bt{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM4r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BT16rr": {
+   "asm": "bt{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 163,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BT32mi8": {
+   "asm": "bt{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM4m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BT32mr": {
+   "asm": "bt{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 163,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BT32ri8": {
+   "asm": "bt{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM4r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BT32rr": {
+   "asm": "bt{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 163,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BT64mi8": {
+   "asm": "bt{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM4m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "BT64mr": {
+   "asm": "bt{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 163,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BT64ri8": {
+   "asm": "bt{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM4r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BT64rr": {
+   "asm": "bt{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 163,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BTC16mi8": {
+   "asm": "btc{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM7m",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTC16mr": {
+   "asm": "btc{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 187,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTC16ri8": {
+   "asm": "btc{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM7r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTC16rr": {
+   "asm": "btc{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 187,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTC32mi8": {
+   "asm": "btc{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM7m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTC32mr": {
+   "asm": "btc{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 187,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTC32ri8": {
+   "asm": "btc{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM7r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTC32rr": {
+   "asm": "btc{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 187,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTC64mi8": {
+   "asm": "btc{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM7m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "BTC64mr": {
+   "asm": "btc{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 187,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BTC64ri8": {
+   "asm": "btc{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM7r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BTC64rr": {
+   "asm": "btc{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 187,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BTR16mi8": {
+   "asm": "btr{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM6m",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTR16mr": {
+   "asm": "btr{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 179,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTR16ri8": {
+   "asm": "btr{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM6r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTR16rr": {
+   "asm": "btr{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 179,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTR32mi8": {
+   "asm": "btr{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM6m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTR32mr": {
+   "asm": "btr{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 179,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTR32ri8": {
+   "asm": "btr{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM6r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTR32rr": {
+   "asm": "btr{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 179,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTR64mi8": {
+   "asm": "btr{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM6m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "BTR64mr": {
+   "asm": "btr{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 179,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BTR64ri8": {
+   "asm": "btr{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM6r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BTR64rr": {
+   "asm": "btr{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 179,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BTS16mi8": {
+   "asm": "bts{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM5m",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTS16mr": {
+   "asm": "bts{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 171,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTS16ri8": {
+   "asm": "bts{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM5r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTS16rr": {
+   "asm": "bts{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 171,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTS32mi8": {
+   "asm": "bts{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM5m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTS32mr": {
+   "asm": "bts{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 171,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTS32ri8": {
+   "asm": "bts{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM5r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTS32rr": {
+   "asm": "bts{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 171,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "BTS64mi8": {
+   "asm": "bts{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM5m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "BTS64mr": {
+   "asm": "bts{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 171,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BTS64ri8": {
+   "asm": "bts{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 186,
+   "map": "TB",
+   "form": "MRM5r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": []
+  },
+  "BTS64rr": {
+   "asm": "bts{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 171,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
   "CALL16m": {
    "asm": "call{w}\t{*}$dst",
    "op": 255,
@@ -709,6 +2257,83 @@
     "Not64BitMode"
    ]
   },
+  "CALL32m": {
+   "asm": "call{l}\t{*}$dst",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode",
+    "FavorMemIndirectCall",
+    "NotUseIndirectThunkCalls"
+   ]
+  },
+  "CALL32r": {
+   "asm": "call{l}\t{*}$dst",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode",
+    "NotUseIndirectThunkCalls"
+   ]
+  },
+  "CALL64m": {
+   "asm": "call{q}\t{*}$dst",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode",
+    "FavorMemIndirectCall",
+    "NotUseIndirectThunkCalls"
+   ]
+  },
+  "CALL64pcrel32": {
+   "asm": "call{q}\t$dst",
+   "op": 232,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32PCRel",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "CALL64r": {
+   "asm": "call{q}\t{*}$dst",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode",
+    "NotUseIndirectThunkCalls",
+    "ImportCallOptimizationDisabled"
+   ]
+  },
   "CALLpcrel16": {
    "asm": "call{w}\t$dst",
    "op": 232,
@@ -718,6 +2343,20 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "Imm16PCRel",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "CALLpcrel32": {
+   "asm": "call{l}\t$dst",
+   "op": 232,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32PCRel",
    "rexw": 0,
    "predicates": [
     "Not64BitMode"
@@ -734,6 +2373,32 @@
    "imm": "NoImm",
    "rexw": 0,
    "predicates": []
+  },
+  "CDQ": {
+   "asm": "{cltd|cdq}",
+   "op": 153,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CDQE": {
+   "asm": "{cltq|cdqe}",
+   "op": 152,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
   },
   "CLC": {
    "asm": "clc",
@@ -771,6 +2436,18 @@
    "rexw": 0,
    "predicates": []
   },
+  "CLTS": {
+   "asm": "clts",
+   "op": 6,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
   "CMC": {
    "asm": "cmc",
    "op": 245,
@@ -782,6 +2459,96 @@
    "imm": "NoImm",
    "rexw": 0,
    "predicates": []
+  },
+  "CMOV16rm": {
+   "asm": "cmov${cond}{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 64,
+   "map": "TB",
+   "form": "MRMSrcMemCC",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "HasCMOV",
+    "NoNDD"
+   ]
+  },
+  "CMOV16rr": {
+   "asm": "cmov${cond}{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 64,
+   "map": "TB",
+   "form": "MRMSrcRegCC",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "HasCMOV",
+    "NoNDD"
+   ]
+  },
+  "CMOV32rm": {
+   "asm": "cmov${cond}{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 64,
+   "map": "TB",
+   "form": "MRMSrcMemCC",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "HasCMOV",
+    "NoNDD"
+   ]
+  },
+  "CMOV32rr": {
+   "asm": "cmov${cond}{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 64,
+   "map": "TB",
+   "form": "MRMSrcRegCC",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "HasCMOV",
+    "NoNDD"
+   ]
+  },
+  "CMOV64rm": {
+   "asm": "cmov${cond}{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 64,
+   "map": "TB",
+   "form": "MRMSrcMemCC",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "HasCMOV",
+    "NoNDD"
+   ]
+  },
+  "CMOV64rr": {
+   "asm": "cmov${cond}{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 64,
+   "map": "TB",
+   "form": "MRMSrcRegCC",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "HasCMOV",
+    "NoNDD"
+   ]
   },
   "CMP16i16": {
    "asm": "cmp{w}\t{$src, %ax|ax, $src}",
@@ -891,6 +2658,226 @@
    "rexw": 0,
    "predicates": []
   },
+  "CMP32i32": {
+   "asm": "cmp{l}\t{$src, %eax|eax, $src}",
+   "op": 61,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMP32mi": {
+   "asm": "cmp{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMP32mi8": {
+   "asm": "cmp{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMP32mr": {
+   "asm": "cmp{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 57,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMP32ri": {
+   "asm": "cmp{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMP32ri8": {
+   "asm": "cmp{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMP32rm": {
+   "asm": "cmp{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 59,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMP32rr": {
+   "asm": "cmp{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 57,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMP32rr_REV": {
+   "asm": "cmp{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 59,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMP64i32": {
+   "asm": "cmp{q}\t{$src, %rax|rax, $src}",
+   "op": 61,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "CMP64mi32": {
+   "asm": "cmp{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "CMP64mi8": {
+   "asm": "cmp{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "CMP64mr": {
+   "asm": "cmp{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 57,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "CMP64ri32": {
+   "asm": "cmp{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "CMP64ri8": {
+   "asm": "cmp{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": []
+  },
+  "CMP64rm": {
+   "asm": "cmp{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 59,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "CMP64rr": {
+   "asm": "cmp{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 57,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "CMP64rr_REV": {
+   "asm": "cmp{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 59,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
   "CMP8i8": {
    "asm": "cmp{b}\t{$src, %al|al, $src}",
    "op": 60,
@@ -987,6 +2974,32 @@
    "rexw": 0,
    "predicates": []
   },
+  "CMPSL": {
+   "asm": "cmps{l|d}\t{$dst, $src|$src, $dst}",
+   "op": 167,
+   "map": "OB",
+   "form": "RawFrmDstSrc",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMPSQ": {
+   "asm": "cmpsq\t{$dst, $src|$src, $dst}",
+   "op": 167,
+   "map": "OB",
+   "form": "RawFrmDstSrc",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "CMPSW": {
    "asm": "cmpsw\t{$dst, $src|$src, $dst}",
    "op": 167,
@@ -998,6 +3011,157 @@
    "imm": "NoImm",
    "rexw": 0,
    "predicates": []
+  },
+  "CMPXCHG16B": {
+   "asm": "cmpxchg16b\t$dst",
+   "op": 199,
+   "map": "TB",
+   "form": "MRM1m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "HasCX16",
+    "In64BitMode"
+   ]
+  },
+  "CMPXCHG16rm": {
+   "asm": "cmpxchg{w}\t{$src, $dst|$dst, $src}",
+   "op": 177,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMPXCHG16rr": {
+   "asm": "cmpxchg{w}\t{$src, $dst|$dst, $src}",
+   "op": 177,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMPXCHG32rm": {
+   "asm": "cmpxchg{l}\t{$src, $dst|$dst, $src}",
+   "op": 177,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMPXCHG32rr": {
+   "asm": "cmpxchg{l}\t{$src, $dst|$dst, $src}",
+   "op": 177,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMPXCHG64rm": {
+   "asm": "cmpxchg{q}\t{$src, $dst|$dst, $src}",
+   "op": 177,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "CMPXCHG64rr": {
+   "asm": "cmpxchg{q}\t{$src, $dst|$dst, $src}",
+   "op": 177,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "CMPXCHG8B": {
+   "asm": "cmpxchg8b\t$dst",
+   "op": 199,
+   "map": "TB",
+   "form": "MRM1m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "HasCX8"
+   ]
+  },
+  "CMPXCHG8rm": {
+   "asm": "cmpxchg{b}\t{$src, $dst|$dst, $src}",
+   "op": 176,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CMPXCHG8rr": {
+   "asm": "cmpxchg{b}\t{$src, $dst|$dst, $src}",
+   "op": 176,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CPUID": {
+   "asm": "cpuid",
+   "op": 162,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CQO": {
+   "asm": "{cqto|cqo}",
+   "op": 153,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
   },
   "CS_PREFIX": {
    "asm": "cs",
@@ -1017,6 +3181,18 @@
    "map": "OB",
    "form": "RawFrm",
    "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "CWDE": {
+   "asm": "{cwtl|cwde}",
+   "op": 152,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
@@ -1050,6 +3226,18 @@
    "predicates": [
     "Not64BitMode"
    ]
+  },
+  "DATA16_PREFIX": {
+   "asm": "data16",
+   "op": 102,
+   "map": "OB",
+   "form": "PrefixByte",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
   },
   "DEC16m": {
    "asm": "dec{w}\t$src1",
@@ -1091,6 +3279,77 @@
    "rexw": 0,
    "predicates": [
     "Not64BitMode"
+   ]
+  },
+  "DEC32m": {
+   "asm": "dec{l}\t$src1",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "UseIncDec"
+   ]
+  },
+  "DEC32r": {
+   "asm": "dec{l}\t$src1",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "DEC32r_alt": {
+   "asm": "dec{l}\t$src1",
+   "op": 72,
+   "map": "OB",
+   "form": "AddRegFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "DEC64m": {
+   "asm": "dec{q}\t$src1",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "UseIncDec",
+    "In64BitMode"
+   ]
+  },
+  "DEC64r": {
+   "asm": "dec{q}\t$src1",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
    ]
   },
   "DEC8m": {
@@ -1145,6 +3404,56 @@
    "rexw": 0,
    "predicates": []
   },
+  "DIV32m": {
+   "asm": "div{l}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM6m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "DIV32r": {
+   "asm": "div{l}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM6r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "DIV64m": {
+   "asm": "div{q}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM6m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "DIV64r": {
+   "asm": "div{q}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM6r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
   "DIV8m": {
    "asm": "div{b}\t$src1",
    "op": 246,
@@ -1178,6 +3487,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ENTER": {
+   "asm": "enter\t$len, $lvl",
+   "op": 200,
+   "map": "OB",
+   "form": "RawFrmImm8",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm16",
    "rexw": 0,
    "predicates": []
   },
@@ -1219,6 +3540,44 @@
    "rexw": 0,
    "predicates": []
   },
+  "FARCALL32i": {
+   "asm": "lcall{l}\t$seg, $off",
+   "op": 154,
+   "map": "OB",
+   "form": "RawFrmImm16",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "FARCALL32m": {
+   "asm": "{l}call{l}\t{*}$dst",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "FARCALL64m": {
+   "asm": "lcall{q}\t{*}$dst",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
   "FARJMP16i": {
    "asm": "ljmp{w}\t$seg, $off",
    "op": 234,
@@ -1239,6 +3598,70 @@
    "map": "OB",
    "form": "MRM5m",
    "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "FARJMP32i": {
+   "asm": "ljmp{l}\t$seg, $off",
+   "op": 234,
+   "map": "OB",
+   "form": "RawFrmImm16",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "FARJMP32m": {
+   "asm": "{l}jmp{l}\t{*}$dst",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "FARJMP64m": {
+   "asm": "ljmp{q}\t{*}$dst",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "FS_PREFIX": {
+   "asm": "fs",
+   "op": 100,
+   "map": "OB",
+   "form": "PrefixByte",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "GS_PREFIX": {
+   "asm": "gs",
+   "op": 101,
+   "map": "OB",
+   "form": "PrefixByte",
+   "opsz": "OpSizeFixed",
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
@@ -1279,6 +3702,56 @@
    "pfx": "NoPrfx",
    "imm": "NoImm",
    "rexw": 0,
+   "predicates": []
+  },
+  "IDIV32m": {
+   "asm": "idiv{l}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IDIV32r": {
+   "asm": "idiv{l}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IDIV64m": {
+   "asm": "idiv{q}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "IDIV64r": {
+   "asm": "idiv{q}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
    "predicates": []
   },
   "IDIV8m": {
@@ -1329,6 +3802,284 @@
    "rexw": 0,
    "predicates": []
   },
+  "IMUL16rm": {
+   "asm": "imul{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 175,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "IMUL16rmi": {
+   "asm": "imul{w}\t{$src2, $src1, $dst|$dst, $src1, $src2}",
+   "op": 105,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm16",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IMUL16rmi8": {
+   "asm": "imul{w}\t{$src2, $src1, $dst|$dst, $src1, $src2}",
+   "op": 107,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IMUL16rr": {
+   "asm": "imul{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 175,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "IMUL16rri": {
+   "asm": "imul{w}\t{$src2, $src1, $dst|$dst, $src1, $src2}",
+   "op": 105,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm16",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IMUL16rri8": {
+   "asm": "imul{w}\t{$src2, $src1, $dst|$dst, $src1, $src2}",
+   "op": 107,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IMUL32m": {
+   "asm": "imul{l}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IMUL32r": {
+   "asm": "imul{l}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IMUL32rm": {
+   "asm": "imul{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 175,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "IMUL32rmi": {
+   "asm": "imul{l}\t{$src2, $src1, $dst|$dst, $src1, $src2}",
+   "op": 105,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IMUL32rmi8": {
+   "asm": "imul{l}\t{$src2, $src1, $dst|$dst, $src1, $src2}",
+   "op": 107,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IMUL32rr": {
+   "asm": "imul{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 175,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "IMUL32rri": {
+   "asm": "imul{l}\t{$src2, $src1, $dst|$dst, $src1, $src2}",
+   "op": 105,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IMUL32rri8": {
+   "asm": "imul{l}\t{$src2, $src1, $dst|$dst, $src1, $src2}",
+   "op": 107,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IMUL64m": {
+   "asm": "imul{q}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "IMUL64r": {
+   "asm": "imul{q}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "IMUL64rm": {
+   "asm": "imul{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 175,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "IMUL64rmi32": {
+   "asm": "imul{q}\t{$src2, $src1, $dst|$dst, $src1, $src2}",
+   "op": 105,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "IMUL64rmi8": {
+   "asm": "imul{q}\t{$src2, $src1, $dst|$dst, $src1, $src2}",
+   "op": 107,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": []
+  },
+  "IMUL64rr": {
+   "asm": "imul{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 175,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "IMUL64rri32": {
+   "asm": "imul{q}\t{$src2, $src1, $dst|$dst, $src1, $src2}",
+   "op": 105,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "IMUL64rri8": {
+   "asm": "imul{q}\t{$src2, $src1, $dst|$dst, $src1, $src2}",
+   "op": 107,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": []
+  },
   "IMUL8m": {
    "asm": "imul{b}\t$src1",
    "op": 246,
@@ -1371,6 +4122,30 @@
    "map": "OB",
    "form": "RawFrm",
    "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IN32ri": {
+   "asm": "in{l}\t{$port, %eax|eax, $port}",
+   "op": 229,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IN32rr": {
+   "asm": "in{l}\t{%dx, %eax|eax, dx}",
+   "op": 237,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
@@ -1443,6 +4218,77 @@
     "Not64BitMode"
    ]
   },
+  "INC32m": {
+   "asm": "inc{l}\t$src1",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "UseIncDec"
+   ]
+  },
+  "INC32r": {
+   "asm": "inc{l}\t$src1",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "INC32r_alt": {
+   "asm": "inc{l}\t$src1",
+   "op": 64,
+   "map": "OB",
+   "form": "AddRegFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "INC64m": {
+   "asm": "inc{q}\t$src1",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "UseIncDec",
+    "In64BitMode"
+   ]
+  },
+  "INC64r": {
+   "asm": "inc{q}\t$src1",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
   "INC8m": {
    "asm": "inc{b}\t$src1",
    "op": 254,
@@ -1470,6 +4316,42 @@
    "predicates": [
     "NoNDD"
    ]
+  },
+  "INSB": {
+   "asm": "insb\t{%dx, $dst|$dst, dx}",
+   "op": 108,
+   "map": "OB",
+   "form": "RawFrmDst",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "INSL": {
+   "asm": "ins{l|d}\t{%dx, $dst|$dst, dx}",
+   "op": 109,
+   "map": "OB",
+   "form": "RawFrmDst",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "INSW": {
+   "asm": "insw\t{%dx, $dst|$dst, dx}",
+   "op": 109,
+   "map": "OB",
+   "form": "RawFrmDst",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
   },
   "INT": {
    "asm": "int\t$trap",
@@ -1509,6 +4391,30 @@
     "Not64BitMode"
    ]
   },
+  "INVD": {
+   "asm": "invd",
+   "op": 8,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "INVLPG": {
+   "asm": "invlpg\t$addr",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM7m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
   "IRET16": {
    "asm": "iret{w}",
    "op": 207,
@@ -1521,6 +4427,32 @@
    "rexw": 0,
    "predicates": []
   },
+  "IRET32": {
+   "asm": "iret{l|d}",
+   "op": 207,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "IRET64": {
+   "asm": "iretq",
+   "op": 207,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "JCC_1": {
    "asm": "j${cond}\t$dst",
    "op": 112,
@@ -1530,6 +4462,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "Imm8PCRel",
+   "rexw": 0,
+   "predicates": []
+  },
+  "JCC_4": {
+   "asm": "j${cond}\t$dst",
+   "op": 128,
+   "map": "TB",
+   "form": "AddCCFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32PCRel",
    "rexw": 0,
    "predicates": []
   },
@@ -1546,6 +4490,18 @@
    "predicates": [
     "Not64BitMode"
    ]
+  },
+  "JECXZ": {
+   "asm": "jecxz\t$dst",
+   "op": 227,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSize32",
+   "pfx": "NoPrfx",
+   "imm": "Imm8PCRel",
+   "rexw": 0,
+   "predicates": []
   },
   "JMP16m": {
    "asm": "jmp{w}\t{*}$dst",
@@ -1575,6 +4531,62 @@
     "Not64BitMode"
    ]
   },
+  "JMP32m": {
+   "asm": "jmp{l}\t{*}$dst",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "JMP32r": {
+   "asm": "jmp{l}\t{*}$dst",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "JMP64m": {
+   "asm": "jmp{q}\t{*}$dst",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "JMP64r": {
+   "asm": "jmp{q}\t{*}$dst",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "JMP_1": {
    "asm": "jmp\t$dst",
    "op": 235,
@@ -1599,6 +4611,32 @@
    "rexw": 0,
    "predicates": []
   },
+  "JMP_4": {
+   "asm": "jmp\t$dst",
+   "op": 233,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32PCRel",
+   "rexw": 0,
+   "predicates": []
+  },
+  "JRCXZ": {
+   "asm": "jrcxz\t$dst",
+   "op": 227,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSize64",
+   "pfx": "NoPrfx",
+   "imm": "Imm8PCRel",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "LAHF": {
    "asm": "lahf",
    "op": 159,
@@ -1613,12 +4651,98 @@
     "HasLAHFSAHF"
    ]
   },
+  "LAR16rm": {
+   "asm": "lar{w}\t{$src, $dst|$dst, $src}",
+   "op": 2,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LAR16rr": {
+   "asm": "lar{w}\t{$src, $dst|$dst, $src}",
+   "op": 2,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LAR32rm": {
+   "asm": "lar{l}\t{$src, $dst|$dst, $src}",
+   "op": 2,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LAR32rr": {
+   "asm": "lar{l}\t{$src, $dst|$dst, $src}",
+   "op": 2,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LAR64rm": {
+   "asm": "lar{q}\t{$src, $dst|$dst, $src}",
+   "op": 2,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "LAR64rr": {
+   "asm": "lar{q}\t{$src, $dst|$dst, $src}",
+   "op": 2,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
   "LDS16rm": {
    "asm": "lds{w}\t{$src, $dst|$dst, $src}",
    "op": 197,
    "map": "OB",
    "form": "MRMSrcMem",
    "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "LDS32rm": {
+   "asm": "lds{l}\t{$src, $dst|$dst, $src}",
+   "op": 197,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
@@ -1639,6 +4763,74 @@
    "rexw": 0,
    "predicates": []
   },
+  "LEA32r": {
+   "asm": "lea{l}\t{$src|$dst}, {$dst|$src}",
+   "op": 141,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "LEA64_32r": {
+   "asm": "lea{l}\t{$src|$dst}, {$dst|$src}",
+   "op": 141,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "LEA64r": {
+   "asm": "lea{q}\t{$src|$dst}, {$dst|$src}",
+   "op": 141,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "LEAVE": {
+   "asm": "leave",
+   "op": 201,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "LEAVE64": {
+   "asm": "leave",
+   "op": 201,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "LES16rm": {
    "asm": "les{w}\t{$src, $dst|$dst, $src}",
    "op": 196,
@@ -1652,6 +4844,196 @@
    "predicates": [
     "Not64BitMode"
    ]
+  },
+  "LES32rm": {
+   "asm": "les{l}\t{$src, $dst|$dst, $src}",
+   "op": 196,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "LFS16rm": {
+   "asm": "lfs{w}\t{$src, $dst|$dst, $src}",
+   "op": 180,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LFS32rm": {
+   "asm": "lfs{l}\t{$src, $dst|$dst, $src}",
+   "op": 180,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LFS64rm": {
+   "asm": "lfs{q}\t{$src, $dst|$dst, $src}",
+   "op": 180,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "LGDT32m": {
+   "asm": "lgdt{l|d}\t$src",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM2m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "LGDT64m": {
+   "asm": "lgdt{q}\t$src",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM2m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "LGS16rm": {
+   "asm": "lgs{w}\t{$src, $dst|$dst, $src}",
+   "op": 181,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LGS32rm": {
+   "asm": "lgs{l}\t{$src, $dst|$dst, $src}",
+   "op": 181,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LGS64rm": {
+   "asm": "lgs{q}\t{$src, $dst|$dst, $src}",
+   "op": 181,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "LIDT32m": {
+   "asm": "lidt{l|d}\t$src",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM3m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "LIDT64m": {
+   "asm": "lidt{q}\t$src",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM3m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "LLDT16m": {
+   "asm": "lldt{w}\t$src",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM2m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LLDT16r": {
+   "asm": "lldt{w}\t$src",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM2r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LMSW16m": {
+   "asm": "lmsw{w}\t$src",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM6m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LMSW16r": {
+   "asm": "lmsw{w}\t$src",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM6r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
   },
   "LOCK_PREFIX": {
    "asm": "lock",
@@ -1676,6 +5058,32 @@
    "imm": "NoImm",
    "rexw": 0,
    "predicates": []
+  },
+  "LODSL": {
+   "asm": "lods{l|d}\t{$src, %eax|eax, $src}",
+   "op": 173,
+   "map": "OB",
+   "form": "RawFrmSrc",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LODSQ": {
+   "asm": "lodsq\t{$src, %rax|rax, $src}",
+   "op": 173,
+   "map": "OB",
+   "form": "RawFrmSrc",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
   },
   "LODSW": {
    "asm": "lodsw\t{$src, %ax|ax, $src}",
@@ -1737,6 +5145,32 @@
    "rexw": 0,
    "predicates": []
   },
+  "LRET32": {
+   "asm": "{l}ret{l|f}",
+   "op": 203,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LRET64": {
+   "asm": "{l}ret{|f}q",
+   "op": 203,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "LRETI16": {
    "asm": "{l}ret{w|f}\t$amt",
    "op": 202,
@@ -1749,6 +5183,164 @@
    "rexw": 0,
    "predicates": []
   },
+  "LRETI32": {
+   "asm": "{l}ret{l|f}\t$amt",
+   "op": 202,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm16",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LRETI64": {
+   "asm": "{l}ret{|f}q\t$amt",
+   "op": 202,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm16",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "LSL16rm": {
+   "asm": "lsl{w}\t{$src, $dst|$dst, $src}",
+   "op": 3,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LSL16rr": {
+   "asm": "lsl{w}\t{$src, $dst|$dst, $src}",
+   "op": 3,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LSL32rm": {
+   "asm": "lsl{l}\t{$src, $dst|$dst, $src}",
+   "op": 3,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LSL32rr": {
+   "asm": "lsl{l}\t{$src, $dst|$dst, $src}",
+   "op": 3,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LSL64rm": {
+   "asm": "lsl{q}\t{$src, $dst|$dst, $src}",
+   "op": 3,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "LSL64rr": {
+   "asm": "lsl{q}\t{$src, $dst|$dst, $src}",
+   "op": 3,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "LSS16rm": {
+   "asm": "lss{w}\t{$src, $dst|$dst, $src}",
+   "op": 178,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LSS32rm": {
+   "asm": "lss{l}\t{$src, $dst|$dst, $src}",
+   "op": 178,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LSS64rm": {
+   "asm": "lss{q}\t{$src, $dst|$dst, $src}",
+   "op": 178,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "LTRm": {
+   "asm": "ltr{w}\t$src",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM3m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "LTRr": {
+   "asm": "ltr{w}\t$src",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM3r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
   "MOV16ao16": {
    "asm": "mov{w}\t{$src, %ax|ax, $src}",
    "op": 161,
@@ -1758,6 +5350,30 @@
    "adsz": "AdSize16",
    "pfx": "NoPrfx",
    "imm": "Imm16",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV16ao32": {
+   "asm": "mov{w}\t{$src, %ax|ax, $src}",
+   "op": 161,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSize16",
+   "adsz": "AdSize32",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV16ao64": {
+   "asm": "movabs{w}\t{$src, %ax|ax, $src}",
+   "op": 161,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSize16",
+   "adsz": "AdSize64",
+   "pfx": "NoPrfx",
+   "imm": "Imm64",
    "rexw": 0,
    "predicates": []
   },
@@ -1806,6 +5422,30 @@
    "adsz": "AdSize16",
    "pfx": "NoPrfx",
    "imm": "Imm16",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV16o32a": {
+   "asm": "mov{w}\t{%ax, $dst|$dst, ax}",
+   "op": 163,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSize16",
+   "adsz": "AdSize32",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV16o64a": {
+   "asm": "movabs{w}\t{%ax, $dst|$dst, ax}",
+   "op": 163,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSize16",
+   "adsz": "AdSize64",
+   "pfx": "NoPrfx",
+   "imm": "Imm64",
    "rexw": 0,
    "predicates": []
   },
@@ -1905,6 +5545,396 @@
    "rexw": 0,
    "predicates": []
   },
+  "MOV32ao32": {
+   "asm": "mov{l}\t{$src, %eax|eax, $src}",
+   "op": 161,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSize32",
+   "adsz": "AdSize32",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV32ao64": {
+   "asm": "movabs{l}\t{$src, %eax|eax, $src}",
+   "op": 161,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSize32",
+   "adsz": "AdSize64",
+   "pfx": "NoPrfx",
+   "imm": "Imm64",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV32cr": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 34,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "MOV32dr": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 35,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "MOV32mi": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 199,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV32mr": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 137,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV32o32a": {
+   "asm": "mov{l}\t{%eax, $dst|$dst, eax}",
+   "op": 163,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSize32",
+   "adsz": "AdSize32",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV32o64a": {
+   "asm": "movabs{l}\t{%eax, $dst|$dst, eax}",
+   "op": 163,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSize32",
+   "adsz": "AdSize64",
+   "pfx": "NoPrfx",
+   "imm": "Imm64",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV32rc": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 32,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "MOV32rd": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 33,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "MOV32ri": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 184,
+   "map": "OB",
+   "form": "AddRegFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV32ri_alt": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 199,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV32rm": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 139,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV32rr": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 137,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV32rr_REV": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 139,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV32rs": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 140,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV32sr": {
+   "asm": "mov{l}\t{$src, $dst|$dst, $src}",
+   "op": 142,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV64ao64": {
+   "asm": "movabs{q}\t{$src, %rax|rax, $src}",
+   "op": 161,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSize64",
+   "pfx": "NoPrfx",
+   "imm": "Imm64",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOV64cr": {
+   "asm": "mov{q}\t{$src, $dst|$dst, $src}",
+   "op": 34,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "MOV64dr": {
+   "asm": "mov{q}\t{$src, $dst|$dst, $src}",
+   "op": 35,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "MOV64mi32": {
+   "asm": "mov{q}\t{$src, $dst|$dst, $src}",
+   "op": 199,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "MOV64mr": {
+   "asm": "mov{q}\t{$src, $dst|$dst, $src}",
+   "op": 137,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOV64o64a": {
+   "asm": "movabs{q}\t{%rax, $dst|$dst, rax}",
+   "op": 163,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSize64",
+   "pfx": "NoPrfx",
+   "imm": "Imm64",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOV64rc": {
+   "asm": "mov{q}\t{$src, $dst|$dst, $src}",
+   "op": 32,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "MOV64rd": {
+   "asm": "mov{q}\t{$src, $dst|$dst, $src}",
+   "op": 33,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "MOV64ri": {
+   "asm": "movabs{q}\t{$src, $dst|$dst, $src}",
+   "op": 184,
+   "map": "OB",
+   "form": "AddRegFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm64",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOV64ri32": {
+   "asm": "mov{q}\t{$src, $dst|$dst, $src}",
+   "op": 199,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOV64rm": {
+   "asm": "mov{q}\t{$src, $dst|$dst, $src}",
+   "op": 139,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOV64rr": {
+   "asm": "mov{q}\t{$src, $dst|$dst, $src}",
+   "op": 137,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOV64rr_REV": {
+   "asm": "mov{q}\t{$src, $dst|$dst, $src}",
+   "op": 139,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOV64rs": {
+   "asm": "mov{q}\t{$src, $dst|$dst, $src}",
+   "op": 140,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
   "MOV8ao16": {
    "asm": "mov{b}\t{$src, %al|al, $src}",
    "op": 160,
@@ -1914,6 +5944,30 @@
    "adsz": "AdSize16",
    "pfx": "NoPrfx",
    "imm": "Imm16",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV8ao32": {
+   "asm": "mov{b}\t{$src, %al|al, $src}",
+   "op": 160,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSize32",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV8ao64": {
+   "asm": "movabs{b}\t{$src, %al|al, $src}",
+   "op": 160,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSize64",
+   "pfx": "NoPrfx",
+   "imm": "Imm64",
    "rexw": 0,
    "predicates": []
   },
@@ -1950,6 +6004,30 @@
    "adsz": "AdSize16",
    "pfx": "NoPrfx",
    "imm": "Imm16",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV8o32a": {
+   "asm": "mov{b}\t{%al, $dst|$dst, al}",
+   "op": 162,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSize32",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOV8o64a": {
+   "asm": "movabs{b}\t{%al, $dst|$dst, al}",
+   "op": 162,
+   "map": "OB",
+   "form": "RawFrmMemOffs",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSize64",
+   "pfx": "NoPrfx",
+   "imm": "Imm64",
    "rexw": 0,
    "predicates": []
   },
@@ -2025,6 +6103,32 @@
    "rexw": 0,
    "predicates": []
   },
+  "MOVSL": {
+   "asm": "movs{l|d}\t{$src, $dst|$dst, $src}",
+   "op": 165,
+   "map": "OB",
+   "form": "RawFrmDstSrc",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVSQ": {
+   "asm": "movsq\t{$src, $dst|$dst, $src}",
+   "op": 165,
+   "map": "OB",
+   "form": "RawFrmDstSrc",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "MOVSW": {
    "asm": "movsw\t{$src, $dst|$dst, $src}",
    "op": 165,
@@ -2035,6 +6139,274 @@
    "pfx": "NoPrfx",
    "imm": "NoImm",
    "rexw": 0,
+   "predicates": []
+  },
+  "MOVSX16rm8": {
+   "asm": "movs{bw|x}\t{$src, $dst|$dst, $src}",
+   "op": 190,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVSX16rr8": {
+   "asm": "movs{bw|x}\t{$src, $dst|$dst, $src}",
+   "op": 190,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVSX32rm16": {
+   "asm": "movs{wl|x}\t{$src, $dst|$dst, $src}",
+   "op": 191,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVSX32rm8": {
+   "asm": "movs{bl|x}\t{$src, $dst|$dst, $src}",
+   "op": 190,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVSX32rr16": {
+   "asm": "movs{wl|x}\t{$src, $dst|$dst, $src}",
+   "op": 191,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVSX32rr8": {
+   "asm": "movs{bl|x}\t{$src, $dst|$dst, $src}",
+   "op": 190,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVSX64rm16": {
+   "asm": "movs{wq|x}\t{$src, $dst|$dst, $src}",
+   "op": 191,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOVSX64rm32": {
+   "asm": "movs{lq|xd}\t{$src, $dst|$dst, $src}",
+   "op": 99,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "MOVSX64rm8": {
+   "asm": "movs{bq|x}\t{$src, $dst|$dst, $src}",
+   "op": 190,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOVSX64rr16": {
+   "asm": "movs{wq|x}\t{$src, $dst|$dst, $src}",
+   "op": 191,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOVSX64rr32": {
+   "asm": "movs{lq|xd}\t{$src, $dst|$dst, $src}",
+   "op": 99,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "MOVSX64rr8": {
+   "asm": "movs{bq|x}\t{$src, $dst|$dst, $src}",
+   "op": 190,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOVZX16rm8": {
+   "asm": "movz{bw|x}\t{$src, $dst|$dst, $src}",
+   "op": 182,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVZX16rr8": {
+   "asm": "movz{bw|x}\t{$src, $dst|$dst, $src}",
+   "op": 182,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVZX32rm16": {
+   "asm": "movz{wl|x}\t{$src, $dst|$dst, $src}",
+   "op": 183,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVZX32rm8": {
+   "asm": "movz{bl|x}\t{$src, $dst|$dst, $src}",
+   "op": 182,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVZX32rr16": {
+   "asm": "movz{wl|x}\t{$src, $dst|$dst, $src}",
+   "op": 183,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVZX32rr8": {
+   "asm": "movz{bl|x}\t{$src, $dst|$dst, $src}",
+   "op": 182,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MOVZX64rm16": {
+   "asm": "movz{wq|x}\t{$src, $dst|$dst, $src}",
+   "op": 183,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOVZX64rm8": {
+   "asm": "movz{bq|x}\t{$src, $dst|$dst, $src}",
+   "op": 182,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOVZX64rr16": {
+   "asm": "movz{wq|x}\t{$src, $dst|$dst, $src}",
+   "op": 183,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "MOVZX64rr8": {
+   "asm": "movz{bq|x}\t{$src, $dst|$dst, $src}",
+   "op": 182,
+   "map": "TB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
    "predicates": []
   },
   "MUL16m": {
@@ -2059,6 +6431,56 @@
    "pfx": "NoPrfx",
    "imm": "NoImm",
    "rexw": 0,
+   "predicates": []
+  },
+  "MUL32m": {
+   "asm": "mul{l}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MUL32r": {
+   "asm": "mul{l}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "MUL64m": {
+   "asm": "mul{q}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "MUL64r": {
+   "asm": "mul{q}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
    "predicates": []
   },
   "MUL8m": {
@@ -2111,6 +6533,60 @@
     "NoNDD"
    ]
   },
+  "NEG32m": {
+   "asm": "neg{l}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "NEG32r": {
+   "asm": "neg{l}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "NEG64m": {
+   "asm": "neg{q}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "NEG64r": {
+   "asm": "neg{q}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
   "NEG8m": {
    "asm": "neg{b}\t$src1",
    "op": 246,
@@ -2149,6 +6625,82 @@
    "rexw": 0,
    "predicates": []
   },
+  "NOOPL": {
+   "asm": "nop{l}\t$zero",
+   "op": 31,
+   "map": "TB",
+   "form": "MRMXm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "NOOPLr": {
+   "asm": "nop{l}\t$zero",
+   "op": 31,
+   "map": "TB",
+   "form": "MRMXr",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "NOOPQ": {
+   "asm": "nop{q}\t$zero",
+   "op": 31,
+   "map": "TB",
+   "form": "MRMXm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "NOOPQr": {
+   "asm": "nop{q}\t$zero",
+   "op": 31,
+   "map": "TB",
+   "form": "MRMXr",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "NOOPW": {
+   "asm": "nop{w}\t$zero",
+   "op": 31,
+   "map": "TB",
+   "form": "MRMXm",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "NOOPWr": {
+   "asm": "nop{w}\t$zero",
+   "op": 31,
+   "map": "TB",
+   "form": "MRMXr",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
   "NOT16m": {
    "asm": "not{w}\t$src1",
    "op": 247,
@@ -2171,6 +6723,60 @@
    "pfx": "NoPrfx",
    "imm": "NoImm",
    "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "NOT32m": {
+   "asm": "not{l}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "NOT32r": {
+   "asm": "not{l}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "NOT64m": {
+   "asm": "not{q}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "NOT64r": {
+   "asm": "not{q}\t$src1",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
    "predicates": [
     "NoNDD"
    ]
@@ -2317,6 +6923,242 @@
    "rexw": 0,
    "predicates": []
   },
+  "OR32i32": {
+   "asm": "or{l}\t{$src, %eax|eax, $src}",
+   "op": 13,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "OR32mi": {
+   "asm": "or{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "OR32mi8": {
+   "asm": "or{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "OR32mr": {
+   "asm": "or{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 9,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "OR32ri": {
+   "asm": "or{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "OR32ri8": {
+   "asm": "or{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "OR32rm": {
+   "asm": "or{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 11,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "OR32rr": {
+   "asm": "or{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 9,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "OR32rr_REV": {
+   "asm": "or{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 11,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "OR64i32": {
+   "asm": "or{q}\t{$src, %rax|rax, $src}",
+   "op": 13,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "OR64mi32": {
+   "asm": "or{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "OR64mi8": {
+   "asm": "or{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "OR64mr": {
+   "asm": "or{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 9,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "OR64ri32": {
+   "asm": "or{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "OR64ri8": {
+   "asm": "or{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "OR64rm": {
+   "asm": "or{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 11,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "OR64rr": {
+   "asm": "or{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 9,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "OR64rr_REV": {
+   "asm": "or{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 11,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
   "OR8i8": {
    "asm": "or{b}\t{$src, %al|al, $src}",
    "op": 12,
@@ -2431,6 +7273,30 @@
    "rexw": 0,
    "predicates": []
   },
+  "OUT32ir": {
+   "asm": "out{l}\t{%eax, $port|$port, eax}",
+   "op": 231,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "OUT32rr": {
+   "asm": "out{l}\t{%eax, %dx|dx, eax}",
+   "op": 239,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
   "OUT8ir": {
    "asm": "out{b}\t{%al, $port|$port, al}",
    "op": 230,
@@ -2449,6 +7315,42 @@
    "map": "OB",
    "form": "RawFrm",
    "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "OUTSB": {
+   "asm": "outsb\t{$src, %dx|dx, $src}",
+   "op": 110,
+   "map": "OB",
+   "form": "RawFrmSrc",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "OUTSL": {
+   "asm": "outs{l|d}\t{$src, %dx|dx, $src}",
+   "op": 111,
+   "map": "OB",
+   "form": "RawFrmSrc",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "OUTSW": {
+   "asm": "outsw\t{$src, %dx|dx, $src}",
+   "op": 111,
+   "map": "OB",
+   "form": "RawFrmSrc",
+   "opsz": "OpSize16",
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
@@ -2491,12 +7393,138 @@
    "rexw": 0,
    "predicates": []
   },
+  "POP32r": {
+   "asm": "pop{l}\t$reg",
+   "op": 88,
+   "map": "OB",
+   "form": "AddRegFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "POP32rmm": {
+   "asm": "pop{l}\t$dst",
+   "op": 143,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "POP32rmr": {
+   "asm": "pop{l}\t$reg",
+   "op": 143,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "POP64r": {
+   "asm": "pop{q}\t$reg",
+   "op": 88,
+   "map": "OB",
+   "form": "AddRegFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "POP64rmm": {
+   "asm": "pop{q}\t$dst",
+   "op": 143,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "POP64rmr": {
+   "asm": "pop{q}\t$reg",
+   "op": 143,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "POPA16": {
+   "asm": "popaw",
+   "op": 97,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "POPA32": {
+   "asm": "popal",
+   "op": 97,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
   "POPDS16": {
    "asm": "pop{w}\t{%ds|ds}",
    "op": 31,
    "map": "OB",
    "form": "RawFrm",
    "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "POPDS32": {
+   "asm": "pop{l}\t{%ds|ds}",
+   "op": 31,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
@@ -2519,6 +7547,20 @@
     "Not64BitMode"
    ]
   },
+  "POPES32": {
+   "asm": "pop{l}\t{%es|es}",
+   "op": 7,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
   "POPF16": {
    "asm": "popf{w}",
    "op": 157,
@@ -2531,12 +7573,110 @@
    "rexw": 0,
    "predicates": []
   },
+  "POPF32": {
+   "asm": "popf{l|d}",
+   "op": 157,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "POPF64": {
+   "asm": "popfq",
+   "op": 157,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "POPFS32": {
+   "asm": "pop{l}\t{%fs|fs}",
+   "op": 161,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "POPFS64": {
+   "asm": "pop{q}\t{%fs|fs}",
+   "op": 161,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "POPGS32": {
+   "asm": "pop{l}\t{%gs|gs}",
+   "op": 169,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "POPGS64": {
+   "asm": "pop{q}\t{%gs|gs}",
+   "op": 169,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "POPSS16": {
    "asm": "pop{w}\t{%ss|ss}",
    "op": 23,
    "map": "OB",
    "form": "RawFrm",
    "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "POPSS32": {
+   "asm": "pop{l}\t{%ss|ss}",
+   "op": 23,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
@@ -2581,12 +7721,194 @@
    "rexw": 0,
    "predicates": []
   },
+  "PUSH32i": {
+   "asm": "push{l}\t$imm",
+   "op": 104,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "PUSH32i8": {
+   "asm": "push{l}\t$imm",
+   "op": 106,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "PUSH32r": {
+   "asm": "push{l}\t$reg",
+   "op": 80,
+   "map": "OB",
+   "form": "AddRegFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "PUSH32rmm": {
+   "asm": "push{l}\t$src",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM6m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "PUSH32rmr": {
+   "asm": "push{l}\t$reg",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM6r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "PUSH64i32": {
+   "asm": "push{q}\t$imm",
+   "op": 104,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "PUSH64i8": {
+   "asm": "push{q}\t$imm",
+   "op": 106,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "PUSH64r": {
+   "asm": "push{q}\t$reg",
+   "op": 80,
+   "map": "OB",
+   "form": "AddRegFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "PUSH64rmm": {
+   "asm": "push{q}\t$src",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM6m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "PUSH64rmr": {
+   "asm": "push{q}\t$reg",
+   "op": 255,
+   "map": "OB",
+   "form": "MRM6r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "PUSHA16": {
+   "asm": "pushaw",
+   "op": 96,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "PUSHA32": {
+   "asm": "pushal",
+   "op": 96,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
   "PUSHCS16": {
    "asm": "push{w}\t{%cs|cs}",
    "op": 14,
    "map": "OB",
    "form": "RawFrm",
    "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "PUSHCS32": {
+   "asm": "push{l}\t{%cs|cs}",
+   "op": 14,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
@@ -2609,12 +7931,40 @@
     "Not64BitMode"
    ]
   },
+  "PUSHDS32": {
+   "asm": "push{l}\t{%ds|ds}",
+   "op": 30,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
   "PUSHES16": {
    "asm": "push{w}\t{%es|es}",
    "op": 6,
    "map": "OB",
    "form": "RawFrm",
    "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "PUSHES32": {
+   "asm": "push{l}\t{%es|es}",
+   "op": 6,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
@@ -2635,12 +7985,110 @@
    "rexw": 0,
    "predicates": []
   },
+  "PUSHF32": {
+   "asm": "pushf{l|d}",
+   "op": 156,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "PUSHF64": {
+   "asm": "pushfq",
+   "op": 156,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "PUSHFS32": {
+   "asm": "push{l}\t{%fs|fs}",
+   "op": 160,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "PUSHFS64": {
+   "asm": "push{q}\t{%fs|fs}",
+   "op": 160,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "PUSHGS32": {
+   "asm": "push{l}\t{%gs|gs}",
+   "op": 168,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "PUSHGS64": {
+   "asm": "push{q}\t{%gs|gs}",
+   "op": 168,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "PUSHSS16": {
    "asm": "push{w}\t{%ss|ss}",
    "op": 22,
    "map": "OB",
    "form": "RawFrm",
    "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "PUSHSS32": {
+   "asm": "push{l}\t{%ss|ss}",
+   "op": 22,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
@@ -2673,6 +8121,18 @@
    "rexw": 0,
    "predicates": []
   },
+  "RCL16mi": {
+   "asm": "rcl{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
   "RCL16r1": {
    "asm": "rcl{w}\t$src1",
    "op": 209,
@@ -2699,6 +8159,178 @@
     "NoNDD"
    ]
   },
+  "RCL16ri": {
+   "asm": "rcl{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "RCL32m1": {
+   "asm": "rcl{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RCL32mCL": {
+   "asm": "rcl{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RCL32mi": {
+   "asm": "rcl{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RCL32r1": {
+   "asm": "rcl{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RCL32rCL": {
+   "asm": "rcl{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "RCL32ri": {
+   "asm": "rcl{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "RCL64m1": {
+   "asm": "rcl{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "RCL64mCL": {
+   "asm": "rcl{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "RCL64mi": {
+   "asm": "rcl{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "RCL64r1": {
+   "asm": "rcl{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "RCL64rCL": {
+   "asm": "rcl{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "RCL64ri": {
+   "asm": "rcl{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
   "RCL8m1": {
    "asm": "rcl{b}\t$src1",
    "op": 208,
@@ -2720,6 +8352,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RCL8mi": {
+   "asm": "rcl{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM2m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
    "rexw": 0,
    "predicates": []
   },
@@ -2749,6 +8393,20 @@
     "NoNDD"
    ]
   },
+  "RCL8ri": {
+   "asm": "rcl{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM2r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
   "RCR16m1": {
    "asm": "rcr{w}\t$src1",
    "op": 209,
@@ -2770,6 +8428,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RCR16mi": {
+   "asm": "rcr{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
    "rexw": 0,
    "predicates": []
   },
@@ -2799,6 +8469,178 @@
     "NoNDD"
    ]
   },
+  "RCR16ri": {
+   "asm": "rcr{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "RCR32m1": {
+   "asm": "rcr{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RCR32mCL": {
+   "asm": "rcr{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RCR32mi": {
+   "asm": "rcr{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RCR32r1": {
+   "asm": "rcr{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RCR32rCL": {
+   "asm": "rcr{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "RCR32ri": {
+   "asm": "rcr{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "RCR64m1": {
+   "asm": "rcr{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "RCR64mCL": {
+   "asm": "rcr{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "RCR64mi": {
+   "asm": "rcr{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "RCR64r1": {
+   "asm": "rcr{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "RCR64rCL": {
+   "asm": "rcr{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "RCR64ri": {
+   "asm": "rcr{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
   "RCR8m1": {
    "asm": "rcr{b}\t$src1",
    "op": 208,
@@ -2820,6 +8662,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RCR8mi": {
+   "asm": "rcr{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
    "rexw": 0,
    "predicates": []
   },
@@ -2848,6 +8702,56 @@
    "predicates": [
     "NoNDD"
    ]
+  },
+  "RCR8ri": {
+   "asm": "rcr{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "RDMSR": {
+   "asm": "rdmsr",
+   "op": 50,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RDPMC": {
+   "asm": "rdpmc",
+   "op": 51,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "RDTSC": {
+   "asm": "rdtsc",
+   "op": 49,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
   },
   "REPNE_PREFIX": {
    "asm": "repne",
@@ -2885,6 +8789,34 @@
    "rexw": 0,
    "predicates": []
   },
+  "RET32": {
+   "asm": "ret{l}",
+   "op": 195,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "RET64": {
+   "asm": "ret{q}",
+   "op": 195,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "RETI16": {
    "asm": "ret{w}\t$amt",
    "op": 194,
@@ -2896,6 +8828,34 @@
    "imm": "Imm16",
    "rexw": 0,
    "predicates": []
+  },
+  "RETI32": {
+   "asm": "ret{l}\t$amt",
+   "op": 194,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm16",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "RETI64": {
+   "asm": "ret{q}\t$amt",
+   "op": 194,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm16",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
   },
   "ROL16m1": {
    "asm": "rol{w}\t$src1",
@@ -2918,6 +8878,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ROL16mi": {
+   "asm": "rol{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
    "rexw": 0,
    "predicates": []
   },
@@ -2947,6 +8919,178 @@
     "NoNDD"
    ]
   },
+  "ROL16ri": {
+   "asm": "rol{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ROL32m1": {
+   "asm": "rol{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ROL32mCL": {
+   "asm": "rol{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ROL32mi": {
+   "asm": "rol{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ROL32r1": {
+   "asm": "rol{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ROL32rCL": {
+   "asm": "rol{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ROL32ri": {
+   "asm": "rol{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ROL64m1": {
+   "asm": "rol{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "ROL64mCL": {
+   "asm": "rol{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "ROL64mi": {
+   "asm": "rol{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "ROL64r1": {
+   "asm": "rol{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "ROL64rCL": {
+   "asm": "rol{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ROL64ri": {
+   "asm": "rol{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
   "ROL8m1": {
    "asm": "rol{b}\t$src1",
    "op": 208,
@@ -2968,6 +9112,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ROL8mi": {
+   "asm": "rol{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
    "rexw": 0,
    "predicates": []
   },
@@ -2997,6 +9153,20 @@
     "NoNDD"
    ]
   },
+  "ROL8ri": {
+   "asm": "rol{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
   "ROR16m1": {
    "asm": "ror{w}\t$src1",
    "op": 209,
@@ -3018,6 +9188,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ROR16mi": {
+   "asm": "ror{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
    "rexw": 0,
    "predicates": []
   },
@@ -3047,6 +9229,178 @@
     "NoNDD"
    ]
   },
+  "ROR16ri": {
+   "asm": "ror{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ROR32m1": {
+   "asm": "ror{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ROR32mCL": {
+   "asm": "ror{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ROR32mi": {
+   "asm": "ror{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ROR32r1": {
+   "asm": "ror{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ROR32rCL": {
+   "asm": "ror{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ROR32ri": {
+   "asm": "ror{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ROR64m1": {
+   "asm": "ror{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "ROR64mCL": {
+   "asm": "ror{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "ROR64mi": {
+   "asm": "ror{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "ROR64r1": {
+   "asm": "ror{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "ROR64rCL": {
+   "asm": "ror{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "ROR64ri": {
+   "asm": "ror{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
   "ROR8m1": {
    "asm": "ror{b}\t$src1",
    "op": 208,
@@ -3068,6 +9422,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "ROR8mi": {
+   "asm": "ror{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM1m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
    "rexw": 0,
    "predicates": []
   },
@@ -3096,6 +9462,32 @@
    "predicates": [
     "NoNDD"
    ]
+  },
+  "ROR8ri": {
+   "asm": "ror{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM1r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "RSM": {
+   "asm": "rsm",
+   "op": 170,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
   },
   "SAHF": {
    "asm": "sahf",
@@ -3135,6 +9527,18 @@
    "rexw": 0,
    "predicates": []
   },
+  "SAR16mi": {
+   "asm": "sar{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
   "SAR16r1": {
    "asm": "sar{w}\t$src1",
    "op": 209,
@@ -3157,6 +9561,178 @@
    "pfx": "NoPrfx",
    "imm": "NoImm",
    "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SAR16ri": {
+   "asm": "sar{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SAR32m1": {
+   "asm": "sar{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SAR32mCL": {
+   "asm": "sar{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SAR32mi": {
+   "asm": "sar{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SAR32r1": {
+   "asm": "sar{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SAR32rCL": {
+   "asm": "sar{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SAR32ri": {
+   "asm": "sar{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SAR64m1": {
+   "asm": "sar{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SAR64mCL": {
+   "asm": "sar{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SAR64mi": {
+   "asm": "sar{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SAR64r1": {
+   "asm": "sar{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "SAR64rCL": {
+   "asm": "sar{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SAR64ri": {
+   "asm": "sar{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
    "predicates": [
     "NoNDD"
    ]
@@ -3185,6 +9761,18 @@
    "rexw": 0,
    "predicates": []
   },
+  "SAR8mi": {
+   "asm": "sar{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM7m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
   "SAR8r1": {
    "asm": "sar{b}\t$src1",
    "op": 208,
@@ -3206,6 +9794,20 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SAR8ri": {
+   "asm": "sar{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM7r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
    "rexw": 0,
    "predicates": [
     "NoNDD"
@@ -3327,6 +9929,242 @@
    "rexw": 0,
    "predicates": []
   },
+  "SBB32i32": {
+   "asm": "sbb{l}\t{$src, %eax|eax, $src}",
+   "op": 29,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SBB32mi": {
+   "asm": "sbb{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SBB32mi8": {
+   "asm": "sbb{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SBB32mr": {
+   "asm": "sbb{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 25,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SBB32ri": {
+   "asm": "sbb{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SBB32ri8": {
+   "asm": "sbb{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SBB32rm": {
+   "asm": "sbb{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 27,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SBB32rr": {
+   "asm": "sbb{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 25,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SBB32rr_REV": {
+   "asm": "sbb{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 27,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SBB64i32": {
+   "asm": "sbb{q}\t{$src, %rax|rax, $src}",
+   "op": 29,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "SBB64mi32": {
+   "asm": "sbb{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SBB64mi8": {
+   "asm": "sbb{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM3m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SBB64mr": {
+   "asm": "sbb{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 25,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "SBB64ri32": {
+   "asm": "sbb{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SBB64ri8": {
+   "asm": "sbb{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM3r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SBB64rm": {
+   "asm": "sbb{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 27,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SBB64rr": {
+   "asm": "sbb{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 25,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SBB64rr_REV": {
+   "asm": "sbb{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 27,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
   "SBB8i8": {
    "asm": "sbb{b}\t{$src, %al|al, $src}",
    "op": 28,
@@ -3429,6 +10267,32 @@
    "rexw": 0,
    "predicates": []
   },
+  "SCASL": {
+   "asm": "scas{l|d}\t{$dst, %eax|eax, $dst}",
+   "op": 175,
+   "map": "OB",
+   "form": "RawFrmDst",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SCASQ": {
+   "asm": "scasq\t{$dst, %rax|rax, $dst}",
+   "op": 175,
+   "map": "OB",
+   "form": "RawFrmDst",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "SCASW": {
    "asm": "scasw\t{$dst, %ax|ax, $dst}",
    "op": 175,
@@ -3440,6 +10304,60 @@
    "imm": "NoImm",
    "rexw": 0,
    "predicates": []
+  },
+  "SETCCm": {
+   "asm": "set${cond}\t$dst",
+   "op": 144,
+   "map": "TB",
+   "form": "MRMXmCC",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SETCCr": {
+   "asm": "set${cond}\t$dst",
+   "op": 144,
+   "map": "TB",
+   "form": "MRMXrCC",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "PreferLegacySetCC"
+   ]
+  },
+  "SGDT32m": {
+   "asm": "sgdt{l|d}\t$dst",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM0m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "SGDT64m": {
+   "asm": "sgdt{q}\t$dst",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM0m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
   },
   "SHL16m1": {
    "asm": "shl{w}\t$src1",
@@ -3462,6 +10380,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHL16mi": {
+   "asm": "shl{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
    "rexw": 0,
    "predicates": []
   },
@@ -3491,6 +10421,178 @@
     "NoNDD"
    ]
   },
+  "SHL16ri": {
+   "asm": "shl{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHL32m1": {
+   "asm": "shl{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHL32mCL": {
+   "asm": "shl{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHL32mi": {
+   "asm": "shl{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHL32r1": {
+   "asm": "shl{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHL32rCL": {
+   "asm": "shl{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHL32ri": {
+   "asm": "shl{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHL64m1": {
+   "asm": "shl{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SHL64mCL": {
+   "asm": "shl{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SHL64mi": {
+   "asm": "shl{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SHL64r1": {
+   "asm": "shl{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "SHL64rCL": {
+   "asm": "shl{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHL64ri": {
+   "asm": "shl{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
   "SHL8m1": {
    "asm": "shl{b}\t$src1",
    "op": 208,
@@ -3512,6 +10614,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHL8mi": {
+   "asm": "shl{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM4m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
    "rexw": 0,
    "predicates": []
   },
@@ -3541,6 +10655,176 @@
     "NoNDD"
    ]
   },
+  "SHL8ri": {
+   "asm": "shl{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM4r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHLD16mrCL": {
+   "asm": "shld{w}\t{%cl, $src2, $src1|$src1, $src2, cl}",
+   "op": 165,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHLD16mri8": {
+   "asm": "shld{w}\t{$src3, $src2, $src1|$src1, $src2, $src3}",
+   "op": 164,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHLD16rrCL": {
+   "asm": "shld{w}\t{%cl, $src2, $src1|$src1, $src2, cl}",
+   "op": 165,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHLD16rri8": {
+   "asm": "shld{w}\t{$src3, $src2, $src1|$src1, $src2, $src3}",
+   "op": 164,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHLD32mrCL": {
+   "asm": "shld{l}\t{%cl, $src2, $src1|$src1, $src2, cl}",
+   "op": 165,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHLD32mri8": {
+   "asm": "shld{l}\t{$src3, $src2, $src1|$src1, $src2, $src3}",
+   "op": 164,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHLD32rrCL": {
+   "asm": "shld{l}\t{%cl, $src2, $src1|$src1, $src2, cl}",
+   "op": 165,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHLD32rri8": {
+   "asm": "shld{l}\t{$src3, $src2, $src1|$src1, $src2, $src3}",
+   "op": 164,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHLD64mrCL": {
+   "asm": "shld{q}\t{%cl, $src2, $src1|$src1, $src2, cl}",
+   "op": 165,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "SHLD64mri8": {
+   "asm": "shld{q}\t{$src3, $src2, $src1|$src1, $src2, $src3}",
+   "op": 164,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": []
+  },
+  "SHLD64rrCL": {
+   "asm": "shld{q}\t{%cl, $src2, $src1|$src1, $src2, cl}",
+   "op": 165,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHLD64rri8": {
+   "asm": "shld{q}\t{$src3, $src2, $src1|$src1, $src2, $src3}",
+   "op": 164,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
   "SHR16m1": {
    "asm": "shr{w}\t$src1",
    "op": 209,
@@ -3562,6 +10846,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHR16mi": {
+   "asm": "shr{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
    "rexw": 0,
    "predicates": []
   },
@@ -3591,6 +10887,178 @@
     "NoNDD"
    ]
   },
+  "SHR16ri": {
+   "asm": "shr{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHR32m1": {
+   "asm": "shr{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHR32mCL": {
+   "asm": "shr{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHR32mi": {
+   "asm": "shr{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHR32r1": {
+   "asm": "shr{l}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHR32rCL": {
+   "asm": "shr{l}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHR32ri": {
+   "asm": "shr{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHR64m1": {
+   "asm": "shr{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SHR64mCL": {
+   "asm": "shr{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SHR64mi": {
+   "asm": "shr{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SHR64r1": {
+   "asm": "shr{q}\t$src1",
+   "op": 209,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "SHR64rCL": {
+   "asm": "shr{q}\t{%cl, $src1|$src1, cl}",
+   "op": 211,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHR64ri": {
+   "asm": "shr{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
   "SHR8m1": {
    "asm": "shr{b}\t$src1",
    "op": 208,
@@ -3612,6 +11080,18 @@
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHR8mi": {
+   "asm": "shr{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
    "rexw": 0,
    "predicates": []
   },
@@ -3640,6 +11120,302 @@
    "predicates": [
     "NoNDD"
    ]
+  },
+  "SHR8ri": {
+   "asm": "shr{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHRD16mrCL": {
+   "asm": "shrd{w}\t{%cl, $src2, $src1|$src1, $src2, cl}",
+   "op": 173,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHRD16mri8": {
+   "asm": "shrd{w}\t{$src3, $src2, $src1|$src1, $src2, $src3}",
+   "op": 172,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHRD16rrCL": {
+   "asm": "shrd{w}\t{%cl, $src2, $src1|$src1, $src2, cl}",
+   "op": 173,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHRD16rri8": {
+   "asm": "shrd{w}\t{$src3, $src2, $src1|$src1, $src2, $src3}",
+   "op": 172,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHRD32mrCL": {
+   "asm": "shrd{l}\t{%cl, $src2, $src1|$src1, $src2, cl}",
+   "op": 173,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHRD32mri8": {
+   "asm": "shrd{l}\t{$src3, $src2, $src1|$src1, $src2, $src3}",
+   "op": 172,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SHRD32rrCL": {
+   "asm": "shrd{l}\t{%cl, $src2, $src1|$src1, $src2, cl}",
+   "op": 173,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHRD32rri8": {
+   "asm": "shrd{l}\t{$src3, $src2, $src1|$src1, $src2, $src3}",
+   "op": 172,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHRD64mrCL": {
+   "asm": "shrd{q}\t{%cl, $src2, $src1|$src1, $src2, cl}",
+   "op": 173,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "SHRD64mri8": {
+   "asm": "shrd{q}\t{$src3, $src2, $src1|$src1, $src2, $src3}",
+   "op": 172,
+   "map": "TB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": []
+  },
+  "SHRD64rrCL": {
+   "asm": "shrd{q}\t{%cl, $src2, $src1|$src1, $src2, cl}",
+   "op": 173,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SHRD64rri8": {
+   "asm": "shrd{q}\t{$src3, $src2, $src1|$src1, $src2, $src3}",
+   "op": 172,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SIDT32m": {
+   "asm": "sidt{l|d}\t$dst",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM1m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "Not64BitMode"
+   ]
+  },
+  "SIDT64m": {
+   "asm": "sidt{q}\t$dst",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM1m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SLDT16m": {
+   "asm": "sldt{w}\t$dst",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM0m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SLDT16r": {
+   "asm": "sldt{w}\t$dst",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM0r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SLDT32r": {
+   "asm": "sldt{l}\t$dst",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM0r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SLDT64r": {
+   "asm": "sldt{q}\t$dst",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM0r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SMSW16m": {
+   "asm": "smsw{w}\t$dst",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM4m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SMSW16r": {
+   "asm": "smsw{w}\t$dst",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM4r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SMSW32r": {
+   "asm": "smsw{l}\t$dst",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM4r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SMSW64r": {
+   "asm": "smsw{q}\t$dst",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM4r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
   },
   "SS_PREFIX": {
    "asm": "ss",
@@ -3701,12 +11477,86 @@
    "rexw": 0,
    "predicates": []
   },
+  "STOSL": {
+   "asm": "stos{l|d}\t{%eax, $dst|$dst, eax}",
+   "op": 171,
+   "map": "OB",
+   "form": "RawFrmDst",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "STOSQ": {
+   "asm": "stosq\t{%rax, $dst|$dst, rax}",
+   "op": 171,
+   "map": "OB",
+   "form": "RawFrmDst",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "STOSW": {
    "asm": "stosw\t{%ax, $dst|$dst, ax}",
    "op": 171,
    "map": "OB",
    "form": "RawFrmDst",
    "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "STR16r": {
+   "asm": "str{w}\t$dst",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM1r",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "STR32r": {
+   "asm": "str{l}\t$dst",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM1r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "STR64r": {
+   "asm": "str{q}\t$dst",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM1r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "STRm": {
+   "asm": "str{w}\t$dst",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM1m",
+   "opsz": "OpSizeFixed",
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
    "imm": "NoImm",
@@ -3829,6 +11679,242 @@
    "rexw": 0,
    "predicates": []
   },
+  "SUB32i32": {
+   "asm": "sub{l}\t{$src, %eax|eax, $src}",
+   "op": 45,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SUB32mi": {
+   "asm": "sub{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SUB32mi8": {
+   "asm": "sub{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SUB32mr": {
+   "asm": "sub{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 41,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SUB32ri": {
+   "asm": "sub{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SUB32ri8": {
+   "asm": "sub{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SUB32rm": {
+   "asm": "sub{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 43,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SUB32rr": {
+   "asm": "sub{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 41,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SUB32rr_REV": {
+   "asm": "sub{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 43,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SUB64i32": {
+   "asm": "sub{q}\t{$src, %rax|rax, $src}",
+   "op": 45,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "SUB64mi32": {
+   "asm": "sub{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SUB64mi8": {
+   "asm": "sub{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM5m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SUB64mr": {
+   "asm": "sub{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 41,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "SUB64ri32": {
+   "asm": "sub{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SUB64ri8": {
+   "asm": "sub{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM5r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SUB64rm": {
+   "asm": "sub{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 43,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SUB64rr": {
+   "asm": "sub{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 41,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "SUB64rr_REV": {
+   "asm": "sub{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 43,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
   "SUB8i8": {
    "asm": "sub{b}\t{$src, %al|al, $src}",
    "op": 44,
@@ -3919,6 +12005,94 @@
    "rexw": 0,
    "predicates": []
   },
+  "SWAPGS": {
+   "asm": "swapgs",
+   "op": 1,
+   "map": "TB",
+   "form": "MRM_F8",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SYSCALL": {
+   "asm": "syscall",
+   "op": 5,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SYSENTER": {
+   "asm": "sysenter",
+   "op": 52,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SYSEXIT": {
+   "asm": "sysexit{l}",
+   "op": 53,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SYSEXIT64": {
+   "asm": "sysexitq",
+   "op": 53,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "SYSRET": {
+   "asm": "sysret{l}",
+   "op": 7,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "SYSRET64": {
+   "asm": "sysretq",
+   "op": 7,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
   "TEST16i16": {
    "asm": "test{w}\t{$src, %ax|ax, $src}",
    "op": 169,
@@ -3977,6 +12151,128 @@
    "pfx": "NoPrfx",
    "imm": "NoImm",
    "rexw": 0,
+   "predicates": []
+  },
+  "TEST32i32": {
+   "asm": "test{l}\t{$src, %eax|eax, $src}",
+   "op": 169,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "TEST32mi": {
+   "asm": "test{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "TEST32mr": {
+   "asm": "test{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 133,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "TEST32ri": {
+   "asm": "test{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "TEST32rr": {
+   "asm": "test{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 133,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "TEST64i32": {
+   "asm": "test{q}\t{$src, %rax|rax, $src}",
+   "op": 169,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "TEST64mi32": {
+   "asm": "test{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM0m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "TEST64mr": {
+   "asm": "test{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 133,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "TEST64ri32": {
+   "asm": "test{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 247,
+   "map": "OB",
+   "form": "MRM0r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "TEST64rr": {
+   "asm": "test{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 133,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
    "predicates": []
   },
   "TEST8i8": {
@@ -4039,11 +12335,191 @@
    "rexw": 0,
    "predicates": []
   },
+  "TRAP": {
+   "asm": "ud2",
+   "op": 11,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "VERRm": {
+   "asm": "verr\t$seg",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM4m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "VERRr": {
+   "asm": "verr\t$seg",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM4r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "VERWm": {
+   "asm": "verw\t$seg",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM5m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "VERWr": {
+   "asm": "verw\t$seg",
+   "op": 0,
+   "map": "TB",
+   "form": "MRM5r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
   "WAIT": {
    "asm": "wait",
    "op": 155,
    "map": "OB",
    "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "WBINVD": {
+   "asm": "wbinvd",
+   "op": 9,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "PS",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "WRMSR": {
+   "asm": "wrmsr",
+   "op": 48,
+   "map": "TB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XADD16rm": {
+   "asm": "xadd{w}\t{$val, $ptr|$ptr, $val}",
+   "op": 193,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XADD16rr": {
+   "asm": "xadd{w}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize16",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XADD32rm": {
+   "asm": "xadd{l}\t{$val, $ptr|$ptr, $val}",
+   "op": 193,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XADD32rr": {
+   "asm": "xadd{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XADD64rm": {
+   "asm": "xadd{q}\t{$val, $ptr|$ptr, $val}",
+   "op": 193,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "XADD64rr": {
+   "asm": "xadd{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 193,
+   "map": "TB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "XADD8rm": {
+   "asm": "xadd{b}\t{$val, $ptr|$ptr, $val}",
+   "op": 192,
+   "map": "TB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XADD8rr": {
+   "asm": "xadd{b}\t{$src2, $src1|$src1, $src2}",
+   "op": 192,
+   "map": "TB",
+   "form": "MRMDestReg",
    "opsz": "OpSizeFixed",
    "adsz": "AdSizeX",
    "pfx": "NoPrfx",
@@ -4085,6 +12561,78 @@
    "pfx": "NoPrfx",
    "imm": "NoImm",
    "rexw": 0,
+   "predicates": []
+  },
+  "XCHG32ar": {
+   "asm": "xchg{l}\t{$src, %eax|eax, $src}",
+   "op": 144,
+   "map": "OB",
+   "form": "AddRegFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XCHG32rm": {
+   "asm": "xchg{l}\t{$val, $ptr|$ptr, $val}",
+   "op": 135,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XCHG32rr": {
+   "asm": "xchg{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 135,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XCHG64ar": {
+   "asm": "xchg{q}\t{$src, %rax|rax, $src}",
+   "op": 144,
+   "map": "OB",
+   "form": "AddRegFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "XCHG64rm": {
+   "asm": "xchg{q}\t{$val, $ptr|$ptr, $val}",
+   "op": 135,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "XCHG64rr": {
+   "asm": "xchg{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 135,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
    "predicates": []
   },
   "XCHG8rm": {
@@ -4237,6 +12785,242 @@
    "pfx": "NoPrfx",
    "imm": "NoImm",
    "rexw": 0,
+   "predicates": []
+  },
+  "XOR32i32": {
+   "asm": "xor{l}\t{$src, %eax|eax, $src}",
+   "op": 53,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XOR32mi": {
+   "asm": "xor{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM6m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XOR32mi8": {
+   "asm": "xor{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM6m",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XOR32mr": {
+   "asm": "xor{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 49,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XOR32ri": {
+   "asm": "xor{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM6r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "XOR32ri8": {
+   "asm": "xor{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM6r",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "XOR32rm": {
+   "asm": "xor{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 51,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "XOR32rr": {
+   "asm": "xor{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 49,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "XOR32rr_REV": {
+   "asm": "xor{l}\t{$src2, $src1|$src1, $src2}",
+   "op": 51,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSize32",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 0,
+   "predicates": []
+  },
+  "XOR64i32": {
+   "asm": "xor{q}\t{$src, %rax|rax, $src}",
+   "op": 53,
+   "map": "OB",
+   "form": "RawFrm",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": []
+  },
+  "XOR64mi32": {
+   "asm": "xor{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM6m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "XOR64mi8": {
+   "asm": "xor{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM6m",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "In64BitMode"
+   ]
+  },
+  "XOR64mr": {
+   "asm": "xor{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 49,
+   "map": "OB",
+   "form": "MRMDestMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": []
+  },
+  "XOR64ri32": {
+   "asm": "xor{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 129,
+   "map": "OB",
+   "form": "MRM6r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm32S",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "XOR64ri8": {
+   "asm": "xor{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 131,
+   "map": "OB",
+   "form": "MRM6r",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "Imm8",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "XOR64rm": {
+   "asm": "xor{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 51,
+   "map": "OB",
+   "form": "MRMSrcMem",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "XOR64rr": {
+   "asm": "xor{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 49,
+   "map": "OB",
+   "form": "MRMDestReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
+   "predicates": [
+    "NoNDD"
+   ]
+  },
+  "XOR64rr_REV": {
+   "asm": "xor{q}\t{$src2, $src1|$src1, $src2}",
+   "op": 51,
+   "map": "OB",
+   "form": "MRMSrcReg",
+   "opsz": "OpSizeFixed",
+   "adsz": "AdSizeX",
+   "pfx": "NoPrfx",
+   "imm": "NoImm",
+   "rexw": 1,
    "predicates": []
   },
   "XOR8i8": {

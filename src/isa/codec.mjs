@@ -491,11 +491,27 @@ export function createCodec(spec) {
   }
 
   // Decodes a word in spine positions. Returns null if nothing matches.
+  // A byte machine's rows by the first byte they can start with, in priority order (x86-64 has thousands of rows: a word
+  // is compared with the few that start as it does); others try them all.
+  let _byFirstByte = null;
+  function _candidatesOf(word) {
+    if (!spine.bytes || compiled.length < 512) return _byPriority;
+    if (!_byFirstByte) {
+      _byFirstByte = Array.from({ length: 256 }, () => []);
+      for (const inst of _byPriority) {
+        const mask = W.bits(inst.mask, SPINE - 1, SPINE - 8);
+        const match = W.bits(inst.match, SPINE - 1, SPINE - 8);
+        for (let b = 0; b < 256; b++) if ((b & mask) === match) _byFirstByte[b].push(inst);
+      }
+    }
+    return _byFirstByte[W.bits(word, SPINE - 1, SPINE - 8)];
+  }
+
   function decodeWord({ word = 0 }) {
     word = W.norm(word);
     const width = spec.widthOf ? spec.widthOf({ bit: (b) => String(W.bit(word, b)) }) : null;
     if (width && !spine.bytes && width < SPINE) word = W.and(word, W.ones(width, 0));
-    for (const inst of _byPriority) {
+    for (const inst of _candidatesOf(word)) {
       if (width && inst.width !== width) continue;
       if (W.and(word, inst.mask) !== inst.match) continue;
       if (!_satisfiesFieldConstraints({ inst, word })) continue;
@@ -580,8 +596,13 @@ export function createCodec(spec) {
     if (OPERANDS[key]) {
       const { names, exclude = [], width, signed = false, omit, step = 1 } = OPERANDS[key];
       // the instruction's own constraint on the operand too (vd!={...})
-      const segment = (entry.segments || []).find((s) => s.key === key);
-      const excluded = [...new Set([...exclude, ...(segment ? segment.exclude || [] : [])])];
+      const parts = (entry.segments || []).filter((s) => s.key === key);
+      const excluded = [...new Set([...exclude, ...parts.flatMap((s) => s.exclude || [])])];
+      // a split operand whose parts hold only some of its bits (x86-64 without REX: r8-r15 need the fourth bit)
+      if (parts.some((s) => s.split) && names) {
+        const held = parts.flatMap((s) => s.fieldBits);
+        names.forEach((_, n) => { for (let b = 0; 2 ** b <= n; b++) if (Math.floor(n / 2 ** b) & 1 && !held.includes(b) && !excluded.includes(n)) { excluded.push(n); break; } });
+      }
       if (names) return { kind: 'enum', key, names, exclude: excluded, omit };
       // a number up to the largest value it is not excluded from (aes64ks1i's rnum: 0 to 0xA)
       let top = 2 ** width - 1;
@@ -689,7 +710,9 @@ export function createCodec(spec) {
       // a split field: each part takes its bits of the value
       const { width, signed } = OPERANDS[key];
       let field = value;
-      if (parts[0].exclude && parts[0].exclude.includes(value)) throw new Error(`${inst.name}: ${key} cannot be ${operandText({ key, value })}`);
+      // a constraint may sit on any part (x86-64's base register: on the ModRM part, not the REX bit)
+      if (parts.some((s) => s.exclude && s.exclude.includes(value))) throw new Error(`${inst.name}: ${key} cannot be ${operandText({ key, value })}`);
+      if (signed && field >= 2 ** (width - 1)) throw new Error(`${inst.name}: ${key} = ${value} does not fit in ${width} signed bits`);
       if (signed && field < 0 && field >= -(2 ** (width - 1))) field += 2 ** width;
       if (field < 0 || field >= 2 ** width) throw new Error(`${inst.name}: ${key} = ${value} does not fit in ${width} bits`);
       // bits the parts do not hold (push's list has no r8-r12)
@@ -705,6 +728,7 @@ export function createCodec(spec) {
         field = value - 8;
       }
       if (s.exclude && s.exclude.includes(value)) throw new Error(`${inst.name}: ${key} cannot be ${s.kind === 'reg' ? `x${value}` : operandText({ key, value })}`);
+      if (OPERANDS[key] && OPERANDS[key].signed && field >= 2 ** (s.width - 1)) throw new Error(`${inst.name}: ${key} = ${value} does not fit in ${s.width} signed bits`);
       if (OPERANDS[key] && OPERANDS[key].signed && field < 0 && field >= -(2 ** (s.width - 1))) field += 2 ** s.width;
       if (field < 0 || field >= 2 ** s.width) throw new Error(`${inst.name}: ${key} = ${value} does not fit in ${s.width} bits`);
       word = W.or(word, W.place(field, s.lo));
@@ -732,6 +756,9 @@ export function createCodec(spec) {
     return operand && operand.names ? `(${[...new Set(operand.names)].sort((a, b) => b.length - a.length).map(_escaped).join('|')})` : '(.+?)';
   }
 
+  // the pattern of a template operand, made once
+  const _patterns = new Map();
+
   // Parses the operand text of a given entry (instruction or pseudo-instruction) into values by token.
   // For an entry with a mnemonic tail, text is the tail, a space, then the operands ("seq r0, r1, r2" of addseq).
   function _parseOperands({ entry = {}, text = '' }) {
@@ -746,9 +773,12 @@ export function createCodec(spec) {
       if (OPERANDS[key] && OPERANDS[key].omit !== undefined) values[key] = OPERANDS[key].omit;
     });
     const patternOf = (op) => {
+      if (_patterns.has(op)) return _patterns.get(op);
       const parts = templateParts({ op, markers: true });
       const source = parts.map((p) => (p.open ? '(?:' : p.close ? ')?' : p.token ? _tokenPattern(p.token) : _escaped(p.text))).join('');
-      return { tokens: parts.filter((p) => p.token).map((p) => p.token), pattern: new RegExp(`^${source}$`, 'i') };
+      const out = { tokens: parts.filter((p) => p.token).map((p) => p.token), pattern: new RegExp(`^${source}$`, 'i') };
+      _patterns.set(op, out);
+      return out;
     };
     // Each template operand takes one given operand, or more when an optional part of it holds commas ("#imm{?, sh}"
     // takes "#1, lsl #12"). Operands at the end may be left out: a rounding mode (dyn), a mask (unmasked), operands all
@@ -857,6 +887,24 @@ export function createCodec(spec) {
     return { entry, values: ordering ? { ...values, ordering } : values };
   }
 
+  // The entries a mnemonic may be, shortest first: by name, and those whose mnemonic has a tail (addseq: add), indexed
+  // once (x86-64 has thousands of rows).
+  let _byMnemonic = null;
+  function _candidates(mnemonic) {
+    if (!_byMnemonic) {
+      _byMnemonic = { names: new Map(), tails: encodable.filter((e) => e.asm && e.asm.startsWith('~')), position: new Map(encodable.map((e, i) => [e, i])) };
+      for (const e of encodable) {
+        const key = e.name.toLowerCase();
+        if (!_byMnemonic.names.has(key)) _byMnemonic.names.set(key, []);
+        _byMnemonic.names.get(key).push(e);
+      }
+    }
+    const named = _byMnemonic.names.get(mnemonic) || [];
+    const tailed = _byMnemonic.tails.filter((e) => mnemonic.startsWith(e.name.toLowerCase()) && !named.includes(e));
+    // shortest first, then in the list's order
+    return [...named, ...tailed].sort((a, b) => a.width - b.width || _byMnemonic.position.get(a) - _byMnemonic.position.get(b));
+  }
+
   function _readAssembly({ assembly = '' }) {
     const [, mnemonicText = '', rest = ''] = spec.parseAssembly ? spec.parseAssembly({ assembly }) : assembly.trim().match(/^(\S+)\s*(.*)$/) || [];
     let mnemonic = mnemonicText.toLowerCase();
@@ -864,8 +912,7 @@ export function createCodec(spec) {
     // A repeated mnemonic takes the shortest encoding its operands fit, as assemblers do.
     // an entry with a mnemonic tail takes the rest of the mnemonic (addseq: add, then seq)
     const operandsOf = (e) => (e.asm && e.asm.startsWith('~') ? `${mnemonic.slice(e.name.length)} ${rest}` : rest);
-    let candidates = encodable.filter((e) => e.name.toLowerCase() === mnemonic || (e.asm && e.asm.startsWith('~') && mnemonic.startsWith(e.name.toLowerCase())))
-      .sort((a, b) => a.width - b.width);
+    let candidates = _candidates(mnemonic);
     if (!candidates.length) {
       const m = mnemonic.match(/^(.*)\.(aq|rl|aqrl)$/);
       candidates = m ? encodable.filter((e) => e.name === m[1] && e.segments && e.segments.some((s) => s.key === 'aq')) : [];

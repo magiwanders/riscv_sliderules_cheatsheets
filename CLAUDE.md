@@ -1,18 +1,18 @@
 # RISC-V Sliderules: notes for coding agents
 
 An instruction encoder / decoder rendered as two big HTML tables (the "sliderules"), for RV32 and RV64 (every ratified
-extension), A64, A32, Thumb, MIPS32 and MIPS64, the 8080, the 8051, the 8086, the Z80, the 6502 and the Hack computer. Plain ES modules, no framework, built as a library with Vite. Read this before changing anything;
+extension), A64, A32, Thumb, MIPS32 and MIPS64, the 8080, the 8051, the 8086, IA-32, x86-64, the Z80, the 6502 and the Hack computer. Plain ES modules, no framework, built as a library with Vite. Read this before changing anything;
 the most common changes, adding a RISC-V extension or a whole instruction set, have their own checklists below.
 
 ## Layout
 
 | Path | What it is |
 | --- | --- |
-| `src/isa/rv32gc.mjs`, `rv64gc.mjs`, `hack.mjs`, `mos6502.mjs`, `z80.mjs`, `i8080.mjs`, `mcs51.mjs`, `mips32.mjs`, `mips64.mjs`, `a64.mjs`, `a32.mjs`, `t32.mjs`, `i8086.mjs` | One module per instruction set (RV32 and RV64 share `riscv.mjs`: `riscvSheets` makes their settings, extension subsets and CSR names; MIPS32 and MIPS64 `mips.mjs`), what the codec reads: formats, decoder sections, groups, instructions, unused opcodes, pseudo-instructions, and the set's own settings (spine, immediates, decode order, ...). Encodings are strings in the spec's notation. Each re-exports its data, registers included, from `generated/`. |
+| `src/isa/rv32gc.mjs`, `rv64gc.mjs`, `hack.mjs`, `mos6502.mjs`, `z80.mjs`, `i8080.mjs`, `mcs51.mjs`, `mips32.mjs`, `mips64.mjs`, `a64.mjs`, `a32.mjs`, `t32.mjs`, `i8086.mjs`, `ia32.mjs`, `x86_64.mjs` (the three x86 sheets make their rows from their lines with `x86.mjs`) | One module per instruction set (RV32 and RV64 share `riscv.mjs`: `riscvSheets` makes their settings, extension subsets and CSR names; MIPS32 and MIPS64 `mips.mjs`), what the codec reads: formats, decoder sections, groups, instructions, unused opcodes, pseudo-instructions, and the set's own settings (spine, immediates, decode order, ...). Encodings are strings in the spec's notation. Each re-exports its data, registers included, from `generated/`. |
 | `src/isa/generated/` | **Generated, do not edit**: the instruction data and registers of every set, written by `npm run isa`. |
 | `src/isa/overlay/*.json` | What the sheets show that Sail and TableGen do not carry: sections, groups, titles, descriptions, pseudocode, flags, HINT / reserved rows, the order of rows, unused opcodes, pseudo-instructions, register meanings, and the few presentation overrides. Edit these. |
 | `spec/` | The sources. Official, pinned (do not edit): the Sail model's files (`spec/sail-riscv/`, RV32 and RV64 alike), LLVM's RISC-V and llvm-mos's 6502 `.td` files and their TableGen extracts (`spec/llvm/`), the RISC-V Unified Database's instructions (`spec/udb/`). Unofficial, this project's own (edit, then `npm run isa`): Sail and TableGen of the 8080, the 8051, the Z80 and Hack, Sail of the 6502 (`spec/unofficial/`). `spec/README.md` has the versions and how to update them. |
-| `tools/isa/` | The generators: `sail.mjs` reads Sail encodings, `tablegen.mjs` extracts TableGen (`npm run isa:tablegen`), `gen-riscv.mjs` (RV32 and RV64), `gen-mos6502.mjs`, `gen-mips.mjs` (MIPS32, MIPS64), `gen-a64.mjs` (A64), `gen-a32.mjs` (A32), `gen-t32.mjs` (Thumb; all LLVM's TableGen against the unofficial Sail, through `llvm-sail.mjs`), `gen-x86.mjs` (8086: a typed table in Intel's opcode notation, `src/isa/overlay/x86.json`, checked against LLVM's X86 records, which have no Inst bits, and expanded to a row per addressing form; it also writes the Sail), `gen-retro.mjs` (Z80, 8080, 8051, Hack) check Sail against TableGen and merge them with the overlay into `src/isa/generated/`. |
+| `tools/isa/` | The generators: `sail.mjs` reads Sail encodings, `tablegen.mjs` extracts TableGen (`npm run isa:tablegen`), `gen-riscv.mjs` (RV32 and RV64), `gen-mos6502.mjs`, `gen-mips.mjs` (MIPS32, MIPS64), `gen-a64.mjs` (A64), `gen-a32.mjs` (A32), `gen-t32.mjs` (Thumb; all LLVM's TableGen against the unofficial Sail, through `llvm-sail.mjs`), `gen-x86.mjs` (8086, IA-32, x86-64: a typed table in Intel's opcode notation with the operand size as a parameter, `src/isa/overlay/x86.json`, resolved per mode and size and checked against LLVM's X86 records, which have no Inst bits; the generated modules hold the lines, `src/isa/x86.mjs` expands them to a row per addressing form and REX when a sheet loads; it also writes the Sail), `gen-retro.mjs` (Z80, 8080, 8051, Hack) check Sail against TableGen and merge them with the overlay into `src/isa/generated/`. |
 | `src/isa/isas.mjs` | The instruction sets of the title's selector: `isas`, listed under their `family` (`families` names them). Those with a `codec` have sheets; the others show a `<Coming soon>` placeholder (`_selectIsa` in `src/sliderule.mjs`). `extensions` gives a member the extension toggles. |
 | `src/isa/riscv-extensions.mjs` | The ratified RISC-V extensions the toggles show: the letters, the Z extensions folded under each, G and the bundles (B, Zk), what each needs, the ISA string. `withExtensions` (from `riscvSheets` in `riscv.mjs`) makes the sheets of a set of them; `BASE_ONLY` marks those of one width (Zilsd, Zclsd). |
 | `src/isa/codec.mjs` | Everything derived from that data, per set (`createCodec`): parsing encodings into segments, masks, matching, decoding, encoding (`encodeAssembly`; `assemblyChoice` gives the entry and operand values the encoder's Paste Assembly sets), pseudo-instruction expansion, operand descriptions for the UI, the spine. No DOM. Its named exports are RV32GC's. |
@@ -185,7 +185,7 @@ give the set `specs` in `isas.mjs` and its files in `EXPORTS` of `api-gen.js` fo
    for parsing, and give a `text` that wins over its `names`. Write literal words of a template in upper case (`APSR`):
    lower case ones can contain an operand's name. An operand may be split over several cells like an immediate
    (`rdn[3] ... rdn[2:0]`; a value with bits no part holds is refused) and give a `step`; `spine.unit` (16) numbers a
-   byte spine per halfword (Thumb). A spine wider than 32 bits (x86: 48 for the 8086) makes words BigInts: the codec's
+   byte spine per halfword (Thumb). A spine wider than 32 bits (x86: 48, 88 and 96) makes words BigInts: the codec's
    `W` operations and the exported `bitOf` handle both, so code outside the codec never shifts a word itself. A format needs
    a `width` and `layout` only for instruction sets with fixed fields; without them the decoder's group headers come
    from the members' encodings, and a group's members must have the same width. Keep `sections` keys in the decoder's
@@ -219,7 +219,7 @@ npm run vectors:mips   # MIPS32 and MIPS64 with GNU as and llvm-mc (MIPS_PREFIX=
 npm run vectors:a64    # A64 with GNU as and llvm-mc (AARCH64_PREFIX=..., LLVM_MC_BIN=...)
 npm run vectors:a32    # A32 with GNU as and llvm-mc (ARM_PREFIX=..., LLVM_MC_BIN=...)
 npm run vectors:t32    # Thumb with GNU as and llvm-mc (ARM_PREFIX=..., LLVM_MC_BIN=...)
-npm run vectors:x86    # the 8086 with GNU as and llvm-mc (X86_AS=..., X86_OBJDUMP=..., LLVM_MC_BIN=...)
+npm run vectors:x86    # the 8086, IA-32 and x86-64 with GNU as and llvm-mc (X86_AS=..., X86_OBJDUMP=..., LLVM_MC_BIN=..., SETS=ia32,...)
 npm run dev        # look at both sheets: http://localhost:5173
 ```
 

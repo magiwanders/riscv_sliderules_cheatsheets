@@ -50,9 +50,11 @@ test('src/isa/generated/t32.mjs is what LLVM\'s ARM TableGen (Thumb), the unoffi
   assert.equal(t32Module(), committed('t32'));
 });
 
-test('src/isa/generated/i8086.mjs is what the x86 table of the overlay gives, checked against LLVM\'s X86 records (npm run isa)', () => {
-  assert.equal(x86Module({ set: 'i8086' }), committed('i8086'));
-});
+for (const set of ['i8086', 'ia32', 'x86_64']) {
+  test(`src/isa/generated/${set}.mjs is what the x86 table of the overlay gives, checked against LLVM's X86 records (npm run isa)`, () => {
+    assert.equal(x86Module({ set }), committed(set));
+  });
+}
 
 test('the CSRs the encoder knows by name have the addresses LLVM gives them, and the registers sheet lists them all', async () => {
   const { CSRS } = await import('../src/isa/codec.mjs');

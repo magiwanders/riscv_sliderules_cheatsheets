@@ -1,2858 +1,920 @@
-// Intel 8086: encodings, one clause per addressing form.
+// Intel 8086: encodings, a clause per instruction and operand size.
 //
 // UNOFFICIAL. Written for the RISC-V Sliderules (https://github.com/magiwanders/riscv_sliderules_cheatsheets) by
-// tools/isa/gen-x86.mjs from the typed opcode table of src/isa/overlay/x86.json (Intel's 8086 Family User's Manual
-// notation), each line of which is checked against LLVM's X86 records (opcode, form, prefixes, immediate). Only the
-// decode / encode side of a model, not checked by the Sail compiler. Bytes in memory order; 16 bit values low byte
-// first. Licensed CC BY-SA 4.0 like the sheets.
+// tools/isa/gen-x86.mjs from the typed opcode table of src/isa/overlay/x86.json (Intel's opcode table notation), each
+// line of which is checked against LLVM's X86 records (opcode, map, form, operand size, prefixes, immediate). Only the
+// decode / encode side of a model, not checked by the Sail compiler. Bytes in memory order; values little-endian.
+// modrm(rm, reg) is a ModRM byte and what follows it (SIB, displacement) in 16 bit addressing; the sheet shows a
+// row per form of it. 
+// Licensed CC BY-SA 4.0 like the sheets.
 
 scattered union instruction
-// add rm8, r8
+// add r/m8, r8
 mapping clause encdec = ADD_0
-  <-> 0b00000000 @ 0b11 @ r8 @ rm8
+  <-> 0x00 @ modrm(rm, reg)
 
-// add [b16], r8
+// add r/m16, r16
 mapping clause encdec = ADD_1
-  <-> 0b00000000 @ 0b00 @ r8 @ b16
+  <-> 0x01 @ modrm(rm, reg)
 
-// add [a16], r8
+// add r8, r/m8
 mapping clause encdec = ADD_2
-  <-> 0b00000000 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
+  <-> 0x02 @ modrm(rm, reg)
 
-// add [b16xd8], r8
+// add r16, r/m16
 mapping clause encdec = ADD_3
-  <-> 0b00000000 @ 0b01 @ r8 @ b16x @ d8
+  <-> 0x03 @ modrm(rm, reg)
 
-// add [b16xd16], r8
+// add AL, imm8
 mapping clause encdec = ADD_4
-  <-> 0b00000000 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
+  <-> 0x04 @ imm8
 
-// add rm16, r16
+// add AX, imm16
 mapping clause encdec = ADD_5
-  <-> 0b00000001 @ 0b11 @ r16 @ rm16
+  <-> 0x05 @ imm16_le
 
-// add [b16], r16
+// add r/m8, imm8
 mapping clause encdec = ADD_6
-  <-> 0b00000001 @ 0b00 @ r16 @ b16
+  <-> 0x80 @ modrm(rm, 0b000) @ imm8
 
-// add [a16], r16
+// add r/m16, imm16
 mapping clause encdec = ADD_7
-  <-> 0b00000001 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
+  <-> 0x81 @ modrm(rm, 0b000) @ imm16_le
 
-// add [b16xd8], r16
+// add r/m16, simm8
 mapping clause encdec = ADD_8
-  <-> 0b00000001 @ 0b01 @ r16 @ b16x @ d8
-
-// add [b16xd16], r16
-mapping clause encdec = ADD_9
-  <-> 0b00000001 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// add r8, rm8
-mapping clause encdec = ADD_10
-  <-> 0b00000010 @ 0b11 @ r8 @ rm8
-
-// add r8, [b16]
-mapping clause encdec = ADD_11
-  <-> 0b00000010 @ 0b00 @ r8 @ b16
-
-// add r8, [a16]
-mapping clause encdec = ADD_12
-  <-> 0b00000010 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// add r8, [b16xd8]
-mapping clause encdec = ADD_13
-  <-> 0b00000010 @ 0b01 @ r8 @ b16x @ d8
-
-// add r8, [b16xd16]
-mapping clause encdec = ADD_14
-  <-> 0b00000010 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// add r16, rm16
-mapping clause encdec = ADD_15
-  <-> 0b00000011 @ 0b11 @ r16 @ rm16
-
-// add r16, [b16]
-mapping clause encdec = ADD_16
-  <-> 0b00000011 @ 0b00 @ r16 @ b16
-
-// add r16, [a16]
-mapping clause encdec = ADD_17
-  <-> 0b00000011 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// add r16, [b16xd8]
-mapping clause encdec = ADD_18
-  <-> 0b00000011 @ 0b01 @ r16 @ b16x @ d8
-
-// add r16, [b16xd16]
-mapping clause encdec = ADD_19
-  <-> 0b00000011 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// add AL, imm
-mapping clause encdec = ADD_20
-  <-> 0b00000100 @ imm[7..0]
-
-// add AX, imm
-mapping clause encdec = ADD_21
-  <-> 0b00000101 @ imm[7..0] @ 15..8
-
-// add rm8, imm
-mapping clause encdec = ADD_22
-  <-> 0b10000000 @ 0b11 @ 0b000 @ rm8 @ imm[7..0]
-
-// add BYTE [b16], imm
-mapping clause encdec = ADD_23
-  <-> 0b10000000 @ 0b00 @ 0b000 @ b16 @ imm[7..0]
-
-// add BYTE [a16], imm
-mapping clause encdec = ADD_24
-  <-> 0b10000000 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0]
-
-// add BYTE [b16xd8], imm
-mapping clause encdec = ADD_25
-  <-> 0b10000000 @ 0b01 @ 0b000 @ b16x @ d8 @ imm[7..0]
-
-// add BYTE [b16xd16], imm
-mapping clause encdec = ADD_26
-  <-> 0b10000000 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0]
-
-// add rm16, imm
-mapping clause encdec = ADD_27
-  <-> 0b10000001 @ 0b11 @ 0b000 @ rm16 @ imm[7..0] @ 15..8
-
-// add WORD [b16], imm
-mapping clause encdec = ADD_28
-  <-> 0b10000001 @ 0b00 @ 0b000 @ b16 @ imm[7..0] @ 15..8
-
-// add WORD [a16], imm
-mapping clause encdec = ADD_29
-  <-> 0b10000001 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0] @ 15..8
-
-// add WORD [b16xd8], imm
-mapping clause encdec = ADD_30
-  <-> 0b10000001 @ 0b01 @ 0b000 @ b16x @ d8 @ imm[7..0] @ 15..8
-
-// add WORD [b16xd16], imm
-mapping clause encdec = ADD_31
-  <-> 0b10000001 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0] @ 15..8
-
-// add rm16, simm
-mapping clause encdec = ADD_32
-  <-> 0b10000011 @ 0b11 @ 0b000 @ rm16 @ simm[7..0]
-
-// add WORD [b16], simm
-mapping clause encdec = ADD_33
-  <-> 0b10000011 @ 0b00 @ 0b000 @ b16 @ simm[7..0]
-
-// add WORD [a16], simm
-mapping clause encdec = ADD_34
-  <-> 0b10000011 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8] @ simm[7..0]
-
-// add WORD [b16xd8], simm
-mapping clause encdec = ADD_35
-  <-> 0b10000011 @ 0b01 @ 0b000 @ b16x @ d8 @ simm[7..0]
-
-// add WORD [b16xd16], simm
-mapping clause encdec = ADD_36
-  <-> 0b10000011 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8] @ simm[7..0]
-
-// or rm8, r8
-mapping clause encdec = OR_37
-  <-> 0b00001000 @ 0b11 @ r8 @ rm8
-
-// or [b16], r8
-mapping clause encdec = OR_38
-  <-> 0b00001000 @ 0b00 @ r8 @ b16
-
-// or [a16], r8
-mapping clause encdec = OR_39
-  <-> 0b00001000 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// or [b16xd8], r8
-mapping clause encdec = OR_40
-  <-> 0b00001000 @ 0b01 @ r8 @ b16x @ d8
-
-// or [b16xd16], r8
-mapping clause encdec = OR_41
-  <-> 0b00001000 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// or rm16, r16
-mapping clause encdec = OR_42
-  <-> 0b00001001 @ 0b11 @ r16 @ rm16
-
-// or [b16], r16
-mapping clause encdec = OR_43
-  <-> 0b00001001 @ 0b00 @ r16 @ b16
-
-// or [a16], r16
-mapping clause encdec = OR_44
-  <-> 0b00001001 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// or [b16xd8], r16
-mapping clause encdec = OR_45
-  <-> 0b00001001 @ 0b01 @ r16 @ b16x @ d8
-
-// or [b16xd16], r16
-mapping clause encdec = OR_46
-  <-> 0b00001001 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// or r8, rm8
-mapping clause encdec = OR_47
-  <-> 0b00001010 @ 0b11 @ r8 @ rm8
-
-// or r8, [b16]
-mapping clause encdec = OR_48
-  <-> 0b00001010 @ 0b00 @ r8 @ b16
-
-// or r8, [a16]
-mapping clause encdec = OR_49
-  <-> 0b00001010 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// or r8, [b16xd8]
-mapping clause encdec = OR_50
-  <-> 0b00001010 @ 0b01 @ r8 @ b16x @ d8
-
-// or r8, [b16xd16]
-mapping clause encdec = OR_51
-  <-> 0b00001010 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// or r16, rm16
-mapping clause encdec = OR_52
-  <-> 0b00001011 @ 0b11 @ r16 @ rm16
-
-// or r16, [b16]
-mapping clause encdec = OR_53
-  <-> 0b00001011 @ 0b00 @ r16 @ b16
-
-// or r16, [a16]
-mapping clause encdec = OR_54
-  <-> 0b00001011 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// or r16, [b16xd8]
-mapping clause encdec = OR_55
-  <-> 0b00001011 @ 0b01 @ r16 @ b16x @ d8
-
-// or r16, [b16xd16]
-mapping clause encdec = OR_56
-  <-> 0b00001011 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// or AL, imm
-mapping clause encdec = OR_57
-  <-> 0b00001100 @ imm[7..0]
-
-// or AX, imm
-mapping clause encdec = OR_58
-  <-> 0b00001101 @ imm[7..0] @ 15..8
-
-// or rm8, imm
-mapping clause encdec = OR_59
-  <-> 0b10000000 @ 0b11 @ 0b001 @ rm8 @ imm[7..0]
-
-// or BYTE [b16], imm
-mapping clause encdec = OR_60
-  <-> 0b10000000 @ 0b00 @ 0b001 @ b16 @ imm[7..0]
-
-// or BYTE [a16], imm
-mapping clause encdec = OR_61
-  <-> 0b10000000 @ 0b00 @ 0b001 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0]
-
-// or BYTE [b16xd8], imm
-mapping clause encdec = OR_62
-  <-> 0b10000000 @ 0b01 @ 0b001 @ b16x @ d8 @ imm[7..0]
-
-// or BYTE [b16xd16], imm
-mapping clause encdec = OR_63
-  <-> 0b10000000 @ 0b10 @ 0b001 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0]
-
-// or rm16, imm
-mapping clause encdec = OR_64
-  <-> 0b10000001 @ 0b11 @ 0b001 @ rm16 @ imm[7..0] @ 15..8
-
-// or WORD [b16], imm
-mapping clause encdec = OR_65
-  <-> 0b10000001 @ 0b00 @ 0b001 @ b16 @ imm[7..0] @ 15..8
-
-// or WORD [a16], imm
-mapping clause encdec = OR_66
-  <-> 0b10000001 @ 0b00 @ 0b001 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0] @ 15..8
-
-// or WORD [b16xd8], imm
-mapping clause encdec = OR_67
-  <-> 0b10000001 @ 0b01 @ 0b001 @ b16x @ d8 @ imm[7..0] @ 15..8
-
-// or WORD [b16xd16], imm
-mapping clause encdec = OR_68
-  <-> 0b10000001 @ 0b10 @ 0b001 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0] @ 15..8
-
-// or rm16, simm
-mapping clause encdec = OR_69
-  <-> 0b10000011 @ 0b11 @ 0b001 @ rm16 @ simm[7..0]
-
-// or WORD [b16], simm
-mapping clause encdec = OR_70
-  <-> 0b10000011 @ 0b00 @ 0b001 @ b16 @ simm[7..0]
-
-// or WORD [a16], simm
-mapping clause encdec = OR_71
-  <-> 0b10000011 @ 0b00 @ 0b001 @ 0b110 @ a16[7..0] @ a16[15..8] @ simm[7..0]
-
-// or WORD [b16xd8], simm
-mapping clause encdec = OR_72
-  <-> 0b10000011 @ 0b01 @ 0b001 @ b16x @ d8 @ simm[7..0]
-
-// or WORD [b16xd16], simm
-mapping clause encdec = OR_73
-  <-> 0b10000011 @ 0b10 @ 0b001 @ b16x @ d16[7..0] @ d16[15..8] @ simm[7..0]
-
-// adc rm8, r8
-mapping clause encdec = ADC_74
-  <-> 0b00010000 @ 0b11 @ r8 @ rm8
-
-// adc [b16], r8
-mapping clause encdec = ADC_75
-  <-> 0b00010000 @ 0b00 @ r8 @ b16
-
-// adc [a16], r8
-mapping clause encdec = ADC_76
-  <-> 0b00010000 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// adc [b16xd8], r8
-mapping clause encdec = ADC_77
-  <-> 0b00010000 @ 0b01 @ r8 @ b16x @ d8
-
-// adc [b16xd16], r8
-mapping clause encdec = ADC_78
-  <-> 0b00010000 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// adc rm16, r16
-mapping clause encdec = ADC_79
-  <-> 0b00010001 @ 0b11 @ r16 @ rm16
-
-// adc [b16], r16
-mapping clause encdec = ADC_80
-  <-> 0b00010001 @ 0b00 @ r16 @ b16
-
-// adc [a16], r16
-mapping clause encdec = ADC_81
-  <-> 0b00010001 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// adc [b16xd8], r16
-mapping clause encdec = ADC_82
-  <-> 0b00010001 @ 0b01 @ r16 @ b16x @ d8
-
-// adc [b16xd16], r16
-mapping clause encdec = ADC_83
-  <-> 0b00010001 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// adc r8, rm8
-mapping clause encdec = ADC_84
-  <-> 0b00010010 @ 0b11 @ r8 @ rm8
-
-// adc r8, [b16]
-mapping clause encdec = ADC_85
-  <-> 0b00010010 @ 0b00 @ r8 @ b16
-
-// adc r8, [a16]
-mapping clause encdec = ADC_86
-  <-> 0b00010010 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// adc r8, [b16xd8]
-mapping clause encdec = ADC_87
-  <-> 0b00010010 @ 0b01 @ r8 @ b16x @ d8
-
-// adc r8, [b16xd16]
-mapping clause encdec = ADC_88
-  <-> 0b00010010 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// adc r16, rm16
-mapping clause encdec = ADC_89
-  <-> 0b00010011 @ 0b11 @ r16 @ rm16
-
-// adc r16, [b16]
-mapping clause encdec = ADC_90
-  <-> 0b00010011 @ 0b00 @ r16 @ b16
-
-// adc r16, [a16]
-mapping clause encdec = ADC_91
-  <-> 0b00010011 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// adc r16, [b16xd8]
-mapping clause encdec = ADC_92
-  <-> 0b00010011 @ 0b01 @ r16 @ b16x @ d8
-
-// adc r16, [b16xd16]
-mapping clause encdec = ADC_93
-  <-> 0b00010011 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// adc AL, imm
-mapping clause encdec = ADC_94
-  <-> 0b00010100 @ imm[7..0]
-
-// adc AX, imm
-mapping clause encdec = ADC_95
-  <-> 0b00010101 @ imm[7..0] @ 15..8
-
-// adc rm8, imm
-mapping clause encdec = ADC_96
-  <-> 0b10000000 @ 0b11 @ 0b010 @ rm8 @ imm[7..0]
-
-// adc BYTE [b16], imm
-mapping clause encdec = ADC_97
-  <-> 0b10000000 @ 0b00 @ 0b010 @ b16 @ imm[7..0]
-
-// adc BYTE [a16], imm
-mapping clause encdec = ADC_98
-  <-> 0b10000000 @ 0b00 @ 0b010 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0]
-
-// adc BYTE [b16xd8], imm
-mapping clause encdec = ADC_99
-  <-> 0b10000000 @ 0b01 @ 0b010 @ b16x @ d8 @ imm[7..0]
-
-// adc BYTE [b16xd16], imm
-mapping clause encdec = ADC_100
-  <-> 0b10000000 @ 0b10 @ 0b010 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0]
-
-// adc rm16, imm
-mapping clause encdec = ADC_101
-  <-> 0b10000001 @ 0b11 @ 0b010 @ rm16 @ imm[7..0] @ 15..8
-
-// adc WORD [b16], imm
-mapping clause encdec = ADC_102
-  <-> 0b10000001 @ 0b00 @ 0b010 @ b16 @ imm[7..0] @ 15..8
-
-// adc WORD [a16], imm
-mapping clause encdec = ADC_103
-  <-> 0b10000001 @ 0b00 @ 0b010 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0] @ 15..8
-
-// adc WORD [b16xd8], imm
-mapping clause encdec = ADC_104
-  <-> 0b10000001 @ 0b01 @ 0b010 @ b16x @ d8 @ imm[7..0] @ 15..8
-
-// adc WORD [b16xd16], imm
-mapping clause encdec = ADC_105
-  <-> 0b10000001 @ 0b10 @ 0b010 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0] @ 15..8
-
-// adc rm16, simm
-mapping clause encdec = ADC_106
-  <-> 0b10000011 @ 0b11 @ 0b010 @ rm16 @ simm[7..0]
-
-// adc WORD [b16], simm
-mapping clause encdec = ADC_107
-  <-> 0b10000011 @ 0b00 @ 0b010 @ b16 @ simm[7..0]
-
-// adc WORD [a16], simm
-mapping clause encdec = ADC_108
-  <-> 0b10000011 @ 0b00 @ 0b010 @ 0b110 @ a16[7..0] @ a16[15..8] @ simm[7..0]
-
-// adc WORD [b16xd8], simm
-mapping clause encdec = ADC_109
-  <-> 0b10000011 @ 0b01 @ 0b010 @ b16x @ d8 @ simm[7..0]
-
-// adc WORD [b16xd16], simm
-mapping clause encdec = ADC_110
-  <-> 0b10000011 @ 0b10 @ 0b010 @ b16x @ d16[7..0] @ d16[15..8] @ simm[7..0]
-
-// sbb rm8, r8
-mapping clause encdec = SBB_111
-  <-> 0b00011000 @ 0b11 @ r8 @ rm8
-
-// sbb [b16], r8
-mapping clause encdec = SBB_112
-  <-> 0b00011000 @ 0b00 @ r8 @ b16
-
-// sbb [a16], r8
-mapping clause encdec = SBB_113
-  <-> 0b00011000 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// sbb [b16xd8], r8
-mapping clause encdec = SBB_114
-  <-> 0b00011000 @ 0b01 @ r8 @ b16x @ d8
-
-// sbb [b16xd16], r8
-mapping clause encdec = SBB_115
-  <-> 0b00011000 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// sbb rm16, r16
-mapping clause encdec = SBB_116
-  <-> 0b00011001 @ 0b11 @ r16 @ rm16
-
-// sbb [b16], r16
-mapping clause encdec = SBB_117
-  <-> 0b00011001 @ 0b00 @ r16 @ b16
-
-// sbb [a16], r16
-mapping clause encdec = SBB_118
-  <-> 0b00011001 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// sbb [b16xd8], r16
-mapping clause encdec = SBB_119
-  <-> 0b00011001 @ 0b01 @ r16 @ b16x @ d8
-
-// sbb [b16xd16], r16
-mapping clause encdec = SBB_120
-  <-> 0b00011001 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// sbb r8, rm8
-mapping clause encdec = SBB_121
-  <-> 0b00011010 @ 0b11 @ r8 @ rm8
-
-// sbb r8, [b16]
-mapping clause encdec = SBB_122
-  <-> 0b00011010 @ 0b00 @ r8 @ b16
-
-// sbb r8, [a16]
-mapping clause encdec = SBB_123
-  <-> 0b00011010 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// sbb r8, [b16xd8]
-mapping clause encdec = SBB_124
-  <-> 0b00011010 @ 0b01 @ r8 @ b16x @ d8
-
-// sbb r8, [b16xd16]
-mapping clause encdec = SBB_125
-  <-> 0b00011010 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// sbb r16, rm16
-mapping clause encdec = SBB_126
-  <-> 0b00011011 @ 0b11 @ r16 @ rm16
-
-// sbb r16, [b16]
-mapping clause encdec = SBB_127
-  <-> 0b00011011 @ 0b00 @ r16 @ b16
-
-// sbb r16, [a16]
-mapping clause encdec = SBB_128
-  <-> 0b00011011 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// sbb r16, [b16xd8]
-mapping clause encdec = SBB_129
-  <-> 0b00011011 @ 0b01 @ r16 @ b16x @ d8
-
-// sbb r16, [b16xd16]
-mapping clause encdec = SBB_130
-  <-> 0b00011011 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// sbb AL, imm
-mapping clause encdec = SBB_131
-  <-> 0b00011100 @ imm[7..0]
-
-// sbb AX, imm
-mapping clause encdec = SBB_132
-  <-> 0b00011101 @ imm[7..0] @ 15..8
-
-// sbb rm8, imm
-mapping clause encdec = SBB_133
-  <-> 0b10000000 @ 0b11 @ 0b011 @ rm8 @ imm[7..0]
-
-// sbb BYTE [b16], imm
-mapping clause encdec = SBB_134
-  <-> 0b10000000 @ 0b00 @ 0b011 @ b16 @ imm[7..0]
-
-// sbb BYTE [a16], imm
-mapping clause encdec = SBB_135
-  <-> 0b10000000 @ 0b00 @ 0b011 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0]
-
-// sbb BYTE [b16xd8], imm
-mapping clause encdec = SBB_136
-  <-> 0b10000000 @ 0b01 @ 0b011 @ b16x @ d8 @ imm[7..0]
-
-// sbb BYTE [b16xd16], imm
-mapping clause encdec = SBB_137
-  <-> 0b10000000 @ 0b10 @ 0b011 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0]
-
-// sbb rm16, imm
-mapping clause encdec = SBB_138
-  <-> 0b10000001 @ 0b11 @ 0b011 @ rm16 @ imm[7..0] @ 15..8
-
-// sbb WORD [b16], imm
-mapping clause encdec = SBB_139
-  <-> 0b10000001 @ 0b00 @ 0b011 @ b16 @ imm[7..0] @ 15..8
-
-// sbb WORD [a16], imm
-mapping clause encdec = SBB_140
-  <-> 0b10000001 @ 0b00 @ 0b011 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0] @ 15..8
-
-// sbb WORD [b16xd8], imm
-mapping clause encdec = SBB_141
-  <-> 0b10000001 @ 0b01 @ 0b011 @ b16x @ d8 @ imm[7..0] @ 15..8
-
-// sbb WORD [b16xd16], imm
-mapping clause encdec = SBB_142
-  <-> 0b10000001 @ 0b10 @ 0b011 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0] @ 15..8
-
-// sbb rm16, simm
-mapping clause encdec = SBB_143
-  <-> 0b10000011 @ 0b11 @ 0b011 @ rm16 @ simm[7..0]
-
-// sbb WORD [b16], simm
-mapping clause encdec = SBB_144
-  <-> 0b10000011 @ 0b00 @ 0b011 @ b16 @ simm[7..0]
-
-// sbb WORD [a16], simm
-mapping clause encdec = SBB_145
-  <-> 0b10000011 @ 0b00 @ 0b011 @ 0b110 @ a16[7..0] @ a16[15..8] @ simm[7..0]
-
-// sbb WORD [b16xd8], simm
-mapping clause encdec = SBB_146
-  <-> 0b10000011 @ 0b01 @ 0b011 @ b16x @ d8 @ simm[7..0]
-
-// sbb WORD [b16xd16], simm
-mapping clause encdec = SBB_147
-  <-> 0b10000011 @ 0b10 @ 0b011 @ b16x @ d16[7..0] @ d16[15..8] @ simm[7..0]
-
-// and rm8, r8
-mapping clause encdec = AND_148
-  <-> 0b00100000 @ 0b11 @ r8 @ rm8
-
-// and [b16], r8
-mapping clause encdec = AND_149
-  <-> 0b00100000 @ 0b00 @ r8 @ b16
-
-// and [a16], r8
-mapping clause encdec = AND_150
-  <-> 0b00100000 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// and [b16xd8], r8
-mapping clause encdec = AND_151
-  <-> 0b00100000 @ 0b01 @ r8 @ b16x @ d8
-
-// and [b16xd16], r8
-mapping clause encdec = AND_152
-  <-> 0b00100000 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// and rm16, r16
-mapping clause encdec = AND_153
-  <-> 0b00100001 @ 0b11 @ r16 @ rm16
-
-// and [b16], r16
-mapping clause encdec = AND_154
-  <-> 0b00100001 @ 0b00 @ r16 @ b16
-
-// and [a16], r16
-mapping clause encdec = AND_155
-  <-> 0b00100001 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// and [b16xd8], r16
-mapping clause encdec = AND_156
-  <-> 0b00100001 @ 0b01 @ r16 @ b16x @ d8
-
-// and [b16xd16], r16
-mapping clause encdec = AND_157
-  <-> 0b00100001 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// and r8, rm8
-mapping clause encdec = AND_158
-  <-> 0b00100010 @ 0b11 @ r8 @ rm8
-
-// and r8, [b16]
-mapping clause encdec = AND_159
-  <-> 0b00100010 @ 0b00 @ r8 @ b16
-
-// and r8, [a16]
-mapping clause encdec = AND_160
-  <-> 0b00100010 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// and r8, [b16xd8]
-mapping clause encdec = AND_161
-  <-> 0b00100010 @ 0b01 @ r8 @ b16x @ d8
-
-// and r8, [b16xd16]
-mapping clause encdec = AND_162
-  <-> 0b00100010 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// and r16, rm16
-mapping clause encdec = AND_163
-  <-> 0b00100011 @ 0b11 @ r16 @ rm16
-
-// and r16, [b16]
-mapping clause encdec = AND_164
-  <-> 0b00100011 @ 0b00 @ r16 @ b16
-
-// and r16, [a16]
-mapping clause encdec = AND_165
-  <-> 0b00100011 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// and r16, [b16xd8]
-mapping clause encdec = AND_166
-  <-> 0b00100011 @ 0b01 @ r16 @ b16x @ d8
-
-// and r16, [b16xd16]
-mapping clause encdec = AND_167
-  <-> 0b00100011 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// and AL, imm
-mapping clause encdec = AND_168
-  <-> 0b00100100 @ imm[7..0]
-
-// and AX, imm
-mapping clause encdec = AND_169
-  <-> 0b00100101 @ imm[7..0] @ 15..8
-
-// and rm8, imm
-mapping clause encdec = AND_170
-  <-> 0b10000000 @ 0b11 @ 0b100 @ rm8 @ imm[7..0]
-
-// and BYTE [b16], imm
-mapping clause encdec = AND_171
-  <-> 0b10000000 @ 0b00 @ 0b100 @ b16 @ imm[7..0]
-
-// and BYTE [a16], imm
-mapping clause encdec = AND_172
-  <-> 0b10000000 @ 0b00 @ 0b100 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0]
-
-// and BYTE [b16xd8], imm
-mapping clause encdec = AND_173
-  <-> 0b10000000 @ 0b01 @ 0b100 @ b16x @ d8 @ imm[7..0]
-
-// and BYTE [b16xd16], imm
-mapping clause encdec = AND_174
-  <-> 0b10000000 @ 0b10 @ 0b100 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0]
-
-// and rm16, imm
-mapping clause encdec = AND_175
-  <-> 0b10000001 @ 0b11 @ 0b100 @ rm16 @ imm[7..0] @ 15..8
-
-// and WORD [b16], imm
-mapping clause encdec = AND_176
-  <-> 0b10000001 @ 0b00 @ 0b100 @ b16 @ imm[7..0] @ 15..8
-
-// and WORD [a16], imm
-mapping clause encdec = AND_177
-  <-> 0b10000001 @ 0b00 @ 0b100 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0] @ 15..8
-
-// and WORD [b16xd8], imm
-mapping clause encdec = AND_178
-  <-> 0b10000001 @ 0b01 @ 0b100 @ b16x @ d8 @ imm[7..0] @ 15..8
-
-// and WORD [b16xd16], imm
-mapping clause encdec = AND_179
-  <-> 0b10000001 @ 0b10 @ 0b100 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0] @ 15..8
-
-// and rm16, simm
-mapping clause encdec = AND_180
-  <-> 0b10000011 @ 0b11 @ 0b100 @ rm16 @ simm[7..0]
-
-// and WORD [b16], simm
-mapping clause encdec = AND_181
-  <-> 0b10000011 @ 0b00 @ 0b100 @ b16 @ simm[7..0]
-
-// and WORD [a16], simm
-mapping clause encdec = AND_182
-  <-> 0b10000011 @ 0b00 @ 0b100 @ 0b110 @ a16[7..0] @ a16[15..8] @ simm[7..0]
-
-// and WORD [b16xd8], simm
-mapping clause encdec = AND_183
-  <-> 0b10000011 @ 0b01 @ 0b100 @ b16x @ d8 @ simm[7..0]
-
-// and WORD [b16xd16], simm
-mapping clause encdec = AND_184
-  <-> 0b10000011 @ 0b10 @ 0b100 @ b16x @ d16[7..0] @ d16[15..8] @ simm[7..0]
-
-// sub rm8, r8
-mapping clause encdec = SUB_185
-  <-> 0b00101000 @ 0b11 @ r8 @ rm8
-
-// sub [b16], r8
-mapping clause encdec = SUB_186
-  <-> 0b00101000 @ 0b00 @ r8 @ b16
-
-// sub [a16], r8
-mapping clause encdec = SUB_187
-  <-> 0b00101000 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// sub [b16xd8], r8
-mapping clause encdec = SUB_188
-  <-> 0b00101000 @ 0b01 @ r8 @ b16x @ d8
-
-// sub [b16xd16], r8
-mapping clause encdec = SUB_189
-  <-> 0b00101000 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// sub rm16, r16
-mapping clause encdec = SUB_190
-  <-> 0b00101001 @ 0b11 @ r16 @ rm16
-
-// sub [b16], r16
-mapping clause encdec = SUB_191
-  <-> 0b00101001 @ 0b00 @ r16 @ b16
-
-// sub [a16], r16
-mapping clause encdec = SUB_192
-  <-> 0b00101001 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// sub [b16xd8], r16
-mapping clause encdec = SUB_193
-  <-> 0b00101001 @ 0b01 @ r16 @ b16x @ d8
-
-// sub [b16xd16], r16
-mapping clause encdec = SUB_194
-  <-> 0b00101001 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// sub r8, rm8
-mapping clause encdec = SUB_195
-  <-> 0b00101010 @ 0b11 @ r8 @ rm8
-
-// sub r8, [b16]
-mapping clause encdec = SUB_196
-  <-> 0b00101010 @ 0b00 @ r8 @ b16
-
-// sub r8, [a16]
-mapping clause encdec = SUB_197
-  <-> 0b00101010 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// sub r8, [b16xd8]
-mapping clause encdec = SUB_198
-  <-> 0b00101010 @ 0b01 @ r8 @ b16x @ d8
-
-// sub r8, [b16xd16]
-mapping clause encdec = SUB_199
-  <-> 0b00101010 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// sub r16, rm16
-mapping clause encdec = SUB_200
-  <-> 0b00101011 @ 0b11 @ r16 @ rm16
-
-// sub r16, [b16]
-mapping clause encdec = SUB_201
-  <-> 0b00101011 @ 0b00 @ r16 @ b16
-
-// sub r16, [a16]
-mapping clause encdec = SUB_202
-  <-> 0b00101011 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// sub r16, [b16xd8]
-mapping clause encdec = SUB_203
-  <-> 0b00101011 @ 0b01 @ r16 @ b16x @ d8
-
-// sub r16, [b16xd16]
-mapping clause encdec = SUB_204
-  <-> 0b00101011 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// sub AL, imm
-mapping clause encdec = SUB_205
-  <-> 0b00101100 @ imm[7..0]
-
-// sub AX, imm
-mapping clause encdec = SUB_206
-  <-> 0b00101101 @ imm[7..0] @ 15..8
-
-// sub rm8, imm
-mapping clause encdec = SUB_207
-  <-> 0b10000000 @ 0b11 @ 0b101 @ rm8 @ imm[7..0]
-
-// sub BYTE [b16], imm
-mapping clause encdec = SUB_208
-  <-> 0b10000000 @ 0b00 @ 0b101 @ b16 @ imm[7..0]
-
-// sub BYTE [a16], imm
-mapping clause encdec = SUB_209
-  <-> 0b10000000 @ 0b00 @ 0b101 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0]
-
-// sub BYTE [b16xd8], imm
-mapping clause encdec = SUB_210
-  <-> 0b10000000 @ 0b01 @ 0b101 @ b16x @ d8 @ imm[7..0]
-
-// sub BYTE [b16xd16], imm
-mapping clause encdec = SUB_211
-  <-> 0b10000000 @ 0b10 @ 0b101 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0]
-
-// sub rm16, imm
-mapping clause encdec = SUB_212
-  <-> 0b10000001 @ 0b11 @ 0b101 @ rm16 @ imm[7..0] @ 15..8
-
-// sub WORD [b16], imm
-mapping clause encdec = SUB_213
-  <-> 0b10000001 @ 0b00 @ 0b101 @ b16 @ imm[7..0] @ 15..8
-
-// sub WORD [a16], imm
-mapping clause encdec = SUB_214
-  <-> 0b10000001 @ 0b00 @ 0b101 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0] @ 15..8
-
-// sub WORD [b16xd8], imm
-mapping clause encdec = SUB_215
-  <-> 0b10000001 @ 0b01 @ 0b101 @ b16x @ d8 @ imm[7..0] @ 15..8
-
-// sub WORD [b16xd16], imm
-mapping clause encdec = SUB_216
-  <-> 0b10000001 @ 0b10 @ 0b101 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0] @ 15..8
-
-// sub rm16, simm
-mapping clause encdec = SUB_217
-  <-> 0b10000011 @ 0b11 @ 0b101 @ rm16 @ simm[7..0]
-
-// sub WORD [b16], simm
-mapping clause encdec = SUB_218
-  <-> 0b10000011 @ 0b00 @ 0b101 @ b16 @ simm[7..0]
-
-// sub WORD [a16], simm
-mapping clause encdec = SUB_219
-  <-> 0b10000011 @ 0b00 @ 0b101 @ 0b110 @ a16[7..0] @ a16[15..8] @ simm[7..0]
-
-// sub WORD [b16xd8], simm
-mapping clause encdec = SUB_220
-  <-> 0b10000011 @ 0b01 @ 0b101 @ b16x @ d8 @ simm[7..0]
-
-// sub WORD [b16xd16], simm
-mapping clause encdec = SUB_221
-  <-> 0b10000011 @ 0b10 @ 0b101 @ b16x @ d16[7..0] @ d16[15..8] @ simm[7..0]
-
-// xor rm8, r8
-mapping clause encdec = XOR_222
-  <-> 0b00110000 @ 0b11 @ r8 @ rm8
-
-// xor [b16], r8
-mapping clause encdec = XOR_223
-  <-> 0b00110000 @ 0b00 @ r8 @ b16
-
-// xor [a16], r8
-mapping clause encdec = XOR_224
-  <-> 0b00110000 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// xor [b16xd8], r8
-mapping clause encdec = XOR_225
-  <-> 0b00110000 @ 0b01 @ r8 @ b16x @ d8
-
-// xor [b16xd16], r8
-mapping clause encdec = XOR_226
-  <-> 0b00110000 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// xor rm16, r16
-mapping clause encdec = XOR_227
-  <-> 0b00110001 @ 0b11 @ r16 @ rm16
-
-// xor [b16], r16
-mapping clause encdec = XOR_228
-  <-> 0b00110001 @ 0b00 @ r16 @ b16
-
-// xor [a16], r16
-mapping clause encdec = XOR_229
-  <-> 0b00110001 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// xor [b16xd8], r16
-mapping clause encdec = XOR_230
-  <-> 0b00110001 @ 0b01 @ r16 @ b16x @ d8
-
-// xor [b16xd16], r16
-mapping clause encdec = XOR_231
-  <-> 0b00110001 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// xor r8, rm8
-mapping clause encdec = XOR_232
-  <-> 0b00110010 @ 0b11 @ r8 @ rm8
-
-// xor r8, [b16]
-mapping clause encdec = XOR_233
-  <-> 0b00110010 @ 0b00 @ r8 @ b16
-
-// xor r8, [a16]
-mapping clause encdec = XOR_234
-  <-> 0b00110010 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// xor r8, [b16xd8]
-mapping clause encdec = XOR_235
-  <-> 0b00110010 @ 0b01 @ r8 @ b16x @ d8
-
-// xor r8, [b16xd16]
-mapping clause encdec = XOR_236
-  <-> 0b00110010 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// xor r16, rm16
-mapping clause encdec = XOR_237
-  <-> 0b00110011 @ 0b11 @ r16 @ rm16
-
-// xor r16, [b16]
-mapping clause encdec = XOR_238
-  <-> 0b00110011 @ 0b00 @ r16 @ b16
-
-// xor r16, [a16]
-mapping clause encdec = XOR_239
-  <-> 0b00110011 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// xor r16, [b16xd8]
-mapping clause encdec = XOR_240
-  <-> 0b00110011 @ 0b01 @ r16 @ b16x @ d8
-
-// xor r16, [b16xd16]
-mapping clause encdec = XOR_241
-  <-> 0b00110011 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// xor AL, imm
-mapping clause encdec = XOR_242
-  <-> 0b00110100 @ imm[7..0]
-
-// xor AX, imm
-mapping clause encdec = XOR_243
-  <-> 0b00110101 @ imm[7..0] @ 15..8
-
-// xor rm8, imm
-mapping clause encdec = XOR_244
-  <-> 0b10000000 @ 0b11 @ 0b110 @ rm8 @ imm[7..0]
-
-// xor BYTE [b16], imm
-mapping clause encdec = XOR_245
-  <-> 0b10000000 @ 0b00 @ 0b110 @ b16 @ imm[7..0]
-
-// xor BYTE [a16], imm
-mapping clause encdec = XOR_246
-  <-> 0b10000000 @ 0b00 @ 0b110 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0]
-
-// xor BYTE [b16xd8], imm
-mapping clause encdec = XOR_247
-  <-> 0b10000000 @ 0b01 @ 0b110 @ b16x @ d8 @ imm[7..0]
-
-// xor BYTE [b16xd16], imm
-mapping clause encdec = XOR_248
-  <-> 0b10000000 @ 0b10 @ 0b110 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0]
-
-// xor rm16, imm
-mapping clause encdec = XOR_249
-  <-> 0b10000001 @ 0b11 @ 0b110 @ rm16 @ imm[7..0] @ 15..8
-
-// xor WORD [b16], imm
-mapping clause encdec = XOR_250
-  <-> 0b10000001 @ 0b00 @ 0b110 @ b16 @ imm[7..0] @ 15..8
-
-// xor WORD [a16], imm
-mapping clause encdec = XOR_251
-  <-> 0b10000001 @ 0b00 @ 0b110 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0] @ 15..8
-
-// xor WORD [b16xd8], imm
-mapping clause encdec = XOR_252
-  <-> 0b10000001 @ 0b01 @ 0b110 @ b16x @ d8 @ imm[7..0] @ 15..8
-
-// xor WORD [b16xd16], imm
-mapping clause encdec = XOR_253
-  <-> 0b10000001 @ 0b10 @ 0b110 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0] @ 15..8
-
-// xor rm16, simm
-mapping clause encdec = XOR_254
-  <-> 0b10000011 @ 0b11 @ 0b110 @ rm16 @ simm[7..0]
-
-// xor WORD [b16], simm
-mapping clause encdec = XOR_255
-  <-> 0b10000011 @ 0b00 @ 0b110 @ b16 @ simm[7..0]
-
-// xor WORD [a16], simm
-mapping clause encdec = XOR_256
-  <-> 0b10000011 @ 0b00 @ 0b110 @ 0b110 @ a16[7..0] @ a16[15..8] @ simm[7..0]
-
-// xor WORD [b16xd8], simm
-mapping clause encdec = XOR_257
-  <-> 0b10000011 @ 0b01 @ 0b110 @ b16x @ d8 @ simm[7..0]
-
-// xor WORD [b16xd16], simm
-mapping clause encdec = XOR_258
-  <-> 0b10000011 @ 0b10 @ 0b110 @ b16x @ d16[7..0] @ d16[15..8] @ simm[7..0]
-
-// cmp rm8, r8
-mapping clause encdec = CMP_259
-  <-> 0b00111000 @ 0b11 @ r8 @ rm8
-
-// cmp [b16], r8
-mapping clause encdec = CMP_260
-  <-> 0b00111000 @ 0b00 @ r8 @ b16
-
-// cmp [a16], r8
-mapping clause encdec = CMP_261
-  <-> 0b00111000 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// cmp [b16xd8], r8
-mapping clause encdec = CMP_262
-  <-> 0b00111000 @ 0b01 @ r8 @ b16x @ d8
-
-// cmp [b16xd16], r8
-mapping clause encdec = CMP_263
-  <-> 0b00111000 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// cmp rm16, r16
-mapping clause encdec = CMP_264
-  <-> 0b00111001 @ 0b11 @ r16 @ rm16
-
-// cmp [b16], r16
-mapping clause encdec = CMP_265
-  <-> 0b00111001 @ 0b00 @ r16 @ b16
-
-// cmp [a16], r16
-mapping clause encdec = CMP_266
-  <-> 0b00111001 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// cmp [b16xd8], r16
-mapping clause encdec = CMP_267
-  <-> 0b00111001 @ 0b01 @ r16 @ b16x @ d8
-
-// cmp [b16xd16], r16
-mapping clause encdec = CMP_268
-  <-> 0b00111001 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// cmp r8, rm8
-mapping clause encdec = CMP_269
-  <-> 0b00111010 @ 0b11 @ r8 @ rm8
-
-// cmp r8, [b16]
-mapping clause encdec = CMP_270
-  <-> 0b00111010 @ 0b00 @ r8 @ b16
-
-// cmp r8, [a16]
-mapping clause encdec = CMP_271
-  <-> 0b00111010 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// cmp r8, [b16xd8]
-mapping clause encdec = CMP_272
-  <-> 0b00111010 @ 0b01 @ r8 @ b16x @ d8
-
-// cmp r8, [b16xd16]
-mapping clause encdec = CMP_273
-  <-> 0b00111010 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// cmp r16, rm16
-mapping clause encdec = CMP_274
-  <-> 0b00111011 @ 0b11 @ r16 @ rm16
-
-// cmp r16, [b16]
-mapping clause encdec = CMP_275
-  <-> 0b00111011 @ 0b00 @ r16 @ b16
-
-// cmp r16, [a16]
-mapping clause encdec = CMP_276
-  <-> 0b00111011 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// cmp r16, [b16xd8]
-mapping clause encdec = CMP_277
-  <-> 0b00111011 @ 0b01 @ r16 @ b16x @ d8
-
-// cmp r16, [b16xd16]
-mapping clause encdec = CMP_278
-  <-> 0b00111011 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// cmp AL, imm
-mapping clause encdec = CMP_279
-  <-> 0b00111100 @ imm[7..0]
-
-// cmp AX, imm
-mapping clause encdec = CMP_280
-  <-> 0b00111101 @ imm[7..0] @ 15..8
-
-// cmp rm8, imm
-mapping clause encdec = CMP_281
-  <-> 0b10000000 @ 0b11 @ 0b111 @ rm8 @ imm[7..0]
-
-// cmp BYTE [b16], imm
-mapping clause encdec = CMP_282
-  <-> 0b10000000 @ 0b00 @ 0b111 @ b16 @ imm[7..0]
-
-// cmp BYTE [a16], imm
-mapping clause encdec = CMP_283
-  <-> 0b10000000 @ 0b00 @ 0b111 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0]
-
-// cmp BYTE [b16xd8], imm
-mapping clause encdec = CMP_284
-  <-> 0b10000000 @ 0b01 @ 0b111 @ b16x @ d8 @ imm[7..0]
-
-// cmp BYTE [b16xd16], imm
-mapping clause encdec = CMP_285
-  <-> 0b10000000 @ 0b10 @ 0b111 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0]
-
-// cmp rm16, imm
-mapping clause encdec = CMP_286
-  <-> 0b10000001 @ 0b11 @ 0b111 @ rm16 @ imm[7..0] @ 15..8
-
-// cmp WORD [b16], imm
-mapping clause encdec = CMP_287
-  <-> 0b10000001 @ 0b00 @ 0b111 @ b16 @ imm[7..0] @ 15..8
-
-// cmp WORD [a16], imm
-mapping clause encdec = CMP_288
-  <-> 0b10000001 @ 0b00 @ 0b111 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0] @ 15..8
-
-// cmp WORD [b16xd8], imm
-mapping clause encdec = CMP_289
-  <-> 0b10000001 @ 0b01 @ 0b111 @ b16x @ d8 @ imm[7..0] @ 15..8
-
-// cmp WORD [b16xd16], imm
-mapping clause encdec = CMP_290
-  <-> 0b10000001 @ 0b10 @ 0b111 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0] @ 15..8
-
-// cmp rm16, simm
-mapping clause encdec = CMP_291
-  <-> 0b10000011 @ 0b11 @ 0b111 @ rm16 @ simm[7..0]
-
-// cmp WORD [b16], simm
-mapping clause encdec = CMP_292
-  <-> 0b10000011 @ 0b00 @ 0b111 @ b16 @ simm[7..0]
-
-// cmp WORD [a16], simm
-mapping clause encdec = CMP_293
-  <-> 0b10000011 @ 0b00 @ 0b111 @ 0b110 @ a16[7..0] @ a16[15..8] @ simm[7..0]
-
-// cmp WORD [b16xd8], simm
-mapping clause encdec = CMP_294
-  <-> 0b10000011 @ 0b01 @ 0b111 @ b16x @ d8 @ simm[7..0]
-
-// cmp WORD [b16xd16], simm
-mapping clause encdec = CMP_295
-  <-> 0b10000011 @ 0b10 @ 0b111 @ b16x @ d16[7..0] @ d16[15..8] @ simm[7..0]
-
-// inc rm8
-mapping clause encdec = INC_296
-  <-> 0b11111110 @ 0b11 @ 0b000 @ rm8
-
-// inc BYTE [b16]
-mapping clause encdec = INC_297
-  <-> 0b11111110 @ 0b00 @ 0b000 @ b16
-
-// inc BYTE [a16]
-mapping clause encdec = INC_298
-  <-> 0b11111110 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// inc BYTE [b16xd8]
-mapping clause encdec = INC_299
-  <-> 0b11111110 @ 0b01 @ 0b000 @ b16x @ d8
-
-// inc BYTE [b16xd16]
-mapping clause encdec = INC_300
-  <-> 0b11111110 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8]
-
-// inc rm16
-mapping clause encdec = INC_301
-  <-> 0b11111111 @ 0b11 @ 0b000 @ rm16
-
-// inc WORD [b16]
-mapping clause encdec = INC_302
-  <-> 0b11111111 @ 0b00 @ 0b000 @ b16
-
-// inc WORD [a16]
-mapping clause encdec = INC_303
-  <-> 0b11111111 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// inc WORD [b16xd8]
-mapping clause encdec = INC_304
-  <-> 0b11111111 @ 0b01 @ 0b000 @ b16x @ d8
-
-// inc WORD [b16xd16]
-mapping clause encdec = INC_305
-  <-> 0b11111111 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8]
+  <-> 0x83 @ modrm(rm, 0b000) @ imm8
+
+// or r/m8, r8
+mapping clause encdec = OR_9
+  <-> 0x08 @ modrm(rm, reg)
+
+// or r/m16, r16
+mapping clause encdec = OR_10
+  <-> 0x09 @ modrm(rm, reg)
+
+// or r8, r/m8
+mapping clause encdec = OR_11
+  <-> 0x0a @ modrm(rm, reg)
+
+// or r16, r/m16
+mapping clause encdec = OR_12
+  <-> 0x0b @ modrm(rm, reg)
+
+// or AL, imm8
+mapping clause encdec = OR_13
+  <-> 0x0c @ imm8
+
+// or AX, imm16
+mapping clause encdec = OR_14
+  <-> 0x0d @ imm16_le
+
+// or r/m8, imm8
+mapping clause encdec = OR_15
+  <-> 0x80 @ modrm(rm, 0b001) @ imm8
+
+// or r/m16, imm16
+mapping clause encdec = OR_16
+  <-> 0x81 @ modrm(rm, 0b001) @ imm16_le
+
+// or r/m16, simm8
+mapping clause encdec = OR_17
+  <-> 0x83 @ modrm(rm, 0b001) @ imm8
+
+// adc r/m8, r8
+mapping clause encdec = ADC_18
+  <-> 0x10 @ modrm(rm, reg)
+
+// adc r/m16, r16
+mapping clause encdec = ADC_19
+  <-> 0x11 @ modrm(rm, reg)
+
+// adc r8, r/m8
+mapping clause encdec = ADC_20
+  <-> 0x12 @ modrm(rm, reg)
+
+// adc r16, r/m16
+mapping clause encdec = ADC_21
+  <-> 0x13 @ modrm(rm, reg)
+
+// adc AL, imm8
+mapping clause encdec = ADC_22
+  <-> 0x14 @ imm8
+
+// adc AX, imm16
+mapping clause encdec = ADC_23
+  <-> 0x15 @ imm16_le
+
+// adc r/m8, imm8
+mapping clause encdec = ADC_24
+  <-> 0x80 @ modrm(rm, 0b010) @ imm8
+
+// adc r/m16, imm16
+mapping clause encdec = ADC_25
+  <-> 0x81 @ modrm(rm, 0b010) @ imm16_le
+
+// adc r/m16, simm8
+mapping clause encdec = ADC_26
+  <-> 0x83 @ modrm(rm, 0b010) @ imm8
+
+// sbb r/m8, r8
+mapping clause encdec = SBB_27
+  <-> 0x18 @ modrm(rm, reg)
+
+// sbb r/m16, r16
+mapping clause encdec = SBB_28
+  <-> 0x19 @ modrm(rm, reg)
+
+// sbb r8, r/m8
+mapping clause encdec = SBB_29
+  <-> 0x1a @ modrm(rm, reg)
+
+// sbb r16, r/m16
+mapping clause encdec = SBB_30
+  <-> 0x1b @ modrm(rm, reg)
+
+// sbb AL, imm8
+mapping clause encdec = SBB_31
+  <-> 0x1c @ imm8
+
+// sbb AX, imm16
+mapping clause encdec = SBB_32
+  <-> 0x1d @ imm16_le
+
+// sbb r/m8, imm8
+mapping clause encdec = SBB_33
+  <-> 0x80 @ modrm(rm, 0b011) @ imm8
+
+// sbb r/m16, imm16
+mapping clause encdec = SBB_34
+  <-> 0x81 @ modrm(rm, 0b011) @ imm16_le
+
+// sbb r/m16, simm8
+mapping clause encdec = SBB_35
+  <-> 0x83 @ modrm(rm, 0b011) @ imm8
+
+// and r/m8, r8
+mapping clause encdec = AND_36
+  <-> 0x20 @ modrm(rm, reg)
+
+// and r/m16, r16
+mapping clause encdec = AND_37
+  <-> 0x21 @ modrm(rm, reg)
+
+// and r8, r/m8
+mapping clause encdec = AND_38
+  <-> 0x22 @ modrm(rm, reg)
+
+// and r16, r/m16
+mapping clause encdec = AND_39
+  <-> 0x23 @ modrm(rm, reg)
+
+// and AL, imm8
+mapping clause encdec = AND_40
+  <-> 0x24 @ imm8
+
+// and AX, imm16
+mapping clause encdec = AND_41
+  <-> 0x25 @ imm16_le
+
+// and r/m8, imm8
+mapping clause encdec = AND_42
+  <-> 0x80 @ modrm(rm, 0b100) @ imm8
+
+// and r/m16, imm16
+mapping clause encdec = AND_43
+  <-> 0x81 @ modrm(rm, 0b100) @ imm16_le
+
+// and r/m16, simm8
+mapping clause encdec = AND_44
+  <-> 0x83 @ modrm(rm, 0b100) @ imm8
+
+// sub r/m8, r8
+mapping clause encdec = SUB_45
+  <-> 0x28 @ modrm(rm, reg)
+
+// sub r/m16, r16
+mapping clause encdec = SUB_46
+  <-> 0x29 @ modrm(rm, reg)
+
+// sub r8, r/m8
+mapping clause encdec = SUB_47
+  <-> 0x2a @ modrm(rm, reg)
+
+// sub r16, r/m16
+mapping clause encdec = SUB_48
+  <-> 0x2b @ modrm(rm, reg)
+
+// sub AL, imm8
+mapping clause encdec = SUB_49
+  <-> 0x2c @ imm8
+
+// sub AX, imm16
+mapping clause encdec = SUB_50
+  <-> 0x2d @ imm16_le
+
+// sub r/m8, imm8
+mapping clause encdec = SUB_51
+  <-> 0x80 @ modrm(rm, 0b101) @ imm8
+
+// sub r/m16, imm16
+mapping clause encdec = SUB_52
+  <-> 0x81 @ modrm(rm, 0b101) @ imm16_le
+
+// sub r/m16, simm8
+mapping clause encdec = SUB_53
+  <-> 0x83 @ modrm(rm, 0b101) @ imm8
+
+// xor r/m8, r8
+mapping clause encdec = XOR_54
+  <-> 0x30 @ modrm(rm, reg)
+
+// xor r/m16, r16
+mapping clause encdec = XOR_55
+  <-> 0x31 @ modrm(rm, reg)
+
+// xor r8, r/m8
+mapping clause encdec = XOR_56
+  <-> 0x32 @ modrm(rm, reg)
+
+// xor r16, r/m16
+mapping clause encdec = XOR_57
+  <-> 0x33 @ modrm(rm, reg)
+
+// xor AL, imm8
+mapping clause encdec = XOR_58
+  <-> 0x34 @ imm8
+
+// xor AX, imm16
+mapping clause encdec = XOR_59
+  <-> 0x35 @ imm16_le
+
+// xor r/m8, imm8
+mapping clause encdec = XOR_60
+  <-> 0x80 @ modrm(rm, 0b110) @ imm8
+
+// xor r/m16, imm16
+mapping clause encdec = XOR_61
+  <-> 0x81 @ modrm(rm, 0b110) @ imm16_le
+
+// xor r/m16, simm8
+mapping clause encdec = XOR_62
+  <-> 0x83 @ modrm(rm, 0b110) @ imm8
+
+// cmp r/m8, r8
+mapping clause encdec = CMP_63
+  <-> 0x38 @ modrm(rm, reg)
+
+// cmp r/m16, r16
+mapping clause encdec = CMP_64
+  <-> 0x39 @ modrm(rm, reg)
+
+// cmp r8, r/m8
+mapping clause encdec = CMP_65
+  <-> 0x3a @ modrm(rm, reg)
+
+// cmp r16, r/m16
+mapping clause encdec = CMP_66
+  <-> 0x3b @ modrm(rm, reg)
+
+// cmp AL, imm8
+mapping clause encdec = CMP_67
+  <-> 0x3c @ imm8
+
+// cmp AX, imm16
+mapping clause encdec = CMP_68
+  <-> 0x3d @ imm16_le
+
+// cmp r/m8, imm8
+mapping clause encdec = CMP_69
+  <-> 0x80 @ modrm(rm, 0b111) @ imm8
+
+// cmp r/m16, imm16
+mapping clause encdec = CMP_70
+  <-> 0x81 @ modrm(rm, 0b111) @ imm16_le
+
+// cmp r/m16, simm8
+mapping clause encdec = CMP_71
+  <-> 0x83 @ modrm(rm, 0b111) @ imm8
+
+// inc r/m8
+mapping clause encdec = INC_72
+  <-> 0xfe @ modrm(rm, 0b000)
+
+// inc r/m16
+mapping clause encdec = INC_73
+  <-> 0xff @ modrm(rm, 0b000)
 
 // inc r16
-mapping clause encdec = INC_306
-  <-> 0b01000 @ r16
+mapping clause encdec = INC_74
+  <-> 0b01000 @ reg
 
-// dec rm8
-mapping clause encdec = DEC_307
-  <-> 0b11111110 @ 0b11 @ 0b001 @ rm8
+// dec r/m8
+mapping clause encdec = DEC_75
+  <-> 0xfe @ modrm(rm, 0b001)
 
-// dec BYTE [b16]
-mapping clause encdec = DEC_308
-  <-> 0b11111110 @ 0b00 @ 0b001 @ b16
-
-// dec BYTE [a16]
-mapping clause encdec = DEC_309
-  <-> 0b11111110 @ 0b00 @ 0b001 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// dec BYTE [b16xd8]
-mapping clause encdec = DEC_310
-  <-> 0b11111110 @ 0b01 @ 0b001 @ b16x @ d8
-
-// dec BYTE [b16xd16]
-mapping clause encdec = DEC_311
-  <-> 0b11111110 @ 0b10 @ 0b001 @ b16x @ d16[7..0] @ d16[15..8]
-
-// dec rm16
-mapping clause encdec = DEC_312
-  <-> 0b11111111 @ 0b11 @ 0b001 @ rm16
-
-// dec WORD [b16]
-mapping clause encdec = DEC_313
-  <-> 0b11111111 @ 0b00 @ 0b001 @ b16
-
-// dec WORD [a16]
-mapping clause encdec = DEC_314
-  <-> 0b11111111 @ 0b00 @ 0b001 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// dec WORD [b16xd8]
-mapping clause encdec = DEC_315
-  <-> 0b11111111 @ 0b01 @ 0b001 @ b16x @ d8
-
-// dec WORD [b16xd16]
-mapping clause encdec = DEC_316
-  <-> 0b11111111 @ 0b10 @ 0b001 @ b16x @ d16[7..0] @ d16[15..8]
+// dec r/m16
+mapping clause encdec = DEC_76
+  <-> 0xff @ modrm(rm, 0b001)
 
 // dec r16
-mapping clause encdec = DEC_317
-  <-> 0b01001 @ r16
-
-// not rm8
-mapping clause encdec = NOT_318
-  <-> 0b11110110 @ 0b11 @ 0b010 @ rm8
-
-// not BYTE [b16]
-mapping clause encdec = NOT_319
-  <-> 0b11110110 @ 0b00 @ 0b010 @ b16
-
-// not BYTE [a16]
-mapping clause encdec = NOT_320
-  <-> 0b11110110 @ 0b00 @ 0b010 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// not BYTE [b16xd8]
-mapping clause encdec = NOT_321
-  <-> 0b11110110 @ 0b01 @ 0b010 @ b16x @ d8
-
-// not BYTE [b16xd16]
-mapping clause encdec = NOT_322
-  <-> 0b11110110 @ 0b10 @ 0b010 @ b16x @ d16[7..0] @ d16[15..8]
-
-// not rm16
-mapping clause encdec = NOT_323
-  <-> 0b11110111 @ 0b11 @ 0b010 @ rm16
-
-// not WORD [b16]
-mapping clause encdec = NOT_324
-  <-> 0b11110111 @ 0b00 @ 0b010 @ b16
-
-// not WORD [a16]
-mapping clause encdec = NOT_325
-  <-> 0b11110111 @ 0b00 @ 0b010 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// not WORD [b16xd8]
-mapping clause encdec = NOT_326
-  <-> 0b11110111 @ 0b01 @ 0b010 @ b16x @ d8
-
-// not WORD [b16xd16]
-mapping clause encdec = NOT_327
-  <-> 0b11110111 @ 0b10 @ 0b010 @ b16x @ d16[7..0] @ d16[15..8]
-
-// neg rm8
-mapping clause encdec = NEG_328
-  <-> 0b11110110 @ 0b11 @ 0b011 @ rm8
-
-// neg BYTE [b16]
-mapping clause encdec = NEG_329
-  <-> 0b11110110 @ 0b00 @ 0b011 @ b16
-
-// neg BYTE [a16]
-mapping clause encdec = NEG_330
-  <-> 0b11110110 @ 0b00 @ 0b011 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// neg BYTE [b16xd8]
-mapping clause encdec = NEG_331
-  <-> 0b11110110 @ 0b01 @ 0b011 @ b16x @ d8
-
-// neg BYTE [b16xd16]
-mapping clause encdec = NEG_332
-  <-> 0b11110110 @ 0b10 @ 0b011 @ b16x @ d16[7..0] @ d16[15..8]
-
-// neg rm16
-mapping clause encdec = NEG_333
-  <-> 0b11110111 @ 0b11 @ 0b011 @ rm16
-
-// neg WORD [b16]
-mapping clause encdec = NEG_334
-  <-> 0b11110111 @ 0b00 @ 0b011 @ b16
-
-// neg WORD [a16]
-mapping clause encdec = NEG_335
-  <-> 0b11110111 @ 0b00 @ 0b011 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// neg WORD [b16xd8]
-mapping clause encdec = NEG_336
-  <-> 0b11110111 @ 0b01 @ 0b011 @ b16x @ d8
-
-// neg WORD [b16xd16]
-mapping clause encdec = NEG_337
-  <-> 0b11110111 @ 0b10 @ 0b011 @ b16x @ d16[7..0] @ d16[15..8]
-
-// mul rm8
-mapping clause encdec = MUL_338
-  <-> 0b11110110 @ 0b11 @ 0b100 @ rm8
-
-// mul BYTE [b16]
-mapping clause encdec = MUL_339
-  <-> 0b11110110 @ 0b00 @ 0b100 @ b16
-
-// mul BYTE [a16]
-mapping clause encdec = MUL_340
-  <-> 0b11110110 @ 0b00 @ 0b100 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// mul BYTE [b16xd8]
-mapping clause encdec = MUL_341
-  <-> 0b11110110 @ 0b01 @ 0b100 @ b16x @ d8
-
-// mul BYTE [b16xd16]
-mapping clause encdec = MUL_342
-  <-> 0b11110110 @ 0b10 @ 0b100 @ b16x @ d16[7..0] @ d16[15..8]
-
-// mul rm16
-mapping clause encdec = MUL_343
-  <-> 0b11110111 @ 0b11 @ 0b100 @ rm16
-
-// mul WORD [b16]
-mapping clause encdec = MUL_344
-  <-> 0b11110111 @ 0b00 @ 0b100 @ b16
-
-// mul WORD [a16]
-mapping clause encdec = MUL_345
-  <-> 0b11110111 @ 0b00 @ 0b100 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// mul WORD [b16xd8]
-mapping clause encdec = MUL_346
-  <-> 0b11110111 @ 0b01 @ 0b100 @ b16x @ d8
-
-// mul WORD [b16xd16]
-mapping clause encdec = MUL_347
-  <-> 0b11110111 @ 0b10 @ 0b100 @ b16x @ d16[7..0] @ d16[15..8]
-
-// imul rm8
-mapping clause encdec = IMUL_348
-  <-> 0b11110110 @ 0b11 @ 0b101 @ rm8
-
-// imul BYTE [b16]
-mapping clause encdec = IMUL_349
-  <-> 0b11110110 @ 0b00 @ 0b101 @ b16
-
-// imul BYTE [a16]
-mapping clause encdec = IMUL_350
-  <-> 0b11110110 @ 0b00 @ 0b101 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// imul BYTE [b16xd8]
-mapping clause encdec = IMUL_351
-  <-> 0b11110110 @ 0b01 @ 0b101 @ b16x @ d8
-
-// imul BYTE [b16xd16]
-mapping clause encdec = IMUL_352
-  <-> 0b11110110 @ 0b10 @ 0b101 @ b16x @ d16[7..0] @ d16[15..8]
-
-// imul rm16
-mapping clause encdec = IMUL_353
-  <-> 0b11110111 @ 0b11 @ 0b101 @ rm16
-
-// imul WORD [b16]
-mapping clause encdec = IMUL_354
-  <-> 0b11110111 @ 0b00 @ 0b101 @ b16
-
-// imul WORD [a16]
-mapping clause encdec = IMUL_355
-  <-> 0b11110111 @ 0b00 @ 0b101 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// imul WORD [b16xd8]
-mapping clause encdec = IMUL_356
-  <-> 0b11110111 @ 0b01 @ 0b101 @ b16x @ d8
-
-// imul WORD [b16xd16]
-mapping clause encdec = IMUL_357
-  <-> 0b11110111 @ 0b10 @ 0b101 @ b16x @ d16[7..0] @ d16[15..8]
-
-// div rm8
-mapping clause encdec = DIV_358
-  <-> 0b11110110 @ 0b11 @ 0b110 @ rm8
-
-// div BYTE [b16]
-mapping clause encdec = DIV_359
-  <-> 0b11110110 @ 0b00 @ 0b110 @ b16
-
-// div BYTE [a16]
-mapping clause encdec = DIV_360
-  <-> 0b11110110 @ 0b00 @ 0b110 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// div BYTE [b16xd8]
-mapping clause encdec = DIV_361
-  <-> 0b11110110 @ 0b01 @ 0b110 @ b16x @ d8
-
-// div BYTE [b16xd16]
-mapping clause encdec = DIV_362
-  <-> 0b11110110 @ 0b10 @ 0b110 @ b16x @ d16[7..0] @ d16[15..8]
-
-// div rm16
-mapping clause encdec = DIV_363
-  <-> 0b11110111 @ 0b11 @ 0b110 @ rm16
-
-// div WORD [b16]
-mapping clause encdec = DIV_364
-  <-> 0b11110111 @ 0b00 @ 0b110 @ b16
-
-// div WORD [a16]
-mapping clause encdec = DIV_365
-  <-> 0b11110111 @ 0b00 @ 0b110 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// div WORD [b16xd8]
-mapping clause encdec = DIV_366
-  <-> 0b11110111 @ 0b01 @ 0b110 @ b16x @ d8
-
-// div WORD [b16xd16]
-mapping clause encdec = DIV_367
-  <-> 0b11110111 @ 0b10 @ 0b110 @ b16x @ d16[7..0] @ d16[15..8]
-
-// idiv rm8
-mapping clause encdec = IDIV_368
-  <-> 0b11110110 @ 0b11 @ 0b111 @ rm8
-
-// idiv BYTE [b16]
-mapping clause encdec = IDIV_369
-  <-> 0b11110110 @ 0b00 @ 0b111 @ b16
-
-// idiv BYTE [a16]
-mapping clause encdec = IDIV_370
-  <-> 0b11110110 @ 0b00 @ 0b111 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// idiv BYTE [b16xd8]
-mapping clause encdec = IDIV_371
-  <-> 0b11110110 @ 0b01 @ 0b111 @ b16x @ d8
-
-// idiv BYTE [b16xd16]
-mapping clause encdec = IDIV_372
-  <-> 0b11110110 @ 0b10 @ 0b111 @ b16x @ d16[7..0] @ d16[15..8]
-
-// idiv rm16
-mapping clause encdec = IDIV_373
-  <-> 0b11110111 @ 0b11 @ 0b111 @ rm16
-
-// idiv WORD [b16]
-mapping clause encdec = IDIV_374
-  <-> 0b11110111 @ 0b00 @ 0b111 @ b16
-
-// idiv WORD [a16]
-mapping clause encdec = IDIV_375
-  <-> 0b11110111 @ 0b00 @ 0b111 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// idiv WORD [b16xd8]
-mapping clause encdec = IDIV_376
-  <-> 0b11110111 @ 0b01 @ 0b111 @ b16x @ d8
-
-// idiv WORD [b16xd16]
-mapping clause encdec = IDIV_377
-  <-> 0b11110111 @ 0b10 @ 0b111 @ b16x @ d16[7..0] @ d16[15..8]
-
-// test rm8, r8
-mapping clause encdec = TEST_378
-  <-> 0b10000100 @ 0b11 @ r8 @ rm8
-
-// test [b16], r8
-mapping clause encdec = TEST_379
-  <-> 0b10000100 @ 0b00 @ r8 @ b16
-
-// test [a16], r8
-mapping clause encdec = TEST_380
-  <-> 0b10000100 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// test [b16xd8], r8
-mapping clause encdec = TEST_381
-  <-> 0b10000100 @ 0b01 @ r8 @ b16x @ d8
-
-// test [b16xd16], r8
-mapping clause encdec = TEST_382
-  <-> 0b10000100 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// test rm16, r16
-mapping clause encdec = TEST_383
-  <-> 0b10000101 @ 0b11 @ r16 @ rm16
-
-// test [b16], r16
-mapping clause encdec = TEST_384
-  <-> 0b10000101 @ 0b00 @ r16 @ b16
-
-// test [a16], r16
-mapping clause encdec = TEST_385
-  <-> 0b10000101 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// test [b16xd8], r16
-mapping clause encdec = TEST_386
-  <-> 0b10000101 @ 0b01 @ r16 @ b16x @ d8
-
-// test [b16xd16], r16
-mapping clause encdec = TEST_387
-  <-> 0b10000101 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// test AL, imm
-mapping clause encdec = TEST_388
-  <-> 0b10101000 @ imm[7..0]
-
-// test AX, imm
-mapping clause encdec = TEST_389
-  <-> 0b10101001 @ imm[7..0] @ 15..8
-
-// test rm8, imm
-mapping clause encdec = TEST_390
-  <-> 0b11110110 @ 0b11 @ 0b000 @ rm8 @ imm[7..0]
-
-// test BYTE [b16], imm
-mapping clause encdec = TEST_391
-  <-> 0b11110110 @ 0b00 @ 0b000 @ b16 @ imm[7..0]
-
-// test BYTE [a16], imm
-mapping clause encdec = TEST_392
-  <-> 0b11110110 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0]
-
-// test BYTE [b16xd8], imm
-mapping clause encdec = TEST_393
-  <-> 0b11110110 @ 0b01 @ 0b000 @ b16x @ d8 @ imm[7..0]
-
-// test BYTE [b16xd16], imm
-mapping clause encdec = TEST_394
-  <-> 0b11110110 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0]
-
-// test rm16, imm
-mapping clause encdec = TEST_395
-  <-> 0b11110111 @ 0b11 @ 0b000 @ rm16 @ imm[7..0] @ 15..8
-
-// test WORD [b16], imm
-mapping clause encdec = TEST_396
-  <-> 0b11110111 @ 0b00 @ 0b000 @ b16 @ imm[7..0] @ 15..8
-
-// test WORD [a16], imm
-mapping clause encdec = TEST_397
-  <-> 0b11110111 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0] @ 15..8
-
-// test WORD [b16xd8], imm
-mapping clause encdec = TEST_398
-  <-> 0b11110111 @ 0b01 @ 0b000 @ b16x @ d8 @ imm[7..0] @ 15..8
-
-// test WORD [b16xd16], imm
-mapping clause encdec = TEST_399
-  <-> 0b11110111 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0] @ 15..8
-
-// mov rm8, r8
-mapping clause encdec = MOV_400
-  <-> 0b10001000 @ 0b11 @ r8 @ rm8
-
-// mov [b16], r8
-mapping clause encdec = MOV_401
-  <-> 0b10001000 @ 0b00 @ r8 @ b16
-
-// mov [a16], r8
-mapping clause encdec = MOV_402
-  <-> 0b10001000 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// mov [b16xd8], r8
-mapping clause encdec = MOV_403
-  <-> 0b10001000 @ 0b01 @ r8 @ b16x @ d8
-
-// mov [b16xd16], r8
-mapping clause encdec = MOV_404
-  <-> 0b10001000 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// mov rm16, r16
-mapping clause encdec = MOV_405
-  <-> 0b10001001 @ 0b11 @ r16 @ rm16
-
-// mov [b16], r16
-mapping clause encdec = MOV_406
-  <-> 0b10001001 @ 0b00 @ r16 @ b16
-
-// mov [a16], r16
-mapping clause encdec = MOV_407
-  <-> 0b10001001 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// mov [b16xd8], r16
-mapping clause encdec = MOV_408
-  <-> 0b10001001 @ 0b01 @ r16 @ b16x @ d8
-
-// mov [b16xd16], r16
-mapping clause encdec = MOV_409
-  <-> 0b10001001 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// mov r8, rm8
-mapping clause encdec = MOV_410
-  <-> 0b10001010 @ 0b11 @ r8 @ rm8
-
-// mov r8, [b16]
-mapping clause encdec = MOV_411
-  <-> 0b10001010 @ 0b00 @ r8 @ b16
-
-// mov r8, [a16]
-mapping clause encdec = MOV_412
-  <-> 0b10001010 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// mov r8, [b16xd8]
-mapping clause encdec = MOV_413
-  <-> 0b10001010 @ 0b01 @ r8 @ b16x @ d8
-
-// mov r8, [b16xd16]
-mapping clause encdec = MOV_414
-  <-> 0b10001010 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// mov r16, rm16
-mapping clause encdec = MOV_415
-  <-> 0b10001011 @ 0b11 @ r16 @ rm16
-
-// mov r16, [b16]
-mapping clause encdec = MOV_416
-  <-> 0b10001011 @ 0b00 @ r16 @ b16
-
-// mov r16, [a16]
-mapping clause encdec = MOV_417
-  <-> 0b10001011 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// mov r16, [b16xd8]
-mapping clause encdec = MOV_418
-  <-> 0b10001011 @ 0b01 @ r16 @ b16x @ d8
-
-// mov r16, [b16xd16]
-mapping clause encdec = MOV_419
-  <-> 0b10001011 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// mov rm16, sreg
-mapping clause encdec = MOV_420
-  <-> 0b10001100 @ 0b11 @ 0b0 @ sreg @ rm16
-
-// mov [b16], sreg
-mapping clause encdec = MOV_421
-  <-> 0b10001100 @ 0b00 @ 0b0 @ sreg @ b16
-
-// mov [a16], sreg
-mapping clause encdec = MOV_422
-  <-> 0b10001100 @ 0b00 @ 0b0 @ sreg @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// mov [b16xd8], sreg
-mapping clause encdec = MOV_423
-  <-> 0b10001100 @ 0b01 @ 0b0 @ sreg @ b16x @ d8
-
-// mov [b16xd16], sreg
-mapping clause encdec = MOV_424
-  <-> 0b10001100 @ 0b10 @ 0b0 @ sreg @ b16x @ d16[7..0] @ d16[15..8]
-
-// mov sreg, rm16
-mapping clause encdec = MOV_425
-  <-> 0b10001110 @ 0b11 @ 0b0 @ sreg @ rm16
-
-// mov sreg, [b16]
-mapping clause encdec = MOV_426
-  <-> 0b10001110 @ 0b00 @ 0b0 @ sreg @ b16
-
-// mov sreg, [a16]
-mapping clause encdec = MOV_427
-  <-> 0b10001110 @ 0b00 @ 0b0 @ sreg @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// mov sreg, [b16xd8]
-mapping clause encdec = MOV_428
-  <-> 0b10001110 @ 0b01 @ 0b0 @ sreg @ b16x @ d8
-
-// mov sreg, [b16xd16]
-mapping clause encdec = MOV_429
-  <-> 0b10001110 @ 0b10 @ 0b0 @ sreg @ b16x @ d16[7..0] @ d16[15..8]
-
-// mov AL, [imm]
-mapping clause encdec = MOV_430
-  <-> 0b10100000 @ imm[7..0] @ 15..8
-
-// mov AX, [imm]
-mapping clause encdec = MOV_431
-  <-> 0b10100001 @ imm[7..0] @ 15..8
-
-// mov [imm], AL
-mapping clause encdec = MOV_432
-  <-> 0b10100010 @ imm[7..0] @ 15..8
-
-// mov [imm], AX
-mapping clause encdec = MOV_433
-  <-> 0b10100011 @ imm[7..0] @ 15..8
-
-// mov r8, imm
-mapping clause encdec = MOV_434
-  <-> 0b10110 @ r8 @ imm[7..0]
-
-// mov r16, imm
-mapping clause encdec = MOV_435
-  <-> 0b10111 @ r16 @ imm[7..0] @ 15..8
-
-// mov rm8, imm
-mapping clause encdec = MOV_436
-  <-> 0b11000110 @ 0b11 @ 0b000 @ rm8 @ imm[7..0]
-
-// mov BYTE [b16], imm
-mapping clause encdec = MOV_437
-  <-> 0b11000110 @ 0b00 @ 0b000 @ b16 @ imm[7..0]
-
-// mov BYTE [a16], imm
-mapping clause encdec = MOV_438
-  <-> 0b11000110 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0]
-
-// mov BYTE [b16xd8], imm
-mapping clause encdec = MOV_439
-  <-> 0b11000110 @ 0b01 @ 0b000 @ b16x @ d8 @ imm[7..0]
-
-// mov BYTE [b16xd16], imm
-mapping clause encdec = MOV_440
-  <-> 0b11000110 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0]
-
-// mov rm16, imm
-mapping clause encdec = MOV_441
-  <-> 0b11000111 @ 0b11 @ 0b000 @ rm16 @ imm[7..0] @ 15..8
-
-// mov WORD [b16], imm
-mapping clause encdec = MOV_442
-  <-> 0b11000111 @ 0b00 @ 0b000 @ b16 @ imm[7..0] @ 15..8
-
-// mov WORD [a16], imm
-mapping clause encdec = MOV_443
-  <-> 0b11000111 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8] @ imm[7..0] @ 15..8
-
-// mov WORD [b16xd8], imm
-mapping clause encdec = MOV_444
-  <-> 0b11000111 @ 0b01 @ 0b000 @ b16x @ d8 @ imm[7..0] @ 15..8
-
-// mov WORD [b16xd16], imm
-mapping clause encdec = MOV_445
-  <-> 0b11000111 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8] @ imm[7..0] @ 15..8
-
-// xchg rm8, r8
-mapping clause encdec = XCHG_446
-  <-> 0b10000110 @ 0b11 @ r8 @ rm8
-
-// xchg [b16], r8
-mapping clause encdec = XCHG_447
-  <-> 0b10000110 @ 0b00 @ r8 @ b16
-
-// xchg [a16], r8
-mapping clause encdec = XCHG_448
-  <-> 0b10000110 @ 0b00 @ r8 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// xchg [b16xd8], r8
-mapping clause encdec = XCHG_449
-  <-> 0b10000110 @ 0b01 @ r8 @ b16x @ d8
-
-// xchg [b16xd16], r8
-mapping clause encdec = XCHG_450
-  <-> 0b10000110 @ 0b10 @ r8 @ b16x @ d16[7..0] @ d16[15..8]
-
-// xchg rm16, r16
-mapping clause encdec = XCHG_451
-  <-> 0b10000111 @ 0b11 @ r16 @ rm16
-
-// xchg [b16], r16
-mapping clause encdec = XCHG_452
-  <-> 0b10000111 @ 0b00 @ r16 @ b16
-
-// xchg [a16], r16
-mapping clause encdec = XCHG_453
-  <-> 0b10000111 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// xchg [b16xd8], r16
-mapping clause encdec = XCHG_454
-  <-> 0b10000111 @ 0b01 @ r16 @ b16x @ d8
-
-// xchg [b16xd16], r16
-mapping clause encdec = XCHG_455
-  <-> 0b10000111 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
+mapping clause encdec = DEC_77
+  <-> 0b01001 @ reg
+
+// not r/m8
+mapping clause encdec = NOT_78
+  <-> 0xf6 @ modrm(rm, 0b010)
+
+// not r/m16
+mapping clause encdec = NOT_79
+  <-> 0xf7 @ modrm(rm, 0b010)
+
+// neg r/m8
+mapping clause encdec = NEG_80
+  <-> 0xf6 @ modrm(rm, 0b011)
+
+// neg r/m16
+mapping clause encdec = NEG_81
+  <-> 0xf7 @ modrm(rm, 0b011)
+
+// mul r/m8
+mapping clause encdec = MUL_82
+  <-> 0xf6 @ modrm(rm, 0b100)
+
+// mul r/m16
+mapping clause encdec = MUL_83
+  <-> 0xf7 @ modrm(rm, 0b100)
+
+// imul r/m8
+mapping clause encdec = IMUL_84
+  <-> 0xf6 @ modrm(rm, 0b101)
+
+// imul r/m16
+mapping clause encdec = IMUL_85
+  <-> 0xf7 @ modrm(rm, 0b101)
+
+// div r/m8
+mapping clause encdec = DIV_86
+  <-> 0xf6 @ modrm(rm, 0b110)
+
+// div r/m16
+mapping clause encdec = DIV_87
+  <-> 0xf7 @ modrm(rm, 0b110)
+
+// idiv r/m8
+mapping clause encdec = IDIV_88
+  <-> 0xf6 @ modrm(rm, 0b111)
+
+// idiv r/m16
+mapping clause encdec = IDIV_89
+  <-> 0xf7 @ modrm(rm, 0b111)
+
+// test r/m8, r8
+mapping clause encdec = TEST_90
+  <-> 0x84 @ modrm(rm, reg)
+
+// test r/m16, r16
+mapping clause encdec = TEST_91
+  <-> 0x85 @ modrm(rm, reg)
+
+// test AL, imm8
+mapping clause encdec = TEST_92
+  <-> 0xa8 @ imm8
+
+// test AX, imm16
+mapping clause encdec = TEST_93
+  <-> 0xa9 @ imm16_le
+
+// test r/m8, imm8
+mapping clause encdec = TEST_94
+  <-> 0xf6 @ modrm(rm, 0b000) @ imm8
+
+// test r/m16, imm16
+mapping clause encdec = TEST_95
+  <-> 0xf7 @ modrm(rm, 0b000) @ imm16_le
+
+// mov r/m8, r8
+mapping clause encdec = MOV_96
+  <-> 0x88 @ modrm(rm, reg)
+
+// mov r/m16, r16
+mapping clause encdec = MOV_97
+  <-> 0x89 @ modrm(rm, reg)
+
+// mov r8, r/m8
+mapping clause encdec = MOV_98
+  <-> 0x8a @ modrm(rm, reg)
+
+// mov r16, r/m16
+mapping clause encdec = MOV_99
+  <-> 0x8b @ modrm(rm, reg)
+
+// mov r/m16, Sreg (register form only)
+mapping clause encdec = MOV_100
+  <-> 0x8c @ modrm(rm, reg)
+
+// mov m16, Sreg
+mapping clause encdec = MOV_101
+  <-> 0x8c @ modrm(rm, reg)
+
+// mov Sreg, r/m16 (register form only)
+mapping clause encdec = MOV_102
+  <-> 0x8e @ modrm(rm, reg)
+
+// mov Sreg, m16
+mapping clause encdec = MOV_103
+  <-> 0x8e @ modrm(rm, reg)
+
+// mov AL, [moffs8]
+mapping clause encdec = MOV_104
+  <-> 0xa0 @ addr16_le
+
+// mov AX, [moffs16]
+mapping clause encdec = MOV_105
+  <-> 0xa1 @ addr16_le
+
+// mov [moffs8], AL
+mapping clause encdec = MOV_106
+  <-> 0xa2 @ addr16_le
+
+// mov [moffs16], AX
+mapping clause encdec = MOV_107
+  <-> 0xa3 @ addr16_le
+
+// mov r8, imm8
+mapping clause encdec = MOV_108
+  <-> 0b10110 @ reg @ imm8
+
+// mov r16, imm16
+mapping clause encdec = MOV_109
+  <-> 0b10111 @ reg @ imm16_le
+
+// mov r/m8, imm8
+mapping clause encdec = MOV_110
+  <-> 0xc6 @ modrm(rm, 0b000) @ imm8
+
+// mov r/m16, imm16
+mapping clause encdec = MOV_111
+  <-> 0xc7 @ modrm(rm, 0b000) @ imm16_le
+
+// xchg r/m8, r8
+mapping clause encdec = XCHG_112
+  <-> 0x86 @ modrm(rm, reg)
+
+// xchg r/m16, r16
+mapping clause encdec = XCHG_113
+  <-> 0x87 @ modrm(rm, reg)
 
 // xchg AX, r16
-mapping clause encdec = XCHG_456
-  <-> 0b10010 @ r16
+mapping clause encdec = XCHG_114
+  <-> 0b10010 @ reg
 
-// lea r16, [b16]
-mapping clause encdec = LEA_457
-  <-> 0b10001101 @ 0b00 @ r16 @ b16
+// lea r16, m
+mapping clause encdec = LEA_115
+  <-> 0x8d @ modrm(rm, reg)
 
-// lea r16, [a16]
-mapping clause encdec = LEA_458
-  <-> 0b10001101 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
+// lds r16, m16:16
+mapping clause encdec = LDS_116
+  <-> 0xc5 @ modrm(rm, reg)
 
-// lea r16, [b16xd8]
-mapping clause encdec = LEA_459
-  <-> 0b10001101 @ 0b01 @ r16 @ b16x @ d8
-
-// lea r16, [b16xd16]
-mapping clause encdec = LEA_460
-  <-> 0b10001101 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// lds r16, [b16]
-mapping clause encdec = LDS_461
-  <-> 0b11000101 @ 0b00 @ r16 @ b16
-
-// lds r16, [a16]
-mapping clause encdec = LDS_462
-  <-> 0b11000101 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// lds r16, [b16xd8]
-mapping clause encdec = LDS_463
-  <-> 0b11000101 @ 0b01 @ r16 @ b16x @ d8
-
-// lds r16, [b16xd16]
-mapping clause encdec = LDS_464
-  <-> 0b11000101 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
-
-// les r16, [b16]
-mapping clause encdec = LES_465
-  <-> 0b11000100 @ 0b00 @ r16 @ b16
-
-// les r16, [a16]
-mapping clause encdec = LES_466
-  <-> 0b11000100 @ 0b00 @ r16 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// les r16, [b16xd8]
-mapping clause encdec = LES_467
-  <-> 0b11000100 @ 0b01 @ r16 @ b16x @ d8
-
-// les r16, [b16xd16]
-mapping clause encdec = LES_468
-  <-> 0b11000100 @ 0b10 @ r16 @ b16x @ d16[7..0] @ d16[15..8]
+// les r16, m16:16
+mapping clause encdec = LES_117
+  <-> 0xc4 @ modrm(rm, reg)
 
 // push r16
-mapping clause encdec = PUSH_469
-  <-> 0b01010 @ r16
+mapping clause encdec = PUSH_118
+  <-> 0b01010 @ reg
 
 // pop r16
-mapping clause encdec = POP_470
-  <-> 0b01011 @ r16
+mapping clause encdec = POP_119
+  <-> 0b01011 @ reg
 
-// push rm16
-mapping clause encdec = PUSH_471
-  <-> 0b11111111 @ 0b11 @ 0b110 @ rm16
+// push r/m16
+mapping clause encdec = PUSH_120
+  <-> 0xff @ modrm(rm, 0b110)
 
-// push WORD [b16]
-mapping clause encdec = PUSH_472
-  <-> 0b11111111 @ 0b00 @ 0b110 @ b16
-
-// push WORD [a16]
-mapping clause encdec = PUSH_473
-  <-> 0b11111111 @ 0b00 @ 0b110 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// push WORD [b16xd8]
-mapping clause encdec = PUSH_474
-  <-> 0b11111111 @ 0b01 @ 0b110 @ b16x @ d8
-
-// push WORD [b16xd16]
-mapping clause encdec = PUSH_475
-  <-> 0b11111111 @ 0b10 @ 0b110 @ b16x @ d16[7..0] @ d16[15..8]
-
-// pop rm16
-mapping clause encdec = POP_476
-  <-> 0b10001111 @ 0b11 @ 0b000 @ rm16
-
-// pop WORD [b16]
-mapping clause encdec = POP_477
-  <-> 0b10001111 @ 0b00 @ 0b000 @ b16
-
-// pop WORD [a16]
-mapping clause encdec = POP_478
-  <-> 0b10001111 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// pop WORD [b16xd8]
-mapping clause encdec = POP_479
-  <-> 0b10001111 @ 0b01 @ 0b000 @ b16x @ d8
-
-// pop WORD [b16xd16]
-mapping clause encdec = POP_480
-  <-> 0b10001111 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8]
+// pop r/m16
+mapping clause encdec = POP_121
+  <-> 0x8f @ modrm(rm, 0b000)
 
 // push ES
-mapping clause encdec = PUSH_481
-  <-> 0b00000110
+mapping clause encdec = PUSH_122
+  <-> 0x06
 
 // pop ES
-mapping clause encdec = POP_482
-  <-> 0b00000111
+mapping clause encdec = POP_123
+  <-> 0x07
 
 // push CS
-mapping clause encdec = PUSH_483
-  <-> 0b00001110
+mapping clause encdec = PUSH_124
+  <-> 0x0e
 
 // push SS
-mapping clause encdec = PUSH_484
-  <-> 0b00010110
+mapping clause encdec = PUSH_125
+  <-> 0x16
 
 // pop SS
-mapping clause encdec = POP_485
-  <-> 0b00010111
+mapping clause encdec = POP_126
+  <-> 0x17
 
 // push DS
-mapping clause encdec = PUSH_486
-  <-> 0b00011110
+mapping clause encdec = PUSH_127
+  <-> 0x1e
 
 // pop DS
-mapping clause encdec = POP_487
-  <-> 0b00011111
+mapping clause encdec = POP_128
+  <-> 0x1f
 
-// pushf 
-mapping clause encdec = PUSHF_488
-  <-> 0b10011100
+// pushf
+mapping clause encdec = PUSHF_129
+  <-> 0x9c
 
-// popf 
-mapping clause encdec = POPF_489
-  <-> 0b10011101
+// popf
+mapping clause encdec = POPF_130
+  <-> 0x9d
 
-// lahf 
-mapping clause encdec = LAHF_490
-  <-> 0b10011111
+// lahf
+mapping clause encdec = LAHF_131
+  <-> 0x9f
 
-// sahf 
-mapping clause encdec = SAHF_491
-  <-> 0b10011110
+// sahf
+mapping clause encdec = SAHF_132
+  <-> 0x9e
 
-// in AL, imm
-mapping clause encdec = IN_492
-  <-> 0b11100100 @ imm[7..0]
+// in AL, imm8
+mapping clause encdec = IN_133
+  <-> 0xe4 @ imm8
 
-// in AX, imm
-mapping clause encdec = IN_493
-  <-> 0b11100101 @ imm[7..0]
+// in AX, imm8
+mapping clause encdec = IN_134
+  <-> 0xe5 @ imm8
 
-// out imm, AL
-mapping clause encdec = OUT_494
-  <-> 0b11100110 @ imm[7..0]
+// out imm8, AL
+mapping clause encdec = OUT_135
+  <-> 0xe6 @ imm8
 
-// out imm, AX
-mapping clause encdec = OUT_495
-  <-> 0b11100111 @ imm[7..0]
+// out imm8, AX
+mapping clause encdec = OUT_136
+  <-> 0xe7 @ imm8
 
 // in AL, DX
-mapping clause encdec = IN_496
-  <-> 0b11101100
+mapping clause encdec = IN_137
+  <-> 0xec
 
 // in AX, DX
-mapping clause encdec = IN_497
-  <-> 0b11101101
+mapping clause encdec = IN_138
+  <-> 0xed
 
 // out DX, AL
-mapping clause encdec = OUT_498
-  <-> 0b11101110
+mapping clause encdec = OUT_139
+  <-> 0xee
 
 // out DX, AX
-mapping clause encdec = OUT_499
-  <-> 0b11101111
-
-// xlatb 
-mapping clause encdec = XLATB_500
-  <-> 0b11010111
-
-// cbw 
-mapping clause encdec = CBW_501
-  <-> 0b10011000
-
-// cwd 
-mapping clause encdec = CWD_502
-  <-> 0b10011001
-
-// aaa 
-mapping clause encdec = AAA_503
-  <-> 0b00110111
-
-// aas 
-mapping clause encdec = AAS_504
-  <-> 0b00111111
-
-// daa 
-mapping clause encdec = DAA_505
-  <-> 0b00100111
-
-// das 
-mapping clause encdec = DAS_506
-  <-> 0b00101111
-
-// aam imm
-mapping clause encdec = AAM_507
-  <-> 0b11010100 @ imm[7..0]
-
-// aad imm
-mapping clause encdec = AAD_508
-  <-> 0b11010101 @ imm[7..0]
-
-// rol rm8, 1
-mapping clause encdec = ROL_509
-  <-> 0b11010000 @ 0b11 @ 0b000 @ rm8
-
-// rol BYTE [b16], 1
-mapping clause encdec = ROL_510
-  <-> 0b11010000 @ 0b00 @ 0b000 @ b16
-
-// rol BYTE [a16], 1
-mapping clause encdec = ROL_511
-  <-> 0b11010000 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// rol BYTE [b16xd8], 1
-mapping clause encdec = ROL_512
-  <-> 0b11010000 @ 0b01 @ 0b000 @ b16x @ d8
-
-// rol BYTE [b16xd16], 1
-mapping clause encdec = ROL_513
-  <-> 0b11010000 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8]
-
-// rol rm16, 1
-mapping clause encdec = ROL_514
-  <-> 0b11010001 @ 0b11 @ 0b000 @ rm16
-
-// rol WORD [b16], 1
-mapping clause encdec = ROL_515
-  <-> 0b11010001 @ 0b00 @ 0b000 @ b16
-
-// rol WORD [a16], 1
-mapping clause encdec = ROL_516
-  <-> 0b11010001 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// rol WORD [b16xd8], 1
-mapping clause encdec = ROL_517
-  <-> 0b11010001 @ 0b01 @ 0b000 @ b16x @ d8
-
-// rol WORD [b16xd16], 1
-mapping clause encdec = ROL_518
-  <-> 0b11010001 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8]
-
-// rol rm8, CL
-mapping clause encdec = ROL_519
-  <-> 0b11010010 @ 0b11 @ 0b000 @ rm8
-
-// rol BYTE [b16], CL
-mapping clause encdec = ROL_520
-  <-> 0b11010010 @ 0b00 @ 0b000 @ b16
-
-// rol BYTE [a16], CL
-mapping clause encdec = ROL_521
-  <-> 0b11010010 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// rol BYTE [b16xd8], CL
-mapping clause encdec = ROL_522
-  <-> 0b11010010 @ 0b01 @ 0b000 @ b16x @ d8
-
-// rol BYTE [b16xd16], CL
-mapping clause encdec = ROL_523
-  <-> 0b11010010 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8]
-
-// rol rm16, CL
-mapping clause encdec = ROL_524
-  <-> 0b11010011 @ 0b11 @ 0b000 @ rm16
-
-// rol WORD [b16], CL
-mapping clause encdec = ROL_525
-  <-> 0b11010011 @ 0b00 @ 0b000 @ b16
-
-// rol WORD [a16], CL
-mapping clause encdec = ROL_526
-  <-> 0b11010011 @ 0b00 @ 0b000 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// rol WORD [b16xd8], CL
-mapping clause encdec = ROL_527
-  <-> 0b11010011 @ 0b01 @ 0b000 @ b16x @ d8
-
-// rol WORD [b16xd16], CL
-mapping clause encdec = ROL_528
-  <-> 0b11010011 @ 0b10 @ 0b000 @ b16x @ d16[7..0] @ d16[15..8]
-
-// ror rm8, 1
-mapping clause encdec = ROR_529
-  <-> 0b11010000 @ 0b11 @ 0b001 @ rm8
-
-// ror BYTE [b16], 1
-mapping clause encdec = ROR_530
-  <-> 0b11010000 @ 0b00 @ 0b001 @ b16
-
-// ror BYTE [a16], 1
-mapping clause encdec = ROR_531
-  <-> 0b11010000 @ 0b00 @ 0b001 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// ror BYTE [b16xd8], 1
-mapping clause encdec = ROR_532
-  <-> 0b11010000 @ 0b01 @ 0b001 @ b16x @ d8
-
-// ror BYTE [b16xd16], 1
-mapping clause encdec = ROR_533
-  <-> 0b11010000 @ 0b10 @ 0b001 @ b16x @ d16[7..0] @ d16[15..8]
-
-// ror rm16, 1
-mapping clause encdec = ROR_534
-  <-> 0b11010001 @ 0b11 @ 0b001 @ rm16
-
-// ror WORD [b16], 1
-mapping clause encdec = ROR_535
-  <-> 0b11010001 @ 0b00 @ 0b001 @ b16
-
-// ror WORD [a16], 1
-mapping clause encdec = ROR_536
-  <-> 0b11010001 @ 0b00 @ 0b001 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// ror WORD [b16xd8], 1
-mapping clause encdec = ROR_537
-  <-> 0b11010001 @ 0b01 @ 0b001 @ b16x @ d8
-
-// ror WORD [b16xd16], 1
-mapping clause encdec = ROR_538
-  <-> 0b11010001 @ 0b10 @ 0b001 @ b16x @ d16[7..0] @ d16[15..8]
-
-// ror rm8, CL
-mapping clause encdec = ROR_539
-  <-> 0b11010010 @ 0b11 @ 0b001 @ rm8
-
-// ror BYTE [b16], CL
-mapping clause encdec = ROR_540
-  <-> 0b11010010 @ 0b00 @ 0b001 @ b16
-
-// ror BYTE [a16], CL
-mapping clause encdec = ROR_541
-  <-> 0b11010010 @ 0b00 @ 0b001 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// ror BYTE [b16xd8], CL
-mapping clause encdec = ROR_542
-  <-> 0b11010010 @ 0b01 @ 0b001 @ b16x @ d8
-
-// ror BYTE [b16xd16], CL
-mapping clause encdec = ROR_543
-  <-> 0b11010010 @ 0b10 @ 0b001 @ b16x @ d16[7..0] @ d16[15..8]
-
-// ror rm16, CL
-mapping clause encdec = ROR_544
-  <-> 0b11010011 @ 0b11 @ 0b001 @ rm16
-
-// ror WORD [b16], CL
-mapping clause encdec = ROR_545
-  <-> 0b11010011 @ 0b00 @ 0b001 @ b16
-
-// ror WORD [a16], CL
-mapping clause encdec = ROR_546
-  <-> 0b11010011 @ 0b00 @ 0b001 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// ror WORD [b16xd8], CL
-mapping clause encdec = ROR_547
-  <-> 0b11010011 @ 0b01 @ 0b001 @ b16x @ d8
-
-// ror WORD [b16xd16], CL
-mapping clause encdec = ROR_548
-  <-> 0b11010011 @ 0b10 @ 0b001 @ b16x @ d16[7..0] @ d16[15..8]
-
-// rcl rm8, 1
-mapping clause encdec = RCL_549
-  <-> 0b11010000 @ 0b11 @ 0b010 @ rm8
-
-// rcl BYTE [b16], 1
-mapping clause encdec = RCL_550
-  <-> 0b11010000 @ 0b00 @ 0b010 @ b16
-
-// rcl BYTE [a16], 1
-mapping clause encdec = RCL_551
-  <-> 0b11010000 @ 0b00 @ 0b010 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// rcl BYTE [b16xd8], 1
-mapping clause encdec = RCL_552
-  <-> 0b11010000 @ 0b01 @ 0b010 @ b16x @ d8
-
-// rcl BYTE [b16xd16], 1
-mapping clause encdec = RCL_553
-  <-> 0b11010000 @ 0b10 @ 0b010 @ b16x @ d16[7..0] @ d16[15..8]
-
-// rcl rm16, 1
-mapping clause encdec = RCL_554
-  <-> 0b11010001 @ 0b11 @ 0b010 @ rm16
-
-// rcl WORD [b16], 1
-mapping clause encdec = RCL_555
-  <-> 0b11010001 @ 0b00 @ 0b010 @ b16
-
-// rcl WORD [a16], 1
-mapping clause encdec = RCL_556
-  <-> 0b11010001 @ 0b00 @ 0b010 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// rcl WORD [b16xd8], 1
-mapping clause encdec = RCL_557
-  <-> 0b11010001 @ 0b01 @ 0b010 @ b16x @ d8
-
-// rcl WORD [b16xd16], 1
-mapping clause encdec = RCL_558
-  <-> 0b11010001 @ 0b10 @ 0b010 @ b16x @ d16[7..0] @ d16[15..8]
-
-// rcl rm8, CL
-mapping clause encdec = RCL_559
-  <-> 0b11010010 @ 0b11 @ 0b010 @ rm8
-
-// rcl BYTE [b16], CL
-mapping clause encdec = RCL_560
-  <-> 0b11010010 @ 0b00 @ 0b010 @ b16
-
-// rcl BYTE [a16], CL
-mapping clause encdec = RCL_561
-  <-> 0b11010010 @ 0b00 @ 0b010 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// rcl BYTE [b16xd8], CL
-mapping clause encdec = RCL_562
-  <-> 0b11010010 @ 0b01 @ 0b010 @ b16x @ d8
-
-// rcl BYTE [b16xd16], CL
-mapping clause encdec = RCL_563
-  <-> 0b11010010 @ 0b10 @ 0b010 @ b16x @ d16[7..0] @ d16[15..8]
-
-// rcl rm16, CL
-mapping clause encdec = RCL_564
-  <-> 0b11010011 @ 0b11 @ 0b010 @ rm16
-
-// rcl WORD [b16], CL
-mapping clause encdec = RCL_565
-  <-> 0b11010011 @ 0b00 @ 0b010 @ b16
-
-// rcl WORD [a16], CL
-mapping clause encdec = RCL_566
-  <-> 0b11010011 @ 0b00 @ 0b010 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// rcl WORD [b16xd8], CL
-mapping clause encdec = RCL_567
-  <-> 0b11010011 @ 0b01 @ 0b010 @ b16x @ d8
-
-// rcl WORD [b16xd16], CL
-mapping clause encdec = RCL_568
-  <-> 0b11010011 @ 0b10 @ 0b010 @ b16x @ d16[7..0] @ d16[15..8]
-
-// rcr rm8, 1
-mapping clause encdec = RCR_569
-  <-> 0b11010000 @ 0b11 @ 0b011 @ rm8
-
-// rcr BYTE [b16], 1
-mapping clause encdec = RCR_570
-  <-> 0b11010000 @ 0b00 @ 0b011 @ b16
-
-// rcr BYTE [a16], 1
-mapping clause encdec = RCR_571
-  <-> 0b11010000 @ 0b00 @ 0b011 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// rcr BYTE [b16xd8], 1
-mapping clause encdec = RCR_572
-  <-> 0b11010000 @ 0b01 @ 0b011 @ b16x @ d8
-
-// rcr BYTE [b16xd16], 1
-mapping clause encdec = RCR_573
-  <-> 0b11010000 @ 0b10 @ 0b011 @ b16x @ d16[7..0] @ d16[15..8]
-
-// rcr rm16, 1
-mapping clause encdec = RCR_574
-  <-> 0b11010001 @ 0b11 @ 0b011 @ rm16
-
-// rcr WORD [b16], 1
-mapping clause encdec = RCR_575
-  <-> 0b11010001 @ 0b00 @ 0b011 @ b16
-
-// rcr WORD [a16], 1
-mapping clause encdec = RCR_576
-  <-> 0b11010001 @ 0b00 @ 0b011 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// rcr WORD [b16xd8], 1
-mapping clause encdec = RCR_577
-  <-> 0b11010001 @ 0b01 @ 0b011 @ b16x @ d8
-
-// rcr WORD [b16xd16], 1
-mapping clause encdec = RCR_578
-  <-> 0b11010001 @ 0b10 @ 0b011 @ b16x @ d16[7..0] @ d16[15..8]
-
-// rcr rm8, CL
-mapping clause encdec = RCR_579
-  <-> 0b11010010 @ 0b11 @ 0b011 @ rm8
-
-// rcr BYTE [b16], CL
-mapping clause encdec = RCR_580
-  <-> 0b11010010 @ 0b00 @ 0b011 @ b16
-
-// rcr BYTE [a16], CL
-mapping clause encdec = RCR_581
-  <-> 0b11010010 @ 0b00 @ 0b011 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// rcr BYTE [b16xd8], CL
-mapping clause encdec = RCR_582
-  <-> 0b11010010 @ 0b01 @ 0b011 @ b16x @ d8
-
-// rcr BYTE [b16xd16], CL
-mapping clause encdec = RCR_583
-  <-> 0b11010010 @ 0b10 @ 0b011 @ b16x @ d16[7..0] @ d16[15..8]
-
-// rcr rm16, CL
-mapping clause encdec = RCR_584
-  <-> 0b11010011 @ 0b11 @ 0b011 @ rm16
-
-// rcr WORD [b16], CL
-mapping clause encdec = RCR_585
-  <-> 0b11010011 @ 0b00 @ 0b011 @ b16
-
-// rcr WORD [a16], CL
-mapping clause encdec = RCR_586
-  <-> 0b11010011 @ 0b00 @ 0b011 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// rcr WORD [b16xd8], CL
-mapping clause encdec = RCR_587
-  <-> 0b11010011 @ 0b01 @ 0b011 @ b16x @ d8
-
-// rcr WORD [b16xd16], CL
-mapping clause encdec = RCR_588
-  <-> 0b11010011 @ 0b10 @ 0b011 @ b16x @ d16[7..0] @ d16[15..8]
-
-// shl rm8, 1
-mapping clause encdec = SHL_589
-  <-> 0b11010000 @ 0b11 @ 0b100 @ rm8
-
-// shl BYTE [b16], 1
-mapping clause encdec = SHL_590
-  <-> 0b11010000 @ 0b00 @ 0b100 @ b16
-
-// shl BYTE [a16], 1
-mapping clause encdec = SHL_591
-  <-> 0b11010000 @ 0b00 @ 0b100 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// shl BYTE [b16xd8], 1
-mapping clause encdec = SHL_592
-  <-> 0b11010000 @ 0b01 @ 0b100 @ b16x @ d8
-
-// shl BYTE [b16xd16], 1
-mapping clause encdec = SHL_593
-  <-> 0b11010000 @ 0b10 @ 0b100 @ b16x @ d16[7..0] @ d16[15..8]
-
-// shl rm16, 1
-mapping clause encdec = SHL_594
-  <-> 0b11010001 @ 0b11 @ 0b100 @ rm16
-
-// shl WORD [b16], 1
-mapping clause encdec = SHL_595
-  <-> 0b11010001 @ 0b00 @ 0b100 @ b16
-
-// shl WORD [a16], 1
-mapping clause encdec = SHL_596
-  <-> 0b11010001 @ 0b00 @ 0b100 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// shl WORD [b16xd8], 1
-mapping clause encdec = SHL_597
-  <-> 0b11010001 @ 0b01 @ 0b100 @ b16x @ d8
-
-// shl WORD [b16xd16], 1
-mapping clause encdec = SHL_598
-  <-> 0b11010001 @ 0b10 @ 0b100 @ b16x @ d16[7..0] @ d16[15..8]
-
-// shl rm8, CL
-mapping clause encdec = SHL_599
-  <-> 0b11010010 @ 0b11 @ 0b100 @ rm8
-
-// shl BYTE [b16], CL
-mapping clause encdec = SHL_600
-  <-> 0b11010010 @ 0b00 @ 0b100 @ b16
-
-// shl BYTE [a16], CL
-mapping clause encdec = SHL_601
-  <-> 0b11010010 @ 0b00 @ 0b100 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// shl BYTE [b16xd8], CL
-mapping clause encdec = SHL_602
-  <-> 0b11010010 @ 0b01 @ 0b100 @ b16x @ d8
-
-// shl BYTE [b16xd16], CL
-mapping clause encdec = SHL_603
-  <-> 0b11010010 @ 0b10 @ 0b100 @ b16x @ d16[7..0] @ d16[15..8]
-
-// shl rm16, CL
-mapping clause encdec = SHL_604
-  <-> 0b11010011 @ 0b11 @ 0b100 @ rm16
-
-// shl WORD [b16], CL
-mapping clause encdec = SHL_605
-  <-> 0b11010011 @ 0b00 @ 0b100 @ b16
-
-// shl WORD [a16], CL
-mapping clause encdec = SHL_606
-  <-> 0b11010011 @ 0b00 @ 0b100 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// shl WORD [b16xd8], CL
-mapping clause encdec = SHL_607
-  <-> 0b11010011 @ 0b01 @ 0b100 @ b16x @ d8
-
-// shl WORD [b16xd16], CL
-mapping clause encdec = SHL_608
-  <-> 0b11010011 @ 0b10 @ 0b100 @ b16x @ d16[7..0] @ d16[15..8]
-
-// shr rm8, 1
-mapping clause encdec = SHR_609
-  <-> 0b11010000 @ 0b11 @ 0b101 @ rm8
-
-// shr BYTE [b16], 1
-mapping clause encdec = SHR_610
-  <-> 0b11010000 @ 0b00 @ 0b101 @ b16
-
-// shr BYTE [a16], 1
-mapping clause encdec = SHR_611
-  <-> 0b11010000 @ 0b00 @ 0b101 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// shr BYTE [b16xd8], 1
-mapping clause encdec = SHR_612
-  <-> 0b11010000 @ 0b01 @ 0b101 @ b16x @ d8
-
-// shr BYTE [b16xd16], 1
-mapping clause encdec = SHR_613
-  <-> 0b11010000 @ 0b10 @ 0b101 @ b16x @ d16[7..0] @ d16[15..8]
-
-// shr rm16, 1
-mapping clause encdec = SHR_614
-  <-> 0b11010001 @ 0b11 @ 0b101 @ rm16
-
-// shr WORD [b16], 1
-mapping clause encdec = SHR_615
-  <-> 0b11010001 @ 0b00 @ 0b101 @ b16
-
-// shr WORD [a16], 1
-mapping clause encdec = SHR_616
-  <-> 0b11010001 @ 0b00 @ 0b101 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// shr WORD [b16xd8], 1
-mapping clause encdec = SHR_617
-  <-> 0b11010001 @ 0b01 @ 0b101 @ b16x @ d8
-
-// shr WORD [b16xd16], 1
-mapping clause encdec = SHR_618
-  <-> 0b11010001 @ 0b10 @ 0b101 @ b16x @ d16[7..0] @ d16[15..8]
-
-// shr rm8, CL
-mapping clause encdec = SHR_619
-  <-> 0b11010010 @ 0b11 @ 0b101 @ rm8
-
-// shr BYTE [b16], CL
-mapping clause encdec = SHR_620
-  <-> 0b11010010 @ 0b00 @ 0b101 @ b16
-
-// shr BYTE [a16], CL
-mapping clause encdec = SHR_621
-  <-> 0b11010010 @ 0b00 @ 0b101 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// shr BYTE [b16xd8], CL
-mapping clause encdec = SHR_622
-  <-> 0b11010010 @ 0b01 @ 0b101 @ b16x @ d8
-
-// shr BYTE [b16xd16], CL
-mapping clause encdec = SHR_623
-  <-> 0b11010010 @ 0b10 @ 0b101 @ b16x @ d16[7..0] @ d16[15..8]
-
-// shr rm16, CL
-mapping clause encdec = SHR_624
-  <-> 0b11010011 @ 0b11 @ 0b101 @ rm16
-
-// shr WORD [b16], CL
-mapping clause encdec = SHR_625
-  <-> 0b11010011 @ 0b00 @ 0b101 @ b16
-
-// shr WORD [a16], CL
-mapping clause encdec = SHR_626
-  <-> 0b11010011 @ 0b00 @ 0b101 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// shr WORD [b16xd8], CL
-mapping clause encdec = SHR_627
-  <-> 0b11010011 @ 0b01 @ 0b101 @ b16x @ d8
-
-// shr WORD [b16xd16], CL
-mapping clause encdec = SHR_628
-  <-> 0b11010011 @ 0b10 @ 0b101 @ b16x @ d16[7..0] @ d16[15..8]
-
-// sar rm8, 1
-mapping clause encdec = SAR_629
-  <-> 0b11010000 @ 0b11 @ 0b111 @ rm8
-
-// sar BYTE [b16], 1
-mapping clause encdec = SAR_630
-  <-> 0b11010000 @ 0b00 @ 0b111 @ b16
-
-// sar BYTE [a16], 1
-mapping clause encdec = SAR_631
-  <-> 0b11010000 @ 0b00 @ 0b111 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// sar BYTE [b16xd8], 1
-mapping clause encdec = SAR_632
-  <-> 0b11010000 @ 0b01 @ 0b111 @ b16x @ d8
-
-// sar BYTE [b16xd16], 1
-mapping clause encdec = SAR_633
-  <-> 0b11010000 @ 0b10 @ 0b111 @ b16x @ d16[7..0] @ d16[15..8]
-
-// sar rm16, 1
-mapping clause encdec = SAR_634
-  <-> 0b11010001 @ 0b11 @ 0b111 @ rm16
-
-// sar WORD [b16], 1
-mapping clause encdec = SAR_635
-  <-> 0b11010001 @ 0b00 @ 0b111 @ b16
-
-// sar WORD [a16], 1
-mapping clause encdec = SAR_636
-  <-> 0b11010001 @ 0b00 @ 0b111 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// sar WORD [b16xd8], 1
-mapping clause encdec = SAR_637
-  <-> 0b11010001 @ 0b01 @ 0b111 @ b16x @ d8
-
-// sar WORD [b16xd16], 1
-mapping clause encdec = SAR_638
-  <-> 0b11010001 @ 0b10 @ 0b111 @ b16x @ d16[7..0] @ d16[15..8]
-
-// sar rm8, CL
-mapping clause encdec = SAR_639
-  <-> 0b11010010 @ 0b11 @ 0b111 @ rm8
-
-// sar BYTE [b16], CL
-mapping clause encdec = SAR_640
-  <-> 0b11010010 @ 0b00 @ 0b111 @ b16
-
-// sar BYTE [a16], CL
-mapping clause encdec = SAR_641
-  <-> 0b11010010 @ 0b00 @ 0b111 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// sar BYTE [b16xd8], CL
-mapping clause encdec = SAR_642
-  <-> 0b11010010 @ 0b01 @ 0b111 @ b16x @ d8
-
-// sar BYTE [b16xd16], CL
-mapping clause encdec = SAR_643
-  <-> 0b11010010 @ 0b10 @ 0b111 @ b16x @ d16[7..0] @ d16[15..8]
-
-// sar rm16, CL
-mapping clause encdec = SAR_644
-  <-> 0b11010011 @ 0b11 @ 0b111 @ rm16
-
-// sar WORD [b16], CL
-mapping clause encdec = SAR_645
-  <-> 0b11010011 @ 0b00 @ 0b111 @ b16
-
-// sar WORD [a16], CL
-mapping clause encdec = SAR_646
-  <-> 0b11010011 @ 0b00 @ 0b111 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// sar WORD [b16xd8], CL
-mapping clause encdec = SAR_647
-  <-> 0b11010011 @ 0b01 @ 0b111 @ b16x @ d8
-
-// sar WORD [b16xd16], CL
-mapping clause encdec = SAR_648
-  <-> 0b11010011 @ 0b10 @ 0b111 @ b16x @ d16[7..0] @ d16[15..8]
-
-// movsb 
-mapping clause encdec = MOVSB_649
-  <-> 0b10100100
-
-// movsw 
-mapping clause encdec = MOVSW_650
-  <-> 0b10100101
-
-// cmpsb 
-mapping clause encdec = CMPSB_651
-  <-> 0b10100110
-
-// cmpsw 
-mapping clause encdec = CMPSW_652
-  <-> 0b10100111
-
-// stosb 
-mapping clause encdec = STOSB_653
-  <-> 0b10101010
-
-// stosw 
-mapping clause encdec = STOSW_654
-  <-> 0b10101011
-
-// lodsb 
-mapping clause encdec = LODSB_655
-  <-> 0b10101100
-
-// lodsw 
-mapping clause encdec = LODSW_656
-  <-> 0b10101101
-
-// scasb 
-mapping clause encdec = SCASB_657
-  <-> 0b10101110
-
-// scasw 
-mapping clause encdec = SCASW_658
-  <-> 0b10101111
-
-// call rel
-mapping clause encdec = CALL_659
-  <-> 0b11101000 @ rel[7..0] @ 15..8
-
-// call rm16
-mapping clause encdec = CALL_660
-  <-> 0b11111111 @ 0b11 @ 0b010 @ rm16
-
-// call WORD [b16]
-mapping clause encdec = CALL_661
-  <-> 0b11111111 @ 0b00 @ 0b010 @ b16
-
-// call WORD [a16]
-mapping clause encdec = CALL_662
-  <-> 0b11111111 @ 0b00 @ 0b010 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// call WORD [b16xd8]
-mapping clause encdec = CALL_663
-  <-> 0b11111111 @ 0b01 @ 0b010 @ b16x @ d8
-
-// call WORD [b16xd16]
-mapping clause encdec = CALL_664
-  <-> 0b11111111 @ 0b10 @ 0b010 @ b16x @ d16[7..0] @ d16[15..8]
-
-// call seg:imm
-mapping clause encdec = CALL_665
-  <-> 0b10011010 @ imm[7..0] @ 15..8 @ seg[7..0] @ seg[15..8]
-
-// call FAR [b16]
-mapping clause encdec = CALL_666
-  <-> 0b11111111 @ 0b00 @ 0b011 @ b16
-
-// call FAR [a16]
-mapping clause encdec = CALL_667
-  <-> 0b11111111 @ 0b00 @ 0b011 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// call FAR [b16xd8]
-mapping clause encdec = CALL_668
-  <-> 0b11111111 @ 0b01 @ 0b011 @ b16x @ d8
-
-// call FAR [b16xd16]
-mapping clause encdec = CALL_669
-  <-> 0b11111111 @ 0b10 @ 0b011 @ b16x @ d16[7..0] @ d16[15..8]
-
-// jmp rel
-mapping clause encdec = JMP_670
-  <-> 0b11101001 @ rel[7..0] @ 15..8
-
-// jmp rel
-mapping clause encdec = JMP_671
-  <-> 0b11101011 @ rel[7..0]
-
-// jmp rm16
-mapping clause encdec = JMP_672
-  <-> 0b11111111 @ 0b11 @ 0b100 @ rm16
-
-// jmp WORD [b16]
-mapping clause encdec = JMP_673
-  <-> 0b11111111 @ 0b00 @ 0b100 @ b16
-
-// jmp WORD [a16]
-mapping clause encdec = JMP_674
-  <-> 0b11111111 @ 0b00 @ 0b100 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// jmp WORD [b16xd8]
-mapping clause encdec = JMP_675
-  <-> 0b11111111 @ 0b01 @ 0b100 @ b16x @ d8
-
-// jmp WORD [b16xd16]
-mapping clause encdec = JMP_676
-  <-> 0b11111111 @ 0b10 @ 0b100 @ b16x @ d16[7..0] @ d16[15..8]
-
-// jmp seg:imm
-mapping clause encdec = JMP_677
-  <-> 0b11101010 @ imm[7..0] @ 15..8 @ seg[7..0] @ seg[15..8]
-
-// jmp FAR [b16]
-mapping clause encdec = JMP_678
-  <-> 0b11111111 @ 0b00 @ 0b101 @ b16
-
-// jmp FAR [a16]
-mapping clause encdec = JMP_679
-  <-> 0b11111111 @ 0b00 @ 0b101 @ 0b110 @ a16[7..0] @ a16[15..8]
-
-// jmp FAR [b16xd8]
-mapping clause encdec = JMP_680
-  <-> 0b11111111 @ 0b01 @ 0b101 @ b16x @ d8
-
-// jmp FAR [b16xd16]
-mapping clause encdec = JMP_681
-  <-> 0b11111111 @ 0b10 @ 0b101 @ b16x @ d16[7..0] @ d16[15..8]
-
-// j ~cc rel
-mapping clause encdec = J_682
-  <-> 0b0111 @ cc @ rel[7..0]
-
-// loop rel
-mapping clause encdec = LOOP_683
-  <-> 0b11100010 @ rel[7..0]
-
-// loope rel
-mapping clause encdec = LOOPE_684
-  <-> 0b11100001 @ rel[7..0]
-
-// loopne rel
-mapping clause encdec = LOOPNE_685
-  <-> 0b11100000 @ rel[7..0]
-
-// jcxz rel
-mapping clause encdec = JCXZ_686
-  <-> 0b11100011 @ rel[7..0]
-
-// ret 
-mapping clause encdec = RET_687
-  <-> 0b11000011
-
-// ret imm
-mapping clause encdec = RET_688
-  <-> 0b11000010 @ imm[7..0] @ 15..8
-
-// retf 
-mapping clause encdec = RETF_689
-  <-> 0b11001011
-
-// retf imm
-mapping clause encdec = RETF_690
-  <-> 0b11001010 @ imm[7..0] @ 15..8
-
-// int imm
-mapping clause encdec = INT_691
-  <-> 0b11001101 @ imm[7..0]
-
-// int3 
-mapping clause encdec = INT3_692
-  <-> 0b11001100
-
-// into 
-mapping clause encdec = INTO_693
-  <-> 0b11001110
-
-// iret 
-mapping clause encdec = IRET_694
-  <-> 0b11001111
-
-// clc 
-mapping clause encdec = CLC_695
-  <-> 0b11111000
-
-// stc 
-mapping clause encdec = STC_696
-  <-> 0b11111001
-
-// cmc 
-mapping clause encdec = CMC_697
-  <-> 0b11110101
-
-// cld 
-mapping clause encdec = CLD_698
-  <-> 0b11111100
-
-// std 
-mapping clause encdec = STD_699
-  <-> 0b11111101
-
-// cli 
-mapping clause encdec = CLI_700
-  <-> 0b11111010
-
-// sti 
-mapping clause encdec = STI_701
-  <-> 0b11111011
-
-// hlt 
-mapping clause encdec = HLT_702
-  <-> 0b11110100
-
-// wait 
-mapping clause encdec = WAIT_703
-  <-> 0b10011011
-
-// nop 
-mapping clause encdec = NOP_704
-  <-> 0b10010000
-
-// lock 
-mapping clause encdec = LOCK_705
-  <-> 0b11110000
-
-// rep 
-mapping clause encdec = REP_706
-  <-> 0b11110011
-
-// repne 
-mapping clause encdec = REPNE_707
-  <-> 0b11110010
-
-// es 
-mapping clause encdec = ES_708
-  <-> 0b00100110
-
-// cs 
-mapping clause encdec = CS_709
-  <-> 0b00101110
-
-// ss 
-mapping clause encdec = SS_710
-  <-> 0b00110110
-
-// ds 
-mapping clause encdec = DS_711
-  <-> 0b00111110
+mapping clause encdec = OUT_140
+  <-> 0xef
+
+// xlatb
+mapping clause encdec = XLATB_141
+  <-> 0xd7
+
+// cbw
+mapping clause encdec = CBW_142
+  <-> 0x98
+
+// cwd
+mapping clause encdec = CWD_143
+  <-> 0x99
+
+// aaa
+mapping clause encdec = AAA_144
+  <-> 0x37
+
+// aas
+mapping clause encdec = AAS_145
+  <-> 0x3f
+
+// daa
+mapping clause encdec = DAA_146
+  <-> 0x27
+
+// das
+mapping clause encdec = DAS_147
+  <-> 0x2f
+
+// aam imm8
+mapping clause encdec = AAM_148
+  <-> 0xd4 @ imm8
+
+// aad imm8
+mapping clause encdec = AAD_149
+  <-> 0xd5 @ imm8
+
+// rol r/m8, 1
+mapping clause encdec = ROL_150
+  <-> 0xd0 @ modrm(rm, 0b000)
+
+// rol r/m16, 1
+mapping clause encdec = ROL_151
+  <-> 0xd1 @ modrm(rm, 0b000)
+
+// rol r/m8, CL
+mapping clause encdec = ROL_152
+  <-> 0xd2 @ modrm(rm, 0b000)
+
+// rol r/m16, CL
+mapping clause encdec = ROL_153
+  <-> 0xd3 @ modrm(rm, 0b000)
+
+// ror r/m8, 1
+mapping clause encdec = ROR_154
+  <-> 0xd0 @ modrm(rm, 0b001)
+
+// ror r/m16, 1
+mapping clause encdec = ROR_155
+  <-> 0xd1 @ modrm(rm, 0b001)
+
+// ror r/m8, CL
+mapping clause encdec = ROR_156
+  <-> 0xd2 @ modrm(rm, 0b001)
+
+// ror r/m16, CL
+mapping clause encdec = ROR_157
+  <-> 0xd3 @ modrm(rm, 0b001)
+
+// rcl r/m8, 1
+mapping clause encdec = RCL_158
+  <-> 0xd0 @ modrm(rm, 0b010)
+
+// rcl r/m16, 1
+mapping clause encdec = RCL_159
+  <-> 0xd1 @ modrm(rm, 0b010)
+
+// rcl r/m8, CL
+mapping clause encdec = RCL_160
+  <-> 0xd2 @ modrm(rm, 0b010)
+
+// rcl r/m16, CL
+mapping clause encdec = RCL_161
+  <-> 0xd3 @ modrm(rm, 0b010)
+
+// rcr r/m8, 1
+mapping clause encdec = RCR_162
+  <-> 0xd0 @ modrm(rm, 0b011)
+
+// rcr r/m16, 1
+mapping clause encdec = RCR_163
+  <-> 0xd1 @ modrm(rm, 0b011)
+
+// rcr r/m8, CL
+mapping clause encdec = RCR_164
+  <-> 0xd2 @ modrm(rm, 0b011)
+
+// rcr r/m16, CL
+mapping clause encdec = RCR_165
+  <-> 0xd3 @ modrm(rm, 0b011)
+
+// shl r/m8, 1
+mapping clause encdec = SHL_166
+  <-> 0xd0 @ modrm(rm, 0b100)
+
+// shl r/m16, 1
+mapping clause encdec = SHL_167
+  <-> 0xd1 @ modrm(rm, 0b100)
+
+// shl r/m8, CL
+mapping clause encdec = SHL_168
+  <-> 0xd2 @ modrm(rm, 0b100)
+
+// shl r/m16, CL
+mapping clause encdec = SHL_169
+  <-> 0xd3 @ modrm(rm, 0b100)
+
+// shr r/m8, 1
+mapping clause encdec = SHR_170
+  <-> 0xd0 @ modrm(rm, 0b101)
+
+// shr r/m16, 1
+mapping clause encdec = SHR_171
+  <-> 0xd1 @ modrm(rm, 0b101)
+
+// shr r/m8, CL
+mapping clause encdec = SHR_172
+  <-> 0xd2 @ modrm(rm, 0b101)
+
+// shr r/m16, CL
+mapping clause encdec = SHR_173
+  <-> 0xd3 @ modrm(rm, 0b101)
+
+// sar r/m8, 1
+mapping clause encdec = SAR_174
+  <-> 0xd0 @ modrm(rm, 0b111)
+
+// sar r/m16, 1
+mapping clause encdec = SAR_175
+  <-> 0xd1 @ modrm(rm, 0b111)
+
+// sar r/m8, CL
+mapping clause encdec = SAR_176
+  <-> 0xd2 @ modrm(rm, 0b111)
+
+// sar r/m16, CL
+mapping clause encdec = SAR_177
+  <-> 0xd3 @ modrm(rm, 0b111)
+
+// movsb
+mapping clause encdec = MOVSB_178
+  <-> 0xa4
+
+// movsw
+mapping clause encdec = MOVSW_179
+  <-> 0xa5
+
+// cmpsb
+mapping clause encdec = CMPSB_180
+  <-> 0xa6
+
+// cmpsw
+mapping clause encdec = CMPSW_181
+  <-> 0xa7
+
+// stosb
+mapping clause encdec = STOSB_182
+  <-> 0xaa
+
+// stosw
+mapping clause encdec = STOSW_183
+  <-> 0xab
+
+// lodsb
+mapping clause encdec = LODSB_184
+  <-> 0xac
+
+// lodsw
+mapping clause encdec = LODSW_185
+  <-> 0xad
+
+// scasb
+mapping clause encdec = SCASB_186
+  <-> 0xae
+
+// scasw
+mapping clause encdec = SCASW_187
+  <-> 0xaf
+
+// call rel16
+mapping clause encdec = CALL_188
+  <-> 0xe8 @ rel16_le
+
+// call r/m16
+mapping clause encdec = CALL_189
+  <-> 0xff @ modrm(rm, 0b010)
+
+// call ptr16:16
+mapping clause encdec = CALL_190
+  <-> 0x9a @ offset_le @ seg16_le
+
+// call FAR m16:16
+mapping clause encdec = CALL_191
+  <-> 0xff @ modrm(rm, 0b011)
+
+// jmp rel16
+mapping clause encdec = JMP_192
+  <-> 0xe9 @ rel16_le
+
+// jmp rel8
+mapping clause encdec = JMP_193
+  <-> 0xeb @ rel8
+
+// jmp r/m16
+mapping clause encdec = JMP_194
+  <-> 0xff @ modrm(rm, 0b100)
+
+// jmp ptr16:16
+mapping clause encdec = JMP_195
+  <-> 0xea @ offset_le @ seg16_le
+
+// jmp FAR m16:16
+mapping clause encdec = JMP_196
+  <-> 0xff @ modrm(rm, 0b101)
+
+// j~cc rel8
+mapping clause encdec = JCC_197
+  <-> 0b0111 @ cc @ rel8
+
+// loop rel8
+mapping clause encdec = LOOP_198
+  <-> 0xe2 @ rel8
+
+// loope rel8
+mapping clause encdec = LOOPE_199
+  <-> 0xe1 @ rel8
+
+// loopne rel8
+mapping clause encdec = LOOPNE_200
+  <-> 0xe0 @ rel8
+
+// jcxz rel8
+mapping clause encdec = JCXZ_201
+  <-> 0xe3 @ rel8
+
+// ret
+mapping clause encdec = RET_202
+  <-> 0xc3
+
+// ret imm16
+mapping clause encdec = RET_203
+  <-> 0xc2 @ imm16_le
+
+// retf
+mapping clause encdec = RETF_204
+  <-> 0xcb
+
+// retf imm16
+mapping clause encdec = RETF_205
+  <-> 0xca @ imm16_le
+
+// int imm8
+mapping clause encdec = INT_206
+  <-> 0xcd @ imm8
+
+// int3
+mapping clause encdec = INT3_207
+  <-> 0xcc
+
+// into
+mapping clause encdec = INTO_208
+  <-> 0xce
+
+// iret
+mapping clause encdec = IRET_209
+  <-> 0xcf
+
+// clc
+mapping clause encdec = CLC_210
+  <-> 0xf8
+
+// stc
+mapping clause encdec = STC_211
+  <-> 0xf9
+
+// cmc
+mapping clause encdec = CMC_212
+  <-> 0xf5
+
+// cld
+mapping clause encdec = CLD_213
+  <-> 0xfc
+
+// std
+mapping clause encdec = STD_214
+  <-> 0xfd
+
+// cli
+mapping clause encdec = CLI_215
+  <-> 0xfa
+
+// sti
+mapping clause encdec = STI_216
+  <-> 0xfb
+
+// hlt
+mapping clause encdec = HLT_217
+  <-> 0xf4
+
+// wait
+mapping clause encdec = WAIT_218
+  <-> 0x9b
+
+// nop
+mapping clause encdec = NOP_219
+  <-> 0x90
+
+// lock
+mapping clause encdec = LOCK_220
+  <-> 0xf0
+
+// rep
+mapping clause encdec = REP_221
+  <-> 0xf3
+
+// repne
+mapping clause encdec = REPNE_222
+  <-> 0xf2
+
+// es
+mapping clause encdec = ES_223
+  <-> 0x26
+
+// cs
+mapping clause encdec = CS_224
+  <-> 0x2e
+
+// ss
+mapping clause encdec = SS_225
+  <-> 0x36
+
+// ds
+mapping clause encdec = DS_226
+  <-> 0x3e
 
 end instruction

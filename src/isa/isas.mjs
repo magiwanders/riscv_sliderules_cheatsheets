@@ -8,6 +8,8 @@ import * as a64 from './a64.mjs';
 import * as a32 from './a32.mjs';
 import * as t32 from './t32.mjs';
 import * as i8086 from './i8086.mjs';
+import * as ia32 from './ia32.mjs';
+import * as x86_64 from './x86_64.mjs';
 import * as mos6502 from './mos6502.mjs';
 import * as rv32gc from './rv32gc.mjs';
 import * as rv64gc from './rv64gc.mjs';
@@ -64,8 +66,10 @@ export const isas = [
     specs: { sail: 'unofficial, written for these sheets from Intel\'s MCS-51 manual', tablegen: 'unofficial, written for these sheets from Intel\'s MCS-51 manual' } },
   { value: '8086', family: 'intel', label: '8086', version: 'v0.1', make: () => createCodec(i8086),
     specs: { sail: 'unofficial, written for these sheets from Intel\'s 8086 manual (its opcode table, checked against LLVM)', tablegen: 'the records of LLVM\'s X86 target (official) the sheets\' 8086 instructions are' } },
-  { value: 'x86', family: 'intel', label: 'x86 (IA-32)', short: 'x86' },
-  { value: 'x86_64', family: 'intel', label: 'x86-64' },
+  { value: 'x86', family: 'intel', label: 'x86 (IA-32)', short: 'x86', version: 'v0.1', make: () => createCodec(ia32),
+    specs: { sail: 'unofficial, generated for these sheets from their opcode table of Intel\'s manuals (checked against LLVM)', tablegen: 'the records of LLVM\'s X86 target (official) the sheets\' IA-32 instructions are' } },
+  { value: 'x86_64', family: 'intel', label: 'x86-64', version: 'v0.1', make: () => createCodec(x86_64),
+    specs: { sail: 'unofficial, generated for these sheets from their opcode table of Intel\'s manuals (checked against LLVM)', tablegen: 'the records of LLVM\'s X86 target (official) the sheets\' x86-64 instructions are' } },
   { value: 'arm-thumb', family: 'arm', label: 'Thumb', version: 'v0.1', make: () => createCodec(t32),
     specs: { sail: 'unofficial, written for these sheets from the Arm Architecture Reference Manual and checked against LLVM', tablegen: 'the Thumb files of LLVM\'s ARM target (official), ARMv7-A Thumb and Thumb-2 instructions' } },
   { value: 'arm32', family: 'arm', label: 'A32 (ARM32)', short: 'A32', version: 'v0.1', make: () => createCodec(a32),

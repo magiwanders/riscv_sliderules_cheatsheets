@@ -228,8 +228,10 @@ const TARGETS = {
   // x86: the records the typed table of src/isa/overlay/x86.json names. LLVM's X86 records have no Inst bits: what is kept
   // is what the bytes follow from (opcode, map, form, operand and address size, prefix, immediate, REX.W, predicates).
   X86: {
-    compact: ({ records }) => {
-      const names = new Set(JSON.parse(readFileSync(join(ROOT, 'src', 'isa', 'overlay', 'x86.json'), 'utf8')).instructions.flatMap((row) => row.llvm));
+    compact: async ({ records }) => {
+      // the records every line of every x86 sheet names, its operand sizes filled in (tools/isa/gen-x86.mjs)
+      const { llvmNames } = await import('./gen-x86.mjs');
+      const names = new Set(llvmNames());
       const number = (bits) => (Array.isArray(bits) ? bits.reduce((v, bit, i) => v + bit * 2 ** i, 0) : bits);
       const instructions = Object.fromEntries([...names].sort().map((name) => {
         const r = records[name];
@@ -267,7 +269,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   })();
   // a target may be a part of LLVM's (Thumb is in ARM's directory)
   const records = dumpRecords({ tblgen, llvm, target: TARGETS[target].dir || target, td: _arg('td') });
-  const compact = TARGETS[target].compact ? TARGETS[target].compact({ records }) : compactTarget({ records, ...TARGETS[target] });
+  const compact = TARGETS[target].compact ? await TARGETS[target].compact({ records }) : compactTarget({ records, ...TARGETS[target] });
   const out = _arg('out') || join(ROOT, 'spec', 'llvm', `${target}.json`);
   writeFileSync(out, `${JSON.stringify({ source: { project: _arg('project') || 'llvm/llvm-project', revision, tblgen: version, target }, ...compact }, null, 1)}\n`);
   console.log(`${out}: ${Object.keys(compact.instructions).length} instructions, ${(compact.aliases || []).length} aliases`);

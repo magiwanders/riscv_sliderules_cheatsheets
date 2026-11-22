@@ -533,9 +533,9 @@ table.registers-sheet { table-layout: auto; }
 .fmt-A, .fmt-IMM, .fmt-DPI, .fmt-LD { --strong: #93c47d; --light: #d9ead3; }
 .fmt-ZP, .fmt-ZPX, .fmt-ZPY, .fmt-DIR, .fmt-ST { --strong: #ffd966; --light: #fff2cc; }
 .fmt-ABS, .fmt-ABX, .fmt-ABY, .fmt-EXT { --strong: #6d9eeb; --light: #c9daf8; }
-.fmt-IND, .fmt-SYS { --strong: #8e7cc3; --light: #d9d2e9; }
-.fmt-IZX, .fmt-IZY, .fmt-IDX { --strong: #c27ba0; --light: #ead1dc; }
-.fmt-REL, .fmt-BR { --strong: #f6b26b; --light: #fce5cd; }
+.fmt-IND, .fmt-SYS, .fmt-SIB { --strong: #8e7cc3; --light: #d9d2e9; }
+.fmt-IZX, .fmt-IZY, .fmt-IDX, .fmt-SIBX { --strong: #c27ba0; --light: #ead1dc; }
+.fmt-REL, .fmt-BR, .fmt-RIP { --strong: #f6b26b; --light: #fce5cd; }
 .fmt-BIT          { --strong: #c9a46b; --light: #f1e4cf; }
 
 .section-row td {

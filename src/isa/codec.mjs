@@ -152,6 +152,15 @@ export function createCodec(spec) {
     const segments = [];
     for (const token of enc.trim().split(/\s+/)) {
       let m;
+      // an operand split over several cells, as a split immediate (Thumb's rd[3] ... rd[2:0], i:imm3:imm8)
+      const split = token.match(/^(\w+)\[([\d:|]+)\](?:(!=|=)(\d+|\{[\d,]+\}))?$/);
+      if (split && OPERANDS[split[1]] && !(split[1] in immediates)) {
+        const { width, exclude = [], names } = OPERANDS[split[1]];
+        const own = _excluded({ op: split[3], list: split[4], range: Array.from({ length: 2 ** width }, (_, n) => n) });
+        _immParts({ spec: split[2] }).forEach((fieldBits, part) => segments.push({ kind: 'field', key: split[1], part, fieldBits, split: true, width: fieldBits.length,
+          label: `${split[1]}[${fieldBits.length === 1 ? fieldBits[0] : `${fieldBits[0]}:${fieldBits[fieldBits.length - 1]}`}]`, exclude: [...new Set([...exclude, ...own])], numeric: !names }));
+        continue;
+      }
       const op = token.match(/^(\w+)(?:(!=|=)(\d+|\{[\d,]+\}))?$/);
       if (op && OPERANDS[op[1]]) {
         // an operand of the set's own, possibly with a constraint of this instruction (vd!={0,1})
@@ -254,14 +263,19 @@ export function createCodec(spec) {
 
   // distinct: two fields that cannot hold the same value (cm.mvsa01's r1s and r2s); value of a field of a word
   const _fieldValue = ({ inst = {}, key = '', word = 0 }) => {
-    const s = inst.segments.find((x) => x.key === key);
-    return _field({ word, hi: s.hi, lo: s.lo });
+    const segments = inst.segments.filter((x) => x.key === key && (x.kind === 'field' || x.kind === 'reg'));
+    if (!segments.some((s) => s.split)) return _field({ word, hi: segments[0].hi, lo: segments[0].lo });
+    // a split field: its parts' bits
+    let value = 0;
+    for (const s of segments) s.fieldBits.forEach((b, j) => { value += ((word >>> (s.hi - j)) & 1) * 2 ** b; });
+    return value;
   };
   const _sameDistinct = ({ inst = {}, word = 0 }) => Boolean(inst.distinct) && _fieldValue({ inst, key: inst.distinct[0], word }) === _fieldValue({ inst, key: inst.distinct[1], word });
 
   function _satisfiesFieldConstraints({ inst = {}, word = 0 }) {
     for (const s of inst.segments) {
-      if (s.exclude && s.exclude.includes(_field({ word, hi: s.hi, lo: s.lo }) + (s.compressed ? 8 : 0))) return false;
+      const value = s.split ? _fieldValue({ inst, key: s.key, word }) : _field({ word, hi: s.hi, lo: s.lo }) + (s.compressed ? 8 : 0);
+      if (s.exclude && s.exclude.includes(value)) return false;
     }
     if (_sameDistinct({ inst, word })) return false;
     return !(inst.immNonZero && _immValue({ inst, word }) === 0);
@@ -282,8 +296,12 @@ export function createCodec(spec) {
     if (((value ^ inst.match) & inst.mask & known) >>> 0) return false;
     // Field constraints (rd != 0, nzimm) can only be checked once every bit of the field is known.
     for (const s of inst.segments) {
-      const fieldMask = ((2 ** s.width - 1) * 2 ** s.lo) >>> 0;
-      if (s.exclude && (known & fieldMask) >>> 0 === fieldMask && s.exclude.includes(_field({ word: value, hi: s.hi, lo: s.lo }) + (s.compressed ? 8 : 0))) return false;
+      if (!s.exclude || !s.exclude.length) continue;
+      // a split field is checked once all its parts are known
+      const parts = s.split ? inst.segments.filter((x) => x.key === s.key) : [s];
+      const fieldMask = parts.reduce((m, x) => (m | ((2 ** x.width - 1) * 2 ** x.lo)) >>> 0, 0);
+      const v = s.split ? _fieldValue({ inst, key: s.key, word: value }) : _field({ word: value, hi: s.hi, lo: s.lo }) + (s.compressed ? 8 : 0);
+      if ((known & fieldMask) >>> 0 === fieldMask && s.exclude.includes(v)) return false;
     }
     if (inst.distinct) {
       const both = inst.segments.filter((s) => inst.distinct.includes(s.key)).reduce((m, s) => m | ((2 ** s.width - 1) * 2 ** s.lo), 0) >>> 0;
@@ -302,8 +320,9 @@ export function createCodec(spec) {
     for (const s of inst.segments) {
       if (s.kind === 'reg') fields[s.key] = _field({ word, hi: s.hi, lo: s.lo }) + (s.compressed ? 8 : 0);
       else if (s.kind === 'field') {
-        const value = _field({ word, hi: s.hi, lo: s.lo });
-        fields[s.key] = OPERANDS[s.key] && OPERANDS[s.key].signed && value >= 2 ** (s.width - 1) ? value - 2 ** s.width : value;
+        const value = s.split ? _fieldValue({ inst, key: s.key, word }) : _field({ word, hi: s.hi, lo: s.lo });
+        const width = s.split ? OPERANDS[s.key].width : s.width;
+        fields[s.key] = OPERANDS[s.key] && OPERANDS[s.key].signed && value >= 2 ** (width - 1) ? value - 2 ** width : value;
       }
     }
     if (inst.immName) fields.imm = _immValue({ inst, word });
@@ -477,6 +496,7 @@ export function createCodec(spec) {
         const bits = s.immBits.map((immBit) => (m >> immBit) & 1).join('');
         return { ...s, kind: 'lit', bits, role: 'fixed' };
       }
+      if (typeof m === 'number' && s.split) return { ...s, kind: 'lit', bits: s.fieldBits.map((b) => (m >> b) & 1).join(''), role: 'fixed' };
       if (typeof m === 'number' && (s.kind === 'reg' || s.kind === 'field')) {
         return { ...s, kind: 'lit', bits: _bits({ value: s.compressed ? m - 8 : m, width: s.width }), role: 'fixed' };
       }
@@ -631,7 +651,21 @@ export function createCodec(spec) {
       }
       return word;
     }
-    for (const s of inst.segments.filter((s) => s.key === key)) {
+    const parts = inst.segments.filter((s) => s.key === key);
+    if (parts.some((s) => s.split)) {
+      // a split field: each part takes its bits of the value
+      const { width, signed } = OPERANDS[key];
+      let field = value;
+      if (parts[0].exclude && parts[0].exclude.includes(value)) throw new Error(`${inst.name}: ${key} cannot be ${operandText({ key, value })}`);
+      if (signed && field < 0 && field >= -(2 ** (width - 1))) field += 2 ** width;
+      if (field < 0 || field >= 2 ** width) throw new Error(`${inst.name}: ${key} = ${value} does not fit in ${width} bits`);
+      // bits the parts do not hold (push's list has no r8-r12)
+      const held = parts.flatMap((s) => s.fieldBits);
+      for (let b = 0; b < width; b++) if (!held.includes(b) && Math.floor(field / 2 ** b) & 1) throw new Error(`${inst.name}: ${key} cannot be ${operandText({ key, value })} here`);
+      for (const s of parts) s.fieldBits.forEach((b, j) => { word |= (Math.floor(field / 2 ** b) & 1) << (s.hi - j); });
+      return word;
+    }
+    for (const s of parts) {
       let field = value;
       if (s.kind === 'reg' && s.compressed) {
         if (value < 8 || value > 15) throw new Error(`${inst.name}: ${key}' must be one of x8-x15 (s0, s1, a0-a5)`);
@@ -850,18 +884,21 @@ export function createCodec(spec) {
     return _aligned({ word, width }).toString(2).padStart(width, '0');
   }
 
-  const _byteOf = (position) => Math.floor((SPINE - 1 - position) / 8);
+  // the units an instruction is made of in memory: bytes, or halfwords for Thumb (spine.unit)
+  const UNIT = spine.unit || 8;
+  const UNIT_NAME = UNIT === 16 ? 'halfword' : 'byte';
+  const _byteOf = (position) => Math.floor((SPINE - 1 - position) / UNIT);
 
   // The name of a spine position, or range of them, in tooltips.
   function bitName({ hi = 0, lo = hi }) {
     if (!spine.bytes) return `inst[${hi}${hi > lo ? ':' + lo : ''}]`;
-    if (_byteOf(hi) !== _byteOf(lo)) return `bytes ${_byteOf(hi)}-${_byteOf(lo)}`;
-    return `byte ${_byteOf(hi)}[${hi % 8}${hi > lo ? ':' + lo % 8 : ''}]`;
+    if (_byteOf(hi) !== _byteOf(lo)) return `${UNIT_NAME}s ${_byteOf(hi)}-${_byteOf(lo)}`;
+    return `${UNIT_NAME} ${_byteOf(hi)}[${hi % UNIT}${hi > lo ? ':' + lo % UNIT : ''}]`;
   }
 
   // What the number row shows over a spine position, and whether a byte starts there.
-  const bitNumber = ({ position = 0 }) => String(spine.bytes ? position % 8 : position);
-  const byteStart = ({ position = 0 }) => Boolean(spine.bytes) && position % 8 === 7 && position < SPINE - 1;
+  const bitNumber = ({ position = 0 }) => String(spine.bytes ? position % UNIT : position);
+  const byteStart = ({ position = 0 }) => Boolean(spine.bytes) && position % UNIT === UNIT - 1 && position < SPINE - 1;
 
   // Pasted text as switch states (index 0 = the leftmost): a hex word (0x...) or a bit pattern (0b optional, x or - for
   // don't care). A word starts at the instruction's end of the spine, the other end stays x. null if it is neither.
@@ -869,7 +906,8 @@ export function createCodec(spec) {
     const t = text.trim().toLowerCase().replace(/[_\s]/g, '');
     const m = t.match(/^0x([0-9a-f]+)$/);
     if (m && spine.bytes) {
-      const digits = m[1].length % 2 ? `0${m[1]}` : m[1];
+      // whole units (bytes, or halfwords on Thumb), the first one leftmost
+      const digits = m[1].padStart(Math.ceil(m[1].length / (UNIT / 4)) * (UNIT / 4), '0');
       if (digits.length * 4 > SPINE) return null;
       return [...[...digits].map((d) => parseInt(d, 16).toString(2).padStart(4, '0')).join('').padEnd(SPINE, '-')];
     }

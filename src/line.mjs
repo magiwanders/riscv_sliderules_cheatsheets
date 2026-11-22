@@ -28,7 +28,7 @@ function _codec({ isa = 'rv32gc', extensions = null }) {
 // The smallest step between two instructions, in bytes: where an unknown word is skipped to.
 function _step({ codec = null }) {
   const { spine } = codec.spec;
-  if (spine.bytes) return 1;
+  if (spine.bytes) return (spine.unit || 8) / 8;
   const widths = codec.compiled.map((i) => i.width);
   return Math.max(1, Math.min(...widths) / 8);
 }
@@ -39,7 +39,9 @@ function _wordAt({ codec = null, bytes = [] }) {
   const size = spine.width / 8;
   const at = (i) => (bytes[i] ?? 0) & 0xff;
   let word = 0;
-  if (spine.bytes) for (let i = 0; i < size; i++) word = word * 256 + at(i);
+  // a halfword machine (Thumb) keeps each halfword little-endian, the first one first
+  if (spine.bytes && spine.unit === 16) for (let i = 0; i < size; i += 2) word = word * 65536 + at(i + 1) * 256 + at(i);
+  else if (spine.bytes) for (let i = 0; i < size; i++) word = word * 256 + at(i);
   else for (let i = size - 1; i >= 0; i--) word = word * 256 + at(i);
   word >>>= 0;
   const width = codec.spec.widthOf ? codec.spec.widthOf({ bit: (b) => String((word >>> b) & 1) }) : spine.width;

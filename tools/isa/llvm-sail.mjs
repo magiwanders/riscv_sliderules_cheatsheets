@@ -55,9 +55,14 @@ export function encoding({ s, fix = {} }) {
     if (last && !s.cuts.includes(i) && last.kind === b.kind) last.bits.push(b);
     else cells.push({ kind: b.kind, name: b.name, bits: [b] });
   });
+  // a field in several cells (Thumb's rd[3] ... rd[2:0]) labels each part with its bits
+  // (not a field written twice in full, as MIPS's clz rd, rd)
+  const width = (name) => Math.max(...bits.filter((b) => b.kind === 'field' && b.name === name).map((b) => b.bit)) + 1;
+  const split = new Set(cells.filter((c) => c.kind === 'field' && c.bits.length < width(c.name)).map((c) => c.name));
   return cells.map((c) => {
     if (c.kind === 'lit') return c.bits.map((b) => b.value).join('');
     if (c.kind === 'imm') return `${c.name}[${immLabel({ bits: c.bits.map((b) => b.value) })}]`;
+    if (split.has(c.name)) return `${c.name}[${immLabel({ bits: c.bits.map((b) => b.bit) })}]`;
     return c.name;
   }).join(' ');
 }

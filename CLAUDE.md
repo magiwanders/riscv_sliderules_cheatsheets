@@ -30,6 +30,23 @@ the most common changes, adding a RISC-V extension or a whole instruction set, h
 | `test/` | `node --test` suites, shared test cases, the vector generators (GNU as, llvm-mc, py65, skoolkit, ca65, sjasmplus) and their output. |
 | `dist/` | Build output (git-ignored), **served live** as sliderules.magiwanders.com. Only `npm run build` writes it. |
 
+## What must never be committed (licences)
+
+- **Arm's machine-readable ISA specification** (the A64 / AArch32 XML, its ASL, the PDFs and anything generated from
+  them by a script, such as a Sail or TableGen file or a table of encodings): recent releases say *"No part of this
+  document may be reproduced in any form by any means without the express prior written permission of Arm"*. It may
+  be used on a developer's machine as a check that reads it in place (a test that skips when it is missing), never
+  copied into the repository or the build. The Arm sheets' unofficial Sail is written by hand from the Architecture
+  Reference Manual and checked against LLVM's TableGen (Apache 2.0, which may be committed) and the assemblers.
+- **Manuals and datasheets** (Intel, Zilog, MOS, MIPS, Arm PDFs): cite them, do not commit them or text copied from them.
+- **Assembler and toolchain sources or binaries** (binutils, LLVM builds, asl, ASxxxx, cc65, sjasmplus, nasm): the
+  tests run them from outside the repository (`~/.local/src`, environment variables); only their output (the vectors in
+  `test/vectors/`) is committed.
+- What may be committed: the official sources of `spec/` with their licence files (sail-riscv BSD 2-Clause, LLVM and
+  llvm-mos Apache 2.0 with LLVM exception, the RISC-V Unified Database BSD 3-Clause Clear) and this project's own
+  unofficial descriptions (CC BY-SA 4.0). A new official source needs its licence checked and added to
+  `spec/README.md` first.
+
 ## Conventions
 
 - Functions take one object with defaulted names: `function cell({ width = 1, classes = '' })`, called as

@@ -1,5 +1,6 @@
 import { cell, segmentCells, immediateCells, immediateBits, typeCell, bitNumbers, tableWidth, sectionHeader } from './cells.mjs';
 import { Tristates } from './tristate.mjs';
+import { bitOf } from './isa/codec.mjs';
 
 // a2b "Encoder" sliderule: every instruction and pseudo-instruction in alphabetical order, encoding on the right.
 // Over each text column's title sits its selector (Ext, Type, Mnemonic, Operands); Description and Explanation
@@ -55,7 +56,7 @@ function _entryRows({ codec = null, entry = {}, encoded = null, operands = null,
     const textCells = i === 0
       ? _textCells({ codec, entry, rowspan, explanation: text, operands, onPick })
       : [_td({ class: 'text explanation', title: _explanationText({ explanation: text }) }, text)];
-    const bitAt = word ? (bit) => String((word.word >>> bit) & 1) : null;
+    const bitAt = word ? (bit) => String(bitOf(word.word, bit)) : null;
     return _tr({ class: `instruction-row fmt-${base.format}` + (encoded ? ' chosen' : '') },
       [...textCells, ...segmentCells({ codec, segments, width: base.width, fields: word ? word.fields : null, inst: base, bitAt })]);
   });
@@ -63,7 +64,7 @@ function _entryRows({ codec = null, entry = {}, encoded = null, operands = null,
     const { base, word } = parts[0];
     rows.push(_tr({ class: `immediate-row fmt-${base.format}` + (word ? ' chosen' : '') }, [
       _td({ class: 'text imm-name explanation' }, word ? `${base.immName} = ${word.fields.imm}` : base.immName),
-      ...immediateCells({ codec, inst: base, bitAt: word ? immediateBits({ inst: base, wordBitAt: (bit) => String((word.word >>> bit) & 1) }) : null }),
+      ...immediateCells({ codec, inst: base, bitAt: word ? immediateBits({ inst: base, wordBitAt: (bit) => String(bitOf(word.word, bit)) }) : null }),
     ]));
   }
   return rows;
@@ -97,13 +98,10 @@ export function showEncodedBits({ sheet = null, entry = null, encoded = null }) 
     return;
   }
   const { base, segments } = entry.pseudo ? entry.expansions[0] : { base: entry, segments: entry.segments };
-  let mask = 0;
-  let value = 0;
-  for (const s of segments.filter((s) => s.kind === 'lit')) {
-    mask |= (2 ** s.width - 1) << s.lo;
-    value |= parseInt(s.bits, 2) << s.lo;
-  }
-  bits.write({ value: value >>> 0, mask: mask >>> 0, width: base.width, lsb: base.lsb, off: off(base) });
+  // the literal bits as a list of positions (any spine width)
+  const literal = {};
+  for (const s of segments.filter((s) => s.kind === 'lit')) [...s.bits].forEach((b, j) => { literal[s.hi - j] = b; });
+  bits.write({ bitAt: (bit) => literal[bit] ?? null, width: base.width, lsb: base.lsb, off: off(base) });
 }
 
 function _widths({ sheet = null }) {

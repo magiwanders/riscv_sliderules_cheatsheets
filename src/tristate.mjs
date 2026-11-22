@@ -5,6 +5,7 @@
 // fills the following bits one after the other. Pasting a hex word (0x...) or a bit pattern fills the whole row.
 // Under the switches, one hex digit per 4 bits (a carousel: x, 0-f) always shows the same bits; editable, it sets them.
 import { Carousel } from './carousel.mjs';
+import { bitOf } from './isa/codec.mjs';
 
 const HEX_OPTIONS = [{ value: 'x', label: 'x', hint: "don't care" },
   ...[...'0123456789abcdef'].map((digit) => ({ value: digit, label: digit, hint: parseInt(digit, 16).toString(2).padStart(4, '0') }))];
@@ -116,11 +117,13 @@ export function Tristates({ codec = null, editable = true, onChange = () => {} }
     // index 0 = the leftmost
     read: () => switches.map((sw) => sw.dataset.state),
     // Bits outside the mask (and outside an instruction width bits wide from lsb) become x; with off, those are greyed out.
-    write: ({ value = 0, mask = 0xffffffff, width = WIDTH, lsb = 0, off = false }) => {
+    // bitAt: the state of a bit ('0', '1', or null for x); without it, value and mask (numbers or BigInts)
+    write: ({ value = 0, mask = 0xffffffff, bitAt = null, width = WIDTH, lsb = 0, off = false }) => {
       switches.forEach((sw, i) => {
         const bit = WIDTH - 1 - i;
         const inside = bit >= lsb && bit < lsb + width;
-        sw.dataset.state = inside && (mask >>> bit) & 1 ? String((value >>> bit) & 1) : '-';
+        const state = bitAt ? bitAt(bit) : bitOf(mask, bit) ? String(bitOf(value, bit)) : null;
+        sw.dataset.state = inside && state !== null ? state : '-';
         sw.classList.toggle('tri-off', off && !inside);
       });
       _syncHex();
@@ -132,7 +135,7 @@ export function Tristates({ codec = null, editable = true, onChange = () => {} }
       return Boolean(states);
     },
     // Marks the bits of an operand (mask over the spine), e.g. while its token is hovered.
-    highlight: ({ mask = 0 }) => switches.forEach((sw, i) => sw.classList.toggle('tri-mark', Boolean((mask >>> (WIDTH - 1 - i)) & 1))),
+    highlight: ({ mask = 0 }) => switches.forEach((sw, i) => sw.classList.toggle('tri-mark', Boolean(bitOf(mask, WIDTH - 1 - i)))),
     // Greys out the bits outside an instruction (width null: not known yet), once they are known not to belong to it.
     dim: ({ width = null, lsb = 0 }) => {
       switches.forEach((sw, i) => sw.classList.toggle('tri-off', width !== null && (WIDTH - 1 - i < lsb || WIDTH - 1 - i >= lsb + width)));

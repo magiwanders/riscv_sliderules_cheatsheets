@@ -1,5 +1,6 @@
 import { isas } from './isa/isas.mjs';
 import { segmentCells, typeCell, bitNumbers } from './cells.mjs';
+import { bitOf } from './isa/codec.mjs';
 
 // One line of a sheet, for other pages to show (sliderules.line, or public/line.js on its own): the encoder's line
 // of an assembly instruction (its assembly, then its bits by field) or the decoder's line of some bytes of memory
@@ -38,13 +39,14 @@ function _wordAt({ codec = null, bytes = [] }) {
   const { spine } = codec.spec;
   const size = spine.width / 8;
   const at = (i) => (bytes[i] ?? 0) & 0xff;
-  let word = 0;
+  // the spine's bits, msb first, as a string (any width), then the word the codec takes
+  let bits = '';
   // a halfword machine (Thumb) keeps each halfword little-endian, the first one first
-  if (spine.bytes && spine.unit === 16) for (let i = 0; i < size; i += 2) word = word * 65536 + at(i + 1) * 256 + at(i);
-  else if (spine.bytes) for (let i = 0; i < size; i++) word = word * 256 + at(i);
-  else for (let i = size - 1; i >= 0; i--) word = word * 256 + at(i);
-  word >>>= 0;
-  const width = codec.spec.widthOf ? codec.spec.widthOf({ bit: (b) => String((word >>> b) & 1) }) : spine.width;
+  if (spine.bytes && spine.unit === 16) for (let i = 0; i < size; i += 2) bits += (at(i + 1) * 256 + at(i)).toString(2).padStart(16, '0');
+  else if (spine.bytes) for (let i = 0; i < size; i++) bits += at(i).toString(2).padStart(8, '0');
+  else for (let i = size - 1; i >= 0; i--) bits += at(i).toString(2).padStart(8, '0');
+  let word = spine.width > 32 ? BigInt(`0b${bits}`) : parseInt(bits, 2);
+  const width = codec.spec.widthOf ? codec.spec.widthOf({ bit: (b) => bits[spine.width - 1 - b] }) : spine.width;
   const length = (width || spine.width) / 8;
   if (!spine.bytes && width && width < 32) word = (word & (2 ** width - 1)) >>> 0;
   return { word, length, complete: bytes.length >= length };
@@ -70,7 +72,7 @@ function _bitsRow({ codec = null, inst = null, word = 0 }) {
   for (let position = codec.spec.spine.width - 1; position >= 0; position--) {
     const inside = position >= lsb && position < lsb + width;
     const classes = inst ? _bitClass({ codec, segments, position }) : 'bit any';
-    cells.push(_td({ class: `${classes} line-bit` }, inside ? String((word >>> position) & 1) : ''));
+    cells.push(_td({ class: `${classes} line-bit` }, inside ? String(bitOf(word, position)) : ''));
   }
   return cells;
 }

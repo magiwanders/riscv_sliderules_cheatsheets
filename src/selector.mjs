@@ -1,5 +1,6 @@
 import { cell, segmentCells, immediateCells, immediateBits, typeCell, bitNumbers, columns, tableWidth, sectionHeader, outsideCells } from './cells.mjs';
 import { Tristates } from './tristate.mjs';
+import { bitOf } from './isa/codec.mjs';
 
 // b2a "Decoder" sliderule: the bit selector is the table header (bits on the left), rows are ordered lsb first.
 
@@ -18,7 +19,7 @@ const _allColumns = ({ codec = null }) => codec.spec.spine.width + _textColumns(
 const _hasExpansion = ({ codec = null }) => _titleWidth({ codec }) === 4;
 
 function _literalAt({ inst = {}, bit = 0 }) {
-  return (inst.mask >>> bit) & 1 ? String((inst.match >>> bit) & 1) : null;
+  return bitOf(inst.mask, bit) ? String(bitOf(inst.match, bit)) : null;
 }
 
 function _sectionRow({ codec = null, title = '' }) {

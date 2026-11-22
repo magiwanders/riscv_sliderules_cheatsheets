@@ -47,6 +47,9 @@ function _bits({ value = 0, width = 1 }) {
   return ((value >>> 0) & (2 ** width - 1)).toString(2).padStart(width, '0');
 }
 
+// Bit b of a word, a number or (on spines wider than 32 bits, x86) a BigInt.
+export const bitOf = (word, b) => (typeof word === 'bigint' ? Number((word >> BigInt(b)) & 1n) : Math.floor(word / 2 ** b) % 2);
+
 export function registerName({ number = 0, fp = false }) {
   return (fp ? F_ABI : X_ABI)[number];
 }
@@ -129,6 +132,30 @@ export function createCodec(spec) {
   // the CSRs known by name: the set's own (RV64 has no cycleh), or RV32's
   const csrs = spec.csrs || CSRS;
   const SPINE = spine.width;
+  // Words are numbers up to 32 bits, BigInts on wider spines (x86's instructions of up to 15 bytes): the spine's width is
+  // the only parameter. W holds the few operations on them; values of fields and immediates stay numbers.
+  const WIDE = SPINE > 32;
+  const W = WIDE ? {
+    zero: 0n,
+    norm: (a) => BigInt.asUintN(SPINE, BigInt(a)),
+    bits: (word, hi, lo) => Number((BigInt(word) >> BigInt(lo)) & ((1n << BigInt(hi - lo + 1)) - 1n)),
+    bit: (word, b) => Number((BigInt(word) >> BigInt(b)) & 1n),
+    place: (value, lo) => BigInt(value) << BigInt(lo),
+    ones: (width, lo) => ((1n << BigInt(width)) - 1n) << BigInt(lo),
+    or: (a, b) => a | b,
+    and: (a, b) => a & b,
+    xor: (a, b) => a ^ b,
+  } : {
+    zero: 0,
+    norm: (a) => Number(a) >>> 0,
+    bits: (word, hi, lo) => _field({ word, hi, lo }),
+    bit: (word, b) => (word >>> b) & 1,
+    place: (value, lo) => (value * 2 ** lo) >>> 0,
+    ones: (width, lo) => ((2 ** width - 1) * 2 ** lo) >>> 0,
+    or: (a, b) => (a | b) >>> 0,
+    and: (a, b) => (a & b) >>> 0,
+    xor: (a, b) => (a ^ b) >>> 0,
+  };
   const pseudoInstructions = spec.pseudoInstructions || [];
   const OPERANDS = spec.operands || {};
   const immediates = spec.immediates;
@@ -213,17 +240,15 @@ export function createCodec(spec) {
     const group = groups[inst.group];
     const { width, segments } = parseEncoding({ enc: inst.enc, format: group.format });
     if (formats[group.format].width && width !== formats[group.format].width) throw new Error(`${inst.name}: encoding is ${width} bits`);
-    let mask = 0;
-    let match = 0;
+    let mask = W.zero;
+    let match = W.zero;
     for (const s of segments.filter((s) => s.kind === 'lit')) {
-      mask |= (2 ** s.width - 1) << s.lo;
-      match |= parseInt(s.bits, 2) << s.lo;
+      mask = W.or(mask, W.ones(s.width, s.lo));
+      match = W.or(match, W.place(parseInt(s.bits, 2), s.lo));
     }
-    mask >>>= 0;
-    match >>>= 0;
     const imm = segments.filter((s) => s.kind === 'imm');
     const immMsb = imm.length ? Math.max(...imm.flatMap((s) => s.immBits)) : -1;
-    const sortKey = _decodeOrder({ width }).map((b) => ((mask >>> b) & 1 ? (match >>> b) & 1 : 2)).join('');
+    const sortKey = _decodeOrder({ width }).map((b) => (W.bit(mask, b) ? W.bit(match, b) : 2)).join('');
     const id = inst.reserved || inst.hint ? `${inst.name}@${inst.group}#${index}` : spec.repeatedNames ? `${inst.name} ${inst.asm}`.trim() : inst.name;
     return {
       ...group, ...inst, id, groupKey: inst.group, width, lsb: lsbOf({ width }), segments, mask, match, sortKey,
@@ -239,7 +264,7 @@ export function createCodec(spec) {
   function _immValue({ inst = {}, word = 0 }) {
     let value = 0;
     for (const s of inst.segments.filter((s) => s.kind === 'imm')) {
-      s.immBits.forEach((immBit, j) => { value += ((word >>> (s.hi - j)) & 1) * 2 ** immBit; });
+      s.immBits.forEach((immBit, j) => { value += W.bit(word, s.hi - j) * 2 ** immBit; });
     }
     if (inst.immSigned && value >= 2 ** inst.immMsb) value -= 2 ** (inst.immMsb + 1);
     return value;
@@ -264,17 +289,17 @@ export function createCodec(spec) {
   // distinct: two fields that cannot hold the same value (cm.mvsa01's r1s and r2s); value of a field of a word
   const _fieldValue = ({ inst = {}, key = '', word = 0 }) => {
     const segments = inst.segments.filter((x) => x.key === key && (x.kind === 'field' || x.kind === 'reg'));
-    if (!segments.some((s) => s.split)) return _field({ word, hi: segments[0].hi, lo: segments[0].lo });
+    if (!segments.some((s) => s.split)) return W.bits(word, segments[0].hi, segments[0].lo);
     // a split field: its parts' bits
     let value = 0;
-    for (const s of segments) s.fieldBits.forEach((b, j) => { value += ((word >>> (s.hi - j)) & 1) * 2 ** b; });
+    for (const s of segments) s.fieldBits.forEach((b, j) => { value += W.bit(word, s.hi - j) * 2 ** b; });
     return value;
   };
   const _sameDistinct = ({ inst = {}, word = 0 }) => Boolean(inst.distinct) && _fieldValue({ inst, key: inst.distinct[0], word }) === _fieldValue({ inst, key: inst.distinct[1], word });
 
   function _satisfiesFieldConstraints({ inst = {}, word = 0 }) {
     for (const s of inst.segments) {
-      const value = s.split ? _fieldValue({ inst, key: s.key, word }) : _field({ word, hi: s.hi, lo: s.lo }) + (s.compressed ? 8 : 0);
+      const value = s.split ? _fieldValue({ inst, key: s.key, word }) : W.bits(word, s.hi, s.lo) + (s.compressed ? 8 : 0);
       if (s.exclude && s.exclude.includes(value)) return false;
     }
     if (_sameDistinct({ inst, word })) return false;
@@ -283,33 +308,31 @@ export function createCodec(spec) {
 
   // constraints: one entry per spine position, index 0 = the leftmost, each '-', '0' or '1'.
   function matchesConstraints({ inst = {}, constraints = [] }) {
-    let known = 0;
-    let value = 0;
+    let known = W.zero;
+    let value = W.zero;
     for (let bit = inst.lsb; bit < inst.lsb + inst.width; bit++) {
       const c = constraints[SPINE - 1 - bit];
       if (c === '-') continue;
-      known |= 1 << bit;
-      value |= Number(c) << bit;
+      known = W.or(known, W.place(1, bit));
+      value = W.or(value, W.place(Number(c), bit));
     }
-    known >>>= 0;
-    value >>>= 0;
-    if (((value ^ inst.match) & inst.mask & known) >>> 0) return false;
+    if (W.and(W.and(W.xor(value, inst.match), inst.mask), known) != W.zero) return false;
     // Field constraints (rd != 0, nzimm) can only be checked once every bit of the field is known.
     for (const s of inst.segments) {
       if (!s.exclude || !s.exclude.length) continue;
       // a split field is checked once all its parts are known
       const parts = s.split ? inst.segments.filter((x) => x.key === s.key) : [s];
-      const fieldMask = parts.reduce((m, x) => (m | ((2 ** x.width - 1) * 2 ** x.lo)) >>> 0, 0);
-      const v = s.split ? _fieldValue({ inst, key: s.key, word: value }) : _field({ word: value, hi: s.hi, lo: s.lo }) + (s.compressed ? 8 : 0);
-      if ((known & fieldMask) >>> 0 === fieldMask && s.exclude.includes(v)) return false;
+      const fieldMask = parts.reduce((m, x) => W.or(m, W.ones(x.width, x.lo)), W.zero);
+      const v = s.split ? _fieldValue({ inst, key: s.key, word: value }) : W.bits(value, s.hi, s.lo) + (s.compressed ? 8 : 0);
+      if (W.and(known, fieldMask) === fieldMask && s.exclude.includes(v)) return false;
     }
     if (inst.distinct) {
-      const both = inst.segments.filter((s) => inst.distinct.includes(s.key)).reduce((m, s) => m | ((2 ** s.width - 1) * 2 ** s.lo), 0) >>> 0;
-      if ((known & both) >>> 0 === both && _sameDistinct({ inst, word: value })) return false;
+      const both = inst.segments.filter((s) => inst.distinct.includes(s.key)).reduce((m, s) => W.or(m, W.ones(s.width, s.lo)), W.zero);
+      if (W.and(known, both) === both && _sameDistinct({ inst, word: value })) return false;
     }
     if (inst.immNonZero) {
-      const immMask = inst.segments.filter((s) => s.kind === 'imm').reduce((m, s) => m | ((2 ** s.width - 1) << s.lo), 0) >>> 0;
-      if ((known & immMask) >>> 0 === immMask && (value & immMask) === 0) return false;
+      const immMask = inst.segments.filter((s) => s.kind === 'imm').reduce((m, s) => W.or(m, W.ones(s.width, s.lo)), W.zero);
+      if (W.and(known, immMask) === immMask && W.and(value, immMask) == W.zero) return false;
     }
     return true;
   }
@@ -318,9 +341,9 @@ export function createCodec(spec) {
   function extractFields({ inst = {}, word = 0 }) {
     const fields = {};
     for (const s of inst.segments) {
-      if (s.kind === 'reg') fields[s.key] = _field({ word, hi: s.hi, lo: s.lo }) + (s.compressed ? 8 : 0);
+      if (s.kind === 'reg') fields[s.key] = W.bits(word, s.hi, s.lo) + (s.compressed ? 8 : 0);
       else if (s.kind === 'field') {
-        const value = s.split ? _fieldValue({ inst, key: s.key, word }) : _field({ word, hi: s.hi, lo: s.lo });
+        const value = s.split ? _fieldValue({ inst, key: s.key, word }) : W.bits(word, s.hi, s.lo);
         const width = s.split ? OPERANDS[s.key].width : s.width;
         fields[s.key] = OPERANDS[s.key] && OPERANDS[s.key].signed && value >= 2 ** (width - 1) ? value - 2 ** width : value;
       }
@@ -407,7 +430,7 @@ export function createCodec(spec) {
 
   // Bits of an instruction word covered by an operand (all its segments), for highlighting.
   function fieldMask({ inst = {}, key = 'rd' }) {
-    return inst.segments.filter((s) => s.key === key).reduce((m, s) => (m | ((2 ** s.width - 1) * 2 ** s.lo)) >>> 0, 0);
+    return inst.segments.filter((s) => s.key === key).reduce((m, s) => W.or(m, W.ones(s.width, s.lo)), W.zero);
   }
 
   // Decoding while bits are still being set: the instructions the known bits allow and, when they all are the same
@@ -417,19 +440,19 @@ export function createCodec(spec) {
     const names = [...new Set(candidates.map((i) => i.name))];
     if (candidates.length !== 1) return { candidates, names, inst: null, fields: null };
     const inst = candidates[0];
-    let known = 0;
-    let value = 0;
+    let known = W.zero;
+    let value = W.zero;
     for (let bit = inst.lsb; bit < inst.lsb + inst.width; bit++) {
       const c = constraints[SPINE - 1 - bit];
       if (c === '-') continue;
-      known = (known | 2 ** bit) >>> 0;
-      value = (value | Number(c) * 2 ** bit) >>> 0;
+      known = W.or(known, W.place(1, bit));
+      value = W.or(value, W.place(Number(c), bit));
     }
     const full = extractFields({ inst, word: value });
     const fields = {};
     for (const key of Object.keys(full)) {
       const mask = fieldMask({ inst, key });
-      fields[key] = (known & mask) >>> 0 === mask ? full[key] : null;
+      fields[key] = W.and(known, mask) === mask ? full[key] : null;
     }
     return { candidates, names, inst, fields };
   }
@@ -446,11 +469,11 @@ export function createCodec(spec) {
     const width = knownWidth({ constraints });
     if (width === null) return null;
     const lsb = lsbOf({ width });
-    let word = 0;
+    let word = W.zero;
     for (let b = lsb; b < lsb + width; b++) {
       const c = constraints[SPINE - 1 - b];
       if (c === '-') return null;
-      word += Number(c) * 2 ** b;
+      word = W.or(word, W.place(Number(c), b));
     }
     return { word, width };
   }
@@ -461,12 +484,12 @@ export function createCodec(spec) {
 
   // Decodes a word in spine positions. Returns null if nothing matches.
   function decodeWord({ word = 0 }) {
-    word >>>= 0;
-    const width = spec.widthOf ? spec.widthOf({ bit: (b) => String((word >>> b) & 1) }) : null;
-    if (width && !spine.bytes && width < 32) word = (word & (2 ** width - 1)) >>> 0;
+    word = W.norm(word);
+    const width = spec.widthOf ? spec.widthOf({ bit: (b) => String(W.bit(word, b)) }) : null;
+    if (width && !spine.bytes && width < SPINE) word = W.and(word, W.ones(width, 0));
     for (const inst of _byPriority) {
       if (width && inst.width !== width) continue;
-      if (((word & inst.mask) >>> 0) !== inst.match) continue;
+      if (W.and(word, inst.mask) !== inst.match) continue;
       if (!_satisfiesFieldConstraints({ inst, word })) continue;
       const fields = extractFields({ inst, word });
       if (inst.reserved || inst.hint) return { inst, word, fields, assembly: inst.description };
@@ -648,7 +671,7 @@ export function createCodec(spec) {
       }
       if (inst.immNonZero && v === 0) throw new Error(`${inst.name}: immediate must be non-zero`);
       for (const s of inst.segments.filter((s) => s.kind === 'imm')) {
-        s.immBits.forEach((immBit, j) => { word |= (Math.floor(v / 2 ** immBit) & 1) << (s.hi - j); });
+        s.immBits.forEach((immBit, j) => { word = W.or(word, W.place(Math.floor(v / 2 ** immBit) & 1, s.hi - j)); });
       }
       return word;
     }
@@ -663,7 +686,7 @@ export function createCodec(spec) {
       // bits the parts do not hold (push's list has no r8-r12)
       const held = parts.flatMap((s) => s.fieldBits);
       for (let b = 0; b < width; b++) if (!held.includes(b) && Math.floor(field / 2 ** b) & 1) throw new Error(`${inst.name}: ${key} cannot be ${operandText({ key, value })} here`);
-      for (const s of parts) s.fieldBits.forEach((b, j) => { word |= (Math.floor(field / 2 ** b) & 1) << (s.hi - j); });
+      for (const s of parts) s.fieldBits.forEach((b, j) => { word = W.or(word, W.place(Math.floor(field / 2 ** b) & 1, s.hi - j)); });
       return word;
     }
     for (const s of parts) {
@@ -675,7 +698,7 @@ export function createCodec(spec) {
       if (s.exclude && s.exclude.includes(value)) throw new Error(`${inst.name}: ${key} cannot be ${s.kind === 'reg' ? `x${value}` : operandText({ key, value })}`);
       if (OPERANDS[key] && OPERANDS[key].signed && field < 0 && field >= -(2 ** (s.width - 1))) field += 2 ** s.width;
       if (field < 0 || field >= 2 ** s.width) throw new Error(`${inst.name}: ${key} = ${value} does not fit in ${s.width} bits`);
-      word |= field << s.lo;
+      word = W.or(word, W.place(field, s.lo));
     }
     return word;
   }
@@ -687,7 +710,7 @@ export function createCodec(spec) {
       if (fields[key] === undefined) throw new Error(`${inst.name}: missing ${key}`);
       word = _place({ inst, key, value: fields[key], word });
     }
-    word >>>= 0;
+    word = W.norm(word);
     if (_sameDistinct({ inst, word })) throw new Error(`${inst.name}: ${inst.distinct.join(' and ')} must differ`);
     const decoded = extractFields({ inst, word });
     return { inst, word, fields: decoded, assembly: formatAssembly({ inst, fields: decoded }) };
@@ -875,7 +898,7 @@ export function createCodec(spec) {
   // ---------------------------------------------------------------- the spine
 
   // A word as the instruction's bits (the spine position of an instruction further left does not count).
-  const _aligned = ({ word = 0, width = SPINE }) => (word >>> lsbOf({ width })) >>> 0;
+  const _aligned = ({ word = 0, width = SPINE }) => (WIDE ? (BigInt(word) >> BigInt(lsbOf({ width }))) & ((1n << BigInt(width)) - 1n) : (word >>> lsbOf({ width })) >>> 0);
 
   function hex({ word = 0, width = SPINE }) {
     return `0x${_aligned({ word, width }).toString(16).padStart(width / 4, '0')}`;
@@ -928,7 +951,7 @@ export function createCodec(spec) {
   return {
     spec, compiled, pseudos, encodable, unusedOpcodeRows, parseEncoding, immRange, matchesConstraints, extractFields, assemblyParts, operandsText,
     operandText, isOmitted, templateText, templateOperands, formatAssembly, fieldMask, partialDecode, knownWidth, selectedWord, missingBits, decodeWord, unusedOpcode, operandInfo, templateParts,
-    tokenKey, encodeEntry, encodeAssembly, assemblyChoice, immediateView, hex, binary, bitName, bitNumber, byteStart, pasteStates, typeName, numericOperand, csrs,
+    tokenKey, encodeEntry, encodeAssembly, bitAt: ({ word, bit }) => W.bit(word, bit), wide: WIDE, assemblyChoice, immediateView, hex, binary, bitName, bitNumber, byteStart, pasteStates, typeName, numericOperand, csrs,
   };
 }
 

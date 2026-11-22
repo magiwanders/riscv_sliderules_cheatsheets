@@ -1,6 +1,6 @@
-// Generates src/isa/generated/z80.mjs and hack.mjs, the instruction data of the Z80 and Hack sheets, from their
-// unofficial Sail and TableGen descriptions (spec/unofficial/: neither Zilog nor nand2tetris publish one) and the
-// overlays src/isa/overlay/{z80,hack}.json. Each instruction must have the same bits in the Sail encdec clause and in the
+// Generates src/isa/generated/z80.mjs, i8080.mjs and hack.mjs, the instruction data of the Z80, 8080 and Hack sheets,
+// from their unofficial Sail and TableGen descriptions (spec/unofficial/: neither Zilog, Intel nor nand2tetris publish
+// one) and the overlays src/isa/overlay/{z80,i8080,hack}.json. Each instruction must have the same bits in the Sail encdec clause and in the
 // TableGen record of the same name; the overlay's operand exclusions must be the Sail guards'.
 //
 // Cells follow the Sail pieces: a literal piece is a cell, the pieces of one immediate make one (nn[7..0] @ nn[15..8]
@@ -19,6 +19,15 @@ const SETS = {
   z80: {
     sail: 'spec/unofficial/z80/z80.sail', tablegen: 'spec/unofficial/z80/Z80.json', unit: 8, immediates: ['n', 'nn', 'e'],
     // "LD\t$r, ($i$d)": mnemonic LD, operands "r, (id)"
+    assembly: (asm) => {
+      const [, name, rest = ''] = unescape(asm).match(/^(\S+)\s*(.*)$/);
+      return { name, asm: rest.replace(/\$(\w+)/g, '$1') };
+    },
+    exports: ['formats', 'sections', 'extensions', 'operands', 'groups', 'instructions', 'registers'],
+  },
+  i8080: {
+    sail: 'spec/unofficial/i8080/i8080.sail', tablegen: 'spec/unofficial/i8080/I8080.json', unit: 8, immediates: ['data', 'data16', 'addr', 'port'],
+    // "MOV\t$r1,$r2": mnemonic MOV, operands "r1,r2"
     assembly: (asm) => {
       const [, name, rest = ''] = unescape(asm).match(/^(\S+)\s*(.*)$/);
       return { name, asm: rest.replace(/\$(\w+)/g, '$1') };

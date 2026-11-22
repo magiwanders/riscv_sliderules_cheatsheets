@@ -104,3 +104,32 @@ export function allCases({ codec = rv32, perEntry = 4, seed = 2026, safe = false
   }
   return cases;
 }
+
+// Every combination of the operands chosen from a list (registers, conditions, ...) of each instruction, the immediate at
+// a random value: every opcode a set has, for the small sets whose assemblers check them all (the 8080).
+export function everyEncoding({ codec, seed = 2026 }) {
+  const random = rng({ seed });
+  const cases = [];
+  for (const entry of codec.encodable.filter((e) => !e.pseudo)) {
+    let texts = [{ parts: [] }];
+    for (const op of splitOperands({ text: entry.asm })) {
+      let options = [''];
+      for (const part of codec.templateParts({ op })) {
+        if (!part.token) {
+          options = options.map((o) => o + part.text);
+          continue;
+        }
+        const info = codec.operandInfo({ entry, token: part.token });
+        if (info.kind === 'enum') {
+          options = options.flatMap((o) => info.names.map((name, n) => (info.exclude.includes(n) ? null : o + name)).filter((x) => x !== null));
+        } else {
+          const value = _immediate({ random, range: info.range });
+          options = options.map((o) => o + (info.key ? codec.operandText({ key: info.key, value }) : codec.spec.immText ? codec.spec.immText({ inst: entry, value }) : String(value)));
+        }
+      }
+      texts = texts.flatMap((t) => options.map((o) => ({ parts: [...t.parts, o] })));
+    }
+    for (const { parts } of texts) cases.push({ id: entry.id, entry, operands: parts.join(codec.spec.separator ?? ', '), ordering: '' });
+  }
+  return cases;
+}

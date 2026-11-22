@@ -17,14 +17,16 @@ names, ABI names, encodings and CSR addresses from) and llvm-mos's instruction f
 
 ## Unofficial descriptions
 
-There is no Sail model of the 6502, the Z80 or the Hack computer, and no TableGen description of the Z80's or Hack's
-encodings (the Z80 backends outside LLVM describe instructions for code generation only, without their bits). The
+There is no Sail model of the 6502, the 8080, the Z80 or the Hack computer, and no TableGen description of the 8080's,
+the Z80's or Hack's encodings (the Z80 backends outside LLVM describe instructions for code generation only, without
+their bits). The
 files in `unofficial/` are written for the sheets, in the style of the official ones, and marked UNOFFICIAL in their
 headers:
 
 | File | What it is |
 | --- | --- |
 | `unofficial/z80/z80.sail`, `Z80.td` | The Z80's documented instructions, from the opcode tables of Zilog's Z80 CPU User Manual (UM0080) |
+| `unofficial/i8080/i8080.sail`, `I8080.td` | The 8080's documented instructions: the Sail from the bit fields of Intel's 8080 Microcomputer Systems User's Manual, the TableGen from the opcode table of the 8080 Assembly Language Programming Manual (opcode bytes and field positions, a separate reading) |
 | `unofficial/hack/hack.sail`, `Hack.td` | The Hack machine language, from chapter 4 of The Elements of Computing Systems |
 | `unofficial/mos6502/mos6502.sail` | The 6502's official opcodes, from MOS Technology's programming manual; checked against llvm-mos |
 | `unofficial/*/*.json` | Their TableGen, extracted as for the official ones (`npm run isa:tablegen -- --target Z80 --td ...`) |
@@ -32,7 +34,7 @@ headers:
 They describe encodings and assembly only (union clauses, `encdec` and `assembly` mappings; TableGen records with
 `Inst` and `AsmString`), no semantics. `llvm-tblgen` reads the TableGen files; the Sail files have not been through the
 Sail compiler. The generator checks each Sail clause against the TableGen record of the same name bit by bit, and the
-tests assemble every instruction with two independent assemblers (py65 and ca65, skoolkit and sjasmplus; Hack against
+tests assemble every instruction with two independent assemblers (py65 and ca65, skoolkit and sjasmplus, asl and as8085; Hack against
 the book's examples). An instruction is its bytes in memory order in Sail, while TableGen numbers the first byte lowest,
 as LLVM does.
 
@@ -51,6 +53,7 @@ TableGen: build `llvm-tblgen` from the release (only it is needed: `ninja llvm-t
 npm run isa:tablegen -- --llvm ~/llvm-project --tblgen ~/llvm-project/build/bin/llvm-tblgen --target RISCV
 npm run isa:tablegen -- --llvm ~/llvm-mos --project llvm-mos/llvm-mos --tblgen ~/llvm-project/build/bin/llvm-tblgen --target MOS
 npm run isa:tablegen -- --llvm ~/llvm-project --tblgen ~/llvm-project/build/bin/llvm-tblgen --target Z80 --td spec/unofficial/z80/Z80.td --out spec/unofficial/z80/Z80.json --project unofficial
+npm run isa:tablegen -- --llvm ~/llvm-project --tblgen ~/llvm-project/build/bin/llvm-tblgen --target I8080 --td spec/unofficial/i8080/I8080.td --out spec/unofficial/i8080/I8080.json --project unofficial
 npm run isa:tablegen -- --llvm ~/llvm-project --tblgen ~/llvm-project/build/bin/llvm-tblgen --target Hack --td spec/unofficial/hack/Hack.td --out spec/unofficial/hack/Hack.json --project unofficial
 npm run isa
 ```

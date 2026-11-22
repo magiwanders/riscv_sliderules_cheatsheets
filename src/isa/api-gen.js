@@ -99,6 +99,7 @@ const EXPORTS = {
             about: 'The 6502 in llvm-mos, llvm-mos/llvm-mos commit ae72e49843c256272d89421942079cd623bedafb (Apache 2.0 with LLVM exception); its other files are left out' },
     },
     z80: { sail: { files: ['spec/unofficial/z80/z80.sail'] }, tablegen: { files: ['spec/unofficial/z80/Z80.td'] } },
+    8080: { sail: { files: ['spec/unofficial/i8080/i8080.sail'] }, tablegen: { files: ['spec/unofficial/i8080/I8080.td'] } },
     hack: { sail: { files: ['spec/unofficial/hack/hack.sail'] }, tablegen: { files: ['spec/unofficial/hack/Hack.td'] } },
 };
 

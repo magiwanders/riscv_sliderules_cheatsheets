@@ -6,19 +6,21 @@ import { allCases } from './cases.mjs';
 
 // The sheets other than RV32GC. The 6502 and the Z80 against two independent assemblers each: py65 and skoolkit
 // (test/vectors/{mos6502,z80}.json, `npm run vectors:retro`), ca65 and sjasmplus (test/vectors/mos6502-ca65.json,
-// z80-sjasmplus.json, `npm run vectors:retro-asm`). Hack against the assembly of the nand2tetris book.
+// z80-sjasmplus.json, `npm run vectors:retro-asm`); the 8080 against asl and as8085 (test/vectors/i8080-asl.json,
+// i8080-as8085.json, `npm run vectors:retro-asm`). Hack against the assembly of the nand2tetris book.
 
 const codecOf = (value) => isas.find((i) => i.value === value).codec;
 const mos6502 = codecOf('6502');
 const z80 = codecOf('z80');
 const hack = codecOf('hack');
+const i8080 = codecOf('8080');
 const vectors = (name) => JSON.parse(readFileSync(new URL(`./vectors/${name}.json`, import.meta.url), 'utf8'));
 
 // The instruction's bytes in memory order.
 const bytesOf = ({ codec, word }) => codec.hex({ word: word.word, width: word.inst.width }).slice(2).match(/../g).map((b) => parseInt(b, 16));
 const wordOf = ({ bytes, width }) => [...bytes, ...new Array(width / 8).fill(0)].slice(0, width / 8).reduce((word, b) => word * 256 + b, 0);
 
-for (const [name, codec] of [['mos6502', mos6502], ['z80', z80], ['mos6502-ca65', mos6502], ['z80-sjasmplus', z80]]) {
+for (const [name, codec] of [['mos6502', mos6502], ['z80', z80], ['mos6502-ca65', mos6502], ['z80-sjasmplus', z80], ['i8080-asl', i8080], ['i8080-as8085', i8080]]) {
   test(`${name.replace(/-.*/, '')} encodings match ${vectors(name).reference}`, () => {
     const failures = [];
     for (const { id, operands, assembly, bytes } of vectors(name).vectors) {
@@ -27,9 +29,21 @@ for (const [name, codec] of [['mos6502', mos6502], ['z80', z80], ['mos6502-ca65'
       if (JSON.stringify(ours) !== JSON.stringify(bytes)) failures.push(`${assembly}: sliderule ${ours}, reference ${bytes}`);
     }
     assert.deepEqual(failures, []);
-    assert.ok(vectors(name).vectors.length > 500);
+    assert.ok(vectors(name).vectors.length > 350);
   });
 }
+
+test('the 8080 assemblers know every listed opcode, and the opcodes not listed are the twelve undocumented ones', () => {
+  const UNDOCUMENTED = [0x08, 0x10, 0x18, 0x20, 0x28, 0x30, 0x38, 0xcb, 0xd9, 0xdd, 0xed, 0xfd];
+  for (const name of ['i8080-asl', 'i8080-as8085']) {
+    const assembled = new Set(vectors(name).vectors.map(({ bytes }) => bytes[0]));
+    for (let opcode = 0; opcode < 256; opcode++) {
+      const decoded = i8080.decodeWord({ word: opcode * 2 ** 16 });
+      assert.equal(Boolean(decoded), !UNDOCUMENTED.includes(opcode), `opcode ${opcode.toString(16)}`);
+      assert.equal(assembled.has(opcode), Boolean(decoded), `${name}: opcode ${opcode.toString(16)}`);
+    }
+  }
+});
 
 test('the 6502 opcode table is py65\'s: 151 official opcodes, nothing else', () => {
   const { opcodes } = vectors('mos6502');
@@ -57,7 +71,7 @@ test('the Z80 opcode table is skoolkit\'s, documented instructions only', () => 
 test('the default instruction set is RV32GC, at the versions the sheets show', () => {
   assert.equal(isas[0].value, 'rv32gc');
   assert.deepEqual(isas.filter((isa) => isa.codec).map(({ value, version }) => [value, version]),
-    [['rv32gc', 'v1.0'], ['rv64gc', 'v1.0'], ['z80', 'v0.1'], ['6502', 'v0.1'], ['hack', 'v0.1']]);
+    [['rv32gc', 'v1.0'], ['rv64gc', 'v1.0'], ['8080', 'v0.1'], ['z80', 'v0.1'], ['6502', 'v0.1'], ['hack', 'v0.1']]);
   assert.ok(isas.filter((isa) => !isa.codec).every((isa) => !isa.version));
 });
 
@@ -82,7 +96,7 @@ test('Hack has every comp of the language and no other', () => {
   assert.equal(hack.decodeWord({ word: 0b1000110000010000 }), null);
 });
 
-for (const { value, codec } of [{ value: '6502', codec: mos6502 }, { value: 'z80', codec: z80 }, { value: 'hack', codec: hack }]) {
+for (const { value, codec } of [{ value: '6502', codec: mos6502 }, { value: 'z80', codec: z80 }, { value: '8080', codec: i8080 }, { value: 'hack', codec: hack }]) {
   test(`${value}: every entry decodes back to itself`, () => {
     for (const { entry, operands } of allCases({ codec })) {
       const [{ word, inst, assembly, fields }] = codec.encodeEntry({ entry, operands }).words;
@@ -142,4 +156,9 @@ test('assembly the way each set writes it', () => {
   assert.equal(assembly(z80, "EX AF, AF'"), "EX AF, AF'");
   assert.deepEqual(bytesOf({ codec: z80, word: z80.encodeAssembly({ assembly: 'LD A, $05' }).words[0] }), [0x3e, 0x05]);
   assert.throws(() => z80.encodeAssembly({ assembly: 'LD (HL), (HL)' }));
+  assert.equal(assembly(i8080, 'mov a,m'), 'MOV A,M');
+  assert.equal(assembly(i8080, 'LXI SP,$1234'), 'LXI SP,$1234');
+  assert.equal(assembly(i8080, 'CPE $0038'), 'CPE $0038');
+  assert.deepEqual(bytesOf({ codec: i8080, word: i8080.encodeAssembly({ assembly: 'PUSH PSW' }).words[0] }), [0xf5]);
+  assert.throws(() => i8080.encodeAssembly({ assembly: 'MOV M,M' }));
 });

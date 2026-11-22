@@ -1,5 +1,6 @@
 import { createCodec, rv32 } from './codec.mjs';
 import * as hack from './hack.mjs';
+import * as i8080 from './i8080.mjs';
 import * as mos6502 from './mos6502.mjs';
 import * as rv32gc from './rv32gc.mjs';
 import * as rv64gc from './rv64gc.mjs';
@@ -48,6 +49,8 @@ export const isas = [
     specs: { sail: 'the RV64 files of the official RISC-V Sail model (sail-riscv), every ratified extension', tablegen: 'the RV64 files of LLVM\'s RISC-V target (official), every ratified extension' } },
   { value: 'mips32', family: 'mips', label: 'MIPS32' },
   { value: 'mips64', family: 'mips', label: 'MIPS64' },
+  { value: '8080', family: 'intel', label: '8080', version: 'v0.1', codec: createCodec(i8080),
+    specs: { sail: 'unofficial, written for these sheets from Intel\'s 8080 manuals', tablegen: 'unofficial, written for these sheets from Intel\'s 8080 manuals' } },
   { value: '8051', family: 'intel', label: '8051 (MCS-51)', short: '8051' },
   { value: '8086', family: 'intel', label: '8086' },
   { value: 'x86', family: 'intel', label: 'x86 (IA-32)', short: 'x86' },

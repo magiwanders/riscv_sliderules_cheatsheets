@@ -1,0 +1,3884 @@
+{
+ "source": {
+  "project": "unofficial",
+  "revision": "spec/unofficial/i8080/I8080.td",
+  "tblgen": "23.1.5",
+  "target": "I8080"
+ },
+ "instructions": {
+  "ACI": {
+   "asm": "ACI\t$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "ADC_M": {
+   "asm": "ADC\tM",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "ADC_r": {
+   "asm": "ADC\t$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "ADD_M": {
+   "asm": "ADD\tM",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "ADD_r": {
+   "asm": "ADD\t$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "ADI": {
+   "asm": "ADI\t$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "ANA_M": {
+   "asm": "ANA\tM",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "ANA_r": {
+   "asm": "ANA\t$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "ANI": {
+   "asm": "ANI\t$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CALL": {
+   "asm": "CALL\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CC": {
+   "asm": "CC\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CM": {
+   "asm": "CM\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CMA": {
+   "asm": "CMA",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CMC": {
+   "asm": "CMC",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CMP_M": {
+   "asm": "CMP\tM",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CMP_r": {
+   "asm": "CMP\t$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CNC": {
+   "asm": "CNC\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CNZ": {
+   "asm": "CNZ\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CP": {
+   "asm": "CP\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CPE": {
+   "asm": "CPE\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CPI": {
+   "asm": "CPI\t$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CPO": {
+   "asm": "CPO\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "CZ": {
+   "asm": "CZ\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "DAA": {
+   "asm": "DAA",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "DAD": {
+   "asm": "DAD\t$rp",
+   "outs": [],
+   "ins": [
+    [
+     "rp_op",
+     "rp"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "rp{1}",
+    "rp{0}",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "DCR_M": {
+   "asm": "DCR\tM",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "DCR_r": {
+   "asm": "DCR\t$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "r{2}",
+    "r{1}",
+    "r{0}",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "DCX": {
+   "asm": "DCX\t$rp",
+   "outs": [],
+   "ins": [
+    [
+     "rp_op",
+     "rp"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "rp{1}",
+    "rp{0}",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "DI": {
+   "asm": "DI",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "EI": {
+   "asm": "EI",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "HLT": {
+   "asm": "HLT",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "IN": {
+   "asm": "IN\t$port",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "port"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "port{7}",
+    "port{6}",
+    "port{5}",
+    "port{4}",
+    "port{3}",
+    "port{2}",
+    "port{1}",
+    "port{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "INR_M": {
+   "asm": "INR\tM",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "INR_r": {
+   "asm": "INR\t$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "r{2}",
+    "r{1}",
+    "r{0}",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "INX": {
+   "asm": "INX\t$rp",
+   "outs": [],
+   "ins": [
+    [
+     "rp_op",
+     "rp"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "rp{1}",
+    "rp{0}",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "JC": {
+   "asm": "JC\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "JM": {
+   "asm": "JM\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "JMP": {
+   "asm": "JMP\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "JNC": {
+   "asm": "JNC\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "JNZ": {
+   "asm": "JNZ\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "JP": {
+   "asm": "JP\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "JPE": {
+   "asm": "JPE\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "JPO": {
+   "asm": "JPO\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "JZ": {
+   "asm": "JZ\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "LDA": {
+   "asm": "LDA\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "LDAX_B": {
+   "asm": "LDAX\tB",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "LDAX_D": {
+   "asm": "LDAX\tD",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "LHLD": {
+   "asm": "LHLD\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "LXI": {
+   "asm": "LXI\t$rp,$data16",
+   "outs": [],
+   "ins": [
+    [
+     "rp_op",
+     "rp"
+    ],
+    [
+     "imm16",
+     "data16"
+    ]
+   ],
+   "inst": [
+    "data16{15}",
+    "data16{14}",
+    "data16{13}",
+    "data16{12}",
+    "data16{11}",
+    "data16{10}",
+    "data16{9}",
+    "data16{8}",
+    "data16{7}",
+    "data16{6}",
+    "data16{5}",
+    "data16{4}",
+    "data16{3}",
+    "data16{2}",
+    "data16{1}",
+    "data16{0}",
+    "0",
+    "0",
+    "rp{1}",
+    "rp{0}",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "MOV_M_r": {
+   "asm": "MOV\tM,$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "MOV_r1_r2": {
+   "asm": "MOV\t$r1,$r2",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r1"
+    ],
+    [
+     "reg_op",
+     "r2"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "1",
+    "r1{2}",
+    "r1{1}",
+    "r1{0}",
+    "r2{2}",
+    "r2{1}",
+    "r2{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "MOV_r_M": {
+   "asm": "MOV\t$r,M",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "MVI_M": {
+   "asm": "MVI\tM,$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "MVI_r": {
+   "asm": "MVI\t$r,$data",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ],
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "0",
+    "0",
+    "r{2}",
+    "r{1}",
+    "r{0}",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "NOP": {
+   "asm": "NOP",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "ORA_M": {
+   "asm": "ORA\tM",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "ORA_r": {
+   "asm": "ORA\t$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "ORI": {
+   "asm": "ORI\t$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "OUT": {
+   "asm": "OUT\t$port",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "port"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "port{7}",
+    "port{6}",
+    "port{5}",
+    "port{4}",
+    "port{3}",
+    "port{2}",
+    "port{1}",
+    "port{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "PCHL": {
+   "asm": "PCHL",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "POP": {
+   "asm": "POP\t$rs",
+   "outs": [],
+   "ins": [
+    [
+     "rs_op",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "PUSH": {
+   "asm": "PUSH\t$rs",
+   "outs": [],
+   "ins": [
+    [
+     "rs_op",
+     "rs"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "rs{1}",
+    "rs{0}",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RAL": {
+   "asm": "RAL",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RAR": {
+   "asm": "RAR",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RC": {
+   "asm": "RC",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RET": {
+   "asm": "RET",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RLC": {
+   "asm": "RLC",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RM": {
+   "asm": "RM",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RNC": {
+   "asm": "RNC",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RNZ": {
+   "asm": "RNZ",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RP": {
+   "asm": "RP",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RPE": {
+   "asm": "RPE",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RPO": {
+   "asm": "RPO",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RRC": {
+   "asm": "RRC",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RST": {
+   "asm": "RST\t$n",
+   "outs": [],
+   "ins": [
+    [
+     "rst_op",
+     "n"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "n{2}",
+    "n{1}",
+    "n{0}",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "RZ": {
+   "asm": "RZ",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "SBB_M": {
+   "asm": "SBB\tM",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "SBB_r": {
+   "asm": "SBB\t$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "SBI": {
+   "asm": "SBI\t$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "SHLD": {
+   "asm": "SHLD\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "SPHL": {
+   "asm": "SPHL",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "STA": {
+   "asm": "STA\t$addr",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr"
+    ]
+   ],
+   "inst": [
+    "addr{15}",
+    "addr{14}",
+    "addr{13}",
+    "addr{12}",
+    "addr{11}",
+    "addr{10}",
+    "addr{9}",
+    "addr{8}",
+    "addr{7}",
+    "addr{6}",
+    "addr{5}",
+    "addr{4}",
+    "addr{3}",
+    "addr{2}",
+    "addr{1}",
+    "addr{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "STAX_B": {
+   "asm": "STAX\tB",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "STAX_D": {
+   "asm": "STAX\tD",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "STC": {
+   "asm": "STC",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "SUB_M": {
+   "asm": "SUB\tM",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "SUB_r": {
+   "asm": "SUB\t$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "SUI": {
+   "asm": "SUI\t$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "XCHG": {
+   "asm": "XCHG",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "XRA_M": {
+   "asm": "XRA\tM",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "XRA_r": {
+   "asm": "XRA\t$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "XRI": {
+   "asm": "XRI\t$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  },
+  "XTHL": {
+   "asm": "XTHL",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "I8080Inst"
+   ]
+  }
+ },
+ "aliases": [],
+ "operands": {
+  "imm16": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "imm8": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "reg_op": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "rp_op": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "rs_op": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "rst_op": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  }
+ },
+ "registerClasses": {}
+}

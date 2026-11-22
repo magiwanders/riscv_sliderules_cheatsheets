@@ -185,6 +185,7 @@ const TARGETS = {
   // The unofficial descriptions of spec/unofficial (--td spec/unofficial/z80/Z80.td, .../hack/Hack.td).
   Z80: { keepInstruction: ({ record }) => record.Namespace === 'Z80', keepAlias: () => false },
   Hack: { keepInstruction: ({ record }) => record.Namespace === 'Hack', keepAlias: () => false },
+  I8080: { keepInstruction: ({ record }) => record.Namespace === 'I8080', keepAlias: () => false },
 };
 
 function _arg(name) {

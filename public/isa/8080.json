@@ -1,0 +1,1939 @@
+{
+  "name": "8080",
+  "formats": {
+    "IMP": {
+      "title": "Implied"
+    },
+    "REG": {
+      "title": "Register"
+    },
+    "IMM": {
+      "title": "Immediate"
+    },
+    "EXT": {
+      "title": "Direct"
+    },
+    "IND": {
+      "title": "Register Indirect"
+    }
+  },
+  "groups": {
+    "nop": {
+      "section": "s00",
+      "format": "IMP",
+      "title": "No Operation",
+      "pseudocode": ""
+    },
+    "lxi": {
+      "section": "s00",
+      "format": "IMM",
+      "title": "Load Register Pair Immediate",
+      "pseudocode": "rp = data16"
+    },
+    "rp-arith": {
+      "section": "s00",
+      "format": "REG",
+      "title": "Register Pair Arithmetic",
+      "pseudocode": "on the pair rp"
+    },
+    "ldax": {
+      "section": "s00",
+      "format": "IND",
+      "title": "Load / Store A through BC / DE",
+      "pseudocode": "A ↔ [ BC / DE ]"
+    },
+    "direct": {
+      "section": "s00",
+      "format": "EXT",
+      "title": "Load / Store Direct",
+      "pseudocode": "A / HL ↔ [ addr ]"
+    },
+    "inr-r": {
+      "section": "s00",
+      "format": "REG",
+      "title": "Increment / Decrement Register",
+      "pseudocode": "r ±= 1"
+    },
+    "inr-m": {
+      "section": "s00",
+      "format": "IND",
+      "title": "Increment / Decrement Memory",
+      "pseudocode": "[ HL ] ±= 1"
+    },
+    "mvi-r": {
+      "section": "s00",
+      "format": "IMM",
+      "title": "Move Immediate",
+      "pseudocode": "r = data"
+    },
+    "mvi-m": {
+      "section": "s00",
+      "format": "IND",
+      "title": "Move to Memory Immediate",
+      "pseudocode": "[ HL ] = data"
+    },
+    "rot": {
+      "section": "s00",
+      "format": "IMP",
+      "title": "Rotate the Accumulator",
+      "pseudocode": "A rotated by one bit"
+    },
+    "daa": {
+      "section": "s00",
+      "format": "IMP",
+      "title": "Decimal Adjust",
+      "pseudocode": "A = A as two BCD digits"
+    },
+    "acc": {
+      "section": "s00",
+      "format": "IMP",
+      "title": "Accumulator and Carry",
+      "pseudocode": ""
+    },
+    "mov-r": {
+      "section": "s01",
+      "format": "REG",
+      "title": "Move Register",
+      "pseudocode": "r1 = r2"
+    },
+    "mov-m": {
+      "section": "s01",
+      "format": "IND",
+      "title": "Move to / from Memory",
+      "pseudocode": "r ↔ [ HL ]"
+    },
+    "hlt": {
+      "section": "s01",
+      "format": "IMP",
+      "title": "Halt",
+      "pseudocode": "stop until an interrupt"
+    },
+    "alu-r": {
+      "section": "s10",
+      "format": "REG",
+      "title": "Arithmetic and Logic on a Register",
+      "pseudocode": "A = A (op) r"
+    },
+    "alu-m": {
+      "section": "s10",
+      "format": "IND",
+      "title": "Arithmetic and Logic with Memory",
+      "pseudocode": "A = A (op) [ HL ]"
+    },
+    "ret-c": {
+      "section": "s11",
+      "format": "IMP",
+      "title": "Conditional Return",
+      "pseudocode": "if ( condition ) PC = [ SP ] ; SP += 2"
+    },
+    "stack": {
+      "section": "s11",
+      "format": "REG",
+      "title": "Push and Pop",
+      "pseudocode": "SP -= 2 ; [ SP ] = rs  |  rs = [ SP ] ; SP += 2"
+    },
+    "jmp-c": {
+      "section": "s11",
+      "format": "EXT",
+      "title": "Conditional Jump",
+      "pseudocode": "if ( condition ) PC = addr"
+    },
+    "jmp": {
+      "section": "s11",
+      "format": "EXT",
+      "title": "Jump and Call",
+      "pseudocode": "PC = addr"
+    },
+    "io": {
+      "section": "s11",
+      "format": "IMM",
+      "title": "Input / Output",
+      "pseudocode": "A ↔ port"
+    },
+    "exchange": {
+      "section": "s11",
+      "format": "IMP",
+      "title": "Exchanges, Jumps through HL",
+      "pseudocode": ""
+    },
+    "int": {
+      "section": "s11",
+      "format": "IMP",
+      "title": "Interrupts",
+      "pseudocode": "INTE = 1 / 0"
+    },
+    "call-c": {
+      "section": "s11",
+      "format": "EXT",
+      "title": "Conditional Call",
+      "pseudocode": "if ( condition ) { SP -= 2 ; [ SP ] = PC ; PC = addr }"
+    },
+    "alu-i": {
+      "section": "s11",
+      "format": "IMM",
+      "title": "Arithmetic and Logic with Immediate",
+      "pseudocode": "A = A (op) data"
+    },
+    "ret": {
+      "section": "s11",
+      "format": "IMP",
+      "title": "Return",
+      "pseudocode": "PC = [ SP ] ; SP += 2"
+    },
+    "rst": {
+      "section": "s11",
+      "format": "IMP",
+      "title": "Restart",
+      "pseudocode": "SP -= 2 ; [ SP ] = PC ; PC = 8 × n"
+    }
+  },
+  "sections": {
+    "s00": "00 — Loads, Increments, Rotates",
+    "s01": "01 — Moves",
+    "s10": "10 — Arithmetic and Logic",
+    "s11": "11 — Jumps, Calls, Stack, Immediates"
+  },
+  "operands": {
+    "r": {
+      "width": 3,
+      "names": [
+        "B",
+        "C",
+        "D",
+        "E",
+        "H",
+        "L",
+        "M",
+        "A"
+      ],
+      "exclude": [
+        6
+      ]
+    },
+    "r1": {
+      "width": 3,
+      "names": [
+        "B",
+        "C",
+        "D",
+        "E",
+        "H",
+        "L",
+        "M",
+        "A"
+      ],
+      "exclude": [
+        6
+      ]
+    },
+    "r2": {
+      "width": 3,
+      "names": [
+        "B",
+        "C",
+        "D",
+        "E",
+        "H",
+        "L",
+        "M",
+        "A"
+      ],
+      "exclude": [
+        6
+      ]
+    },
+    "rp": {
+      "width": 2,
+      "names": [
+        "B",
+        "D",
+        "H",
+        "SP"
+      ]
+    },
+    "rs": {
+      "width": 2,
+      "names": [
+        "B",
+        "D",
+        "H",
+        "PSW"
+      ]
+    },
+    "n": {
+      "width": 3,
+      "names": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ]
+    }
+  },
+  "instructions": [
+    {
+      "id": "NOP",
+      "name": "NOP",
+      "group": "nop",
+      "extension": "Stack, I/O, Control",
+      "format": "IMP",
+      "description": "No Operation",
+      "pseudocode": "",
+      "enc": "00000000",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x00"
+    },
+    {
+      "id": "LXI rp,data16",
+      "name": "LXI",
+      "group": "lxi",
+      "extension": "Data Transfer",
+      "format": "IMM",
+      "description": "Load Register Pair Immediate",
+      "pseudocode": "rp = data16",
+      "enc": "00 rp 0001 data16[7:0|15:8]",
+      "asm": "rp,data16",
+      "flags": "",
+      "width": 24,
+      "mask": "0xcf0000",
+      "match": "0x010000"
+    },
+    {
+      "id": "DAD rp",
+      "name": "DAD",
+      "group": "rp-arith",
+      "extension": "Arithmetic",
+      "format": "REG",
+      "description": "Add Register Pair to H and L",
+      "pseudocode": "HL = HL + rp",
+      "enc": "00 rp 1001",
+      "asm": "rp",
+      "flags": "CY",
+      "width": 8,
+      "mask": "0xcf",
+      "match": "0x09"
+    },
+    {
+      "id": "INX rp",
+      "name": "INX",
+      "group": "rp-arith",
+      "extension": "Arithmetic",
+      "format": "REG",
+      "description": "Increment Register Pair",
+      "pseudocode": "rp = rp + 1",
+      "enc": "00 rp 0011",
+      "asm": "rp",
+      "flags": "",
+      "width": 8,
+      "mask": "0xcf",
+      "match": "0x03"
+    },
+    {
+      "id": "DCX rp",
+      "name": "DCX",
+      "group": "rp-arith",
+      "extension": "Arithmetic",
+      "format": "REG",
+      "description": "Decrement Register Pair",
+      "pseudocode": "rp = rp - 1",
+      "enc": "00 rp 1011",
+      "asm": "rp",
+      "flags": "",
+      "width": 8,
+      "mask": "0xcf",
+      "match": "0x0b"
+    },
+    {
+      "id": "STAX B",
+      "name": "STAX",
+      "group": "ldax",
+      "extension": "Data Transfer",
+      "format": "IND",
+      "description": "Store Accumulator Indirect",
+      "pseudocode": "[ BC ] = A",
+      "enc": "00000010",
+      "asm": "B",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x02"
+    },
+    {
+      "id": "LDAX B",
+      "name": "LDAX",
+      "group": "ldax",
+      "extension": "Data Transfer",
+      "format": "IND",
+      "description": "Load Accumulator Indirect",
+      "pseudocode": "A = [ BC ]",
+      "enc": "00001010",
+      "asm": "B",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x0a"
+    },
+    {
+      "id": "STAX D",
+      "name": "STAX",
+      "group": "ldax",
+      "extension": "Data Transfer",
+      "format": "IND",
+      "description": "Store Accumulator Indirect",
+      "pseudocode": "[ DE ] = A",
+      "enc": "00010010",
+      "asm": "D",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x12"
+    },
+    {
+      "id": "LDAX D",
+      "name": "LDAX",
+      "group": "ldax",
+      "extension": "Data Transfer",
+      "format": "IND",
+      "description": "Load Accumulator Indirect",
+      "pseudocode": "A = [ DE ]",
+      "enc": "00011010",
+      "asm": "D",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x1a"
+    },
+    {
+      "id": "SHLD addr",
+      "name": "SHLD",
+      "group": "direct",
+      "extension": "Data Transfer",
+      "format": "EXT",
+      "description": "Store H and L Direct",
+      "pseudocode": "[ addr ] = L ; [ addr + 1 ] = H",
+      "enc": "00100010 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0x220000"
+    },
+    {
+      "id": "LHLD addr",
+      "name": "LHLD",
+      "group": "direct",
+      "extension": "Data Transfer",
+      "format": "EXT",
+      "description": "Load H and L Direct",
+      "pseudocode": "L = [ addr ] ; H = [ addr + 1 ]",
+      "enc": "00101010 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0x2a0000"
+    },
+    {
+      "id": "STA addr",
+      "name": "STA",
+      "group": "direct",
+      "extension": "Data Transfer",
+      "format": "EXT",
+      "description": "Store Accumulator Direct",
+      "pseudocode": "[ addr ] = A",
+      "enc": "00110010 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0x320000"
+    },
+    {
+      "id": "LDA addr",
+      "name": "LDA",
+      "group": "direct",
+      "extension": "Data Transfer",
+      "format": "EXT",
+      "description": "Load Accumulator Direct",
+      "pseudocode": "A = [ addr ]",
+      "enc": "00111010 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0x3a0000"
+    },
+    {
+      "id": "INR M",
+      "name": "INR",
+      "group": "inr-m",
+      "extension": "Arithmetic",
+      "format": "IND",
+      "description": "Increment Memory",
+      "pseudocode": "[ HL ] = [ HL ] + 1",
+      "enc": "00110100",
+      "asm": "M",
+      "flags": "Z S P AC",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x34"
+    },
+    {
+      "id": "DCR M",
+      "name": "DCR",
+      "group": "inr-m",
+      "extension": "Arithmetic",
+      "format": "IND",
+      "description": "Decrement Memory",
+      "pseudocode": "[ HL ] = [ HL ] - 1",
+      "enc": "00110101",
+      "asm": "M",
+      "flags": "Z S P AC",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x35"
+    },
+    {
+      "id": "INR r",
+      "name": "INR",
+      "group": "inr-r",
+      "extension": "Arithmetic",
+      "format": "REG",
+      "description": "Increment Register",
+      "pseudocode": "r = r + 1",
+      "enc": "00 r 100",
+      "asm": "r",
+      "flags": "Z S P AC",
+      "width": 8,
+      "mask": "0xc7",
+      "match": "0x04"
+    },
+    {
+      "id": "DCR r",
+      "name": "DCR",
+      "group": "inr-r",
+      "extension": "Arithmetic",
+      "format": "REG",
+      "description": "Decrement Register",
+      "pseudocode": "r = r - 1",
+      "enc": "00 r 101",
+      "asm": "r",
+      "flags": "Z S P AC",
+      "width": 8,
+      "mask": "0xc7",
+      "match": "0x05"
+    },
+    {
+      "id": "MVI M,data",
+      "name": "MVI",
+      "group": "mvi-m",
+      "extension": "Data Transfer",
+      "format": "IND",
+      "description": "Move to Memory Immediate",
+      "pseudocode": "[ HL ] = data",
+      "enc": "00110110 data[7:0]",
+      "asm": "M,data",
+      "flags": "",
+      "width": 16,
+      "mask": "0xff00",
+      "match": "0x3600"
+    },
+    {
+      "id": "MVI r,data",
+      "name": "MVI",
+      "group": "mvi-r",
+      "extension": "Data Transfer",
+      "format": "IMM",
+      "description": "Move Immediate",
+      "pseudocode": "r = data",
+      "enc": "00 r 110 data[7:0]",
+      "asm": "r,data",
+      "flags": "",
+      "width": 16,
+      "mask": "0xc700",
+      "match": "0x0600"
+    },
+    {
+      "id": "RLC",
+      "name": "RLC",
+      "group": "rot",
+      "extension": "Logical",
+      "format": "IMP",
+      "description": "Rotate Left",
+      "pseudocode": "A = A << 1 | A[7] ; CY = A[7]",
+      "enc": "00000111",
+      "asm": "",
+      "flags": "CY",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x07"
+    },
+    {
+      "id": "RRC",
+      "name": "RRC",
+      "group": "rot",
+      "extension": "Logical",
+      "format": "IMP",
+      "description": "Rotate Right",
+      "pseudocode": "A = A >> 1 | A[0] << 7 ; CY = A[0]",
+      "enc": "00001111",
+      "asm": "",
+      "flags": "CY",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x0f"
+    },
+    {
+      "id": "RAL",
+      "name": "RAL",
+      "group": "rot",
+      "extension": "Logical",
+      "format": "IMP",
+      "description": "Rotate Left through Carry",
+      "pseudocode": "A = A << 1 | CY ; CY = A[7]",
+      "enc": "00010111",
+      "asm": "",
+      "flags": "CY",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x17"
+    },
+    {
+      "id": "RAR",
+      "name": "RAR",
+      "group": "rot",
+      "extension": "Logical",
+      "format": "IMP",
+      "description": "Rotate Right through Carry",
+      "pseudocode": "A = A >> 1 | CY << 7 ; CY = A[0]",
+      "enc": "00011111",
+      "asm": "",
+      "flags": "CY",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x1f"
+    },
+    {
+      "id": "DAA",
+      "name": "DAA",
+      "group": "daa",
+      "extension": "Arithmetic",
+      "format": "IMP",
+      "description": "Decimal Adjust Accumulator",
+      "pseudocode": "A = A as two BCD digits",
+      "enc": "00100111",
+      "asm": "",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x27"
+    },
+    {
+      "id": "CMA",
+      "name": "CMA",
+      "group": "acc",
+      "extension": "Logical",
+      "format": "IMP",
+      "description": "Complement Accumulator",
+      "pseudocode": "A = ~A",
+      "enc": "00101111",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x2f"
+    },
+    {
+      "id": "STC",
+      "name": "STC",
+      "group": "acc",
+      "extension": "Logical",
+      "format": "IMP",
+      "description": "Set Carry",
+      "pseudocode": "CY = 1",
+      "enc": "00110111",
+      "asm": "",
+      "flags": "CY",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x37"
+    },
+    {
+      "id": "CMC",
+      "name": "CMC",
+      "group": "acc",
+      "extension": "Logical",
+      "format": "IMP",
+      "description": "Complement Carry",
+      "pseudocode": "CY = ~CY",
+      "enc": "00111111",
+      "asm": "",
+      "flags": "CY",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x3f"
+    },
+    {
+      "id": "HLT",
+      "name": "HLT",
+      "group": "hlt",
+      "extension": "Stack, I/O, Control",
+      "format": "IMP",
+      "description": "Halt",
+      "pseudocode": "stop until an interrupt",
+      "enc": "01110110",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x76"
+    },
+    {
+      "id": "MOV r,M",
+      "name": "MOV",
+      "group": "mov-m",
+      "extension": "Data Transfer",
+      "format": "IND",
+      "description": "Move from Memory",
+      "pseudocode": "r = [ HL ]",
+      "enc": "01 r 110",
+      "asm": "r,M",
+      "flags": "",
+      "width": 8,
+      "mask": "0xc7",
+      "match": "0x46"
+    },
+    {
+      "id": "MOV M,r",
+      "name": "MOV",
+      "group": "mov-m",
+      "extension": "Data Transfer",
+      "format": "IND",
+      "description": "Move to Memory",
+      "pseudocode": "[ HL ] = r",
+      "enc": "01110 r",
+      "asm": "M,r",
+      "flags": "",
+      "width": 8,
+      "mask": "0xf8",
+      "match": "0x70"
+    },
+    {
+      "id": "MOV r1,r2",
+      "name": "MOV",
+      "group": "mov-r",
+      "extension": "Data Transfer",
+      "format": "REG",
+      "description": "Move Register",
+      "pseudocode": "r1 = r2",
+      "enc": "01 r1 r2",
+      "asm": "r1,r2",
+      "flags": "",
+      "width": 8,
+      "mask": "0xc0",
+      "match": "0x40"
+    },
+    {
+      "id": "ADD M",
+      "name": "ADD",
+      "group": "alu-m",
+      "extension": "Arithmetic",
+      "format": "IND",
+      "description": "Add Memory",
+      "pseudocode": "A = A + [ HL ]",
+      "enc": "10000110",
+      "asm": "M",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x86"
+    },
+    {
+      "id": "ADC M",
+      "name": "ADC",
+      "group": "alu-m",
+      "extension": "Arithmetic",
+      "format": "IND",
+      "description": "Add with Carry Memory",
+      "pseudocode": "A = A + [ HL ] + CY",
+      "enc": "10001110",
+      "asm": "M",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x8e"
+    },
+    {
+      "id": "SUB M",
+      "name": "SUB",
+      "group": "alu-m",
+      "extension": "Arithmetic",
+      "format": "IND",
+      "description": "Subtract Memory",
+      "pseudocode": "A = A - [ HL ]",
+      "enc": "10010110",
+      "asm": "M",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x96"
+    },
+    {
+      "id": "SBB M",
+      "name": "SBB",
+      "group": "alu-m",
+      "extension": "Arithmetic",
+      "format": "IND",
+      "description": "Subtract with Borrow Memory",
+      "pseudocode": "A = A - [ HL ] - CY",
+      "enc": "10011110",
+      "asm": "M",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0x9e"
+    },
+    {
+      "id": "ANA M",
+      "name": "ANA",
+      "group": "alu-m",
+      "extension": "Logical",
+      "format": "IND",
+      "description": "AND Memory",
+      "pseudocode": "A = A & [ HL ]",
+      "enc": "10100110",
+      "asm": "M",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xa6"
+    },
+    {
+      "id": "XRA M",
+      "name": "XRA",
+      "group": "alu-m",
+      "extension": "Logical",
+      "format": "IND",
+      "description": "Exclusive OR Memory",
+      "pseudocode": "A = A ^ [ HL ]",
+      "enc": "10101110",
+      "asm": "M",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xae"
+    },
+    {
+      "id": "ORA M",
+      "name": "ORA",
+      "group": "alu-m",
+      "extension": "Logical",
+      "format": "IND",
+      "description": "OR Memory",
+      "pseudocode": "A = A | [ HL ]",
+      "enc": "10110110",
+      "asm": "M",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xb6"
+    },
+    {
+      "id": "CMP M",
+      "name": "CMP",
+      "group": "alu-m",
+      "extension": "Logical",
+      "format": "IND",
+      "description": "Compare Memory",
+      "pseudocode": "flags of A - [ HL ]",
+      "enc": "10111110",
+      "asm": "M",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xbe"
+    },
+    {
+      "id": "ADD r",
+      "name": "ADD",
+      "group": "alu-r",
+      "extension": "Arithmetic",
+      "format": "REG",
+      "description": "Add Register",
+      "pseudocode": "A = A + r",
+      "enc": "10000 r",
+      "asm": "r",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xf8",
+      "match": "0x80"
+    },
+    {
+      "id": "ADC r",
+      "name": "ADC",
+      "group": "alu-r",
+      "extension": "Arithmetic",
+      "format": "REG",
+      "description": "Add with Carry Register",
+      "pseudocode": "A = A + r + CY",
+      "enc": "10001 r",
+      "asm": "r",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xf8",
+      "match": "0x88"
+    },
+    {
+      "id": "SUB r",
+      "name": "SUB",
+      "group": "alu-r",
+      "extension": "Arithmetic",
+      "format": "REG",
+      "description": "Subtract Register",
+      "pseudocode": "A = A - r",
+      "enc": "10010 r",
+      "asm": "r",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xf8",
+      "match": "0x90"
+    },
+    {
+      "id": "SBB r",
+      "name": "SBB",
+      "group": "alu-r",
+      "extension": "Arithmetic",
+      "format": "REG",
+      "description": "Subtract with Borrow Register",
+      "pseudocode": "A = A - r - CY",
+      "enc": "10011 r",
+      "asm": "r",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xf8",
+      "match": "0x98"
+    },
+    {
+      "id": "ANA r",
+      "name": "ANA",
+      "group": "alu-r",
+      "extension": "Logical",
+      "format": "REG",
+      "description": "AND Register",
+      "pseudocode": "A = A & r",
+      "enc": "10100 r",
+      "asm": "r",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xf8",
+      "match": "0xa0"
+    },
+    {
+      "id": "XRA r",
+      "name": "XRA",
+      "group": "alu-r",
+      "extension": "Logical",
+      "format": "REG",
+      "description": "Exclusive OR Register",
+      "pseudocode": "A = A ^ r",
+      "enc": "10101 r",
+      "asm": "r",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xf8",
+      "match": "0xa8"
+    },
+    {
+      "id": "ORA r",
+      "name": "ORA",
+      "group": "alu-r",
+      "extension": "Logical",
+      "format": "REG",
+      "description": "OR Register",
+      "pseudocode": "A = A | r",
+      "enc": "10110 r",
+      "asm": "r",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xf8",
+      "match": "0xb0"
+    },
+    {
+      "id": "CMP r",
+      "name": "CMP",
+      "group": "alu-r",
+      "extension": "Logical",
+      "format": "REG",
+      "description": "Compare Register",
+      "pseudocode": "flags of A - r",
+      "enc": "10111 r",
+      "asm": "r",
+      "flags": "Z S P CY AC",
+      "width": 8,
+      "mask": "0xf8",
+      "match": "0xb8"
+    },
+    {
+      "id": "RNZ",
+      "name": "RNZ",
+      "group": "ret-c",
+      "extension": "Branch",
+      "format": "IMP",
+      "description": "Return if Not Zero",
+      "pseudocode": "if ( Z = 0 ) PC = [ SP ] ; SP += 2",
+      "enc": "11000000",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xc0"
+    },
+    {
+      "id": "RZ",
+      "name": "RZ",
+      "group": "ret-c",
+      "extension": "Branch",
+      "format": "IMP",
+      "description": "Return if Zero",
+      "pseudocode": "if ( Z = 1 ) PC = [ SP ] ; SP += 2",
+      "enc": "11001000",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xc8"
+    },
+    {
+      "id": "RNC",
+      "name": "RNC",
+      "group": "ret-c",
+      "extension": "Branch",
+      "format": "IMP",
+      "description": "Return if No Carry",
+      "pseudocode": "if ( CY = 0 ) PC = [ SP ] ; SP += 2",
+      "enc": "11010000",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xd0"
+    },
+    {
+      "id": "RC",
+      "name": "RC",
+      "group": "ret-c",
+      "extension": "Branch",
+      "format": "IMP",
+      "description": "Return if Carry",
+      "pseudocode": "if ( CY = 1 ) PC = [ SP ] ; SP += 2",
+      "enc": "11011000",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xd8"
+    },
+    {
+      "id": "RPO",
+      "name": "RPO",
+      "group": "ret-c",
+      "extension": "Branch",
+      "format": "IMP",
+      "description": "Return if Parity Odd",
+      "pseudocode": "if ( P = 0 ) PC = [ SP ] ; SP += 2",
+      "enc": "11100000",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xe0"
+    },
+    {
+      "id": "RPE",
+      "name": "RPE",
+      "group": "ret-c",
+      "extension": "Branch",
+      "format": "IMP",
+      "description": "Return if Parity Even",
+      "pseudocode": "if ( P = 1 ) PC = [ SP ] ; SP += 2",
+      "enc": "11101000",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xe8"
+    },
+    {
+      "id": "RP",
+      "name": "RP",
+      "group": "ret-c",
+      "extension": "Branch",
+      "format": "IMP",
+      "description": "Return if Plus",
+      "pseudocode": "if ( S = 0 ) PC = [ SP ] ; SP += 2",
+      "enc": "11110000",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xf0"
+    },
+    {
+      "id": "RM",
+      "name": "RM",
+      "group": "ret-c",
+      "extension": "Branch",
+      "format": "IMP",
+      "description": "Return if Minus",
+      "pseudocode": "if ( S = 1 ) PC = [ SP ] ; SP += 2",
+      "enc": "11111000",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xf8"
+    },
+    {
+      "id": "POP rs",
+      "name": "POP",
+      "group": "stack",
+      "extension": "Stack, I/O, Control",
+      "format": "REG",
+      "description": "Pop",
+      "pseudocode": "rs = [ SP ] ; SP += 2 (PSW: A and the flags)",
+      "enc": "11 rs 0001",
+      "asm": "rs",
+      "flags": "POP PSW: all",
+      "width": 8,
+      "mask": "0xcf",
+      "match": "0xc1"
+    },
+    {
+      "id": "PUSH rs",
+      "name": "PUSH",
+      "group": "stack",
+      "extension": "Stack, I/O, Control",
+      "format": "REG",
+      "description": "Push",
+      "pseudocode": "SP -= 2 ; [ SP ] = rs",
+      "enc": "11 rs 0101",
+      "asm": "rs",
+      "flags": "",
+      "width": 8,
+      "mask": "0xcf",
+      "match": "0xc5"
+    },
+    {
+      "id": "JNZ addr",
+      "name": "JNZ",
+      "group": "jmp-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Jump if Not Zero",
+      "pseudocode": "if ( Z = 0 ) PC = addr",
+      "enc": "11000010 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xc20000"
+    },
+    {
+      "id": "JZ addr",
+      "name": "JZ",
+      "group": "jmp-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Jump if Zero",
+      "pseudocode": "if ( Z = 1 ) PC = addr",
+      "enc": "11001010 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xca0000"
+    },
+    {
+      "id": "JNC addr",
+      "name": "JNC",
+      "group": "jmp-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Jump if No Carry",
+      "pseudocode": "if ( CY = 0 ) PC = addr",
+      "enc": "11010010 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xd20000"
+    },
+    {
+      "id": "JC addr",
+      "name": "JC",
+      "group": "jmp-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Jump if Carry",
+      "pseudocode": "if ( CY = 1 ) PC = addr",
+      "enc": "11011010 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xda0000"
+    },
+    {
+      "id": "JPO addr",
+      "name": "JPO",
+      "group": "jmp-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Jump if Parity Odd",
+      "pseudocode": "if ( P = 0 ) PC = addr",
+      "enc": "11100010 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xe20000"
+    },
+    {
+      "id": "JPE addr",
+      "name": "JPE",
+      "group": "jmp-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Jump if Parity Even",
+      "pseudocode": "if ( P = 1 ) PC = addr",
+      "enc": "11101010 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xea0000"
+    },
+    {
+      "id": "JP addr",
+      "name": "JP",
+      "group": "jmp-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Jump if Plus",
+      "pseudocode": "if ( S = 0 ) PC = addr",
+      "enc": "11110010 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xf20000"
+    },
+    {
+      "id": "JM addr",
+      "name": "JM",
+      "group": "jmp-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Jump if Minus",
+      "pseudocode": "if ( S = 1 ) PC = addr",
+      "enc": "11111010 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xfa0000"
+    },
+    {
+      "id": "JMP addr",
+      "name": "JMP",
+      "group": "jmp",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Jump",
+      "pseudocode": "PC = addr",
+      "enc": "11000011 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xc30000"
+    },
+    {
+      "id": "CALL addr",
+      "name": "CALL",
+      "group": "jmp",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Call",
+      "pseudocode": "SP -= 2 ; [ SP ] = PC ; PC = addr",
+      "enc": "11001101 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xcd0000"
+    },
+    {
+      "id": "OUT port",
+      "name": "OUT",
+      "group": "io",
+      "extension": "Stack, I/O, Control",
+      "format": "IMM",
+      "description": "Output",
+      "pseudocode": "port = A",
+      "enc": "11010011 port[7:0]",
+      "asm": "port",
+      "flags": "",
+      "width": 16,
+      "mask": "0xff00",
+      "match": "0xd300"
+    },
+    {
+      "id": "IN port",
+      "name": "IN",
+      "group": "io",
+      "extension": "Stack, I/O, Control",
+      "format": "IMM",
+      "description": "Input",
+      "pseudocode": "A = port",
+      "enc": "11011011 port[7:0]",
+      "asm": "port",
+      "flags": "",
+      "width": 16,
+      "mask": "0xff00",
+      "match": "0xdb00"
+    },
+    {
+      "id": "XTHL",
+      "name": "XTHL",
+      "group": "exchange",
+      "extension": "Stack, I/O, Control",
+      "format": "IMP",
+      "description": "Exchange Stack Top with H and L",
+      "pseudocode": "L ↔ [ SP ] ; H ↔ [ SP + 1 ]",
+      "enc": "11100011",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xe3"
+    },
+    {
+      "id": "PCHL",
+      "name": "PCHL",
+      "group": "exchange",
+      "extension": "Branch",
+      "format": "IMP",
+      "description": "Jump H and L Indirect",
+      "pseudocode": "PC = HL",
+      "enc": "11101001",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xe9"
+    },
+    {
+      "id": "XCHG",
+      "name": "XCHG",
+      "group": "exchange",
+      "extension": "Data Transfer",
+      "format": "IMP",
+      "description": "Exchange H and L with D and E",
+      "pseudocode": "HL ↔ DE",
+      "enc": "11101011",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xeb"
+    },
+    {
+      "id": "SPHL",
+      "name": "SPHL",
+      "group": "exchange",
+      "extension": "Stack, I/O, Control",
+      "format": "IMP",
+      "description": "Move H and L to SP",
+      "pseudocode": "SP = HL",
+      "enc": "11111001",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xf9"
+    },
+    {
+      "id": "DI",
+      "name": "DI",
+      "group": "int",
+      "extension": "Stack, I/O, Control",
+      "format": "IMP",
+      "description": "Disable Interrupts",
+      "pseudocode": "INTE = 0",
+      "enc": "11110011",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xf3"
+    },
+    {
+      "id": "EI",
+      "name": "EI",
+      "group": "int",
+      "extension": "Stack, I/O, Control",
+      "format": "IMP",
+      "description": "Enable Interrupts",
+      "pseudocode": "INTE = 1 (after the next instruction)",
+      "enc": "11111011",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xfb"
+    },
+    {
+      "id": "CNZ addr",
+      "name": "CNZ",
+      "group": "call-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Call if Not Zero",
+      "pseudocode": "if ( Z = 0 ) { SP -= 2 ; [ SP ] = PC ; PC = addr }",
+      "enc": "11000100 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xc40000"
+    },
+    {
+      "id": "CZ addr",
+      "name": "CZ",
+      "group": "call-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Call if Zero",
+      "pseudocode": "if ( Z = 1 ) { SP -= 2 ; [ SP ] = PC ; PC = addr }",
+      "enc": "11001100 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xcc0000"
+    },
+    {
+      "id": "CNC addr",
+      "name": "CNC",
+      "group": "call-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Call if No Carry",
+      "pseudocode": "if ( CY = 0 ) { SP -= 2 ; [ SP ] = PC ; PC = addr }",
+      "enc": "11010100 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xd40000"
+    },
+    {
+      "id": "CC addr",
+      "name": "CC",
+      "group": "call-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Call if Carry",
+      "pseudocode": "if ( CY = 1 ) { SP -= 2 ; [ SP ] = PC ; PC = addr }",
+      "enc": "11011100 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xdc0000"
+    },
+    {
+      "id": "CPO addr",
+      "name": "CPO",
+      "group": "call-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Call if Parity Odd",
+      "pseudocode": "if ( P = 0 ) { SP -= 2 ; [ SP ] = PC ; PC = addr }",
+      "enc": "11100100 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xe40000"
+    },
+    {
+      "id": "CPE addr",
+      "name": "CPE",
+      "group": "call-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Call if Parity Even",
+      "pseudocode": "if ( P = 1 ) { SP -= 2 ; [ SP ] = PC ; PC = addr }",
+      "enc": "11101100 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xec0000"
+    },
+    {
+      "id": "CP addr",
+      "name": "CP",
+      "group": "call-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Call if Plus",
+      "pseudocode": "if ( S = 0 ) { SP -= 2 ; [ SP ] = PC ; PC = addr }",
+      "enc": "11110100 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xf40000"
+    },
+    {
+      "id": "CM addr",
+      "name": "CM",
+      "group": "call-c",
+      "extension": "Branch",
+      "format": "EXT",
+      "description": "Call if Minus",
+      "pseudocode": "if ( S = 1 ) { SP -= 2 ; [ SP ] = PC ; PC = addr }",
+      "enc": "11111100 addr[7:0|15:8]",
+      "asm": "addr",
+      "flags": "",
+      "width": 24,
+      "mask": "0xff0000",
+      "match": "0xfc0000"
+    },
+    {
+      "id": "RET",
+      "name": "RET",
+      "group": "ret",
+      "extension": "Branch",
+      "format": "IMP",
+      "description": "Return",
+      "pseudocode": "PC = [ SP ] ; SP += 2",
+      "enc": "11001001",
+      "asm": "",
+      "flags": "",
+      "width": 8,
+      "mask": "0xff",
+      "match": "0xc9"
+    },
+    {
+      "id": "ADI data",
+      "name": "ADI",
+      "group": "alu-i",
+      "extension": "Arithmetic",
+      "format": "IMM",
+      "description": "Add Immediate",
+      "pseudocode": "A = A + data",
+      "enc": "11000110 data[7:0]",
+      "asm": "data",
+      "flags": "Z S P CY AC",
+      "width": 16,
+      "mask": "0xff00",
+      "match": "0xc600"
+    },
+    {
+      "id": "ACI data",
+      "name": "ACI",
+      "group": "alu-i",
+      "extension": "Arithmetic",
+      "format": "IMM",
+      "description": "Add with Carry Immediate",
+      "pseudocode": "A = A + data + CY",
+      "enc": "11001110 data[7:0]",
+      "asm": "data",
+      "flags": "Z S P CY AC",
+      "width": 16,
+      "mask": "0xff00",
+      "match": "0xce00"
+    },
+    {
+      "id": "SUI data",
+      "name": "SUI",
+      "group": "alu-i",
+      "extension": "Arithmetic",
+      "format": "IMM",
+      "description": "Subtract Immediate",
+      "pseudocode": "A = A - data",
+      "enc": "11010110 data[7:0]",
+      "asm": "data",
+      "flags": "Z S P CY AC",
+      "width": 16,
+      "mask": "0xff00",
+      "match": "0xd600"
+    },
+    {
+      "id": "SBI data",
+      "name": "SBI",
+      "group": "alu-i",
+      "extension": "Arithmetic",
+      "format": "IMM",
+      "description": "Subtract with Borrow Immediate",
+      "pseudocode": "A = A - data - CY",
+      "enc": "11011110 data[7:0]",
+      "asm": "data",
+      "flags": "Z S P CY AC",
+      "width": 16,
+      "mask": "0xff00",
+      "match": "0xde00"
+    },
+    {
+      "id": "ANI data",
+      "name": "ANI",
+      "group": "alu-i",
+      "extension": "Logical",
+      "format": "IMM",
+      "description": "AND Immediate",
+      "pseudocode": "A = A & data",
+      "enc": "11100110 data[7:0]",
+      "asm": "data",
+      "flags": "Z S P CY AC",
+      "width": 16,
+      "mask": "0xff00",
+      "match": "0xe600"
+    },
+    {
+      "id": "XRI data",
+      "name": "XRI",
+      "group": "alu-i",
+      "extension": "Logical",
+      "format": "IMM",
+      "description": "Exclusive OR Immediate",
+      "pseudocode": "A = A ^ data",
+      "enc": "11101110 data[7:0]",
+      "asm": "data",
+      "flags": "Z S P CY AC",
+      "width": 16,
+      "mask": "0xff00",
+      "match": "0xee00"
+    },
+    {
+      "id": "ORI data",
+      "name": "ORI",
+      "group": "alu-i",
+      "extension": "Logical",
+      "format": "IMM",
+      "description": "OR Immediate",
+      "pseudocode": "A = A | data",
+      "enc": "11110110 data[7:0]",
+      "asm": "data",
+      "flags": "Z S P CY AC",
+      "width": 16,
+      "mask": "0xff00",
+      "match": "0xf600"
+    },
+    {
+      "id": "CPI data",
+      "name": "CPI",
+      "group": "alu-i",
+      "extension": "Logical",
+      "format": "IMM",
+      "description": "Compare Immediate",
+      "pseudocode": "flags of A - data",
+      "enc": "11111110 data[7:0]",
+      "asm": "data",
+      "flags": "Z S P CY AC",
+      "width": 16,
+      "mask": "0xff00",
+      "match": "0xfe00"
+    },
+    {
+      "id": "RST n",
+      "name": "RST",
+      "group": "rst",
+      "extension": "Branch",
+      "format": "IMP",
+      "description": "Restart",
+      "pseudocode": "SP -= 2 ; [ SP ] = PC ; PC = 8 × n",
+      "enc": "11 n 111",
+      "asm": "n",
+      "flags": "",
+      "width": 8,
+      "mask": "0xc7",
+      "match": "0xc7"
+    }
+  ],
+  "pseudoInstructions": [],
+  "registers": [
+    {
+      "title": "Registers (r, r1, r2)",
+      "columns": [
+        "Register",
+        "r",
+        "Meaning"
+      ],
+      "group": "CPU Registers",
+      "rows": [
+        [
+          "B",
+          "000",
+          "General purpose; high byte of the pair B (BC)"
+        ],
+        [
+          "C",
+          "001",
+          "General purpose; low byte of the pair B (BC)"
+        ],
+        [
+          "D",
+          "010",
+          "General purpose; high byte of the pair D (DE)"
+        ],
+        [
+          "E",
+          "011",
+          "General purpose; low byte of the pair D (DE)"
+        ],
+        [
+          "H",
+          "100",
+          "General purpose; high byte of the pair H (HL), the memory address of M"
+        ],
+        [
+          "L",
+          "101",
+          "General purpose; low byte of the pair H (HL)"
+        ],
+        [
+          "M",
+          "110",
+          "Not a register: the memory byte HL points to (rows of their own)"
+        ],
+        [
+          "A",
+          "111",
+          "Accumulator: arithmetic and logic results, I/O"
+        ]
+      ]
+    },
+    {
+      "title": "Register Pairs",
+      "columns": [
+        "Pair",
+        "rp",
+        "rs",
+        "Meaning"
+      ],
+      "group": "CPU Registers",
+      "rows": [
+        [
+          "B",
+          "00",
+          "00",
+          "B and C (BC), B the high byte"
+        ],
+        [
+          "D",
+          "01",
+          "01",
+          "D and E (DE), D the high byte"
+        ],
+        [
+          "H",
+          "10",
+          "10",
+          "H and L (HL): the memory pointer of M, the 16 bit accumulator of DAD"
+        ],
+        [
+          "SP",
+          "11",
+          "—",
+          "Stack pointer"
+        ],
+        [
+          "PSW",
+          "—",
+          "11",
+          "Processor status word: A (high byte) and the flags (low byte), for PUSH and POP only"
+        ]
+      ]
+    },
+    {
+      "title": "Program Counter",
+      "columns": [
+        "Register",
+        "Width",
+        "Meaning"
+      ],
+      "group": "CPU Registers",
+      "rows": [
+        [
+          "PC",
+          "16",
+          "Address of the next instruction"
+        ]
+      ]
+    },
+    {
+      "title": "Flags (the low byte of PSW)",
+      "columns": [
+        "Flag",
+        "Bit",
+        "Meaning"
+      ],
+      "group": "Flags",
+      "rows": [
+        [
+          "S",
+          "7",
+          "Sign: bit 7 of the result"
+        ],
+        [
+          "Z",
+          "6",
+          "Zero: the result is 0"
+        ],
+        [
+          "—",
+          "5",
+          "Always 0"
+        ],
+        [
+          "AC",
+          "4",
+          "Auxiliary carry: carry out of bit 3 (for DAA)"
+        ],
+        [
+          "—",
+          "3",
+          "Always 0"
+        ],
+        [
+          "P",
+          "2",
+          "Parity: the result has an even number of 1 bits"
+        ],
+        [
+          "—",
+          "1",
+          "Always 1"
+        ],
+        [
+          "CY",
+          "0",
+          "Carry: carry out of bit 7, or borrow"
+        ]
+      ]
+    },
+    {
+      "title": "Conditions",
+      "columns": [
+        "Condition",
+        "ccc",
+        "True when"
+      ],
+      "group": "Flags",
+      "rows": [
+        [
+          "NZ",
+          "000",
+          "Not Zero: Z = 0"
+        ],
+        [
+          "Z",
+          "001",
+          "Zero: Z = 1"
+        ],
+        [
+          "NC",
+          "010",
+          "No Carry: CY = 0"
+        ],
+        [
+          "C",
+          "011",
+          "Carry: CY = 1"
+        ],
+        [
+          "PO",
+          "100",
+          "Parity Odd: P = 0"
+        ],
+        [
+          "PE",
+          "101",
+          "Parity Even: P = 1"
+        ],
+        [
+          "P",
+          "110",
+          "Plus: S = 0"
+        ],
+        [
+          "M",
+          "111",
+          "Minus: S = 1"
+        ]
+      ]
+    },
+    {
+      "title": "Restart Vectors (n)",
+      "columns": [
+        "RST",
+        "n",
+        "Address"
+      ],
+      "group": "Interrupts",
+      "rows": [
+        [
+          "RST 0",
+          "000",
+          "$0000"
+        ],
+        [
+          "RST 1",
+          "001",
+          "$0008"
+        ],
+        [
+          "RST 2",
+          "010",
+          "$0010"
+        ],
+        [
+          "RST 3",
+          "011",
+          "$0018"
+        ],
+        [
+          "RST 4",
+          "100",
+          "$0020"
+        ],
+        [
+          "RST 5",
+          "101",
+          "$0028"
+        ],
+        [
+          "RST 6",
+          "110",
+          "$0030"
+        ],
+        [
+          "RST 7",
+          "111",
+          "$0038"
+        ]
+      ]
+    }
+  ]
+}

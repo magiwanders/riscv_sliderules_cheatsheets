@@ -447,7 +447,7 @@ function _mnemonicOptions({ entries = _filtered() } = {}) {
   const rank = (e) => _codec.spec.extensions.indexOf(e.extension);
   entries = [...entries].sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name));
   return [{ value: '', label: '—', hint: 'any instruction' }, ...entries.map((e) => ({
-    value: e.id, label: e.name, hint: e.asm || '', group: e.pseudo ? 'Pseudo-instructions' : `'${e.extension}'`, classes: e.pseudo ? 'pseudo' : `fmt-${e.format}`,
+    value: e.id, label: e.name, hint: _codec.templateText({ entry: e }), group: e.pseudo ? 'Pseudo-instructions' : `'${e.extension}'`, classes: e.pseudo ? 'pseudo' : `fmt-${e.format}`,
   }))];
 }
 

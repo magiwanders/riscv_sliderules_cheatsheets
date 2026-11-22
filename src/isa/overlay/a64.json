@@ -1,0 +1,5442 @@
+{
+  "$comment": "What the A64 sheets show that LLVM's AArch64 TableGen and the unofficial Sail do not carry: sections (the top-level encoding groups), groups, formats, each row's mnemonic and assembly (LLVM writes operands through its own printers), description and pseudocode, register names, in the decoder's order. fix makes several rows of one LLVM instruction with an operand fixed (b.eq ... b.nv, msr spsel / daifset / daifclr); llvmFixed names LLVM operands that cover bits the Sail writes as literals (ADD's imm{13} over the reserved shift bit). tools/isa/gen-a64.mjs merges them into src/isa/generated/a64.mjs.",
+  "sections": {
+    "dpimm": "Data Processing — Immediate (op0 100x)",
+    "branch": "Branches, Exception Generating and System (op0 101x)",
+    "ldst": "Loads and Stores (op0 x1x0)",
+    "dpreg": "Data Processing — Register (op0 x101)",
+    "fp": "Data Processing — Scalar Floating-Point (op0 x111)",
+    "reserved": "Reserved (op0 0000)"
+  },
+  "formats": {
+    "DPI": {
+      "title": "Data Processing, Immediate",
+      "width": 32
+    },
+    "DPR": {
+      "title": "Data Processing, Register",
+      "width": 32
+    },
+    "BR": {
+      "title": "Branch",
+      "width": 32
+    },
+    "SYS": {
+      "title": "System",
+      "width": 32
+    },
+    "LD": {
+      "title": "Load",
+      "width": 32
+    },
+    "ST": {
+      "title": "Store",
+      "width": 32
+    },
+    "FP": {
+      "title": "Floating-Point",
+      "width": 32
+    }
+  },
+  "extensions": [
+    "Base",
+    "FP"
+  ],
+  "groups": {
+    "pcrel": {
+      "section": "dpimm",
+      "format": "DPI",
+      "title": "PC-Relative Addressing",
+      "pseudocode": "xd = PC (+ page) + offset"
+    },
+    "addsub-imm": {
+      "section": "dpimm",
+      "format": "DPI",
+      "title": "Add / Subtract (immediate)",
+      "pseudocode": "d = n ± ( imm << sh )"
+    },
+    "logic-imm": {
+      "section": "dpimm",
+      "format": "DPI",
+      "title": "Logical (bitmask immediate)",
+      "pseudocode": "d = n (op) bitmask"
+    },
+    "movewide": {
+      "section": "dpimm",
+      "format": "DPI",
+      "title": "Move Wide (immediate)",
+      "pseudocode": "d = imm << hw (with NOT / keep)"
+    },
+    "bitfield": {
+      "section": "dpimm",
+      "format": "DPI",
+      "title": "Bitfield",
+      "pseudocode": "d = bits of n, rotated"
+    },
+    "extract": {
+      "section": "dpimm",
+      "format": "DPI",
+      "title": "Extract",
+      "pseudocode": "d = ( n : m ) >> lsb"
+    },
+    "branch-imm": {
+      "section": "branch",
+      "format": "BR",
+      "title": "Branch (immediate)",
+      "pseudocode": "PC += label"
+    },
+    "bcond": {
+      "section": "branch",
+      "format": "BR",
+      "title": "Branch Conditionally",
+      "pseudocode": "if ( cond ) PC += label"
+    },
+    "cbz": {
+      "section": "branch",
+      "format": "BR",
+      "title": "Compare and Branch",
+      "pseudocode": "if ( t (==, !=) 0 ) PC += label"
+    },
+    "tbz": {
+      "section": "branch",
+      "format": "BR",
+      "title": "Test Bit and Branch",
+      "pseudocode": "if ( t[bit] (==, !=) 0 ) PC += label"
+    },
+    "exception": {
+      "section": "branch",
+      "format": "BR",
+      "title": "Exception Generation",
+      "pseudocode": "take the exception, imm for the handler"
+    },
+    "udf": {
+      "section": "reserved",
+      "format": "SYS",
+      "title": "Permanently Undefined",
+      "pseudocode": ""
+    },
+    "hint": {
+      "section": "branch",
+      "format": "SYS",
+      "title": "Hints",
+      "pseudocode": ""
+    },
+    "barrier": {
+      "section": "branch",
+      "format": "SYS",
+      "title": "Barriers and Clear Exclusive",
+      "pseudocode": ""
+    },
+    "pstate": {
+      "section": "branch",
+      "format": "SYS",
+      "title": "PSTATE (immediate)",
+      "pseudocode": "PSTATE.field = imm"
+    },
+    "sys": {
+      "section": "branch",
+      "format": "SYS",
+      "title": "System Instructions",
+      "pseudocode": ""
+    },
+    "sysreg": {
+      "section": "branch",
+      "format": "SYS",
+      "title": "System Register Move",
+      "pseudocode": "xt ↔ sysreg"
+    },
+    "branch-reg": {
+      "section": "branch",
+      "format": "BR",
+      "title": "Branch (register) and Exception Return",
+      "pseudocode": "PC = register"
+    },
+    "excl-store": {
+      "section": "ldst",
+      "format": "ST",
+      "title": "Store Exclusive / Release",
+      "pseudocode": ""
+    },
+    "excl-load": {
+      "section": "ldst",
+      "format": "LD",
+      "title": "Load Exclusive / Acquire",
+      "pseudocode": ""
+    },
+    "literal": {
+      "section": "ldst",
+      "format": "LD",
+      "title": "Load Register (literal)",
+      "pseudocode": "t = [ PC + label ]"
+    },
+    "pair-store": {
+      "section": "ldst",
+      "format": "ST",
+      "title": "Store Pair",
+      "pseudocode": "[ address ] = t, t2"
+    },
+    "pair-load": {
+      "section": "ldst",
+      "format": "LD",
+      "title": "Load Pair",
+      "pseudocode": "t, t2 = [ address ]"
+    },
+    "store": {
+      "section": "ldst",
+      "format": "ST",
+      "title": "Store Register",
+      "pseudocode": "[ address ] = t"
+    },
+    "load": {
+      "section": "ldst",
+      "format": "LD",
+      "title": "Load Register",
+      "pseudocode": "t = [ address ]"
+    },
+    "prefetch": {
+      "section": "ldst",
+      "format": "LD",
+      "title": "Prefetch",
+      "pseudocode": "prefetch [ address ]"
+    },
+    "logic-reg": {
+      "section": "dpreg",
+      "format": "DPR",
+      "title": "Logical (shifted register)",
+      "pseudocode": "d = n (op) ( m shifted )"
+    },
+    "addsub-reg": {
+      "section": "dpreg",
+      "format": "DPR",
+      "title": "Add / Subtract (shifted register)",
+      "pseudocode": "d = n ± ( m shifted )"
+    },
+    "addsub-ext": {
+      "section": "dpreg",
+      "format": "DPR",
+      "title": "Add / Subtract (extended register)",
+      "pseudocode": "d = n ± ( extend ( m ) << amount )"
+    },
+    "adc": {
+      "section": "dpreg",
+      "format": "DPR",
+      "title": "Add / Subtract with Carry",
+      "pseudocode": "d = n ± m ± C"
+    },
+    "ccmp": {
+      "section": "dpreg",
+      "format": "DPR",
+      "title": "Conditional Compare",
+      "pseudocode": "flags = cond ? compare : nzcv"
+    },
+    "csel": {
+      "section": "dpreg",
+      "format": "DPR",
+      "title": "Conditional Select",
+      "pseudocode": "d = cond ? n : f ( m )"
+    },
+    "mul": {
+      "section": "dpreg",
+      "format": "DPR",
+      "title": "Multiply (3 source)",
+      "pseudocode": "d = a ± n × m"
+    },
+    "dp2": {
+      "section": "dpreg",
+      "format": "DPR",
+      "title": "Data Processing (2 source)",
+      "pseudocode": "d = n (op) m"
+    },
+    "dp1": {
+      "section": "dpreg",
+      "format": "DPR",
+      "title": "Data Processing (1 source)",
+      "pseudocode": "d = (op) n"
+    },
+    "fp1": {
+      "section": "fp",
+      "format": "FP",
+      "title": "Floating-point (1 source)",
+      "pseudocode": "d = (op) n"
+    },
+    "fp2": {
+      "section": "fp",
+      "format": "FP",
+      "title": "Floating-point (2 source)",
+      "pseudocode": "d = n (op) m"
+    },
+    "fp3": {
+      "section": "fp",
+      "format": "FP",
+      "title": "Floating-point (3 source)",
+      "pseudocode": "d = ± a ± n × m"
+    },
+    "fcmp": {
+      "section": "fp",
+      "format": "FP",
+      "title": "Floating-point Compare",
+      "pseudocode": "flags = compare ( n, m )"
+    },
+    "fcsel": {
+      "section": "fp",
+      "format": "FP",
+      "title": "Floating-point Conditional Select",
+      "pseudocode": "d = cond ? n : m"
+    },
+    "fmov-imm": {
+      "section": "fp",
+      "format": "FP",
+      "title": "Floating-point Move Immediate",
+      "pseudocode": "d = fpimm"
+    },
+    "fcvt-int": {
+      "section": "fp",
+      "format": "FP",
+      "title": "Floating-point and Integer Conversions",
+      "pseudocode": ""
+    },
+    "fcvt-fixed": {
+      "section": "fp",
+      "format": "FP",
+      "title": "Floating-point and Fixed-point Conversions",
+      "pseudocode": ""
+    },
+    "fcvt": {
+      "section": "fp",
+      "format": "FP",
+      "title": "Floating-point Convert Precision",
+      "pseudocode": ""
+    },
+    "fmov-gen": {
+      "section": "fp",
+      "format": "FP",
+      "title": "Floating-point Move to / from General",
+      "pseudocode": ""
+    }
+  },
+  "instructions": [
+    {
+      "group": "pcrel",
+      "def": "ADR",
+      "name": "adr",
+      "asm": "xd, label",
+      "description": "Form PC-Relative Address",
+      "pseudocode": "xd = PC + label"
+    },
+    {
+      "group": "pcrel",
+      "def": "ADRP",
+      "name": "adrp",
+      "asm": "xd, page",
+      "description": "Form PC-Relative Address to 4 KB Page",
+      "pseudocode": "xd = PC[63:12] : 0 + page"
+    },
+    {
+      "group": "addsub-imm",
+      "def": "ADDWri",
+      "name": "add",
+      "asm": "wd_sp, wn_sp, #imm{?, sh}",
+      "description": "Add (immediate)",
+      "pseudocode": "wd_sp = wn_sp + ( imm << sh )",
+      "llvmFixed": [
+        "imm"
+      ]
+    },
+    {
+      "group": "addsub-imm",
+      "def": "ADDSWri",
+      "name": "adds",
+      "asm": "wd, wn_sp, #imm{?, sh}",
+      "description": "Add, Setting Flags (immediate)",
+      "pseudocode": "wd = wn_sp + ( imm << sh )",
+      "llvmFixed": [
+        "imm"
+      ]
+    },
+    {
+      "group": "addsub-imm",
+      "def": "SUBWri",
+      "name": "sub",
+      "asm": "wd_sp, wn_sp, #imm{?, sh}",
+      "description": "Subtract (immediate)",
+      "pseudocode": "wd_sp = wn_sp - ( imm << sh )",
+      "llvmFixed": [
+        "imm"
+      ]
+    },
+    {
+      "group": "addsub-imm",
+      "def": "SUBSWri",
+      "name": "subs",
+      "asm": "wd, wn_sp, #imm{?, sh}",
+      "description": "Subtract, Setting Flags (immediate)",
+      "pseudocode": "wd = wn_sp - ( imm << sh )",
+      "llvmFixed": [
+        "imm"
+      ]
+    },
+    {
+      "group": "logic-imm",
+      "def": "ANDWri",
+      "name": "and",
+      "asm": "wd_sp, wn, #bimm32",
+      "description": "Bitwise AND (bitmask immediate)",
+      "pseudocode": "wd_sp = wn & bitmask"
+    },
+    {
+      "group": "logic-imm",
+      "def": "ORRWri",
+      "name": "orr",
+      "asm": "wd_sp, wn, #bimm32",
+      "description": "Bitwise OR (bitmask immediate)",
+      "pseudocode": "wd_sp = wn | bitmask"
+    },
+    {
+      "group": "logic-imm",
+      "def": "EORWri",
+      "name": "eor",
+      "asm": "wd_sp, wn, #bimm32",
+      "description": "Bitwise Exclusive OR (bitmask immediate)",
+      "pseudocode": "wd_sp = wn ^ bitmask"
+    },
+    {
+      "group": "logic-imm",
+      "def": "ANDSWri",
+      "name": "ands",
+      "asm": "wd, wn, #bimm32",
+      "description": "Bitwise AND, Setting Flags (bitmask immediate)",
+      "pseudocode": "wd = wn & bitmask"
+    },
+    {
+      "group": "movewide",
+      "def": "MOVNWi",
+      "name": "movn",
+      "asm": "wd, #imm{?, hw32}",
+      "description": "Move Wide with NOT",
+      "pseudocode": "wd = ~( imm << hw )",
+      "llvmFixed": [
+        "shift"
+      ]
+    },
+    {
+      "group": "movewide",
+      "def": "MOVZWi",
+      "name": "movz",
+      "asm": "wd, #imm{?, hw32}",
+      "description": "Move Wide with Zero",
+      "pseudocode": "wd = imm << hw",
+      "llvmFixed": [
+        "shift"
+      ]
+    },
+    {
+      "group": "movewide",
+      "def": "MOVKWi",
+      "name": "movk",
+      "asm": "wd, #imm{?, hw32}",
+      "description": "Move Wide with Keep",
+      "pseudocode": "wd = the 16 bits at hw = imm",
+      "llvmFixed": [
+        "shift"
+      ]
+    },
+    {
+      "group": "bitfield",
+      "def": "SBFMWri",
+      "name": "sbfm",
+      "asm": "wd, wn, #wimmr, #wimms",
+      "description": "Signed Bitfield Move",
+      "pseudocode": "rotate right by immr, take bits imms:0"
+    },
+    {
+      "group": "bitfield",
+      "def": "BFMWri",
+      "name": "bfm",
+      "asm": "wd, wn, #wimmr, #wimms",
+      "description": "Bitfield Move",
+      "pseudocode": "rotate right by immr, take bits imms:0"
+    },
+    {
+      "group": "bitfield",
+      "def": "UBFMWri",
+      "name": "ubfm",
+      "asm": "wd, wn, #wimmr, #wimms",
+      "description": "Unsigned Bitfield Move",
+      "pseudocode": "rotate right by immr, take bits imms:0"
+    },
+    {
+      "group": "extract",
+      "def": "EXTRWrri",
+      "name": "extr",
+      "asm": "wd, wn, wm, #wlsb",
+      "description": "Extract Register",
+      "pseudocode": "wd = ( wn : wm ) >> lsb"
+    },
+    {
+      "group": "addsub-imm",
+      "def": "ADDXri",
+      "name": "add",
+      "asm": "xd_sp, xn_sp, #imm{?, sh}",
+      "description": "Add (immediate)",
+      "pseudocode": "xd_sp = xn_sp + ( imm << sh )",
+      "llvmFixed": [
+        "imm"
+      ]
+    },
+    {
+      "group": "addsub-imm",
+      "def": "ADDSXri",
+      "name": "adds",
+      "asm": "xd, xn_sp, #imm{?, sh}",
+      "description": "Add, Setting Flags (immediate)",
+      "pseudocode": "xd = xn_sp + ( imm << sh )",
+      "llvmFixed": [
+        "imm"
+      ]
+    },
+    {
+      "group": "addsub-imm",
+      "def": "SUBXri",
+      "name": "sub",
+      "asm": "xd_sp, xn_sp, #imm{?, sh}",
+      "description": "Subtract (immediate)",
+      "pseudocode": "xd_sp = xn_sp - ( imm << sh )",
+      "llvmFixed": [
+        "imm"
+      ]
+    },
+    {
+      "group": "addsub-imm",
+      "def": "SUBSXri",
+      "name": "subs",
+      "asm": "xd, xn_sp, #imm{?, sh}",
+      "description": "Subtract, Setting Flags (immediate)",
+      "pseudocode": "xd = xn_sp - ( imm << sh )",
+      "llvmFixed": [
+        "imm"
+      ]
+    },
+    {
+      "group": "logic-imm",
+      "def": "ANDXri",
+      "name": "and",
+      "asm": "xd_sp, xn, #bimm64",
+      "description": "Bitwise AND (bitmask immediate)",
+      "pseudocode": "xd_sp = xn & bitmask"
+    },
+    {
+      "group": "logic-imm",
+      "def": "ORRXri",
+      "name": "orr",
+      "asm": "xd_sp, xn, #bimm64",
+      "description": "Bitwise OR (bitmask immediate)",
+      "pseudocode": "xd_sp = xn | bitmask"
+    },
+    {
+      "group": "logic-imm",
+      "def": "EORXri",
+      "name": "eor",
+      "asm": "xd_sp, xn, #bimm64",
+      "description": "Bitwise Exclusive OR (bitmask immediate)",
+      "pseudocode": "xd_sp = xn ^ bitmask"
+    },
+    {
+      "group": "logic-imm",
+      "def": "ANDSXri",
+      "name": "ands",
+      "asm": "xd, xn, #bimm64",
+      "description": "Bitwise AND, Setting Flags (bitmask immediate)",
+      "pseudocode": "xd = xn & bitmask"
+    },
+    {
+      "group": "movewide",
+      "def": "MOVNXi",
+      "name": "movn",
+      "asm": "xd, #imm{?, hw}",
+      "description": "Move Wide with NOT",
+      "pseudocode": "xd = ~( imm << hw )"
+    },
+    {
+      "group": "movewide",
+      "def": "MOVZXi",
+      "name": "movz",
+      "asm": "xd, #imm{?, hw}",
+      "description": "Move Wide with Zero",
+      "pseudocode": "xd = imm << hw"
+    },
+    {
+      "group": "movewide",
+      "def": "MOVKXi",
+      "name": "movk",
+      "asm": "xd, #imm{?, hw}",
+      "description": "Move Wide with Keep",
+      "pseudocode": "xd = the 16 bits at hw = imm"
+    },
+    {
+      "group": "bitfield",
+      "def": "SBFMXri",
+      "name": "sbfm",
+      "asm": "xd, xn, #immr, #imms",
+      "description": "Signed Bitfield Move",
+      "pseudocode": "rotate right by immr, take bits imms:0"
+    },
+    {
+      "group": "bitfield",
+      "def": "BFMXri",
+      "name": "bfm",
+      "asm": "xd, xn, #immr, #imms",
+      "description": "Bitfield Move",
+      "pseudocode": "rotate right by immr, take bits imms:0"
+    },
+    {
+      "group": "bitfield",
+      "def": "UBFMXri",
+      "name": "ubfm",
+      "asm": "xd, xn, #immr, #imms",
+      "description": "Unsigned Bitfield Move",
+      "pseudocode": "rotate right by immr, take bits imms:0"
+    },
+    {
+      "group": "extract",
+      "def": "EXTRXrri",
+      "name": "extr",
+      "asm": "xd, xn, xm, #lsb",
+      "description": "Extract Register",
+      "pseudocode": "xd = ( xn : xm ) >> lsb"
+    },
+    {
+      "group": "branch-imm",
+      "def": "B",
+      "name": "b",
+      "asm": "label",
+      "description": "Branch",
+      "pseudocode": "PC += label"
+    },
+    {
+      "group": "branch-imm",
+      "def": "BL",
+      "name": "bl",
+      "asm": "label",
+      "description": "Branch with Link",
+      "pseudocode": "x30 = PC + 4 ; PC += label"
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.eq",
+      "asm": "label",
+      "description": "Branch Conditionally: Equal",
+      "pseudocode": "if ( eq ) PC += label",
+      "fix": {
+        "cond": 0
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.ne",
+      "asm": "label",
+      "description": "Branch Conditionally: Not Equal",
+      "pseudocode": "if ( ne ) PC += label",
+      "fix": {
+        "cond": 1
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.cs",
+      "asm": "label",
+      "description": "Branch Conditionally: Carry Set",
+      "pseudocode": "if ( cs ) PC += label",
+      "fix": {
+        "cond": 2
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.cc",
+      "asm": "label",
+      "description": "Branch Conditionally: Carry Clear",
+      "pseudocode": "if ( cc ) PC += label",
+      "fix": {
+        "cond": 3
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.mi",
+      "asm": "label",
+      "description": "Branch Conditionally: Minus",
+      "pseudocode": "if ( mi ) PC += label",
+      "fix": {
+        "cond": 4
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.pl",
+      "asm": "label",
+      "description": "Branch Conditionally: Plus",
+      "pseudocode": "if ( pl ) PC += label",
+      "fix": {
+        "cond": 5
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.vs",
+      "asm": "label",
+      "description": "Branch Conditionally: Overflow",
+      "pseudocode": "if ( vs ) PC += label",
+      "fix": {
+        "cond": 6
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.vc",
+      "asm": "label",
+      "description": "Branch Conditionally: No Overflow",
+      "pseudocode": "if ( vc ) PC += label",
+      "fix": {
+        "cond": 7
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.hi",
+      "asm": "label",
+      "description": "Branch Conditionally: Unsigned Higher",
+      "pseudocode": "if ( hi ) PC += label",
+      "fix": {
+        "cond": 8
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.ls",
+      "asm": "label",
+      "description": "Branch Conditionally: Unsigned Lower or Same",
+      "pseudocode": "if ( ls ) PC += label",
+      "fix": {
+        "cond": 9
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.ge",
+      "asm": "label",
+      "description": "Branch Conditionally: Signed Greater or Equal",
+      "pseudocode": "if ( ge ) PC += label",
+      "fix": {
+        "cond": 10
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.lt",
+      "asm": "label",
+      "description": "Branch Conditionally: Signed Less Than",
+      "pseudocode": "if ( lt ) PC += label",
+      "fix": {
+        "cond": 11
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.gt",
+      "asm": "label",
+      "description": "Branch Conditionally: Signed Greater Than",
+      "pseudocode": "if ( gt ) PC += label",
+      "fix": {
+        "cond": 12
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.le",
+      "asm": "label",
+      "description": "Branch Conditionally: Signed Less or Equal",
+      "pseudocode": "if ( le ) PC += label",
+      "fix": {
+        "cond": 13
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.al",
+      "asm": "label",
+      "description": "Branch Conditionally: Always",
+      "pseudocode": "if ( al ) PC += label",
+      "fix": {
+        "cond": 14
+      }
+    },
+    {
+      "group": "bcond",
+      "def": "Bcc",
+      "name": "b.nv",
+      "asm": "label",
+      "description": "Branch Conditionally: Always (nv)",
+      "pseudocode": "if ( nv ) PC += label",
+      "fix": {
+        "cond": 15
+      }
+    },
+    {
+      "group": "cbz",
+      "def": "CBZW",
+      "name": "cbz",
+      "asm": "wt, label",
+      "description": "Compare and Branch on Zero",
+      "pseudocode": "if ( wt == 0 ) PC += label"
+    },
+    {
+      "group": "cbz",
+      "def": "CBNZW",
+      "name": "cbnz",
+      "asm": "wt, label",
+      "description": "Compare and Branch on Nonzero",
+      "pseudocode": "if ( wt != 0 ) PC += label"
+    },
+    {
+      "group": "tbz",
+      "def": "TBZW",
+      "name": "tbz",
+      "asm": "wt, #bitw, label",
+      "description": "Test Bit and Branch if Zero",
+      "pseudocode": "if ( wt[bit] == 0 ) PC += label"
+    },
+    {
+      "group": "tbz",
+      "def": "TBNZW",
+      "name": "tbnz",
+      "asm": "wt, #bitw, label",
+      "description": "Test Bit and Branch if Nonzero",
+      "pseudocode": "if ( wt[bit] == 1 ) PC += label"
+    },
+    {
+      "group": "cbz",
+      "def": "CBZX",
+      "name": "cbz",
+      "asm": "xt, label",
+      "description": "Compare and Branch on Zero",
+      "pseudocode": "if ( xt == 0 ) PC += label"
+    },
+    {
+      "group": "cbz",
+      "def": "CBNZX",
+      "name": "cbnz",
+      "asm": "xt, label",
+      "description": "Compare and Branch on Nonzero",
+      "pseudocode": "if ( xt != 0 ) PC += label"
+    },
+    {
+      "group": "tbz",
+      "def": "TBZX",
+      "name": "tbz",
+      "asm": "xt, #bitx, label",
+      "description": "Test Bit and Branch if Zero",
+      "pseudocode": "if ( xt[bit] == 0 ) PC += label"
+    },
+    {
+      "group": "tbz",
+      "def": "TBNZX",
+      "name": "tbnz",
+      "asm": "xt, #bitx, label",
+      "description": "Test Bit and Branch if Nonzero",
+      "pseudocode": "if ( xt[bit] == 1 ) PC += label"
+    },
+    {
+      "group": "exception",
+      "def": "SVC",
+      "name": "svc",
+      "asm": "#imm",
+      "description": "Supervisor Call",
+      "pseudocode": "exception to EL1"
+    },
+    {
+      "group": "exception",
+      "def": "HVC",
+      "name": "hvc",
+      "asm": "#imm",
+      "description": "Hypervisor Call",
+      "pseudocode": "exception to EL2"
+    },
+    {
+      "group": "exception",
+      "def": "SMC",
+      "name": "smc",
+      "asm": "#imm",
+      "description": "Secure Monitor Call",
+      "pseudocode": "exception to EL3"
+    },
+    {
+      "group": "exception",
+      "def": "BRK",
+      "name": "brk",
+      "asm": "#imm",
+      "description": "Breakpoint",
+      "pseudocode": "Breakpoint Instruction exception"
+    },
+    {
+      "group": "exception",
+      "def": "HLT",
+      "name": "hlt",
+      "asm": "#imm",
+      "description": "Halt",
+      "pseudocode": "enter Debug state"
+    },
+    {
+      "group": "exception",
+      "def": "DCPS1",
+      "name": "dcps1",
+      "asm": "#imm",
+      "description": "Debug Change PE State to EL1",
+      "pseudocode": ""
+    },
+    {
+      "group": "exception",
+      "def": "DCPS2",
+      "name": "dcps2",
+      "asm": "#imm",
+      "description": "Debug Change PE State to EL2",
+      "pseudocode": ""
+    },
+    {
+      "group": "exception",
+      "def": "DCPS3",
+      "name": "dcps3",
+      "asm": "#imm",
+      "description": "Debug Change PE State to EL3",
+      "pseudocode": ""
+    },
+    {
+      "group": "udf",
+      "def": "UDF",
+      "name": "udf",
+      "asm": "#imm",
+      "description": "Permanently Undefined",
+      "pseudocode": "Undefined Instruction exception"
+    },
+    {
+      "group": "hint",
+      "def": "NOP",
+      "name": "nop",
+      "asm": "",
+      "description": "No Operation",
+      "pseudocode": ""
+    },
+    {
+      "group": "hint",
+      "def": "HINT",
+      "name": "hint",
+      "asm": "#imm",
+      "description": "Hint (NOP, YIELD, WFE, WFI, SEV, SEVL, ... by number)",
+      "pseudocode": "imm 0 nop, 1 yield, 2 wfe, 3 wfi, 4 sev, 5 sevl"
+    },
+    {
+      "group": "barrier",
+      "def": "CLREX",
+      "name": "clrex",
+      "asm": "{?crm}",
+      "description": "Clear Exclusive",
+      "pseudocode": "clear the local monitor"
+    },
+    {
+      "group": "barrier",
+      "def": "DSB",
+      "name": "dsb",
+      "asm": "barrier",
+      "description": "Data Synchronization Barrier",
+      "pseudocode": "complete memory accesses of the domain"
+    },
+    {
+      "group": "barrier",
+      "def": "DMB",
+      "name": "dmb",
+      "asm": "barrier",
+      "description": "Data Memory Barrier",
+      "pseudocode": "order memory accesses of the domain"
+    },
+    {
+      "group": "barrier",
+      "def": "ISB",
+      "name": "isb",
+      "asm": "{?crm}",
+      "description": "Instruction Synchronization Barrier",
+      "pseudocode": "refetch the following instructions"
+    },
+    {
+      "group": "pstate",
+      "def": "MSRpstateImm4",
+      "name": "msr",
+      "asm": "SPSEL, #imm",
+      "description": "Move Immediate to SPSEL: Select the Stack Pointer",
+      "pseudocode": "PSTATE.spsel = imm",
+      "fix": {
+        "op1": 0,
+        "op2": 5
+      },
+      "immMax": 1
+    },
+    {
+      "group": "pstate",
+      "def": "MSRpstateImm4",
+      "name": "msr",
+      "asm": "DAIFSET, #imm",
+      "description": "Move Immediate to DAIFSET: Mask Interrupts (set DAIF bits)",
+      "pseudocode": "PSTATE.daifset = imm",
+      "fix": {
+        "op1": 3,
+        "op2": 6
+      }
+    },
+    {
+      "group": "pstate",
+      "def": "MSRpstateImm4",
+      "name": "msr",
+      "asm": "DAIFCLR, #imm",
+      "description": "Move Immediate to DAIFCLR: Unmask Interrupts (clear DAIF bits)",
+      "pseudocode": "PSTATE.daifclr = imm",
+      "fix": {
+        "op1": 3,
+        "op2": 7
+      }
+    },
+    {
+      "group": "sys",
+      "def": "SYSxt",
+      "name": "sys",
+      "asm": "#op1, cn, cm, #op2, xt",
+      "description": "System Instruction",
+      "pseudocode": "system operation op1, Cn, Cm, op2 with xt"
+    },
+    {
+      "group": "sys",
+      "def": "SYSLxt",
+      "name": "sysl",
+      "asm": "xt, #op1, cn, cm, #op2",
+      "description": "System Instruction with Result",
+      "pseudocode": "xt = system operation op1, Cn, Cm, op2"
+    },
+    {
+      "group": "sysreg",
+      "def": "MSR",
+      "name": "msr",
+      "asm": "sysreg, xt",
+      "description": "Move to System Register",
+      "pseudocode": "sysreg = xt",
+      "llvmFixed": [
+        "systemreg"
+      ]
+    },
+    {
+      "group": "sysreg",
+      "def": "MRS",
+      "name": "mrs",
+      "asm": "xt, sysreg",
+      "description": "Move from System Register",
+      "pseudocode": "xt = sysreg",
+      "llvmFixed": [
+        "systemreg"
+      ]
+    },
+    {
+      "group": "branch-reg",
+      "def": "BR",
+      "name": "br",
+      "asm": "xn",
+      "description": "Branch to Register",
+      "pseudocode": "PC = xn"
+    },
+    {
+      "group": "branch-reg",
+      "def": "BLR",
+      "name": "blr",
+      "asm": "xn",
+      "description": "Branch with Link to Register",
+      "pseudocode": "x30 = PC + 4 ; PC = xn"
+    },
+    {
+      "group": "branch-reg",
+      "def": "RET",
+      "name": "ret",
+      "asm": "{?xr}",
+      "description": "Return from Subroutine",
+      "pseudocode": "PC = xn (x30 when left out)"
+    },
+    {
+      "group": "branch-reg",
+      "def": "ERET",
+      "name": "eret",
+      "asm": "",
+      "description": "Exception Return",
+      "pseudocode": "PC = ELR ; PSTATE = SPSR"
+    },
+    {
+      "group": "branch-reg",
+      "def": "DRPS",
+      "name": "drps",
+      "asm": "",
+      "description": "Debug Restore PE State",
+      "pseudocode": ""
+    },
+    {
+      "group": "excl-store",
+      "def": "STXRB",
+      "name": "stxrb",
+      "asm": "ws, wt, [xn_sp]",
+      "description": "Store Exclusive Register Byte",
+      "pseudocode": "if ( exclusive ) [ xn_sp ] = wt ; ws = 0 / 1"
+    },
+    {
+      "group": "excl-store",
+      "def": "STLXRB",
+      "name": "stlxrb",
+      "asm": "ws, wt, [xn_sp]",
+      "description": "Store-Release Exclusive Register Byte",
+      "pseudocode": "if ( exclusive ) [ xn_sp ] = wt ; ws = 0 / 1"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDXRB",
+      "name": "ldxrb",
+      "asm": "wt, [xn_sp]",
+      "description": "Load Exclusive Register Byte",
+      "pseudocode": "wt = [ xn_sp ]"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDAXRB",
+      "name": "ldaxrb",
+      "asm": "wt, [xn_sp]",
+      "description": "Load-Acquire Exclusive Register Byte",
+      "pseudocode": "wt = [ xn_sp ]"
+    },
+    {
+      "group": "excl-store",
+      "def": "STLRB",
+      "name": "stlrb",
+      "asm": "wt, [xn_sp]",
+      "description": "Store-Release Register Byte",
+      "pseudocode": "[ xn_sp ] = wt"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDARB",
+      "name": "ldarb",
+      "asm": "wt, [xn_sp]",
+      "description": "Load-Acquire Register Byte",
+      "pseudocode": "wt = [ xn_sp ]"
+    },
+    {
+      "group": "excl-store",
+      "def": "STXRH",
+      "name": "stxrh",
+      "asm": "ws, wt, [xn_sp]",
+      "description": "Store Exclusive Register Halfword",
+      "pseudocode": "if ( exclusive ) [ xn_sp ] = wt ; ws = 0 / 1"
+    },
+    {
+      "group": "excl-store",
+      "def": "STLXRH",
+      "name": "stlxrh",
+      "asm": "ws, wt, [xn_sp]",
+      "description": "Store-Release Exclusive Register Halfword",
+      "pseudocode": "if ( exclusive ) [ xn_sp ] = wt ; ws = 0 / 1"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDXRH",
+      "name": "ldxrh",
+      "asm": "wt, [xn_sp]",
+      "description": "Load Exclusive Register Halfword",
+      "pseudocode": "wt = [ xn_sp ]"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDAXRH",
+      "name": "ldaxrh",
+      "asm": "wt, [xn_sp]",
+      "description": "Load-Acquire Exclusive Register Halfword",
+      "pseudocode": "wt = [ xn_sp ]"
+    },
+    {
+      "group": "excl-store",
+      "def": "STLRH",
+      "name": "stlrh",
+      "asm": "wt, [xn_sp]",
+      "description": "Store-Release Register Halfword",
+      "pseudocode": "[ xn_sp ] = wt"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDARH",
+      "name": "ldarh",
+      "asm": "wt, [xn_sp]",
+      "description": "Load-Acquire Register Halfword",
+      "pseudocode": "wt = [ xn_sp ]"
+    },
+    {
+      "group": "excl-store",
+      "def": "STXRW",
+      "name": "stxr",
+      "asm": "ws, wt, [xn_sp]",
+      "description": "Store Exclusive Register",
+      "pseudocode": "if ( exclusive ) [ xn_sp ] = wt ; ws = 0 / 1"
+    },
+    {
+      "group": "excl-store",
+      "def": "STLXRW",
+      "name": "stlxr",
+      "asm": "ws, wt, [xn_sp]",
+      "description": "Store-Release Exclusive Register",
+      "pseudocode": "if ( exclusive ) [ xn_sp ] = wt ; ws = 0 / 1"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDXRW",
+      "name": "ldxr",
+      "asm": "wt, [xn_sp]",
+      "description": "Load Exclusive Register",
+      "pseudocode": "wt = [ xn_sp ]"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDAXRW",
+      "name": "ldaxr",
+      "asm": "wt, [xn_sp]",
+      "description": "Load-Acquire Exclusive Register",
+      "pseudocode": "wt = [ xn_sp ]"
+    },
+    {
+      "group": "excl-store",
+      "def": "STLRW",
+      "name": "stlr",
+      "asm": "wt, [xn_sp]",
+      "description": "Store-Release Register",
+      "pseudocode": "[ xn_sp ] = wt"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDARW",
+      "name": "ldar",
+      "asm": "wt, [xn_sp]",
+      "description": "Load-Acquire Register",
+      "pseudocode": "wt = [ xn_sp ]"
+    },
+    {
+      "group": "excl-store",
+      "def": "STXRX",
+      "name": "stxr",
+      "asm": "ws, xt, [xn_sp]",
+      "description": "Store Exclusive Register",
+      "pseudocode": "if ( exclusive ) [ xn_sp ] = xt ; ws = 0 / 1"
+    },
+    {
+      "group": "excl-store",
+      "def": "STLXRX",
+      "name": "stlxr",
+      "asm": "ws, xt, [xn_sp]",
+      "description": "Store-Release Exclusive Register",
+      "pseudocode": "if ( exclusive ) [ xn_sp ] = xt ; ws = 0 / 1"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDXRX",
+      "name": "ldxr",
+      "asm": "xt, [xn_sp]",
+      "description": "Load Exclusive Register",
+      "pseudocode": "xt = [ xn_sp ]"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDAXRX",
+      "name": "ldaxr",
+      "asm": "xt, [xn_sp]",
+      "description": "Load-Acquire Exclusive Register",
+      "pseudocode": "xt = [ xn_sp ]"
+    },
+    {
+      "group": "excl-store",
+      "def": "STLRX",
+      "name": "stlr",
+      "asm": "xt, [xn_sp]",
+      "description": "Store-Release Register",
+      "pseudocode": "[ xn_sp ] = xt"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDARX",
+      "name": "ldar",
+      "asm": "xt, [xn_sp]",
+      "description": "Load-Acquire Register",
+      "pseudocode": "xt = [ xn_sp ]"
+    },
+    {
+      "group": "excl-store",
+      "def": "STXPW",
+      "name": "stxp",
+      "asm": "ws, wt, wt2, [xn_sp]",
+      "description": "Store Exclusive Pair",
+      "pseudocode": "if ( exclusive ) [ xn_sp ] = wt, wt2 ; ws = 0 / 1"
+    },
+    {
+      "group": "excl-store",
+      "def": "STLXPW",
+      "name": "stlxp",
+      "asm": "ws, wt, wt2, [xn_sp]",
+      "description": "Store-Release Exclusive Pair",
+      "pseudocode": "if ( exclusive ) [ xn_sp ] = wt, wt2 ; ws = 0 / 1"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDXPW",
+      "name": "ldxp",
+      "asm": "wt, wt2, [xn_sp]",
+      "description": "Load Exclusive Pair",
+      "pseudocode": "wt, wt2 = [ xn_sp ]"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDAXPW",
+      "name": "ldaxp",
+      "asm": "wt, wt2, [xn_sp]",
+      "description": "Load-Acquire Exclusive Pair",
+      "pseudocode": "wt, wt2 = [ xn_sp ]"
+    },
+    {
+      "group": "excl-store",
+      "def": "STXPX",
+      "name": "stxp",
+      "asm": "ws, xt, xt2, [xn_sp]",
+      "description": "Store Exclusive Pair",
+      "pseudocode": "if ( exclusive ) [ xn_sp ] = xt, xt2 ; ws = 0 / 1"
+    },
+    {
+      "group": "excl-store",
+      "def": "STLXPX",
+      "name": "stlxp",
+      "asm": "ws, xt, xt2, [xn_sp]",
+      "description": "Store-Release Exclusive Pair",
+      "pseudocode": "if ( exclusive ) [ xn_sp ] = xt, xt2 ; ws = 0 / 1"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDXPX",
+      "name": "ldxp",
+      "asm": "xt, xt2, [xn_sp]",
+      "description": "Load Exclusive Pair",
+      "pseudocode": "xt, xt2 = [ xn_sp ]"
+    },
+    {
+      "group": "excl-load",
+      "def": "LDAXPX",
+      "name": "ldaxp",
+      "asm": "xt, xt2, [xn_sp]",
+      "description": "Load-Acquire Exclusive Pair",
+      "pseudocode": "xt, xt2 = [ xn_sp ]"
+    },
+    {
+      "group": "literal",
+      "def": "LDRWl",
+      "name": "ldr",
+      "asm": "wt, label",
+      "description": "Load Register (literal)",
+      "pseudocode": "wt = [ PC + label ]"
+    },
+    {
+      "group": "literal",
+      "def": "LDRXl",
+      "name": "ldr",
+      "asm": "xt, label",
+      "description": "Load Register (literal)",
+      "pseudocode": "xt = [ PC + label ]"
+    },
+    {
+      "group": "literal",
+      "def": "LDRSWl",
+      "name": "ldrsw",
+      "asm": "xt, label",
+      "description": "Load Register Signed Word (literal)",
+      "pseudocode": "xt = [ PC + label ]"
+    },
+    {
+      "group": "literal",
+      "def": "PRFMl",
+      "name": "prfm",
+      "asm": "prfop, label",
+      "description": "Prefetch Memory (literal)",
+      "pseudocode": "prefetch [ PC + label ]"
+    },
+    {
+      "group": "literal",
+      "def": "LDRSl",
+      "name": "ldr",
+      "asm": "st, label",
+      "description": "Load SIMD&FP Register (literal)",
+      "pseudocode": "st = [ PC + label ]"
+    },
+    {
+      "group": "literal",
+      "def": "LDRDl",
+      "name": "ldr",
+      "asm": "dt, label",
+      "description": "Load SIMD&FP Register (literal)",
+      "pseudocode": "dt = [ PC + label ]"
+    },
+    {
+      "group": "literal",
+      "def": "LDRQl",
+      "name": "ldr",
+      "asm": "qt, label",
+      "description": "Load SIMD&FP Register (literal)",
+      "pseudocode": "qt = [ PC + label ]"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPWi",
+      "name": "stp",
+      "asm": "wt, wt2, [xn_sp, #simm]",
+      "description": "Store Pair (signed offset)",
+      "pseudocode": "[ xn_sp + simm ] = wt, wt2"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPWpre",
+      "name": "stp",
+      "asm": "wt, wt2, [xn_sp, #simm]!",
+      "description": "Store Pair (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = wt, wt2"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPWpost",
+      "name": "stp",
+      "asm": "wt, wt2, [xn_sp], #simm",
+      "description": "Store Pair (post-index)",
+      "pseudocode": "[ xn_sp ] = wt, wt2 ; xn_sp += simm"
+    },
+    {
+      "group": "pair-store",
+      "def": "STNPWi",
+      "name": "stnp",
+      "asm": "wt, wt2, [xn_sp, #simm]",
+      "description": "Store Pair, Non-temporal",
+      "pseudocode": "[ xn_sp + simm ] = wt, wt2"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPWi",
+      "name": "ldp",
+      "asm": "wt, wt2, [xn_sp, #simm]",
+      "description": "Load Pair (signed offset)",
+      "pseudocode": "wt, wt2 = [ xn_sp + simm ]"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPWpre",
+      "name": "ldp",
+      "asm": "wt, wt2, [xn_sp, #simm]!",
+      "description": "Load Pair (pre-index)",
+      "pseudocode": "xn_sp += simm ; wt, wt2 = [ xn_sp ]"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPWpost",
+      "name": "ldp",
+      "asm": "wt, wt2, [xn_sp], #simm",
+      "description": "Load Pair (post-index)",
+      "pseudocode": "wt, wt2 = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDNPWi",
+      "name": "ldnp",
+      "asm": "wt, wt2, [xn_sp, #simm]",
+      "description": "Load Pair, Non-temporal",
+      "pseudocode": "wt, wt2 = [ xn_sp + simm ]"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPXi",
+      "name": "stp",
+      "asm": "xt, xt2, [xn_sp, #simm]",
+      "description": "Store Pair (signed offset)",
+      "pseudocode": "[ xn_sp + simm ] = xt, xt2"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPXpre",
+      "name": "stp",
+      "asm": "xt, xt2, [xn_sp, #simm]!",
+      "description": "Store Pair (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = xt, xt2"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPXpost",
+      "name": "stp",
+      "asm": "xt, xt2, [xn_sp], #simm",
+      "description": "Store Pair (post-index)",
+      "pseudocode": "[ xn_sp ] = xt, xt2 ; xn_sp += simm"
+    },
+    {
+      "group": "pair-store",
+      "def": "STNPXi",
+      "name": "stnp",
+      "asm": "xt, xt2, [xn_sp, #simm]",
+      "description": "Store Pair, Non-temporal",
+      "pseudocode": "[ xn_sp + simm ] = xt, xt2"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPXi",
+      "name": "ldp",
+      "asm": "xt, xt2, [xn_sp, #simm]",
+      "description": "Load Pair (signed offset)",
+      "pseudocode": "xt, xt2 = [ xn_sp + simm ]"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPXpre",
+      "name": "ldp",
+      "asm": "xt, xt2, [xn_sp, #simm]!",
+      "description": "Load Pair (pre-index)",
+      "pseudocode": "xn_sp += simm ; xt, xt2 = [ xn_sp ]"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPXpost",
+      "name": "ldp",
+      "asm": "xt, xt2, [xn_sp], #simm",
+      "description": "Load Pair (post-index)",
+      "pseudocode": "xt, xt2 = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDNPXi",
+      "name": "ldnp",
+      "asm": "xt, xt2, [xn_sp, #simm]",
+      "description": "Load Pair, Non-temporal",
+      "pseudocode": "xt, xt2 = [ xn_sp + simm ]"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPSi",
+      "name": "stp",
+      "asm": "st, st2, [xn_sp, #simm]",
+      "description": "Store Pair of SIMD&FP Registers (signed offset)",
+      "pseudocode": "[ xn_sp + simm ] = st, st2"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPSpre",
+      "name": "stp",
+      "asm": "st, st2, [xn_sp, #simm]!",
+      "description": "Store Pair of SIMD&FP Registers (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = st, st2"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPSpost",
+      "name": "stp",
+      "asm": "st, st2, [xn_sp], #simm",
+      "description": "Store Pair of SIMD&FP Registers (post-index)",
+      "pseudocode": "[ xn_sp ] = st, st2 ; xn_sp += simm"
+    },
+    {
+      "group": "pair-store",
+      "def": "STNPSi",
+      "name": "stnp",
+      "asm": "st, st2, [xn_sp, #simm]",
+      "description": "Store Pair of SIMD&FP Registers, Non-temporal",
+      "pseudocode": "[ xn_sp + simm ] = st, st2"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPSi",
+      "name": "ldp",
+      "asm": "st, st2, [xn_sp, #simm]",
+      "description": "Load Pair of SIMD&FP Registers (signed offset)",
+      "pseudocode": "st, st2 = [ xn_sp + simm ]"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPSpre",
+      "name": "ldp",
+      "asm": "st, st2, [xn_sp, #simm]!",
+      "description": "Load Pair of SIMD&FP Registers (pre-index)",
+      "pseudocode": "xn_sp += simm ; st, st2 = [ xn_sp ]"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPSpost",
+      "name": "ldp",
+      "asm": "st, st2, [xn_sp], #simm",
+      "description": "Load Pair of SIMD&FP Registers (post-index)",
+      "pseudocode": "st, st2 = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDNPSi",
+      "name": "ldnp",
+      "asm": "st, st2, [xn_sp, #simm]",
+      "description": "Load Pair of SIMD&FP Registers, Non-temporal",
+      "pseudocode": "st, st2 = [ xn_sp + simm ]"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPDi",
+      "name": "stp",
+      "asm": "dt, dt2, [xn_sp, #simm]",
+      "description": "Store Pair of SIMD&FP Registers (signed offset)",
+      "pseudocode": "[ xn_sp + simm ] = dt, dt2"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPDpre",
+      "name": "stp",
+      "asm": "dt, dt2, [xn_sp, #simm]!",
+      "description": "Store Pair of SIMD&FP Registers (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = dt, dt2"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPDpost",
+      "name": "stp",
+      "asm": "dt, dt2, [xn_sp], #simm",
+      "description": "Store Pair of SIMD&FP Registers (post-index)",
+      "pseudocode": "[ xn_sp ] = dt, dt2 ; xn_sp += simm"
+    },
+    {
+      "group": "pair-store",
+      "def": "STNPDi",
+      "name": "stnp",
+      "asm": "dt, dt2, [xn_sp, #simm]",
+      "description": "Store Pair of SIMD&FP Registers, Non-temporal",
+      "pseudocode": "[ xn_sp + simm ] = dt, dt2"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPDi",
+      "name": "ldp",
+      "asm": "dt, dt2, [xn_sp, #simm]",
+      "description": "Load Pair of SIMD&FP Registers (signed offset)",
+      "pseudocode": "dt, dt2 = [ xn_sp + simm ]"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPDpre",
+      "name": "ldp",
+      "asm": "dt, dt2, [xn_sp, #simm]!",
+      "description": "Load Pair of SIMD&FP Registers (pre-index)",
+      "pseudocode": "xn_sp += simm ; dt, dt2 = [ xn_sp ]"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPDpost",
+      "name": "ldp",
+      "asm": "dt, dt2, [xn_sp], #simm",
+      "description": "Load Pair of SIMD&FP Registers (post-index)",
+      "pseudocode": "dt, dt2 = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDNPDi",
+      "name": "ldnp",
+      "asm": "dt, dt2, [xn_sp, #simm]",
+      "description": "Load Pair of SIMD&FP Registers, Non-temporal",
+      "pseudocode": "dt, dt2 = [ xn_sp + simm ]"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPQi",
+      "name": "stp",
+      "asm": "qt, qt2, [xn_sp, #simm]",
+      "description": "Store Pair of SIMD&FP Registers (signed offset)",
+      "pseudocode": "[ xn_sp + simm ] = qt, qt2"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPQpre",
+      "name": "stp",
+      "asm": "qt, qt2, [xn_sp, #simm]!",
+      "description": "Store Pair of SIMD&FP Registers (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = qt, qt2"
+    },
+    {
+      "group": "pair-store",
+      "def": "STPQpost",
+      "name": "stp",
+      "asm": "qt, qt2, [xn_sp], #simm",
+      "description": "Store Pair of SIMD&FP Registers (post-index)",
+      "pseudocode": "[ xn_sp ] = qt, qt2 ; xn_sp += simm"
+    },
+    {
+      "group": "pair-store",
+      "def": "STNPQi",
+      "name": "stnp",
+      "asm": "qt, qt2, [xn_sp, #simm]",
+      "description": "Store Pair of SIMD&FP Registers, Non-temporal",
+      "pseudocode": "[ xn_sp + simm ] = qt, qt2"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPQi",
+      "name": "ldp",
+      "asm": "qt, qt2, [xn_sp, #simm]",
+      "description": "Load Pair of SIMD&FP Registers (signed offset)",
+      "pseudocode": "qt, qt2 = [ xn_sp + simm ]"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPQpre",
+      "name": "ldp",
+      "asm": "qt, qt2, [xn_sp, #simm]!",
+      "description": "Load Pair of SIMD&FP Registers (pre-index)",
+      "pseudocode": "xn_sp += simm ; qt, qt2 = [ xn_sp ]"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPQpost",
+      "name": "ldp",
+      "asm": "qt, qt2, [xn_sp], #simm",
+      "description": "Load Pair of SIMD&FP Registers (post-index)",
+      "pseudocode": "qt, qt2 = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDNPQi",
+      "name": "ldnp",
+      "asm": "qt, qt2, [xn_sp, #simm]",
+      "description": "Load Pair of SIMD&FP Registers, Non-temporal",
+      "pseudocode": "qt, qt2 = [ xn_sp + simm ]"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPSWi",
+      "name": "ldpsw",
+      "asm": "xt, xt2, [xn_sp, #simm]",
+      "description": "Load Pair of Registers Signed Word (signed offset)",
+      "pseudocode": "xt, xt2 = [ xn_sp + simm ] (32 bits each, sign-extended)"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPSWpre",
+      "name": "ldpsw",
+      "asm": "xt, xt2, [xn_sp, #simm]!",
+      "description": "Load Pair of Registers Signed Word (pre-index)",
+      "pseudocode": "xn_sp += simm ; xt, xt2 = [ xn_sp ]"
+    },
+    {
+      "group": "pair-load",
+      "def": "LDPSWpost",
+      "name": "ldpsw",
+      "asm": "xt, xt2, [xn_sp], #simm",
+      "description": "Load Pair of Registers Signed Word (post-index)",
+      "pseudocode": "xt, xt2 = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "store",
+      "def": "STRBBui",
+      "name": "strb",
+      "asm": "wt, [xn_sp, #uoff]",
+      "description": "Store Register Byte (unsigned offset)",
+      "pseudocode": "[ xn_sp + uoff ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STRBBroW",
+      "name": "strb",
+      "asm": "wt, [xn_sp, wm, wext{?ro0}]",
+      "description": "Store Register Byte (register offset, 32 bit index)",
+      "pseudocode": "[ xn_sp + ( extend ( wm ) << 0 ) ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STRBBroX",
+      "name": "strb",
+      "asm": "wt, [xn_sp, xm{?, xextro0}]",
+      "description": "Store Register Byte (register offset)",
+      "pseudocode": "[ xn_sp + ( xm << 0 ) ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STURBBi",
+      "name": "sturb",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Store Register Byte (unscaled offset)",
+      "pseudocode": "[ xn_sp + simm ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STRBBpre",
+      "name": "strb",
+      "asm": "wt, [xn_sp, #simm]!",
+      "description": "Store Register Byte (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STRBBpost",
+      "name": "strb",
+      "asm": "wt, [xn_sp], #simm",
+      "description": "Store Register Byte (post-index)",
+      "pseudocode": "[ xn_sp ] = wt ; xn_sp += simm"
+    },
+    {
+      "group": "store",
+      "def": "STTRBi",
+      "name": "sttrb",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Store Register Byte (unprivileged)",
+      "pseudocode": "[ xn_sp + simm ] = wt as at EL0"
+    },
+    {
+      "group": "load",
+      "def": "LDRBBui",
+      "name": "ldrb",
+      "asm": "wt, [xn_sp, #uoff]",
+      "description": "Load Register Byte (unsigned offset)",
+      "pseudocode": "wt = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRBBroW",
+      "name": "ldrb",
+      "asm": "wt, [xn_sp, wm, wext{?ro0}]",
+      "description": "Load Register Byte (register offset, 32 bit index)",
+      "pseudocode": "wt = [ xn_sp + ( extend ( wm ) << 0 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRBBroX",
+      "name": "ldrb",
+      "asm": "wt, [xn_sp, xm{?, xextro0}]",
+      "description": "Load Register Byte (register offset)",
+      "pseudocode": "wt = [ xn_sp + ( xm << 0 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURBBi",
+      "name": "ldurb",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Load Register Byte (unscaled offset)",
+      "pseudocode": "wt = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRBBpre",
+      "name": "ldrb",
+      "asm": "wt, [xn_sp, #simm]!",
+      "description": "Load Register Byte (pre-index)",
+      "pseudocode": "xn_sp += simm ; wt = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRBBpost",
+      "name": "ldrb",
+      "asm": "wt, [xn_sp], #simm",
+      "description": "Load Register Byte (post-index)",
+      "pseudocode": "wt = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDTRBi",
+      "name": "ldtrb",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Load Register Byte (unprivileged)",
+      "pseudocode": "wt = [ xn_sp + simm ] as at EL0"
+    },
+    {
+      "group": "load",
+      "def": "LDRSBXui",
+      "name": "ldrsb",
+      "asm": "xt, [xn_sp, #uoff]",
+      "description": "Load Register Signed Byte (64 bit) (unsigned offset)",
+      "pseudocode": "xt = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSBXroW",
+      "name": "ldrsb",
+      "asm": "xt, [xn_sp, wm, wext{?ro0}]",
+      "description": "Load Register Signed Byte (64 bit) (register offset, 32 bit index)",
+      "pseudocode": "xt = [ xn_sp + ( extend ( wm ) << 0 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSBXroX",
+      "name": "ldrsb",
+      "asm": "xt, [xn_sp, xm{?, xextro0}]",
+      "description": "Load Register Signed Byte (64 bit) (register offset)",
+      "pseudocode": "xt = [ xn_sp + ( xm << 0 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURSBXi",
+      "name": "ldursb",
+      "asm": "xt, [xn_sp, #simm]",
+      "description": "Load Register Signed Byte (64 bit) (unscaled offset)",
+      "pseudocode": "xt = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSBXpre",
+      "name": "ldrsb",
+      "asm": "xt, [xn_sp, #simm]!",
+      "description": "Load Register Signed Byte (64 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; xt = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSBXpost",
+      "name": "ldrsb",
+      "asm": "xt, [xn_sp], #simm",
+      "description": "Load Register Signed Byte (64 bit) (post-index)",
+      "pseudocode": "xt = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDTRSBXi",
+      "name": "ldtrsb",
+      "asm": "xt, [xn_sp, #simm]",
+      "description": "Load Register Signed Byte (64 bit) (unprivileged)",
+      "pseudocode": "xt = [ xn_sp + simm ] as at EL0"
+    },
+    {
+      "group": "load",
+      "def": "LDRSBWui",
+      "name": "ldrsb",
+      "asm": "wt, [xn_sp, #uoff]",
+      "description": "Load Register Signed Byte (32 bit) (unsigned offset)",
+      "pseudocode": "wt = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSBWroW",
+      "name": "ldrsb",
+      "asm": "wt, [xn_sp, wm, wext{?ro0}]",
+      "description": "Load Register Signed Byte (32 bit) (register offset, 32 bit index)",
+      "pseudocode": "wt = [ xn_sp + ( extend ( wm ) << 0 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSBWroX",
+      "name": "ldrsb",
+      "asm": "wt, [xn_sp, xm{?, xextro0}]",
+      "description": "Load Register Signed Byte (32 bit) (register offset)",
+      "pseudocode": "wt = [ xn_sp + ( xm << 0 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURSBWi",
+      "name": "ldursb",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Load Register Signed Byte (32 bit) (unscaled offset)",
+      "pseudocode": "wt = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSBWpre",
+      "name": "ldrsb",
+      "asm": "wt, [xn_sp, #simm]!",
+      "description": "Load Register Signed Byte (32 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; wt = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSBWpost",
+      "name": "ldrsb",
+      "asm": "wt, [xn_sp], #simm",
+      "description": "Load Register Signed Byte (32 bit) (post-index)",
+      "pseudocode": "wt = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDTRSBWi",
+      "name": "ldtrsb",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Load Register Signed Byte (32 bit) (unprivileged)",
+      "pseudocode": "wt = [ xn_sp + simm ] as at EL0"
+    },
+    {
+      "group": "store",
+      "def": "STRHHui",
+      "name": "strh",
+      "asm": "wt, [xn_sp, #uoff]",
+      "description": "Store Register Halfword (unsigned offset)",
+      "pseudocode": "[ xn_sp + uoff ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STRHHroW",
+      "name": "strh",
+      "asm": "wt, [xn_sp, wm, wext{?ro1}]",
+      "description": "Store Register Halfword (register offset, 32 bit index)",
+      "pseudocode": "[ xn_sp + ( extend ( wm ) << 1 ) ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STRHHroX",
+      "name": "strh",
+      "asm": "wt, [xn_sp, xm{?, xextro1}]",
+      "description": "Store Register Halfword (register offset)",
+      "pseudocode": "[ xn_sp + ( xm << 1 ) ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STURHHi",
+      "name": "sturh",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Store Register Halfword (unscaled offset)",
+      "pseudocode": "[ xn_sp + simm ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STRHHpre",
+      "name": "strh",
+      "asm": "wt, [xn_sp, #simm]!",
+      "description": "Store Register Halfword (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STRHHpost",
+      "name": "strh",
+      "asm": "wt, [xn_sp], #simm",
+      "description": "Store Register Halfword (post-index)",
+      "pseudocode": "[ xn_sp ] = wt ; xn_sp += simm"
+    },
+    {
+      "group": "store",
+      "def": "STTRHi",
+      "name": "sttrh",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Store Register Halfword (unprivileged)",
+      "pseudocode": "[ xn_sp + simm ] = wt as at EL0"
+    },
+    {
+      "group": "load",
+      "def": "LDRHHui",
+      "name": "ldrh",
+      "asm": "wt, [xn_sp, #uoff]",
+      "description": "Load Register Halfword (unsigned offset)",
+      "pseudocode": "wt = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRHHroW",
+      "name": "ldrh",
+      "asm": "wt, [xn_sp, wm, wext{?ro1}]",
+      "description": "Load Register Halfword (register offset, 32 bit index)",
+      "pseudocode": "wt = [ xn_sp + ( extend ( wm ) << 1 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRHHroX",
+      "name": "ldrh",
+      "asm": "wt, [xn_sp, xm{?, xextro1}]",
+      "description": "Load Register Halfword (register offset)",
+      "pseudocode": "wt = [ xn_sp + ( xm << 1 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURHHi",
+      "name": "ldurh",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Load Register Halfword (unscaled offset)",
+      "pseudocode": "wt = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRHHpre",
+      "name": "ldrh",
+      "asm": "wt, [xn_sp, #simm]!",
+      "description": "Load Register Halfword (pre-index)",
+      "pseudocode": "xn_sp += simm ; wt = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRHHpost",
+      "name": "ldrh",
+      "asm": "wt, [xn_sp], #simm",
+      "description": "Load Register Halfword (post-index)",
+      "pseudocode": "wt = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDTRHi",
+      "name": "ldtrh",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Load Register Halfword (unprivileged)",
+      "pseudocode": "wt = [ xn_sp + simm ] as at EL0"
+    },
+    {
+      "group": "load",
+      "def": "LDRSHXui",
+      "name": "ldrsh",
+      "asm": "xt, [xn_sp, #uoff]",
+      "description": "Load Register Signed Halfword (64 bit) (unsigned offset)",
+      "pseudocode": "xt = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSHXroW",
+      "name": "ldrsh",
+      "asm": "xt, [xn_sp, wm, wext{?ro1}]",
+      "description": "Load Register Signed Halfword (64 bit) (register offset, 32 bit index)",
+      "pseudocode": "xt = [ xn_sp + ( extend ( wm ) << 1 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSHXroX",
+      "name": "ldrsh",
+      "asm": "xt, [xn_sp, xm{?, xextro1}]",
+      "description": "Load Register Signed Halfword (64 bit) (register offset)",
+      "pseudocode": "xt = [ xn_sp + ( xm << 1 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURSHXi",
+      "name": "ldursh",
+      "asm": "xt, [xn_sp, #simm]",
+      "description": "Load Register Signed Halfword (64 bit) (unscaled offset)",
+      "pseudocode": "xt = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSHXpre",
+      "name": "ldrsh",
+      "asm": "xt, [xn_sp, #simm]!",
+      "description": "Load Register Signed Halfword (64 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; xt = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSHXpost",
+      "name": "ldrsh",
+      "asm": "xt, [xn_sp], #simm",
+      "description": "Load Register Signed Halfword (64 bit) (post-index)",
+      "pseudocode": "xt = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDTRSHXi",
+      "name": "ldtrsh",
+      "asm": "xt, [xn_sp, #simm]",
+      "description": "Load Register Signed Halfword (64 bit) (unprivileged)",
+      "pseudocode": "xt = [ xn_sp + simm ] as at EL0"
+    },
+    {
+      "group": "load",
+      "def": "LDRSHWui",
+      "name": "ldrsh",
+      "asm": "wt, [xn_sp, #uoff]",
+      "description": "Load Register Signed Halfword (32 bit) (unsigned offset)",
+      "pseudocode": "wt = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSHWroW",
+      "name": "ldrsh",
+      "asm": "wt, [xn_sp, wm, wext{?ro1}]",
+      "description": "Load Register Signed Halfword (32 bit) (register offset, 32 bit index)",
+      "pseudocode": "wt = [ xn_sp + ( extend ( wm ) << 1 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSHWroX",
+      "name": "ldrsh",
+      "asm": "wt, [xn_sp, xm{?, xextro1}]",
+      "description": "Load Register Signed Halfword (32 bit) (register offset)",
+      "pseudocode": "wt = [ xn_sp + ( xm << 1 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURSHWi",
+      "name": "ldursh",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Load Register Signed Halfword (32 bit) (unscaled offset)",
+      "pseudocode": "wt = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSHWpre",
+      "name": "ldrsh",
+      "asm": "wt, [xn_sp, #simm]!",
+      "description": "Load Register Signed Halfword (32 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; wt = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSHWpost",
+      "name": "ldrsh",
+      "asm": "wt, [xn_sp], #simm",
+      "description": "Load Register Signed Halfword (32 bit) (post-index)",
+      "pseudocode": "wt = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDTRSHWi",
+      "name": "ldtrsh",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Load Register Signed Halfword (32 bit) (unprivileged)",
+      "pseudocode": "wt = [ xn_sp + simm ] as at EL0"
+    },
+    {
+      "group": "store",
+      "def": "STRWui",
+      "name": "str",
+      "asm": "wt, [xn_sp, #uoff]",
+      "description": "Store Register (32 bit) (unsigned offset)",
+      "pseudocode": "[ xn_sp + uoff ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STRWroW",
+      "name": "str",
+      "asm": "wt, [xn_sp, wm, wext{?ro2}]",
+      "description": "Store Register (32 bit) (register offset, 32 bit index)",
+      "pseudocode": "[ xn_sp + ( extend ( wm ) << 2 ) ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STRWroX",
+      "name": "str",
+      "asm": "wt, [xn_sp, xm{?, xextro2}]",
+      "description": "Store Register (32 bit) (register offset)",
+      "pseudocode": "[ xn_sp + ( xm << 2 ) ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STURWi",
+      "name": "stur",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Store Register (32 bit) (unscaled offset)",
+      "pseudocode": "[ xn_sp + simm ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STRWpre",
+      "name": "str",
+      "asm": "wt, [xn_sp, #simm]!",
+      "description": "Store Register (32 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = wt"
+    },
+    {
+      "group": "store",
+      "def": "STRWpost",
+      "name": "str",
+      "asm": "wt, [xn_sp], #simm",
+      "description": "Store Register (32 bit) (post-index)",
+      "pseudocode": "[ xn_sp ] = wt ; xn_sp += simm"
+    },
+    {
+      "group": "store",
+      "def": "STTRWi",
+      "name": "sttr",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Store Register (32 bit) (unprivileged)",
+      "pseudocode": "[ xn_sp + simm ] = wt as at EL0"
+    },
+    {
+      "group": "load",
+      "def": "LDRWui",
+      "name": "ldr",
+      "asm": "wt, [xn_sp, #uoff]",
+      "description": "Load Register (32 bit) (unsigned offset)",
+      "pseudocode": "wt = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRWroW",
+      "name": "ldr",
+      "asm": "wt, [xn_sp, wm, wext{?ro2}]",
+      "description": "Load Register (32 bit) (register offset, 32 bit index)",
+      "pseudocode": "wt = [ xn_sp + ( extend ( wm ) << 2 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRWroX",
+      "name": "ldr",
+      "asm": "wt, [xn_sp, xm{?, xextro2}]",
+      "description": "Load Register (32 bit) (register offset)",
+      "pseudocode": "wt = [ xn_sp + ( xm << 2 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURWi",
+      "name": "ldur",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Load Register (32 bit) (unscaled offset)",
+      "pseudocode": "wt = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRWpre",
+      "name": "ldr",
+      "asm": "wt, [xn_sp, #simm]!",
+      "description": "Load Register (32 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; wt = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRWpost",
+      "name": "ldr",
+      "asm": "wt, [xn_sp], #simm",
+      "description": "Load Register (32 bit) (post-index)",
+      "pseudocode": "wt = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDTRWi",
+      "name": "ldtr",
+      "asm": "wt, [xn_sp, #simm]",
+      "description": "Load Register (32 bit) (unprivileged)",
+      "pseudocode": "wt = [ xn_sp + simm ] as at EL0"
+    },
+    {
+      "group": "load",
+      "def": "LDRSWui",
+      "name": "ldrsw",
+      "asm": "xt, [xn_sp, #uoff]",
+      "description": "Load Register Signed Word (unsigned offset)",
+      "pseudocode": "xt = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSWroW",
+      "name": "ldrsw",
+      "asm": "xt, [xn_sp, wm, wext{?ro2}]",
+      "description": "Load Register Signed Word (register offset, 32 bit index)",
+      "pseudocode": "xt = [ xn_sp + ( extend ( wm ) << 2 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSWroX",
+      "name": "ldrsw",
+      "asm": "xt, [xn_sp, xm{?, xextro2}]",
+      "description": "Load Register Signed Word (register offset)",
+      "pseudocode": "xt = [ xn_sp + ( xm << 2 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURSWi",
+      "name": "ldursw",
+      "asm": "xt, [xn_sp, #simm]",
+      "description": "Load Register Signed Word (unscaled offset)",
+      "pseudocode": "xt = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSWpre",
+      "name": "ldrsw",
+      "asm": "xt, [xn_sp, #simm]!",
+      "description": "Load Register Signed Word (pre-index)",
+      "pseudocode": "xn_sp += simm ; xt = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSWpost",
+      "name": "ldrsw",
+      "asm": "xt, [xn_sp], #simm",
+      "description": "Load Register Signed Word (post-index)",
+      "pseudocode": "xt = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDTRSWi",
+      "name": "ldtrsw",
+      "asm": "xt, [xn_sp, #simm]",
+      "description": "Load Register Signed Word (unprivileged)",
+      "pseudocode": "xt = [ xn_sp + simm ] as at EL0"
+    },
+    {
+      "group": "store",
+      "def": "STRXui",
+      "name": "str",
+      "asm": "xt, [xn_sp, #uoff]",
+      "description": "Store Register (64 bit) (unsigned offset)",
+      "pseudocode": "[ xn_sp + uoff ] = xt"
+    },
+    {
+      "group": "store",
+      "def": "STRXroW",
+      "name": "str",
+      "asm": "xt, [xn_sp, wm, wext{?ro3}]",
+      "description": "Store Register (64 bit) (register offset, 32 bit index)",
+      "pseudocode": "[ xn_sp + ( extend ( wm ) << 3 ) ] = xt"
+    },
+    {
+      "group": "store",
+      "def": "STRXroX",
+      "name": "str",
+      "asm": "xt, [xn_sp, xm{?, xextro3}]",
+      "description": "Store Register (64 bit) (register offset)",
+      "pseudocode": "[ xn_sp + ( xm << 3 ) ] = xt"
+    },
+    {
+      "group": "store",
+      "def": "STURXi",
+      "name": "stur",
+      "asm": "xt, [xn_sp, #simm]",
+      "description": "Store Register (64 bit) (unscaled offset)",
+      "pseudocode": "[ xn_sp + simm ] = xt"
+    },
+    {
+      "group": "store",
+      "def": "STRXpre",
+      "name": "str",
+      "asm": "xt, [xn_sp, #simm]!",
+      "description": "Store Register (64 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = xt"
+    },
+    {
+      "group": "store",
+      "def": "STRXpost",
+      "name": "str",
+      "asm": "xt, [xn_sp], #simm",
+      "description": "Store Register (64 bit) (post-index)",
+      "pseudocode": "[ xn_sp ] = xt ; xn_sp += simm"
+    },
+    {
+      "group": "store",
+      "def": "STTRXi",
+      "name": "sttr",
+      "asm": "xt, [xn_sp, #simm]",
+      "description": "Store Register (64 bit) (unprivileged)",
+      "pseudocode": "[ xn_sp + simm ] = xt as at EL0"
+    },
+    {
+      "group": "load",
+      "def": "LDRXui",
+      "name": "ldr",
+      "asm": "xt, [xn_sp, #uoff]",
+      "description": "Load Register (64 bit) (unsigned offset)",
+      "pseudocode": "xt = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRXroW",
+      "name": "ldr",
+      "asm": "xt, [xn_sp, wm, wext{?ro3}]",
+      "description": "Load Register (64 bit) (register offset, 32 bit index)",
+      "pseudocode": "xt = [ xn_sp + ( extend ( wm ) << 3 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRXroX",
+      "name": "ldr",
+      "asm": "xt, [xn_sp, xm{?, xextro3}]",
+      "description": "Load Register (64 bit) (register offset)",
+      "pseudocode": "xt = [ xn_sp + ( xm << 3 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURXi",
+      "name": "ldur",
+      "asm": "xt, [xn_sp, #simm]",
+      "description": "Load Register (64 bit) (unscaled offset)",
+      "pseudocode": "xt = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRXpre",
+      "name": "ldr",
+      "asm": "xt, [xn_sp, #simm]!",
+      "description": "Load Register (64 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; xt = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRXpost",
+      "name": "ldr",
+      "asm": "xt, [xn_sp], #simm",
+      "description": "Load Register (64 bit) (post-index)",
+      "pseudocode": "xt = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDTRXi",
+      "name": "ldtr",
+      "asm": "xt, [xn_sp, #simm]",
+      "description": "Load Register (64 bit) (unprivileged)",
+      "pseudocode": "xt = [ xn_sp + simm ] as at EL0"
+    },
+    {
+      "group": "prefetch",
+      "def": "PRFMui",
+      "name": "prfm",
+      "asm": "prfop, [xn_sp, #uoff]",
+      "description": "Prefetch Memory (unsigned offset)",
+      "pseudocode": "prefetch [ xn_sp + uoff ]"
+    },
+    {
+      "group": "prefetch",
+      "def": "PRFMroW",
+      "name": "prfm",
+      "asm": "prfopr, [xn_sp, wm, wext{?ro3}]",
+      "description": "Prefetch Memory (register offset, 32 bit index)",
+      "pseudocode": "prefetch [ xn_sp + ( extend ( wm ) << 3 ) ]"
+    },
+    {
+      "group": "prefetch",
+      "def": "PRFMroX",
+      "name": "prfm",
+      "asm": "prfopr, [xn_sp, xm{?, xextro3}]",
+      "description": "Prefetch Memory (register offset)",
+      "pseudocode": "prefetch [ xn_sp + ( xm << 3 ) ]"
+    },
+    {
+      "group": "prefetch",
+      "def": "PRFUMi",
+      "name": "prfum",
+      "asm": "prfop, [xn_sp, #simm]",
+      "description": "Prefetch Memory (unscaled offset)",
+      "pseudocode": "prefetch [ xn_sp + simm ]"
+    },
+    {
+      "group": "store",
+      "def": "STRBui",
+      "name": "str",
+      "asm": "bt, [xn_sp, #uoff]",
+      "description": "Store SIMD&FP Register (8 bit) (unsigned offset)",
+      "pseudocode": "[ xn_sp + uoff ] = bt"
+    },
+    {
+      "group": "store",
+      "def": "STRBroW",
+      "name": "str",
+      "asm": "bt, [xn_sp, wm, wext{?ro0}]",
+      "description": "Store SIMD&FP Register (8 bit) (register offset, 32 bit index)",
+      "pseudocode": "[ xn_sp + ( extend ( wm ) << 0 ) ] = bt"
+    },
+    {
+      "group": "store",
+      "def": "STRBroX",
+      "name": "str",
+      "asm": "bt, [xn_sp, xm{?, xextro0}]",
+      "description": "Store SIMD&FP Register (8 bit) (register offset)",
+      "pseudocode": "[ xn_sp + ( xm << 0 ) ] = bt"
+    },
+    {
+      "group": "store",
+      "def": "STURBi",
+      "name": "stur",
+      "asm": "bt, [xn_sp, #simm]",
+      "description": "Store SIMD&FP Register (8 bit) (unscaled offset)",
+      "pseudocode": "[ xn_sp + simm ] = bt"
+    },
+    {
+      "group": "store",
+      "def": "STRBpre",
+      "name": "str",
+      "asm": "bt, [xn_sp, #simm]!",
+      "description": "Store SIMD&FP Register (8 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = bt"
+    },
+    {
+      "group": "store",
+      "def": "STRBpost",
+      "name": "str",
+      "asm": "bt, [xn_sp], #simm",
+      "description": "Store SIMD&FP Register (8 bit) (post-index)",
+      "pseudocode": "[ xn_sp ] = bt ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDRBui",
+      "name": "ldr",
+      "asm": "bt, [xn_sp, #uoff]",
+      "description": "Load SIMD&FP Register (8 bit) (unsigned offset)",
+      "pseudocode": "bt = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRBroW",
+      "name": "ldr",
+      "asm": "bt, [xn_sp, wm, wext{?ro0}]",
+      "description": "Load SIMD&FP Register (8 bit) (register offset, 32 bit index)",
+      "pseudocode": "bt = [ xn_sp + ( extend ( wm ) << 0 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRBroX",
+      "name": "ldr",
+      "asm": "bt, [xn_sp, xm{?, xextro0}]",
+      "description": "Load SIMD&FP Register (8 bit) (register offset)",
+      "pseudocode": "bt = [ xn_sp + ( xm << 0 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURBi",
+      "name": "ldur",
+      "asm": "bt, [xn_sp, #simm]",
+      "description": "Load SIMD&FP Register (8 bit) (unscaled offset)",
+      "pseudocode": "bt = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRBpre",
+      "name": "ldr",
+      "asm": "bt, [xn_sp, #simm]!",
+      "description": "Load SIMD&FP Register (8 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; bt = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRBpost",
+      "name": "ldr",
+      "asm": "bt, [xn_sp], #simm",
+      "description": "Load SIMD&FP Register (8 bit) (post-index)",
+      "pseudocode": "bt = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "store",
+      "def": "STRHui",
+      "name": "str",
+      "asm": "ht, [xn_sp, #uoff]",
+      "description": "Store SIMD&FP Register (16 bit) (unsigned offset)",
+      "pseudocode": "[ xn_sp + uoff ] = ht"
+    },
+    {
+      "group": "store",
+      "def": "STRHroW",
+      "name": "str",
+      "asm": "ht, [xn_sp, wm, wext{?ro1}]",
+      "description": "Store SIMD&FP Register (16 bit) (register offset, 32 bit index)",
+      "pseudocode": "[ xn_sp + ( extend ( wm ) << 1 ) ] = ht"
+    },
+    {
+      "group": "store",
+      "def": "STRHroX",
+      "name": "str",
+      "asm": "ht, [xn_sp, xm{?, xextro1}]",
+      "description": "Store SIMD&FP Register (16 bit) (register offset)",
+      "pseudocode": "[ xn_sp + ( xm << 1 ) ] = ht"
+    },
+    {
+      "group": "store",
+      "def": "STURHi",
+      "name": "stur",
+      "asm": "ht, [xn_sp, #simm]",
+      "description": "Store SIMD&FP Register (16 bit) (unscaled offset)",
+      "pseudocode": "[ xn_sp + simm ] = ht"
+    },
+    {
+      "group": "store",
+      "def": "STRHpre",
+      "name": "str",
+      "asm": "ht, [xn_sp, #simm]!",
+      "description": "Store SIMD&FP Register (16 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = ht"
+    },
+    {
+      "group": "store",
+      "def": "STRHpost",
+      "name": "str",
+      "asm": "ht, [xn_sp], #simm",
+      "description": "Store SIMD&FP Register (16 bit) (post-index)",
+      "pseudocode": "[ xn_sp ] = ht ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDRHui",
+      "name": "ldr",
+      "asm": "ht, [xn_sp, #uoff]",
+      "description": "Load SIMD&FP Register (16 bit) (unsigned offset)",
+      "pseudocode": "ht = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRHroW",
+      "name": "ldr",
+      "asm": "ht, [xn_sp, wm, wext{?ro1}]",
+      "description": "Load SIMD&FP Register (16 bit) (register offset, 32 bit index)",
+      "pseudocode": "ht = [ xn_sp + ( extend ( wm ) << 1 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRHroX",
+      "name": "ldr",
+      "asm": "ht, [xn_sp, xm{?, xextro1}]",
+      "description": "Load SIMD&FP Register (16 bit) (register offset)",
+      "pseudocode": "ht = [ xn_sp + ( xm << 1 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURHi",
+      "name": "ldur",
+      "asm": "ht, [xn_sp, #simm]",
+      "description": "Load SIMD&FP Register (16 bit) (unscaled offset)",
+      "pseudocode": "ht = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRHpre",
+      "name": "ldr",
+      "asm": "ht, [xn_sp, #simm]!",
+      "description": "Load SIMD&FP Register (16 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; ht = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRHpost",
+      "name": "ldr",
+      "asm": "ht, [xn_sp], #simm",
+      "description": "Load SIMD&FP Register (16 bit) (post-index)",
+      "pseudocode": "ht = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "store",
+      "def": "STRSui",
+      "name": "str",
+      "asm": "st, [xn_sp, #uoff]",
+      "description": "Store SIMD&FP Register (32 bit) (unsigned offset)",
+      "pseudocode": "[ xn_sp + uoff ] = st"
+    },
+    {
+      "group": "store",
+      "def": "STRSroW",
+      "name": "str",
+      "asm": "st, [xn_sp, wm, wext{?ro2}]",
+      "description": "Store SIMD&FP Register (32 bit) (register offset, 32 bit index)",
+      "pseudocode": "[ xn_sp + ( extend ( wm ) << 2 ) ] = st"
+    },
+    {
+      "group": "store",
+      "def": "STRSroX",
+      "name": "str",
+      "asm": "st, [xn_sp, xm{?, xextro2}]",
+      "description": "Store SIMD&FP Register (32 bit) (register offset)",
+      "pseudocode": "[ xn_sp + ( xm << 2 ) ] = st"
+    },
+    {
+      "group": "store",
+      "def": "STURSi",
+      "name": "stur",
+      "asm": "st, [xn_sp, #simm]",
+      "description": "Store SIMD&FP Register (32 bit) (unscaled offset)",
+      "pseudocode": "[ xn_sp + simm ] = st"
+    },
+    {
+      "group": "store",
+      "def": "STRSpre",
+      "name": "str",
+      "asm": "st, [xn_sp, #simm]!",
+      "description": "Store SIMD&FP Register (32 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = st"
+    },
+    {
+      "group": "store",
+      "def": "STRSpost",
+      "name": "str",
+      "asm": "st, [xn_sp], #simm",
+      "description": "Store SIMD&FP Register (32 bit) (post-index)",
+      "pseudocode": "[ xn_sp ] = st ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDRSui",
+      "name": "ldr",
+      "asm": "st, [xn_sp, #uoff]",
+      "description": "Load SIMD&FP Register (32 bit) (unsigned offset)",
+      "pseudocode": "st = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSroW",
+      "name": "ldr",
+      "asm": "st, [xn_sp, wm, wext{?ro2}]",
+      "description": "Load SIMD&FP Register (32 bit) (register offset, 32 bit index)",
+      "pseudocode": "st = [ xn_sp + ( extend ( wm ) << 2 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSroX",
+      "name": "ldr",
+      "asm": "st, [xn_sp, xm{?, xextro2}]",
+      "description": "Load SIMD&FP Register (32 bit) (register offset)",
+      "pseudocode": "st = [ xn_sp + ( xm << 2 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURSi",
+      "name": "ldur",
+      "asm": "st, [xn_sp, #simm]",
+      "description": "Load SIMD&FP Register (32 bit) (unscaled offset)",
+      "pseudocode": "st = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSpre",
+      "name": "ldr",
+      "asm": "st, [xn_sp, #simm]!",
+      "description": "Load SIMD&FP Register (32 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; st = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRSpost",
+      "name": "ldr",
+      "asm": "st, [xn_sp], #simm",
+      "description": "Load SIMD&FP Register (32 bit) (post-index)",
+      "pseudocode": "st = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "store",
+      "def": "STRDui",
+      "name": "str",
+      "asm": "dt, [xn_sp, #uoff]",
+      "description": "Store SIMD&FP Register (64 bit) (unsigned offset)",
+      "pseudocode": "[ xn_sp + uoff ] = dt"
+    },
+    {
+      "group": "store",
+      "def": "STRDroW",
+      "name": "str",
+      "asm": "dt, [xn_sp, wm, wext{?ro3}]",
+      "description": "Store SIMD&FP Register (64 bit) (register offset, 32 bit index)",
+      "pseudocode": "[ xn_sp + ( extend ( wm ) << 3 ) ] = dt"
+    },
+    {
+      "group": "store",
+      "def": "STRDroX",
+      "name": "str",
+      "asm": "dt, [xn_sp, xm{?, xextro3}]",
+      "description": "Store SIMD&FP Register (64 bit) (register offset)",
+      "pseudocode": "[ xn_sp + ( xm << 3 ) ] = dt"
+    },
+    {
+      "group": "store",
+      "def": "STURDi",
+      "name": "stur",
+      "asm": "dt, [xn_sp, #simm]",
+      "description": "Store SIMD&FP Register (64 bit) (unscaled offset)",
+      "pseudocode": "[ xn_sp + simm ] = dt"
+    },
+    {
+      "group": "store",
+      "def": "STRDpre",
+      "name": "str",
+      "asm": "dt, [xn_sp, #simm]!",
+      "description": "Store SIMD&FP Register (64 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = dt"
+    },
+    {
+      "group": "store",
+      "def": "STRDpost",
+      "name": "str",
+      "asm": "dt, [xn_sp], #simm",
+      "description": "Store SIMD&FP Register (64 bit) (post-index)",
+      "pseudocode": "[ xn_sp ] = dt ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDRDui",
+      "name": "ldr",
+      "asm": "dt, [xn_sp, #uoff]",
+      "description": "Load SIMD&FP Register (64 bit) (unsigned offset)",
+      "pseudocode": "dt = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRDroW",
+      "name": "ldr",
+      "asm": "dt, [xn_sp, wm, wext{?ro3}]",
+      "description": "Load SIMD&FP Register (64 bit) (register offset, 32 bit index)",
+      "pseudocode": "dt = [ xn_sp + ( extend ( wm ) << 3 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRDroX",
+      "name": "ldr",
+      "asm": "dt, [xn_sp, xm{?, xextro3}]",
+      "description": "Load SIMD&FP Register (64 bit) (register offset)",
+      "pseudocode": "dt = [ xn_sp + ( xm << 3 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURDi",
+      "name": "ldur",
+      "asm": "dt, [xn_sp, #simm]",
+      "description": "Load SIMD&FP Register (64 bit) (unscaled offset)",
+      "pseudocode": "dt = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRDpre",
+      "name": "ldr",
+      "asm": "dt, [xn_sp, #simm]!",
+      "description": "Load SIMD&FP Register (64 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; dt = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRDpost",
+      "name": "ldr",
+      "asm": "dt, [xn_sp], #simm",
+      "description": "Load SIMD&FP Register (64 bit) (post-index)",
+      "pseudocode": "dt = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "store",
+      "def": "STRQui",
+      "name": "str",
+      "asm": "qt, [xn_sp, #uoff]",
+      "description": "Store SIMD&FP Register (128 bit) (unsigned offset)",
+      "pseudocode": "[ xn_sp + uoff ] = qt"
+    },
+    {
+      "group": "store",
+      "def": "STRQroW",
+      "name": "str",
+      "asm": "qt, [xn_sp, wm, wext{?ro4}]",
+      "description": "Store SIMD&FP Register (128 bit) (register offset, 32 bit index)",
+      "pseudocode": "[ xn_sp + ( extend ( wm ) << 4 ) ] = qt"
+    },
+    {
+      "group": "store",
+      "def": "STRQroX",
+      "name": "str",
+      "asm": "qt, [xn_sp, xm{?, xextro4}]",
+      "description": "Store SIMD&FP Register (128 bit) (register offset)",
+      "pseudocode": "[ xn_sp + ( xm << 4 ) ] = qt"
+    },
+    {
+      "group": "store",
+      "def": "STURQi",
+      "name": "stur",
+      "asm": "qt, [xn_sp, #simm]",
+      "description": "Store SIMD&FP Register (128 bit) (unscaled offset)",
+      "pseudocode": "[ xn_sp + simm ] = qt"
+    },
+    {
+      "group": "store",
+      "def": "STRQpre",
+      "name": "str",
+      "asm": "qt, [xn_sp, #simm]!",
+      "description": "Store SIMD&FP Register (128 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; [ xn_sp ] = qt"
+    },
+    {
+      "group": "store",
+      "def": "STRQpost",
+      "name": "str",
+      "asm": "qt, [xn_sp], #simm",
+      "description": "Store SIMD&FP Register (128 bit) (post-index)",
+      "pseudocode": "[ xn_sp ] = qt ; xn_sp += simm"
+    },
+    {
+      "group": "load",
+      "def": "LDRQui",
+      "name": "ldr",
+      "asm": "qt, [xn_sp, #uoff]",
+      "description": "Load SIMD&FP Register (128 bit) (unsigned offset)",
+      "pseudocode": "qt = [ xn_sp + uoff ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRQroW",
+      "name": "ldr",
+      "asm": "qt, [xn_sp, wm, wext{?ro4}]",
+      "description": "Load SIMD&FP Register (128 bit) (register offset, 32 bit index)",
+      "pseudocode": "qt = [ xn_sp + ( extend ( wm ) << 4 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRQroX",
+      "name": "ldr",
+      "asm": "qt, [xn_sp, xm{?, xextro4}]",
+      "description": "Load SIMD&FP Register (128 bit) (register offset)",
+      "pseudocode": "qt = [ xn_sp + ( xm << 4 ) ]"
+    },
+    {
+      "group": "load",
+      "def": "LDURQi",
+      "name": "ldur",
+      "asm": "qt, [xn_sp, #simm]",
+      "description": "Load SIMD&FP Register (128 bit) (unscaled offset)",
+      "pseudocode": "qt = [ xn_sp + simm ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRQpre",
+      "name": "ldr",
+      "asm": "qt, [xn_sp, #simm]!",
+      "description": "Load SIMD&FP Register (128 bit) (pre-index)",
+      "pseudocode": "xn_sp += simm ; qt = [ xn_sp ]"
+    },
+    {
+      "group": "load",
+      "def": "LDRQpost",
+      "name": "ldr",
+      "asm": "qt, [xn_sp], #simm",
+      "description": "Load SIMD&FP Register (128 bit) (post-index)",
+      "pseudocode": "qt = [ xn_sp ] ; xn_sp += simm"
+    },
+    {
+      "group": "logic-reg",
+      "def": "ANDWrs",
+      "name": "and",
+      "asm": "wd, wn, wm{?, shift #wamount}",
+      "description": "Bitwise AND (shifted register)",
+      "pseudocode": "wd = wn & ( wm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "BICWrs",
+      "name": "bic",
+      "asm": "wd, wn, wm{?, shift #wamount}",
+      "description": "Bitwise Bit Clear (shifted register)",
+      "pseudocode": "wd = wn & ~( wm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "ORRWrs",
+      "name": "orr",
+      "asm": "wd, wn, wm{?, shift #wamount}",
+      "description": "Bitwise OR (shifted register)",
+      "pseudocode": "wd = wn | ( wm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "ORNWrs",
+      "name": "orn",
+      "asm": "wd, wn, wm{?, shift #wamount}",
+      "description": "Bitwise OR NOT (shifted register)",
+      "pseudocode": "wd = wn | ~( wm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "EORWrs",
+      "name": "eor",
+      "asm": "wd, wn, wm{?, shift #wamount}",
+      "description": "Bitwise Exclusive OR (shifted register)",
+      "pseudocode": "wd = wn ^ ( wm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "EONWrs",
+      "name": "eon",
+      "asm": "wd, wn, wm{?, shift #wamount}",
+      "description": "Bitwise Exclusive OR NOT (shifted register)",
+      "pseudocode": "wd = wn ^ ~( wm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "ANDSWrs",
+      "name": "ands",
+      "asm": "wd, wn, wm{?, shift #wamount}",
+      "description": "Bitwise AND, Setting Flags (shifted register)",
+      "pseudocode": "wd = wn & ( wm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "BICSWrs",
+      "name": "bics",
+      "asm": "wd, wn, wm{?, shift #wamount}",
+      "description": "Bitwise Bit Clear, Setting Flags (shifted register)",
+      "pseudocode": "wd = wn & ~( wm shifted )"
+    },
+    {
+      "group": "addsub-reg",
+      "def": "ADDWrs",
+      "name": "add",
+      "asm": "wd, wn, wm{?, ashift #wamount}",
+      "description": "Add (shifted register)",
+      "pseudocode": "wd = wn + ( wm shifted )"
+    },
+    {
+      "group": "addsub-ext",
+      "def": "ADDWrx",
+      "name": "add",
+      "asm": "wd_sp, wn_sp, wm, ext #eamt",
+      "description": "Add (extended register)",
+      "pseudocode": "wd_sp = wn_sp + ( extend ( wm ) << eamt )"
+    },
+    {
+      "group": "addsub-reg",
+      "def": "ADDSWrs",
+      "name": "adds",
+      "asm": "wd, wn, wm{?, ashift #wamount}",
+      "description": "Add, Setting Flags (shifted register)",
+      "pseudocode": "wd = wn + ( wm shifted )"
+    },
+    {
+      "group": "addsub-ext",
+      "def": "ADDSWrx",
+      "name": "adds",
+      "asm": "wd, wn_sp, wm, ext #eamt",
+      "description": "Add, Setting Flags (extended register)",
+      "pseudocode": "wd = wn_sp + ( extend ( wm ) << eamt )"
+    },
+    {
+      "group": "addsub-reg",
+      "def": "SUBWrs",
+      "name": "sub",
+      "asm": "wd, wn, wm{?, ashift #wamount}",
+      "description": "Subtract (shifted register)",
+      "pseudocode": "wd = wn - ( wm shifted )"
+    },
+    {
+      "group": "addsub-ext",
+      "def": "SUBWrx",
+      "name": "sub",
+      "asm": "wd_sp, wn_sp, wm, ext #eamt",
+      "description": "Subtract (extended register)",
+      "pseudocode": "wd_sp = wn_sp - ( extend ( wm ) << eamt )"
+    },
+    {
+      "group": "addsub-reg",
+      "def": "SUBSWrs",
+      "name": "subs",
+      "asm": "wd, wn, wm{?, ashift #wamount}",
+      "description": "Subtract, Setting Flags (shifted register)",
+      "pseudocode": "wd = wn - ( wm shifted )"
+    },
+    {
+      "group": "addsub-ext",
+      "def": "SUBSWrx",
+      "name": "subs",
+      "asm": "wd, wn_sp, wm, ext #eamt",
+      "description": "Subtract, Setting Flags (extended register)",
+      "pseudocode": "wd = wn_sp - ( extend ( wm ) << eamt )"
+    },
+    {
+      "group": "adc",
+      "def": "ADCWr",
+      "name": "adc",
+      "asm": "wd, wn, wm",
+      "description": "Add with Carry",
+      "pseudocode": "wd = wn + wm + C"
+    },
+    {
+      "group": "adc",
+      "def": "ADCSWr",
+      "name": "adcs",
+      "asm": "wd, wn, wm",
+      "description": "Add with Carry, Setting Flags",
+      "pseudocode": "wd = wn + wm + C"
+    },
+    {
+      "group": "adc",
+      "def": "SBCWr",
+      "name": "sbc",
+      "asm": "wd, wn, wm",
+      "description": "Subtract with Carry",
+      "pseudocode": "wd = wn - wm - !C"
+    },
+    {
+      "group": "adc",
+      "def": "SBCSWr",
+      "name": "sbcs",
+      "asm": "wd, wn, wm",
+      "description": "Subtract with Carry, Setting Flags",
+      "pseudocode": "wd = wn - wm - !C"
+    },
+    {
+      "group": "ccmp",
+      "def": "CCMNWr",
+      "name": "ccmn",
+      "asm": "wn, wm, #nzcv, cond",
+      "description": "Conditional Compare Negative (register)",
+      "pseudocode": "flags = cond ? flags of wn + wm : nzcv"
+    },
+    {
+      "group": "ccmp",
+      "def": "CCMNWi",
+      "name": "ccmn",
+      "asm": "wn, #imm, #nzcv, cond",
+      "description": "Conditional Compare Negative (immediate)",
+      "pseudocode": "flags = cond ? flags of wn + imm : nzcv"
+    },
+    {
+      "group": "ccmp",
+      "def": "CCMPWr",
+      "name": "ccmp",
+      "asm": "wn, wm, #nzcv, cond",
+      "description": "Conditional Compare (register)",
+      "pseudocode": "flags = cond ? flags of wn - wm : nzcv"
+    },
+    {
+      "group": "ccmp",
+      "def": "CCMPWi",
+      "name": "ccmp",
+      "asm": "wn, #imm, #nzcv, cond",
+      "description": "Conditional Compare (immediate)",
+      "pseudocode": "flags = cond ? flags of wn - imm : nzcv"
+    },
+    {
+      "group": "csel",
+      "def": "CSELWr",
+      "name": "csel",
+      "asm": "wd, wn, wm, cond",
+      "description": "Conditional Select",
+      "pseudocode": "wd = cond ? wn : wm"
+    },
+    {
+      "group": "csel",
+      "def": "CSINCWr",
+      "name": "csinc",
+      "asm": "wd, wn, wm, cond",
+      "description": "Conditional Select Increment",
+      "pseudocode": "wd = cond ? wn : wm + 1"
+    },
+    {
+      "group": "csel",
+      "def": "CSINVWr",
+      "name": "csinv",
+      "asm": "wd, wn, wm, cond",
+      "description": "Conditional Select Invert",
+      "pseudocode": "wd = cond ? wn : ~wm"
+    },
+    {
+      "group": "csel",
+      "def": "CSNEGWr",
+      "name": "csneg",
+      "asm": "wd, wn, wm, cond",
+      "description": "Conditional Select Negation",
+      "pseudocode": "wd = cond ? wn : -wm"
+    },
+    {
+      "group": "mul",
+      "def": "MADDWrrr",
+      "name": "madd",
+      "asm": "wd, wn, wm, wa",
+      "description": "Multiply-Add",
+      "pseudocode": "wd = wa + wn × wm"
+    },
+    {
+      "group": "mul",
+      "def": "MSUBWrrr",
+      "name": "msub",
+      "asm": "wd, wn, wm, wa",
+      "description": "Multiply-Subtract",
+      "pseudocode": "wd = wa - wn × wm"
+    },
+    {
+      "group": "dp2",
+      "def": "UDIVWr",
+      "name": "udiv",
+      "asm": "wd, wn, wm",
+      "description": "Unsigned Divide",
+      "pseudocode": "wd = wn / wm (unsigned)"
+    },
+    {
+      "group": "dp2",
+      "def": "SDIVWr",
+      "name": "sdiv",
+      "asm": "wd, wn, wm",
+      "description": "Signed Divide",
+      "pseudocode": "wd = wn / wm (signed)"
+    },
+    {
+      "group": "dp2",
+      "def": "LSLVWr",
+      "name": "lslv",
+      "asm": "wd, wn, wm",
+      "description": "Logical Shift Left Variable",
+      "pseudocode": "wd = wn << wm"
+    },
+    {
+      "group": "dp2",
+      "def": "LSRVWr",
+      "name": "lsrv",
+      "asm": "wd, wn, wm",
+      "description": "Logical Shift Right Variable",
+      "pseudocode": "wd = wn >>> wm"
+    },
+    {
+      "group": "dp2",
+      "def": "ASRVWr",
+      "name": "asrv",
+      "asm": "wd, wn, wm",
+      "description": "Arithmetic Shift Right Variable",
+      "pseudocode": "wd = wn >> wm"
+    },
+    {
+      "group": "dp2",
+      "def": "RORVWr",
+      "name": "rorv",
+      "asm": "wd, wn, wm",
+      "description": "Rotate Right Variable",
+      "pseudocode": "wd = wn rotated right by wm"
+    },
+    {
+      "group": "dp1",
+      "def": "RBITWr",
+      "name": "rbit",
+      "asm": "wd, wn",
+      "description": "Reverse Bits",
+      "pseudocode": "wd = reverse bits of wn"
+    },
+    {
+      "group": "dp1",
+      "def": "REV16Wr",
+      "name": "rev16",
+      "asm": "wd, wn",
+      "description": "Reverse Bytes in Halfwords",
+      "pseudocode": "wd = reverse bytes in halfwords of wn"
+    },
+    {
+      "group": "dp1",
+      "def": "REVWr",
+      "name": "rev",
+      "asm": "wd, wn",
+      "description": "Reverse Bytes",
+      "pseudocode": "wd = reverse bytes of wn"
+    },
+    {
+      "group": "dp1",
+      "def": "CLZWr",
+      "name": "clz",
+      "asm": "wd, wn",
+      "description": "Count Leading Zeros",
+      "pseudocode": "wd = count leading zeros of wn"
+    },
+    {
+      "group": "dp1",
+      "def": "CLSWr",
+      "name": "cls",
+      "asm": "wd, wn",
+      "description": "Count Leading Sign Bits",
+      "pseudocode": "wd = count leading sign bits of wn"
+    },
+    {
+      "group": "logic-reg",
+      "def": "ANDXrs",
+      "name": "and",
+      "asm": "xd, xn, xm{?, shift #amount}",
+      "description": "Bitwise AND (shifted register)",
+      "pseudocode": "xd = xn & ( xm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "BICXrs",
+      "name": "bic",
+      "asm": "xd, xn, xm{?, shift #amount}",
+      "description": "Bitwise Bit Clear (shifted register)",
+      "pseudocode": "xd = xn & ~( xm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "ORRXrs",
+      "name": "orr",
+      "asm": "xd, xn, xm{?, shift #amount}",
+      "description": "Bitwise OR (shifted register)",
+      "pseudocode": "xd = xn | ( xm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "ORNXrs",
+      "name": "orn",
+      "asm": "xd, xn, xm{?, shift #amount}",
+      "description": "Bitwise OR NOT (shifted register)",
+      "pseudocode": "xd = xn | ~( xm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "EORXrs",
+      "name": "eor",
+      "asm": "xd, xn, xm{?, shift #amount}",
+      "description": "Bitwise Exclusive OR (shifted register)",
+      "pseudocode": "xd = xn ^ ( xm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "EONXrs",
+      "name": "eon",
+      "asm": "xd, xn, xm{?, shift #amount}",
+      "description": "Bitwise Exclusive OR NOT (shifted register)",
+      "pseudocode": "xd = xn ^ ~( xm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "ANDSXrs",
+      "name": "ands",
+      "asm": "xd, xn, xm{?, shift #amount}",
+      "description": "Bitwise AND, Setting Flags (shifted register)",
+      "pseudocode": "xd = xn & ( xm shifted )"
+    },
+    {
+      "group": "logic-reg",
+      "def": "BICSXrs",
+      "name": "bics",
+      "asm": "xd, xn, xm{?, shift #amount}",
+      "description": "Bitwise Bit Clear, Setting Flags (shifted register)",
+      "pseudocode": "xd = xn & ~( xm shifted )"
+    },
+    {
+      "group": "addsub-reg",
+      "def": "ADDXrs",
+      "name": "add",
+      "asm": "xd, xn, xm{?, ashift #amount}",
+      "description": "Add (shifted register)",
+      "pseudocode": "xd = xn + ( xm shifted )"
+    },
+    {
+      "group": "addsub-ext",
+      "def": "ADDXrx",
+      "name": "add",
+      "asm": "xd_sp, xn_sp, wm, ext64 #eamt",
+      "description": "Add (extended register)",
+      "pseudocode": "xd_sp = xn_sp + ( extend ( wm ) << eamt )"
+    },
+    {
+      "group": "addsub-ext",
+      "def": "ADDXrx64",
+      "name": "add",
+      "asm": "xd_sp, xn_sp, xm, xext1 #eamt",
+      "description": "Add (extended 64 bit register)",
+      "pseudocode": "xd_sp = xn_sp + ( xm << eamt )"
+    },
+    {
+      "group": "addsub-reg",
+      "def": "ADDSXrs",
+      "name": "adds",
+      "asm": "xd, xn, xm{?, ashift #amount}",
+      "description": "Add, Setting Flags (shifted register)",
+      "pseudocode": "xd = xn + ( xm shifted )"
+    },
+    {
+      "group": "addsub-ext",
+      "def": "ADDSXrx",
+      "name": "adds",
+      "asm": "xd, xn_sp, wm, ext64 #eamt",
+      "description": "Add, Setting Flags (extended register)",
+      "pseudocode": "xd = xn_sp + ( extend ( wm ) << eamt )"
+    },
+    {
+      "group": "addsub-ext",
+      "def": "ADDSXrx64",
+      "name": "adds",
+      "asm": "xd, xn_sp, xm, xext1 #eamt",
+      "description": "Add, Setting Flags (extended 64 bit register)",
+      "pseudocode": "xd = xn_sp + ( xm << eamt )"
+    },
+    {
+      "group": "addsub-reg",
+      "def": "SUBXrs",
+      "name": "sub",
+      "asm": "xd, xn, xm{?, ashift #amount}",
+      "description": "Subtract (shifted register)",
+      "pseudocode": "xd = xn - ( xm shifted )"
+    },
+    {
+      "group": "addsub-ext",
+      "def": "SUBXrx",
+      "name": "sub",
+      "asm": "xd_sp, xn_sp, wm, ext64 #eamt",
+      "description": "Subtract (extended register)",
+      "pseudocode": "xd_sp = xn_sp - ( extend ( wm ) << eamt )"
+    },
+    {
+      "group": "addsub-ext",
+      "def": "SUBXrx64",
+      "name": "sub",
+      "asm": "xd_sp, xn_sp, xm, xext1 #eamt",
+      "description": "Subtract (extended 64 bit register)",
+      "pseudocode": "xd_sp = xn_sp - ( xm << eamt )"
+    },
+    {
+      "group": "addsub-reg",
+      "def": "SUBSXrs",
+      "name": "subs",
+      "asm": "xd, xn, xm{?, ashift #amount}",
+      "description": "Subtract, Setting Flags (shifted register)",
+      "pseudocode": "xd = xn - ( xm shifted )"
+    },
+    {
+      "group": "addsub-ext",
+      "def": "SUBSXrx",
+      "name": "subs",
+      "asm": "xd, xn_sp, wm, ext64 #eamt",
+      "description": "Subtract, Setting Flags (extended register)",
+      "pseudocode": "xd = xn_sp - ( extend ( wm ) << eamt )"
+    },
+    {
+      "group": "addsub-ext",
+      "def": "SUBSXrx64",
+      "name": "subs",
+      "asm": "xd, xn_sp, xm, xext1 #eamt",
+      "description": "Subtract, Setting Flags (extended 64 bit register)",
+      "pseudocode": "xd = xn_sp - ( xm << eamt )"
+    },
+    {
+      "group": "adc",
+      "def": "ADCXr",
+      "name": "adc",
+      "asm": "xd, xn, xm",
+      "description": "Add with Carry",
+      "pseudocode": "xd = xn + xm + C"
+    },
+    {
+      "group": "adc",
+      "def": "ADCSXr",
+      "name": "adcs",
+      "asm": "xd, xn, xm",
+      "description": "Add with Carry, Setting Flags",
+      "pseudocode": "xd = xn + xm + C"
+    },
+    {
+      "group": "adc",
+      "def": "SBCXr",
+      "name": "sbc",
+      "asm": "xd, xn, xm",
+      "description": "Subtract with Carry",
+      "pseudocode": "xd = xn - xm - !C"
+    },
+    {
+      "group": "adc",
+      "def": "SBCSXr",
+      "name": "sbcs",
+      "asm": "xd, xn, xm",
+      "description": "Subtract with Carry, Setting Flags",
+      "pseudocode": "xd = xn - xm - !C"
+    },
+    {
+      "group": "ccmp",
+      "def": "CCMNXr",
+      "name": "ccmn",
+      "asm": "xn, xm, #nzcv, cond",
+      "description": "Conditional Compare Negative (register)",
+      "pseudocode": "flags = cond ? flags of xn + xm : nzcv"
+    },
+    {
+      "group": "ccmp",
+      "def": "CCMNXi",
+      "name": "ccmn",
+      "asm": "xn, #imm, #nzcv, cond",
+      "description": "Conditional Compare Negative (immediate)",
+      "pseudocode": "flags = cond ? flags of xn + imm : nzcv"
+    },
+    {
+      "group": "ccmp",
+      "def": "CCMPXr",
+      "name": "ccmp",
+      "asm": "xn, xm, #nzcv, cond",
+      "description": "Conditional Compare (register)",
+      "pseudocode": "flags = cond ? flags of xn - xm : nzcv"
+    },
+    {
+      "group": "ccmp",
+      "def": "CCMPXi",
+      "name": "ccmp",
+      "asm": "xn, #imm, #nzcv, cond",
+      "description": "Conditional Compare (immediate)",
+      "pseudocode": "flags = cond ? flags of xn - imm : nzcv"
+    },
+    {
+      "group": "csel",
+      "def": "CSELXr",
+      "name": "csel",
+      "asm": "xd, xn, xm, cond",
+      "description": "Conditional Select",
+      "pseudocode": "xd = cond ? xn : xm"
+    },
+    {
+      "group": "csel",
+      "def": "CSINCXr",
+      "name": "csinc",
+      "asm": "xd, xn, xm, cond",
+      "description": "Conditional Select Increment",
+      "pseudocode": "xd = cond ? xn : xm + 1"
+    },
+    {
+      "group": "csel",
+      "def": "CSINVXr",
+      "name": "csinv",
+      "asm": "xd, xn, xm, cond",
+      "description": "Conditional Select Invert",
+      "pseudocode": "xd = cond ? xn : ~xm"
+    },
+    {
+      "group": "csel",
+      "def": "CSNEGXr",
+      "name": "csneg",
+      "asm": "xd, xn, xm, cond",
+      "description": "Conditional Select Negation",
+      "pseudocode": "xd = cond ? xn : -xm"
+    },
+    {
+      "group": "mul",
+      "def": "MADDXrrr",
+      "name": "madd",
+      "asm": "xd, xn, xm, xa",
+      "description": "Multiply-Add",
+      "pseudocode": "xd = xa + xn × xm"
+    },
+    {
+      "group": "mul",
+      "def": "MSUBXrrr",
+      "name": "msub",
+      "asm": "xd, xn, xm, xa",
+      "description": "Multiply-Subtract",
+      "pseudocode": "xd = xa - xn × xm"
+    },
+    {
+      "group": "dp2",
+      "def": "UDIVXr",
+      "name": "udiv",
+      "asm": "xd, xn, xm",
+      "description": "Unsigned Divide",
+      "pseudocode": "xd = xn / xm (unsigned)"
+    },
+    {
+      "group": "dp2",
+      "def": "SDIVXr",
+      "name": "sdiv",
+      "asm": "xd, xn, xm",
+      "description": "Signed Divide",
+      "pseudocode": "xd = xn / xm (signed)"
+    },
+    {
+      "group": "dp2",
+      "def": "LSLVXr",
+      "name": "lslv",
+      "asm": "xd, xn, xm",
+      "description": "Logical Shift Left Variable",
+      "pseudocode": "xd = xn << xm"
+    },
+    {
+      "group": "dp2",
+      "def": "LSRVXr",
+      "name": "lsrv",
+      "asm": "xd, xn, xm",
+      "description": "Logical Shift Right Variable",
+      "pseudocode": "xd = xn >>> xm"
+    },
+    {
+      "group": "dp2",
+      "def": "ASRVXr",
+      "name": "asrv",
+      "asm": "xd, xn, xm",
+      "description": "Arithmetic Shift Right Variable",
+      "pseudocode": "xd = xn >> xm"
+    },
+    {
+      "group": "dp2",
+      "def": "RORVXr",
+      "name": "rorv",
+      "asm": "xd, xn, xm",
+      "description": "Rotate Right Variable",
+      "pseudocode": "xd = xn rotated right by xm"
+    },
+    {
+      "group": "dp1",
+      "def": "RBITXr",
+      "name": "rbit",
+      "asm": "xd, xn",
+      "description": "Reverse Bits",
+      "pseudocode": "xd = reverse bits of xn"
+    },
+    {
+      "group": "dp1",
+      "def": "REV16Xr",
+      "name": "rev16",
+      "asm": "xd, xn",
+      "description": "Reverse Bytes in Halfwords",
+      "pseudocode": "xd = reverse bytes in halfwords of xn"
+    },
+    {
+      "group": "dp1",
+      "def": "REVXr",
+      "name": "rev",
+      "asm": "xd, xn",
+      "description": "Reverse Bytes",
+      "pseudocode": "xd = reverse bytes of xn"
+    },
+    {
+      "group": "dp1",
+      "def": "CLZXr",
+      "name": "clz",
+      "asm": "xd, xn",
+      "description": "Count Leading Zeros",
+      "pseudocode": "xd = count leading zeros of xn"
+    },
+    {
+      "group": "dp1",
+      "def": "CLSXr",
+      "name": "cls",
+      "asm": "xd, xn",
+      "description": "Count Leading Sign Bits",
+      "pseudocode": "xd = count leading sign bits of xn"
+    },
+    {
+      "group": "dp1",
+      "def": "REV32Xr",
+      "name": "rev32",
+      "asm": "xd, xn",
+      "description": "Reverse Bytes in Words",
+      "pseudocode": "xd = reverse bytes in words of xn"
+    },
+    {
+      "group": "mul",
+      "def": "SMADDLrrr",
+      "name": "smaddl",
+      "asm": "xd, wn, wm, xa",
+      "description": "Signed Multiply-Add Long",
+      "pseudocode": "xd = xa + wn × wm (signed)"
+    },
+    {
+      "group": "mul",
+      "def": "SMSUBLrrr",
+      "name": "smsubl",
+      "asm": "xd, wn, wm, xa",
+      "description": "Signed Multiply-Subtract Long",
+      "pseudocode": "xd = xa - wn × wm (signed)"
+    },
+    {
+      "group": "mul",
+      "def": "UMADDLrrr",
+      "name": "umaddl",
+      "asm": "xd, wn, wm, xa",
+      "description": "Unsigned Multiply-Add Long",
+      "pseudocode": "xd = xa + wn × wm (unsigned)"
+    },
+    {
+      "group": "mul",
+      "def": "UMSUBLrrr",
+      "name": "umsubl",
+      "asm": "xd, wn, wm, xa",
+      "description": "Unsigned Multiply-Subtract Long",
+      "pseudocode": "xd = xa - wn × wm (unsigned)"
+    },
+    {
+      "group": "mul",
+      "def": "SMULHrr",
+      "name": "smulh",
+      "asm": "xd, xn, xm",
+      "description": "Signed Multiply High",
+      "pseudocode": "xd = ( xn × xm )[127:64] (signed)",
+      "llvmFixed": [
+        "Ra"
+      ]
+    },
+    {
+      "group": "mul",
+      "def": "UMULHrr",
+      "name": "umulh",
+      "asm": "xd, xn, xm",
+      "description": "Unsigned Multiply High",
+      "pseudocode": "xd = ( xn × xm )[127:64] (unsigned)",
+      "llvmFixed": [
+        "Ra"
+      ]
+    },
+    {
+      "group": "fp1",
+      "def": "FMOVSr",
+      "name": "fmov",
+      "asm": "sd, sn",
+      "description": "Floating-point Move Register",
+      "pseudocode": "sd = sn"
+    },
+    {
+      "group": "fp1",
+      "def": "FABSSr",
+      "name": "fabs",
+      "asm": "sd, sn",
+      "description": "Floating-point Absolute Value",
+      "pseudocode": "sd = |sn|"
+    },
+    {
+      "group": "fp1",
+      "def": "FNEGSr",
+      "name": "fneg",
+      "asm": "sd, sn",
+      "description": "Floating-point Negate",
+      "pseudocode": "sd = -sn"
+    },
+    {
+      "group": "fp1",
+      "def": "FSQRTSr",
+      "name": "fsqrt",
+      "asm": "sd, sn",
+      "description": "Floating-point Square Root",
+      "pseudocode": "sd = √sn"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTNSr",
+      "name": "frintn",
+      "asm": "sd, sn",
+      "description": "Floating-point Round to Integral, to Nearest with Ties to Even",
+      "pseudocode": "sd = round ( sn )"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTPSr",
+      "name": "frintp",
+      "asm": "sd, sn",
+      "description": "Floating-point Round to Integral, toward Plus Infinity",
+      "pseudocode": "sd = round ( sn )"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTMSr",
+      "name": "frintm",
+      "asm": "sd, sn",
+      "description": "Floating-point Round to Integral, toward Minus Infinity",
+      "pseudocode": "sd = round ( sn )"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTZSr",
+      "name": "frintz",
+      "asm": "sd, sn",
+      "description": "Floating-point Round to Integral, toward Zero",
+      "pseudocode": "sd = round ( sn )"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTASr",
+      "name": "frinta",
+      "asm": "sd, sn",
+      "description": "Floating-point Round to Integral, to Nearest with Ties Away",
+      "pseudocode": "sd = round ( sn )"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTXSr",
+      "name": "frintx",
+      "asm": "sd, sn",
+      "description": "Floating-point Round to Integral Exact, current mode",
+      "pseudocode": "sd = round ( sn )"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTISr",
+      "name": "frinti",
+      "asm": "sd, sn",
+      "description": "Floating-point Round to Integral, current mode",
+      "pseudocode": "sd = round ( sn )"
+    },
+    {
+      "group": "fp2",
+      "def": "FMULSrr",
+      "name": "fmul",
+      "asm": "sd, sn, sm",
+      "description": "Floating-point Multiply",
+      "pseudocode": "sd = sn × sm"
+    },
+    {
+      "group": "fp2",
+      "def": "FDIVSrr",
+      "name": "fdiv",
+      "asm": "sd, sn, sm",
+      "description": "Floating-point Divide",
+      "pseudocode": "sd = sn / sm"
+    },
+    {
+      "group": "fp2",
+      "def": "FADDSrr",
+      "name": "fadd",
+      "asm": "sd, sn, sm",
+      "description": "Floating-point Add",
+      "pseudocode": "sd = sn + sm"
+    },
+    {
+      "group": "fp2",
+      "def": "FSUBSrr",
+      "name": "fsub",
+      "asm": "sd, sn, sm",
+      "description": "Floating-point Subtract",
+      "pseudocode": "sd = sn - sm"
+    },
+    {
+      "group": "fp2",
+      "def": "FMAXSrr",
+      "name": "fmax",
+      "asm": "sd, sn, sm",
+      "description": "Floating-point Maximum",
+      "pseudocode": "sd = max ( sn, sm )"
+    },
+    {
+      "group": "fp2",
+      "def": "FMINSrr",
+      "name": "fmin",
+      "asm": "sd, sn, sm",
+      "description": "Floating-point Minimum",
+      "pseudocode": "sd = min ( sn, sm )"
+    },
+    {
+      "group": "fp2",
+      "def": "FMAXNMSrr",
+      "name": "fmaxnm",
+      "asm": "sd, sn, sm",
+      "description": "Floating-point Maximum Number",
+      "pseudocode": "sd = maxnum ( sn, sm )"
+    },
+    {
+      "group": "fp2",
+      "def": "FMINNMSrr",
+      "name": "fminnm",
+      "asm": "sd, sn, sm",
+      "description": "Floating-point Minimum Number",
+      "pseudocode": "sd = minnum ( sn, sm )"
+    },
+    {
+      "group": "fp2",
+      "def": "FNMULSrr",
+      "name": "fnmul",
+      "asm": "sd, sn, sm",
+      "description": "Floating-point Multiply-Negate",
+      "pseudocode": "sd = -( sn × sm )"
+    },
+    {
+      "group": "fp3",
+      "def": "FMADDSrrr",
+      "name": "fmadd",
+      "asm": "sd, sn, sm, sa",
+      "description": "Floating-point Fused Multiply-Add",
+      "pseudocode": "sd = sa + sn × sm"
+    },
+    {
+      "group": "fp3",
+      "def": "FMSUBSrrr",
+      "name": "fmsub",
+      "asm": "sd, sn, sm, sa",
+      "description": "Floating-point Fused Multiply-Subtract",
+      "pseudocode": "sd = sa - sn × sm"
+    },
+    {
+      "group": "fp3",
+      "def": "FNMADDSrrr",
+      "name": "fnmadd",
+      "asm": "sd, sn, sm, sa",
+      "description": "Floating-point Negated Fused Multiply-Add",
+      "pseudocode": "sd = -sa - sn × sm"
+    },
+    {
+      "group": "fp3",
+      "def": "FNMSUBSrrr",
+      "name": "fnmsub",
+      "asm": "sd, sn, sm, sa",
+      "description": "Floating-point Negated Fused Multiply-Subtract",
+      "pseudocode": "sd = -sa + sn × sm"
+    },
+    {
+      "group": "fcmp",
+      "def": "FCMPSrr",
+      "name": "fcmp",
+      "asm": "sn, sm",
+      "description": "Floating-point Compare",
+      "pseudocode": "flags = compare ( sn, sm )"
+    },
+    {
+      "group": "fcmp",
+      "def": "FCMPSri",
+      "name": "fcmp",
+      "asm": "sn, #0.0",
+      "description": "Floating-point Compare with Zero",
+      "pseudocode": "flags = compare ( sn, 0.0 )"
+    },
+    {
+      "group": "fcmp",
+      "def": "FCMPESrr",
+      "name": "fcmpe",
+      "asm": "sn, sm",
+      "description": "Floating-point Compare, Signaling on NaN",
+      "pseudocode": "flags = compare ( sn, sm )"
+    },
+    {
+      "group": "fcmp",
+      "def": "FCMPESri",
+      "name": "fcmpe",
+      "asm": "sn, #0.0",
+      "description": "Floating-point Compare, Signaling on NaN with Zero",
+      "pseudocode": "flags = compare ( sn, 0.0 )"
+    },
+    {
+      "group": "fcmp",
+      "def": "FCCMPSrr",
+      "name": "fccmp",
+      "asm": "sn, sm, #nzcv, cond",
+      "description": "Floating-point Conditional Quiet Compare",
+      "pseudocode": "flags = cond ? compare ( sn, sm ) : nzcv"
+    },
+    {
+      "group": "fcmp",
+      "def": "FCCMPESrr",
+      "name": "fccmpe",
+      "asm": "sn, sm, #nzcv, cond",
+      "description": "Floating-point Conditional Signaling Compare",
+      "pseudocode": "flags = cond ? compare ( sn, sm ) : nzcv"
+    },
+    {
+      "group": "fcsel",
+      "def": "FCSELSrrr",
+      "name": "fcsel",
+      "asm": "sd, sn, sm, cond",
+      "description": "Floating-point Conditional Select",
+      "pseudocode": "sd = cond ? sn : sm"
+    },
+    {
+      "group": "fmov-imm",
+      "def": "FMOVSi",
+      "name": "fmov",
+      "asm": "sd, #fpimm",
+      "description": "Floating-point Move Immediate",
+      "pseudocode": "sd = fpimm"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTNSUWSr",
+      "name": "fcvtns",
+      "asm": "wd, sn",
+      "description": "Floating-point Convert to Signed Integer, Rounding to Nearest with Ties to Even",
+      "pseudocode": "wd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTNUUWSr",
+      "name": "fcvtnu",
+      "asm": "wd, sn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding to Nearest with Ties to Even",
+      "pseudocode": "wd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTASUWSr",
+      "name": "fcvtas",
+      "asm": "wd, sn",
+      "description": "Floating-point Convert to Signed Integer, Rounding to Nearest with Ties Away",
+      "pseudocode": "wd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTAUUWSr",
+      "name": "fcvtau",
+      "asm": "wd, sn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding to Nearest with Ties Away",
+      "pseudocode": "wd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTPSUWSr",
+      "name": "fcvtps",
+      "asm": "wd, sn",
+      "description": "Floating-point Convert to Signed Integer, Rounding toward Plus Infinity",
+      "pseudocode": "wd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTPUUWSr",
+      "name": "fcvtpu",
+      "asm": "wd, sn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding toward Plus Infinity",
+      "pseudocode": "wd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTMSUWSr",
+      "name": "fcvtms",
+      "asm": "wd, sn",
+      "description": "Floating-point Convert to Signed Integer, Rounding toward Minus Infinity",
+      "pseudocode": "wd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTMUUWSr",
+      "name": "fcvtmu",
+      "asm": "wd, sn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding toward Minus Infinity",
+      "pseudocode": "wd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTZSUWSr",
+      "name": "fcvtzs",
+      "asm": "wd, sn",
+      "description": "Floating-point Convert to Signed Integer, Rounding toward Zero",
+      "pseudocode": "wd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTZUUWSr",
+      "name": "fcvtzu",
+      "asm": "wd, sn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding toward Zero",
+      "pseudocode": "wd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "SCVTFUWSri",
+      "name": "scvtf",
+      "asm": "sd, wn",
+      "description": "Signed Integer Convert to Floating-point",
+      "pseudocode": "sd = float ( wn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "UCVTFUWSri",
+      "name": "ucvtf",
+      "asm": "sd, wn",
+      "description": "Unsigned Integer Convert to Floating-point",
+      "pseudocode": "sd = float ( wn )"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "FCVTZSSWSri",
+      "name": "fcvtzs",
+      "asm": "wd, sn, #wfbits",
+      "description": "Floating-point Convert to Signed Fixed-point, Rounding toward Zero",
+      "pseudocode": "wd = fixed ( sn × 2^fbits )"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "FCVTZUSWSri",
+      "name": "fcvtzu",
+      "asm": "wd, sn, #wfbits",
+      "description": "Floating-point Convert to Unsigned Fixed-point, Rounding toward Zero",
+      "pseudocode": "wd = fixed ( sn × 2^fbits )"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "SCVTFSWSri",
+      "name": "scvtf",
+      "asm": "sd, wn, #wfbits",
+      "description": "Signed Fixed-point Convert to Floating-point",
+      "pseudocode": "sd = float ( wn ) / 2^fbits"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "UCVTFSWSri",
+      "name": "ucvtf",
+      "asm": "sd, wn, #wfbits",
+      "description": "Unsigned Fixed-point Convert to Floating-point",
+      "pseudocode": "sd = float ( wn ) / 2^fbits"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTNSUXSr",
+      "name": "fcvtns",
+      "asm": "xd, sn",
+      "description": "Floating-point Convert to Signed Integer, Rounding to Nearest with Ties to Even",
+      "pseudocode": "xd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTNUUXSr",
+      "name": "fcvtnu",
+      "asm": "xd, sn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding to Nearest with Ties to Even",
+      "pseudocode": "xd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTASUXSr",
+      "name": "fcvtas",
+      "asm": "xd, sn",
+      "description": "Floating-point Convert to Signed Integer, Rounding to Nearest with Ties Away",
+      "pseudocode": "xd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTAUUXSr",
+      "name": "fcvtau",
+      "asm": "xd, sn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding to Nearest with Ties Away",
+      "pseudocode": "xd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTPSUXSr",
+      "name": "fcvtps",
+      "asm": "xd, sn",
+      "description": "Floating-point Convert to Signed Integer, Rounding toward Plus Infinity",
+      "pseudocode": "xd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTPUUXSr",
+      "name": "fcvtpu",
+      "asm": "xd, sn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding toward Plus Infinity",
+      "pseudocode": "xd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTMSUXSr",
+      "name": "fcvtms",
+      "asm": "xd, sn",
+      "description": "Floating-point Convert to Signed Integer, Rounding toward Minus Infinity",
+      "pseudocode": "xd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTMUUXSr",
+      "name": "fcvtmu",
+      "asm": "xd, sn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding toward Minus Infinity",
+      "pseudocode": "xd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTZSUXSr",
+      "name": "fcvtzs",
+      "asm": "xd, sn",
+      "description": "Floating-point Convert to Signed Integer, Rounding toward Zero",
+      "pseudocode": "xd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTZUUXSr",
+      "name": "fcvtzu",
+      "asm": "xd, sn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding toward Zero",
+      "pseudocode": "xd = int ( sn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "SCVTFUXSri",
+      "name": "scvtf",
+      "asm": "sd, xn",
+      "description": "Signed Integer Convert to Floating-point",
+      "pseudocode": "sd = float ( xn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "UCVTFUXSri",
+      "name": "ucvtf",
+      "asm": "sd, xn",
+      "description": "Unsigned Integer Convert to Floating-point",
+      "pseudocode": "sd = float ( xn )"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "FCVTZSSXSri",
+      "name": "fcvtzs",
+      "asm": "xd, sn, #fbits",
+      "description": "Floating-point Convert to Signed Fixed-point, Rounding toward Zero",
+      "pseudocode": "xd = fixed ( sn × 2^fbits )"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "FCVTZUSXSri",
+      "name": "fcvtzu",
+      "asm": "xd, sn, #fbits",
+      "description": "Floating-point Convert to Unsigned Fixed-point, Rounding toward Zero",
+      "pseudocode": "xd = fixed ( sn × 2^fbits )"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "SCVTFSXSri",
+      "name": "scvtf",
+      "asm": "sd, xn, #fbits",
+      "description": "Signed Fixed-point Convert to Floating-point",
+      "pseudocode": "sd = float ( xn ) / 2^fbits"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "UCVTFSXSri",
+      "name": "ucvtf",
+      "asm": "sd, xn, #fbits",
+      "description": "Unsigned Fixed-point Convert to Floating-point",
+      "pseudocode": "sd = float ( xn ) / 2^fbits"
+    },
+    {
+      "group": "fp1",
+      "def": "FMOVDr",
+      "name": "fmov",
+      "asm": "dd, dn",
+      "description": "Floating-point Move Register",
+      "pseudocode": "dd = dn"
+    },
+    {
+      "group": "fp1",
+      "def": "FABSDr",
+      "name": "fabs",
+      "asm": "dd, dn",
+      "description": "Floating-point Absolute Value",
+      "pseudocode": "dd = |dn|"
+    },
+    {
+      "group": "fp1",
+      "def": "FNEGDr",
+      "name": "fneg",
+      "asm": "dd, dn",
+      "description": "Floating-point Negate",
+      "pseudocode": "dd = -dn"
+    },
+    {
+      "group": "fp1",
+      "def": "FSQRTDr",
+      "name": "fsqrt",
+      "asm": "dd, dn",
+      "description": "Floating-point Square Root",
+      "pseudocode": "dd = √dn"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTNDr",
+      "name": "frintn",
+      "asm": "dd, dn",
+      "description": "Floating-point Round to Integral, to Nearest with Ties to Even",
+      "pseudocode": "dd = round ( dn )"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTPDr",
+      "name": "frintp",
+      "asm": "dd, dn",
+      "description": "Floating-point Round to Integral, toward Plus Infinity",
+      "pseudocode": "dd = round ( dn )"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTMDr",
+      "name": "frintm",
+      "asm": "dd, dn",
+      "description": "Floating-point Round to Integral, toward Minus Infinity",
+      "pseudocode": "dd = round ( dn )"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTZDr",
+      "name": "frintz",
+      "asm": "dd, dn",
+      "description": "Floating-point Round to Integral, toward Zero",
+      "pseudocode": "dd = round ( dn )"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTADr",
+      "name": "frinta",
+      "asm": "dd, dn",
+      "description": "Floating-point Round to Integral, to Nearest with Ties Away",
+      "pseudocode": "dd = round ( dn )"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTXDr",
+      "name": "frintx",
+      "asm": "dd, dn",
+      "description": "Floating-point Round to Integral Exact, current mode",
+      "pseudocode": "dd = round ( dn )"
+    },
+    {
+      "group": "fp1",
+      "def": "FRINTIDr",
+      "name": "frinti",
+      "asm": "dd, dn",
+      "description": "Floating-point Round to Integral, current mode",
+      "pseudocode": "dd = round ( dn )"
+    },
+    {
+      "group": "fp2",
+      "def": "FMULDrr",
+      "name": "fmul",
+      "asm": "dd, dn, dm",
+      "description": "Floating-point Multiply",
+      "pseudocode": "dd = dn × dm"
+    },
+    {
+      "group": "fp2",
+      "def": "FDIVDrr",
+      "name": "fdiv",
+      "asm": "dd, dn, dm",
+      "description": "Floating-point Divide",
+      "pseudocode": "dd = dn / dm"
+    },
+    {
+      "group": "fp2",
+      "def": "FADDDrr",
+      "name": "fadd",
+      "asm": "dd, dn, dm",
+      "description": "Floating-point Add",
+      "pseudocode": "dd = dn + dm"
+    },
+    {
+      "group": "fp2",
+      "def": "FSUBDrr",
+      "name": "fsub",
+      "asm": "dd, dn, dm",
+      "description": "Floating-point Subtract",
+      "pseudocode": "dd = dn - dm"
+    },
+    {
+      "group": "fp2",
+      "def": "FMAXDrr",
+      "name": "fmax",
+      "asm": "dd, dn, dm",
+      "description": "Floating-point Maximum",
+      "pseudocode": "dd = max ( dn, dm )"
+    },
+    {
+      "group": "fp2",
+      "def": "FMINDrr",
+      "name": "fmin",
+      "asm": "dd, dn, dm",
+      "description": "Floating-point Minimum",
+      "pseudocode": "dd = min ( dn, dm )"
+    },
+    {
+      "group": "fp2",
+      "def": "FMAXNMDrr",
+      "name": "fmaxnm",
+      "asm": "dd, dn, dm",
+      "description": "Floating-point Maximum Number",
+      "pseudocode": "dd = maxnum ( dn, dm )"
+    },
+    {
+      "group": "fp2",
+      "def": "FMINNMDrr",
+      "name": "fminnm",
+      "asm": "dd, dn, dm",
+      "description": "Floating-point Minimum Number",
+      "pseudocode": "dd = minnum ( dn, dm )"
+    },
+    {
+      "group": "fp2",
+      "def": "FNMULDrr",
+      "name": "fnmul",
+      "asm": "dd, dn, dm",
+      "description": "Floating-point Multiply-Negate",
+      "pseudocode": "dd = -( dn × dm )"
+    },
+    {
+      "group": "fp3",
+      "def": "FMADDDrrr",
+      "name": "fmadd",
+      "asm": "dd, dn, dm, da",
+      "description": "Floating-point Fused Multiply-Add",
+      "pseudocode": "dd = da + dn × dm"
+    },
+    {
+      "group": "fp3",
+      "def": "FMSUBDrrr",
+      "name": "fmsub",
+      "asm": "dd, dn, dm, da",
+      "description": "Floating-point Fused Multiply-Subtract",
+      "pseudocode": "dd = da - dn × dm"
+    },
+    {
+      "group": "fp3",
+      "def": "FNMADDDrrr",
+      "name": "fnmadd",
+      "asm": "dd, dn, dm, da",
+      "description": "Floating-point Negated Fused Multiply-Add",
+      "pseudocode": "dd = -da - dn × dm"
+    },
+    {
+      "group": "fp3",
+      "def": "FNMSUBDrrr",
+      "name": "fnmsub",
+      "asm": "dd, dn, dm, da",
+      "description": "Floating-point Negated Fused Multiply-Subtract",
+      "pseudocode": "dd = -da + dn × dm"
+    },
+    {
+      "group": "fcmp",
+      "def": "FCMPDrr",
+      "name": "fcmp",
+      "asm": "dn, dm",
+      "description": "Floating-point Compare",
+      "pseudocode": "flags = compare ( dn, dm )"
+    },
+    {
+      "group": "fcmp",
+      "def": "FCMPDri",
+      "name": "fcmp",
+      "asm": "dn, #0.0",
+      "description": "Floating-point Compare with Zero",
+      "pseudocode": "flags = compare ( dn, 0.0 )"
+    },
+    {
+      "group": "fcmp",
+      "def": "FCMPEDrr",
+      "name": "fcmpe",
+      "asm": "dn, dm",
+      "description": "Floating-point Compare, Signaling on NaN",
+      "pseudocode": "flags = compare ( dn, dm )"
+    },
+    {
+      "group": "fcmp",
+      "def": "FCMPEDri",
+      "name": "fcmpe",
+      "asm": "dn, #0.0",
+      "description": "Floating-point Compare, Signaling on NaN with Zero",
+      "pseudocode": "flags = compare ( dn, 0.0 )"
+    },
+    {
+      "group": "fcmp",
+      "def": "FCCMPDrr",
+      "name": "fccmp",
+      "asm": "dn, dm, #nzcv, cond",
+      "description": "Floating-point Conditional Quiet Compare",
+      "pseudocode": "flags = cond ? compare ( dn, dm ) : nzcv"
+    },
+    {
+      "group": "fcmp",
+      "def": "FCCMPEDrr",
+      "name": "fccmpe",
+      "asm": "dn, dm, #nzcv, cond",
+      "description": "Floating-point Conditional Signaling Compare",
+      "pseudocode": "flags = cond ? compare ( dn, dm ) : nzcv"
+    },
+    {
+      "group": "fcsel",
+      "def": "FCSELDrrr",
+      "name": "fcsel",
+      "asm": "dd, dn, dm, cond",
+      "description": "Floating-point Conditional Select",
+      "pseudocode": "dd = cond ? dn : dm"
+    },
+    {
+      "group": "fmov-imm",
+      "def": "FMOVDi",
+      "name": "fmov",
+      "asm": "dd, #fpimm",
+      "description": "Floating-point Move Immediate",
+      "pseudocode": "dd = fpimm"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTNSUWDr",
+      "name": "fcvtns",
+      "asm": "wd, dn",
+      "description": "Floating-point Convert to Signed Integer, Rounding to Nearest with Ties to Even",
+      "pseudocode": "wd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTNUUWDr",
+      "name": "fcvtnu",
+      "asm": "wd, dn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding to Nearest with Ties to Even",
+      "pseudocode": "wd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTASUWDr",
+      "name": "fcvtas",
+      "asm": "wd, dn",
+      "description": "Floating-point Convert to Signed Integer, Rounding to Nearest with Ties Away",
+      "pseudocode": "wd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTAUUWDr",
+      "name": "fcvtau",
+      "asm": "wd, dn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding to Nearest with Ties Away",
+      "pseudocode": "wd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTPSUWDr",
+      "name": "fcvtps",
+      "asm": "wd, dn",
+      "description": "Floating-point Convert to Signed Integer, Rounding toward Plus Infinity",
+      "pseudocode": "wd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTPUUWDr",
+      "name": "fcvtpu",
+      "asm": "wd, dn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding toward Plus Infinity",
+      "pseudocode": "wd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTMSUWDr",
+      "name": "fcvtms",
+      "asm": "wd, dn",
+      "description": "Floating-point Convert to Signed Integer, Rounding toward Minus Infinity",
+      "pseudocode": "wd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTMUUWDr",
+      "name": "fcvtmu",
+      "asm": "wd, dn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding toward Minus Infinity",
+      "pseudocode": "wd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTZSUWDr",
+      "name": "fcvtzs",
+      "asm": "wd, dn",
+      "description": "Floating-point Convert to Signed Integer, Rounding toward Zero",
+      "pseudocode": "wd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTZUUWDr",
+      "name": "fcvtzu",
+      "asm": "wd, dn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding toward Zero",
+      "pseudocode": "wd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "SCVTFUWDri",
+      "name": "scvtf",
+      "asm": "dd, wn",
+      "description": "Signed Integer Convert to Floating-point",
+      "pseudocode": "dd = float ( wn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "UCVTFUWDri",
+      "name": "ucvtf",
+      "asm": "dd, wn",
+      "description": "Unsigned Integer Convert to Floating-point",
+      "pseudocode": "dd = float ( wn )"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "FCVTZSSWDri",
+      "name": "fcvtzs",
+      "asm": "wd, dn, #wfbits",
+      "description": "Floating-point Convert to Signed Fixed-point, Rounding toward Zero",
+      "pseudocode": "wd = fixed ( dn × 2^fbits )"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "FCVTZUSWDri",
+      "name": "fcvtzu",
+      "asm": "wd, dn, #wfbits",
+      "description": "Floating-point Convert to Unsigned Fixed-point, Rounding toward Zero",
+      "pseudocode": "wd = fixed ( dn × 2^fbits )"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "SCVTFSWDri",
+      "name": "scvtf",
+      "asm": "dd, wn, #wfbits",
+      "description": "Signed Fixed-point Convert to Floating-point",
+      "pseudocode": "dd = float ( wn ) / 2^fbits"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "UCVTFSWDri",
+      "name": "ucvtf",
+      "asm": "dd, wn, #wfbits",
+      "description": "Unsigned Fixed-point Convert to Floating-point",
+      "pseudocode": "dd = float ( wn ) / 2^fbits"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTNSUXDr",
+      "name": "fcvtns",
+      "asm": "xd, dn",
+      "description": "Floating-point Convert to Signed Integer, Rounding to Nearest with Ties to Even",
+      "pseudocode": "xd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTNUUXDr",
+      "name": "fcvtnu",
+      "asm": "xd, dn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding to Nearest with Ties to Even",
+      "pseudocode": "xd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTASUXDr",
+      "name": "fcvtas",
+      "asm": "xd, dn",
+      "description": "Floating-point Convert to Signed Integer, Rounding to Nearest with Ties Away",
+      "pseudocode": "xd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTAUUXDr",
+      "name": "fcvtau",
+      "asm": "xd, dn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding to Nearest with Ties Away",
+      "pseudocode": "xd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTPSUXDr",
+      "name": "fcvtps",
+      "asm": "xd, dn",
+      "description": "Floating-point Convert to Signed Integer, Rounding toward Plus Infinity",
+      "pseudocode": "xd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTPUUXDr",
+      "name": "fcvtpu",
+      "asm": "xd, dn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding toward Plus Infinity",
+      "pseudocode": "xd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTMSUXDr",
+      "name": "fcvtms",
+      "asm": "xd, dn",
+      "description": "Floating-point Convert to Signed Integer, Rounding toward Minus Infinity",
+      "pseudocode": "xd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTMUUXDr",
+      "name": "fcvtmu",
+      "asm": "xd, dn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding toward Minus Infinity",
+      "pseudocode": "xd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTZSUXDr",
+      "name": "fcvtzs",
+      "asm": "xd, dn",
+      "description": "Floating-point Convert to Signed Integer, Rounding toward Zero",
+      "pseudocode": "xd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "FCVTZUUXDr",
+      "name": "fcvtzu",
+      "asm": "xd, dn",
+      "description": "Floating-point Convert to Unsigned Integer, Rounding toward Zero",
+      "pseudocode": "xd = int ( dn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "SCVTFUXDri",
+      "name": "scvtf",
+      "asm": "dd, xn",
+      "description": "Signed Integer Convert to Floating-point",
+      "pseudocode": "dd = float ( xn )"
+    },
+    {
+      "group": "fcvt-int",
+      "def": "UCVTFUXDri",
+      "name": "ucvtf",
+      "asm": "dd, xn",
+      "description": "Unsigned Integer Convert to Floating-point",
+      "pseudocode": "dd = float ( xn )"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "FCVTZSSXDri",
+      "name": "fcvtzs",
+      "asm": "xd, dn, #fbits",
+      "description": "Floating-point Convert to Signed Fixed-point, Rounding toward Zero",
+      "pseudocode": "xd = fixed ( dn × 2^fbits )"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "FCVTZUSXDri",
+      "name": "fcvtzu",
+      "asm": "xd, dn, #fbits",
+      "description": "Floating-point Convert to Unsigned Fixed-point, Rounding toward Zero",
+      "pseudocode": "xd = fixed ( dn × 2^fbits )"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "SCVTFSXDri",
+      "name": "scvtf",
+      "asm": "dd, xn, #fbits",
+      "description": "Signed Fixed-point Convert to Floating-point",
+      "pseudocode": "dd = float ( xn ) / 2^fbits"
+    },
+    {
+      "group": "fcvt-fixed",
+      "def": "UCVTFSXDri",
+      "name": "ucvtf",
+      "asm": "dd, xn, #fbits",
+      "description": "Unsigned Fixed-point Convert to Floating-point",
+      "pseudocode": "dd = float ( xn ) / 2^fbits"
+    },
+    {
+      "group": "fcvt",
+      "def": "FCVTDSr",
+      "name": "fcvt",
+      "asm": "dd, sn",
+      "description": "Floating-point Convert Precision",
+      "pseudocode": "dd = sn in the other precision"
+    },
+    {
+      "group": "fcvt",
+      "def": "FCVTHSr",
+      "name": "fcvt",
+      "asm": "hd, sn",
+      "description": "Floating-point Convert Precision",
+      "pseudocode": "hd = sn in the other precision"
+    },
+    {
+      "group": "fcvt",
+      "def": "FCVTSDr",
+      "name": "fcvt",
+      "asm": "sd, dn",
+      "description": "Floating-point Convert Precision",
+      "pseudocode": "sd = dn in the other precision"
+    },
+    {
+      "group": "fcvt",
+      "def": "FCVTHDr",
+      "name": "fcvt",
+      "asm": "hd, dn",
+      "description": "Floating-point Convert Precision",
+      "pseudocode": "hd = dn in the other precision"
+    },
+    {
+      "group": "fcvt",
+      "def": "FCVTSHr",
+      "name": "fcvt",
+      "asm": "sd, hn",
+      "description": "Floating-point Convert Precision",
+      "pseudocode": "sd = hn in the other precision"
+    },
+    {
+      "group": "fcvt",
+      "def": "FCVTDHr",
+      "name": "fcvt",
+      "asm": "dd, hn",
+      "description": "Floating-point Convert Precision",
+      "pseudocode": "dd = hn in the other precision"
+    },
+    {
+      "group": "fmov-gen",
+      "def": "FMOVSWr",
+      "name": "fmov",
+      "asm": "wd, sn",
+      "description": "Floating-point Move to General",
+      "pseudocode": "wd = sn (the bits)"
+    },
+    {
+      "group": "fmov-gen",
+      "def": "FMOVWSr",
+      "name": "fmov",
+      "asm": "sd, wn",
+      "description": "Floating-point Move from General",
+      "pseudocode": "sd = wn (the bits)"
+    },
+    {
+      "group": "fmov-gen",
+      "def": "FMOVDXr",
+      "name": "fmov",
+      "asm": "xd, dn",
+      "description": "Floating-point Move to General",
+      "pseudocode": "xd = dn (the bits)"
+    },
+    {
+      "group": "fmov-gen",
+      "def": "FMOVXDr",
+      "name": "fmov",
+      "asm": "dd, xn",
+      "description": "Floating-point Move from General",
+      "pseudocode": "dd = xn (the bits)"
+    },
+    {
+      "group": "fmov-gen",
+      "def": "FMOVDXHighr",
+      "name": "fmov",
+      "asm": "xd, vn.d[1]",
+      "description": "Floating-point Move the Upper Half to General",
+      "pseudocode": "xd = vn[127:64]"
+    },
+    {
+      "group": "fmov-gen",
+      "def": "FMOVXDHighr",
+      "name": "fmov",
+      "asm": "vd.d[1], xn",
+      "description": "Floating-point Move General to the Upper Half",
+      "pseudocode": "vd[127:64] = xn"
+    }
+  ],
+  "registers": [
+    {
+      "title": "General Purpose Registers (wn / xn)",
+      "columns": [
+        "Register",
+        "64 bit",
+        "32 bit",
+        "Encoding",
+        "Meaning"
+      ],
+      "group": "CPU Registers",
+      "rows": [
+        [
+          "R0",
+          "x0",
+          "w0",
+          "00000",
+          "Argument / result"
+        ],
+        [
+          "R1",
+          "x1",
+          "w1",
+          "00001",
+          "Argument / result"
+        ],
+        [
+          "R2",
+          "x2",
+          "w2",
+          "00010",
+          "Argument / result"
+        ],
+        [
+          "R3",
+          "x3",
+          "w3",
+          "00011",
+          "Argument / result"
+        ],
+        [
+          "R4",
+          "x4",
+          "w4",
+          "00100",
+          "Argument / result"
+        ],
+        [
+          "R5",
+          "x5",
+          "w5",
+          "00101",
+          "Argument / result"
+        ],
+        [
+          "R6",
+          "x6",
+          "w6",
+          "00110",
+          "Argument / result"
+        ],
+        [
+          "R7",
+          "x7",
+          "w7",
+          "00111",
+          "Argument / result"
+        ],
+        [
+          "R8",
+          "x8",
+          "w8",
+          "01000",
+          "Indirect result location"
+        ],
+        [
+          "R9",
+          "x9",
+          "w9",
+          "01001",
+          "Temporary (caller saved)"
+        ],
+        [
+          "R10",
+          "x10",
+          "w10",
+          "01010",
+          "Temporary (caller saved)"
+        ],
+        [
+          "R11",
+          "x11",
+          "w11",
+          "01011",
+          "Temporary (caller saved)"
+        ],
+        [
+          "R12",
+          "x12",
+          "w12",
+          "01100",
+          "Temporary (caller saved)"
+        ],
+        [
+          "R13",
+          "x13",
+          "w13",
+          "01101",
+          "Temporary (caller saved)"
+        ],
+        [
+          "R14",
+          "x14",
+          "w14",
+          "01110",
+          "Temporary (caller saved)"
+        ],
+        [
+          "R15",
+          "x15",
+          "w15",
+          "01111",
+          "Temporary (caller saved)"
+        ],
+        [
+          "R16",
+          "x16",
+          "w16",
+          "10000",
+          "IP0: intra-procedure-call scratch"
+        ],
+        [
+          "R17",
+          "x17",
+          "w17",
+          "10001",
+          "IP1: intra-procedure-call scratch"
+        ],
+        [
+          "R18",
+          "x18",
+          "w18",
+          "10010",
+          "Platform register"
+        ],
+        [
+          "R19",
+          "x19",
+          "w19",
+          "10011",
+          "Saved (callee)"
+        ],
+        [
+          "R20",
+          "x20",
+          "w20",
+          "10100",
+          "Saved (callee)"
+        ],
+        [
+          "R21",
+          "x21",
+          "w21",
+          "10101",
+          "Saved (callee)"
+        ],
+        [
+          "R22",
+          "x22",
+          "w22",
+          "10110",
+          "Saved (callee)"
+        ],
+        [
+          "R23",
+          "x23",
+          "w23",
+          "10111",
+          "Saved (callee)"
+        ],
+        [
+          "R24",
+          "x24",
+          "w24",
+          "11000",
+          "Saved (callee)"
+        ],
+        [
+          "R25",
+          "x25",
+          "w25",
+          "11001",
+          "Saved (callee)"
+        ],
+        [
+          "R26",
+          "x26",
+          "w26",
+          "11010",
+          "Saved (callee)"
+        ],
+        [
+          "R27",
+          "x27",
+          "w27",
+          "11011",
+          "Saved (callee)"
+        ],
+        [
+          "R28",
+          "x28",
+          "w28",
+          "11100",
+          "Saved (callee)"
+        ],
+        [
+          "R29",
+          "x29",
+          "w29",
+          "11101",
+          "Frame pointer (FP)"
+        ],
+        [
+          "R30",
+          "x30",
+          "w30",
+          "11110",
+          "Link register (LR): the return address of BL / BLR"
+        ],
+        [
+          "—",
+          "xzr / sp",
+          "wzr / wsp",
+          "11111",
+          "The zero register (operands wn, xn) or the stack pointer (wn_sp, xn_sp): the instruction decides"
+        ]
+      ]
+    },
+    {
+      "title": "Floating-point and SIMD Registers",
+      "columns": [
+        "Register",
+        "Sizes",
+        "Encoding",
+        "Meaning"
+      ],
+      "group": "FP Registers",
+      "rows": [
+        [
+          "V0",
+          "b0 h0 s0 d0 q0",
+          "00000",
+          "Argument / result"
+        ],
+        [
+          "V1",
+          "b1 h1 s1 d1 q1",
+          "00001",
+          "Argument / result"
+        ],
+        [
+          "V2",
+          "b2 h2 s2 d2 q2",
+          "00010",
+          "Argument / result"
+        ],
+        [
+          "V3",
+          "b3 h3 s3 d3 q3",
+          "00011",
+          "Argument / result"
+        ],
+        [
+          "V4",
+          "b4 h4 s4 d4 q4",
+          "00100",
+          "Argument / result"
+        ],
+        [
+          "V5",
+          "b5 h5 s5 d5 q5",
+          "00101",
+          "Argument / result"
+        ],
+        [
+          "V6",
+          "b6 h6 s6 d6 q6",
+          "00110",
+          "Argument / result"
+        ],
+        [
+          "V7",
+          "b7 h7 s7 d7 q7",
+          "00111",
+          "Argument / result"
+        ],
+        [
+          "V8",
+          "b8 h8 s8 d8 q8",
+          "01000",
+          "Saved (callee, low 64 bits)"
+        ],
+        [
+          "V9",
+          "b9 h9 s9 d9 q9",
+          "01001",
+          "Saved (callee, low 64 bits)"
+        ],
+        [
+          "V10",
+          "b10 h10 s10 d10 q10",
+          "01010",
+          "Saved (callee, low 64 bits)"
+        ],
+        [
+          "V11",
+          "b11 h11 s11 d11 q11",
+          "01011",
+          "Saved (callee, low 64 bits)"
+        ],
+        [
+          "V12",
+          "b12 h12 s12 d12 q12",
+          "01100",
+          "Saved (callee, low 64 bits)"
+        ],
+        [
+          "V13",
+          "b13 h13 s13 d13 q13",
+          "01101",
+          "Saved (callee, low 64 bits)"
+        ],
+        [
+          "V14",
+          "b14 h14 s14 d14 q14",
+          "01110",
+          "Saved (callee, low 64 bits)"
+        ],
+        [
+          "V15",
+          "b15 h15 s15 d15 q15",
+          "01111",
+          "Saved (callee, low 64 bits)"
+        ],
+        [
+          "V16",
+          "b16 h16 s16 d16 q16",
+          "10000",
+          "Temporary"
+        ],
+        [
+          "V17",
+          "b17 h17 s17 d17 q17",
+          "10001",
+          "Temporary"
+        ],
+        [
+          "V18",
+          "b18 h18 s18 d18 q18",
+          "10010",
+          "Temporary"
+        ],
+        [
+          "V19",
+          "b19 h19 s19 d19 q19",
+          "10011",
+          "Temporary"
+        ],
+        [
+          "V20",
+          "b20 h20 s20 d20 q20",
+          "10100",
+          "Temporary"
+        ],
+        [
+          "V21",
+          "b21 h21 s21 d21 q21",
+          "10101",
+          "Temporary"
+        ],
+        [
+          "V22",
+          "b22 h22 s22 d22 q22",
+          "10110",
+          "Temporary"
+        ],
+        [
+          "V23",
+          "b23 h23 s23 d23 q23",
+          "10111",
+          "Temporary"
+        ],
+        [
+          "V24",
+          "b24 h24 s24 d24 q24",
+          "11000",
+          "Temporary"
+        ],
+        [
+          "V25",
+          "b25 h25 s25 d25 q25",
+          "11001",
+          "Temporary"
+        ],
+        [
+          "V26",
+          "b26 h26 s26 d26 q26",
+          "11010",
+          "Temporary"
+        ],
+        [
+          "V27",
+          "b27 h27 s27 d27 q27",
+          "11011",
+          "Temporary"
+        ],
+        [
+          "V28",
+          "b28 h28 s28 d28 q28",
+          "11100",
+          "Temporary"
+        ],
+        [
+          "V29",
+          "b29 h29 s29 d29 q29",
+          "11101",
+          "Temporary"
+        ],
+        [
+          "V30",
+          "b30 h30 s30 d30 q30",
+          "11110",
+          "Temporary"
+        ],
+        [
+          "V31",
+          "b31 h31 s31 d31 q31",
+          "11111",
+          "Temporary"
+        ]
+      ]
+    },
+    {
+      "title": "Special Registers",
+      "columns": [
+        "Register",
+        "Width",
+        "Meaning"
+      ],
+      "group": "CPU Registers",
+      "rows": [
+        [
+          "PC",
+          "64",
+          "Address of the instruction; not a general register"
+        ],
+        [
+          "SP",
+          "64",
+          "Stack pointer of the current exception level, 16 byte aligned"
+        ],
+        [
+          "NZCV",
+          "4",
+          "Condition flags: Negative, Zero, Carry, oVerflow"
+        ]
+      ]
+    },
+    {
+      "title": "Conditions (cond)",
+      "columns": [
+        "cond",
+        "Encoding",
+        "Meaning",
+        "Flags"
+      ],
+      "group": "Conditions",
+      "rows": [
+        [
+          "eq",
+          "0000",
+          "Equal",
+          "Z = 1"
+        ],
+        [
+          "ne",
+          "0001",
+          "Not equal",
+          "Z = 0"
+        ],
+        [
+          "cs",
+          "0010",
+          "Carry set (unsigned ≥, hs)",
+          "C = 1"
+        ],
+        [
+          "cc",
+          "0011",
+          "Carry clear (unsigned <, lo)",
+          "C = 0"
+        ],
+        [
+          "mi",
+          "0100",
+          "Minus",
+          "N = 1"
+        ],
+        [
+          "pl",
+          "0101",
+          "Plus or zero",
+          "N = 0"
+        ],
+        [
+          "vs",
+          "0110",
+          "Overflow",
+          "V = 1"
+        ],
+        [
+          "vc",
+          "0111",
+          "No overflow",
+          "V = 0"
+        ],
+        [
+          "hi",
+          "1000",
+          "Unsigned higher",
+          "C = 1 and Z = 0"
+        ],
+        [
+          "ls",
+          "1001",
+          "Unsigned lower or same",
+          "C = 0 or Z = 1"
+        ],
+        [
+          "ge",
+          "1010",
+          "Signed ≥",
+          "N = V"
+        ],
+        [
+          "lt",
+          "1011",
+          "Signed <",
+          "N ≠ V"
+        ],
+        [
+          "gt",
+          "1100",
+          "Signed >",
+          "Z = 0 and N = V"
+        ],
+        [
+          "le",
+          "1101",
+          "Signed ≤",
+          "Z = 1 or N ≠ V"
+        ],
+        [
+          "al",
+          "1110",
+          "Always",
+          ""
+        ],
+        [
+          "nv",
+          "1111",
+          "Always (as al)",
+          ""
+        ]
+      ]
+    }
+  ]
+}

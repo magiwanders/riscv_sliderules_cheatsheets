@@ -52,8 +52,11 @@ export function operandSet({ codec = rv32, entry = {}, random, edge = null, safe
   const template = splitOperands({ text: entry.asm });
   const values = {};
   const omitted = new Set();
-  const operands = template.map((op) => templateParts({ op }).map((part) => {
-    if (!part.token) return part.text;
+  // the text of each token as chosen; an optional part ({?...}) is written as the codec would, from the values
+  const tokenText = {};
+  const choose = (part, op) => (part.token ? (tokenText[part.token] = chooseToken(part, op)) : part.text);
+  const render = (op, texts) => (op.includes('{?') ? templateParts({ op, values }).map((p) => (p.token ? tokenText[p.token] : p.text)).join('') : texts.join(''));
+  const chooseToken = (part, op) => {
     const info = operandInfo({ entry, token: part.token });
     const key = tokenKey(part.token);
     if (info.kind === 'sp') return 'sp';
@@ -65,7 +68,7 @@ export function operandSet({ codec = rv32, entry = {}, random, edge = null, safe
       const safeList = safe && VECTOR.includes(key) ? VECTOR_SAFE.filter((n) => allowed.includes(n) && !taken.includes(n)) : [];
       values[key] = _pick({ random, list: safeList.length ? safeList : allowed });
       // an operand at the value that leaves it out (unmasked) is not written
-      if (info.omit !== undefined && values[key] === info.omit) {
+      if (info.omit !== undefined && values[key] === info.omit && op === part.token) {
         omitted.add(op);
         return '';
       }
@@ -83,7 +86,9 @@ export function operandSet({ codec = rv32, entry = {}, random, edge = null, safe
     if (info.kind === 'csr') return _pick({ random, list: Object.keys(codec.csrs) });
     if (info.kind === 'rm') return _pick({ random, list: ROUNDING.filter(Boolean) });
     return fenceText({ value: 1 + Math.floor(random() * 15) });
-  }).join('')).filter((_, i) => !omitted.has(template[i])).join(', ');
+  };
+  const chosen = template.map((op) => templateParts({ op }).map((part) => choose(part, op)));
+  const operands = template.map((op, i) => render(op, chosen[i])).filter((text, i) => !omitted.has(template[i]) && text !== '').join(', ');
   const hasOrdering = !entry.pseudo && entry.segments.some((s) => s.key === 'aq');
   const ordering = hasOrdering ? _pick({ random, list: ['', 'aq', 'rl', 'aqrl'] }) : '';
   return { operands, ordering, values };

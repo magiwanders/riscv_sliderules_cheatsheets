@@ -79,6 +79,7 @@ const RISCV_TD = ['RISCVRegisterInfo.td', 'RISCVSystemOperands.td', 'RISCVInstrF
     'RISCVInstrInfoZclsd.td', 'RISCVInstrInfoZilsd.td', 'RISCVInstrInfoZb.td', 'RISCVInstrInfoZk.td', 'RISCVInstrInfoZicond.td', 'RISCVInstrInfoZicbo.td',
     'RISCVInstrInfoZimop.td', 'RISCVInstrInfoZicfiss.td', 'RISCVInstrInfoV.td', 'RISCVInstrInfoZvk.td', 'RISCVInstrInfoZvfbf.td'];
 const MOS_TD = ['MOSRegisterInfo.td', 'MOSInstrFormats.td', 'MOSInstrInfo.td'];
+const A64_TD = ['AArch64RegisterInfo.td', 'AArch64SystemOperands.td', 'AArch64InstrFormats.td', 'AArch64InstrInfo.td'];
 const MIPS_TD = ['MipsRegisterInfo.td', 'MipsInstrFormats.td', 'MipsInstrInfo.td', 'Mips64InstrInfo.td'];
 const mipsTablegen = (xlen) => ({ files: MIPS_TD.map((f) => `spec/llvm/Mips/${f}`), licence: 'spec/llvm/LICENSE.TXT',
     about: `MIPS${xlen} in LLVM's Mips target, llvm/llvm-project llvmorg-23.1.5 (Apache 2.0 with LLVM exception): the sheets take the Release 2 CPU instructions of these files${xlen === 32 ? ', not those of Mips64InstrInfo.td' : ''}; the target's other files (microMIPS, MIPS16, Release 6, FPU, MSA, DSP, ...) are left out` });
@@ -102,6 +103,9 @@ const EXPORTS = {
             about: 'The 6502 in llvm-mos, llvm-mos/llvm-mos commit ae72e49843c256272d89421942079cd623bedafb (Apache 2.0 with LLVM exception); its other files are left out' },
     },
     z80: { sail: { files: ['spec/unofficial/z80/z80.sail'] }, tablegen: { files: ['spec/unofficial/z80/Z80.td'] } },
+    arm64: { sail: { files: ['spec/unofficial/a64/a64.sail'] },
+        tablegen: { files: A64_TD.map((f) => `spec/llvm/AArch64/${f}`), licence: 'spec/llvm/LICENSE.TXT',
+            about: 'A64 in LLVM\'s AArch64 target, llvm/llvm-project llvmorg-23.1.5 (Apache 2.0 with LLVM exception): the sheets take the ARMv8.0 integer and floating-point instructions of these files; the target\'s other files (SVE, SME, SIMD formats, scheduling) are left out' } },
     mips32: { sail: { files: ['spec/unofficial/mips/mips.sail'] }, tablegen: mipsTablegen(32) },
     mips64: { sail: { files: ['spec/unofficial/mips/mips.sail'] }, tablegen: mipsTablegen(64) },
     8051: { sail: { files: ['spec/unofficial/mcs51/mcs51.sail'] }, tablegen: { files: ['spec/unofficial/mcs51/MCS51.td'] } },

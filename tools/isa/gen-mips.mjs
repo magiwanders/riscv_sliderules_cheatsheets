@@ -15,6 +15,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readSail, sailInstructions } from './sail.mjs';
 import { ROOT, fail, moduleText, writeOrCheck } from './common.mjs';
+import { compare, encoding } from './llvm-sail.mjs';
 
 const IMMEDIATES = ['imm', 'uimm', 'offset', 'target'];
 // LLVM's ISA predicates: where an instruction comes from, as the sheets' ISA column says it
@@ -24,56 +25,6 @@ const ONLY_64 = ['HasMips3', 'HasMips64', 'HasMips64r2', 'IsGP64bit'];
 
 const level = (def) => (LEVELS.find(([p]) => def.predicates.includes(p)) || [null, 'MIPS I'])[1];
 export const only64 = (def) => def.predicates.some((p) => ONLY_64.includes(p));
-
-// Sail and LLVM agree on every bit: literals equal (LLVM leaves SYNC's zero bits unset), and each Sail field is one
-// LLVM operand's bits at a fixed distance. zero: LLVM operands the sheet writes as 0 (Release 6's RDHWR sel). Returns the
-// LLVM operand each Sail field comes from.
-function compare({ name, s, def, zero = [] }) {
-  const llvm = def.inst;
-  if (llvm.length !== 32 || s.width !== 32) fail(`${name}: ${s.width} bits in Sail, ${llvm.length} in LLVM`);
-  const from = {};
-  const shift = {};
-  s.bits.forEach((b, i) => {
-    const t = llvm[i];
-    const m = t.match(/^(\w+)\{(\d+)\}$/);
-    if (b.kind === 'lit') {
-      if (t === String(b.value) || (t === '-' && b.value === 0) || (m && zero.includes(m[1]) && b.value === 0)) return;
-      fail(`${name}: bit ${31 - i} is ${b.value} in Sail, ${t} in LLVM`);
-    }
-    if (!m) fail(`${name}: bit ${31 - i} is ${b.name} in Sail, ${t} in LLVM`);
-    const index = b.kind === 'imm' ? b.value : b.bit;
-    if ((from[b.name] ?? m[1]) !== m[1]) fail(`${name}: Sail ${b.name} comes from LLVM ${from[b.name]} and ${m[1]}`);
-    if ((shift[b.name] ?? index - Number(m[2])) !== index - Number(m[2])) fail(`${name}: Sail ${b.name} is not LLVM ${m[1]} shifted`);
-    from[b.name] = m[1];
-    shift[b.name] = index - Number(m[2]);
-  });
-  return from;
-}
-
-function immLabel({ bits = [] }) {
-  const runs = [];
-  for (const b of bits) {
-    const last = runs[runs.length - 1];
-    if (last && last[last.length - 1] === b + 1) last.push(b);
-    else runs.push([b]);
-  }
-  return runs.map((r) => (r.length === 1 ? `${r[0]}` : `${r[0]}:${r[r.length - 1]}`)).join('|');
-}
-
-// Cells from the Sail pieces, as for the other unofficial descriptions (tools/isa/gen-retro.mjs).
-function encoding({ s }) {
-  const cells = [];
-  s.bits.forEach((b, i) => {
-    const last = cells[cells.length - 1];
-    if (last && !s.cuts.includes(i)) last.bits.push(b);
-    else cells.push({ kind: b.kind, name: b.name, bits: [b] });
-  });
-  return cells.map((c) => {
-    if (c.kind === 'lit') return c.bits.map((b) => b.value).join('');
-    if (c.kind === 'imm') return `${c.name}[${immLabel({ bits: c.bits.map((b) => b.value) })}]`;
-    return c.name;
-  }).join(' ');
-}
 
 // "lw\t$rt, $addr" → "rt, offset(base)": LLVM's operands in the Sail's names; a mem operand is two Sail fields.
 function assembly({ name, def, from, zero = [] }) {
@@ -103,7 +54,8 @@ export function generate({ xlen = 32 }) {
     const def = llvm.instructions[row.def] || fail(`overlay row ${row.def}: no LLVM instruction`);
     if (xlen === 32 && only64(def)) continue;
     const s = byKey.get(row.def) || fail(`${row.def}: not in the Sail`);
-    const from = compare({ name: row.def, s, def, zero: row.zero });
+    // zero: LLVM operands the sheet writes as 0 (Release 6's RDHWR sel)
+    const from = compare({ name: row.def, s, def, llvmFixed: row.zero });
     const { mnemonic, asm } = assembly({ name: row.def, def, from, zero: row.zero });
     placed.add(row.def);
     // constraints: operand values that are no instruction (rs!=31), as the encoding's token says them

@@ -89,7 +89,7 @@ function _instructionRow({ codec = null, inst = {}, decoded = null, bitAt = null
   cells.push(
     cell({ classes: 'text description', text: inst.description }),
     mnemonic,
-    cell({ classes: 'text operands', text: fields ? codec.operandsText({ inst, fields }) || '—' : inst.asm || '—' }),
+    cell({ classes: 'text operands', text: fields ? codec.operandsText({ inst, fields }) || '—' : codec.templateText({ entry: inst }) || '—' }),
     ...(_hasExpansion({ codec }) ? [cell({ classes: 'text expansion', text: inst.expands || '' })] : []),
     cell({ classes: 'text pseudocode', text: inst.pseudocode }),
     ...extra,

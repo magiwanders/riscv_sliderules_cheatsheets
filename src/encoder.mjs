@@ -37,7 +37,7 @@ function _textCells({ codec = null, entry = {}, rowspan = 1, explanation = '', o
     cell({ rowspan, classes: 'text description', text: entry.description, title: entry.description }),
     _td({ class: 'text explanation', title: _explanationText({ explanation }) }, explanation),
     mnemonic,
-    cell({ rowspan, classes: 'text operands' + (operands ? ' chosen' : ''), text: operands ?? (entry.asm || '—') }),
+    cell({ rowspan, classes: 'text operands' + (operands ? ' chosen' : ''), text: operands ?? (codec.templateText({ entry }) || '—') }),
   ];
 }
 

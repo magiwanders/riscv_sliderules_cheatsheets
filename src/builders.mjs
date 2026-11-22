@@ -200,9 +200,10 @@ export function OperandPanel({ codec = null, onChange = () => {} }) {
   panel.read = () => {
     if (!_entry) return { entry: null, operands: null, ordering: '' };
     // an operand at the value that leaves it out (an unmasked vm) is not written at all
-    const operands = _template.filter((op) => !codec.isOmitted({ key: op, value: memory[op] })).map((op) => templateParts({ op })
+    // and an optional part ({?...}) whose operands are all at their omit values neither
+    const operands = _template.filter((op) => !codec.isOmitted({ key: op, value: memory[op] })).map((op) => templateParts({ op, values: memory })
       .map((part) => (part.token ? _valueText({ codec, token: part.token, info: operandInfo({ entry: _entry, token: part.token }), memory, entry: _entry }) : part.text))
-      .join('')).join(', ');
+      .join('')).filter((text) => text !== '').join(', ');
     return { entry: _entry, operands, ordering: _hasOrdering({ entry: _entry }) ? memory.ordering || '' : '' };
   };
 

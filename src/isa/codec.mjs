@@ -112,7 +112,7 @@ function _parseFence({ text = '' }) {
   return ['i', 'o', 'r', 'w'].reduce((v, flag, i) => v | (t.includes(flag) ? 1 << (3 - i) : 0), 0);
 }
 
-const _escaped = (text) => text.replace(/[()+$]/g, '\\$&');
+const _escaped = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 // The functions of one instruction set. What a set module exports (see CLAUDE.md, "Adding an instruction set"):
 //   name, spine ({ width, title, bytes }), formats, sections, groups, instructions, extensions;
@@ -246,9 +246,10 @@ export function createCodec(spec) {
       const top = msb - inst.asmShift;
       return { min: -(2 ** top), max: 2 ** top - 1, step: 1, nonZero: inst.immNonZero };
     }
-    // immMin: a floor of the range (cm.jalt's index from 32, below it is cm.jt)
+    // immMin / immMax: a floor / ceiling of the range (cm.jalt's index from 32, below it is cm.jt; A64's SPSel is one bit)
     const min = inst.immSigned ? -(2 ** msb) : Math.max(0, inst.immMin ?? 0);
-    return { min, max: inst.immSigned ? 2 ** msb - step : 2 ** (msb + 1) - step, step, nonZero: inst.immNonZero };
+    const max = inst.immSigned ? 2 ** msb - step : 2 ** (msb + 1) - step;
+    return { min, max: Math.min(max, inst.immMax ?? max), step, nonZero: inst.immNonZero };
   }
 
   // distinct: two fields that cannot hold the same value (cm.mvsa01's r1s and r2s); value of a field of a word
@@ -315,10 +316,13 @@ export function createCodec(spec) {
     let mnemonic = inst.name;
     if (fields.aq || fields.rl) mnemonic += '.' + (fields.aq ? 'aq' : '') + (fields.rl ? 'rl' : '');
     const parts = [{ kind: 'mnemonic', text: mnemonic, known: true }];
-    const operands = splitOperands({ text: inst.asm }).filter((op) => !(op === 'rm' && fields.rm === 7) && !isOmitted({ key: op, value: fields[op] }));
-    operands.forEach((op, i) => {
+    // an optional part ({?...}) whose operands are all at their omit value is not written; unknown ones (null) are
+    const known = Object.fromEntries(Object.entries(fields).filter(([, v]) => v !== null && v !== undefined));
+    const operands = splitOperands({ text: inst.asm }).filter((op) => !(op === 'rm' && fields.rm === 7) && !isOmitted({ key: op, value: fields[op] }))
+      .map((op) => templateParts({ op, values: known })).filter((opParts) => opParts.length);
+    operands.forEach((opParts, i) => {
       parts.push({ kind: 'punct', text: i === 0 ? ' ' : spec.separator ?? ', ' });
-      for (const part of templateParts({ op })) {
+      for (const part of opParts) {
         if (!part.token) {
           parts.push({ kind: 'punct', text: part.text });
           continue;
@@ -542,18 +546,54 @@ export function createCodec(spec) {
     return { kind: 'reg', fp: _isFp({ inst, key: k }), compressed: Boolean(segment && segment.compressed), exclude: segment ? segment.exclude : [] };
   }
 
-  // Splits a template operand such as "imm(rs1')" into literal text and operand tokens.
-  function templateParts({ op = '' }) {
+  // Splits a template operand such as "imm(rs1')" into literal text and operand tokens. A part in {?...} is optional
+  // (A64's "xm{?, shift #amount}", "{?xn}"): with `values`, it is left out when every operand in it is at its omit
+  // value, otherwise written without the braces; without values, all of it is listed. markers: keep { open } and
+  // { close } parts where an optional part starts and ends (for the parser).
+  function templateParts({ op = '', values = null, markers = false }) {
     const parts = [];
-    let last = 0;
-    for (const m of op.matchAll(OPERAND)) {
-      if (m.index > last) parts.push({ text: op.slice(last, m.index) });
-      parts.push({ token: m[0] });
-      last = m.index + m[0].length;
+    for (const piece of op.split(/(\{\?|\})/)) {
+      if (piece === '{?') {
+        parts.push({ open: true });
+        continue;
+      }
+      if (piece === '}' && parts.some((p) => p.open) && parts.filter((p) => p.open).length > parts.filter((p) => p.close).length) {
+        parts.push({ close: true });
+        continue;
+      }
+      let last = 0;
+      for (const m of piece.matchAll(OPERAND)) {
+        if (m.index > last) parts.push({ text: piece.slice(last, m.index) });
+        parts.push({ token: m[0] });
+        last = m.index + m[0].length;
+      }
+      if (last < piece.length) parts.push({ text: piece.slice(last) });
     }
-    if (last < op.length) parts.push({ text: op.slice(last) });
-    return parts;
+    if (markers) return parts;
+    const out = [];
+    for (let i = 0; i < parts.length; i++) {
+      if (parts[i].close) continue;
+      if (!parts[i].open) {
+        out.push(parts[i]);
+        continue;
+      }
+      const end = parts.findIndex((p, j) => j > i && p.close);
+      const inside = parts.slice(i + 1, end);
+      const omitted = values && inside.filter((p) => p.token).every((p) => {
+        const key = tokenKey(p.token);
+        return OPERANDS[key] && OPERANDS[key].omit !== undefined && values[key] === OPERANDS[key].omit;
+      });
+      if (!omitted) out.push(...inside);
+      i = end;
+    }
+    return out;
   }
+
+  // An entry's assembly template as the sheets show it: optional parts in braces, as Arm writes them ("{, sh}").
+  const templateText = ({ entry = {} }) => (entry.asm || '').replace(/\{\?/g, '{');
+
+  // A template operand can be left out entirely: all of it optional.
+  const _optionalOperand = (op) => /^\{\?.*\}$/.test(op) && templateParts({ op, markers: true }).filter((p) => p.close).length === 1;
 
   // ---------------------------------------------------------------- encoding
 
@@ -567,11 +607,11 @@ export function createCodec(spec) {
       if (value < min || value > max) throw new Error(`${inst.name}: immediate ${value} out of range [${min}, ${max}]`);
       const used = new Set(inst.segments.filter((s) => s.kind === 'imm').flatMap((s) => s.immBits));
       for (let b = 0; b < inst.immMsb; b++) {
-        if (!used.has(b) && (v >> b) & 1) throw new Error(`${inst.name}: immediate ${value} must be a multiple of ${2 ** Math.min(...used)}`);
+        if (!used.has(b) && Math.floor(v / 2 ** b) & 1) throw new Error(`${inst.name}: immediate ${value} must be a multiple of ${2 ** Math.min(...used)}`);
       }
       if (inst.immNonZero && v === 0) throw new Error(`${inst.name}: immediate must be non-zero`);
       for (const s of inst.segments.filter((s) => s.kind === 'imm')) {
-        s.immBits.forEach((immBit, j) => { word |= ((v >> immBit) & 1) << (s.hi - j); });
+        s.immBits.forEach((immBit, j) => { word |= (Math.floor(v / 2 ** immBit) & 1) << (s.hi - j); });
       }
       return word;
     }
@@ -605,28 +645,54 @@ export function createCodec(spec) {
   // What a token matches in operand text; only names are told apart from what follows them, as in "(IX+5)".
   function _tokenPattern(token) {
     const operand = OPERANDS[tokenKey(token)];
-    return operand && operand.names ? `(${[...operand.names].sort((a, b) => b.length - a.length).map(_escaped).join('|')})` : '(.+?)';
+    return operand && operand.names ? `(${[...new Set(operand.names)].sort((a, b) => b.length - a.length).map(_escaped).join('|')})` : '(.+?)';
   }
 
   // Parses the operand text of a given entry (instruction or pseudo-instruction) into values by token.
   function _parseOperands({ entry = {}, text = '' }) {
     const template = splitOperands({ text: entry.asm });
     const given = splitOperands({ text });
-    // the last operand may be left out: a rounding mode (dyn), a mask (unmasked)
-    const last = template[template.length - 1];
-    const optional = last === 'rm' || (OPERANDS[last] && OPERANDS[last].omit !== undefined) ? 1 : 0;
-    if (given.length > template.length || given.length < template.length - optional) {
-      throw new Error(`${entry.name} expects: ${entry.name} ${entry.asm}`);
-    }
+    const expects = () => new Error(`${entry.name} expects: ${entry.name} ${entry.asm}`);
     const values = {};
-    template.slice(0, given.length).forEach((op, i) => {
-      const tokens = op.match(OPERAND) || [];
-      const pattern = new RegExp('^' + _escaped(op).replace(OPERAND, _tokenPattern) + '$', 'i');
-      const m = given[i].match(pattern);
-      if (!m) throw new Error(`operand "${given[i]}" does not match "${op}"`);
+    const omitAll = (op) => templateParts({ op }).filter((p) => p.token).forEach((p) => {
+      const key = tokenKey(p.token);
+      if (OPERANDS[key] && OPERANDS[key].omit !== undefined) values[key] = OPERANDS[key].omit;
+    });
+    const patternOf = (op) => {
+      const parts = templateParts({ op, markers: true });
+      const source = parts.map((p) => (p.open ? '(?:' : p.close ? ')?' : p.token ? _tokenPattern(p.token) : _escaped(p.text))).join('');
+      return { tokens: parts.filter((p) => p.token).map((p) => p.token), pattern: new RegExp(`^${source}$`, 'i') };
+    };
+    // Each template operand takes one given operand, or more when an optional part of it holds commas ("#imm{?, sh}"
+    // takes "#1, lsl #12"). Operands at the end may be left out: a rounding mode (dyn), a mask (unmasked), operands all
+    // optional ({?xn}).
+    let g = 0;
+    template.forEach((op, i) => {
+      const inner = (op.match(/\{\?[^}]*\}/g) || []).reduce((n, span) => n + (span.match(/,/g) || []).length, 0);
+      const { tokens, pattern } = patternOf(op);
+      let m = null;
+      let used = 0;
+      for (let k = Math.min(inner, given.length - g - 1); k >= 0 && !m; k--) {
+        m = given.slice(g, g + k + 1).join(', ').match(pattern);
+        used = k + 1;
+      }
+      if (!m) {
+        const rest = template.slice(i);
+        const leftOut = g >= given.length && rest.every((o, j) => _optionalOperand(o) || (j === rest.length - 1 && (o === 'rm' || (OPERANDS[o] && OPERANDS[o].omit !== undefined))));
+        if (!leftOut) throw g >= given.length ? expects() : new Error(`operand "${given[g]}" does not match "${op}"`);
+        if (_optionalOperand(op)) omitAll(op);
+        else if (OPERANDS[op] && OPERANDS[op].omit !== undefined) values[op] = OPERANDS[op].omit;
+        return;
+      }
+      g += used;
       tokens.forEach((token, k) => {
         const key = tokenKey(token);
         const text = m[k + 1];
+        // an optional part not written: its operands at their omit values
+        if (text === undefined) {
+          if (OPERANDS[key] && OPERANDS[key].omit !== undefined) values[key] = OPERANDS[key].omit;
+          return;
+        }
         const info = operandInfo({ entry, token: key });
         if (info.kind === 'sp') {
           if (_parseRegister({ text }) !== 2) throw new Error(`${entry.name} only works with sp`);
@@ -644,7 +710,7 @@ export function createCodec(spec) {
         else values[key] = _parseRegister({ text, fp: info.fp });
       });
     });
-    if (given.length < template.length && OPERANDS[last] && OPERANDS[last].omit !== undefined) values[last] = OPERANDS[last].omit;
+    if (g < given.length) throw expects();
     return values;
   }
 
@@ -780,7 +846,7 @@ export function createCodec(spec) {
 
   return {
     spec, compiled, pseudos, encodable, unusedOpcodeRows, parseEncoding, immRange, matchesConstraints, extractFields, assemblyParts, operandsText,
-    operandText, isOmitted, formatAssembly, fieldMask, partialDecode, knownWidth, selectedWord, missingBits, decodeWord, unusedOpcode, operandInfo, templateParts,
+    operandText, isOmitted, templateText, formatAssembly, fieldMask, partialDecode, knownWidth, selectedWord, missingBits, decodeWord, unusedOpcode, operandInfo, templateParts,
     tokenKey, encodeEntry, encodeAssembly, assemblyChoice, immediateView, hex, binary, bitName, bitNumber, byteStart, pasteStates, typeName, numericOperand, csrs,
   };
 }

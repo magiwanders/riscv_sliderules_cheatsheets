@@ -156,6 +156,7 @@ export function compactTarget({ records, keepInstruction = () => true, keepAlias
 const _MIPS_BASE = new Set(['HasStdEnc', 'NotInMicroMips', 'NotInMips16Mode', 'NotMips32r6', 'NotMips64r6', 'NotR5900', 'HasMips2', 'HasMips3',
   'HasMips32', 'HasMips32r2', 'HasMips64', 'HasMips64r2', 'HasMips4_32', 'HasMips3_32', 'HasMips3_32r2', 'HasMips4_32r2', 'HasMips5_32r2',
   'IsGP64bit', 'IsGP32bit', 'IsPTR64bit', 'IsPTR32bit', 'RelocNotPIC', 'NoIndirectJumpGuards']);
+const _A64_LATER = /^(AUTI|PACI|XPACLRI|CHKFEAT|PACM|MRRS|MSRR|SYSP|RPRFM|MSRpstatesvcrImm1|MSRpstateImm1)/;
 const _MIPS_COPIES = new Set(['JALR64', 'JALR_HB64', 'JR64', 'JR_HB64', 'LL64', 'SC64']);
 
 const TARGETS = {
@@ -194,6 +195,14 @@ const TARGETS = {
   Mips: {
     keepInstruction: ({ name, record }) => record.Namespace === 'Mips' && !record.isPseudo && !record.isCodeGenOnly && !record.isAsmParserOnly &&
       (record.Predicates || []).every((p) => _MIPS_BASE.has(_def(p))) && !_MIPS_COPIES.has(name),
+    keepAlias: () => false,
+  },
+  // A64 of ARMv8.0: the instructions without a predicate, the scalar floating point (HasFPARMv8) and EL3's (SMC, DCPS3), not the later ones
+  // LLVM leaves unpredicated because they are hints or system instructions (pointer authentication, CHKFEAT, the 128
+  // bit system registers, RPRFM, SME's MSR SVCR, the PSTATE fields of ARMv8.1 and later).
+  AArch64: {
+    keepInstruction: ({ name, record }) => record.Namespace === 'AArch64' && !record.isPseudo && !record.isCodeGenOnly && !record.isAsmParserOnly &&
+      (record.Predicates || []).every((p) => ['HasFPARMv8', 'HasEL3'].includes(_def(p))) && !_A64_LATER.test(name),
     keepAlias: () => false,
   },
   // The unofficial descriptions of spec/unofficial (--td spec/unofficial/z80/Z80.td, .../hack/Hack.td).

@@ -5,10 +5,11 @@ import * as rv32gc from './rv32gc.mjs';
 
 const REG = /^(rd|rs1|rs2|rs3)('?)(?:\/(?:rd|rs1|rs2)'?)?(?:(!=|=)(\d+|\{[\d,]+\}))?$/;
 // A constraint on a field: "!=0", "!={0,2}" (not these) or "={1,5}" (only these, of the field's values in `range`).
+// range: the field's values, or a function giving them (built only for an "=" constraint: a 16 bit field has 65,536)
 function _excluded({ op = null, list = '', range = [] }) {
   if (!op) return [];
   const values = list.replace(/[{}]/g, '').split(',').map(Number);
-  return op === '!=' ? values : range.filter((n) => !values.includes(n));
+  return op === '!=' ? values : (typeof range === 'function' ? range() : range).filter((n) => !values.includes(n));
 }
 const _constraintLabel = (token) => token.replace(/!=\{?([\d,]+)\}?/, ' ≠ $1').replace(/=\{?([\d,]+)\}?/, ' ∈ $1').replace(/,/g, ', ');
 const FIELDS = { aq: 1, rl: 1, rm: 3, pred: 4, succ: 4 };
@@ -183,17 +184,17 @@ export function createCodec(spec) {
       const split = token.match(/^(\w+)\[([\d:|]+)\](?:(!=|=)(\d+|\{[\d,]+\}))?$/);
       if (split && OPERANDS[split[1]] && !(split[1] in immediates)) {
         const { width, exclude = [], names } = OPERANDS[split[1]];
-        const own = _excluded({ op: split[3], list: split[4], range: Array.from({ length: 2 ** width }, (_, n) => n) });
+        const own = _excluded({ op: split[3], list: split[4], range: () => Array.from({ length: 2 ** width }, (_, n) => n) });
         _immParts({ spec: split[2] }).forEach((fieldBits, part) => segments.push({ kind: 'field', key: split[1], part, fieldBits, split: true, width: fieldBits.length,
-          label: `${split[1]}[${fieldBits.length === 1 ? fieldBits[0] : `${fieldBits[0]}:${fieldBits[fieldBits.length - 1]}`}]`, exclude: [...new Set([...exclude, ...own])], numeric: !names }));
+          label: `${split[1]}[${fieldBits.length === 1 ? fieldBits[0] : `${fieldBits[0]}:${fieldBits[fieldBits.length - 1]}`}]`, exclude: own.length ? [...new Set([...exclude, ...own])] : exclude, numeric: !names }));
         continue;
       }
       const op = token.match(/^(\w+)(?:(!=|=)(\d+|\{[\d,]+\}))?$/);
       if (op && OPERANDS[op[1]]) {
         // an operand of the set's own, possibly with a constraint of this instruction (vd!={0,1})
         const { width, exclude = [], names } = OPERANDS[op[1]];
-        const own = _excluded({ op: op[2], list: op[3], range: Array.from({ length: 2 ** width }, (_, n) => n) });
-        segments.push({ kind: 'field', key: op[1], label: _constraintLabel(token), width, exclude: [...new Set([...exclude, ...own])], numeric: !names });
+        const own = _excluded({ op: op[2], list: op[3], range: () => Array.from({ length: 2 ** width }, (_, n) => n) });
+        segments.push({ kind: 'field', key: op[1], label: _constraintLabel(token), width, exclude: own.length ? [...new Set([...exclude, ...own])] : exclude, numeric: !names });
       } else if (/^[01]+$/.test(token)) {
         segments.push({ kind: 'lit', label: token, width: token.length, bits: token });
       } else if (/^-+$/.test(token)) {
@@ -248,7 +249,10 @@ export function createCodec(spec) {
     }
     const imm = segments.filter((s) => s.kind === 'imm');
     const immMsb = imm.length ? Math.max(...imm.flatMap((s) => s.immBits)) : -1;
-    const sortKey = _decodeOrder({ width }).map((b) => (W.bit(mask, b) ? W.bit(match, b) : 2)).join('');
+    // each bit: its literal value, 2 where it is not fixed (read from the segments: no word operations per bit)
+    const fixed = [];
+    for (const s of segments) if (s.kind === 'lit') for (let j = 0; j < s.width; j++) fixed[s.hi - j] = s.bits[j];
+    const sortKey = _decodeOrder({ width }).map((b) => fixed[b] ?? '2').join('');
     const id = inst.reserved || inst.hint ? `${inst.name}@${inst.group}#${index}` : spec.repeatedNames ? `${inst.name} ${inst.asm}`.trim() : inst.name;
     return {
       ...group, ...inst, id, groupKey: inst.group, width, lsb: lsbOf({ width }), segments, mask, match, sortKey,
@@ -258,7 +262,9 @@ export function createCodec(spec) {
     };
   });
   // the same line in two lengths (x86 jmp rel8 / rel16): the longer one's id says its width
-  for (const inst of compiled) if (compiled.some((o) => o !== inst && o.id === inst.id && o.width < inst.width)) inst.id = `${inst.id}@${inst.width}`;
+  const shortest = new Map();
+  for (const inst of compiled) shortest.set(inst.id, Math.min(shortest.get(inst.id) ?? Infinity, inst.width));
+  for (const inst of compiled) if (inst.width > shortest.get(inst.id)) inst.id = `${inst.id}@${inst.width}`;
 
   // Most specific encodings first, so reserved/special patterns win over generic ones.
   const _byPriority = [...compiled].sort((a, b) => b.literalCount - a.literalCount);
@@ -564,7 +570,8 @@ export function createCodec(spec) {
   // Everything the encoder can produce, in alphabetical order (real instruction before its pseudo twin) unless the set
   // says its own order reads better.
   const encodable = [...compiled.filter((i) => !i.reserved && !i.hint), ...pseudos];
-  if (!spec.listedOrder) encodable.sort((a, b) => a.name.localeCompare(b.name) || Number(Boolean(a.pseudo)) - Number(Boolean(b.pseudo)));
+  const collator = new Intl.Collator();
+  if (!spec.listedOrder) encodable.sort((a, b) => collator.compare(a.name, b.name) || Number(Boolean(a.pseudo)) - Number(Boolean(b.pseudo)));
 
   // What a template operand token of an entry accepts (used by the dropdown builder and the parser).
   function operandInfo({ entry = {}, token = 'rd' }) {

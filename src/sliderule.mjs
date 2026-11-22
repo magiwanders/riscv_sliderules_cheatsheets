@@ -663,7 +663,7 @@ function _stickHeaderRows({ table = null }) {
 const _familyLabel = (value) => families.find((f) => f.value === value).label;
 const _shortOf = (isa) => (isa.extensions ? isaString({ width: isa.extensions.width, enabled: _enabledOf({ isa }) }) : isa.short ?? isa.label);
 const _isaOptions = () => isas.map((isa) => ({ value: isa.value, label: isa.label, short: _shortOf(isa), group: _familyLabel(isa.family),
-  hint: isa.codec ? '' : 'Coming soon' }));
+  hint: 'codec' in isa ? '' : 'Coming soon' }));
 
 function _isaPicker() {
   const picker = Carousel({ label: 'instruction set', classes: 'title-carousel', value: _isa.value, options: _isaOptions(),

@@ -234,3 +234,37 @@ npm run dev        # look at both sheets: http://localhost:5173
 - In the browser: pick the new instructions in the encoder (each operand selector, extreme immediates), paste their
   words into the decoder, and check the colours and the decoder's grouping.
 - `dist/` is git-ignored; building it deploys the live site, so only run `npm run build` when asked.
+
+## The x86 table
+
+- One generic table, `src/isa/overlay/x86.json`, is the source (it was first written by a one-off script): operand size
+  `v` as a parameter, `sizes` setting SZ/D64/... (defined in `tools/isa/gen-x86.mjs`), `since`, `modes`; llvm names with
+  `{v}{z}{a}{r32}` or per-size objects, `"32@64"` for mode-specific records.
+- `gen-x86.mjs` resolves the lines per set (i8086 / ia32 / x86_64), checks each against the shape of its LLVM record
+  (prefix 66 / REX.W from opsz / rexw, map, form, imm, In64BitMode / Not64BitMode, adsz) and writes
+  `generated/{set}.mjs` with lines only; `src/isa/x86.mjs` expands the rows at load (forms per mode, REX variants with
+  split fields `r64[3]` / `r64[2:0]`). Its Sail is generated, so weaker than the others (the docs say so).
+- Vectors (`test/gen-x86-vectors.mjs`, ~4 min for x86-64): twins are dropped when the codec encodes the same line
+  shorter. Assembler quirks: GNU needs `.allow_index_reg` for eiz, and rex.W + a 32-bit register for
+  lgs / lar / lsl / sldt / str / mov r64,sreg; llvm-mc needs AT&T syntax for callw / retw / lret* / iret* / pushf* /
+  push seg / mov r16,sreg and for 64-bit far indirect (lcallq / lcalll).
+- Arm's XML on the maintainer's machine (`~/.local/src/arm-xml`) is only read in place by `test/arm-xml.test.mjs`.
+
+## Toolchain on the maintainer's server
+
+Everything was built from source under `~/.local` without root; reuse it instead of rebuilding, and run the vector
+generators before claiming bit-perfect encodings. The vector scripts find these paths by default.
+
+- `~/.local/src/llvm-project` (sparse, llvmorg-23.1.5): `build/bin/{llvm-tblgen,llvm-mc,llvm-objdump,clang,ld.lld}`
+  with the RISCV target only (Ash's server also builds RISC-V C with this clang); `build-mc/bin/{llvm-mc,llvm-objdump,llvm-tblgen}`
+  with X86, Mips, ARM and AArch64. A full clang rebuild takes hours: avoid.
+- `~/.local/src/sail-riscv`, `~/.local/src/llvm-mos` (sparse), `~/.local/src/riscv-unified-db` (read by
+  `tools/isa/udb.py` with the venv's PyYAML).
+- `~/.local/opt/sliderules-venv` (cmake, ninja, py65, skoolkit, PyYAML):
+  `PYTHON=~/.local/opt/sliderules-venv/bin/python npm run vectors:retro`.
+- Assemblers: GNU as for RISC-V in `~/.local/opt/xpack-riscv-none-elf-gcc-15.2.0-1`; binutils 2.45
+  `~/.local/src/binutils-build-{mips,arm,aarch64}/{gas/as-new,binutils/objdump}` (the system `as` / `objdump` 2.42 do
+  x86); `~/.local/src/cc65/bin/{ca65,ld65}`; `~/.local/src/sjasmplus/sjasmplus`; `~/.local/src/asl/asl-current/{asl,p2bin}`;
+  `~/.local/src/asxxxx/asxv6pxx/asxmak/linux/exe/{as8085,as8051}`; `~/.local/src/nasm-2.16.03/{nasm,ndisasm}`.
+- Run builds as one plain command each (`make x 2>&1 | tail`): multi-target loops and subshells have been refused by
+  the agent's permission checks.

@@ -531,7 +531,7 @@ table.registers-sheet { table-layout: auto; }
    short addresses yellow, long ones blue, pointers purple, relative jumps orange (see CLAUDE.md). */
 .fmt-C, .fmt-IMP, .fmt-ACC, .fmt-REG { --strong: #e06666; --light: #f4cccc; }
 .fmt-A, .fmt-IMM  { --strong: #93c47d; --light: #d9ead3; }
-.fmt-ZP, .fmt-ZPX, .fmt-ZPY { --strong: #ffd966; --light: #fff2cc; }
+.fmt-ZP, .fmt-ZPX, .fmt-ZPY, .fmt-DIR { --strong: #ffd966; --light: #fff2cc; }
 .fmt-ABS, .fmt-ABX, .fmt-ABY, .fmt-EXT { --strong: #6d9eeb; --light: #c9daf8; }
 .fmt-IND          { --strong: #8e7cc3; --light: #d9d2e9; }
 .fmt-IZX, .fmt-IZY, .fmt-IDX { --strong: #c27ba0; --light: #ead1dc; }

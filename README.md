@@ -2,7 +2,7 @@
 
 An instruction **encoder** and **decoder** in the browser, laid out like the paper "sliderule" cheatsheets, for
 RISC-V RV32 and RV64 with every ratified extension (1,142 and 1,245 instructions; they start as RV32GC / RV64GC), the
-Intel 8080, the Zilog Z80, the MOS 6502 and the
+Intel 8080 and 8051, the Zilog Z80, the MOS 6502 and the
 Hack computer of nand2tetris (choose one in the title):
 pick an instruction and read its bits, or set bits and read the instruction.
 
@@ -94,7 +94,7 @@ line.disassemble({ isa: 'rv32gc', bytes });   // → [{ offset, length, assembly
 line.assemble({ isa: 'hack', assembly: '@17' }); // → { words: [{ word, width, hex, binary }] } or { error }
 ```
 
-`isa` is `rv32gc`, `rv64gc`, `8080`, `z80`, `6502` or `hack`; `extensions` (RISC-V only) picks the extensions to decode and
+`isa` is `rv32gc`, `rv64gc`, `8080`, `8051`, `z80`, `6502` or `hack`; `extensions` (RISC-V only) picks the extensions to decode and
 encode with, the sheet's default (RV32GC / RV64GC) otherwise; `title` replaces the line's title. The popup lets the
 pointer through. [Ash](https://ash.magiwanders.com) uses it for the instructions of its programs and memory.
 
@@ -121,6 +121,7 @@ descriptions, pseudocode, flags, HINT and reserved rows, register meanings.
 | RV32, RV64 | The official [RISC-V Sail model](https://github.com/riscv/sail-riscv) | [LLVM](https://github.com/llvm/llvm-project)'s RISC-V target |
 | 6502 | **Unofficial**, written for these sheets: no Sail model of the 6502 exists | [llvm-mos](https://github.com/llvm-mos/llvm-mos) (LLVM for the 6502, not upstream LLVM) |
 | 8080 | **Unofficial**, written for these sheets from Intel's manuals | **Unofficial**, likewise |
+| 8051 | **Unofficial**, written for these sheets from Intel's MCS-51 manual | **Unofficial**, likewise |
 | Z80 | **Unofficial**, written for these sheets from Zilog's manual | **Unofficial**, likewise |
 | Hack | **Unofficial**, written for these sheets from the nand2tetris book | **Unofficial**, likewise |
 
@@ -180,9 +181,10 @@ bits grey, the unused upper half of a compressed instruction black.
 | RV64 | v1.0 | GNU as 2.45, LLVM llvm-mc 23.1.5 | 7,495 vectors each, in the same three profiles for RV64 (RV64GC; every extension that can be on with the others; floats in integer registers with Zcmp, Zcmt), over 1,750 of the 1,797 instructions and pseudo-instructions they hold; round trips of all of them in each profile |
 | 6502 | v0.1 | py65 1.2.0, ca65 2.19 | 725 vectors (724 for ca65) over the 151 official opcodes; the opcode table equals py65's across all 256 opcodes |
 | 8080 | v0.1 | asl 1.42 (Macro Assembler AS), as8085 6.10 (ASxxxx) | 611 vectors each over the 93 instructions, every register and condition combination included: the 244 documented opcodes, each assembled by both; the 12 others (undocumented) decode to nothing |
+| 8051 | v0.1 | asl 1.42 (Macro Assembler AS), as8051 6.10 (ASxxxx) | 732 vectors each over the 111 instructions, every register combination and every AJMP / ACALL page included: the 255 defined opcodes, each assembled by both; A5 (undefined) decodes to nothing |
 | Z80 | v0.1 | skoolkit 10.2, sjasmplus 1.24.0 | 617 vectors each over the 166 documented forms; all 1,786 opcodes behind every prefix agree with skoolkit, apart from the undocumented ones left out on purpose and `ED 63` / `ED 6B`, which skoolkit only knows as an option |
 | Hack | v0.1 | Known encodings | The assembly of the nand2tetris examples, and round trips of every instruction; every word of `Pong.hack` was once checked to decode and reassemble to itself (not part of `npm test`) |
-| 8051, 8086, MIPS32, MIPS64, x86, x86_64, ARM Thumb, ARM32, ARM64 | — | — | Coming soon |
+| 8086, MIPS32, MIPS64, x86, x86_64, ARM Thumb, ARM32, ARM64 | — | — | Coming soon |
 
 **Every sheet with assemblers is bit-perfect against two of them:** every encodable instruction and pseudo-instruction
 is encoded by the sheet with random operands and the edges of its immediate's range, the same lines are assembled by
@@ -197,7 +199,7 @@ refuses `JMP ($xxFF)` (the NMOS page bug), so those cases are left out for it. `
 from its sources and fails if the committed files differ, which re-checks Sail against TableGen bit by bit.
 
 The references are stored in `test/vectors/` and regenerated with `npm run vectors` (GNU as), `npm run vectors:llvm`
-(llvm-mc), `npm run vectors:retro` (py65, skoolkit) and `npm run vectors:retro-asm` (ca65, sjasmplus, asl, as8085). These tests cover
+(llvm-mc), `npm run vectors:retro` (py65, skoolkit) and `npm run vectors:retro-asm` (ca65, sjasmplus, asl, as8085, as8051). These tests cover
 bits, mnemonics and instruction lengths: the flags, pseudocode and descriptions of the v0.1 sheets are not checked
 against a reference yet.
 

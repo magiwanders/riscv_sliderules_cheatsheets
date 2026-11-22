@@ -1,0 +1,4827 @@
+{
+ "source": {
+  "project": "unofficial",
+  "revision": "spec/unofficial/mcs51/MCS51.td",
+  "tblgen": "23.1.5",
+  "target": "MCS51"
+ },
+ "instructions": {
+  "ACALL": {
+   "asm": "ACALL\t$addr11",
+   "outs": [],
+   "ins": [
+    [
+     "addr11_op",
+     "addr11"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "addr11{7}",
+    "addr11{6}",
+    "addr11{5}",
+    "addr11{4}",
+    "addr11{3}",
+    "addr11{2}",
+    "addr11{1}",
+    "addr11{0}",
+    "addr11{10}",
+    "addr11{9}",
+    "addr11{8}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ADDC_A_Rn": {
+   "asm": "ADDC\tA,$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "1",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ADDC_A_dir": {
+   "asm": "ADDC\tA,$direct",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ADDC_A_iRi": {
+   "asm": "ADDC\tA,@$i",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ADDC_A_imm": {
+   "asm": "ADDC\tA,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ADD_A_Rn": {
+   "asm": "ADD\tA,$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ADD_A_dir": {
+   "asm": "ADD\tA,$direct",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ADD_A_iRi": {
+   "asm": "ADD\tA,@$i",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ADD_A_imm": {
+   "asm": "ADD\tA,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "AJMP": {
+   "asm": "AJMP\t$addr11",
+   "outs": [],
+   "ins": [
+    [
+     "addr11_op",
+     "addr11"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "addr11{7}",
+    "addr11{6}",
+    "addr11{5}",
+    "addr11{4}",
+    "addr11{3}",
+    "addr11{2}",
+    "addr11{1}",
+    "addr11{0}",
+    "addr11{10}",
+    "addr11{9}",
+    "addr11{8}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ANL_A_Rn": {
+   "asm": "ANL\tA,$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ANL_A_dir": {
+   "asm": "ANL\tA,$direct",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ANL_A_iRi": {
+   "asm": "ANL\tA,@$i",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ANL_A_imm": {
+   "asm": "ANL\tA,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ANL_C_bit": {
+   "asm": "ANL\tC,$bitaddr",
+   "outs": [],
+   "ins": [
+    [
+     "bit_op",
+     "bitaddr"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "bitaddr{7}",
+    "bitaddr{6}",
+    "bitaddr{5}",
+    "bitaddr{4}",
+    "bitaddr{3}",
+    "bitaddr{2}",
+    "bitaddr{1}",
+    "bitaddr{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ANL_C_nbit": {
+   "asm": "ANL\tC,/$bitaddr",
+   "outs": [],
+   "ins": [
+    [
+     "bit_op",
+     "bitaddr"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "bitaddr{7}",
+    "bitaddr{6}",
+    "bitaddr{5}",
+    "bitaddr{4}",
+    "bitaddr{3}",
+    "bitaddr{2}",
+    "bitaddr{1}",
+    "bitaddr{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ANL_dir_A": {
+   "asm": "ANL\t$direct,A",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ANL_dir_imm": {
+   "asm": "ANL\t$direct,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ],
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "CJNE_A_dir": {
+   "asm": "CJNE\tA,$direct,$rel",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ],
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "CJNE_A_imm": {
+   "asm": "CJNE\tA,#$data,$rel",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ],
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "CJNE_Rn_imm": {
+   "asm": "CJNE\t$r,#$data,$rel",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ],
+    [
+     "imm8",
+     "data"
+    ],
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "CJNE_iRi_imm": {
+   "asm": "CJNE\t@$i,#$data,$rel",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ],
+    [
+     "imm8",
+     "data"
+    ],
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "CLR_A": {
+   "asm": "CLR\tA",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "CLR_C": {
+   "asm": "CLR\tC",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "CLR_bit": {
+   "asm": "CLR\t$bitaddr",
+   "outs": [],
+   "ins": [
+    [
+     "bit_op",
+     "bitaddr"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "bitaddr{7}",
+    "bitaddr{6}",
+    "bitaddr{5}",
+    "bitaddr{4}",
+    "bitaddr{3}",
+    "bitaddr{2}",
+    "bitaddr{1}",
+    "bitaddr{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "CPL_A": {
+   "asm": "CPL\tA",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "CPL_C": {
+   "asm": "CPL\tC",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "CPL_bit": {
+   "asm": "CPL\t$bitaddr",
+   "outs": [],
+   "ins": [
+    [
+     "bit_op",
+     "bitaddr"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "bitaddr{7}",
+    "bitaddr{6}",
+    "bitaddr{5}",
+    "bitaddr{4}",
+    "bitaddr{3}",
+    "bitaddr{2}",
+    "bitaddr{1}",
+    "bitaddr{0}",
+    "1",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "DA_A": {
+   "asm": "DA\tA",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "DEC_A": {
+   "asm": "DEC\tA",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "DEC_Rn": {
+   "asm": "DEC\t$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "DEC_dir": {
+   "asm": "DEC\t$direct",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "DEC_iRi": {
+   "asm": "DEC\t@$i",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "DIV_AB": {
+   "asm": "DIV\tAB",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "DJNZ_Rn": {
+   "asm": "DJNZ\t$r,$rel",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ],
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "DJNZ_dir": {
+   "asm": "DJNZ\t$direct,$rel",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ],
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "INC_A": {
+   "asm": "INC\tA",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "INC_DPTR": {
+   "asm": "INC\tDPTR",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "INC_Rn": {
+   "asm": "INC\t$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "INC_dir": {
+   "asm": "INC\t$direct",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "INC_iRi": {
+   "asm": "INC\t@$i",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "JB": {
+   "asm": "JB\t$bitaddr,$rel",
+   "outs": [],
+   "ins": [
+    [
+     "bit_op",
+     "bitaddr"
+    ],
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "bitaddr{7}",
+    "bitaddr{6}",
+    "bitaddr{5}",
+    "bitaddr{4}",
+    "bitaddr{3}",
+    "bitaddr{2}",
+    "bitaddr{1}",
+    "bitaddr{0}",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "JBC": {
+   "asm": "JBC\t$bitaddr,$rel",
+   "outs": [],
+   "ins": [
+    [
+     "bit_op",
+     "bitaddr"
+    ],
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "bitaddr{7}",
+    "bitaddr{6}",
+    "bitaddr{5}",
+    "bitaddr{4}",
+    "bitaddr{3}",
+    "bitaddr{2}",
+    "bitaddr{1}",
+    "bitaddr{0}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "JC": {
+   "asm": "JC\t$rel",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "JMP_iA_DPTR": {
+   "asm": "JMP\t@A+DPTR",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "JNB": {
+   "asm": "JNB\t$bitaddr,$rel",
+   "outs": [],
+   "ins": [
+    [
+     "bit_op",
+     "bitaddr"
+    ],
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "bitaddr{7}",
+    "bitaddr{6}",
+    "bitaddr{5}",
+    "bitaddr{4}",
+    "bitaddr{3}",
+    "bitaddr{2}",
+    "bitaddr{1}",
+    "bitaddr{0}",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "JNC": {
+   "asm": "JNC\t$rel",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "JNZ": {
+   "asm": "JNZ\t$rel",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "JZ": {
+   "asm": "JZ\t$rel",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "LCALL": {
+   "asm": "LCALL\t$addr16",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr16"
+    ]
+   ],
+   "inst": [
+    "addr16{7}",
+    "addr16{6}",
+    "addr16{5}",
+    "addr16{4}",
+    "addr16{3}",
+    "addr16{2}",
+    "addr16{1}",
+    "addr16{0}",
+    "addr16{15}",
+    "addr16{14}",
+    "addr16{13}",
+    "addr16{12}",
+    "addr16{11}",
+    "addr16{10}",
+    "addr16{9}",
+    "addr16{8}",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "LJMP": {
+   "asm": "LJMP\t$addr16",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "addr16"
+    ]
+   ],
+   "inst": [
+    "addr16{7}",
+    "addr16{6}",
+    "addr16{5}",
+    "addr16{4}",
+    "addr16{3}",
+    "addr16{2}",
+    "addr16{1}",
+    "addr16{0}",
+    "addr16{15}",
+    "addr16{14}",
+    "addr16{13}",
+    "addr16{12}",
+    "addr16{11}",
+    "addr16{10}",
+    "addr16{9}",
+    "addr16{8}",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOVC_A_iA_DPTR": {
+   "asm": "MOVC\tA,@A+DPTR",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOVC_A_iA_PC": {
+   "asm": "MOVC\tA,@A+PC",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOVX_A_iDPTR": {
+   "asm": "MOVX\tA,@DPTR",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOVX_A_iRi": {
+   "asm": "MOVX\tA,@$i",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOVX_iDPTR_A": {
+   "asm": "MOVX\t@DPTR,A",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOVX_iRi_A": {
+   "asm": "MOVX\t@$i,A",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_A_Rn": {
+   "asm": "MOV\tA,$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_A_dir": {
+   "asm": "MOV\tA,$direct",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_A_iRi": {
+   "asm": "MOV\tA,@$i",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_A_imm": {
+   "asm": "MOV\tA,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_C_bit": {
+   "asm": "MOV\tC,$bitaddr",
+   "outs": [],
+   "ins": [
+    [
+     "bit_op",
+     "bitaddr"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "bitaddr{7}",
+    "bitaddr{6}",
+    "bitaddr{5}",
+    "bitaddr{4}",
+    "bitaddr{3}",
+    "bitaddr{2}",
+    "bitaddr{1}",
+    "bitaddr{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_DPTR_imm": {
+   "asm": "MOV\tDPTR,#$data16",
+   "outs": [],
+   "ins": [
+    [
+     "imm16",
+     "data16"
+    ]
+   ],
+   "inst": [
+    "data16{7}",
+    "data16{6}",
+    "data16{5}",
+    "data16{4}",
+    "data16{3}",
+    "data16{2}",
+    "data16{1}",
+    "data16{0}",
+    "data16{15}",
+    "data16{14}",
+    "data16{13}",
+    "data16{12}",
+    "data16{11}",
+    "data16{10}",
+    "data16{9}",
+    "data16{8}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_Rn_A": {
+   "asm": "MOV\t$r,A",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "1",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_Rn_dir": {
+   "asm": "MOV\t$r,$direct",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ],
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_Rn_imm": {
+   "asm": "MOV\t$r,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ],
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_bit_C": {
+   "asm": "MOV\t$bitaddr,C",
+   "outs": [],
+   "ins": [
+    [
+     "bit_op",
+     "bitaddr"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "bitaddr{7}",
+    "bitaddr{6}",
+    "bitaddr{5}",
+    "bitaddr{4}",
+    "bitaddr{3}",
+    "bitaddr{2}",
+    "bitaddr{1}",
+    "bitaddr{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_dir_A": {
+   "asm": "MOV\t$direct,A",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_dir_Rn": {
+   "asm": "MOV\t$direct,$r",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ],
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_dir_dir": {
+   "asm": "MOV\t$direct,$direct2",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ],
+    [
+     "direct_op",
+     "direct2"
+    ]
+   ],
+   "inst": [
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "direct2{7}",
+    "direct2{6}",
+    "direct2{5}",
+    "direct2{4}",
+    "direct2{3}",
+    "direct2{2}",
+    "direct2{1}",
+    "direct2{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_dir_iRi": {
+   "asm": "MOV\t$direct,@$i",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ],
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_dir_imm": {
+   "asm": "MOV\t$direct,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ],
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_iRi_A": {
+   "asm": "MOV\t@$i,A",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_iRi_dir": {
+   "asm": "MOV\t@$i,$direct",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ],
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MOV_iRi_imm": {
+   "asm": "MOV\t@$i,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ],
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "MUL_AB": {
+   "asm": "MUL\tAB",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "NOP": {
+   "asm": "NOP",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ORL_A_Rn": {
+   "asm": "ORL\tA,$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ORL_A_dir": {
+   "asm": "ORL\tA,$direct",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ORL_A_iRi": {
+   "asm": "ORL\tA,@$i",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ORL_A_imm": {
+   "asm": "ORL\tA,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ORL_C_bit": {
+   "asm": "ORL\tC,$bitaddr",
+   "outs": [],
+   "ins": [
+    [
+     "bit_op",
+     "bitaddr"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "bitaddr{7}",
+    "bitaddr{6}",
+    "bitaddr{5}",
+    "bitaddr{4}",
+    "bitaddr{3}",
+    "bitaddr{2}",
+    "bitaddr{1}",
+    "bitaddr{0}",
+    "0",
+    "1",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ORL_C_nbit": {
+   "asm": "ORL\tC,/$bitaddr",
+   "outs": [],
+   "ins": [
+    [
+     "bit_op",
+     "bitaddr"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "bitaddr{7}",
+    "bitaddr{6}",
+    "bitaddr{5}",
+    "bitaddr{4}",
+    "bitaddr{3}",
+    "bitaddr{2}",
+    "bitaddr{1}",
+    "bitaddr{0}",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ORL_dir_A": {
+   "asm": "ORL\t$direct,A",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "ORL_dir_imm": {
+   "asm": "ORL\t$direct,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ],
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "POP": {
+   "asm": "POP\t$direct",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "PUSH": {
+   "asm": "PUSH\t$direct",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "RET": {
+   "asm": "RET",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "RETI": {
+   "asm": "RETI",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "RLC_A": {
+   "asm": "RLC\tA",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "RL_A": {
+   "asm": "RL\tA",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "RRC_A": {
+   "asm": "RRC\tA",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "RR_A": {
+   "asm": "RR\tA",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "SETB_C": {
+   "asm": "SETB\tC",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "SETB_bit": {
+   "asm": "SETB\t$bitaddr",
+   "outs": [],
+   "ins": [
+    [
+     "bit_op",
+     "bitaddr"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "bitaddr{7}",
+    "bitaddr{6}",
+    "bitaddr{5}",
+    "bitaddr{4}",
+    "bitaddr{3}",
+    "bitaddr{2}",
+    "bitaddr{1}",
+    "bitaddr{0}",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "SJMP": {
+   "asm": "SJMP\t$rel",
+   "outs": [],
+   "ins": [
+    [
+     "pcrel8",
+     "rel"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "rel{7}",
+    "rel{6}",
+    "rel{5}",
+    "rel{4}",
+    "rel{3}",
+    "rel{2}",
+    "rel{1}",
+    "rel{0}",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "SUBB_A_Rn": {
+   "asm": "SUBB\tA,$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "SUBB_A_dir": {
+   "asm": "SUBB\tA,$direct",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "SUBB_A_iRi": {
+   "asm": "SUBB\tA,@$i",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "SUBB_A_imm": {
+   "asm": "SUBB\tA,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "SWAP_A": {
+   "asm": "SWAP\tA",
+   "outs": [],
+   "ins": [],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "XCHD_A_iRi": {
+   "asm": "XCHD\tA,@$i",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "0",
+    "1",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "XCH_A_Rn": {
+   "asm": "XCH\tA,$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "XCH_A_dir": {
+   "asm": "XCH\tA,$direct",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "XCH_A_iRi": {
+   "asm": "XCH\tA,@$i",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "XRL_A_Rn": {
+   "asm": "XRL\tA,$r",
+   "outs": [],
+   "ins": [
+    [
+     "reg_op",
+     "r"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "1",
+    "1",
+    "0",
+    "1",
+    "r{2}",
+    "r{1}",
+    "r{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "XRL_A_dir": {
+   "asm": "XRL\tA,$direct",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "XRL_A_iRi": {
+   "asm": "XRL\tA,@$i",
+   "outs": [],
+   "ins": [
+    [
+     "ireg_op",
+     "i"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "1",
+    "i{0}"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 1,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "XRL_A_imm": {
+   "asm": "XRL\tA,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "XRL_dir_A": {
+   "asm": "XRL\t$direct,A",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ]
+   ],
+   "inst": [
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "0"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 2,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  },
+  "XRL_dir_imm": {
+   "asm": "XRL\t$direct,#$data",
+   "outs": [],
+   "ins": [
+    [
+     "direct_op",
+     "direct"
+    ],
+    [
+     "imm8",
+     "data"
+    ]
+   ],
+   "inst": [
+    "data{7}",
+    "data{6}",
+    "data{5}",
+    "data{4}",
+    "data{3}",
+    "data{2}",
+    "data{1}",
+    "data{0}",
+    "direct{7}",
+    "direct{6}",
+    "direct{5}",
+    "direct{4}",
+    "direct{3}",
+    "direct{2}",
+    "direct{1}",
+    "direct{0}",
+    "0",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+   ],
+   "predicates": [],
+   "constraints": "",
+   "format": null,
+   "size": 3,
+   "superclasses": [
+    "MCS51Inst"
+   ]
+  }
+ },
+ "aliases": [],
+ "operands": {
+  "addr11_op": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "bit_op": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "direct_op": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "imm16": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "imm8": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "ireg_op": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "pcrel8": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  },
+  "reg_op": {
+   "regClass": null,
+   "operandType": "OPERAND_UNKNOWN",
+   "encoder": null,
+   "decoder": null,
+   "printer": "printOperand",
+   "parser": "ImmAsmOperand",
+   "superclasses": []
+  }
+ },
+ "registerClasses": {}
+}

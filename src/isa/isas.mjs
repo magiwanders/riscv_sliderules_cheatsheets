@@ -1,6 +1,7 @@
 import { createCodec, rv32 } from './codec.mjs';
 import * as hack from './hack.mjs';
 import * as i8080 from './i8080.mjs';
+import * as mcs51 from './mcs51.mjs';
 import * as mos6502 from './mos6502.mjs';
 import * as rv32gc from './rv32gc.mjs';
 import * as rv64gc from './rv64gc.mjs';
@@ -51,7 +52,8 @@ export const isas = [
   { value: 'mips64', family: 'mips', label: 'MIPS64' },
   { value: '8080', family: 'intel', label: '8080', version: 'v0.1', codec: createCodec(i8080),
     specs: { sail: 'unofficial, written for these sheets from Intel\'s 8080 manuals', tablegen: 'unofficial, written for these sheets from Intel\'s 8080 manuals' } },
-  { value: '8051', family: 'intel', label: '8051 (MCS-51)', short: '8051' },
+  { value: '8051', family: 'intel', label: '8051 (MCS-51)', short: '8051', version: 'v0.1', codec: createCodec(mcs51),
+    specs: { sail: 'unofficial, written for these sheets from Intel\'s MCS-51 manual', tablegen: 'unofficial, written for these sheets from Intel\'s MCS-51 manual' } },
   { value: '8086', family: 'intel', label: '8086' },
   { value: 'x86', family: 'intel', label: 'x86 (IA-32)', short: 'x86' },
   { value: 'x86_64', family: 'intel', label: 'x86-64' },

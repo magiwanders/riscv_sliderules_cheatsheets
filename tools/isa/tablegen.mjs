@@ -186,6 +186,7 @@ const TARGETS = {
   Z80: { keepInstruction: ({ record }) => record.Namespace === 'Z80', keepAlias: () => false },
   Hack: { keepInstruction: ({ record }) => record.Namespace === 'Hack', keepAlias: () => false },
   I8080: { keepInstruction: ({ record }) => record.Namespace === 'I8080', keepAlias: () => false },
+  MCS51: { keepInstruction: ({ record }) => record.Namespace === 'MCS51', keepAlias: () => false },
 };
 
 function _arg(name) {

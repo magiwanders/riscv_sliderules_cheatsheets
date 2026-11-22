@@ -122,9 +122,16 @@ export function everyEncoding({ codec, seed = 2026 }) {
         const info = codec.operandInfo({ entry, token: part.token });
         if (info.kind === 'enum') {
           options = options.flatMap((o) => info.names.map((name, n) => (info.exclude.includes(n) ? null : o + name)).filter((x) => x !== null));
-        } else {
+        } else if (info.key) {
           const value = _immediate({ random, range: info.range });
-          options = options.map((o) => o + (info.key ? codec.operandText({ key: info.key, value }) : codec.spec.immText ? codec.spec.immText({ inst: entry, value }) : String(value)));
+          options = options.map((o) => o + codec.operandText({ key: info.key, value }));
+        } else {
+          // immediate bits in the opcode byte (the 8051's AJMP page) make opcodes of their own: each of their values
+          const SPINE = codec.spec.spine.width;
+          const opcodeBits = entry.segments.filter((s) => s.kind === 'imm' && s.lo >= SPINE - 8).flatMap((s) => s.immBits);
+          const values = Array.from({ length: 2 ** opcodeBits.length }, (_, k) => opcodeBits.reduce((v, b, j) => (v & ~(2 ** b)) | (((k >> j) & 1) * 2 ** b), _immediate({ random, range: info.range })));
+          const text = (value) => (codec.spec.immText ? codec.spec.immText({ inst: entry, value }) : String(value));
+          options = options.flatMap((o) => values.map((value) => o + text(value)));
         }
       }
       texts = texts.flatMap((t) => options.map((o) => ({ parts: [...t.parts, o] })));

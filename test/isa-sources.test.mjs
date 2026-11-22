@@ -6,7 +6,7 @@ import { mos6502Module } from '../tools/isa/gen-mos6502.mjs';
 import { retroModule } from '../tools/isa/gen-retro.mjs';
 
 // The instruction data is generated: RV32 and RV64 from the Sail model and LLVM's TableGen (tools/isa/gen-riscv.mjs), the
-// 6502 from llvm-mos's TableGen (tools/isa/gen-mos6502.mjs), the Z80, 8080 and Hack from their unofficial Sail and TableGen
+// 6502 from llvm-mos's TableGen (tools/isa/gen-mos6502.mjs), the Z80, 8080, 8051 and Hack from their unofficial Sail and TableGen
 // (tools/isa/gen-retro.mjs). Generating it again checks the sources against each other
 // bit by bit, and that the committed modules are what they give.
 
@@ -21,9 +21,10 @@ test('src/isa/generated/mos6502.mjs is what llvm-mos TableGen and the overlay gi
   assert.equal(mos6502Module(), committed('mos6502'));
 });
 
-test('src/isa/generated/{z80,i8080,hack}.mjs are what the unofficial Sail, TableGen and the overlays give (npm run isa)', () => {
+test('src/isa/generated/{z80,i8080,mcs51,hack}.mjs are what the unofficial Sail, TableGen and the overlays give (npm run isa)', () => {
   assert.equal(retroModule({ set: 'z80' }), committed('z80'));
   assert.equal(retroModule({ set: 'i8080' }), committed('i8080'));
+  assert.equal(retroModule({ set: 'mcs51' }), committed('mcs51'));
   assert.equal(retroModule({ set: 'hack' }), committed('hack'));
 });
 
